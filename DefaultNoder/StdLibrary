@@ -1,0 +1,2078 @@
+@version("0.0.1")
+@description("The Midio standard library offers modules for data validation, time and string operations, testing, data management, JSON/CSV parsing, list/map handling, image and file processing, environment management, buffer operations, math, linear algebra, logic, scheduling, network communication, and process management.")
+
+native_dependencies_location("./libmidio_core")
+
+module Std {
+    type CountContext Number
+    extern func(doc: "Calls the supplied `handler` function using list of arguments supplied to `inputs`.") CallFunction {
+        in(x: 0, y: 0, name: "handler") property(Any) handler
+        in(x: 0, y: 0, name: "inputs") property inputs
+        out(x: 0, y: 0, name: "outputs") property outputs
+    }
+
+    extern func(doc: "Return `first` if it is not null, otherwise `second`.") OrElse {
+        in(x: 0, y: 0, name: "first") property(Any) first
+        in(x: 0, y: 0, name: "second") property(Any) second
+        out(x: 0, y: 0, name: "value") property(Any) value
+    }
+
+    extern func(doc: "Propagates the first value if the first trigger is called, other wise propagates the second value.") Switch {
+        in(x: 0, y: 0, name: "on first") trigger() onFirst
+        in(x: 0, y: 0, name: "on second") trigger() onSecond
+        in(x: 0, y: 0, name: "first") property(Any) first
+        in(x: 0, y: 0, name: "second") property(Any) second
+        out(x: 0, y: 0, name: "continue first") trigger() continueFirst
+        out(x: 0, y: 0, name: "continue second") trigger() continueSecond
+        out(x: 0, y: 0, name: "value") property(Any) value
+    }
+
+    extern func(doc: "Generates a uuid") GenerateUuid {
+        in(x: 0, y: 0, name: "execute") trigger() execute
+        out(x: 0, y: 0, name: "continue") trigger() continue
+        out(x: 0, y: 0, name: "uuid") property uuid
+    }
+
+    extern func(doc: "Pauses execution for `delayFor` ms. All execution is blocked during this time.") Delay {
+        in(x: 0, y: 0, name: "execute") trigger() execute
+        in(x: 0, y: 0, name: "delay for") property(Number) delayFor
+        out(x: 0, y: 0, name: "continue") trigger() continue
+    }
+
+    extern func(doc: "Simple makes the `input` value available on the `value` output to multiple consumers. Since this is an executable function, the input value will be cached, so `Relay` can be used for simple caching of expensive computations") Relay {
+        in(x: 0, y: 0, name: "execute") trigger() execute
+        in(x: 0, y: 0, name: "input") property(Any) input
+        out(x: 0, y: 0, name: "continue") trigger() continue
+        out(x: 0, y: 0, name: "value") property(Any) value
+    }
+
+    extern func(doc: "Makes the `value` parameter available on the `value` output.") Constant {
+        parameter value
+        out(x: 0, y: 0, name: "value") property(Any) value
+    }
+
+    extern func(doc: "Write `input` to the Log panel.") Log {
+        in(x: 0, y: 0, name: "execute") trigger() execute
+        in(x: 0, y: 0, name: "input") property(Any) input
+        out(x: 0, y: 0, name: "continue") trigger() continue
+    }
+
+    extern func(doc: "Logs a formatted string to the log window, letting you replace {{input name}} with string content.") FormatLog {
+        parameter(compilerPlugin: "TemplateString") formatString
+
+        in(x: 0, y: 0, name: "execute") trigger() execute
+        out(x: 0, y: 0, name: "continue") trigger() continue
+    }
+
+    extern func(doc: "Converts any `input` type to a String.") ToString {
+        in(x: 0, y: 0, name: "input") property(Any) input
+        out(x: 0, y: 0, name: "output") property(String) output
+    }
+
+    extern func(doc: "If `input` is true, the `then` trigger is executed, otherwise the `else` trigger is executed. `value` contains the value of `input`.") If {
+        in(x: 0, y: 0, name: "execute") trigger() execute
+        in(x: 0, y: 0, name: "input") property(Bool) predicate
+        out(x: 0, y: 0, name: "then") trigger() then
+        out(x: 0, y: 0, name: "else") trigger() else
+        out(x: 0, y: 0, name: "value") property(Bool) value
+    }
+
+
+    extern func IfExpression {
+        parameter(
+            compilerPlugin: "Expression",
+            defaultValue: "",
+        ) expression
+
+        in trigger execute
+        out trigger then
+        out trigger else
+        out property(Bool) value
+    }
+
+    extern func(doc: "If `predicate` is true, the `value` output will have the value of `then`, otherwise, it will have the value of `else`.") Choose {
+        in property(Bool) predicate
+        in property(Any) then
+        in property(Any) else
+        out property(Any) value
+    }
+
+    extern func(doc: "Switches on the values provided to the `cases` parameter, which accepts a list of values. For each value, an output trigger is created, which is triggered when the `value` property matches that list item.") Match {
+        parameter(
+            compilerPlugin: "Match",
+            defaultValue: [""],
+            editor: "List"
+        ) cases
+        in(x: 0, y: 0, name: "execute") trigger() execute
+        in(x: 0, y: 0, name: "value") property value
+        out(x: 0, y: 0, name: "no match") trigger() noMatch
+    }
+
+    extern func(doc: "Returns the type of `value` as a String.") TypeOf {
+        in(x: 0, y: 0, name: "value") property(Any) value
+        out(x: 0, y: 0, name: "type name") property(String) typeName
+    }
+
+    extern func(doc: "Returns the path of the working directory.") PWD {
+        out(x: 0, y: 0, name: "current directory") property(String) currentDirectory
+    }
+
+    extern func(doc: "Create a new process for each index in a range, executing the `onItem` trigger for each of them, with a corresponding `index`.") IterRange {
+        in(x: 0, y: 0, name: "execute") trigger() execute
+        in(x: 0, y: 0, name: "from") property from
+        in(x: 0, y: 0, name: "to") property to
+        out(x: 0, y: 0, name: "continue") trigger() continue
+        out(x: 0, y: 0, name: "iteration") trigger() iteration
+        out(x: 0, y: 0, name: "index") property index
+    }
+
+    extern func(doc: "Create a new process for each item in a list, executing the `onItem` trigger for each of them, with a corresponding `item`.") IterList {
+        in(x: 0, y: 0, name: "execute") trigger() execute
+        in(x: 0, y: 0, name: "list") property list
+        out(x: 0, y: 0, name: "continue") trigger() continue
+        out(x: 0, y: 0, name: "on item") trigger() onItem
+        out(x: 0, y: 0, name: "item") property item
+    }
+
+    extern func(doc: "Forks to current process by copying its entire state. The current process continues through the `continue` output trigger, while the forked process continues throug the `forked` output trigger, but in a new process.") Fork {
+        in(x: 0, y: 0, name: "execute") trigger() execute
+        out(x: 0, y: 0, name: "continue") trigger() continue
+        out(x: 0, y: 0, name: "forked") trigger() forked
+    }
+
+    extern func(doc: "Gets the process id of the executing process.") ProcessId {
+        out(x: 0, y: 0, name: "pid") property pid
+    }
+
+    extern func(doc: "Count can be used to make sure a loop in a flow only runs for a certain number of iteartions. The `reset` input trigger resets the count, and the `count` trigger is used to increment it.") Count {
+        in(x: 0, y: 0, name: "reset") trigger() reset
+        in(x: 0, y: 0, name: "count") trigger(consumes: Std.CountContext, ) count
+        in(x: 0, y: 0, name: "iterations") property(Number) iterations
+        out(x: 0, y: 0, name: "on count") trigger(produces: Std.CountContext) onCount
+        out(x: 0, y: 0, name: "done") trigger() done
+        out(x: 0, y: 0, name: "interation") property(Number) interation
+    }
+
+    extern func For {
+        in trigger() reset
+        in trigger(consumes: Number) next
+        in property(List) items
+        out(name: "on item") trigger(produces: Number) onItem
+        out trigger done
+        out property(Any) item
+        out property(Number) index
+    }
+
+    extern event(doc: "An event which is triggered as soon as the engine starts.") Start {
+        out(name: "on start") trigger() onStart
+    }
+
+    extern func Stop {
+        in trigger stop
+        in(name: "exit code") property(Number) exitCode
+    }
+
+    type AnyContext Any
+    extern func(doc: "Makes the provided value available to the context of the `continue` trigger.") ProduceContext<T> {
+        in trigger execute
+        out trigger(produces: T) continue
+
+        in(name: "context value") property contextValue
+    }
+
+    extern func(doc: "Consumes the context of the `execute` trigger, and makes it available as an output through `value`.") ConsumeContext {
+        in trigger(consumes: AnyContext) execute
+        out trigger continue
+        out property(Any) value
+    }
+
+    extern func(doc: "Returns true if the type of `input` is Number") IsNumber {
+        in property(Any) input
+        out(name: "is number") property(Bool) isNumber
+    }
+
+    extern func(doc: "Returns true if the type of `input` is Bool") IsBool {
+        in property(Any) input
+        out(name: "is bool") property(Bool) isBool
+    }
+
+    extern func(doc: "Returns true if the type of `input` is String") IsString {
+        in property(Any) input
+        out(name: "is string") property(Bool) isString
+    }
+
+    extern func(doc: "Returns true if the type of `input` is Null") IsNull {
+        in property(Any) input
+        out(name: "is null") property(Bool) isNull
+    }
+
+    extern func(doc: "Returns true if the type of `input` is not Null") NotNull {
+        in property(Any) input
+        out(name: "not null") property(Bool) notNull
+    }
+
+    extern func(doc: "Returns true if the type of `input` is List") IsList {
+        in property(Any) input
+        out(name: "is list") property(Bool) isList
+    }
+
+    extern func(doc: "Returns true if the type of `input` is Map") IsMap {
+        in property(Any) input
+        out(name: "is map") property(Bool) isMap
+    }
+
+    extern func(doc: "Returns true if the type of `input` is Buffer") IsBuffer {
+        in property(Any) input
+        out(name: "is buffer") property(Bool) isBuffer
+    }
+
+    extern func(buildTag: "panic", doc: "Causes a native panic to occur with the provided message.") Panic {
+        in trigger execute
+        in property message
+        out trigger continue
+    }
+}
+
+module Validation {
+    extern func(doc: "Checks whether `input` is assignable to type T") IsAssignableTo<T> {
+        in(x: 0, y: 0, name: "execute") trigger() execute
+        in property(Unknown) input
+        out property(T) value
+        out(x: 0, y: 0, name: "yes") trigger() yes
+        out(x: 0, y: 0, name: "no") trigger() no
+    }
+
+    extern func(doc: "Asserts that the value of `input` is of type T") As<T> {
+        in property(Unknown) input
+        out property(T) value
+    }
+}
+
+module Time {
+    type DateTime Opaque
+
+    extern func(doc: "Gives the current time in nano seconds") Now {
+        out property(Number) time
+    }
+
+    extern func(doc: "Gives the current time as a `DateTime` object") DateNow {
+        out property(DateTime) date
+    }
+
+    extern func(doc: "Parses an RFC 3339 and ISO 8601 date and time string such as 1996-12-19T16:39:57-08:00.") Parse {
+        in(x: 0, y: 0, name: "date string") property(String) dateString
+        out(x: 0, y: 0, name: "time") property time
+    }
+
+    extern func(doc: "Formats a time value as a string using the given format string (as defined in https://docs.rs/chrono/latest/chrono/format/strftime/index.html).") Format {
+        in(x: 0, y: 0, name: "time") property(DateTime) time
+        in(x: 0, y: 0, name: "format") property(String) format
+        out(x: 0, y: 0, name: "date string") property(String) dateString
+    }
+
+    extern func(doc: "Adds the given amount of `seconds` to the provided `time` object") AddSeconds {
+        in(x: 0, y: 0, name: "time") property time
+        in(x: 0, y: 0, name: "seconds") property(Number) seconds
+        out(x: 0, y: 0, name: "time") property time
+    }
+
+    extern func(doc: "Adds the given amount of `minutes` to the provided `time` object") AddMinutes {
+        in(x: 0, y: 0, name: "time") property time
+        in(x: 0, y: 0, name: "minutes") property(Number) minutes
+        out(x: 0, y: 0, name: "time") property time
+    }
+
+    extern func(doc: "Adds the given amount of `hours` to the provided `time` object") AddHours {
+        in(x: 0, y: 0, name: "time") property time
+        in(x: 0, y: 0, name: "hours") property(Number) hours
+        out(x: 0, y: 0, name: "time") property time
+    }
+
+    extern func(doc: "Adds the given amount of `days` to the provided `time` object") AddDays {
+        in(x: 0, y: 0, name: "time") property time
+        in(x: 0, y: 0, name: "days") property(Number) days
+        out(x: 0, y: 0, name: "time") property time
+    }
+
+    extern func(doc: "Adds the given amount of `weeks` to the provided `time` object") AddWeeks {
+        in(x: 0, y: 0, name: "time") property time
+        in(x: 0, y: 0, name: "weeks") property(Number) weeks
+        out(x: 0, y: 0, name: "time") property time
+    }
+}
+module Strings {
+    extern func(doc: "Creates a new, empty string.") Empty {
+        out property(String) empty
+    }
+
+    extern func(doc: "Concatenates the values in `left` and `right` as strings, making it available on the `result` output.") Concat {
+        in(x: 0, y: 0, name: "left") property(String) left
+        in(x: 0, y: 0, name: "right") property(String) right
+        out(x: 0, y: 0, name: "result") property(String) result
+    }
+
+    extern func(doc: "Creates a string template letting you replace {{input name}} with string content.") Template {
+        parameter(compilerPlugin: "TemplateString") template
+        out(x: 0, y: 0, name: "output") property(String) output
+    }
+
+    extern func(doc: "Returns the length of the string `input`.") Length {
+        in(x: 0, y: 0, name: "input") property(String) input
+        out(x: 0, y: 0, name: "length") property(Number) length
+    }
+
+    extern func(doc: "Returns the substring of `input` starting at `start` and ending at `end`. If `end` is not provided, the substring will be from `start` to the end of the string.") Substring {
+        in(x: 0, y: 0, name: "input") property(String) input
+        in(x: 0, y: 0, name: "start") property(Number) start
+        in(x: 0, y: 0, name: "end") property(Number) end
+        out(x: 0, y: 0, name: "substring") property(String) substring
+    }
+
+    extern func(doc: "Returns the string `input` with all occurrences of `search` replaced with `replace`.") Replace {
+        in(x: 0, y: 0, name: "input") property(String) input
+        in(x: 0, y: 0, name: "search") property(String) search
+        in(x: 0, y: 0, name: "replace") property(String) replace
+        out(x: 0, y: 0, name: "output") property(String) output
+    }
+
+    extern func(doc: "Returns the string `input` with all characters converted to lowercase.") ToLower {
+        in(x: 0, y: 0, name: "input") property(String) input
+        out(x: 0, y: 0, name: "output") property(String) output
+    }
+
+    extern func(doc: "Returns the string `input` with all characters converted to uppercase.") ToUpper {
+        in(x: 0, y: 0, name: "input") property(String) input
+        out(x: 0, y: 0, name: "output") property(String) output
+    }
+
+    extern func(doc: "Returns true is all characters in `input` are lower case.") IsLowerCase {
+        in(x: 0, y: 0, name: "input") property(String) input
+        out(x: 0, y: 0, name: "output") property(String) output
+    }
+
+    extern func(doc: "Returns true is all characters in `input` are upper case.") IsUpperCase {
+        in(x: 0, y: 0, name: "input") property(String) input
+        out(x: 0, y: 0, name: "output") property(String) output
+    }
+
+    extern func(doc: "Returns a trimmed version of `input` where leading an trailing whitespace is removed.") Trim {
+        in property(String) input
+        out property(String) trimmed
+    }
+
+    extern func(doc: "Combines each string in `string list` by placing `separator` between them.") Join {
+        in(x: 0, y: 0, name: "string list") property(Any) strings
+        in(x: 0, y: 0, name: "separator") property(String or Null) separator
+        out(x: 0, y: 0, name: "result") property(String) result
+    }
+
+    extern func Split {
+        in property(String) string
+        in(name: "split on") property(String) splitOn
+
+        out property(List) strings
+    }
+
+    module Regex {
+        extern func(doc: "Returns the first match for the provided regex `pattern` matching on `input`. For each capture group, a separate output property is created.") FirstMatch {
+            parameter(compilerPlugin: "Regex", aiSystemPrompt: "
+You will generate a regex pattern based on the users prompt, and only return the generated pattern. Here are some examples:
+
+prompt: Find all the words in the sentence which start with the letter 'a'
+pattern: \\b[aA]\\w+\\b
+
+prompt: Find all the words in the sentence which end with the letter 'a'
+pattern: \\b\\w+[aA]\\b
+
+prompt: Match all email addresses and capture the username and domain
+pattern: (\\w+)@(\\w+.\\w+)
+") pattern
+            in(x: 0, y: 0, name: "execute") trigger() execute
+            in(x: 0, y: 0, name: "input") property(String) input
+            out(x: 0, y: 0, name: "found match") trigger() foundMatch
+            out(x: 0, y: 0, name: "no match") trigger() noMatch
+        }
+
+        extern func(doc: "Returns all matches for the provided regex `pattern` matching on `input` as a list of lists, where each item contains a the matches for each capture group, with the first item matching the whole expression.") AllMatches {
+            parameter(aiSystemPrompt: "
+You will generate a regex pattern based on the users prompt, and only return the generated pattern. Here are some examples:
+
+prompt: Find all the words in the sentence which start with the letter 'a'
+pattern: \\b[aA]\\w+\\b
+
+prompt: Find all the words in the sentence which end with the letter 'a'
+pattern: \\b\\w+[aA]\\b
+
+prompt: Match all email addresses and capture the username and domain
+pattern: (\\w+)@(\\w+.\\w+)
+") pattern
+            in(x: 0, y: 0, name: "execute") trigger() execute
+            in(x: 0, y: 0, name: "input") property(String) input
+            out(x: 0, y: 0, name: "continue") trigger() foundMatches
+            out property(List) matches
+        }
+
+        type RegexMatchWithRange {
+            match: String,
+            start: Number,
+            end: Number,
+        }
+        extern func(doc: "Returns all matches for the provided regex `pattern` matching on `input` as a list of lists, where each item contains a the matches for each capture group, with the first item matching the whole expression.") AllMatchesWithRange {
+            parameter(aiSystemPrompt: "
+You will generate a regex pattern based on the users prompt, and only return the generated pattern. Here are some examples:
+
+prompt: Find all the words in the sentence which start with the letter 'a'
+pattern: \\b[aA]\\w+\\b
+
+prompt: Find all the words in the sentence which end with the letter 'a'
+pattern: \\b\\w+[aA]\\b
+
+prompt: Match all email addresses and capture the username and domain
+pattern: (\\w+)@(\\w+.\\w+)
+") pattern
+            in(x: 0, y: 0, name: "execute") trigger() execute
+            in(x: 0, y: 0, name: "input") property(String) input
+            out(x: 0, y: 0, name: "continue") trigger() foundMatches
+            out property(List) matches
+        }
+    }
+
+    extern func IsNumeric {
+        in property(String) input
+        out(name: "is numeric") property(Bool) isNumeric
+    }
+
+    extern func IsAlphabetic {
+        in property(String) input
+        out(name: "is alphanumeric") property(Bool) isAlphanumeric
+    }
+
+    extern func IsAlphaNumeric {
+        in property(String) input
+        out property(Bool) isAlphaNumeric
+    }
+
+    extern func IsWhitespace {
+        in property(String) input
+        out(name: "is whitespace") property(Bool) isWhitespace
+    }
+
+    extern func IsEmpty {
+        in property(String) input
+        out(name: "is empty") property(Bool) isEmpty
+    }
+
+    extern func Reversed {
+        in property(String) input
+        out property(String) reversed
+    }
+
+    extern func(doc: "Returns a list over the disjoint matches of a pattern (not regex) within the `input` string as well as the index that the match starts at.") MatchIndices {
+        in property(String) input
+        in property(String) pattern
+        out property(List) indicesOfMatches
+    }
+
+    extern func(doc: "Returns a list over the disjoint matches of a pattern (not regex) within the `input` string as well as the index that the match starts at, yielded in reverse order.") RightMatchIndices {
+        in property(String) input
+        in property(String) pattern
+        out property(List) indicesOfMatches
+    }
+
+    extern func Characters {
+        in property(String) input
+        out property(List) characters
+    }
+
+    extern func(doc: "Returns true if `input` contains `contains` as a substring.") Contains {
+        in property(String) input
+        in property(String) contains
+        out property(Bool) result
+    }
+}
+module Testing {
+    type TestContext Any
+    extern func(doc: "Asserts that `expected` and `actual` are equal. The equality check is a deep check, where objects are traversed and matched against each other. `testId` identifies which test this assert is run under, and is provided by the `Testing.Test` event.") AssertEqual {
+        in(x: 0, y: 0, name: "execute") trigger(borrows: Testing.TestContext) execute
+        in(x: 0, y: 0, name: "expect") property expect
+        in(x: 0, y: 0, name: "actual") property actual
+        out(x: 0, y: 0, name: "continue") trigger() continue
+        out(x: 0, y: 0, name: "result") property result
+    }
+
+    extern func AssertTrue {
+        in(x: 0, y: 0, name: "execute") trigger(borrows: Testing.TestContext) execute
+        in(x: 0, y: 0, name: "actual") property value
+        out(x: 0, y: 0, name: "continue") trigger() continue
+        out(x: 0, y: 0, name: "result") property result
+    }
+
+    extern func AssertFalse {
+        in(x: 0, y: 0, name: "execute") trigger(borrows: Testing.TestContext) execute
+        in(x: 0, y: 0, name: "actual") property value
+        out(x: 0, y: 0, name: "continue") trigger() continue
+        out(x: 0, y: 0, name: "result") property result
+    }
+
+    extern func(doc: "Causes the test identified by `testId` to fail.") Fail {
+        in(x: 0, y: 0, name: "execute") trigger(borrows: Testing.TestContext) execute
+        out(x: 0, y: 0, name: "continue") trigger() continue
+    }
+
+    extern event(doc: "Creates a test, which can be run using the cli tool. `id` is used by `Testing.AssertEqual` to identify the running test.") Test {
+        parameter(defaultValue: "Test name") name
+        out(name: "on run") trigger(produces: Testing.TestContext) onRun
+    }
+
+
+}
+module Data {
+    extern func(doc: "Returns the `data` stored under `key` if the key exists. If the key is present, the `onData` trigger is executed, otherwise the `keyNotFound` trigger is executed.") GetData {
+        in(x: 0, y: 0, name: "execute") trigger() execute
+        in(x: 0, y: 0, name: "key") property(String) key
+        out(x: 0, y: 0, name: "on data") trigger() onData
+        out(x: 0, y: 0, name: "keyNotFound") trigger() keyNotFound
+        out(x: 0, y: 0, name: "data") property(Any) data
+    }
+
+    extern func(doc: "Associates a `value` with a string `key`, and also passes on a copy of the inserted data through the `inserted_value` output.") SetData {
+        in(x: 0, y: 0, name: "execute") trigger() execute
+        in(x: 0, y: 0, name: "key") property(String) key
+        in(x: 0, y: 0, name: "value") property(Any) value
+        out(x: 0, y: 0, name: "continue") trigger() continue
+        out(x: 0, y: 0, name: "inserted value") property inserted_value
+    }
+
+    extern func(doc: "Removes the data at `key`") RemoveData {
+        in(x: 0, y: 0, name: "execute") trigger() execute
+        in(x: 0, y: 0, name: "key") property(String) key
+        out(x: 0, y: 0, name: "continue") trigger() continue
+    }
+
+    extern event(doc: "Allows one to get an event whenever data on a `key` is added, removed or updated.") OnData {
+        parameter key
+        out(name: "on added") trigger() onAdded
+        out(name: "on removed") trigger() onRemoved
+        out(name: "on updated") trigger() onUpdated
+    }
+
+
+}
+module Json {
+    extern func(doc: "Parses the json provided in the `string` property. The parsed `value` is available on success, and the `onSuccess` trigger is executed. If parsing fails, the `onFailure` trigger is executed, and the error is available on the `error` output.") Parse {
+        in(x: 0, y: 0, name: "execute") trigger() execute
+        in(x: 0, y: 0, name: "string") property(String) string
+        out(x: 0, y: 0, name: "on success") trigger() onSuccess
+        out(x: 0, y: 0, name: "value") property(Any) value
+        out(x: 0, y: 0, name: "on failure") trigger() onFailure
+        out(x: 0, y: 0, name: "error") property error
+    }
+
+    extern func(doc: "Parses the json provided in the `string` property. Returns null if parsing fails. Use `Json.Parse` if you need to be able to handle a parse error explicitly.") Parsed {
+        in(x: 0, y: 0, name: "string") property(String) string
+        out(x: 0, y: 0, name: "value") property(Any) value
+    }
+
+    extern func(doc: "Converts any object on the `json` input to a String.") Stringify {
+        in(x: 0, y: 0, name: "json") property(Any) json
+        out(x: 0, y: 0, name: "string") property(String) string
+    }
+}
+
+module CSV {
+    extern func Parse {
+        in(x: 0, y: 0, name: "execute") trigger() execute
+        in(x: 0, y: 0, name: "string") property(String) string
+        out(x: 0, y: 0, name: "on success") trigger() onSuccess
+        out(x: 0, y: 0, name: "value") property(Any) value
+        out(x: 0, y: 0, name: "on failure") trigger() onFailure
+        out(x: 0, y: 0, name: "error") property error
+    }
+
+    extern func Stringify {
+        in(x: 0, y: 0, name: "csv") property(Any) csv
+        out(x: 0, y: 0, name: "string") property(String) string
+    }
+}
+
+module List {
+    extern func(doc: "Creates an empty list") Empty {
+        out(x: 0, y: 0, name: "empty list") property(List) list
+    }
+
+    extern func(doc: "Gets the item at `index` from `list`, returning Null if the index is out of bounds.") GetAt {
+        in(x: 0, y: 0, name: "list") property(List) list
+        in(x: 0, y: 0, name: "index") property(Number) index
+        out(x: 0, y: 0, name: "itemAtIndex") property(Any) itemAtIndex
+    }
+
+    extern func(doc: "Sets the item at `index` of `list` to `value`") SetAt {
+        in(x: 0, y: 0, name: "list") property(List) list
+        in(x: 0, y: 0, name: "index") property(Number) index
+        in(x: 0, y: 0, name: "value") property(Number) value
+        out(name: "updated list") property(List) updatedList
+    }
+
+    extern func(doc: "Adds `item` to the `list` by creating a new list with the item added, available on the `listWithItem` output.") Add {
+        in(x: 0, y: 0, name: "list") property list
+        in(x: 0, y: 0, name: "item") property item
+        out(x: 0, y: 0, name: "listWithItem") property listWithItem
+    }
+
+    extern func(doc: "Removes the item at `index` from `list` by creating a new list with the item removed, available on the `listWithoutItem` output.") Remove {
+        in(x: 0, y: 0, name: "list") property list
+        in(x: 0, y: 0, name: "index") property index
+        out(x: 0, y: 0, name: "listWithoutItem") property listWithoutItem
+        out(x: 0, y: 0, name: "removed item") property removedItem
+    }
+
+    extern func(doc: "Returns the number of items in `list`.") Length {
+        in(x: 0, y: 0, name: "list") property list
+        out(x: 0, y: 0, name: "length") property length
+    }
+
+    extern func(doc: "Returns true if `item` is contained in `list`.") Contains {
+        in(x: 0, y: 0, name: "list") property list
+        in(x: 0, y: 0, name: "item") property(Any) item
+        out(x: 0, y: 0, name: "result") property(Bool) is_contained
+    }
+
+    extern func(doc: "Returns a sorted version of `list`") Sort {
+        in(x: 0, y: 0, name: "list") property list
+        out(x: 0, y: 0, name: "sorted list") property sorted_list
+    }
+
+    extern func(doc: "Returns a sorted version of `list`. Sorting in done based on the provided `key`, which is retrieved from the objects in the list, which are expected to have that key. If any value in the list is not an object, or doesn't contain the given key, it is treated as less than any other item.") SortOn {
+        in(x: 0, y: 0, name: "list") property list
+        in property(String) key
+        out(x: 0, y: 0, name: "sorted list") property sorted_list
+    }
+
+    extern func(doc: "A list containing number from `from` to `to`.") GenerateRange {
+        in(x: 0, y: 0, name: "from") property from
+        in(x: 0, y: 0, name: "to") property to
+        out(x: 0, y: 0, name: "list") property list
+    }
+
+    extern func(doc: "Finds the largest item in a list of numbers") Max {
+        in(x: 0, y: 0, name: "items") property(List) items
+        out property(Number) max
+    }
+
+    extern func(doc: "Finds the smallest item in a list of numbers") Min {
+        in(x: 0, y: 0, name: "items") property(List) items
+        out property(Number) min
+    }
+
+    extern func(doc: "Gets a slice of the list from `start` to, but not including, `end`. Gets the rest of the list if end == -1") Slice {
+        in(x: 0, y: 0, name: "items") property(List) list
+        in property(Number) start
+        in property(Number) end
+        out property(List) slice
+    }
+
+    extern func(doc: "Reverses the order of the items in `list`") Reversed {
+        in(x: 0, y: 0, name: "items") property(List) list
+        out property(List) reversed
+    }
+
+    extern func Chunks {
+        in(name: "items") property(List) list
+        in(name: "chunk size") property(Number) chunkSize
+        out property(List) chunks
+    }
+
+    extern func FirstItem {
+        in property(List) list
+        out property(Any) item
+    }
+
+    extern func LastItem {
+        in property(List) list
+        out property(Any) item
+    }
+
+    extern func IsEmpty {
+        in property(List) list
+        out(name: "is empty") property(Bool) isEmpty
+    }
+
+    extern func NotEmpty {
+        in property(List) list
+        out(name: "is empty") property(Bool) isEmpty
+    }
+
+    extern func(doc: "Converts a list of lists into a flattened list.") Flatten {
+        in property(List) items
+        out property(List) flattened
+    }
+
+    extern func(doc: "Concatenates two lists") Concat {
+        in property(List) left
+        in property(List) right
+        out property(List) result
+    }
+
+    extern func GroupByKey {
+        in property(List) list
+        in property(String) key
+        out property(Any) result
+    }
+}
+
+module Query {
+      extern func(doc: "Maps over a list of objects and selects the given set of keys from each object.") Select {
+          in property from
+          in(editor: "List") property keys
+          out property result
+      }
+
+      extern func(doc: "Maps over a list of objects extracts the value for the given field from each item.") Pick {
+          in property from
+          in property key
+          out property result
+      }
+
+      extern func(doc: "Filters a list of items with the `where` expression is true. If the list items are objects, fields on the object can be accessed using the field names directly. If the values are primitives, like number of bool, the value can be accessed using the variable name 'it'.") Filter {
+          parameter(defaultValue: "it < 10") where
+          in property(List) list
+          out property(List) result
+      }
+
+      extern func(doc: "Finds the first item in a list where the `where` expression is true. If the list items are objects, fields on the object can be accessed using the field names directly. If the values are primitives, like number of bool, the value can be accessed using the variable name 'it'.") Find {
+          parameter(defaultValue: "it < 10") where
+          in property(List) list
+          out property(Any) item
+      }
+
+      extern func(doc: "Join two list of objects together where the given keys match. If there are several pairs of matches, one pair for each match will be present in the list.") InnerJoinOn {
+          in(name: "left list") property(List) left
+          in(name: "left key") property(String) left_key
+          in(name: "right list") property(List) right
+          in(name: "right key") property(String) right_key
+          out property result
+      }
+}
+
+module Structure {
+    extern func(doc: "Retrieves the value located at a specified `path` within a `record`. The `path` is a string that represents keys and indices in a nested structure. Keys are denoted by strings, and indices by numbers. If the `path` is valid and the value exists, it triggers `onValue` with the result. If the `path` is invalid or the value does not exist, it triggers `onError`.") Get {
+        in trigger execute
+        in(x: 0, y: 0, name: "record") property record
+        in(x: 0, y: 0, name: "path") property(String) path
+
+        out(name: "on value") trigger onValue
+        out(x: 0, y: 0, name: "value") property value
+
+        out(name: "on error") trigger onError
+        out property error
+    }
+
+    extern func(doc: "Updates the value at a given `path` within a `record`. The `path` is a string representing where the value should be set within the nested structure of the record. This function creates a new record with the updated value and outputs it as `record_with_value`. Strings in the `path` indicate keys, while numbers indicate indices.") Set {
+        in trigger execute
+        in(x: 0, y: 0, name: "record") property(Any) record
+        in(x: 0, y: 0, name: "path") property(String) path
+        in(x: 0, y: 0, name: "value") property(Any) value
+
+        out trigger continue
+        out(x: 0, y: 0, name: "record_with_value") property record_with_value
+    }
+}
+
+module Map {
+    extern func(doc: "Gets the `value` stored in `map` on `key`.") Get {
+        in(x: 0, y: 0, name: "map") property map
+        in(x: 0, y: 0, name: "key") property(String) key
+        out(x: 0, y: 0, name: "value") property value
+    }
+
+    extern func(doc: "Sets the `value` on `key` of `map` by returning a new map with the value, available on the `map_with_value` output.") Set {
+        in(x: 0, y: 0, name: "map") property map
+        in(x: 0, y: 0, name: "key") property(String) key
+        in(x: 0, y: 0, name: "value") property(Any) value
+        out(x: 0, y: 0, name: "map_with_value") property map_with_value
+    }
+
+    extern func(doc: "Returns an empty map.") Empty {
+        out(x: 0, y: 0, name: "new map") property new_map
+    }
+
+    extern func(doc: "Merge two maps into one, picking the last maps items for duplicate keys. If a key in `second` is set to Null, it will not replace an existing value for that key.") Merge {
+        in property first
+        in property second
+        out property merged
+    }
+
+    extern func(doc: "Checks if `map` has a key `key`.") ContainsKey {
+        in(x: 0, y: 0, name: "map") property map
+        in(x: 0, y: 0, name: "key") property(String) key
+        out(x: 0, y: 0, name: "is contained") property(Bool) is_contained
+    }
+
+    extern func(doc: "Returns a list of all the `keys` in `map`.") Keys {
+        in(x: 0, y: 0, name: "map") property map
+        out(x: 0, y: 0, name: "keys") property keys
+    }
+
+    extern func(doc: "Returns a list of all the `values` in `map`.") Values {
+        in(x: 0, y: 0, name: "map") property map
+        out(x: 0, y: 0, name: "values") property values
+    }
+
+    extern func(doc: "Returns a list of all key-values pairs in `map` as a list of lists.") Entries {
+        in(x: 0, y: 0, name: "map") property map
+        out(x: 0, y: 0, name: "entries") property entries
+    }
+
+    extern func(doc: "Returns a new map with only the fields specified in the `fields` list.") WithFields {
+        in(x: 0, y: 0, name: "map") property map
+        in(x: 0, y: 0, name: "fields") property(List) fields
+        out(x: 0, y: 0, name: "new map") property new_map
+    }
+
+    extern func(doc: "Calls the given mapping function instance (`handler`) once for each key value pair in `map` returning a new list with the mapped values (`output_list`).") MapEntries {
+        in(x: 0, y: 0, name: "execute") trigger() execute
+        in(x: 0, y: 0, name: "map") property map
+        in(x: 0, y: 0, name: "handler") property(Any) handler
+        out(x: 0, y: 0, name: "continue") trigger() continue
+        out(x: 0, y: 0, name: "output list") property output_list
+    }
+}
+
+module Iteration {
+    extern func(doc: "Calls the given function instance (`handler`) once for each item in `items`") ForEach {
+        in(x: 0, y: 0, name: "execute") trigger() execute
+        in(x: 0, y: 0, name: "items") property items
+        in(x: 0, y: 0, name: "handler") property(Any) handler
+        in(x: 0, y: 0, name: "context") property(Any) context
+        out(x: 0, y: 0, name: "continue") trigger() continue
+    }
+
+    extern func(doc: "Calls the given function instance (`handler`) once for each item in `items` returning a new list with the mapped values (`output_list`). Handle is expected to be a function which takes in at least one input (the item), and returns a single item, the mapped value. It can also take a second input, which is the index of the value, and a third value, an optional context value passed from the outside.") Map {
+        in(x: 0, y: 0, name: "items") property items
+        in(x: 0, y: 0, name: "handler") property(Any) handler
+        in(x: 0, y: 0, name: "context") property(Any) context
+        out(x: 0, y: 0, name: "output list") property output_list
+    }
+
+    extern func Zip {
+        in property(List) left
+        in property(List) right
+        in property(Any) handler
+        out property zipped
+    }
+
+    extern func Filter {
+        in(x: 0, y: 0, name: "items") property items
+        in(x: 0, y: 0, name: "handler") property(Any) handler
+        in(x: 0, y: 0, name: "context") property(Any) context
+        out(x: 0, y: 0, name: "output list") property output_list
+    }
+
+    extern func(doc: "Reduces the list `item` using the provided reducer function, which is expected to accept 2-4 inputs, the first being the accumulated value, and the second the value being accumulated. A third optional input will contain the current index, while the fourth optional input will contain the context input.") Reduce {
+        in(x: 0, y: 0, name: "items") property items
+        in(name: "initial value") property initialValue
+        in(x: 0, y: 0, name: "reducer") property(Any) reducer
+        in(x: 0, y: 0, name: "context") property(Any) context
+        out(x: 0, y: 0, name: "output") property output
+    }
+
+    extern func Find {
+        in property(List) items
+        in property predicate
+        in property context
+        out property item
+    }
+}
+module Math {
+    extern func(doc: "Returns the largest integer less than or equal `input`") Floor {
+        in(x: 0, y: 0, name: "input") property input
+        out(x: 0, y: 0, name: "output") property output
+    }
+
+    extern func(doc: "Adds `first` and `second` making the result avilable on the `result` output.") Add {
+        in(x: 0, y: 0, name: "first") property(Number) first
+        in(x: 0, y: 0, name: "second") property(Number) second
+        out(x: 0, y: 0, name: "result") property(Number) result
+    }
+
+    extern func(doc: "Subtracts `first` and `second` making the result avilable on the `result` output.") Sub {
+        in(x: 0, y: 0, name: "first") property(Number) first
+        in(x: 0, y: 0, name: "second") property(Number) second
+        out(x: 0, y: 0, name: "result") property(Number) result
+    }
+
+    extern func(doc: "Multiplies `first` and `second` making the result avilable on the `result` output.") Mul {
+        in(x: 0, y: 0, name: "first") property(Number) first
+        in(x: 0, y: 0, name: "second") property(Number) second
+        out(x: 0, y: 0, name: "result") property(Number) result
+    }
+
+    extern func(doc: "Divides `first` by `second` making the result avilable on the `result` output.") Div {
+        in(x: 0, y: 0, name: "first") property(Number) first
+        in(x: 0, y: 0, name: "second") property(Number) second
+        out(x: 0, y: 0, name: "result") property(Number) result
+    }
+
+    extern func(doc: "Checks is `left` less than `right`.") LessThan {
+        in(x: 0, y: 0, name: "left") property(Number) left
+        in(x: 0, y: 0, name: "right") property(Number) right
+        out(x: 0, y: 0, name: "result") property(Bool) result
+    }
+
+    extern func(doc: "Checks if `left` is greater than `right`") GreaterThan {
+        in(x: 0, y: 0, name: "left") property(Number) left
+        in(x: 0, y: 0, name: "right") property(Number) right
+        out(x: 0, y: 0, name: "result") property(Bool) result
+    }
+
+    extern func() LessThanOrEqual {
+        in(x: 0, y: 0, name: "left") property(Number) left
+        in(x: 0, y: 0, name: "right") property(Number) right
+        out(x: 0, y: 0, name: "result") property(Bool) result
+    }
+
+    extern func() GreaterThanOrEqual {
+        in(x: 0, y: 0, name: "left") property(Number) left
+        in(x: 0, y: 0, name: "right") property(Number) right
+        out(x: 0, y: 0, name: "result") property(Bool) result
+    }
+
+    extern func(
+        doc: "Creates a mathematical expression using a simple expression language provided through the `expression` parameter. Example: `a + b / 10` creates two inputs, `a` and `b`. The expression is executed using the provided inputs, and the result is available on the `result` output."
+    ) Expression {
+        parameter(
+            compilerPlugin: "Expression",
+            defaultValue: "",
+            aiSystemPrompt: "You will generate math expressions based on a user prompt. The expression you generate will consist only of the following operators:
+- + (plus)
+- - (minus)
+- * (multiply)
+- / (divide)
+- % (modulo)
+
+Inputs that must be provided by the user are represented by valid C identifiers, and should prefer to be as short as possible, without confusing the user about what the input represents.
+
+Here are a few examples:
+
+Prompt: Calcualte the average of three number
+Response: (a + b + c) / 3
+
+Prompt: Calculate the are of a circle of radius r
+Response: 3.14 * r * r
+
+Prompt: Calculate the area of a rectangle
+Response: a * b
+",
+        ) expression
+        out(x: 0, y: 0, name: "result") property result
+    }
+
+    extern func(doc: "Returns the absolute value of `x`.") Abs {
+        in(x: 0, y: 0, name: "x") property x
+        out(x: 0, y: 0, name: "result") property result
+    }
+
+    extern func(doc: "Returns the sine of `x` (in radians).") Sin {
+        in(x: 0, y: 0, name: "x") property x
+        out(x: 0, y: 0, name: "result") property result
+    }
+
+    extern func(doc: "Returns the cosine of `x` (in radians).") Cos {
+        in(x: 0, y: 0, name: "x") property x
+        out(x: 0, y: 0, name: "result") property result
+    }
+
+    extern func(doc: "Returns the tangent of `x` (in radians).") Tan {
+        in(x: 0, y: 0, name: "x") property x
+        out(x: 0, y: 0, name: "result") property result
+    }
+
+    extern func(doc: "Returns the arcsine of `x` (in radians).") Asin {
+        in(x: 0, y: 0, name: "x") property x
+        out(x: 0, y: 0, name: "result") property result
+    }
+
+    extern func(doc: "Returns the arccosine of `x` (in radians).") Acos {
+        in(x: 0, y: 0, name: "x") property x
+        out(x: 0, y: 0, name: "result") property result
+    }
+
+    extern func(doc: "Returns the arctangent of `x` (in radians).") Atan {
+        in(x: 0, y: 0, name: "x") property x
+        out(x: 0, y: 0, name: "result") property result
+    }
+
+    extern func(doc: "Returns the natural exponential function of `x`.") Exp {
+        in(x: 0, y: 0, name: "x") property x
+        out(x: 0, y: 0, name: "result") property result
+    }
+
+    extern func(doc: "Returns the natural logarithm (base e) of `x`.") Log {
+        in(x: 0, y: 0, name: "x") property x
+        out(x: 0, y: 0, name: "result") property result
+    }
+
+    extern func(doc: "Returns the base-10 logarithm of `x`.") Log10 {
+        in(x: 0, y: 0, name: "x") property x
+        out(x: 0, y: 0, name: "result") property result
+    }
+
+    extern func(doc: "Returns `x` raised to the power of `y`.") Pow {
+        in(x: 0, y: 0, name: "x") property x
+        in(x: 0, y: 0, name: "y") property y
+        out(x: 0, y: 0, name: "result") property result
+    }
+
+    extern func(doc: "Returns the positive square root of `x`.") Sqrt {
+        in(x: 0, y: 0, name: "x") property x
+        out(x: 0, y: 0, name: "result") property result
+    }
+
+    extern func(doc: "Returns the cube root of `x`.") Cbrt {
+        in(x: 0, y: 0, name: "x") property x
+        out(x: 0, y: 0, name: "result") property result
+    }
+
+    extern func(doc: "Returns the `n`th root of `x`.") NthRoot {
+        in(x: 0, y: 0, name: "x") property x
+        in(x: 0, y: 0, name: "n") property n
+        out(x: 0, y: 0, name: "result") property result
+    }
+
+    extern func(doc: "Returns the smallest integer greater than or equal to `x`.") Ceil {
+        in(x: 0, y: 0, name: "x") property x
+        out(x: 0, y: 0, name: "result") property result
+    }
+
+    extern func Modulo {
+        in(x: 0, y: 0, name: "value") property value
+        in(x: 0, y: 0, name: "divisor") property divisor
+        out(x: 0, y: 0, name: "result") property result
+    }
+
+    extern func(doc: "Rounds `x` to the nearest integer.") Round {
+        in(x: 0, y: 0, name: "x") property x
+        out(x: 0, y: 0, name: "result") property result
+    }
+
+    extern func(doc: "Rounds `x` to `decimals` decimal places.") RoundTo {
+        in(x: 0, y: 0, name: "x") property x
+        in(x: 0, y: 0, name: "decimals") property decimals
+        out(x: 0, y: 0, name: "result") property result
+    }
+
+    extern func(doc: "Returns the smallest of the input numbers.") Min {
+        in(x: 0, y: 0, name: "values") property values
+        out(x: 0, y: 0, name: "result") property result
+    }
+
+    extern func(doc: "Returns the largest of the input numbers.") Max {
+        in(x: 0, y: 0, name: "values") property values
+        out(x: 0, y: 0, name: "result") property result
+    }
+
+    extern func(doc: "Finds the largest of two numbers") Max2 {
+        in(x: 0, y: 0, name: "left") property(Number) left
+        in(x: 0, y: 0, name: "right") property(Number) right
+        out property(Number) max
+    }
+
+    extern func(doc: "Finds the smallest of two numbers") Min2 {
+        in(x: 0, y: 0, name: "left") property(Number) left
+        in(x: 0, y: 0, name: "right") property(Number) right
+        out property(Number) min
+    }
+
+    extern func(doc: "Creates a random `value` from `from` to `to` each time the function is `execute`d.") Random {
+        in(x: 0, y: 0, name: "from") property from
+        in(x: 0, y: 0, name: "to") property to
+        out(x: 0, y: 0, name: "value") property value
+    }
+
+    extern func(doc: "Converts `string` to a number. If the string is not convertible to a number, Null is returned.") NumberFromString {
+        in(x: 0, y: 0, name: "string") property string
+        out(x: 0, y: 0, name: "result") property result
+    }
+}
+
+module LinearAlgebra {
+    type Vector Opaque
+
+    extern func VecFromList {
+        in(name: "Number list") property number_list
+        out property(Vector) vector
+    }
+
+    extern func DotProduct {
+        in(name: "left vector") property(Vector) left_vector
+        in(name: "right vector") property(Vector) right_vector
+        out property(Number) result
+    }
+
+    extern func L2Norm {
+        in property(Vector) vector
+        out property(Number) result
+    }
+
+    extern func KMeans {
+        in property(List) vectors
+        in(name: "num clusters") property(Number) num_clusters
+        in(name: "max iterations") property(Number) max_iterations
+        out(name: "cluster assignments") property(List) cluster_assignments
+        out property(List) centroids
+    }
+}
+
+module Logic {
+    extern func(doc: "Checks if `left` and `right` are equal by performing a deep scan of the objects.") Equal {
+        in(x: 0, y: 0, name: "left") property(Any) left
+        in(x: 0, y: 0, name: "right") property(Any) right
+        out(x: 0, y: 0, name: "result") property(Bool) result
+    }
+
+    extern func(doc: "Checks if `left` and `right` are not equal by performing a deep scan of the objects.") NotEqual {
+        in(x: 0, y: 0, name: "left") property(Any) left
+        in(x: 0, y: 0, name: "right") property(Any) right
+        out(x: 0, y: 0, name: "result") property(Bool) result
+    }
+
+    extern func(doc: "The logic not operator") Not {
+        in property(Bool) input
+        out property(Bool) result
+    }
+
+    extern func(doc: "The logic or operator") Or {
+        in property(Bool) left
+        in property(Bool) right
+        out property(Bool) result
+    }
+
+    extern func(doc: "The logic and operator") And {
+        in property(Bool) left
+        in property(Bool) right
+        out property(Bool) result
+    }
+}
+module Scheduling {
+    extern event(doc: "Schedule can be used to trigger flows based on a timed schedule. It is based on the Cron API, but with support for resolution down to seconds. Note that scheduling is started relative to the current UTC time.") Schedule {
+        parameter(name: "second (0-59)", defaultValue: "0") second
+        parameter(name: "minute (0-59)", defaultValue: "*") minute
+        parameter(name: "hour (0-23)", defaultValue: "*") hour
+        parameter(name: "day of the month (1-31)", defaultValue: "*") day_of_month
+        parameter(name: "month (1-12)", defaultValue: "*") month
+        parameter(name: "day of the week (0-6)", defaultValue: "*") week_day
+        parameter(name: "year", defaultValue: "*") year
+
+        out(name: "on tick") trigger onTick
+    }
+
+    extern event(doc: "Creates a schedule using a cron expression (second minute hour 'day of month' 'month' 'day of week' year). See https://en.wikipedia.org/wiki/Cron for details (note that this page doesn't show with second as the lowest resolution, as we do here.") ScheduleFromCronExpression {
+        parameter(name: "cron expression", defaultValue: "*/5 * * * * * *") cron_expr
+        out(name: "on tick") trigger onTick
+    }
+}
+module(buildTag: "tcp") Net {
+    extern func(doc: "Sends the provided `line` as a tcp messages to the target of `connection`.") TcpSend {
+        in(x: 0, y: 0, name: "send") trigger() send
+        in(x: 0, y: 0, name: "connection") property connection
+        in(x: 0, y: 0, name: "line") property line
+        out(x: 0, y: 0, name: "continue") trigger() continue
+    }
+
+    extern func TcpListen {
+        in(x: 0, y: 0, name: "listen") trigger() listen
+        in(x: 0, y: 0, name: "address") property address
+        in(x: 0, y: 0, name: "port") property port
+        out(x: 0, y: 0, name: "listening") trigger() listening
+        out(x: 0, y: 0, name: "on connection") trigger() onConnection
+        out(x: 0, y: 0, name: "stream") property stream
+    }
+
+    extern func TcpReadLine {
+        in(x: 0, y: 0, name: "execute") trigger() execute
+        in(x: 0, y: 0, name: "stream") property stream
+        out(x: 0, y: 0, name: "continue") trigger() continue
+        out(x: 0, y: 0, name: "line") property line
+    }
+
+    extern event(doc: "Listens for tcp messages by binding a tcp listener to the provided `address`:`port`. The `onLine` trigger is executed for each `line` received on `connection`.") TcpStream {
+        parameter port
+        parameter address
+        out(name: "on line") trigger() onLine
+        out() property connection
+        out() property line
+    }
+
+
+}
+module Image {
+    extern func(buildTag: "file", doc: "Reads the contents of `file` and interprets it as an `image`. The supported image formats can be found here (https://docs.rs/image/latest/image/codecs/index.html#supported-formats)") FromFile {
+        in(x: 0, y: 0, name: "execute") trigger() execute
+        in(x: 0, y: 0, name: "file") property file
+        out(x: 0, y: 0, name: "continue") trigger() continue
+        out(x: 0, y: 0, name: "image") property image
+    }
+
+    extern func(doc: "Converts the `buffer` to an `image`") FromBuffer {
+        in(x: 0, y: 0, name: "execute") trigger() execute
+        in(x: 0, y: 0, name: "buffer") property buffer
+        out(x: 0, y: 0, name: "continue") trigger() continue
+        out(x: 0, y: 0, name: "image") property image
+    }
+
+    extern func(doc: "Converts the `image` to a `buffer`") ToBuffer {
+        in(x: 0, y: 0, name: "execute") trigger() execute
+        in(x: 0, y: 0, name: "image") property image
+        out(x: 0, y: 0, name: "continue") trigger() continue
+        out(x: 0, y: 0, name: "buffer") property buffer
+    }
+
+    extern func(doc: "Applies a 3x3 box filter on the image using the provided `kernel`, which expected a flattened 3x3 list of numbers (9 numbers).") BoxFilter {
+        in(x: 0, y: 0, name: "execute") trigger() execute
+        in(x: 0, y: 0, name: "image") property image
+        in(x: 0, y: 0, name: "kernel", editor: "InputGrid(3,3)") property kernel
+        out(x: 0, y: 0, name: "continue") trigger() continue
+        out(x: 0, y: 0, name: "image") property image
+    }
+
+    extern func(doc: "Blends two images together") Blend {
+        in(x: 0, y: 0, name: "execute") trigger() execute
+        in(x: 0, y: 0, name: "image1") property image1
+        in(x: 0, y: 0, name: "image2") property image2
+        out(x: 0, y: 0, name: "continue") trigger() continue
+        out(x: 0, y: 0, name: "result") property result
+    }
+
+    extern func(doc: "Resizes the `image` to `width` and `height`, making the result available on the `resized_image` output.") Resize {
+        in(x: 0, y: 0, name: "execute") trigger() execute
+        in(x: 0, y: 0, name: "image") property image
+        in(x: 0, y: 0, name: "width") property width
+        in(x: 0, y: 0, name: "height") property height
+        out(x: 0, y: 0, name: "continue") trigger() continue
+        out(x: 0, y: 0, name: "resized image") property resized_image
+    }
+
+    extern func(buildTag: "file", doc: "Saves the provided `image` content to a file named `path`, using the file name as an indication of which encoding to use.") SaveToFile {
+        in(x: 0, y: 0, name: "execute") trigger() execute
+        in(x: 0, y: 0, name: "image") property image
+        in(x: 0, y: 0, name: "path") property path
+        out(x: 0, y: 0, name: "continue") trigger() continue
+    }
+
+    extern func(doc: "Blurs the `image` by `amount`. NOTE: This function can become slow when using large values for `amount`. This should be fixed in the future.") Blur {
+        in(x: 0, y: 0, name: "execute") trigger() execute
+        in(x: 0, y: 0, name: "image") property image
+        in(x: 0, y: 0, name: "amount") property amount
+        out(x: 0, y: 0, name: "execute") trigger() execute
+        out(x: 0, y: 0, name: "image") property image
+    }
+
+    extern func(doc: "Converts `image` to grayscale.") Grayscale {
+        in(x: 0, y: 0, name: "execute") trigger() execute
+        in(x: 0, y: 0, name: "image") property image
+        out(x: 0, y: 0, name: "continue") trigger() continue
+        out(x: 0, y: 0, name: "image") property image
+    }
+
+    extern func(doc: "Brightens `image` by `amount`.") Brighten {
+        in(x: 0, y: 0, name: "execute") trigger() execute
+        in(x: 0, y: 0, name: "image") property image
+        in(x: 0, y: 0, name: "amount") property amount
+        out(x: 0, y: 0, name: "continue") trigger() continue
+        out(x: 0, y: 0, name: "image") property image
+    }
+
+    extern func(doc: "Increases the contrast of `image` by `amount`.") Contrast {
+        in(x: 0, y: 0, name: "execute") trigger() execute
+        in(x: 0, y: 0, name: "image") property image
+        in(x: 0, y: 0, name: "amount") property amount
+        out(x: 0, y: 0, name: "continue") trigger() continue
+        out(x: 0, y: 0, name: "image") property image
+    }
+
+    extern func(doc: "Flips `image` horizontally.") FlipHorizontal {
+        in(x: 0, y: 0, name: "execute") trigger() execute
+        in(x: 0, y: 0, name: "image") property image
+        out(x: 0, y: 0, name: "continue") trigger() continue
+        out(x: 0, y: 0, name: "image") property image
+    }
+
+    extern func(doc: "Flips `image` vertically.") FlipVertical {
+        in(x: 0, y: 0, name: "execute") trigger() execute
+        in(x: 0, y: 0, name: "image") property image
+        out(x: 0, y: 0, name: "continue") trigger() continue
+        out(x: 0, y: 0, name: "image") property image
+    }
+
+    extern func(doc: "Rotates `image` by 90 degress clockwise.") Rotate90 {
+        in(x: 0, y: 0, name: "execute") trigger() execute
+        in(x: 0, y: 0, name: "image") property image
+        out(x: 0, y: 0, name: "continue") trigger() continue
+        out(x: 0, y: 0, name: "image") property image
+    }
+
+    extern func(doc: "Rotates `image` by 180 degress.") Rotate180 {
+        in(x: 0, y: 0, name: "execute") trigger() execute
+        in(x: 0, y: 0, name: "image") property image
+        out(x: 0, y: 0, name: "continue") trigger() continue
+        out(x: 0, y: 0, name: "image") property image
+    }
+
+    extern func(doc: "Rotates `image` by 270 degress clockwise.") Rotate270 {
+        in(x: 0, y: 0, name: "execute") trigger() execute
+        in(x: 0, y: 0, name: "image") property image
+        out(x: 0, y: 0, name: "continue") trigger() continue
+        out(x: 0, y: 0, name: "image") property image
+    }
+
+    extern func(doc: "Threshold `image` by `threshold`.") Threshold {
+        in(x: 0, y: 0, name: "execute") trigger() execute
+        in(x: 0, y: 0, name: "image") property image
+        in(x: 0, y: 0, name: "threshold", editor: "Slider(0,10)") property threshold
+        out(x: 0, y: 0, name: "continue") trigger() continue
+        out(x: 0, y: 0, name: "image") property image
+    }
+
+    extern func(doc: "Base64 encodes `image` into a string.") Base64Encode {
+        in(x: 0, y: 0, name: "execute") trigger() execute
+        in(x: 0, y: 0, name: "image") property image
+        out(x: 0, y: 0, name: "continue") trigger() continue
+        out(x: 0, y: 0, name: "value") property value
+    }
+
+}
+
+module(buildTag: "file") File {
+    extern func(doc: "Reads the entire contents of the file at `path` and returns the contents in the `content` output.") ReadAll {
+        in trigger execute
+        in property(String) path
+
+        out(name: "on done") trigger onDone
+        out property(String) content
+
+        out(name: "on error") trigger onError
+        out property(String) error
+    }
+
+    extern func(doc: "Reads the entire contents of the file at `path` and returns the contents in the `content` output.") ReadAllToBuffer {
+        in trigger execute
+        in property(String) path
+
+        out(name: "on done") trigger onDone
+        out property(Buffer) content
+
+        out(name: "on error") trigger onError
+        out property(String) error
+    }
+
+    extern func(doc: "Writes the string or buffer to the specified path as is, or converts the value to a string if it is not a String or Buffer and then writes to file.") WriteAll {
+        in trigger execute
+        in property(String) path
+        in property(String or Buffer or Any) content
+
+        out(name: "on done") trigger onDone
+
+        out(name: "on error") trigger onError
+        out property(String) error
+    }
+
+    extern func ListDirectory {
+        in trigger execute
+        in property(String) path
+
+        out(name: "on done") trigger onDone
+        out property(List) files
+
+        out(name: "on error") trigger onError
+        out property(String) error
+    }
+
+    extern func CreateDirectory {
+        in trigger execute
+        in property(String) path
+
+        out(name: "on done") trigger onDone
+
+        out(name: "on error") trigger onError
+        out property(String) error
+    }
+
+    extern func RemoveFile {
+        in trigger execute
+        in property(String) path
+
+        out(name: "on done") trigger onDone
+
+        out(name: "on error") trigger onError
+        out property(String) error
+    }
+}
+
+module(buildTag: "env") Env {
+    extern func GetEnvironmentVariable {
+        in trigger execute
+        in(name: "variable name") property(String) variable_name
+
+        out(name: "on variable") trigger onVariable
+        out property(String) value
+
+        out(name: "on error") trigger onError
+        out property(String) error
+    }
+
+    extern func SetEnvironmentVariable {
+        in trigger execute
+        in(name: "variable name") property(String) variable_name
+        in property(String) value
+
+        out(name: "on success") trigger onSuccess
+
+        out(name: "on error") trigger onError
+        out property(String) error
+    }
+
+    extern func EnvironmentVariable {
+        in(name: "variable name") property(String) variable_name
+        out property(String or Null) value
+    }
+}
+
+module Buffer {
+    type Cursor Buffer or Opaque
+
+    extern func FromString {
+        in trigger execute
+        in property(String) string
+        out trigger continue
+        out property(Buffer) buffer
+    }
+
+    extern func ReadU8 {
+        in trigger execute
+        in property(Cursor) buffer
+        out trigger continue
+        out property(Cursor) cursor
+        out property(Number) output
+    }
+
+    extern func ReadI8 {
+        in trigger execute
+        in property(Cursor) buffer
+        out trigger continue
+        out property(Cursor) cursor
+        out property(Number) output
+    }
+
+    extern func ReadU16BE {
+        in trigger execute
+        in property(Cursor) buffer
+        out trigger continue
+        out property(Cursor) cursor
+        out property(Number) output
+    }
+
+    extern func ReadU16LE {
+        in trigger execute
+        in property(Cursor) buffer
+        out trigger continue
+        out property(Cursor) cursor
+        out property(Number) output
+    }
+
+    extern func ReadU16NE {
+        in trigger execute
+        in property(Cursor) buffer
+        out trigger continue
+        out property(Cursor) cursor
+        out property(Number) output
+    }
+
+    extern func ReadI16BE {
+        in trigger execute
+        in property(Cursor) buffer
+        out trigger continue
+        out property(Cursor) cursor
+        out property(Number) output
+    }
+
+    extern func ReadI16LE {
+        in trigger execute
+        in property(Cursor) buffer
+        out trigger continue
+        out property(Cursor) cursor
+        out property(Number) output
+    }
+
+    extern func ReadI16NE {
+        in trigger execute
+        in property(Cursor) buffer
+        out trigger continue
+        out property(Cursor) cursor
+        out property(Number) output
+    }
+
+    extern func ReadU32BE {
+        in trigger execute
+        in property(Cursor) buffer
+        out trigger continue
+        out property(Cursor) cursor
+        out property(Number) output
+    }
+
+    extern func ReadU32LE {
+        in trigger execute
+        in property(Cursor) buffer
+        out trigger continue
+        out property(Cursor) cursor
+        out property(Number) output
+    }
+
+    extern func ReadU32NE {
+        in trigger execute
+        in property(Cursor) buffer
+        out trigger continue
+        out property(Cursor) cursor
+        out property(Number) output
+    }
+
+    extern func ReadI32BE {
+        in trigger execute
+        in property(Cursor) buffer
+        out trigger continue
+        out property(Cursor) cursor
+        out property(Number) output
+    }
+
+    extern func ReadI32LE {
+        in trigger execute
+        in property(Cursor) buffer
+        out trigger continue
+        out property(Cursor) cursor
+        out property(Number) output
+    }
+
+    extern func ReadI32NE {
+        in trigger execute
+        in property(Cursor) buffer
+        out trigger continue
+        out property(Cursor) cursor
+        out property(Number) output
+    }
+
+    extern func ReadU64BE {
+        in trigger execute
+        in property(Cursor) buffer
+        out trigger continue
+        out property(Cursor) cursor
+        out property(Number) output
+    }
+
+    extern func ReadU64LE {
+        in trigger execute
+        in property(Cursor) buffer
+        out trigger continue
+        out property(Cursor) cursor
+        out property(Number) output
+    }
+
+    extern func ReadU64NE {
+        in trigger execute
+        in property(Cursor) buffer
+        out trigger continue
+        out property(Cursor) cursor
+        out property(Number) output
+    }
+
+    extern func ReadI64BE {
+        in trigger execute
+        in property(Cursor) buffer
+        out trigger continue
+        out property(Cursor) cursor
+        out property(Number) output
+    }
+
+    extern func ReadI64LE {
+        in trigger execute
+        in property(Cursor) buffer
+        out trigger continue
+        out property(Cursor) cursor
+        out property(Number) output
+    }
+
+    extern func ReadI64NE {
+        in trigger execute
+        in property(Cursor) buffer
+        out trigger continue
+        out property(Cursor) cursor
+        out property(Number) output
+    }
+
+    extern func ReadF32BE {
+        in trigger execute
+        in property(Cursor) buffer
+        out trigger continue
+        out property(Cursor) cursor
+        out property(Number) output
+    }
+
+    extern func ReadF32LE {
+        in trigger execute
+        in property(Cursor) buffer
+        out trigger continue
+        out property(Cursor) cursor
+        out property(Number) output
+    }
+
+    extern func ReadF32NE {
+        in trigger execute
+        in property(Cursor) buffer
+        out trigger continue
+        out property(Cursor) cursor
+        out property(Number) output
+    }
+
+    extern func ReadF64BE {
+        in trigger execute
+        in property(Cursor) buffer
+        out trigger continue
+        out property(Cursor) cursor
+        out property(Number) output
+    }
+
+    extern func ReadF64LE {
+        in trigger execute
+        in property(Cursor) buffer
+        out trigger continue
+        out property(Cursor) cursor
+        out property(Number) output
+    }
+
+    extern func ReadF64NE {
+        in trigger execute
+        in property(Cursor) buffer
+        out trigger continue
+        out property(Cursor) cursor
+        out property(Number) output
+    }
+
+    extern func PutU8 {
+        in trigger execute
+        in property(Cursor) buffer
+        in property(Number) value
+        out trigger continue
+        out property(Cursor) cursor
+    }
+
+    extern func PutI8 {
+        in trigger execute
+        in property(Cursor) buffer
+        in property(Number) value
+        out trigger continue
+        out property(Cursor) cursor
+    }
+
+    extern func PutU16BE {
+        in trigger execute
+        in property(Cursor) buffer
+        in property(Number) value
+        out trigger continue
+        out property(Cursor) cursor
+    }
+
+    extern func PutU16LE {
+        in trigger execute
+        in property(Cursor) buffer
+        in property(Number) value
+        out trigger continue
+        out property(Cursor) cursor
+    }
+
+    extern func PutU16NE {
+        in trigger execute
+        in property(Cursor) buffer
+        in property(Number) value
+        out trigger continue
+        out property(Cursor) cursor
+    }
+
+    extern func PutI16BE {
+        in trigger execute
+        in property(Cursor) buffer
+        in property(Number) value
+        out trigger continue
+        out property(Cursor) cursor
+    }
+
+    extern func PutI16LE {
+        in trigger execute
+        in property(Cursor) buffer
+        in property(Number) value
+        out trigger continue
+        out property(Cursor) cursor
+    }
+
+    extern func PutI16NE {
+        in trigger execute
+        in property(Cursor) buffer
+        in property(Number) value
+        out trigger continue
+        out property(Cursor) cursor
+    }
+
+    extern func PutU32BE {
+        in trigger execute
+        in property(Cursor) buffer
+        in property(Number) value
+        out trigger continue
+        out property(Cursor) cursor
+    }
+
+    extern func PutU32LE {
+        in trigger execute
+        in property(Cursor) buffer
+        in property(Number) value
+        out trigger continue
+        out property(Cursor) cursor
+    }
+
+    extern func PutU32NE {
+        in trigger execute
+        in property(Cursor) buffer
+        in property(Number) value
+        out trigger continue
+        out property(Cursor) cursor
+    }
+
+    extern func PutI32BE {
+        in trigger execute
+        in property(Cursor) buffer
+        in property(Number) value
+        out trigger continue
+        out property(Cursor) cursor
+    }
+
+    extern func PutI32LE {
+        in trigger execute
+        in property(Cursor) buffer
+        in property(Number) value
+        out trigger continue
+        out property(Cursor) cursor
+    }
+
+    extern func PutI32NE {
+        in trigger execute
+        in property(Cursor) buffer
+        in property(Number) value
+        out trigger continue
+        out property(Cursor) cursor
+    }
+
+    extern func PutU64BE {
+        in trigger execute
+        in property(Cursor) buffer
+        in property(Number) value
+        out trigger continue
+        out property(Cursor) cursor
+    }
+
+    extern func PutU64LE {
+        in trigger execute
+        in property(Cursor) buffer
+        in property(Number) value
+        out trigger continue
+        out property(Cursor) cursor
+    }
+
+    extern func PutU64NE {
+        in trigger execute
+        in property(Cursor) buffer
+        in property(Number) value
+        out trigger continue
+        out property(Cursor) cursor
+    }
+
+    extern func PutI64BE {
+        in trigger execute
+        in property(Cursor) buffer
+        in property(Number) value
+        out trigger continue
+        out property(Cursor) cursor
+    }
+
+    extern func PutI64LE {
+        in trigger execute
+        in property(Cursor) buffer
+        in property(Number) value
+        out trigger continue
+        out property(Cursor) cursor
+    }
+
+    extern func PutI64NE {
+        in trigger execute
+        in property(Cursor) buffer
+        in property(Number) value
+        out trigger continue
+        out property(Cursor) cursor
+    }
+
+    extern func PutF32BE {
+        in trigger execute
+        in property(Cursor) buffer
+        in property(Number) value
+        out trigger continue
+        out property(Cursor) cursor
+    }
+
+    extern func PutF32LE {
+        in trigger execute
+        in property(Cursor) buffer
+        in property(Number) value
+        out trigger continue
+        out property(Cursor) cursor
+    }
+
+    extern func PutF32NE {
+        in trigger execute
+        in property(Cursor) buffer
+        in property(Number) value
+        out trigger continue
+        out property(Cursor) cursor
+    }
+
+    extern func PutF64BE {
+        in trigger execute
+        in property(Cursor) buffer
+        in property(Number) value
+        out trigger continue
+        out property(Cursor) cursor
+    }
+
+    extern func PutF64LE {
+        in trigger execute
+        in property(Cursor) buffer
+        in property(Number) value
+        out trigger continue
+        out property(Cursor) cursor
+    }
+
+    extern func PutF64NE {
+        in trigger execute
+        in property(Cursor) buffer
+        in property(Number) value
+        out trigger continue
+        out property(Cursor) cursor
+    }
+
+    extern func DecodeUtf8 {
+        in trigger execute
+        in property(Cursor) buffer
+        out(name: "on success") trigger onSuccess
+        out property(String) string
+        out(name: "on error") trigger onError
+        out property(String) error
+    }
+
+    extern func EncodeUtf8 {
+        in trigger execute
+        in property(String) string
+        out trigger continue
+        out property(Cursor) buffer
+    }
+
+    extern func(doc: "Concatenates two buffers by allocating a new one and copying the contents of `left` and `right`.") Concat {
+        in trigger execute
+        in property(Cursor) left
+        in property(Cursor) right
+        out trigger continue
+        out property(Cursor) buffer
+    }
+
+    extern func Length {
+        in property(Cursor) buffer
+        out property(Number) length
+    }
+
+    extern func Empty {
+        out property(Cursor) buffer
+    }
+
+    extern func ToByteList {
+        in property(Cursor) buffer
+        out property(Any) list
+    }
+}
+
+module Sets {
+    extern func Intersection {
+        in property(List) left
+        in property(List) right
+        out property(List) intersect
+    }
+
+    extern func Union {
+        in property(List) left
+        in property(List) right
+        out property(List) union
+    }
+
+    extern func Difference {
+        in property(List) left
+        in property(List) right
+        out property(List) difference
+    }
+}
+
+module(buildTag: "process") Process {
+    extern func RunCommand {
+        in trigger execute
+        in property(String) name
+        in property(List or Null) args
+        in(name: "env vars") property(Any) env
+        in property(String or Null) cwd
+
+        out(name: "on done") trigger onDone
+        out property(Number or Null) status
+        out property(String) stdout
+        out property(String) stderr
+
+        out(name: "on error") trigger onError
+        out property(String) error
+    }
+}
+
+module Base64 {
+    extern func Encode {
+        in property(String) input
+        out property(String) encoded
+
+        parameter(
+            editor: "ComboBox(\"standard\",\"url-safe\",\"standard-no-pad\",\"url-safe-no-pad\")",
+            defaultValue: "standard"
+        ) alphabet
+    }
+
+    extern func(doc: "Decodes a base64 encoded string back into its original input. If the decoding fails, the `on error` trigger is executed. Use `Base64 Encoded` for a version without triggers.") Decode {
+        in trigger execute
+        out trigger continue
+
+        in property(String or Buffer) input
+        out property(Buffer or String or Null) decoded
+
+        out(name: "on error") trigger onError
+        out property(String or Null) error
+
+        parameter(
+            editor: "ComboBox(\"standard\",\"url-safe\",\"standard-no-pad\",\"url-safe-no-pad\")",
+            defaultValue: "standard"
+        ) alphabet
+        parameter(
+            editor: "ComboBox(\"string\",\"buffer\")",
+            defaultValue: "string",
+            name: "result type"
+        ) resultType
+    }
+
+    extern func(doc: "A non triggable version of `Base64 Decode`") Decoded {
+        in property(String or Buffer) input
+        out property(Buffer or String or Null) decoded
+
+        parameter(
+            editor: "ComboBox(\"standard\",\"url-safe\",\"standard-no-pad\",\"url-safe-no-pad\")",
+            defaultValue: "standard"
+        ) alphabet
+        parameter(
+            editor: "ComboBox(\"string\",\"buffer\")",
+            defaultValue: "string",
+            name: "result type"
+        ) resultType
+    }
+}
+
+module Hashing {
+    module Argon2 {
+        extern func HashPassword {
+            in property(String) input
+            out(name: "phc string") property(String) phc_string
+        }
+
+        extern func VerifyPassword {
+            in(name: "password hash") property(String) password_hash
+            in property(String) password
+
+            out(name: "phc string") property(String) phc_string
+        }
+
+        extern func HashKey {
+            in property(String) password
+            in property(String) salt
+            in(name: "num bytes") property(Number) num_bytes
+
+            out property(Buffer) key
+        }
+
+    }
+
+    module Sha2 {
+        extern func Hash {
+            in property(String) input
+            out property(String or Buffer) hash
+
+            parameter(
+                editor: "ComboBox(\"224\",\"256\", \"512_224\", \"512_256\",\"384\",\"512\")",
+                defaultValue: "256"
+            ) bits
+            parameter(
+                name: "output type",
+                editor: "ComboBox(\"hex-string\",\"buffer\")",
+                defaultValue: "hex-string"
+            ) output_type
+        }
+    }
+
+    module Sha3 {
+        extern func Hash {
+            in property(String) input
+            out property(String or Buffer) hash
+
+            parameter(
+                editor: "ComboBox(\"SHA3-224\", \"SHA3-256\", \"SHA3-384\", \"SHA3-512\", \"Keccak224\", \"Keccak256\", \"Keccak384\", \"Keccak512\")",
+                defaultValue: "SHA3-256"
+            ) bits
+            parameter(
+                name: "output type",
+                editor: "ComboBox(\"hex-string\",\"buffer\")",
+                defaultValue: "hex-string"
+            ) output_type
+        }
+    }
+
+    module HMAC {
+        extern func Compute {
+            parameter(
+                name: "hashing function",
+                editor: "ComboBox(\"SHA2-256\", \"SHA2-512\")",
+                defaultValue: "SHA2-256"
+            ) hashing_function
+
+            in property(String) secret
+            in property(String) message
+
+            out property(String) hmac
+        }
+
+        extern func Verify {
+            parameter(
+                name: "hashing function",
+                editor: "ComboBox(\"SHA2-256\", \"SHA2-512\")",
+                defaultValue: "SHA2-256"
+            ) hashing_function
+
+            in property(String) secret
+            in property(String) message
+            in property(String) hmac
+
+            out property(Bool) result
+        }
+
+    }
+}

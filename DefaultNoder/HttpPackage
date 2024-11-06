@@ -1,0 +1,187 @@
+@version("0.0.1")
+@description("This package provides modules for reacting to HTTP requests, sending requests to external services as well as utilities related to HTTP.")
+native_dependencies_location("./libmidio_http")
+import("tokio", Tokio)
+module Url {
+    extern func UrlEncodeFormData {
+        in(name: "form data") property(Any) form_data
+        out property(String) encoded
+    }
+    extern func UrlEncodeString {
+        in property(String) string
+        out property(String) encoded
+    }
+    extern func UrlDecodeString {
+        in property(String) encoded
+        out property(String) string
+    }
+}
+module(hidden: true) Http {
+    type Method "GET" or "POST" or "UPDATE" or "PUT" or "HEAD"
+    type Headers Any
+    type Url String
+    type EndpointContext Any
+    type ServerContext Any
+    extern func(doc: "Responds to an http request (`req`) provided by an `Http.Endpoint` event.") Response {
+        in trigger(consumes: Http.EndpointContext, ) respond
+        out trigger continue
+        in(defaultValue: 200) property(Number) status
+        in property headers
+        in property body
+    }
+    extern func(doc: "Performs a simple http/https request to the provided `url` and returns the `response` a string or a buffer depending on the value of `resopnseType`, which can be 'text' or 'buffer'. The body input will be converted to json if it is anything other than a String or Null.") FetchUrl {
+        in(x: 0, y: 0, name: "execute") trigger() execute
+        in(x: 0, y: 0, name: "url") property(String) url
+        in(x: 0, y: 0, name: "response type", editor: "ComboBox(\"text\",\"json\",\"buffer\")", defaultValue: "json") property(Any) responseType
+        in(x: 0, y: 0, name: "headers") property headers
+        in(x: 0, y: 0, name: "method", editor: "ComboBox(\"GET\",\"POST\",\"HEAD\",\"PUT\",\"DELETE\",\"CONNECT\",\"OPTIONS\",\"TRACE\",\"PATCH\")", defaultValue: "GET") property method
+        in(x: 0, y: 0, name: "body") property(Any) body
+        out(x: 0, y: 0, name: "continue") trigger() continue
+        out(x: 0, y: 0, name: "response") property(String) response
+        out(x: 0, y: 0, name: "status") property(Number) status
+        out(x: 0, y: 0, name: "headers") property(Headers) headers
+        out(x: 0, y: 0, name: "on error") trigger() onError
+        out(x: 0, y: 0, name: "error") property(String) error
+    }
+    extern func(doc: "Returns the query parameter `name` from a request (`req`) object.") GetHttpQueryParam {
+        in(x: 0, y: 0, name: "req") property req
+        in(x: 0, y: 0, name: "name") property(String) name
+        out(x: 0, y: 0, name: "value") property(String) value
+    }
+    extern func HttpListenRoute {
+        in(x: 0, y: 0, name: "listen") trigger() listen
+        in(x: 0, y: 0, name: "path") property path
+        in(x: 0, y: 0, name: "method") property method
+        out(x: 0, y: 0, name: "listening") trigger() listening
+        out(x: 0, y: 0, name: "on request") trigger(produces: Http.EndpointContext) onRequest
+    }
+    extern event(doc: "Listens for http requests on the provided `path` and `method`. `path` is an url of the form some/path/, which can be parameterized by :name for path items, and ?query_name&another_query_name for query values. Example: 'user/:name?email&joined_date' This creates `name`, `email` and `joined_date` output properties that one can use to get these values from the request. NOTE: All endpoints currently shares a single http server.") Endpoint {
+        parameter(
+            compilerPlugin: "Url",
+            defaultValue: "/"
+        ) path
+        parameter(
+            editor: "ComboBox(\"GET\",\"POST\",\"HEAD\",\"PUT\",\"DELETE\",\"CONNECT\",\"OPTIONS\",\"TRACE\",\"PATCH\")",
+            defaultValue: "GET"
+        ) method
+        parameter(
+            editor: "ComboBox(\"text\",\"buffer\")",
+            defaultValue: "text",
+            name: "body type",
+        ) accept
+        out(name: "on request") trigger(produces: Http.EndpointContext) onRequest
+        out() property headers
+        out() property body
+    }
+    module Client {
+        type NetworkStreamKind String
+        type HttpClient Opaque
+        type ClientConnection Opaque
+        extern func(doc: "Opens a new network stream.") OpenNetworkStream {
+            in trigger open
+            in(editor: "ComboBox(\"tcp\",\"tls\")") property(NetworkStreamKind) kind
+            in property(String) url
+            in property(Number) port
+            out trigger(produces: Http.Client.ClientConnection) connected
+            out trigger failed
+            out property(String) error
+        }
+        type Body String or Buffer
+        type Request Any
+        type Response Any
+        extern func CreateRequest {
+            in property(String) path
+            in property(Http.Method) method
+            in property(Http.Headers) headers
+            in property(String or Null) body
+            out property(Http.Client.Request) request
+        }
+        extern func StringifyRequest {
+            in property(Http.Client.Request) request
+            out property(String) request
+        }
+        extern func SendRequest {
+            in trigger(borrows: Http.Client.ClientConnection) send
+            in property(Http.Client.Request) request
+            out(name: "on response") trigger(produces: Http.Client.Response) onResponse
+            out trigger failed
+            out property(String) error
+        }
+        extern func ResponseStatus {
+            in trigger(borrows: Http.Client.Response) get
+            out trigger continue
+            out property(Number) status
+            out(name: "status text") property(String) statusText
+        }
+        extern func ResponseHeaders {
+            in trigger(borrows: Http.Client.Response) get
+            out trigger continue
+            out property(Http.Headers) headers
+        }
+        extern func ResponseBody {
+            in trigger(borrows: Http.Client.Response) get
+            in(x: 0, y: 0, name: "response type", editor: "ComboBox(\"text\",\"buffer\")") property(String) responseType
+            out trigger continue
+            out property(Http.Client.Body) body
+        }
+        extern func(doc: "Streams content from a response body as descrete events.") ResponseBodyStream {
+            in(name: "next frame") trigger(borrows: Http.Client.Response) nextFrame
+            in(x: 0, y: 0, name: "response type", editor: "ComboBox(\"text\",\"buffer\")") property(String) responseType
+            out(name: "on data") trigger onData
+            out property(String) data
+            out(name: "on done") trigger onDone
+            out trigger failed
+            out property(String) error
+        }
+    }
+    module Server {
+        type NetworkListenerKind String
+        type NetworkListener Opaque
+        type Request Opaque
+        type Response Opaque
+        type Body String or Buffer
+        type Status Number
+        extern func(doc: "Binds a new network listener. If `port` is Null, the OS will assign a port number to the listener.") BindNetworkListener {
+            in trigger open
+            in(editor: "ComboBox(\"tcp\")") property(Http.Server.NetworkListenerKind) kind
+            in property(String) addr
+            in property(Number or Null) port
+            out(name: "listener bound") trigger(produces: Http.Server.NetworkListener) listenerBound
+            out(name: "bound address") property(String) boundAddr
+            out(name: "bound port") property(Number) boundPort
+            out(name: "on error") trigger onError
+            out property(String) error
+        }
+        extern func(doc: "Starts accepting incoming connections on the provided `NetworkListener`. The process is forked for each accepted connection.") AcceptConnections {
+            in trigger(consumes: Http.Server.NetworkListener) accept
+            out(name: "listener started") trigger listenerStarted
+            out(name: "client connected") trigger(produces: Http.Server.Request) clientConnected
+            out(name: "on error") trigger onError
+            out property(String) error
+        }
+        extern func RequestInfo {
+            in trigger(borrows: Http.Server.Request) get
+            out trigger continue
+            out property(Http.Method) method
+            out property(Http.Url) url
+        }
+        extern func RequestBody {
+            in trigger(borrows: Http.Server.Request) get
+            in(x: 0, y: 0, name: "response type", editor: "ComboBox(\"text\",\"buffer\")") property(String) requestType
+            out trigger continue
+            out property(Http.Server.Body) body
+        }
+        extern func CreateResponse {
+            in(name: "status") property(Http.Server.Status) Status
+            in property(Http.Headers) headers
+            in property(String or Null) body
+            out property(Http.Server.Response) response
+        }
+        extern func SendResponse {
+            in trigger(borrows: Http.Server.Request) execute
+            in property(Http.Server.Response) response
+            out trigger continue
+            out property(Http.Server.Body) body
+        }
+    }
+}
