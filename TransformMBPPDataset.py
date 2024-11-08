@@ -17,8 +17,12 @@ def select_objects_by_task_id(dafny_file, sanitized_file, output_file):
 
     # Step 4: Remove 'source_file' and 'test_imports' from each object
     for item in selected_objects:
+        # Replace 'task_id' with 'MBPP_task_id'
+        item['MBPP_task_id'] = item.pop('task_id')
         item.pop('source_file', None)
         item.pop('test_imports', None)
+        item['instance_types'] = []
+        item['node_types'] = []
 
     # Step 5: Check if the output file exists and create a new one if it does
     base_output_file = output_file

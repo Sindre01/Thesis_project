@@ -1,0 +1,13 @@
+@midio_version("0.1.0")
+@version("0.1.0")
+import("std", Std_k98ojb)
+import("http", Http_q7o96c)
+
+module() main {
+  
+    instance(x: 103.2293239478186, y: -525.1387890540527, stableId: "p1uminziwyatvsmt2xo0qz8d") min_76f497 root.Std_k98ojb.List.Min {}
+    data_instance(x: -142.3, y: -495.1, stableId: "tlv2yprycjtt7i8slwj30y3k") data_8e9b4a  = [5, 3, 7, 1]
+    instance(x: 372.8888549804687, y: -550.7778015136719, stableId: "egn8od0ajvk66jb26mt8qd3m") log_fb9651 root.Std_k98ojb.Std.Log {}
+    data_8e9b4a -> min_76f497.items
+    min_76f497.min -> log_fb9651.input
+}
