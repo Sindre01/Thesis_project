@@ -1,0 +1,1197 @@
+[
+    {
+        "prompts": [
+            "Create a flow that checks whether the given two integers have opposite sign or not.",
+            "The flow should create a user-defined function. The body of the function contains two input properties of type Number, a 'Math Expression' node and one output property of type 'Bool'. The input properties is connected with arrows to 'Math Expression', that contains an expression with the two input properties of type numbers. The 'Math Expression' result is a boolean. This value is connected with arrows to the created output property, that return the Bool from the function. The user-defined function is then created within the main module.",
+            "The user-defined function should then be tested in the main module with 'Testing Test' and 'Testing AssertTrue' nodes. The test checks if input 1 and -2 asserts true"
+        ],
+        "task_id": 1,
+        "specification": {
+            "function_signature": "func() opposite_signs {\n  in(x: -426.75106687766726, y: -248.6672781623361, name: \"x\") property(Number) x_853326\n  in(x: -420.9177240472398, y: -107.83359783106482, name: \"y\") property(Number) y_5390f5\n\n  out(x: 159.11126708984375, y: -219.88885498046875, name: \"output\") property(Bool) output_3339a3\n}",
+            "preconditions": "- There are no preconditions, the method will always work.",
+            "postconditions": "- The result is true if x and y have opposite signs\n- The result is false if x and y have the same sign"
+        },
+        "MBPP_task_id": 58,
+        "library_functions" : [
+            "root.std.Math.Expression"
+        ],
+        "visual_node_types": [
+            "Function",
+            "Output Property",
+            "Input Property"
+        ],
+        "textual_instance_types": [
+            "instance",
+            "in",
+            "out"
+        ],
+
+        "testing": {
+            "library_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertTrue"
+            ],
+            "visual_node_types": [
+                "Event",
+                "Function",
+                "Data Object"
+            ],
+            "textual_instance_types": [
+                "instance",
+                "data_instance"
+            ]
+        }
+    },
+    {
+        "prompts": [
+            "Create a flow that finds the smallest number in the list [5, 3, 7, 1].",
+            "The flow should first create a Data Object node with the list '[5, 3, 7, 1]'. The Data Object list is then conencted with arrows to the 'List Min' node. The smallest number is returned form the output property named 'min'. The smallest number is then connected to the arrows of a the 'std Log' node to log the output for the user.",
+            "A test should not be made as it only uses one built-in function 'List Min', which is always correct. And the input list is known and logged"
+        ],
+        "task_id": 2,
+        "specification": {
+            "function_signature": "",
+            "preconditions": "- The input array should not be empty",
+            "postconditions": "- The returned value should be the smallest number in the input array"
+        },
+        "MBPP_task_id": 62,
+        "textual_instance_types": [
+            "instance",
+            "data_instance"
+        ],
+        "library_functions" : [
+            "root.std.List.Min",
+            "root.std.Std.Log"
+        ], 
+        "visual_node_types": [
+            "Function",
+            "Data Object"
+        ],
+        "testing": {
+            "library_functions": [
+               
+            ],
+            "visual_node_types": [
+              
+            ],
+            "textual_instance_types": [
+               
+            ]
+        }
+    },
+
+    {
+        "prompts": [
+            "Create a flow to find whether a number is divisible by 11.",
+            "The flow should create a user-defined function. The body of the function contains one input property of type Number, one 'Data Object' node with number 11, one 'Math Modulo', one 'Math Expression' and one output property of type Bool. The input property, called n, is connected with arrows to the value propery of the 'Math Modulo' node. The Data Object with number 11 is conntected with arrowes to the divisor property og 'Math modulo'. The result output property of the 'Math modulo' node is connected with arrows to the 'Math Expression' node, which contains the expression (n == 0). The result of this 'Math Expression' node is a Bool which is connected with arrows to the output property, that return the Bool from the function. The user-defined function is then created within the main module.",
+            "The user-defined function should then be tested in the main module with 'Testing Test' and 'Testing AssertTrue' nodes with a relevant example that returns true."
+        ],
+        "task_id": 3,
+        "specification": {
+            "function_signature": "func() is_diff {\n  in(x: 5.110832031250027, y: -25.33331298828125, name: \"n\") property(Number) n_27f29c\n\n  out(x: 668.1112060546875, y: 2.11114501953125, name: \"output\") property(Bool) output_f2630f\n}",
+            "preconditions": "- There are no preconditions, the method will always work for any integer input.",
+            "postconditions": "- The result is true if the input number is divisible by 11\n- The result is false if the input number is not divisible by 11"
+        },
+        "MBPP_task_id": 77,
+        "library_functions": [
+            "root.std.Math.Expression",
+            "root.std.Math.Modulo"
+
+        ],
+        "visual_node_types": [
+            "Function",
+            "Output Property",
+            "Input Property",
+            "Data Object"
+        ],
+        "textual_instance_types": [
+            "instance",
+            "in",
+            "out"
+        ],
+        "testing": {
+            "library_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertTrue"
+            ],
+            "visual_node_types": [
+                "Event",
+                "Function"
+            ],
+            "textual_instance_types": [
+                "instance"
+            ]
+        }
+    },
+    {
+        "prompts": [ 
+            "Create a flow to find the element at index 3 in the given list [12,3,5,7,19]",
+            "The flow should first create a Data Object with the list [12,3,5,7,19], another Data Object of type number with the value 3, and then utilize the built-in function 'List GetAt' which takes a list and an index as input properties and returns the element at the given index as output property. The Data Objects is then connected with arrows to the input properties list and index of the 'List GetAt' node. is connected with arrows to the 'List GetAt' node. The result of the 'List GetAt' node is connected with arrows to the 'std Log' node to log the output for the user.",
+            "A test should not be made as it only uses one built-in function 'List getAt', which is always correct. And the input list is known and logged"
+        ],
+        "task_id": 4,
+        "specification": {
+            "function_signature": "",
+            "preconditions": "- index should be between 1 and the length of the list (inclusive)",
+            "postconditions": "- The result should be the kth element of the input list."
+        },
+        "MBPP_task_id": 101,
+        "library_functions": [
+            "root.std.List.GetAt",
+            "root.std.Std.Log"
+        ],
+        "visual_node_types": [
+            "Function",
+            "Data Object"
+        ],
+        "textual_instance_types": [
+            "instance",
+            "data_instance"
+        ],
+        "testing": {
+            "library_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertTrue"
+            ],
+            "visual_node_types": [
+                "Event",
+                "Function"
+            ],
+            "textual_instance_types": [
+                "instance"
+            ]
+        }
+    },
+    {
+        "prompts": [
+            "Create a flow to multiply two numbers.",
+            "The flow should create a 'Math Expression' node with the expression 'x * y'.",
+            "A test should be create as there is no fixed numbers provided, and the output is not known. The function should then be tested in the main module with 'Testing Test' and 'Testing AssertEqual' nodes with a relevant example." 
+        ],
+        "task_id": 5,
+        "specification": {
+            "function_signature": "",
+            "preconditions": "- There are no preconditions, the method will always work.",
+            "postconditions": "- The result should be the product of the two input integers"
+        },
+        "MBPP_task_id": 127,
+        "library_functions": [
+            "root.std.Math.Expression"
+        ],
+
+        "visual_node_types": [
+            "Function",
+            "Data Object"
+        ],
+        "textual_instance_types": [
+            "instance",
+            "data_instance"
+        ],
+
+        "testing": {
+            "library_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertEqual"
+            ],
+            "visual_node_types": [
+                "Event",
+                "Function",
+                "Data Object"
+            ],
+            "textual_instance_types": [
+                "instance",
+                "data_instance"
+            ]
+        }
+    },
+
+    {
+        "prompts": [
+            "Create a flow to find the minimum of three numbers.",
+            "The flow should create a user-defined function. The function should contain three input properties of type Number, one Data Object list of the input properties, one 'Math Min' node and one output property of type Number. The input properties are connected with arrows to the Data Obejct to create list and this list is further conencted to the property of the 'Math Min' node. The result of the 'Math Min' node is connected with arrows to the output property, that return the Number from the function. The user-defined function is then created within the main module.",
+            "A test should be made as there is create a user-defined function, no fixed numbers are provided, and the output is not known. The function should then be tested in the main module with 'Testing Test' and 'Testing AssertEqual' nodes with a relevant example."
+        ],
+        "task_id": 6,
+        "specification": {
+            "function_signature": "func() min_of_three {\n  in(x: -903.6855759900376, y: -379.0358560546829, name: \"a\") property(Number) a_f37c19\n  in(x: -908.4615926769588, y: -241.94665736242496, name: \"b\") property(Number) b_ca79ac\n  in(x: -907.4906914682103, y: -94.85470946491404, name: \"c\") property(Number) c_a89f71\n\n  out(x: -78.08754971418284, y: -306.1206884918196, name: \"min\") property(Number) smallest_8713cf\n}",
+            "preconditions": "- There are no preconditions, the method will always work.",
+            "postconditions": "- The returned value is the minimum of the three input numbers\n- The returned value is less than or equal to all input numbers"
+        },
+        "MBPP_task_id": 227,
+        "library_functions": [
+            "root.std.Math.Min"
+        ],
+        "visual_node_types": [
+            "Function",
+            "Data Object",
+            "Output Property",
+            "Input Property"
+        ],
+        "textual_instance_types": [
+            "instance",
+            "in",
+            "out"
+        ],
+        "testing": {
+            "library_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertEqual"
+            ],
+            "visual_node_types": [
+                "Event",
+                "Function",
+                "Data Object"
+            ],
+            "textual_instance_types": [
+                "instance",
+                "data_instance"
+            ]
+        }
+    },
+    {
+        "prompts": [
+            "Create a flow that takes two lists and returns true if they have at least one common element.",
+            "The flow should create a user-defined function. The function should contain two input properties of type List, one 'List Intersection' node, one 'List Not Empty' node and one output property of type Bool. The input properties are connected with arrows to the 'List Intersection' node. The result of the 'List Intersection' node is connected with arrows to the 'List not empty' node property, which is then connected with arrows to the output property, that return the Bool from the function. The user-defined function is then created within the main module.",
+            "A test should be made as there is created a user-defined function, no fixed numbers are provided, and the output is not logged. The function should then be tested in the main module with 'Testing Test' and 'Testing AssertTrue' nodes with an example that returns true."
+        ],
+        "task_id": 7,
+        "specification": {
+            "function_signature": "func() common_element {\n  in(x: -334.3332824707031, y: -104.11111450195313, name: \"list1\") property(Number) list1_71bb8f\n  in(x: -346.5555114746094, y: -6.555541992187528, name: \"list2\") property(Number) list2_b16d46\n\n  out(x: 433.7780839843749, y: -82.83377099609373, name: \"output\") property(Bool) output_879de6\n}",
+            "preconditions": "- Both arrays should be non-null",
+            "postconditions": "- If the method returns true, there exists at least one common element between the two arrays\n- If the method returns false, there are no common elements between the two arrays"
+        },
+        "MBPP_task_id": 431,
+        "library_functions": [
+            "root.std.List.Intersection",
+            "root.std.List.NotEmpty"
+        ],
+        "visual_node_types": [
+            "Function",
+            "Data Object",
+            "Output Property",
+            "Input Property"
+        ],
+        "textual_instance_types": [
+            "instance",
+            "in",
+            "out"
+        ],
+        "testing": {
+            "library_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertTrue"
+            ],
+            "visual_node_types": [
+                "Event",
+                "Function",
+                "Data Object"
+            ],
+            "textual_instance_types": [
+                "instance",
+                "data_instance"
+            ]
+        }
+    },
+    {
+        "prompts": [
+            "Write a function to check whether the entered number is greater than the elements of the given array.",
+            "Write a method in Dafny to check whether the given integer is greater than the elements of the given integer array.",
+            ""
+        ],
+        "task_id": -1,
+        "specification": {
+            "function_signature": "method IsGreater(n: int, a: array<int>) returns (result: bool)",
+            "preconditions": "- The array should not be null",
+            "postconditions": "- If the result is true, then n is greater than all elements in the array\n- If the result is false, then there exists at least one element in the array that is greater than or equal to n"
+        },
+        "MBPP_task_id": 433,
+        "library_functions": [],
+        "visual_node_types": [],
+        "textual_instance_types": [],
+        "testing": {
+            "library_functions": [],
+            "visual_node_types": [],
+            "textual_instance_types": []
+        }
+    },
+    {
+        "prompts": [
+            "Write a python function to find the last digit of a given number.",
+            "Write a method in Dafny to find the last digit of a given number.",
+            ""
+        ],
+        "task_id": -1,
+        "specification": {
+            "function_signature": "method LastDigit(n: int) returns (d: int)",
+            "preconditions": "- n should be a non-negative integer",
+            "postconditions": "- The returned digit d should be between 0 and 9\n- d should be the last digit of the input number n"
+        },
+        "MBPP_task_id": 435,
+        "library_functions": [],
+        "visual_node_types": [],
+        "textual_instance_types": [],
+        "testing": {
+            "library_functions": [],
+            "visual_node_types": [],
+            "textual_instance_types": []
+        }
+    },
+    {
+        "prompts": [
+            "Write a function to find the surface area of a cube of a given size.",
+            "Write a method in Dafny to find the surface area of a cube of a given size.",
+            ""
+        ],
+        "task_id": -1,
+        "specification": {
+            "function_signature": "method CubeSurfaceArea(size: int) returns (area: int)",
+            "preconditions": "- The size of the cube should be greater than 0",
+            "postconditions": "- The surface area of the cube is calculated correctly"
+        },
+        "MBPP_task_id": 441,
+        "library_functions": [],
+        "visual_node_types": [],
+        "textual_instance_types": [],
+        "testing": {
+            "library_functions": [],
+            "visual_node_types": [],
+            "textual_instance_types": []
+        }
+    },
+    {
+        "prompts": [
+            "Write a function to find cubes of individual elements in a list.",
+            "Write a method in Dafny to find cubes of individual elements in an integer array.",
+            ""
+        ],
+        "task_id": -1,
+        "specification": {
+            "function_signature": "method CubeElements(a: array<int>) returns (cubed: array<int>)",
+            "preconditions": "- There are no preconditions, the method will always work. Arrays can be empty or non-empty.",
+            "postconditions": "- The length of the output array must be the same as the length of the input array\n- Each element in the output array is the cube of the corresponding element in the input array"
+        },
+        "MBPP_task_id": 447,
+        "library_functions": [],
+        "visual_node_types": [],
+        "textual_instance_types": [],
+        "testing": {
+            "library_functions": [],
+            "visual_node_types": [],
+            "textual_instance_types": []
+        }
+    },
+    {
+        "prompts": [
+            "Write a function that matches a word containing 'z'.",
+            "Write a method in Dafny that matches a word containing 'z'.",
+            ""
+        ],
+        "task_id": -1,
+        "specification": {
+            "function_signature": "method ContainsZ(s: string) returns (result: bool)",
+            "preconditions": "- There are no preconditions, the method will always work. Strings and sequences are always not null.",
+            "postconditions": "- The result is true if the input string contains the character 'z' or 'Z'\n- The result is false if the input string does not contain the character 'z' or 'Z'"
+        },
+        "MBPP_task_id": 454,
+        "library_functions": [],
+        "visual_node_types": [],
+        "textual_instance_types": [],
+        "testing": {
+            "library_functions": [],
+            "visual_node_types": [],
+            "textual_instance_types": []
+        }
+    },
+    {
+        "prompts": [
+            "Write a python function to check whether the given list contains consecutive numbers or not.",
+            "Write a method in Dafny to check whether the given integer array contains consecutive numbers or not.",
+            ""
+        ],
+        "task_id": -1,
+        "specification": {
+            "function_signature": "method ContainsConsecutiveNumbers(a: array<int>) returns (result: bool)",
+            "preconditions": "- There are no preconditions, the method will always work. Arrays can be empty or non-empty.",
+            "postconditions": "- If the array contains consecutive numbers, the result is true\n- If the array does not contain consecutive numbers, the result is false"
+        },
+        "MBPP_task_id": 472,
+        "library_functions": [],
+        "visual_node_types": [],
+        "textual_instance_types": [],
+        "testing": {
+            "library_functions": [],
+            "visual_node_types": [],
+            "textual_instance_types": []
+        }
+    },
+    {
+        "prompts": [
+            "Write a function to replace characters in a string.",
+            "Write a method in Dafny to replace characters in a string.",
+            ""
+        ],
+        "task_id": -1,
+        "specification": {
+            "function_signature": "method ReplaceChars(s: string, oldChar: char, newChar: char) returns (v: string)",
+            "preconditions": "- There are no preconditions, the method will always work. Strings and sequences are always not null.",
+            "postconditions": "- The length of the returning string must be the same as the length of the input string\n- All occurrences of oldChar in the input string are replaced with newChar in the output string\n- All other characters are unchanged"
+        },
+        "MBPP_task_id": 474,
+        "library_functions": [],
+        "visual_node_types": [],
+        "textual_instance_types": [],
+        "testing": {
+            "library_functions": [],
+            "visual_node_types": [],
+            "textual_instance_types": []
+        }
+    },
+    {
+        "prompts": [
+            "Write a python function to convert the given string to lower case.",
+            "Write a method in Dafny to convert the given string to lowercase.",
+            ""
+        ],
+        "task_id": -1,
+        "specification": {
+            "function_signature": "method ToLowercase(s: string) returns (v: string)",
+            "preconditions": "- There are no preconditions, the method will always work. Strings and sequences are always not null.",
+            "postconditions": "- The length of the returning string must be the same as the length of the input string\n- All uppercase characters of the input string are lowercase in the output string\n- All other characters are unchanged"
+        },
+        "MBPP_task_id": 477,
+        "library_functions": [],
+        "visual_node_types": [],
+        "textual_instance_types": [],
+        "testing": {
+            "library_functions": [],
+            "visual_node_types": [],
+            "textual_instance_types": []
+        }
+    },
+    {
+        "prompts": [
+            "Write a function to get the sum of the digits of a non-negative integer.",
+            "Write a method in Dafny to get the sum of the digits of a non-negative integer.",
+            ""
+        ],
+        "task_id": -1,
+        "specification": {
+            "function_signature": "method SumOfDigits(n: int) returns (sum: int)",
+            "preconditions": "- n should be a non-negative integer",
+            "postconditions": "- The sum of the digits of the input integer is returned\n- The sum is non-negative"
+        },
+        "MBPP_task_id": 566,
+        "library_functions": [],
+        "visual_node_types": [],
+        "textual_instance_types": [],
+        "testing": {
+            "library_functions": [],
+            "visual_node_types": [],
+            "textual_instance_types": []
+        }
+    },
+    {
+        "prompts": [
+            "Write a function to check whether a specified list is sorted or not.",
+            "Write a method in Dafny to check whether a specified array is sorted or not.",
+            ""
+        ],
+        "task_id": -1,
+        "specification": {
+            "function_signature": "method IsSorted(a: array<int>) returns (sorted: bool)",
+            "preconditions": "- There are no preconditions, the method will always work. Arrays can be empty or have any length.",
+            "postconditions": "- If the method returns true, the array is sorted in non-decreasing order\n- If the method returns false, the array is not sorted in non-decreasing order"
+        },
+        "MBPP_task_id": 567,
+        "library_functions": [],
+        "visual_node_types": [],
+        "textual_instance_types": [],
+        "testing": {
+            "library_functions": [],
+            "visual_node_types": [],
+            "textual_instance_types": []
+        }
+    },
+    {
+        "prompts": [
+            "Write a python function to calculate the product of the unique numbers in a given list.",
+            "Write a method in Dafny to calculate the product of the unique numbers in a given integer array.",
+            ""
+        ],
+        "task_id": -1,
+        "specification": {
+            "function_signature": "method UniqueProduct(a: array<int>) returns (product: int)",
+            "preconditions": "- There are no preconditions, the method will always work.",
+            "postconditions": "- The product should be the multiplication of all unique elements in the array"
+        },
+        "MBPP_task_id": 573,
+        "library_functions": [],
+        "visual_node_types": [],
+        "textual_instance_types": [],
+        "testing": {
+            "library_functions": [],
+            "visual_node_types": [],
+            "textual_instance_types": []
+        }
+    },
+    {
+        "prompts": [
+            "Write a python function to check whether a list is sublist of another or not.",
+            "Write a method in Dafny to check whether a list is sublist of another or not.",
+            ""
+        ],
+        "task_id": -1,
+        "specification": {
+            "function_signature": "method IsSublist(sub: seq<int>, main: seq<int>) returns (result: bool)",
+            "preconditions": "- There are no preconditions, the method will always work. Sequences are always not null.",
+            "postconditions": "- If the result is true, then the subsequence exists in the main sequence\n- If the result is false, then the subsequence does not exist in the main sequence"
+        },
+        "MBPP_task_id": 576,
+        "library_functions": [],
+        "visual_node_types": [],
+        "textual_instance_types": [],
+        "testing": {
+            "library_functions": [],
+            "visual_node_types": [],
+            "textual_instance_types": []
+        }
+    },
+    {
+        "prompts": [
+            "Write a function to find the dissimilar elements in the given two tuples.",
+            "Write a method in Dafny to find the dissimilar elements in the given two integer arrays.",
+            ""
+        ],
+        "task_id": -1,
+        "specification": {
+            "function_signature": "method DissimilarElements(a: array<int>, b: array<int>) returns (result: array<int>)",
+            "preconditions": "- Both input arrays should be non-null",
+            "postconditions": "- The result array should contain all elements from both input arrays that are not present in the other array\n- The result array should not contain any duplicate elements\n- The order of elements in the result array does not matter"
+        },
+        "MBPP_task_id": 579,
+        "library_functions": [],
+        "visual_node_types": [],
+        "textual_instance_types": [],
+        "testing": {
+            "library_functions": [],
+            "visual_node_types": [],
+            "textual_instance_types": []
+        }
+    },
+    {
+        "prompts": [
+            "Write a python function to find the difference between largest and smallest value in a given list.",
+            "Write a method in Dafny to find the difference between largest and smallest value in a given integer array.",
+            ""
+        ],
+        "task_id": -1,
+        "specification": {
+            "function_signature": "method DifferenceMinMax(a: array<int>) returns (diff: int)",
+            "preconditions": "- The input array should not be empty",
+            "postconditions": "- The difference between the largest and smallest value in the input array is returned"
+        },
+        "MBPP_task_id": 588,
+        "library_functions": [],
+        "visual_node_types": [],
+        "textual_instance_types": [],
+        "testing": {
+            "library_functions": [],
+            "visual_node_types": [],
+            "textual_instance_types": []
+        }
+    },
+    {
+        "prompts": [
+            "Write a function to find the difference of the first even and first odd number of a given list.",
+            "Write a method in Dafny to find the difference of the first even and first odd number of a given integer array.",
+            ""
+        ],
+        "task_id": -1,
+        "specification": {
+            "function_signature": "method FirstEvenOddDifference(a: array<int>) returns (diff: int)",
+            "preconditions": "- The array should not be empty\n- The array should contain at least one even and one odd number",
+            "postconditions": "- The difference is the first even number minus the first odd number in the array"
+        },
+        "MBPP_task_id": 594,
+        "library_functions": [],
+        "visual_node_types": [],
+        "textual_instance_types": [],
+        "testing": {
+            "library_functions": [],
+            "visual_node_types": [],
+            "textual_instance_types": []
+        }
+    },
+    {
+        "prompts": [
+            "Write a function to find sum and average of first n natural numbers.",
+            "Write a method in Dafny to find sum and average of first n natural numbers.",
+            ""
+        ],
+        "task_id": -1,
+        "specification": {
+            "function_signature": "method SumAndAverage(n: int) returns (sum: int, average: real)",
+            "preconditions": "- n should be a positive integer",
+            "postconditions": "- sum should be the sum of the first n natural numbers\n- average should be the average of the first n natural numbers"
+        },
+        "MBPP_task_id": 599,
+        "library_functions": [],
+        "visual_node_types": [],
+        "textual_instance_types": [],
+        "testing": {
+            "library_functions": [],
+            "visual_node_types": [],
+            "textual_instance_types": []
+        }
+    },
+    {
+        "prompts": [
+            "Write a python function to check whether the given number is even or not.",
+            "Write a method in Dafny to check whether the given number is even or not.",
+            ""
+        ],
+        "task_id": -1,
+        "specification": {
+            "function_signature": "method IsEven(n: int) returns (result: bool)",
+            "preconditions": "- There are no preconditions, the method will always work for any integer.",
+            "postconditions": "- If the input number is even, the result is true\n- If the input number is odd, the result is false"
+        },
+        "MBPP_task_id": 600,
+        "library_functions": [],
+        "visual_node_types": [],
+        "textual_instance_types": [],
+        "testing": {
+            "library_functions": [],
+            "visual_node_types": [],
+            "textual_instance_types": []
+        }
+    },
+    {
+        "prompts": [
+            "Write a python function to find the first repeated character in a given string.",
+            "Write a method in Dafny to find the first repeated character in a given string.",
+            ""
+        ],
+        "task_id": -1,
+        "specification": {
+            "function_signature": "method FindFirstRepeatedChar(s: string) returns (found: bool, c: char)",
+            "preconditions": "- There are no preconditions, the method will always work. Strings and sequences are always not null.",
+            "postconditions": "- If found is true, then c is the first repeated character in the input string\n- If found is false, then there are no repeated characters in the input string"
+        },
+        "MBPP_task_id": 602,
+        "library_functions": [],
+        "visual_node_types": [],
+        "textual_instance_types": [],
+        "testing": {
+            "library_functions": [],
+            "visual_node_types": [],
+            "textual_instance_types": []
+        }
+    },
+    {
+        "prompts": [
+            "Write a function to check if the given integer is a prime number.",
+            "Write a method in Dafny to check if the given integer is a prime number.",
+            ""
+        ],
+        "task_id": -1,
+        "specification": {
+            "function_signature": "method IsPrime(n: int) returns (result: bool)",
+            "preconditions": "- n should be greater than or equal to 2",
+            "postconditions": "- If the result is true, then n is a prime number\n- If the result is false, then n is not a prime number"
+        },
+        "MBPP_task_id": 605,
+        "library_functions": [],
+        "visual_node_types": [],
+        "textual_instance_types": [],
+        "testing": {
+            "library_functions": [],
+            "visual_node_types": [],
+            "textual_instance_types": []
+        }
+    },
+    {
+        "prompts": [
+            "Write a python function which takes a list and returns a list with the same elements, but the k'th element removed.",
+            "Write a method in Dafny which takes an integer array and returns an array with the same elements, but the k'th element removed.",
+            ""
+        ],
+        "task_id": -1,
+        "specification": {
+            "function_signature": "method RemoveElement(s: array<int>, k: int) returns (v: array<int>)",
+            "preconditions": "- k should be between 0 and the length of the array",
+            "postconditions": "- The length of the returning array must be one less than the length of the input array\n- All elements before the k'th element in the input array should be the same in the output array\n- All elements after the k'th element in the input array should be shifted by one position in the output array"
+        },
+        "MBPP_task_id": 610,
+        "library_functions": [],
+        "visual_node_types": [],
+        "textual_instance_types": [],
+        "testing": {
+            "library_functions": [],
+            "visual_node_types": [],
+            "textual_instance_types": []
+        }
+    },
+    {
+        "prompts": [
+            "Write a function which takes two tuples of the same length and performs the element wise modulo.",
+            "Write a method in Dafny which takes two integer arrays of the same length and performs the element wise modulo.",
+            ""
+        ],
+        "task_id": -1,
+        "specification": {
+            "function_signature": "method ElementWiseModulo(a: array<int>, b: array<int>) returns (result: array<int>)",
+            "preconditions": "- Both arrays should be non-null\n- Both arrays should have the same length\n- All elements in the second array (b) should be non-zero",
+            "postconditions": "- The length of the result array should be the same as the length of the input arrays\n- Each element in the result array should be the modulo of the corresponding elements in the input arrays"
+        },
+        "MBPP_task_id": 616,
+        "library_functions": [],
+        "visual_node_types": [],
+        "textual_instance_types": [],
+        "testing": {
+            "library_functions": [],
+            "visual_node_types": [],
+            "textual_instance_types": []
+        }
+    },
+    {
+        "prompts": [
+            "Write a python function to convert a given string to uppercase.",
+            "Write a method in Dafny to convert a given string to uppercase.",
+            ""
+        ],
+        "task_id": -1,
+        "specification": {
+            "function_signature": "method ToUppercase(s: string) returns (v: string)",
+            "preconditions": "- There are no preconditions, the method will always work. Strings and sequences are always not null.",
+            "postconditions": "- The length of the returning string must be the same as the length of the input string\n- All lowercase characters of the input string are uppercase in the output string\n- All other characters are unchanged"
+        },
+        "MBPP_task_id": 624,
+        "library_functions": [],
+        "visual_node_types": [],
+        "textual_instance_types": [],
+        "testing": {
+            "library_functions": [],
+            "visual_node_types": [],
+            "textual_instance_types": []
+        }
+    },
+    {
+        "prompts": [
+            "Write a python function to interchange the first and last element in a given list.",
+            "Write a method in Dafny to interchange the first and last element in a given integer array.",
+            ""
+        ],
+        "task_id": -1,
+        "specification": {
+            "function_signature": "method SwapFirstAndLast(a: array<int>)",
+            "preconditions": "- The array should not be empty",
+            "postconditions": "- The first element of the input array should be the last element of the modified array\n- The last element of the input array should be the first element of the modified array\n- All other elements remain unchanged"
+        },
+        "MBPP_task_id": 625,
+        "library_functions": [],
+        "visual_node_types": [],
+        "textual_instance_types": [],
+        "testing": {
+            "library_functions": [],
+            "visual_node_types": [],
+            "textual_instance_types": []
+        }
+    },
+    {
+        "prompts": [
+            "Write a python function to find the smallest missing number from a sorted list of natural numbers.",
+            "Write a method in Dafny to find the smallest missing number from a sorted list of natural numbers.",
+            ""
+        ],
+        "task_id": -1,
+        "specification": {
+            "function_signature": "method SmallestMissingNumber(s: seq<int>) returns (v: int)",
+            "preconditions": "- The input sequence should be sorted in non-decreasing order\n- The input sequence should only contain natural numbers (including 0)",
+            "postconditions": "- The returned value should be the smallest natural number not present in the input sequence"
+        },
+        "MBPP_task_id": 627,
+        "library_functions": [],
+        "visual_node_types": [],
+        "textual_instance_types": [],
+        "testing": {
+            "library_functions": [],
+            "visual_node_types": [],
+            "textual_instance_types": []
+        }
+    },
+    {
+        "prompts": [
+            "Write a python function to find even numbers from a list of numbers.",
+            "Write a method in Dafny to find even numbers from an array of numbers.",
+            ""
+        ],
+        "task_id": -1,
+        "specification": {
+            "function_signature": "method FindEvenNumbers(arr: array<int>) returns (evenNumbers: array<int>)",
+            "preconditions": "- There are no preconditions, the method will always work. Arrays can be empty but not null.",
+            "postconditions": "- All elements in the output array are even\n- All even elements in the input array are present in the output array\n- The order of elements in the output array is the same as in the input array"
+        },
+        "MBPP_task_id": 629,
+        "library_functions": [],
+        "visual_node_types": [],
+        "textual_instance_types": [],
+        "testing": {
+            "library_functions": [],
+            "visual_node_types": [],
+            "textual_instance_types": []
+        }
+    },
+    {
+        "prompts": [
+            "Write a python function to move all zeroes to the end of the given list.",
+            "Write a method in Dafny to move all zeroes to the end of the given array.",
+            ""
+        ],
+        "task_id": -1,
+        "specification": {
+            "function_signature": "method MoveZeroesToEnd(arr: array<int>)",
+            "preconditions": "- There are no preconditions, the method will always work.",
+            "postconditions": "- The length of the output array must be the same as the length of the input array\n- All zeroes in the input array are at the end of the output array\n- The relative order of the non-zero elements should be the same as in the input array\n- The number of zeroes in the input and output arrays should be the same"
+        },
+        "MBPP_task_id": 632,
+        "library_functions": [],
+        "visual_node_types": [],
+        "textual_instance_types": [],
+        "testing": {
+            "library_functions": [],
+            "visual_node_types": [],
+            "textual_instance_types": []
+        }
+    },
+    {
+        "prompts": [
+            "Write a python function to reverse an array upto a given position.",
+            "Write a method in Dafny to reverse an array upto a given k position.",
+            ""
+        ],
+        "task_id": -1,
+        "specification": {
+            "function_signature": "method ReverseUptoK(s: array<int>, k: int)",
+            "preconditions": "- k should be between 0 and the length of the array",
+            "postconditions": "- The input array is modified\n- The values of the array up to k are reversed\n- The values of the array after k remain unchanged"
+        },
+        "MBPP_task_id": 644,
+        "library_functions": [],
+        "visual_node_types": [],
+        "textual_instance_types": [],
+        "testing": {
+            "library_functions": [],
+            "visual_node_types": [],
+            "textual_instance_types": []
+        }
+    },
+    {
+        "prompts": [
+            "Write a function to replace all occurrences of spaces, commas, or dots with a colon.",
+            "Write a method in Dafny to replace all occurrences of spaces, commas, or dots with a colon.",
+            ""
+        ],
+        "task_id": -1,
+        "specification": {
+            "function_signature": "method ReplaceWithColon(s: string) returns (v: string)",
+            "preconditions": "- There are no preconditions, the method will always work. Strings and sequences are always not null.",
+            "postconditions": "- The length of the returning string must be the same as the length of the input string\n- All occurrences of spaces, commas, or dots in the input string are replaced with colons in the output string\n- All other characters are unchanged"
+        },
+        "MBPP_task_id": 732,
+        "library_functions": [],
+        "visual_node_types": [],
+        "textual_instance_types": [],
+        "testing": {
+            "library_functions": [],
+            "visual_node_types": [],
+            "textual_instance_types": []
+        }
+    },
+    {
+        "prompts": [
+            "Write a function to find the index of the first occurrence of a given number in a sorted array.",
+            "Write a method in Dafny to find the index of the first occurrence of a given number in a sorted array.",
+            ""
+        ],
+        "task_id": -1,
+        "specification": {
+            "function_signature": "method FindFirstOccurrence(arr: array<int>, target: int) returns (index: int)",
+            "preconditions": "- The input array is sorted in non-decreasing order",
+            "postconditions": "- If the target is found, the returned index should be the first occurrence of the target in the array\n- If the target is not found, the returned index should be -1\n- The input array remains unchanged"
+        },
+        "MBPP_task_id": 733,
+        "library_functions": [],
+        "visual_node_types": [],
+        "textual_instance_types": [],
+        "testing": {
+            "library_functions": [],
+            "visual_node_types": [],
+            "textual_instance_types": []
+        }
+    },
+    {
+        "prompts": [
+            "Write a python function to check whether all the characters are same or not.",
+            "Write a method in Dafny to check whether all the characters are same or not.",
+            ""
+        ],
+        "task_id": -1,
+        "specification": {
+            "function_signature": "method AllCharactersSame(s: string) returns (result: bool)",
+            "preconditions": "- There are no preconditions, the method will always work. Strings and sequences are always not null.",
+            "postconditions": "- If the result is true, all characters in the input string are the same\n- If the result is false, there is at least one character in the input string that is different from the others"
+        },
+        "MBPP_task_id": 741,
+        "library_functions": [],
+        "visual_node_types": [],
+        "textual_instance_types": [],
+        "testing": {
+            "library_functions": [],
+            "visual_node_types": [],
+            "textual_instance_types": []
+        }
+    },
+    {
+        "prompts": [
+            "Write a function to rotate a given list by specified number of items to the right direction. https://www.geeksforgeeks.org/python-program-right-rotate-list-n/",
+            "Write a method in Dafny to rotate a given list by specified N number of items to the right direction.",
+            ""
+        ],
+        "task_id": -1,
+        "specification": {
+            "function_signature": "method RotateRight(l: seq<int>, n: int) returns (r: seq<int>)",
+            "preconditions": "- n should be non-negative",
+            "postconditions": "- The length of the returning sequence must be the same as the length of the input sequence\n- The elements of the input sequence are rotated by n positions to the right in the output sequence"
+        },
+        "MBPP_task_id": 743,
+        "library_functions": [],
+        "visual_node_types": [],
+        "textual_instance_types": [],
+        "testing": {
+            "library_functions": [],
+            "visual_node_types": [],
+            "textual_instance_types": []
+        }
+    },
+    {
+        "prompts": [
+            "Write a function to find the second smallest number in a list.",
+            "Write a method in Dafny to find the second-smallest number in an integer array.",
+            ""
+        ],
+        "task_id": -1,
+        "specification": {
+            "function_signature": "method SecondSmallest(s: array<int>) returns (secondSmallest: int)",
+            "preconditions": "- The input array should not be null\n- The input array should have at least two elements",
+            "postconditions": "- The returned value should be the second-smallest number in the input array\n- The input array remains unchanged"
+        },
+        "MBPP_task_id": 755,
+        "library_functions": [],
+        "visual_node_types": [],
+        "textual_instance_types": [],
+        "testing": {
+            "library_functions": [],
+            "visual_node_types": [],
+            "textual_instance_types": []
+        }
+    },
+    {
+        "prompts": [
+            "Write a python function to check whether a list of numbers contains only one distinct element or not.",
+            "Write a method in Dafny to check whether an array of numbers contains only one distinct element or not.",
+            ""
+        ],
+        "task_id": -1,
+        "specification": {
+            "function_signature": "method HasOnlyOneDistinctElement(a: array<int>) returns (result: bool)",
+            "preconditions": "- The input array should not be null",
+            "postconditions": "- If the method returns true, all elements in the array are equal\n- If the method returns false, there are at least two distinct elements in the array"
+        },
+        "MBPP_task_id": 760,
+        "library_functions": [],
+        "visual_node_types": [],
+        "textual_instance_types": [],
+        "testing": {
+            "library_functions": [],
+            "visual_node_types": [],
+            "textual_instance_types": []
+        }
+    },
+    {
+        "prompts": [
+            "Write a python function to count number of digits in a given string.",
+            "Write a method in Dafny to count number of digits in a given string.",
+            ""
+        ],
+        "task_id": -1,
+        "specification": {
+            "function_signature": "method CountDigits(s: string) returns (count: int)",
+            "preconditions": "- There are no preconditions, the method will always work. Strings and sequences are always not null.",
+            "postconditions": "- The count should be non-negative\n- The count should be equal to the number of digits in the input string"
+        },
+        "MBPP_task_id": 764,
+        "library_functions": [],
+        "visual_node_types": [],
+        "textual_instance_types": [],
+        "testing": {
+            "library_functions": [],
+            "visual_node_types": [],
+            "textual_instance_types": []
+        }
+    },
+    {
+        "prompts": [
+            "Write a python function to find the sum of fourth power of first n odd natural numbers.",
+            "Write a method in Dafny to find the sum of fourth power of first n odd natural numbers.",
+            ""
+        ],
+        "task_id": -1,
+        "specification": {
+            "function_signature": "method SumOfFourthPowerOfOddNumbers(n: int) returns (sum: int)",
+            "preconditions": "- n should be a non-negative integer",
+            "postconditions": "- The sum should be the sum of the fourth power of the first n odd natural numbers"
+        },
+        "MBPP_task_id": 770,
+        "library_functions": [],
+        "visual_node_types": [],
+        "textual_instance_types": [],
+        "testing": {
+            "library_functions": [],
+            "visual_node_types": [],
+            "textual_instance_types": []
+        }
+    },
+    {
+        "prompts": [
+            "Write a python function to check whether every odd index contains odd numbers of a given list.",
+            "Write a method in Dafny to check whether every odd index contains odd numbers of a given integer array.",
+            ""
+        ],
+        "task_id": -1,
+        "specification": {
+            "function_signature": "method IsOddAtIndexOdd(a: array<int>) returns (result: bool)",
+            "preconditions": "- There are no preconditions, the method will always work.",
+            "postconditions": "- The result is true if every odd index contains an odd number\n- The result is false otherwise"
+        },
+        "MBPP_task_id": 775,
+        "library_functions": [],
+        "visual_node_types": [],
+        "textual_instance_types": [],
+        "testing": {
+            "library_functions": [],
+            "visual_node_types": [],
+            "textual_instance_types": []
+        }
+    },
+    {
+        "prompts": [
+            "Write a function to find the product of first even and odd number of a given list.",
+            "Write a method in Dafny to find the product of first even and odd number of a given list.",
+            ""
+        ],
+        "task_id": -1,
+        "specification": {
+            "function_signature": "method FindProduct(lst: seq<int>) returns (product: int)",
+            "preconditions": "- The list must have at least one even and one odd number",
+            "postconditions": "- The product is the multiplication of the first even and first odd number found in the list"
+        },
+        "MBPP_task_id": 784,
+        "library_functions": [],
+        "visual_node_types": [],
+        "textual_instance_types": [],
+        "testing": {
+            "library_functions": [],
+            "visual_node_types": [],
+            "textual_instance_types": []
+        }
+    },
+    {
+        "prompts": [
+            "Write a python function to find the last position of an element in a sorted array.",
+            "Write a method in Dafny to find the last position of an given element in a sorted array.",
+            ""
+        ],
+        "task_id": -1,
+        "specification": {
+            "function_signature": "method LastPosition(arr: array<int>, elem: int) returns (pos: int)",
+            "preconditions": "- The input array should be sorted in non-decreasing order",
+            "postconditions": "- If the element is found, the returned position should be the last occurrence of the element in the array\n- If the element is not found, the returned position should be -1\n- The input array remains unchanged"
+        },
+        "MBPP_task_id": 793,
+        "library_functions": [],
+        "visual_node_types": [],
+        "textual_instance_types": [],
+        "testing": {
+            "library_functions": [],
+            "visual_node_types": [],
+            "textual_instance_types": []
+        }
+    },
+    {
+        "prompts": [
+            "Write a python function to find the sum of an array.",
+            "Write a method in Dafny to find the sum of an array.",
+            ""
+        ],
+        "task_id": -1,
+        "specification": {
+            "function_signature": "method ArraySum(a: array<int>) returns (sum: int)",
+            "preconditions": "- The input array should not be null",
+            "postconditions": "- The sum of all elements in the input array is returned"
+        },
+        "MBPP_task_id": 798,
+        "library_functions": [],
+        "visual_node_types": [],
+        "textual_instance_types": [],
+        "testing": {
+            "library_functions": [],
+            "visual_node_types": [],
+            "textual_instance_types": []
+        }
+    },
+    {
+        "prompts": [
+            "Write a function to check whether the given number is a perfect square or not. https://www.geeksforgeeks.org/check-if-given-number-is-perfect-square-in-cpp/",
+            "Write a method in Dafny to check whether the given number is a perfect square or not.",
+            ""
+        ],
+        "task_id": -1,
+        "specification": {
+            "function_signature": "method IsPerfectSquare(n: int) returns (result: bool)",
+            "preconditions": "- n should be non-negative",
+            "postconditions": "- If the result is true, there exists an integer i such that i * i == n\n- If the result is false, there is no integer i such that i * i == n"
+        },
+        "MBPP_task_id": 803,
+        "library_functions": [],
+        "visual_node_types": [],
+        "textual_instance_types": [],
+        "testing": {
+            "library_functions": [],
+            "visual_node_types": [],
+            "textual_instance_types": []
+        }
+    },
+    {
+        "prompts": [
+            "Write a python function to find the first odd number in a given list of numbers.",
+            "Write a method in Dafny to find the first odd number in a given integer array.",
+            ""
+        ],
+        "task_id": -1,
+        "specification": {
+            "function_signature": "method FindFirstOdd(a: array<int>) returns (found: bool, index: int)",
+            "preconditions": "- The input array should not be null",
+            "postconditions": "- If found is true, then the value at index is odd\n- If found is false, then there are no odd numbers in the array\n- If there are multiple odd numbers, the index should be the smallest index with an odd number"
+        },
+        "MBPP_task_id": 807,
+        "library_functions": [],
+        "visual_node_types": [],
+        "textual_instance_types": [],
+        "testing": {
+            "library_functions": [],
+            "visual_node_types": [],
+            "textual_instance_types": []
+        }
+    }
+]

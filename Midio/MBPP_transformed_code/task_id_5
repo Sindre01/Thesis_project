@@ -1,0 +1,10 @@
+@midio_version("0.1.0")
+@version("0.1.0")
+import("std", Std_k98ojb)
+import("http", Http_q7o96c)
+
+module() main { 
+    instance(x: 15.666717529296877, y: -82.99996948242188) expression_1ab8a2 root.Std_k98ojb.Math.Expression {
+        expression: "x * y"
+    }
+}

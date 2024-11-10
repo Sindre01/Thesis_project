@@ -1,46 +1,71 @@
 import json
 import os
 
-def select_objects_by_task_id(dafny_file, sanitized_file, output_file):
-    # Step 1: Read the Dafny file and get the task_ids
-    with open(dafny_file, 'r') as dafny_f:
-        dafny_data = json.load(dafny_f)
-        # task_ids are keys in the dictionary, convert them to integers
-        task_ids = set(int(task_id) for task_id in dafny_data.keys())
+def transform_json_objects(input_file, output_file):
+    # Step 1: Read the existing JSON data
+    with open(input_file, 'r') as infile:
+        data = json.load(infile)
 
-    # Step 2: Read the sanitized file
-    with open(sanitized_file, 'r') as sanitized_f:
-        sanitized_data = json.load(sanitized_f)
+    # Step 2: Transform each JSON object
+    transformed_data = []
+    for item in data:
+        transformed_item = {
+            "prompts": item.get("prompts", []),
+            "task_id": item.get("task_id", -1),
+            "specification": item.get("specification", {
+                "function_signature": "",
+                "preconditions": "",
+                "postconditions": ""
+            }),
+            "MBPP_task_id": item.get("MBPP_task_id", -1),
+            "library_functions": item.get("library_functions", []),
+            "visual_node_types": item.get("visual_node_types", []),
+            "textual_instance_types": item.get("textual_instance_types", []),
+            "testing": {
+                "library_functions": item.get("testing_library_functions", []),
+                "visual_node_types": item.get("testing_visual_node_types", []),
+                "textual_instance_types": item.get("testing_textual_instance_types", [])
+            }
+        }
 
-    # Step 3: Select objects with matching task_ids
-    selected_objects = [item for item in sanitized_data if item['task_id'] in task_ids]
+        # Remove fields that are no longer needed
+        fields_to_remove = [
+            "code",
+            "testing_library_functions",
+            "testing_visual_node_types",
+            "testing_textual_instance_types",
+            "library_functions_secondary",
+            "visual_node_types_secondary",
+            "textual_instance_types_secondary"
+        ]
+        for field in fields_to_remove:
+            transformed_item.pop(field, None)
 
-    # Step 4: Remove 'source_file' and 'test_imports' from each object
-    for item in selected_objects:
-        # Replace 'task_id' with 'MBPP_task_id'
-        item['MBPP_task_id'] = item.pop('task_id')
-        item.pop('source_file', None)
-        item.pop('test_imports', None)
-        item['instance_types'] = []
-        item['node_types'] = []
+        # Append the transformed item
+        transformed_data.append(transformed_item)
 
-    # Step 5: Check if the output file exists and create a new one if it does
-    base_output_file = output_file
-    file_number = 1
-    while os.path.exists(output_file):
-        name, ext = os.path.splitext(base_output_file)
-        output_file = f"{name}_{file_number}{ext}"
-        file_number += 1
+    # Step 3: Write the transformed data to a new JSON file
+    # Check if the output file exists and is non-empty
+    if os.path.exists(output_file) and os.path.getsize(output_file) > 0:
+        # Create a new file to avoid overwriting
+        base_output_file = output_file
+        file_number = 1
+        while True:
+            name, ext = os.path.splitext(base_output_file)
+            new_output_file = f"{name}_{file_number}{ext}"
+            if not os.path.exists(new_output_file) or os.path.getsize(new_output_file) == 0:
+                output_file = new_output_file
+                break
+            file_number += 1
 
-    # Step 6: Write selected objects to the output file
-    with open(output_file, 'w') as output_f:
-        json.dump(selected_objects, output_f, indent=4)
+    # Write the transformed data to the output file
+    with open(output_file, 'w') as outfile:
+        json.dump(transformed_data, outfile, indent=4)
 
-    print(f"Selected objects written to {output_file}")
+    print(f"Transformed data written to {output_file}")
 
 # Example usage
-dafny_file = './MBPP/Dafny/mbpp-dfy-50-examples-db.json'
-sanitized_file = './MBPP/sanitized-mbpp.json'
-output_file = './MBPP-san-midio.json'
+input_file = './midio/sanitized-MBPP-midio.json'
+output_file = 'sanitized-MBPP-midio-transformed.json'
 
-select_objects_by_task_id(dafny_file, sanitized_file, output_file)
+transform_json_objects(input_file, output_file)

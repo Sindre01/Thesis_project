@@ -1,0 +1,23 @@
+@midio_version("0.1.0")
+@version("0.1.0")
+import("std", Std_k98ojb)
+import("http", Http_q7o96c)
+
+module() main { 
+    func() min_of_three {
+        in(x: -903.6855759900376, y: -379.0358560546829, name: "a") property(Number) a_f37c19
+        in(x: -908.4615926769588, y: -241.94665736242496, name: "b") property(Number) b_ca79ac
+        in(x: -907.4906914682103, y: -94.85470946491404, name: "c") property(Number) c_a89f71
+
+        out(x: -78.08754971418284, y: -306.1206884918196, name: "min") property(Number) smallest_8713cf
+
+        data_instance(x: -609.8, y: -363.4) data_9a9c70  = [a, b, c]
+        instance(x: -341.0431638161865, y: -301.62782305489975) min_c3e343 root.Std_k98ojb.List.Min {}
+        a_f37c19 -> data_9a9c70.a
+        b_ca79ac -> data_9a9c70.b
+        c_a89f71 -> data_9a9c70.c
+        data_9a9c70 -> min_c3e343.items
+        min_c3e343.min -> smallest_8713cf
+    }
+    instance(x: 162.86658727664542, y: 271.00285064203155) min_of_three_ab5882 root.main.min_of_three {}
+}

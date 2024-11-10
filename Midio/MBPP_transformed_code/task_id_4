@@ -1,0 +1,14 @@
+@midio_version("0.1.0")
+@version("0.1.0")
+import("std", Std_k98ojb)
+import("http", Http_q7o96c)
+
+module() main { 
+    data_instance(x: -308.8, y: -201.9) data_adc246  = [12, 3, 5, 7, 19]
+    instance(x: -26.99993896484375, y: -86.44442749023438) getat_8eae56 root.Std_k98ojb.List.GetAt {}
+    instance(x: 233.666748046875, y: -112.33334350585938) log_fafb36 root.Std_k98ojb.Std.Log {}
+    data_instance(x: -303.9, y: 75.8) data_89c074  = 3
+    data_adc246 -> getat_8eae56.list
+    getat_8eae56.itemAtIndex -> log_fafb36.input
+    data_89c074 -> getat_8eae56.index
+}

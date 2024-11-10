@@ -1,0 +1,22 @@
+@midio_version("0.1.0")
+@version("0.1.0")
+import("std", Std_k98ojb)
+import("http", Http_q7o96c)
+
+module() main { 
+    instance(x: 15.666717529296877, y: -82.99996948242188) expression_1ab8a2 root.Std_k98ojb.Math.Expression {
+        expression: "x * y"
+    }
+    
+    instance(x: 43, y: -240.99993896484375) test_0e1389 root.Std_k98ojb.Testing.Test {
+        name: "Test multiply"
+    }
+    instance(x: 299.666748046875, y: -156.5555419921875) assertequal_b92774 root.Std_k98ojb.Testing.AssertEqual {}
+    data_instance(x: -167.0, y: -81.0) data_b2ca7d  = 6
+    data_instance(x: -174.8, y: 29.0) data_da540b  = 2
+    test_0e1389.onRun -> assertequal_b92774.execute
+    expression_1ab8a2.result -> assertequal_b92774.actual
+    12 -> assertequal_b92774.expect
+    data_b2ca7d -> expression_1ab8a2.gen_0
+    data_da540b -> expression_1ab8a2.gen_1
+}

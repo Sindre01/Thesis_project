@@ -1,0 +1,32 @@
+@midio_version("0.1.0")
+@version("0.1.0")
+import("std", Std_k98ojb)
+import("http", Http_q7o96c)
+
+module() main {
+    func() is_diff {
+        in(x: 5.110832031250027, y: -25.33331298828125, name: "n") property(Number) n_27f29c
+
+        out(x: 668.1112060546875, y: 2.11114501953125, name: "output") property(Bool) output_f2630f
+
+        data_instance(x: 0.0, y: 64.9) data_1e2ff2  = 11
+        instance(x: 190.22193896484373, y: 0) modulo_629f32 root.Std_k98ojb.Math.Modulo {}
+        instance(x: 408.111083984375, y: -4.333251953125) expression_a794a5 root.Std_k98ojb.Math.Expression {
+            expression: "n == 0"
+        }
+        data_1e2ff2 -> modulo_629f32.divisor
+        n_27f29c -> modulo_629f32.value
+        modulo_629f32.result -> expression_a794a5.gen_0
+        expression_a794a5.result -> output_f2630f
+    }
+
+    instance(x: -118.44457250976564, y: -27.55526721191404) is_diff_d910e0 root.``77``.is_diff {}
+    instance(x: -83.66665649414063, y: -169.88888549804688) test_c35093 root.Std_k98ojb.Testing.Test {
+        name: "Test is_diff"
+    }
+    instance(x: 151.88897705078125, y: -47.6666259765625) asserttrue_68ce80 root.Std_k98ojb.Testing.AssertTrue {}
+    test_c35093.onRun -> asserttrue_68ce80.execute
+    is_diff_d910e0.output_f2630f -> asserttrue_68ce80.value
+    12345 -> is_diff_d910e0.n_27f29c
+
+}

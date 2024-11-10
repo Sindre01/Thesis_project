@@ -31,23 +31,7 @@ module() main {
     // Creates a visual Function node using the textual instance type "instance" with the user-defined function "main.opposite_signs".
     instance(x: -1091.7776489257813, y: -509.4445495605469) opposite_signs_77805a root.main.opposite_signs {}
 
-    // Creates a visual Event node using the textual instance type "instance" with the std library function "Testing.Test", with name "Test opposite_signs".
-    instance(x: -1094.4444274902344, y: -618.9999084472656) test_4c079c root.Std_k98ojb.Testing.Test {
-        name: "Test opposite_signs"
-    }
-
-    // Creates a visual Function node using the textual instance type "instance" with the std library function "Testing.AssertTrue".
-    instance(x: -721.111083984375, y: -530.1111145019531) asserttrue_387930 root.Std_k98ojb.Testing.AssertTrue {}
-
-    // Sends 1 to the x input property and -2 to the y input property of the main.opposite_signs function node.
-    1 -> opposite_signs_77805a.x_853326
-    -2 -> opposite_signs_77805a.y_5390f5
-
-    // Sends the flow of execution from the Testing.Test node, which produces a TestContext, to the Testing.AssertTrue Function node, which Borrows a TestContext.
-    test_4c079c.onRun -> asserttrue_387930.execute
-
-    // Sends the output of the main.opposite_signs function node to the input of the Testing.AssertTrue function node.
-    opposite_signs_77805a.output_3339a3 -> asserttrue_387930.value
+   
 }
 
 
