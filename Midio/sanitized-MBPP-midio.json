@@ -3,7 +3,7 @@
         "prompts": [
             "Create a flow that checks whether the given two integers have opposite sign or not.",
             "The flow should create a user-defined function. The body of the function contains two input properties of type Number, a 'Math Expression' node and one output property of type 'Bool'. The input properties is connected with arrows to 'Math Expression', that contains an expression with the two input properties of type numbers. The 'Math Expression' result is a boolean. This value is connected with arrows to the created output property, that return the Bool from the function. The user-defined function is then created within the main module.",
-            "The user-defined function should then be tested in the main module with 'Testing Test' and 'Testing AssertTrue' nodes. The test checks if input 1 and -2 asserts true"
+            "A test should be made as there is created a user-defined function, no fixed numbers are provided, and the output is not logged. The function should then be tested in the main module with 'Testing Test' and 'Testing AssertTrue' nodes with an example that satisfies the test."
         ],
         "task_id": 1,
         "specification": {
@@ -46,7 +46,7 @@
         "prompts": [
             "Create a flow that finds the smallest number in the list [5, 3, 7, 1].",
             "The flow should first create a Data Object node with the list '[5, 3, 7, 1]'. The Data Object list is then conencted with arrows to the 'List Min' node. The smallest number is returned form the output property named 'min'. The smallest number is then connected to the arrows of a the 'std Log' node to log the output for the user.",
-            "A test should not be made as it only uses one built-in function 'List Min', which is always correct. And the input list is known and logged"
+            "A test should not be made as it only uses one built-in function 'List Min', which is always correct, and the input list is known and result is logged"
         ],
         "task_id": 2,
         "specification": {
@@ -84,7 +84,7 @@
         "prompts": [
             "Create a flow to find whether a number is divisible by 11.",
             "The flow should create a user-defined function. The body of the function contains one input property of type Number, one 'Data Object' node with number 11, one 'Math Modulo', one 'Math Expression' and one output property of type Bool. The input property, called n, is connected with arrows to the value propery of the 'Math Modulo' node. The Data Object with number 11 is conntected with arrowes to the divisor property og 'Math modulo'. The result output property of the 'Math modulo' node is connected with arrows to the 'Math Expression' node, which contains the expression (n == 0). The result of this 'Math Expression' node is a Bool which is connected with arrows to the output property, that return the Bool from the function. The user-defined function is then created within the main module.",
-            "The user-defined function should then be tested in the main module with 'Testing Test' and 'Testing AssertTrue' nodes with a relevant example that returns true."
+            "A test should be made as there is created a user-defined function, no fixed input values are provided, and the output is not logged. The user-defined function should then be tested in the main module with 'Testing Test' and 'Testing AssertTrue' nodes with a relevant example that returns true."
         ],
         "task_id": 3,
         "specification": {
@@ -127,7 +127,7 @@
         "prompts": [ 
             "Create a flow to find the element at index 3 in the given list [12,3,5,7,19]",
             "The flow should first create a Data Object with the list [12,3,5,7,19], another Data Object of type number with the value 3, and then utilize the built-in function 'List GetAt' which takes a list and an index as input properties and returns the element at the given index as output property. The Data Objects is then connected with arrows to the input properties list and index of the 'List GetAt' node. is connected with arrows to the 'List GetAt' node. The result of the 'List GetAt' node is connected with arrows to the 'std Log' node to log the output for the user.",
-            "A test should not be made as it only uses one built-in function 'List getAt', which is always correct. And the input list is known and logged"
+            "A test should not be made because the input values, in this case a index and list, is provided and logged"
         ],
         "task_id": 4,
         "specification": {
@@ -166,7 +166,7 @@
         "prompts": [
             "Create a flow to multiply two numbers.",
             "The flow should create a 'Math Expression' node with the expression 'x * y'.",
-            "A test should be create as there is no fixed numbers provided, and the output is not known. The function should then be tested in the main module with 'Testing Test' and 'Testing AssertEqual' nodes with a relevant example." 
+            "A test should be made as there is no input values provided and the output is not logged. The function should then be tested in the main module with 'Testing Test' and 'Testing AssertEqual' nodes with a relevant example." 
         ],
         "task_id": 5,
         "specification": {
@@ -209,7 +209,7 @@
         "prompts": [
             "Create a flow to find the minimum of three numbers.",
             "The flow should create a user-defined function. The function should contain three input properties of type Number, one Data Object list of the input properties, one 'Math Min' node and one output property of type Number. The input properties are connected with arrows to the Data Obejct to create list and this list is further conencted to the property of the 'Math Min' node. The result of the 'Math Min' node is connected with arrows to the output property, that return the Number from the function. The user-defined function is then created within the main module.",
-            "A test should be made as there is create a user-defined function, no fixed numbers are provided, and the output is not known. The function should then be tested in the main module with 'Testing Test' and 'Testing AssertEqual' nodes with a relevant example."
+            "A test should be made as there is create a user-defined function, no input values are provided, and the output is not logged. The function should then be tested in the main module with 'Testing Test' and 'Testing AssertEqual' nodes with a relevant example."
         ],
         "task_id": 6,
         "specification": {
@@ -252,7 +252,7 @@
         "prompts": [
             "Create a flow that takes two lists and returns true if they have at least one common element.",
             "The flow should create a user-defined function. The function should contain two input properties of type List, one 'List Intersection' node, one 'List Not Empty' node and one output property of type Bool. The input properties are connected with arrows to the 'List Intersection' node. The result of the 'List Intersection' node is connected with arrows to the 'List not empty' node property, which is then connected with arrows to the output property, that return the Bool from the function. The user-defined function is then created within the main module.",
-            "A test should be made as there is created a user-defined function, no fixed numbers are provided, and the output is not logged. The function should then be tested in the main module with 'Testing Test' and 'Testing AssertTrue' nodes with an example that returns true."
+            "A test should be made as there is created a user-defined function, no input values are provided, and the output is not logged. The function should then be tested in the main module with 'Testing Test' and 'Testing AssertTrue' nodes with an example that satisfies the test."
         ],
         "task_id": 7,
         "specification": {
@@ -294,112 +294,124 @@
     },
     {
         "prompts": [
-            "Write a function to check whether the entered number is greater than the elements of the given array.",
-            "Write a method in Dafny to check whether the given integer is greater than the elements of the given integer array.",
-            ""
+            "Create a flow to check whether the a number is greater than the elements of a given array.",
+            "The flow should create a user-defined function. The body of the function contains two input properties of type Number and List, one 'List Object' node with number 11, one 'Math GreaterThan' and one output property of type Bool. The input property, called list, is connected with arrows to the list property of the 'List Lenght' node. The output property of 'List Lenght' node, named lenght, is connected with arrows to the input property, named right, of the 'Math GreaterThan' node. The other input property to the user-defnied function is named n and is conencted to the other input property, named left, of the 'Math GreaterThan' node. The output property of the 'Math GreaterThan' node is returned to the output property of the user-defined function, that return this Bool value from the function. The user-defined function is then created within the main module.",
+            "A test should be made as there is created a user-defined function, no input values are provided, and the output is not logged. The function should then be tested in the main module with 'Testing Test' and 'Testing AssertTrue' nodes with an example that satisfies the test."
         ],
-        "task_id": -1,
+        "task_id": 8,
         "specification": {
-            "function_signature": "method IsGreater(n: int, a: array<int>) returns (result: bool)",
+            "function_signature": "func() IsGreater {\n  in(x: -33.73497780295881, y: -26.418843685612387, name: \"n\") property(Number) n_a6cea7\n  in(x: -294.1111145019531, y: 155.3333740234375, name: \"list\") property(Any) list_0b075e\n\n  out(x: 546.266521417203, y: 63.50263358467032, name: \"output\") property(Bool) output_b1d7f8\n}",
             "preconditions": "- The array should not be null",
             "postconditions": "- If the result is true, then n is greater than all elements in the array\n- If the result is false, then there exists at least one element in the array that is greater than or equal to n"
         },
         "MBPP_task_id": 433,
-        "library_functions": [],
-        "visual_node_types": [],
-        "textual_instance_types": [],
+        "library_functions": [
+            "root.std.List.Length",
+            "root.std.Math.GreaterThan"
+        ],
+        "visual_node_types": [
+            "Function",
+            "Output Property",
+            "Input Property"
+        ],
+        "textual_instance_types": [
+            "instance",
+            "in",
+            "out"
+        ],
         "testing": {
-            "library_functions": [],
-            "visual_node_types": [],
-            "textual_instance_types": []
+            "library_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertTrue"
+            ],
+            "visual_node_types": [
+                "Event",
+                "Function",
+                "Data Object"
+            ],
+            "textual_instance_types": [
+                "instance",
+                "data_instance"
+            ]
         }
     },
     {
         "prompts": [
-            "Write a python function to find the last digit of a given number.",
-            "Write a method in Dafny to find the last digit of a given number.",
-            ""
+            "Create a flow to find the last digit of a given number.",
+            "The flow should create a 'Math Modulo' node which uses 10 as divisor and the given number as value.",
+            "A test should be made because no fixed input values are provided and the output is not logged. The function should then be tested in the main module with 'Testing Test' and 'Testing AssertEqual' nodes with a relevant example."
         ],
-        "task_id": -1,
+        "task_id": 9,
         "specification": {
-            "function_signature": "method LastDigit(n: int) returns (d: int)",
+            "function_signature": "",
             "preconditions": "- n should be a non-negative integer",
             "postconditions": "- The returned digit d should be between 0 and 9\n- d should be the last digit of the input number n"
         },
         "MBPP_task_id": 435,
-        "library_functions": [],
-        "visual_node_types": [],
-        "textual_instance_types": [],
+        "library_functions": [
+            "root.std.Math.Modulo"
+        ],
+        "visual_node_types": [
+            "Function"
+        ],
+        "textual_instance_types": [
+            "instance"
+        ],
         "testing": {
-            "library_functions": [],
-            "visual_node_types": [],
-            "textual_instance_types": []
+            "library_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertEqual"
+            ],
+            "visual_node_types": [
+                "Event",
+                "Function"
+            ],
+            "textual_instance_types": [
+                "instance"
+            ]
         }
     },
     {
         "prompts": [
-            "Write a function to find the surface area of a cube of a given size.",
-            "Write a method in Dafny to find the surface area of a cube of a given size.",
-            ""
+            "Create a flow that matches a word containing 'z'.",
+            "The flow should create a user-defined function. The body of the function contains one input property of type String, one 'Strings ToLower' node, one 'Strings Contains' node with the contains input property set to z in lower case and one output property of type Bool. The input property, called string, is connected with arrows to the input propery of the 'String ToLower' node. The output property, called output, of the 'Strings ToLower' node is then connected with arrows to the input property, named input, of the 'Strings Contains' node. The output property, named result, of the 'Strings contains' node is then connected with arrows to the output property, named result, of the user-defined function. The user-defined function is then created within the main module.",
+            "A test should be made as there is created a user-defined function, no input values are provided, and the output is not logged. The function should then be tested in the main module with 'Testing Test' and 'Testing AssertFalse' nodes with an example that satisfies the test."
         ],
-        "task_id": -1,
+        "task_id": 10,
         "specification": {
-            "function_signature": "method CubeSurfaceArea(size: int) returns (area: int)",
-            "preconditions": "- The size of the cube should be greater than 0",
-            "postconditions": "- The surface area of the cube is calculated correctly"
-        },
-        "MBPP_task_id": 441,
-        "library_functions": [],
-        "visual_node_types": [],
-        "textual_instance_types": [],
-        "testing": {
-            "library_functions": [],
-            "visual_node_types": [],
-            "textual_instance_types": []
-        }
-    },
-    {
-        "prompts": [
-            "Write a function to find cubes of individual elements in a list.",
-            "Write a method in Dafny to find cubes of individual elements in an integer array.",
-            ""
-        ],
-        "task_id": -1,
-        "specification": {
-            "function_signature": "method CubeElements(a: array<int>) returns (cubed: array<int>)",
-            "preconditions": "- There are no preconditions, the method will always work. Arrays can be empty or non-empty.",
-            "postconditions": "- The length of the output array must be the same as the length of the input array\n- Each element in the output array is the cube of the corresponding element in the input array"
-        },
-        "MBPP_task_id": 447,
-        "library_functions": [],
-        "visual_node_types": [],
-        "textual_instance_types": [],
-        "testing": {
-            "library_functions": [],
-            "visual_node_types": [],
-            "textual_instance_types": []
-        }
-    },
-    {
-        "prompts": [
-            "Write a function that matches a word containing 'z'.",
-            "Write a method in Dafny that matches a word containing 'z'.",
-            ""
-        ],
-        "task_id": -1,
-        "specification": {
-            "function_signature": "method ContainsZ(s: string) returns (result: bool)",
+            "function_signature": "func() ContainsZ {\n  in(x: -230, y: 0, name: \"string\") property(String) input_0\n\n  out(x: 530.1946625341826, y: -2.499938652351375, name: \"result\") property(Bool) result_0\n}",
             "preconditions": "- There are no preconditions, the method will always work. Strings and sequences are always not null.",
             "postconditions": "- The result is true if the input string contains the character 'z' or 'Z'\n- The result is false if the input string does not contain the character 'z' or 'Z'"
         },
         "MBPP_task_id": 454,
-        "library_functions": [],
-        "visual_node_types": [],
-        "textual_instance_types": [],
+        "library_functions": [
+            "root.std.Strings.ToLower",
+            "root.std.Strings.Contains"
+        ],
+        "visual_node_types": [
+            "Function",
+            "Output Property",
+            "Input Property"
+        ],
+        "textual_instance_types": [
+            "instance",
+            "in",
+            "out"
+        ],
         "testing": {
-            "library_functions": [],
-            "visual_node_types": [],
-            "textual_instance_types": []
+            "library_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertFalse"
+            ],
+            "visual_node_types": [
+                "Event",
+                "Function",
+                "Data Object"
+            ],
+            "textual_instance_types": [
+                "instance",
+                "data_instance"
+            ]
         }
     },
     {

@@ -1,0 +1,32 @@
+@midio_version("0.1.0")
+@version("0.1.0")
+import("std", Std_k98ojb)
+import("http", Http_q7o96c)
+
+module() main {
+    func() IsGreater {
+        in(x: -33.73497780295881, y: -26.418843685612387, name: "n") property(Number) n_a6cea7
+        in(x: -294.1111145019531, y: 155.3333740234375, name: "list") property(Any) list_0b075e
+
+        out(x: 546.266521417203, y: 63.50263358467032, name: "output") property(Bool) output_b1d7f8
+
+        instance(x: -82.44884616349907, y: 155.14832324863448) length_6e87f2 root.Std_k98ojb.List.Length {}
+        instance(x: 201.33308398437498, y: 62.22208398437499) greaterthan_cb50ae root.Std_k98ojb.Math.GreaterThan {}
+        greaterthan_cb50ae.result -> output_b1d7f8
+        length_6e87f2.length -> greaterthan_cb50ae.right
+        n_a6cea7 -> greaterthan_cb50ae.left
+        list_0b075e -> length_6e87f2.list
+    }
+
+    instance(x: 152.889, y: 57.777874023437505) IsGreater_780115 root.main.IsGreater {}
+    instance(x: -27.66631298828122, y: -122.77785498046876) test_747afb root.Std_k98ojb.Testing.Test {
+        name: "Test IsGreater"
+    }
+    instance(x: 405, y: 29.66668701171875) asserttrue_fe2a53 root.Std_k98ojb.Testing.AssertTrue {}
+    data_instance(x: -119.2, y: 46.4) data_65d753  = 5
+    data_instance(x: -129.3, y: 200.9) data_b3ea1d  = [1, 2, 3, 4]
+    test_747afb.onRun -> asserttrue_fe2a53.execute
+    IsGreater_780115.output_b1d7f8 -> asserttrue_fe2a53.value
+    data_65d753 -> IsGreater_780115.n_a6cea7
+    data_b3ea1d -> IsGreater_780115.list_0b075e
+}
