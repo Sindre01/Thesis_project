@@ -3,7 +3,7 @@
         "prompts": [
             "Create a flow that checks whether the given two integers have opposite sign or not.",
             "The flow should create a user-defined function. The body of the function contains two input properties of type Number, a 'Math Expression' node and one output property of type 'Bool'. The input properties is connected with arrows to 'Math Expression', that contains an expression with the two input properties of type numbers. The 'Math Expression' result is a boolean. This value is connected with arrows to the created output property, that return the Bool from the function. The user-defined function is then created within the main module.",
-            "A test should be made as there is created a user-defined function, no fixed numbers are provided, and the output is not logged. The function should then be tested in the main module with 'Testing Test' and 'Testing AssertTrue' nodes with an example that satisfies the test."
+            "This created user-defined function should then be tested in the main module."
         ],
         "task_id": 1,
         "specification": {
@@ -12,7 +12,7 @@
             "postconditions": "- The result is true if x and y have opposite signs\n- The result is false if x and y have the same sign"
         },
         "MBPP_task_id": 58,
-        "library_functions" : [
+        "library_functions": [
             "root.std.Math.Expression"
         ],
         "visual_node_types": [
@@ -25,7 +25,6 @@
             "in",
             "out"
         ],
-
         "testing": {
             "library_functions": [
                 "root.std.Testing.Test",
@@ -39,14 +38,20 @@
             "textual_instance_types": [
                 "instance",
                 "data_instance"
+            ],
+            "test_list": [
+                "assert opposite_Signs(1,-2) == True",
+                "assert opposite_Signs(3,2) == False",
+                "assert opposite_Signs(-10,-10) == False",
+                "assert opposite_Signs(-2,2) == True"
             ]
         }
     },
     {
         "prompts": [
-            "Create a flow that finds the smallest number in the list [5, 3, 7, 1].",
-            "The flow should first create a Data Object node with the list '[5, 3, 7, 1]'. The Data Object list is then conencted with arrows to the 'List Min' node. The smallest number is returned form the output property named 'min'. The smallest number is then connected to the arrows of a the 'std Log' node to log the output for the user.",
-            "A test should not be made as it only uses one built-in function 'List Min', which is always correct, and the input list is known and result is logged"
+            "Create a flow to find the smallest number in a list.",
+            //ENDRE?"The flow should first create a Data Object node with the list '[5, 3, 7, 1]'. The Data Object list is then conencted with arrows to the 'List Min' node. The smallest number is returned form the output property named 'min'. The smallest number is then connected to the arrows of a the 'std Log' node to log the output for the user.",
+            "The built-in function 'List Min' should then be tested in the main module."
         ],
         "task_id": 2,
         "specification": {
@@ -59,32 +64,30 @@
             "instance",
             "data_instance"
         ],
-        "library_functions" : [
+        "library_functions": [
             "root.std.List.Min",
             "root.std.Std.Log"
-        ], 
+        ],
         "visual_node_types": [
             "Function",
             "Data Object"
         ],
         "testing": {
-            "library_functions": [
-               
-            ],
-            "visual_node_types": [
-              
-            ],
-            "textual_instance_types": [
-               
+            "library_functions": [],
+            "visual_node_types": [],
+            "textual_instance_types": [],
+            "test_list": [
+                "assert smallest_num([10, 20, 1, 45, 99]) == 1",
+                "assert smallest_num([1, 2, 3]) == 1",
+                "assert smallest_num([45, 46, 50, 60]) == 45"
             ]
         }
     },
-
     {
         "prompts": [
             "Create a flow to find whether a number is divisible by 11.",
             "The flow should create a user-defined function. The body of the function contains one input property of type Number, one 'Data Object' node with number 11, one 'Math Modulo', one 'Math Expression' and one output property of type Bool. The input property, called n, is connected with arrows to the value propery of the 'Math Modulo' node. The Data Object with number 11 is conntected with arrowes to the divisor property og 'Math modulo'. The result output property of the 'Math modulo' node is connected with arrows to the 'Math Expression' node, which contains the expression (n == 0). The result of this 'Math Expression' node is a Bool which is connected with arrows to the output property, that return the Bool from the function. The user-defined function is then created within the main module.",
-            "A test should be made as there is created a user-defined function, no fixed input values are provided, and the output is not logged. The user-defined function should then be tested in the main module with 'Testing Test' and 'Testing AssertTrue' nodes with a relevant example that returns true."
+            "This created user-defined function should then be tested in the main module."
         ],
         "task_id": 3,
         "specification": {
@@ -96,7 +99,6 @@
         "library_functions": [
             "root.std.Math.Expression",
             "root.std.Math.Modulo"
-
         ],
         "visual_node_types": [
             "Function",
@@ -120,13 +122,18 @@
             ],
             "textual_instance_types": [
                 "instance"
+            ],
+            "test_list": [
+                "assert is_Diff (12345) == False",
+                "assert is_Diff(1212112) == True",
+                "assert is_Diff(1212) == False"
             ]
         }
     },
     {
-        "prompts": [ 
-            "Create a flow to find the element at index 3 in the given list [12,3,5,7,19]",
-            "The flow should first create a Data Object with the list [12,3,5,7,19], another Data Object of type number with the value 3, and then utilize the built-in function 'List GetAt' which takes a list and an index as input properties and returns the element at the given index as output property. The Data Objects is then connected with arrows to the input properties list and index of the 'List GetAt' node. is connected with arrows to the 'List GetAt' node. The result of the 'List GetAt' node is connected with arrows to the 'std Log' node to log the output for the user.",
+        "prompts": [
+            "Create a flow to find the kth element in the given array using 1-based indexing.",
+           //Endre "The flow should first create a Data Object with the list [12,3,5,7,19], another Data Object of type number with the value 3, and then utilize the built-in function 'List GetAt' which takes a list and an index as input properties and returns the element at the given index as output property. The Data Objects is then connected with arrows to the input properties list and index of the 'List GetAt' node. is connected with arrows to the 'List GetAt' node. The result of the 'List GetAt' node is connected with arrows to the 'std Log' node to log the output for the user.",
             "A test should not be made because the input values, in this case a index and list, is provided and logged"
         ],
         "task_id": 4,
@@ -159,6 +166,11 @@
             ],
             "textual_instance_types": [
                 "instance"
+            ],
+            "test_list": [
+                "assert kth_element([12,3,5,7,19], 2) == 3",
+                "assert kth_element([17,24,8,23], 3) == 8",
+                "assert kth_element([16,21,25,36,4], 4) == 36"
             ]
         }
     },
@@ -166,7 +178,7 @@
         "prompts": [
             "Create a flow to multiply two numbers.",
             "The flow should create a 'Math Expression' node with the expression 'x * y'.",
-            "A test should be made as there is no input values provided and the output is not logged. The function should then be tested in the main module with 'Testing Test' and 'Testing AssertEqual' nodes with a relevant example." 
+            "The 'Math expression' node should then be tested."
         ],
         "task_id": 5,
         "specification": {
@@ -178,7 +190,6 @@
         "library_functions": [
             "root.std.Math.Expression"
         ],
-
         "visual_node_types": [
             "Function",
             "Data Object"
@@ -187,7 +198,6 @@
             "instance",
             "data_instance"
         ],
-
         "testing": {
             "library_functions": [
                 "root.std.Testing.Test",
@@ -201,15 +211,19 @@
             "textual_instance_types": [
                 "instance",
                 "data_instance"
+            ],
+            "test_list": [
+                "assert multiply_int(10,20)==200",
+                "assert multiply_int(5,10)==50",
+                "assert multiply_int(4,8)==32"
             ]
         }
     },
-
     {
         "prompts": [
             "Create a flow to find the minimum of three numbers.",
             "The flow should create a user-defined function. The function should contain three input properties of type Number, one Data Object list of the input properties, one 'Math Min' node and one output property of type Number. The input properties are connected with arrows to the Data Obejct to create list and this list is further conencted to the property of the 'Math Min' node. The result of the 'Math Min' node is connected with arrows to the output property, that return the Number from the function. The user-defined function is then created within the main module.",
-            "A test should be made as there is create a user-defined function, no input values are provided, and the output is not logged. The function should then be tested in the main module with 'Testing Test' and 'Testing AssertEqual' nodes with a relevant example."
+            "The created user-defined function should then be tested in the main module."
         ],
         "task_id": 6,
         "specification": {
@@ -245,6 +259,11 @@
             "textual_instance_types": [
                 "instance",
                 "data_instance"
+            ],
+            "test_list": [
+                "assert min_of_three(10,20,0)==0",
+                "assert min_of_three(19,15,18)==15",
+                "assert min_of_three(-10,-20,-30)==-30"
             ]
         }
     },
@@ -252,7 +271,7 @@
         "prompts": [
             "Create a flow that takes two lists and returns true if they have at least one common element.",
             "The flow should create a user-defined function. The function should contain two input properties of type List, one 'List Intersection' node, one 'List Not Empty' node and one output property of type Bool. The input properties are connected with arrows to the 'List Intersection' node. The result of the 'List Intersection' node is connected with arrows to the 'List not empty' node property, which is then connected with arrows to the output property, that return the Bool from the function. The user-defined function is then created within the main module.",
-            "A test should be made as there is created a user-defined function, no input values are provided, and the output is not logged. The function should then be tested in the main module with 'Testing Test' and 'Testing AssertTrue' nodes with an example that satisfies the test."
+            "The created user-defined function should then be tested in the main module."
         ],
         "task_id": 7,
         "specification": {
@@ -289,14 +308,19 @@
             "textual_instance_types": [
                 "instance",
                 "data_instance"
+            ],
+            "test_list": [
+                "assert common_element([1,2,3,4,5], [5,6,7,8,9])==True",
+                "assert common_element([1,2,3,4,5], [6,7,8,9])==None",
+                "assert common_element(['a','b','c'], ['d','b','e'])==True"
             ]
         }
     },
     {
         "prompts": [
-            "Create a flow to check whether the a number is greater than the elements of a given array.",
+            "Create a flow to check whether the entered number is greater than the elements of the given array.",
             "The flow should create a user-defined function. The body of the function contains two input properties of type Number and List, one 'List Object' node with number 11, one 'Math GreaterThan' and one output property of type Bool. The input property, called list, is connected with arrows to the list property of the 'List Lenght' node. The output property of 'List Lenght' node, named lenght, is connected with arrows to the input property, named right, of the 'Math GreaterThan' node. The other input property to the user-defnied function is named n and is conencted to the other input property, named left, of the 'Math GreaterThan' node. The output property of the 'Math GreaterThan' node is returned to the output property of the user-defined function, that return this Bool value from the function. The user-defined function is then created within the main module.",
-            "A test should be made as there is created a user-defined function, no input values are provided, and the output is not logged. The function should then be tested in the main module with 'Testing Test' and 'Testing AssertTrue' nodes with an example that satisfies the test."
+            "The created user-defined function should then be tested in the main module."
         ],
         "task_id": 8,
         "specification": {
@@ -332,6 +356,11 @@
             "textual_instance_types": [
                 "instance",
                 "data_instance"
+            ],
+            "test_list": [
+                "assert check_greater([1, 2, 3, 4, 5], 4) == False",
+                "assert check_greater([2, 3, 4, 5, 6], 8) == True",
+                "assert check_greater([9, 7, 4, 8, 6, 1], 11) == True"
             ]
         }
     },
@@ -339,7 +368,7 @@
         "prompts": [
             "Create a flow to find the last digit of a given number.",
             "The flow should create a 'Math Modulo' node which uses 10 as divisor and the given number as value.",
-            "A test should be made because no fixed input values are provided and the output is not logged. The function should then be tested in the main module with 'Testing Test' and 'Testing AssertEqual' nodes with a relevant example."
+            "The 'Math Modulo' node should then be tested in the main module."
         ],
         "task_id": 9,
         "specification": {
@@ -368,6 +397,11 @@
             ],
             "textual_instance_types": [
                 "instance"
+            ],
+            "test_list": [
+                "assert last_Digit(123) == 3",
+                "assert last_Digit(25) == 5",
+                "assert last_Digit(30) == 0"
             ]
         }
     },
@@ -375,7 +409,7 @@
         "prompts": [
             "Create a flow that matches a word containing 'z'.",
             "The flow should create a user-defined function. The body of the function contains one input property of type String, one 'Strings ToLower' node, one 'Strings Contains' node with the contains input property set to z in lower case and one output property of type Bool. The input property, called string, is connected with arrows to the input propery of the 'String ToLower' node. The output property, called output, of the 'Strings ToLower' node is then connected with arrows to the input property, named input, of the 'Strings Contains' node. The output property, named result, of the 'Strings contains' node is then connected with arrows to the output property, named result, of the user-defined function. The user-defined function is then created within the main module.",
-            "A test should be made as there is created a user-defined function, no input values are provided, and the output is not logged. The function should then be tested in the main module with 'Testing Test' and 'Testing AssertFalse' nodes with an example that satisfies the test."
+            "The created user-defined function should then be tested in the main module."
         ],
         "task_id": 10,
         "specification": {
@@ -411,14 +445,14 @@
             "textual_instance_types": [
                 "instance",
                 "data_instance"
+            ],
+            "test_list": [
+                "assert text_match_wordz(\"pythonz.\")==True",
+                "assert text_match_wordz(\"xyz.\")==True",
+                "assert text_match_wordz(\"  lang  .\")==False"
             ]
         }
     },
-
-
-
-
-    
     {
         "prompts": [
             "Write a python function to check whether the given list contains consecutive numbers or not.",
@@ -438,7 +472,12 @@
         "testing": {
             "library_functions": [],
             "visual_node_types": [],
-            "textual_instance_types": []
+            "textual_instance_types": [],
+            "test_list": [
+                "assert check_Consecutive([1,2,3,4,5]) == True",
+                "assert check_Consecutive([1,2,3,5,6]) == False",
+                "assert check_Consecutive([1,2,1]) == False"
+            ]
         }
     },
     {
@@ -460,7 +499,12 @@
         "testing": {
             "library_functions": [],
             "visual_node_types": [],
-            "textual_instance_types": []
+            "textual_instance_types": [],
+            "test_list": [
+                "assert replace_char(\"polygon\",'y','l')==(\"pollgon\")",
+                "assert replace_char(\"character\",'c','a')==(\"aharaater\")",
+                "assert replace_char(\"python\",'l','a')==(\"python\")"
+            ]
         }
     },
     {
@@ -482,7 +526,12 @@
         "testing": {
             "library_functions": [],
             "visual_node_types": [],
-            "textual_instance_types": []
+            "textual_instance_types": [],
+            "test_list": [
+                "assert is_lower(\"InValid\") == \"invalid\"",
+                "assert is_lower(\"TruE\") == \"true\"",
+                "assert is_lower(\"SenTenCE\") == \"sentence\""
+            ]
         }
     },
     {
@@ -504,7 +553,12 @@
         "testing": {
             "library_functions": [],
             "visual_node_types": [],
-            "textual_instance_types": []
+            "textual_instance_types": [],
+            "test_list": [
+                "assert sum_digits(345)==12",
+                "assert sum_digits(12)==3",
+                "assert sum_digits(97)==16"
+            ]
         }
     },
     {
@@ -526,7 +580,12 @@
         "testing": {
             "library_functions": [],
             "visual_node_types": [],
-            "textual_instance_types": []
+            "textual_instance_types": [],
+            "test_list": [
+                "assert issort_list([1,2,4,6,8,10,12,14,16,17])==True",
+                "assert issort_list([1, 2, 4, 6, 8, 10, 12, 14, 20, 17])==False",
+                "assert issort_list([1, 2, 4, 6, 8, 10,15,14,20])==False"
+            ]
         }
     },
     {
@@ -548,7 +607,12 @@
         "testing": {
             "library_functions": [],
             "visual_node_types": [],
-            "textual_instance_types": []
+            "textual_instance_types": [],
+            "test_list": [
+                "assert unique_product([10, 20, 30, 40, 20, 50, 60, 40]) ==  720000000",
+                "assert unique_product([1, 2, 3, 1,]) == 6",
+                "assert unique_product([7, 8, 9, 0, 1, 1]) == 0"
+            ]
         }
     },
     {
@@ -570,7 +634,12 @@
         "testing": {
             "library_functions": [],
             "visual_node_types": [],
-            "textual_instance_types": []
+            "textual_instance_types": [],
+            "test_list": [
+                "assert is_Sub_Array([1,4,3,5],[1,2]) == False",
+                "assert is_Sub_Array([1,2,1],[1,2,1]) == True",
+                "assert is_Sub_Array([1,0,2,2],[2,2,0]) ==False"
+            ]
         }
     },
     {
@@ -592,7 +661,12 @@
         "testing": {
             "library_functions": [],
             "visual_node_types": [],
-            "textual_instance_types": []
+            "textual_instance_types": [],
+            "test_list": [
+                "assert find_dissimilar((3, 4, 5, 6), (5, 7, 4, 10)) == (3, 6, 7, 10)",
+                "assert find_dissimilar((1, 2, 3, 4), (7, 2, 3, 9)) == (1, 4, 7, 9)",
+                "assert find_dissimilar((21, 11, 25, 26), (26, 34, 21, 36)) == (34, 36, 11, 25)"
+            ]
         }
     },
     {
@@ -614,7 +688,12 @@
         "testing": {
             "library_functions": [],
             "visual_node_types": [],
-            "textual_instance_types": []
+            "textual_instance_types": [],
+            "test_list": [
+                "assert big_diff([1,2,3,4]) == 3",
+                "assert big_diff([4,5,12]) == 8",
+                "assert big_diff([9,2,3]) == 7"
+            ]
         }
     },
     {
@@ -636,7 +715,12 @@
         "testing": {
             "library_functions": [],
             "visual_node_types": [],
-            "textual_instance_types": []
+            "textual_instance_types": [],
+            "test_list": [
+                "assert diff_even_odd([1,3,5,7,4,1,6,8])==3",
+                "assert diff_even_odd([1,2,3,4,5,6,7,8,9,10])==1",
+                "assert diff_even_odd([1,5,7,9,10])==9"
+            ]
         }
     },
     {
@@ -658,7 +742,12 @@
         "testing": {
             "library_functions": [],
             "visual_node_types": [],
-            "textual_instance_types": []
+            "textual_instance_types": [],
+            "test_list": [
+                "assert sum_average(10)==(55, 5.5)",
+                "assert sum_average(15)==(120, 8.0)",
+                "assert sum_average(20)==(210, 10.5)"
+            ]
         }
     },
     {
@@ -680,7 +769,12 @@
         "testing": {
             "library_functions": [],
             "visual_node_types": [],
-            "textual_instance_types": []
+            "textual_instance_types": [],
+            "test_list": [
+                "assert is_Even(1) == False",
+                "assert is_Even(2) == True",
+                "assert is_Even(3) == False"
+            ]
         }
     },
     {
@@ -702,7 +796,12 @@
         "testing": {
             "library_functions": [],
             "visual_node_types": [],
-            "textual_instance_types": []
+            "textual_instance_types": [],
+            "test_list": [
+                "assert first_repeated_char(\"abcabc\") == \"a\"",
+                "assert first_repeated_char(\"abc\") == None",
+                "assert first_repeated_char(\"123123\") == \"1\""
+            ]
         }
     },
     {
@@ -724,7 +823,12 @@
         "testing": {
             "library_functions": [],
             "visual_node_types": [],
-            "textual_instance_types": []
+            "textual_instance_types": [],
+            "test_list": [
+                "assert prime_num(13)==True",
+                "assert prime_num(7)==True",
+                "assert prime_num(-1010)==False"
+            ]
         }
     },
     {
@@ -746,7 +850,12 @@
         "testing": {
             "library_functions": [],
             "visual_node_types": [],
-            "textual_instance_types": []
+            "textual_instance_types": [],
+            "test_list": [
+                "assert remove_kth_element([1,1,2,3,4,4,5,1],3)==[1, 1, 3, 4, 4, 5, 1]",
+                "assert remove_kth_element([0, 0, 1, 2, 3, 4, 4, 5, 6, 6, 6, 7, 8, 9, 4, 4],4)==[0, 0, 1, 3, 4, 4, 5, 6, 6, 6, 7, 8, 9, 4, 4]",
+                "assert remove_kth_element([10, 10, 15, 19, 18, 18, 17, 26, 26, 17, 18, 10],5)==[10,10,15,19, 18, 17, 26, 26, 17, 18, 10]"
+            ]
         }
     },
     {
@@ -768,7 +877,12 @@
         "testing": {
             "library_functions": [],
             "visual_node_types": [],
-            "textual_instance_types": []
+            "textual_instance_types": [],
+            "test_list": [
+                "assert tuple_modulo((10, 4, 5, 6), (5, 6, 7, 5)) == (0, 4, 5, 1)",
+                "assert tuple_modulo((11, 5, 6, 7), (6, 7, 8, 6)) == (5, 5, 6, 1)",
+                "assert tuple_modulo((12, 6, 7, 8), (7, 8, 9, 7)) == (5, 6, 7, 1)"
+            ]
         }
     },
     {
@@ -790,7 +904,12 @@
         "testing": {
             "library_functions": [],
             "visual_node_types": [],
-            "textual_instance_types": []
+            "textual_instance_types": [],
+            "test_list": [
+                "assert is_upper(\"person\") ==\"PERSON\"",
+                "assert is_upper(\"final\") == \"FINAL\"",
+                "assert is_upper(\"Valid\") == \"VALID\""
+            ]
         }
     },
     {
@@ -812,7 +931,12 @@
         "testing": {
             "library_functions": [],
             "visual_node_types": [],
-            "textual_instance_types": []
+            "textual_instance_types": [],
+            "test_list": [
+                "assert swap_List([1,2,3]) == [3,2,1]",
+                "assert swap_List([1,2,3,4,4]) == [4,2,3,4,1]",
+                "assert swap_List([4,5,6]) == [6,5,4]"
+            ]
         }
     },
     {
@@ -834,7 +958,12 @@
         "testing": {
             "library_functions": [],
             "visual_node_types": [],
-            "textual_instance_types": []
+            "textual_instance_types": [],
+            "test_list": [
+                "assert find_First_Missing([0,1,2,3]) == 4",
+                "assert find_First_Missing([0,1,2,6,9]) == 3",
+                "assert find_First_Missing([2,3,5,8,9]) == 0"
+            ]
         }
     },
     {
@@ -856,7 +985,12 @@
         "testing": {
             "library_functions": [],
             "visual_node_types": [],
-            "textual_instance_types": []
+            "textual_instance_types": [],
+            "test_list": [
+                "assert Split([1,2,3,4,5]) == [2,4]",
+                "assert Split([4,5,6,7,8,0,1]) == [4,6,8,0]",
+                "assert Split ([8,12,15,19]) == [8,12]"
+            ]
         }
     },
     {
@@ -878,7 +1012,12 @@
         "testing": {
             "library_functions": [],
             "visual_node_types": [],
-            "textual_instance_types": []
+            "textual_instance_types": [],
+            "test_list": [
+                "assert move_zero([1,0,2,0,3,4]) == [1,2,3,4,0,0]",
+                "assert move_zero([2,3,2,0,0,4,0,5,0]) == [2,3,2,4,5,0,0,0,0]",
+                "assert move_zero([0,1,0,1,1]) == [1,1,1,0,0]"
+            ]
         }
     },
     {
@@ -900,7 +1039,12 @@
         "testing": {
             "library_functions": [],
             "visual_node_types": [],
-            "textual_instance_types": []
+            "textual_instance_types": [],
+            "test_list": [
+                "assert reverse_Array_Upto_K([1, 2, 3, 4, 5, 6],4) == [4, 3, 2, 1, 5, 6]",
+                "assert reverse_Array_Upto_K([4, 5, 6, 7], 2) == [5, 4, 6, 7]",
+                "assert reverse_Array_Upto_K([9, 8, 7, 6, 5],3) == [7, 8, 9, 6, 5]"
+            ]
         }
     },
     {
@@ -922,7 +1066,12 @@
         "testing": {
             "library_functions": [],
             "visual_node_types": [],
-            "textual_instance_types": []
+            "textual_instance_types": [],
+            "test_list": [
+                "assert replace_specialchar('Python language, Programming language.')==('Python:language::Programming:language:')",
+                "assert replace_specialchar('a b c,d e f')==('a:b:c:d:e:f')",
+                "assert replace_specialchar('ram reshma,ram rahim')==('ram:reshma:ram:rahim')"
+            ]
         }
     },
     {
@@ -944,7 +1093,12 @@
         "testing": {
             "library_functions": [],
             "visual_node_types": [],
-            "textual_instance_types": []
+            "textual_instance_types": [],
+            "test_list": [
+                "assert find_first_occurrence([2, 5, 5, 5, 6, 6, 8, 9, 9, 9], 5) == 1",
+                "assert find_first_occurrence([2, 3, 5, 5, 6, 6, 8, 9, 9, 9], 5) == 2",
+                "assert find_first_occurrence([2, 4, 1, 5, 6, 6, 8, 9, 9, 9], 6) == 4"
+            ]
         }
     },
     {
@@ -966,7 +1120,12 @@
         "testing": {
             "library_functions": [],
             "visual_node_types": [],
-            "textual_instance_types": []
+            "textual_instance_types": [],
+            "test_list": [
+                "assert all_Characters_Same(\"python\") == False",
+                "assert all_Characters_Same(\"aaa\") == True",
+                "assert all_Characters_Same(\"data\") == False"
+            ]
         }
     },
     {
@@ -988,7 +1147,12 @@
         "testing": {
             "library_functions": [],
             "visual_node_types": [],
-            "textual_instance_types": []
+            "textual_instance_types": [],
+            "test_list": [
+                "assert rotate_right([1, 2, 3, 4, 5, 6, 7, 8, 9, 10],3)==[8, 9, 10, 1, 2, 3, 4, 5, 6, 7]",
+                "assert rotate_right([1, 2, 3, 4, 5, 6, 7, 8, 9, 10],2)==[9, 10, 1, 2, 3, 4, 5, 6, 7, 8]",
+                "assert rotate_right([1, 2, 3, 4, 5, 6, 7, 8, 9, 10],5)==[6, 7, 8, 9, 10, 1, 2, 3, 4, 5]"
+            ]
         }
     },
     {
@@ -1010,7 +1174,13 @@
         "testing": {
             "library_functions": [],
             "visual_node_types": [],
-            "textual_instance_types": []
+            "textual_instance_types": [],
+            "test_list": [
+                "assert second_smallest([1, 2, -8, -2, 0, -2])==-2",
+                "assert second_smallest([1, 1, -0.5, 0, 2, -2, -2])==-0.5",
+                "assert second_smallest([2,2])==None",
+                "assert second_smallest([2,2,2])==None"
+            ]
         }
     },
     {
@@ -1032,7 +1202,12 @@
         "testing": {
             "library_functions": [],
             "visual_node_types": [],
-            "textual_instance_types": []
+            "textual_instance_types": [],
+            "test_list": [
+                "assert unique_Element([1,1,1]) == True",
+                "assert unique_Element([1,2,1,2]) == False",
+                "assert unique_Element([1,2,3,4,5]) == False"
+            ]
         }
     },
     {
@@ -1054,7 +1229,13 @@
         "testing": {
             "library_functions": [],
             "visual_node_types": [],
-            "textual_instance_types": []
+            "textual_instance_types": [],
+            "test_list": [
+                "assert number_ctr('program2bedone') == 1",
+                "assert number_ctr('3wonders') == 1",
+                "assert number_ctr('123') == 3",
+                "assert number_ctr('3wond-1ers2') == 3"
+            ]
         }
     },
     {
@@ -1076,7 +1257,12 @@
         "testing": {
             "library_functions": [],
             "visual_node_types": [],
-            "textual_instance_types": []
+            "textual_instance_types": [],
+            "test_list": [
+                "assert odd_num_sum(2) == 82",
+                "assert odd_num_sum(3) == 707",
+                "assert odd_num_sum(4) == 3108"
+            ]
         }
     },
     {
@@ -1098,7 +1284,12 @@
         "testing": {
             "library_functions": [],
             "visual_node_types": [],
-            "textual_instance_types": []
+            "textual_instance_types": [],
+            "test_list": [
+                "assert odd_position([2,1,4,3,6,7,6,3]) == True",
+                "assert odd_position([4,1,2]) == True",
+                "assert odd_position([1,2,3]) == False"
+            ]
         }
     },
     {
@@ -1120,7 +1311,12 @@
         "testing": {
             "library_functions": [],
             "visual_node_types": [],
-            "textual_instance_types": []
+            "textual_instance_types": [],
+            "test_list": [
+                "assert mul_even_odd([1,3,5,7,4,1,6,8])==4",
+                "assert mul_even_odd([1,2,3,4,5,6,7,8,9,10])==2",
+                "assert mul_even_odd([1,5,7,9,10])==10"
+            ]
         }
     },
     {
@@ -1142,7 +1338,12 @@
         "testing": {
             "library_functions": [],
             "visual_node_types": [],
-            "textual_instance_types": []
+            "textual_instance_types": [],
+            "test_list": [
+                "assert last([1,2,3],1) == 0",
+                "assert last([1,1,1,2,3,4],1) == 2",
+                "assert last([2,3,2,3,6,8,9],3) == 3"
+            ]
         }
     },
     {
@@ -1164,7 +1365,12 @@
         "testing": {
             "library_functions": [],
             "visual_node_types": [],
-            "textual_instance_types": []
+            "textual_instance_types": [],
+            "test_list": [
+                "assert _sum([1, 2, 3]) == 6",
+                "assert _sum([15, 12, 13, 10]) == 50",
+                "assert _sum([0, 1, 2]) == 3"
+            ]
         }
     },
     {
@@ -1186,7 +1392,15 @@
         "testing": {
             "library_functions": [],
             "visual_node_types": [],
-            "textual_instance_types": []
+            "textual_instance_types": [],
+            "test_list": [
+                "assert not is_perfect_square(10)",
+                "assert is_perfect_square(36)",
+                "assert not is_perfect_square(14)",
+                "assert is_perfect_square(14*14)",
+                "assert not is_perfect_square(125)",
+                "assert is_perfect_square(125*125)"
+            ]
         }
     },
     {
@@ -1208,7 +1422,12 @@
         "testing": {
             "library_functions": [],
             "visual_node_types": [],
-            "textual_instance_types": []
+            "textual_instance_types": [],
+            "test_list": [
+                "assert first_odd([1,3,5]) == 1",
+                "assert first_odd([2,4,1,3]) == 1",
+                "assert first_odd ([8,9,1]) == 9"
+            ]
         }
     }
 ]

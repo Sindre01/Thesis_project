@@ -9,7 +9,7 @@ Step 2: Determine the postconditions for the task.
 In this case:
     {{postconditions}}
 
-Step 3: Pick the most relevant stdLibrary and httpPackage external functions that can be used for this task. If several functions can do the same task, pick one of them.
+Step 3: Pick the most relevant stdLibrary and httpPackage external functions that can be used for this task. If several functions can do the same task.
 In this case:
     {{library_functions}}
 

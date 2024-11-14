@@ -1,0 +1,130 @@
+HTTP endpoint
+Object av data og accesere med waypoint
+trigger inside functions
+Create a Module
+Local variables
+
+
+[
+    {
+        "prompts": [
+            "Create a flow that creates a http-endpoint that ..",
+            "The flow should ..",
+            "A test should .."
+        ],
+        "task_id": 1,
+        "specification": {
+            "function_signature": "func() ..",
+            "preconditions": "- ..",
+            "postconditions": "- .."
+        },
+        "MBPP_task_id": -1,
+        "library_functions" : [],
+        "visual_node_types": [],
+        "textual_instance_types": [],
+
+        "testing": {
+            "library_functions": [],
+            "visual_node_types": [],
+            "textual_instance_types": [],
+            "test_list": []
+        }
+    },
+    {
+        "prompts": [
+            "Create a flow that logs the name and age of a object in this format: {name: 'John', age: 30, hair: 'brown', eyes: 'blue'}",
+            "The flow should ..",
+            "A test should .."
+        ],
+        "task_id": 2,
+        "specification": {
+            "function_signature": "..",
+            "preconditions": "- name and age should be valid attributes in the object",
+            "postconditions": "- .."
+        },
+        "MBPP_task_id": -1,
+        "library_functions" : [],
+        "visual_node_types": [],
+        "textual_instance_types": [],
+
+        "testing": {
+            "library_functions": [],
+            "visual_node_types": [],
+            "textual_instance_types": [],
+            "test_list": []
+        }
+    },
+    {
+        "prompts": [
+            "Create a flow inside a module named 'Test' that creates an object with the attributes name and age, and set the name and age to a famous person. The flow should be created inside ",
+            "The flow should ..",
+            "A test should .."
+        ],
+        "task_id": 3,
+        "specification": {
+            "function_signature": "..",
+            "preconditions": "- name and age should be valid attributes in the object",
+            "postconditions": "- .."
+        },
+        "MBPP_task_id": -1,
+        "library_functions" : [],
+        "visual_node_types": [],
+        "textual_instance_types": [],
+
+        "testing": {
+            "library_functions": [],
+            "visual_node_types": [],
+            "textual_instance_types": [],
+            "test_list": []
+        }
+    },
+    {
+        "prompts": [
+            "Create a flow  ",
+            "The flow should ..",
+            "A test should .."
+        ],
+        "task_id": 4,
+        "specification": {
+            "function_signature": "..",
+            "preconditions": "- name and age should be valid attributes in the object",
+            "postconditions": "- .."
+        },
+        "MBPP_task_id": -1,
+        "library_functions" : [],
+        "visual_node_types": [],
+        "textual_instance_types": [],
+
+        "testing": {
+            "library_functions": [],
+            "visual_node_types": [],
+            "textual_instance_types": [],
+            "test_list": []
+        }
+    },
+    {
+        "prompts": [
+            "Create a flow  ",
+            "The flow should ..",
+            "A test should .."
+        ],
+        "task_id": 5,
+        "specification": {
+            "function_signature": "..",
+            "preconditions": "- name and age should be valid attributes in the object",
+            "postconditions": "- .."
+        },
+        "MBPP_task_id": -1,
+        "library_functions" : [],
+        "visual_node_types": [],
+        "textual_instance_types": [],
+
+        "testing": {
+            "library_functions": [],
+            "visual_node_types": [],
+            "textual_instance_types": [],
+            "test_list": []
+        }
+    },
+    
+]
