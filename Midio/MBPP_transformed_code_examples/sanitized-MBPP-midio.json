@@ -28,7 +28,8 @@
         "testing": {
             "library_functions": [
                 "root.std.Testing.Test",
-                "root.std.Testing.AssertTrue"
+                "root.std.Testing.AssertTrue",
+                "root.std.Testing.AssertFalse"
             ],
             "visual_node_types": [
                 "Event",
