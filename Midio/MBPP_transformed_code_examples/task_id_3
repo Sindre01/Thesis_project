@@ -4,7 +4,7 @@ import("std", Std_k98ojb)
 import("http", Http_q7o96c)
 
 module() main {
-    func() is_diff {
+    func(doc: "finds whether a number is divisible by 11.") is_diff {
         in(x: 5.110832031250027, y: -25.33331298828125, name: "n") property(Number) n_27f29c
 
         out(x: 668.1112060546875, y: 2.11114501953125, name: "output") property(Bool) output_f2630f

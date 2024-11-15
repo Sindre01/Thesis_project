@@ -36,5 +36,40 @@ module() main {
         setter_29a5c8.continue -> continue_c95bcb
     }
 
+    module() tests {
+        instance(x: -238.89210693359385, y: 31.66668701171875) kth_element_10a78c root.main.kth_element {}
+        instance(x: -282.78100826499156, y: -141.111146743148) test_bee914 root.Std_k98ojb.Testing.Test {
+            name: "Test kth_element"
+        }
+        instance(x: 1.888916015625, y: 18.11123657226563) assertequal_a44a83 root.Std_k98ojb.Testing.AssertEqual {}
+        data_instance(x: -244.8, y: 203.3) data_c104f1  = [12, 3, 5, 7, 19]
+        instance(x: 294.1111922037726, y: 15.4444580078125) kth_element_b0c59c root.main.kth_element {}
+        instance(x: 847.6668440819835, y: 15.555559750982866) kth_element_353c6b root.main.kth_element {}
+        instance(x: 556.7780021191168, y: 16.444535968405944) assertequal_1a037b root.Std_k98ojb.Testing.AssertEqual {}
+        data_instance(x: 288.6, y: 216.6) data_6dd0ea  = [17, 24, 8, 23]
+        data_instance(x: 858.8, y: 224.3) data_c25c03  = [16, 21, 25, 36, 4]
+        instance(x: 1151.4444738411175, y: 13.333343505859377) assertequal_0dc616 root.Std_k98ojb.Testing.AssertEqual {}
+        test_bee914.onRun -> kth_element_10a78c.execute_1e159f
+        kth_element_10a78c.continue_c95bcb -> assertequal_a44a83.execute
+        kth_element_10a78c.element_fd7945 -> assertequal_a44a83.actual
+        3 -> assertequal_a44a83.expect
+        data_c104f1 -> kth_element_10a78c.list_b5d10a
+        2 -> kth_element_10a78c.k_1e19fb
+        assertequal_a44a83.continue -> kth_element_b0c59c.execute_1e159f
+        kth_element_b0c59c.continue_c95bcb -> assertequal_1a037b.execute
+        assertequal_1a037b.continue -> kth_element_353c6b.execute_1e159f
+        data_6dd0ea -> kth_element_b0c59c.list_b5d10a
+        data_c25c03 -> kth_element_353c6b.list_b5d10a
+        3 -> kth_element_b0c59c.k_1e19fb
+        kth_element_b0c59c.element_fd7945 -> assertequal_1a037b.actual
+        8 -> assertequal_1a037b.expect
+        4 -> kth_element_353c6b.k_1e19fb
+        kth_element_353c6b.continue_c95bcb -> assertequal_0dc616.execute
+        kth_element_353c6b.element_fd7945 -> assertequal_0dc616.actual
+        36 -> assertequal_0dc616.expect
+
+
+    }
+
     instance(x: -97.84163360595704, y: -68.99722900390626) kth_element_49c6ac root.main.kth_element {}
 }

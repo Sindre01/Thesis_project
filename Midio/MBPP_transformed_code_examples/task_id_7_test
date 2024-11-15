@@ -5,8 +5,8 @@ import("http", Http_q7o96c)
 
 module() main {
  func() common_element {
-        in(x: -334.3332824707031, y: -104.11111450195313, name: "list1") property(Number) list1_71bb8f
-        in(x: -346.5555114746094, y: -6.555541992187528, name: "list2") property(Number) list2_b16d46
+        in(x: -334.3332824707031, y: -104.11111450195313, name: "list1") property(List) list1_71bb8f
+        in(x: -346.5555114746094, y: -6.555541992187528, name: "list2") property(List) list2_b16d46
 
         out(x: 433.7780839843749, y: -82.83377099609373, name: "output") property(Bool) output_879de6
 

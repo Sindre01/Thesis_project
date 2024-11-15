@@ -5,7 +5,7 @@ import("http", Http_q7o96c)
 
 module() main {
 
-    func() opposite_signs {
+    func(doc: "checks whether the given two integers have opposite sign or not.") opposite_signs {
         in(x: -426.75106687766726, y: -248.6672781623361, name: "x") property(Number) x_853326
         in(x: -420.9177240472398, y: -107.83359783106482, name: "y") property(Number) y_5390f5
         out(x: 159.11126708984375, y: -219.88885498046875, name: "output") property(Bool) output_3339a3

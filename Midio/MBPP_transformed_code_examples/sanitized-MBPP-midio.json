@@ -7,7 +7,7 @@
         ],
         "task_id": 1,
         "specification": {
-            "function_signature": "func() opposite_signs {\n  in(x: -426.75106687766726, y: -248.6672781623361, name: \"x\") property(Number) x_853326\n  in(x: -420.9177240472398, y: -107.83359783106482, name: \"y\") property(Number) y_5390f5\n\n  out(x: 159.11126708984375, y: -219.88885498046875, name: \"output\") property(Bool) output_3339a3\n}",
+            "function_signature": "func(doc: \"checks whether the given two integers have opposite sign or not.\") opposite_signs {\n  in(x: -426.75106687766726, y: -248.6672781623361, name: \"x\") property(Number) x_853326\n  in(x: -420.9177240472398, y: -107.83359783106482, name: \"y\") property(Number) y_5390f5\n\n  out(x: 159.11126708984375, y: -219.88885498046875, name: \"output\") property(Bool) output_3339a3\n}",
             "preconditions": "- There are no preconditions, the method will always work.",
             "postconditions": "- The result is true if x and y have opposite signs\n- The result is false if x and y have the same sign"
         },
@@ -95,7 +95,7 @@
         ],
         "task_id": 3,
         "specification": {
-            "function_signature": "func() is_diff {\n  in(x: 5.110832031250027, y: -25.33331298828125, name: \"n\") property(Number) n_27f29c\n\n  out(x: 668.1112060546875, y: 2.11114501953125, name: \"output\") property(Bool) output_f2630f\n}",
+            "function_signature": "func(doc: \"finds whether a number is divisible by 11.\") is_diff {\n  in(x: 5.110832031250027, y: -25.33331298828125, name: \"n\") property(Number) n_27f29c\n\n  out(x: 668.1112060546875, y: 2.11114501953125, name: \"output\") property(Bool) output_f2630f\n}",
             "preconditions": "- There are no preconditions, the method will always work for any integer input.",
             "postconditions": "- The result is true if the input number is divisible by 11\n- The result is false if the input number is not divisible by 11"
         },
@@ -279,7 +279,7 @@
         ],
         "task_id": 7,
         "specification": {
-            "function_signature": "func() common_element {\n  in(x: -334.3332824707031, y: -104.11111450195313, name: \"list1\") property(Number) list1_71bb8f\n  in(x: -346.5555114746094, y: -6.555541992187528, name: \"list2\") property(Number) list2_b16d46\n\n  out(x: 433.7780839843749, y: -82.83377099609373, name: \"output\") property(Bool) output_879de6\n}",
+            "function_signature": "func() common_element {\n  in(x: -334.3332824707031, y: -104.11111450195313, name: \"list1\") property(List) list1_71bb8f\n  in(x: -346.5555114746094, y: -6.555541992187528, name: \"list2\") property(List) list2_b16d46\n\n  out(x: 433.7780839843749, y: -82.83377099609373, name: \"output\") property(Bool) output_879de6\n}",
             "preconditions": "- Both arrays should be non-null",
             "postconditions": "- If the method returns true, there exists at least one common element between the two arrays\n- If the method returns false, there are no common elements between the two arrays"
         },

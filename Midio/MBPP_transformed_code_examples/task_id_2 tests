@@ -15,18 +15,21 @@ module() main {
         instance(x: 389.3177468717407, y: 86.94100728300981) min_c98fed root.Std_k98ojb.List.Min {}
         instance(x: 23.650998824865724, y: -83.83696219941211) assertequal_983e63 root.Std_k98ojb.Testing.AssertEqual {}
         instance(x: 387.2066628873657, y: -80.19983258022884) assertequal_4a2921 root.Std_k98ojb.Testing.AssertEqual {}
+        data_instance(x: -308.0, y: 215.7) data_4533e5  = [10, 20, 1, 45, 99]
+        data_instance(x: 5.8, y: 240.6) data_0b786a  = [1, 2, 3]
+        data_instance(x: 303.1, y: 217.0) data_6497d2  = [45, 46, 50, 60]
         min_17cef2.min -> assertequal_158f04.actual
         test_6f9def.onRun -> assertequal_158f04.execute
         assertequal_158f04.continue -> assertequal_983e63.execute
         min_5d3b2b.min -> assertequal_983e63.actual
         min_c98fed.min -> assertequal_4a2921.actual
         assertequal_983e63.continue -> assertequal_4a2921.execute
-        [10, 20, 1, 45, 99] -> min_17cef2.items
         1 -> assertequal_158f04.expect
-        [1, 2, 3] -> min_5d3b2b.items
-        [45, 46, 50, 60] -> min_c98fed.items
         1 -> assertequal_983e63.expect
         45 -> assertequal_4a2921.expect
+        data_4533e5 -> min_17cef2.items
+        data_0b786a -> min_5d3b2b.items
+        data_6497d2 -> min_c98fed.items
     }
 
     instance(x: 426.2494977057059, y: -303.74962031297446) min_fa1ac0 root.Std_k98ojb.List.Min {}
