@@ -194,7 +194,7 @@
         "prompts": [
             "Create a flow to multiply two numbers.",
             "The flow should create a 'Math Expression' node with the expression 'x * y' inside the main module",
-            "The 'Math expression' node should then be tested inside a seperate module called tests."
+            "The 'Math expression' node should then be tested inside a seperate module called tests, within the main module."
         ],
         "task_id": 5,
         "specification": {
@@ -241,7 +241,7 @@
         ],
         "task_id": 6,
         "specification": {
-            "function_signature": "func() min_of_three {\n  in(x: -903.6855759900376, y: -379.0358560546829, name: \"a\") property(Number) a_f37c19\n  in(x: -908.4615926769588, y: -241.94665736242496, name: \"b\") property(Number) b_ca79ac\n  in(x: -907.4906914682103, y: -94.85470946491404, name: \"c\") property(Number) c_a89f71\n\n  out(x: -78.08754971418284, y: -306.1206884918196, name: \"min\") property(Number) smallest_8713cf\n}",
+            "function_signature": "func(doc: \"finds the minimum of three numbers.\") min_of_three {\n  in(x: -903.6855759900376, y: -379.0358560546829, name: \"a\") property(Number) a_f37c19\n  in(x: -908.4615926769588, y: -241.94665736242496, name: \"b\") property(Number) b_ca79ac\n  in(x: -907.4906914682103, y: -94.85470946491404, name: \"c\") property(Number) c_a89f71\n\n  out(x: -78.08754971418284, y: -306.1206884918196, name: \"min\") property(Number) smallest_8713cf\n}",
             "preconditions": "- There are no preconditions, the method will always work.",
             "postconditions": "- The returned value is the minimum of the three input numbers\n- The returned value is less than or equal to all input numbers"
         },
@@ -267,12 +267,10 @@
             ],
             "visual_node_types": [
                 "Event",
-                "Function",
-                "Data Object"
+                "Function"
             ],
             "textual_instance_types": [
-                "instance",
-                "data_instance"
+                "instance"
             ],
             "test_list": [
                 "assert min_of_three(10,20,0)==0",
@@ -289,7 +287,7 @@
         ],
         "task_id": 7,
         "specification": {
-            "function_signature": "func() common_element {\n  in(x: -334.3332824707031, y: -104.11111450195313, name: \"list1\") property(List) list1_71bb8f\n  in(x: -346.5555114746094, y: -6.555541992187528, name: \"list2\") property(List) list2_b16d46\n\n  out(x: 433.7780839843749, y: -82.83377099609373, name: \"output\") property(Bool) output_879de6\n}",
+            "function_signature": "func(doc: \"takes two lists and returns true if they have at least one common element.\") common_element {\n  in(x: -334.3332824707031, y: -104.11111450195313, name: \"list1\") property(List) list1_71bb8f\n  in(x: -346.5555114746094, y: -6.555541992187528, name: \"list2\") property(List) list2_b16d46\n\n  out(x: 433.7780839843749, y: -82.83377099609373, name: \"output\") property(Bool) output_879de6\n}",
             "preconditions": "- Both arrays should be non-null",
             "postconditions": "- If the method returns true, there exists at least one common element between the two arrays\n- If the method returns false, there are no common elements between the two arrays"
         },

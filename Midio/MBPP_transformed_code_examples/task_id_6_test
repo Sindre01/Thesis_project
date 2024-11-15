@@ -4,7 +4,7 @@ import("std", Std_k98ojb)
 import("http", Http_q7o96c)
 
 module() main { 
-    func() min_of_three {
+    func(doc: "finds the minimum of three numbers.") min_of_three {
         in(x: -903.6855759900376, y: -379.0358560546829, name: "a") property(Number) a_f37c19
         in(x: -908.4615926769588, y: -241.94665736242496, name: "b") property(Number) b_ca79ac
         in(x: -907.4906914682103, y: -94.85470946491404, name: "c") property(Number) c_a89f71
@@ -19,19 +19,37 @@ module() main {
         data_9a9c70 -> min_c3e343.items
         min_c3e343.min -> smallest_8713cf
     }
-    instance(x: 162.86658727664542, y: 271.00285064203155) min_of_three_ab5882 root.main.min_of_three {}
-    
-    instance(x: 159.22225952148438, y: 67.33335876464844) test_9066bb root.Std_k98ojb.Testing.Test {
-        name: "Test min of three"
+    module(doc: "Contains different tests") tests {
+        instance(x: -128.71068123277806, y: -313.2936314100216) test_95406e root.Std_k98ojb.Testing.Test {
+            name: "Test min of three"
+        }
+        instance(x: 274.93358548722676, y: 22.82031847517402) min_0b82f1 root.main.min_of_three {}
+        instance(x: 273.898018918851, y: -128.02979509205846) assertequal_eb511c root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 579.6226012379251, y: 27.817605162244035) min_fac964 root.main.min_of_three {}
+        instance(x: 578.4445190429688, y: -127.55551147460938) assertequal_e65911 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 882.4444580078125, y: -126.66664123535156) assertequal_328609 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 886.8889770507811, y: 31.111175537109375) min_of_three_9714d8 root.main.min_of_three {}
+        test_95406e.onRun -> assertequal_eb511c.execute
+        min_0b82f1.smallest_8713cf -> assertequal_eb511c.actual
+        0 -> assertequal_eb511c.expect
+        10 -> min_0b82f1.a_f37c19
+        20 -> min_0b82f1.b_ca79ac
+        0 -> min_0b82f1.c_a89f71
+        19 -> min_fac964.a_f37c19
+        15 -> min_fac964.b_ca79ac
+        18 -> min_fac964.c_a89f71
+        assertequal_eb511c.continue -> assertequal_e65911.execute
+        min_fac964.smallest_8713cf -> assertequal_e65911.actual
+        15 -> assertequal_e65911.expect
+        min_of_three_9714d8.smallest_8713cf -> assertequal_328609.actual
+        -30 -> assertequal_328609.expect
+        -10 -> min_of_three_9714d8.a_f37c19
+        -20 -> min_of_three_9714d8.b_ca79ac
+        -30 -> min_of_three_9714d8.c_a89f71
+        assertequal_e65911.continue -> assertequal_328609.execute
+
+
     }
-    instance(x: 561.8309596731134, y: 252.59719508261156) assertequal_817d47 root.Std_k98ojb.Testing.AssertEqual {}
-    data_instance(x: -49.9, y: 212.2) data_eda49f  = 2
-    data_instance(x: -32.1, y: 347.8) data_978d92  = 1
-    data_instance(x: -47.7, y: 514.8) data_e77216  = 3
-    test_9066bb.onRun -> assertequal_817d47.execute
-    min_of_three_ab5882.smallest_8713cf -> assertequal_817d47.actual
-    1 -> assertequal_817d47.expect
-    data_eda49f -> min_of_three_ab5882.a_f37c19
-    data_978d92 -> min_of_three_ab5882.b_ca79ac
-    data_e77216 -> min_of_three_ab5882.c_a89f71
+
+    instance(x: 322.6315450748268, y: 568.9992811215039) min_of_three_cee202 root.main.min_of_three {}
 }
