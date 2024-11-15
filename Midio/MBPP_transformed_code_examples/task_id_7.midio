@@ -1,0 +1,22 @@
+@midio_version("0.1.0")
+@version("0.1.0")
+import("std", Std_k98ojb)
+import("http", Http_q7o96c)
+
+module() main {
+    func(doc: "takes two lists and returns true if they have at least one common element.") common_element {
+        in(x: -337.22222900390625, y: -126.888916015625, name: "list1") property(List) list1_016b2e
+        in(x: -331.8888549804688, y: 30, name: "list2") property(List) list2_c8f404
+
+        out(x: 441.7780839843749, y: -72.16711450195311, name: "output") property(Bool) output_879de6
+
+        instance(x: -121.333251953125, y: -71.11111450195313) intersection_78d487 root.Std_k98ojb.Sets.Intersection {}
+        instance(x: 169.00006103515625, y: -77.33331298828125) notempty_cd5cc4 root.Std_k98ojb.List.NotEmpty {}
+        intersection_78d487.intersection -> notempty_cd5cc4.list
+        notempty_cd5cc4.isEmpty -> output_879de6
+        list1_016b2e -> intersection_78d487.left
+        list2_c8f404 -> intersection_78d487.right
+    }
+
+    instance(x: 165.88885498046875, y: -125.22219848632813) common_element_7d78a4 root.main.common_element {}
+}

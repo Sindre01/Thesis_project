@@ -1,0 +1,56 @@
+@midio_version("0.1.0")
+@version("0.1.0")
+import("std", Std_k98ojb)
+import("http", Http_q7o96c)
+
+module() main {
+    func(doc: "takes two lists and returns true if they have at least one common element.") common_element {
+        in(x: -337.22222900390625, y: -126.888916015625, name: "list1") property(List) list1_016b2e
+        in(x: -331.8888549804688, y: 30, name: "list2") property(List) list2_c8f404
+
+        out(x: 441.7780839843749, y: -72.16711450195311, name: "output") property(Bool) output_879de6
+
+        instance(x: -121.333251953125, y: -71.11111450195313) intersection_78d487 root.Std_k98ojb.Sets.Intersection {}
+        instance(x: 169.00006103515625, y: -77.33331298828125) notempty_cd5cc4 root.Std_k98ojb.List.NotEmpty {}
+        intersection_78d487.intersection -> notempty_cd5cc4.list
+        notempty_cd5cc4.isEmpty -> output_879de6
+        list1_016b2e -> intersection_78d487.left
+        list2_c8f404 -> intersection_78d487.right
+    }
+
+    module(doc: "contains different tests") tests {
+        instance(x: 279.14917161572976, y: 165.02455636962938) common_1c74ea root.main.common_element {}
+        data_instance(x: 35.3, y: 231.8) data_c2c58d  = [1, 2, 3, 4, 5]
+        instance(x: 0.9273051757812709, y: -145.25318017578124, name: "commom") test_e8c573 root.Std_k98ojb.Testing.Test {
+            name: "Test common_element"
+        }
+        instance(x: 290.92687792968763, y: 41.41338476562504) asserttrue_e37748 root.Std_k98ojb.Testing.AssertTrue {}
+        instance(x: 763.4499013388203, y: 162.89172954961714) common_bdf571 root.main.common_element {}
+        data_instance(x: 563.2, y: 165.3) data_9585af  = [1, 2, 3, 4, 5]
+        instance(x: 1196.199870133258, y: 148.89175037310088) common_09383a root.main.common_element {}
+        data_instance(x: 1094.2, y: 287.6) data_4f063b  = ["a", "b", "c"]
+        data_instance(x: 1308.0, y: 284.4) data_2e680a  = ["d", "b", "e"]
+        instance(x: 1206.4775308583544, y: 36.28060409697417) asserttrue_051142 root.Std_k98ojb.Testing.AssertTrue {}
+        instance(x: 774.8749641757856, y: 32.624995921875495) assertfalse_6fcae3 root.Std_k98ojb.Testing.AssertFalse {}
+        data_instance(x: 365.5, y: 316.0) data_e0c3f5  = [5, 6, 7, 8, 9]
+        data_instance(x: 885.5, y: 290.2) data_360eeb  = [6, 7, 8, 9]
+        common_1c74ea.output_879de6 -> asserttrue_e37748.value
+        data_c2c58d -> common_1c74ea.list1_016b2e
+        test_e8c573.onRun -> asserttrue_e37748.execute
+        data_9585af -> common_bdf571.list1_016b2e
+        common_09383a.output_879de6 -> asserttrue_051142.value
+        data_4f063b -> common_09383a.list1_016b2e
+        data_2e680a -> common_09383a.list2_c8f404
+        assertfalse_6fcae3.continue -> asserttrue_051142.execute
+        asserttrue_e37748.continue -> assertfalse_6fcae3.execute
+        common_bdf571.output_879de6 -> assertfalse_6fcae3.value
+        data_e0c3f5 -> common_1c74ea.list2_c8f404
+        data_360eeb -> common_bdf571.list2_c8f404
+
+
+    }
+
+    instance(x: 425.77777099609375, y: -186) common_element_33ad55 root.main.common_element {}
+
+
+}
