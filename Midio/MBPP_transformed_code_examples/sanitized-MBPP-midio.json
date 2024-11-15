@@ -193,8 +193,8 @@
     {
         "prompts": [
             "Create a flow to multiply two numbers.",
-            "The flow should create a 'Math Expression' node with the expression 'x * y'.",
-            "The 'Math expression' node should then be tested."
+            "The flow should create a 'Math Expression' node with the expression 'x * y' inside the main module",
+            "The 'Math expression' node should then be tested inside a seperate module called tests."
         ],
         "task_id": 5,
         "specification": {
@@ -207,12 +207,10 @@
             "root.std.Math.Expression"
         ],
         "visual_node_types": [
-            "Function",
-            "Data Object"
+            "Function"
         ],
         "textual_instance_types": [
-            "instance",
-            "data_instance"
+            "instance"
         ],
         "testing": {
             "library_functions": [

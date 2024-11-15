@@ -4,7 +4,7 @@ import("std", Std_k98ojb)
 import("http", Http_q7o96c)
 
 module() main { 
-    instance(x: 15.666717529296877, y: -82.99996948242188) expression_1ab8a2 root.Std_k98ojb.Math.Expression {
+    instance(x: -85.77739697265622, y: -46.66654199218749) expression_3e25a9 root.Std_k98ojb.Math.Expression {
         expression: "x * y"
     }
 }

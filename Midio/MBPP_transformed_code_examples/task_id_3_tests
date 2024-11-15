@@ -19,7 +19,7 @@ module() main {
         modulo_629f32.result -> expression_a794a5.gen_0
         expression_a794a5.result -> output_f2630f
     }
-    module() tests {
+    module(doc: "Contains different tests") tests {
         instance(x: -7.92560563151045, y: 221.85217553710945) is_281447 root.main.is_diff {}
         instance(x: -318.03669718424476, y: -98.25927478027344) test_9f064f root.Std_k98ojb.Testing.Test {
             name: "Test is_diff"
