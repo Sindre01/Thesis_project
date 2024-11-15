@@ -1,0 +1,34 @@
+@midio_version("0.1.0")
+@version("0.1.0")
+import("std", Std_k98ojb)
+import("http", Http_q7o96c)
+
+module() main {
+
+    module() tests {
+        instance(x: -278.57087910482176, y: 84.16315230254101) min_17cef2 root.Std_k98ojb.List.Min {}
+        instance(x: -700.2377340852905, y: -267.8369774582012) test_6f9def root.Std_k98ojb.Testing.Test {
+            name: "Test List min"
+        }
+        instance(x: -302.4600002734128, y: -81.61479160337464) assertequal_158f04 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 23.762204879553224, y: 87.27421333769726) min_5d3b2b root.Std_k98ojb.List.Min {}
+        instance(x: 389.3177468717407, y: 86.94100728300981) min_c98fed root.Std_k98ojb.List.Min {}
+        instance(x: 23.650998824865724, y: -83.83696219941211) assertequal_983e63 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 387.2066628873657, y: -80.19983258022884) assertequal_4a2921 root.Std_k98ojb.Testing.AssertEqual {}
+        min_17cef2.min -> assertequal_158f04.actual
+        test_6f9def.onRun -> assertequal_158f04.execute
+        assertequal_158f04.continue -> assertequal_983e63.execute
+        min_5d3b2b.min -> assertequal_983e63.actual
+        min_c98fed.min -> assertequal_4a2921.actual
+        assertequal_983e63.continue -> assertequal_4a2921.execute
+        [10, 20, 1, 45, 99] -> min_17cef2.items
+        1 -> assertequal_158f04.expect
+        [1, 2, 3] -> min_5d3b2b.items
+        [45, 46, 50, 60] -> min_c98fed.items
+        1 -> assertequal_983e63.expect
+        45 -> assertequal_4a2921.expect
+    }
+
+    instance(x: 426.2494977057059, y: -303.74962031297446) min_fa1ac0 root.Std_k98ojb.List.Min {}
+}
+

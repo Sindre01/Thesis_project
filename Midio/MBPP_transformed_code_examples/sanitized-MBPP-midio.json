@@ -3,7 +3,7 @@
         "prompts": [
             "Create a flow that checks whether the given two integers have opposite sign or not.",
             "The flow should create a user-defined function. The body of the function contains two input properties of type Number, a 'Math Expression' node and one output property of type 'Bool'. The input properties is connected with arrows to 'Math Expression', that contains an expression with the two input properties of type numbers. The 'Math Expression' result is a boolean. This value is connected with arrows to the created output property, that return the Bool from the function. The user-defined function is then created within the main module.",
-            "This created user-defined function should then be tested in the main module."
+            "This created user-defined function should then be tested within a seperate module called tests, within the main module"
         ],
         "task_id": 1,
         "specification": {
@@ -33,12 +33,10 @@
             ],
             "visual_node_types": [
                 "Event",
-                "Function",
-                "Data Object"
+                "Function"
             ],
             "textual_instance_types": [
-                "instance",
-                "data_instance"
+                "instance"
             ],
             "test_list": [
                 "assert opposite_Signs(1,-2) == True",
@@ -51,8 +49,8 @@
     {
         "prompts": [
             "Create a flow to find the smallest number in a list.",
-            //ENDRE?"The flow should first create a Data Object node with the list '[5, 3, 7, 1]'. The Data Object list is then conencted with arrows to the 'List Min' node. The smallest number is returned form the output property named 'min'. The smallest number is then connected to the arrows of a the 'std Log' node to log the output for the user.",
-            "The built-in function 'List Min' should then be tested in the main module."
+            "The flow should use the built-in function node from the std library, called 'List Min' node. The node should be created in the main module.",
+            "The built-in function 'List Min' should then be tested within a seperate module called tests, within the main module."
         ],
         "task_id": 2,
         "specification": {
@@ -62,21 +60,26 @@
         },
         "MBPP_task_id": 62,
         "textual_instance_types": [
-            "instance",
-            "data_instance"
+            "instance"
         ],
         "library_functions": [
-            "root.std.List.Min",
-            "root.std.Std.Log"
+            "root.std.List.Min"
         ],
         "visual_node_types": [
-            "Function",
-            "Data Object"
+            "Function"
         ],
         "testing": {
-            "library_functions": [],
-            "visual_node_types": [],
-            "textual_instance_types": [],
+            "library_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertEqual"
+            ],
+            "visual_node_types": [
+                "Event",
+                "Function"
+            ],
+            "textual_instance_types": [
+                "instance"
+            ],
             "test_list": [
                 "assert smallest_num([10, 20, 1, 45, 99]) == 1",
                 "assert smallest_num([1, 2, 3]) == 1",
@@ -88,7 +91,7 @@
         "prompts": [
             "Create a flow to find whether a number is divisible by 11.",
             "The flow should create a user-defined function. The body of the function contains one input property of type Number, one 'Data Object' node with number 11, one 'Math Modulo', one 'Math Expression' and one output property of type Bool. The input property, called n, is connected with arrows to the value propery of the 'Math Modulo' node. The Data Object with number 11 is conntected with arrowes to the divisor property og 'Math modulo'. The result output property of the 'Math modulo' node is connected with arrows to the 'Math Expression' node, which contains the expression (n == 0). The result of this 'Math Expression' node is a Bool which is connected with arrows to the output property, that return the Bool from the function. The user-defined function is then created within the main module.",
-            "This created user-defined function should then be tested in the main module."
+            "This created user-defined function should then be tested in a seperate module called tests, within the main module."
         ],
         "task_id": 3,
         "specification": {

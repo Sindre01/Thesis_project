@@ -19,14 +19,27 @@ module() main {
         modulo_629f32.result -> expression_a794a5.gen_0
         expression_a794a5.result -> output_f2630f
     }
-
-    instance(x: -118.44457250976564, y: -27.55526721191404) is_diff_d910e0 root.``77``.is_diff {}
-    instance(x: -83.66665649414063, y: -169.88888549804688) test_c35093 root.Std_k98ojb.Testing.Test {
-        name: "Test is_diff"
+    module() tests {
+        instance(x: -7.92560563151045, y: 221.85217553710945) is_281447 root.main.is_diff {}
+        instance(x: -318.03669718424476, y: -98.25927478027344) test_9f064f root.Std_k98ojb.Testing.Test {
+            name: "Test is_diff"
+        }
+        instance(x: 553.1109619140625, y: 52.55557250976564) assertfalse_ed6a3d root.Std_k98ojb.Testing.AssertFalse {}
+        instance(x: 289.11114501953125, y: 221.44445800781247) is_diff_d486dd root.main.is_diff {}
+        instance(x: 273.15570996093754, y: 52.177709960937506) asserttrue_7a40c4 root.Std_k98ojb.Testing.AssertTrue {}
+        instance(x: 600.6666870117188, y: 225.4444274902344) is_diff_d5d4de root.main.is_diff {}
+        instance(x: -20.222167968750018, y: 56) assertfalse_3e35c9 root.Std_k98ojb.Testing.AssertFalse {}
+        12345 -> is_281447.n_27f29c
+        1212112 -> is_diff_d486dd.n_27f29c
+        1212 -> is_diff_d5d4de.n_27f29c
+        test_9f064f.onRun -> assertfalse_3e35c9.execute
+        is_281447.output_f2630f -> assertfalse_3e35c9.value
+        assertfalse_3e35c9.continue -> asserttrue_7a40c4.execute
+        asserttrue_7a40c4.continue -> assertfalse_ed6a3d.execute
+        is_diff_d5d4de.output_f2630f -> assertfalse_ed6a3d.value
+        is_diff_d486dd.output_f2630f -> asserttrue_7a40c4.value
     }
-    instance(x: 151.88897705078125, y: -47.6666259765625) asserttrue_68ce80 root.Std_k98ojb.Testing.AssertTrue {}
-    test_c35093.onRun -> asserttrue_68ce80.execute
-    is_diff_d910e0.output_f2630f -> asserttrue_68ce80.value
-    12345 -> is_diff_d910e0.n_27f29c
+
+    instance(x: 98.888916015625, y: -87.77777099609375) is_diff_586588 root.main.is_diff {}
 
 }
