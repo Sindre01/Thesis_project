@@ -3,7 +3,7 @@
         "prompts": [
             "Create a flow that checks whether the given two integers have opposite sign or not.",
             "The flow should create a user-defined function. The body of the function contains two input properties of type Number, a 'Math Expression' node and one output property of type 'Bool'. The input properties is connected with arrows to 'Math Expression', that contains an expression with the two input properties of type numbers. The 'Math Expression' result is a boolean. This value is connected with arrows to the created output property, that return the Bool from the function. The user-defined function is then created within the main module.",
-            "This created user-defined function should then be tested within a seperate module called tests, within the main module"
+            "This created user-defined function should then be tested within a seperate module called tests, within the main module. Since the user-defined function does not contain input and ouput triggers, the flow of execution is sendt between the test cases, using the input and output triggers. "
         ],
         "task_id": 1,
         "specification": {
@@ -50,7 +50,7 @@
         "prompts": [
             "Create a flow to find the smallest number in a list.",
             "The flow should use the built-in function node from the std library, called 'List Min' node. The node should be created in the main module.",
-            "The built-in function 'List Min' should then be tested within a seperate module called tests, within the main module."
+            "The built-in function 'List Min' should then be tested within a seperate module called tests, within the main module. Since the function does not contain input and ouput triggers, the flow of execution is sendt between the test cases, using the input and output triggers. "
         ],
         "task_id": 2,
         "specification": {
@@ -91,7 +91,7 @@
         "prompts": [
             "Create a flow to find whether a number is divisible by 11.",
             "The flow should create a user-defined function. The body of the function contains one input property of type Number, one 'Data Object' node with number 11, one 'Math Modulo', one 'Math Expression' and one output property of type Bool. The input property, called n, is connected with arrows to the value propery of the 'Math Modulo' node. The Data Object with number 11 is conntected with arrowes to the divisor property og 'Math modulo'. The result output property of the 'Math modulo' node is connected with arrows to the 'Math Expression' node, which contains the expression (n == 0). The result of this 'Math Expression' node is a Bool which is connected with arrows to the output property, that return the Bool from the function. The user-defined function is then created within the main module.",
-            "This created user-defined function should then be tested in a seperate module called tests, within the main module."
+            "This created user-defined function should then be tested in a seperate module called tests, within the main module. Since the user-defined function does not contain input and ouput triggers, the flow of execution is sendt between the test cases, using the input and output triggers. "
         ],
         "task_id": 3,
         "specification": {
@@ -137,39 +137,51 @@
     {
         "prompts": [
             "Create a flow to find the kth element in the given array using 1-based indexing.",
-           //Endre "The flow should first create a Data Object with the list [12,3,5,7,19], another Data Object of type number with the value 3, and then utilize the built-in function 'List GetAt' which takes a list and an index as input properties and returns the element at the given index as output property. The Data Objects is then connected with arrows to the input properties list and index of the 'List GetAt' node. is connected with arrows to the 'List GetAt' node. The result of the 'List GetAt' node is connected with arrows to the 'std Log' node to log the output for the user.",
-            "A test should not be made because the input values, in this case a index and list, is provided and logged"
+            "The flow should create a user-defined function called 'kth_element' with three inputs: an 'execute' trigger, 'list' of type List, and 'k' of type Number. The function should have two outputs: a 'continue' trigger and 'element' of type Number, which is the kth element in the provided list. Inside the function, a local variable is used to store the state of the input property 'k'. This variable is called 'local_k' and is set at the beginning of the flow using the setter node to the value of the input property of 'k'. Then an 'IfExpression' node is used to check if 'k' is equal to 0. If 'k' is 0, trigger the 'continue' output immediately. Otherwise, it gets the 'local_k' variable using a getter node and adjusts for zero-based indexing by using a 'Math.Sub' to subract 1, and assign this result back to 'local_k', using the setter node Set Variable. Then, use a 'List.GetAt' node to retrieve the element at the updated index from 'list'. The getter node Get Variable is used for getting the value of the local variable 'local_k'. The retrieved element should be output through the 'element' property. Connect the nodes appropriately: the 'execute' trigger starts the flow and sends the flow of execution to the setter node Set variable. The setter node uses input property 'k' and therefore an arrow is created between them. The setter node then sends the flow of execution to the 'Std.IfExpression' node, which also takes in the input property 'k'. The node's output trigger 'then' is connected with the output trigger 'continue' of the flow, and the output trigger 'else' is connected to another setter node. The setter node's input property 'new value' is connected to the output property 'result' of the 'Math.Sub' node. Lastly, the input propery 'list' and the getter node is connected to the input properties 'list' and 'index' of the 'List.GetAt' node. The outpur property 'itemAtIndex' of this node is then connected to the output property 'element' of the user-defined function, which returns the number.",
+            "This created user-defined function should then be tested in a seperate module called tests, within the main module. Since the user-defined function uses input and ouput triggers, the flow of execution is sendt between the created function and test cases, using the input and output triggers.  "
         ],
         "task_id": 4,
         "specification": {
-            "function_signature": "",
+            "function_signature": "func(doc: \"finds the kth element in the given array using 1-based indexing.\") kth_element {\n  in(x: -286.0833326588629, y: -119.5833377136553, name: \"execute\") trigger() execute_1e159f\n  in(x: 153.3888224263642, y: 446.30657270108384, name: \"list\") property(List) list_b5d10a\n  in(x: -289.44439697265625, y: 126.55570983886724, name: \"k\") property(Number) k_1e19fb\n\n  out(x: 844.7513913467067, y: 53.95836826061554, name: \"continue\") trigger() continue_c95bcb\n  out(x: 692.8760222272696, y: 553.3761034449718, name: \"element\") property(Number) element_fd7945\n}",
             "preconditions": "- index should be between 1 and the length of the list (inclusive)",
             "postconditions": "- The result should be the kth element of the input list."
         },
         "MBPP_task_id": 101,
         "library_functions": [
             "root.std.List.GetAt",
-            "root.std.Std.Log"
+            "root.std.Math.Sub",
+            "root.std.IfExpression"
         ],
         "visual_node_types": [
             "Function",
-            "Data Object"
+            "Setter",
+            "Getter",
+            "Output Property",
+            "Input Property",
+            "Input Trigger",
+            "Output Trigger"
+
         ],
         "textual_instance_types": [
             "instance",
-            "data_instance"
+            "data_instance",
+            "in",
+            "out"
         ],
         "testing": {
             "library_functions": [
                 "root.std.Testing.Test",
-                "root.std.Testing.AssertTrue"
+                "root.std.Testing.AssertEqual"
+
             ],
             "visual_node_types": [
                 "Event",
-                "Function"
+                "Function",
+                "Data Object"
             ],
             "textual_instance_types": [
-                "instance"
+                "instance",
+                "data_instance"
             ],
             "test_list": [
                 "assert kth_element([12,3,5,7,19], 2) == 3",

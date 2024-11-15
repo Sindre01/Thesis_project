@@ -17,10 +17,10 @@ module() main {
             expression: "a == 0"
         }
         instance(x: 196.08429439590276, y: 256.94999327134036) sub_9ff257 root.Std_k98ojb.Math.Sub {}
-        setter(x: -37.888916015625, y: -48.66664123535156, name: "setter_d09207") setter_d09207 = k
-        getter(x: -130.55505132226426, y: 211.30537914149969, name: "getter_7f13b7") getter_7f13b7 = k
-        getter(x: 118.50036625419602, y: 540.6262022364415, name: "getter_44a047") getter_44a047 = k
-        setter(x: 491.8761215307038, y: 194.37543975069025, name: "setter_29a5c8") setter_29a5c8 = k
+        setter(x: -37.888916015625, y: -48.66664123535156, name: "setter_d09207") setter_d09207 = local_k
+        getter(x: -130.55505132226426, y: 211.30537914149969, name: "getter_7f13b7") getter_7f13b7 = local_k
+        getter(x: 118.50036625419602, y: 540.6262022364415, name: "getter_44a047") getter_44a047 = local_k
+        setter(x: 491.8761215307038, y: 194.37543975069025, name: "setter_29a5c8") setter_29a5c8 = local_k
         list_b5d10a -> getat_8eae56.list
         1 -> sub_9ff257.second
         execute_1e159f -> setter_d09207.execute
