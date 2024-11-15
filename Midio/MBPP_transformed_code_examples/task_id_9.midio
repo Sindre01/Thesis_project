@@ -1,0 +1,9 @@
+@midio_version("0.1.0")
+@version("0.1.0")
+import("std", Std_k98ojb)
+import("http", Http_q7o96c)
+
+module() main {
+    instance(x: 264.02191601562504, y: -464.3336564941407, name: "last_Digit") last_091f94 root.Std_k98ojb.Math.Modulo {}
+    10 -> last_091f94.divisor
+}

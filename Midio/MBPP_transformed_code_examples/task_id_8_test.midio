@@ -4,7 +4,7 @@ import("std", Std_k98ojb)
 import("http", Http_q7o96c)
 
 module() main {
-    func(doc: "check whether the entered number is greater than the elements of the given array.") IsGreater {
+    func(doc: "check whether the entered number is greater than the elements of the given array.") check_greater {
         in(x: -33.73497780295881, y: -26.418843685612387, name: "n") property(Number) n_a6cea7
         in(x: -294.1111145019531, y: 155.3333740234375, name: "list") property(Any) list_0b075e
 
@@ -19,33 +19,33 @@ module() main {
     }
 
     module(doc: "contains different test") tests {
-        instance(x: 444.10031757812504, y: 209.60687631835935) IsGreater_0e0818 root.main.IsGreater {}
+        instance(x: 444.10031757812504, y: 209.60687631835935) check_greater_0e0818 root.main.check_greater {}
         instance(x: -12.45493437499995, y: -66.0599671875) test_7f8863 root.Std_k98ojb.Testing.Test {
-            name: "Test IsGreater"
+            name: "Test check_greater"
         }
         data_instance(x: 450.8, y: 343.8) data_7534e8  = [1, 2, 3, 4, 5]
-        instance(x: 819.5074147949217, y: 208.663010172526) IsGreater_c1b8fc root.main.IsGreater {}
+        instance(x: 819.5074147949217, y: 208.663010172526) check_greater_c1b8fc root.main.check_greater {}
         instance(x: 795.6184758300781, y: 85.44070865885413) asserttrue_06b1c1 root.Std_k98ojb.Testing.AssertTrue {}
         data_instance(x: 826.2, y: 342.9) data_a93579  = [2, 3, 4, 5, 6]
-        instance(x: 1207.9519338378905, y: 209.88523917643224) IsGreater_962a95 root.main.IsGreater {}
+        instance(x: 1207.9519338378905, y: 209.88523917643224) check_greater_962a95 root.main.check_greater {}
         instance(x: 1184.0629948730468, y: 86.66293766276044) asserttrue_d04ae1 root.Std_k98ojb.Testing.AssertTrue {}
         data_instance(x: 1214.7, y: 344.1) data_a7d27f  = [9, 7, 4, 8, 6, 1]
         instance(x: 416.2222900390625, y: 90.66665649414063) assertfalse_dce4a1 root.Std_k98ojb.Testing.AssertFalse {}
-        data_7534e8 -> IsGreater_0e0818.list_0b075e
-        4 -> IsGreater_0e0818.n_a6cea7
-        IsGreater_c1b8fc.output_b1d7f8 -> asserttrue_06b1c1.value
-        data_a93579 -> IsGreater_c1b8fc.list_0b075e
-        8 -> IsGreater_c1b8fc.n_a6cea7
-        IsGreater_962a95.output_b1d7f8 -> asserttrue_d04ae1.value
-        data_a7d27f -> IsGreater_962a95.list_0b075e
-        11 -> IsGreater_962a95.n_a6cea7
+        data_7534e8 -> check_greater_0e0818.list_0b075e
+        4 -> check_greater_0e0818.n_a6cea7
+        check_greater_c1b8fc.output_b1d7f8 -> asserttrue_06b1c1.value
+        data_a93579 -> check_greater_c1b8fc.list_0b075e
+        8 -> check_greater_c1b8fc.n_a6cea7
+        check_greater_962a95.output_b1d7f8 -> asserttrue_d04ae1.value
+        data_a7d27f -> check_greater_962a95.list_0b075e
+        11 -> check_greater_962a95.n_a6cea7
         asserttrue_06b1c1.continue -> asserttrue_d04ae1.execute
         assertfalse_dce4a1.continue -> asserttrue_06b1c1.execute
         test_7f8863.onRun -> assertfalse_dce4a1.execute
-        IsGreater_0e0818.output_b1d7f8 -> assertfalse_dce4a1.value
+        check_greater_0e0818.output_b1d7f8 -> assertfalse_dce4a1.value
 
 
     }
 
-    instance(x: 48.55560302734375, y: 11.77777099609375) isgreater_15f9e9 root.main.IsGreater {}
+    instance(x: 48.55560302734375, y: 11.77777099609375) check_greater_15f9e9 root.main.check_greater {}
 }
