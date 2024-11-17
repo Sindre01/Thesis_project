@@ -5,7 +5,7 @@ import("http", Http_q7o96c)
 
 module() main { 
     
-func(doc: "gets the sum of the digits of a non-negative integer.") sum_digits {
+    func(doc: "gets the sum of the digits of a non-negative integer.") sum_digits {
         in(x: -450.6285128462196, y: -421.0174318758901, name: "execute") trigger() execute_cdac2a
         in(x: -436.0110785806854, y: -213.9943182008108, name: "n") property(Number) n_6b655b
 
