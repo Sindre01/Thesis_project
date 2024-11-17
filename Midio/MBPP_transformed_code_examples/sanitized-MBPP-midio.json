@@ -610,8 +610,8 @@
     {
         "prompts": [
             "Create a flow to get the sum of the digits of a non-negative integer.",
-            "",
-            ""
+            "The flow should create a user-defined function, called sum_digits. The body of the function contains one input property of type Number, called 'n', and one input trigger, called 'execute'. It also includes the following node: one 'Math Floor' node, one 'Math Modulo' node with the divisor set to 10, one 'Math Division' node with the divisor set to 10, one 'Math Addition' node, one 'Std IfExpression' node, local variable creation with the getter and setter nodes, and the current sum_digits function node to be able to do recursive calls. Lastly, it includes an output property of type number and an output trigger, called 'continue'.  The input property, called n, is connected with arrows to the input property of the 'Math Floor' node. The output property of the 'Math Floor' node, called 'output', is connected with three arrows to the input properties of 'Std IfExpression', 'Math Div' and 'Math Modulo'. The input trigger, called 'execute' is conencted with an arrow to the setter node, which sets the value of a variable sum to the number 0. Then, the flow of execution is futher sent to the 'Std IfExpression' node, which evaluates if 'n <= 0'. If true, then the flow of execution is sent to the output trigger, called 'continue'. If false, the the flow of execution is sent to the current sum_digits node which starts a recursive call, with the input property 'n' set to the result of the 'Math Div' node, which divides n (after going through 'Math Floor') with 10. After the recursive calls, the flow of execution is sent to a setter node, which sets the variable 'sum' to the value of 'Math Add', which add the output of 'sum_digits' and the 'Math Modulo' node with divisor 10. After the varible 'sum' have been set by the setter node, the flow of execution is sent to the ouput trigger 'continue'. At the end of the main flow and all the recursive calls, the output property is returned by connecting it to a 'getter' node, which gets the value of the variable 'sum'. The user-defined function is then created within the main module.",
+            "The created user-defined function should then be tested inside a seperate module called tests, within the main module."
         ],
         "task_id": 14,
         "specification": {
@@ -620,13 +620,41 @@
             "postconditions": "- The sum of the digits of the input integer is returned\n- The sum is non-negative"
         },
         "MBPP_task_id": 566,
-        "library_functions": [],
-        "visual_node_types": [],
-        "textual_instance_types": [],
+        "library_functions": [
+            "root.std.Math.Floor",
+            "root.std.Math.Modulo",
+            "root.std.Math.Division",
+            "root.std.Math.Addition",
+            "root.std.IfExpression"
+        ],
+        "visual_node_types": [
+            "Function",
+            "Setter",
+            "Getter",
+            "Output Property",
+            "Input Property",
+            "Input Trigger",
+            "Output Trigger"
+        ],
+        "textual_instance_types": [
+            "instance",
+            "in",
+            "out"
+        ],
         "testing": {
-            "library_functions": [],
-            "visual_node_types": [],
-            "textual_instance_types": [],
+            "library_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertEqual"
+            ],
+            "visual_node_types": [
+                "Event",
+                "Function",
+                "Data Object"
+            ],
+            "textual_instance_types": [
+                "instance",
+                "data_instance"
+            ],
             "test_list": [
                 "assert sum_digits(345)==12",
                 "assert sum_digits(12)==3",
