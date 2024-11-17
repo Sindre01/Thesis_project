@@ -1,0 +1,58 @@
+@midio_version("0.1.0")
+@version("0.1.0")
+import("std", Std_k98ojb)
+import("http", Http_q7o96c)
+
+module() main {
+    func(doc: "check whether the given list contains consecutive numbers or not.") ContainsConsecutiveNumbers {
+        in(x: -425.8101837730135, y: 209.16760512007824, name: "list") property(List) list_faf6c2
+
+        out(x: 866.1704038210295, y: 132.1480057664585, name: "output") property(Bool) output_a2b59d
+
+        instance(x: 5.1156056013203965, y: 346.1594142373052) max_a8e56c root.Std_k98ojb.List.Max {}
+        instance(x: -6.986843966805395, y: 129.4783592682398) sort_a49ae4 root.Std_k98ojb.List.Sort {}
+        instance(x: 0, y: 242.22225952148438) min_18909a root.Std_k98ojb.List.Min {}
+        instance(x: 532.7155439091782, y: 135.12162227163174) expression_b5dba9 root.Std_k98ojb.Math.Expression {
+            expression: "list1 == list2"
+        }
+        instance(x: 251.95522295517867, y: 257.33635184101513) generaterange_82d404 root.Std_k98ojb.List.GenerateRange {}
+        sort_a49ae4.sorted_list -> expression_b5dba9.gen_0
+        min_18909a.min -> generaterange_82d404.from
+        max_a8e56c.max -> generaterange_82d404.to
+        generaterange_82d404.list -> expression_b5dba9.gen_1
+        expression_b5dba9.result -> output_a2b59d
+        list_faf6c2 -> sort_a49ae4.list
+        list_faf6c2 -> min_18909a.items
+        list_faf6c2 -> max_a8e56c.items
+    }
+
+    module(doc: "Contains three different tests for the 'ContainsConsecutiveNumbers' function node") tests {
+        instance(x: -255.641041015625, y: -35.26557456054688) ContainsConsecutiveNumbers_e5eb91 root.main.ContainsConsecutiveNumbers {}
+        instance(x: -527.41875390625, y: -306.96514707031247) test_67cced root.Std_k98ojb.Testing.Test {
+            name: "Test ContainsConsecutiveNumbers"
+        }
+        instance(x: -225.19652490234375, y: -183.63174252929684) asserttrue_c23525 root.Std_k98ojb.Testing.AssertTrue {}
+        data_instance(x: -228.6, y: 106.4) data_ccc21a  = [1, 2, 3, 4, 5]
+        instance(x: 78.50754833984377, y: -45.88806821289066) ContainsConsecutiveNumbers_b59c88 root.main.ContainsConsecutiveNumbers {}
+        data_instance(x: 105.6, y: 95.8) data_1af3f8  = [1, 2, 3, 5, 6]
+        instance(x: 420.50767041015615, y: -52.88806821289066) ContainsConsecutiveNumbers_8fa272 root.main.ContainsConsecutiveNumbers {}
+        data_instance(x: 447.6, y: 88.8) data_aa17da  = [1, 2, 1]
+        instance(x: 103.35959716796879, y: -181.46557456054688) assertfalse_b7f69c root.Std_k98ojb.Testing.AssertFalse {}
+        instance(x: 422.2483911132812, y: -180.35446005859376) assertfalse_5430d0 root.Std_k98ojb.Testing.AssertFalse {}
+        ContainsConsecutiveNumbers_e5eb91.output_a2b59d -> asserttrue_c23525.value
+        test_67cced.onRun -> asserttrue_c23525.execute
+        asserttrue_c23525.continue -> assertfalse_b7f69c.execute
+        data_ccc21a -> ContainsConsecutiveNumbers_e5eb91.list_faf6c2
+        ContainsConsecutiveNumbers_b59c88.output_a2b59d -> assertfalse_b7f69c.value
+        data_1af3f8 -> ContainsConsecutiveNumbers_b59c88.list_faf6c2
+        ContainsConsecutiveNumbers_8fa272.output_a2b59d -> assertfalse_5430d0.value
+        data_aa17da -> ContainsConsecutiveNumbers_8fa272.list_faf6c2
+        assertfalse_b7f69c.continue -> assertfalse_5430d0.execute
+
+
+    }
+
+    instance(x: 203.3111450195313, y: -192.27708398437505) containsconsecutivenumbers_24d4b5 root.main.ContainsConsecutiveNumbers {}
+
+
+}

@@ -19,7 +19,7 @@ module() main {
         data_9a9c70 -> min_c3e343.items
         min_c3e343.min -> smallest_8713cf
     }
-    module(doc: "Contains different tests") tests {
+    module(doc: "Contains three different tests for the 'min_of_three' function node") tests {
         instance(x: -128.71068123277806, y: -313.2936314100216) test_95406e root.Std_k98ojb.Testing.Test {
             name: "Test min of three"
         }

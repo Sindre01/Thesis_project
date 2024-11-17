@@ -5,7 +5,7 @@ import("http", Http_q7o96c)
 
 module() main {
 
-    module(doc: "Contains different tests") tests {
+    module(doc: "Contains three different tests for the 'List min' function node") tests {
         instance(x: -278.57087910482176, y: 84.16315230254101) min_17cef2 root.Std_k98ojb.List.Min {}
         instance(x: -700.2377340852905, y: -267.8369774582012) test_6f9def root.Std_k98ojb.Testing.Test {
             name: "Test List min"

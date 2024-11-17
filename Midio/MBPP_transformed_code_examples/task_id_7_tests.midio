@@ -18,7 +18,7 @@ module() main {
         list2_c8f404 -> intersection_78d487.right
     }
 
-    module(doc: "contains different tests") tests {
+    module(doc: "Contains three different tests for the 'common_element' function node") tests {
         instance(x: 279.14917161572976, y: 165.02455636962938) common_1c74ea root.main.common_element {}
         data_instance(x: 35.3, y: 231.8) data_c2c58d  = [1, 2, 3, 4, 5]
         instance(x: 0.9273051757812709, y: -145.25318017578124, name: "commom") test_e8c573 root.Std_k98ojb.Testing.Test {

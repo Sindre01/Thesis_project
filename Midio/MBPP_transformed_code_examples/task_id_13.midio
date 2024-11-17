@@ -1,0 +1,9 @@
+@midio_version("0.1.0")
+@version("0.1.0")
+import("std", Std_k98ojb)
+import("http", Http_q7o96c)
+
+module() main { 
+
+    instance(x: -49.33293896484372, y: -62.222114501953115) tolower_3985fd root.Std_k98ojb.Strings.ToLower {}
+}

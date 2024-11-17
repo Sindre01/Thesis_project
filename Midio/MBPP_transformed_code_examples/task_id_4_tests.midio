@@ -36,7 +36,7 @@ module() main {
         setter_29a5c8.continue -> continue_c95bcb
     }
 
-    module(doc: "Contains different tests") tests {
+    module(doc: "Contains three different tests for the 'kth_element' function node") tests {
         instance(x: -238.89210693359385, y: 31.66668701171875) kth_element_10a78c root.main.kth_element {}
         instance(x: -282.78100826499156, y: -141.111146743148) test_bee914 root.Std_k98ojb.Testing.Test {
             name: "Test kth_element"

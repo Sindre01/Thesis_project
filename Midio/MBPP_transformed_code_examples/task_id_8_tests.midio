@@ -18,7 +18,7 @@ module() main {
         list_0b075e -> length_6e87f2.list
     }
 
-    module(doc: "contains different test") tests {
+    module(doc: "Contains three different tests for the 'check_greater' function node") tests {
         instance(x: 444.10031757812504, y: 209.60687631835935) check_greater_0e0818 root.main.check_greater {}
         instance(x: -12.45493437499995, y: -66.0599671875) test_7f8863 root.Std_k98ojb.Testing.Test {
             name: "Test check_greater"

@@ -17,7 +17,7 @@ module() main {
         y_5390f5 -> expression_ea12d8.gen_1
         expression_ea12d8.result -> output_3339a3
     }
-    module(doc: "Contains different tests") tests {
+    module(doc: "Contains four different tests for the 'opposite_signs' function node") tests {
         instance(x: -565.5751366373697, y: 51.16856408013234) task_c90e87 root.main.opposite_signs {}
         instance(x: -914.9086022135418, y: -199.72013831244578) test_db5683 root.Std_k98ojb.Testing.Test {
             name: "Test opposite_signs"

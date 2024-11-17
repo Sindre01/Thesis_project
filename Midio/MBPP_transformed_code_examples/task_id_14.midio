@@ -1,0 +1,49 @@
+@midio_version("0.1.0")
+@version("0.1.0")
+import("std", Std_k98ojb)
+import("http", Http_q7o96c)
+
+module() main { 
+    
+func(doc: "gets the sum of the digits of a non-negative integer.") sum_digits {
+        in(x: -450.6285128462196, y: -421.0174318758901, name: "execute") trigger() execute_cdac2a
+        in(x: -436.0110785806854, y: -213.9943182008108, name: "n") property(Number) n_6b655b
+
+        out(x: 1146.875280258343, y: -647.121552710005, name: "continue") trigger() continue_d9efd7
+        out(x: 1169.392184087017, y: -269.1458067062002, name: "output") property(Number) output_732a8a
+
+        instance(x: 80.89579303986966, y: -417.65972326008614) ifexpression_3d7de6 root.Std_k98ojb.Std.IfExpression {
+            expression: "n <= 0"
+        }
+        instance(x: 395.7852006176033, y: -378.5346681524448) sum_digits_96023e root.main.sum_digits {}
+        instance(x: 97.26073178843272, y: -127.20828320589732) modulo_adfa16 root.Std_k98ojb.Math.Modulo {}
+        instance(x: 656.7392544046465, y: -330.05550447098767) add_88bb8a root.Std_k98ojb.Math.Add {}
+        instance(x: 99.04512033110508, y: -249.19776888949687) div_547f34 root.Std_k98ojb.Math.Div {}
+        setter(x: -215.149250043669, y: -463.6943773173606, name: "setter_41e4ad") setter_41e4ad = sum
+        setter(x: 875.4620892015823, y: -518.993104265236, name: "setter_375321") setter_375321 = sum
+        getter(x: 902.9272555296948, y: -314.6630512598314, name: "getter_38583a") getter_38583a = sum
+        instance(x: -202.35927021027717, y: -236.812380106833) floor_61b38d root.Std_k98ojb.Math.Floor {}
+        10 -> modulo_adfa16.divisor
+        modulo_adfa16.result -> add_88bb8a.first
+        10 -> div_547f34.second
+        div_547f34.result -> sum_digits_96023e.n_6b655b
+        0 -> setter_41e4ad.new_value
+        setter_41e4ad.continue -> ifexpression_3d7de6.execute
+        ifexpression_3d7de6.then -> continue_d9efd7
+        execute_cdac2a -> setter_41e4ad.execute
+        ifexpression_3d7de6.else -> sum_digits_96023e.execute_cdac2a
+        sum_digits_96023e.continue_d9efd7 -> setter_375321.execute
+        sum_digits_96023e.output_732a8a -> add_88bb8a.second
+        add_88bb8a.result -> setter_375321.new_value
+        setter_375321.continue -> continue_d9efd7
+        getter_38583a.value -> output_732a8a
+        n_6b655b -> floor_61b38d.input
+        floor_61b38d.output -> div_547f34.first
+        floor_61b38d.output -> modulo_adfa16.value
+        floor_61b38d.output -> ifexpression_3d7de6.gen_0
+    }
+
+
+    instance(x: -176.88885498046875, y: -38.111114501953125) sum_digits_86117a root.main.sum_digits {}
+
+}

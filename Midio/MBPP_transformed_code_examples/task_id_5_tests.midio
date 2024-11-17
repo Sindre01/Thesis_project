@@ -4,7 +4,7 @@ import("std", Std_k98ojb)
 import("http", Http_q7o96c)
 
 module() main { 
-   module(doc: "Contains different tests") tests {
+   module(doc: "Contains three different tests for the 'Math Expression' function node, which multiplies two numbers") tests {
         instance(x: 7.915879394531274, y: 131.51126562500002, name: "multiply_int") expression_9584aa root.Std_k98ojb.Math.Expression {
             expression: "x * y"
         }

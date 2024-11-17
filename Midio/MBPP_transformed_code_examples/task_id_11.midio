@@ -1,0 +1,32 @@
+@midio_version("0.1.0")
+@version("0.1.0")
+import("std", Std_k98ojb)
+import("http", Http_q7o96c)
+
+module() main {
+    func(doc: "check whether the given list contains consecutive numbers or not.") ContainsConsecutiveNumbers {
+        in(x: -425.8101837730135, y: 209.16760512007824, name: "list") property(List) list_faf6c2
+
+        out(x: 866.1704038210295, y: 132.1480057664585, name: "output") property(Bool) output_a2b59d
+
+        instance(x: 5.1156056013203965, y: 346.1594142373052) max_a8e56c root.Std_k98ojb.List.Max {}
+        instance(x: -6.986843966805395, y: 129.4783592682398) sort_a49ae4 root.Std_k98ojb.List.Sort {}
+        instance(x: 0, y: 242.22225952148438) min_18909a root.Std_k98ojb.List.Min {}
+        instance(x: 532.7155439091782, y: 135.12162227163174) expression_b5dba9 root.Std_k98ojb.Math.Expression {
+            expression: "list1 == list2"
+        }
+        instance(x: 251.95522295517867, y: 257.33635184101513) generaterange_82d404 root.Std_k98ojb.List.GenerateRange {}
+        sort_a49ae4.sorted_list -> expression_b5dba9.gen_0
+        min_18909a.min -> generaterange_82d404.from
+        max_a8e56c.max -> generaterange_82d404.to
+        generaterange_82d404.list -> expression_b5dba9.gen_1
+        expression_b5dba9.result -> output_a2b59d
+        list_faf6c2 -> sort_a49ae4.list
+        list_faf6c2 -> min_18909a.items
+        list_faf6c2 -> max_a8e56c.items
+    }
+
+    instance(x: 203.3111450195313, y: -192.27708398437505) containsconsecutivenumbers_24d4b5 root.main.ContainsConsecutiveNumbers {}
+
+
+}
