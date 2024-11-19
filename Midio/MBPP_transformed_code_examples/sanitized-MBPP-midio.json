@@ -165,6 +165,8 @@
         "textual_instance_types": [
             "instance",
             "data_instance",
+            "setter",
+            "getter",
             "in",
             "out"
         ],
@@ -691,6 +693,8 @@
         ],
         "textual_instance_types": [
             "instance",
+            "setter",
+            "getter",
             "in",
             "out"
         ],
