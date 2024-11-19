@@ -718,24 +718,55 @@
     },
     {
         "prompts": [
-            "Write a python function to calculate the product of the unique numbers in a given list.",
-            "Write a method in Dafny to calculate the product of the unique numbers in a given integer array.",
-            ""
+            "Create a flow to calculate the product of the unique numbers in a given list.",
+            "The flow should create a user-defined function, called unique_product. The body of the function contains two input properties: an input trigger named 'execute' and an input property of type List, named 'list'. It also includes the following nodes: one 'List Empty' node to initialize an empty list, for the local varibale 'usedNumbers', several Setter and Getter nodes for managing local variables 'product' and 'usedNumbers', one 'Std For' node to iterate over the 'items' in the input property 'list', one 'List Contains' node to check if an item is already in 'usedNumbers', one 'Std If' node to control flow based on whether an item is unique, one 'Math Mul' node to multiply the current product by the unique item, and one 'List Add' node to add the unique item to 'usedNumbers'. Lastly, it includes an output property named 'output' of type Number and an output trigger named 'continue'.\n\nArrows are connected as follows: The input trigger execute is connected to the Setter node that initializes the variable product to 1. This Setter node's continue output is connected to another Setter node that initializes 'usedNumbers' to an empty list using the 'List Empty' node. After initializing, the flow continues to the 'Std For' node, which iterates over the items property set to the input list. Inside the loop, the 'List Contains' node checks if the current item is in 'usedNumbers' by using the item from the 'Std For' node and 'usedNumbers' retrieved via a Getter node. The result from 'List Contains' is connected to the predicate of the 'Std If' node.\n\nIf the item is already in 'usedNumbers' (predicate is true), the flow proceeds to the next input of the 'Std For' node, skipping the current item.\nIf the item is not in 'usedNumbers' (predicate is false), the flow proceeds to a Setter node that updates 'usedNumbers' by adding the current item. This is done using a 'List Add' node connected to the Setter node. After updating usedNumbers, the flow continues to a 'Math Mul' node where the current product (retrieved via a Getter node) is multiplied by the current item. The result is stored back into product using another Setter node. The flow then returns to the next input of the 'Std For' node for the next iteration.\nOnce the 'Std For' loop is complete (all items have been processed), the flow proceeds to output the final product through the output property 'output', and the 'continue' output trigger is activated to signal the end of the function execution. The user-defined function is then created within the main module.",
+            "The created user-defined function 'unique_product' should then be tested inside a seperate module called tests, within the main module. Since the user-defined function uses input and ouput triggers, the flow of execution is sendt between the created function and test cases, using the input and output triggers. "
         ],
-        "task_id": -1,
+        "task_id": 16,
         "specification": {
-            "function_signature": "method UniqueProduct(a: array<int>) returns (product: int)",
+            "function_signature": "func(doc: \"Calculates the product of the unique numbers in a given list.\") unique_product {\n  in(x: -757.333251953125, y: -167.22222900390625, name: \"execute\") trigger() execute_19300c\n  in(x: -241.5073968048319, y: 24.718980205535843, name: \"list\") property(List) list_5fda54\n\n  out(x: 887.2698254909816, y: -144.87763740156333, name: \"continue\") trigger() continue_45190b\n  out(x: 683.0457784343986, y: 73.83239411456998, name: \"output\") property(Number) output_cffcc2\n}",
             "preconditions": "- There are no preconditions, the method will always work.",
             "postconditions": "- The product should be the multiplication of all unique elements in the array"
         },
         "MBPP_task_id": 573,
-        "library_functions": [],
-        "visual_node_types": [],
-        "textual_instance_types": [],
+        "library_functions": [
+            "root.std.List.Empty",
+            "root.std.List.Contains",
+            "root.std.List.Add",
+            "root.std.Math.Mul",
+            "root.std.For",
+            "root.std.If"
+        ],
+        "visual_node_types": [
+            "Function",
+            "Setter",
+            "Getter",
+            "Output Property",
+            "Input Property",
+            "Input Trigger",
+            "Output Trigger"
+        ],
+        "textual_instance_types": [
+            "instance",
+            "getter",
+            "setter",
+            "in",
+            "out"
+        ],
         "testing": {
-            "library_functions": [],
-            "visual_node_types": [],
-            "textual_instance_types": [],
+            "library_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertEqual"
+            ],
+            "visual_node_types": [
+                "Event",
+                "Function",
+                "Data Object"
+            ],
+            "textual_instance_types": [
+                "instance",
+                "data_instance"
+            ],
             "test_list": [
                 "assert unique_product([10, 20, 30, 40, 20, 50, 60, 40]) ==  720000000",
                 "assert unique_product([1, 2, 3, 1,]) == 6",
@@ -745,13 +776,13 @@
     },
     {
         "prompts": [
-            "Write a python function to check whether a list is sublist of another or not.",
-            "Write a method in Dafny to check whether a list is sublist of another or not.",
+            "Create a flow to check whether a list is sublist of another or not.",
+            "",
             ""
         ],
-        "task_id": -1,
+        "task_id": 17,
         "specification": {
-            "function_signature": "method IsSublist(sub: seq<int>, main: seq<int>) returns (result: bool)",
+            "function_signature": "",
             "preconditions": "- There are no preconditions, the method will always work. Sequences are always not null.",
             "postconditions": "- If the result is true, then the subsequence exists in the main sequence\n- If the result is false, then the subsequence does not exist in the main sequence"
         },

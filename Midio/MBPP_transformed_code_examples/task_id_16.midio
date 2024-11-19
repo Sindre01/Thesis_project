@@ -1,0 +1,52 @@
+@midio_version("0.1.0")
+@version("0.1.0")
+import("std", Std_k98ojb)
+import("http", Http_q7o96c)
+
+module() main { 
+    func(doc: "Calculates the product of the unique numbers in a given list.") unique_product {
+        in(x: -757.333251953125, y: -167.22222900390625, name: "execute") trigger() execute_19300c
+        in(x: -241.5073968048319, y: 24.718980205535843, name: "list") property(List) list_5fda54
+
+        out(x: 887.2698254909816, y: -144.87763740156333, name: "continue") trigger() continue_45190b
+        out(x: 683.0457784343986, y: 73.83239411456998, name: "output") property(Number) output_cffcc2
+
+        instance(x: -522.785847798308, y: -42.96072463735783) empty_1241d2 root.Std_k98ojb.List.Empty {}
+        setter(x: -553.7498601724257, y: -212.89057690620876, name: "setter_3fbc81") setter_3fbc81 = product
+        instance(x: 26.15888944520657, y: -171.77722043256156) for_22d807 root.Std_k98ojb.Std.For {}
+        getter(x: 248.87578292778068, y: 24.869990321363503, name: "getter_acfb71") getter_acfb71 = product
+        setter(x: 944.8978902055024, y: -493.4806027768481, name: "setter_7d7b02") setter_7d7b02 = product
+        instance(x: 489.5396226793314, y: -70.19580535868397) mul_351036 root.Std_k98ojb.Math.Mul {}
+        setter(x: -261.111083984375, y: -213.88875573730468, name: "setter_b0088e") setter_b0088e = usedNumbers
+        instance(x: 492.7880124057021, y: -249.2720128322528) if_093328 root.Std_k98ojb.Std.If {}
+        instance(x: 341.3055852700819, y: -407.4163204676517) contains_79844d root.Std_k98ojb.List.Contains {}
+        setter(x: 679.1909259661265, y: -493.9049395808341, name: "setter_6ff55e") setter_6ff55e = usedNumbers
+        instance(x: 336.4298999498509, y: -540.0303193188755) add_b65a15 root.Std_k98ojb.List.Add {}
+        getter(x: -9.8808648545467, y: -590.6139968849578, name: "getter_3f3dda") getter_3f3dda = usedNumbers
+        1 -> setter_3fbc81.new_value
+        list_5fda54 -> for_22d807.items
+        getter_acfb71.value -> mul_351036.second
+        for_22d807.item -> mul_351036.first
+        mul_351036.result -> setter_7d7b02.new_value
+        setter_7d7b02.continue -> for_22d807.next
+        setter_3fbc81.continue -> setter_b0088e.execute
+        empty_1241d2.list -> setter_b0088e.new_value
+        setter_b0088e.continue -> for_22d807.reset
+        for_22d807.onItem -> if_093328.execute
+        for_22d807.item -> contains_79844d.item
+        contains_79844d.is_contained -> if_093328.predicate
+        if_093328.then -> for_22d807.next
+        for_22d807.done -> continue_45190b
+        execute_19300c -> setter_3fbc81.execute
+        if_093328.else -> setter_6ff55e.execute
+        setter_6ff55e.continue -> setter_7d7b02.execute
+        add_b65a15.listWithItem -> setter_6ff55e.new_value
+        for_22d807.item -> add_b65a15.item
+        getter_3f3dda.value -> add_b65a15.list
+        getter_3f3dda.value -> contains_79844d.list
+        getter_acfb71.value -> output_cffcc2
+    }
+
+
+    instance(x: -172.22554199218757, y: -18.33331298828125) unique_product_a0e5a9 root.main.unique_product {}
+}
