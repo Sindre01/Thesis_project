@@ -1,0 +1,61 @@
+@midio_version("0.1.0")
+@version("0.1.0")
+import("std", Std_k98ojb)
+import("http", Http_q7o96c)
+
+module() main { 
+    func(doc: "find sum and average of first n natural numbers.") sum_average {
+        in(x: -343.8920972493336, y: -287.2221990039212, name: "n") property(Number) n_c88d35
+
+        out(x: 756.5555369922204, y: -371.1631536397618, name: "output") property(Any) output_ebef81
+
+        data_instance(x: 394.7, y: -339.2) data_3c713b  = [sum, average]
+        instance(x: 46.33355129553502, y: -383.55556084309217, name: "sum") expression_634b7e root.Std_k98ojb.Math.Expression {
+            expression: "n * (n+1)/2"
+        }
+        instance(x: 62.15625018292224, y: -226.68738706776583, name: "average") div_2d44da root.Std_k98ojb.Math.Div {}
+        data_3c713b -> output_ebef81
+        n_c88d35 -> expression_634b7e.gen_0
+        expression_634b7e.result -> data_3c713b.sum
+        expression_634b7e.result -> div_2d44da.first
+        div_2d44da.result -> data_3c713b.average
+        n_c88d35 -> div_2d44da.second
+    }
+
+    module(doc: "Contains three different tests for the 'sum_average' function node") tests {
+        instance(x: -431.1143969726563, y: 52.777801513671875) test_a24d30 root.Std_k98ojb.Testing.Test {
+            name: "Test sum_average"
+        }
+        instance(x: -45.55879394531259, y: 129.44448852539063) assertequal_c078ec root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: -48.89222900390632, y: 268.3334580078125) sum_average_522599 root.main.sum_average {}
+        data_instance(x: -319.7, y: 218.5) data_5d39ef  = [55, ``5.5``]
+        instance(x: 273.73982177734376, y: 122.18518318684896) assertequal_6b1829 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 263.7396997070312, y: 274.4075572102864) sum_cdc322 root.main.sum_average {}
+        data_instance(x: 206.3, y: 360.2) data_7dbe92  = [120, ``8.0``]
+        instance(x: 595.7957312006358, y: 120.51856492508252) assertequal_8b30ae root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 583.5732882320774, y: 286.629523885381) sum_a4f03b root.main.sum_average {}
+        data_instance(x: 706.1, y: 375.2) data_4d40d9  = [210, ``10,5``]
+        data_instance(x: 37.3, y: 378.0) data_003749  = 8
+        data_instance(x: 531.5, y: 408.0) data_d8720e  = 10.5
+        data_instance(x: -299.1, y: 398.1) data_b9a055  = 5.5
+        10 -> sum_average_522599.n_c88d35
+        data_5d39ef -> assertequal_c078ec.expect
+        sum_average_522599.output_ebef81 -> assertequal_c078ec.actual
+        sum_cdc322.output_ebef81 -> assertequal_6b1829.actual
+        data_7dbe92 -> assertequal_6b1829.expect
+        15 -> sum_cdc322.n_c88d35
+        sum_a4f03b.output_ebef81 -> assertequal_8b30ae.actual
+        data_4d40d9 -> assertequal_8b30ae.expect
+        20 -> sum_a4f03b.n_c88d35
+        data_d8720e -> data_4d40d9.``10,5``
+        data_b9a055 -> data_5d39ef.``5.5``
+        data_003749 -> data_7dbe92.``8.0``
+        test_a24d30.onRun -> assertequal_c078ec.execute
+        assertequal_c078ec.continue -> assertequal_6b1829.execute
+        assertequal_6b1829.continue -> assertequal_8b30ae.execute
+
+
+    }
+
+    instance(x: -81.4892290039063, y: 159.91114501953126) sum_average_f15bad root.main.sum_average {}
+}

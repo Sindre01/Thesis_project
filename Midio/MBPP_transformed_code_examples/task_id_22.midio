@@ -1,0 +1,23 @@
+@midio_version("0.1.0")
+@version("0.1.0")
+import("std", Std_k98ojb)
+import("http", Http_q7o96c)
+
+module() main { 
+    func(doc: "checks whether the given number is even or not.") is_Even {
+        in(x: -389.111083984375, y: -3.88885498046875, name: "num") property(Number) num_1a1743
+
+        out(x: 197.5556640625, y: -8.4444580078125, name: "output") property(Bool) output_4ff980
+
+        instance(x: -203.55548095703125, y: -7.333251953125,) modulo_0e15bd root.Std_k98ojb.Math.Modulo {}
+        instance(x: -2.4443359375, y: -7.33331298828125,) equal_f3c0cb root.Std_k98ojb.Logic.Equal {}
+        num_1a1743 -> modulo_0e15bd.value
+        2 -> modulo_0e15bd.divisor
+        modulo_0e15bd.result -> equal_f3c0cb.left
+        0 -> equal_f3c0cb.right
+        equal_f3c0cb.result -> output_4ff980
+    }
+
+    instance(x: 80.11114501953125, y: 103.11114501953124) is_even_db84c5 root.main.is_Even {}
+
+}
