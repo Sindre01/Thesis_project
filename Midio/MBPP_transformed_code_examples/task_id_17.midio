@@ -1,0 +1,48 @@
+@midio_version("0.1.0")
+@version("0.1.0")
+import("std", Std_k98ojb)
+import("http", Http_q7o96c)
+
+module() main { 
+    func(doc: "Checks whether a list is sublist of another or not.") is_Sub_Array {
+        in(x: -2030.7924743527929, y: 959.5781582315884, name: "main_list") property(List) main_list_25f077
+        in(x: -2032.5414239151896, y: 1297.7282764561908, name: "sub_list") property(List) sub_list_f9cb80
+        in(x: -1875.542233077594, y: 677.5031994030661, name: "execute") trigger() execute_68160a
+
+        out(x: -243.29710068190752, y: 1021.6858768454812, name: "continue") trigger() continue_d72620
+        out(x: -239.09189431023628, y: 1163.0910963400704, name: "output") property(Bool) output_ebc87c
+
+        instance(x: -1782.9727504210582, y: 1082.0059188561456) length_12a4a0 root.Std_k98ojb.List.Length {}
+        instance(x: -1275.3481911572162, y: 1052.297627171716) count_e53297 root.Std_k98ojb.Std.Count {}
+        instance(x: -1595.9272002846872, y: 1148.9756744540891) expression_c84155 root.Std_k98ojb.Math.Expression {
+            expression: "n - m + 1"
+        }
+        instance(x: -1783.9261430175925, y: 1237.327244200918) length_4fed60 root.Std_k98ojb.List.Length {}
+        instance(x: -548.2917968463753, y: 923.8620842851724) if_f81713 root.Std_k98ojb.Std.If {}
+        instance(x: -764.2125977067537, y: 1191.2178567610902) equal_010c84 root.Std_k98ojb.Logic.Equal {}
+        instance(x: -964.3936539127424, y: 1120.881608230213) slice_cda647 root.Std_k98ojb.List.Slice {}
+        instance(x: -1040.6429579795708, y: 898.8369391894502) add_a3f57f root.Std_k98ojb.Math.Add {}
+        length_12a4a0.length -> expression_c84155.gen_0
+        length_4fed60.length -> expression_c84155.gen_1
+        expression_c84155.result -> count_e53297.iterations
+        count_e53297.interation -> slice_cda647.start
+        count_e53297.interation -> add_a3f57f.first
+        length_12a4a0.length -> add_a3f57f.second
+        add_a3f57f.result -> slice_cda647.end
+        slice_cda647.slice -> equal_010c84.left
+        equal_010c84.result -> if_f81713.predicate
+        count_e53297.onCount -> if_f81713.execute
+        main_list_25f077 -> length_12a4a0.list
+        sub_list_f9cb80 -> length_4fed60.list
+        sub_list_f9cb80 -> equal_010c84.right
+        main_list_25f077 -> slice_cda647.list
+        if_f81713.then -> continue_d72620
+        count_e53297.done -> continue_d72620
+        if_f81713.else -> count_e53297.count
+        execute_68160a -> count_e53297.reset
+        if_f81713.value -> output_ebc87c
+    }
+
+
+    instance(x: 57.42772982007955, y: -40.38852907724322) is_sub_array_f8f3ba root.main.is_Sub_Array {}
+}
