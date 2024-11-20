@@ -1,0 +1,10 @@
+@midio_version("0.1.0")
+@version("0.1.0")
+import("std", Std_k98ojb)
+import("http", Http_q7o96c)
+
+module() main { 
+
+    instance(x: -55.55885498046882, y: 80.55560302734375) difference_1f4c9a root.Std_k98ojb.Sets.Difference {}
+    
+}

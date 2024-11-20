@@ -1,0 +1,47 @@
+@midio_version("0.1.0")
+@version("0.1.0")
+import("std", Std_k98ojb)
+import("http", Http_q7o96c)
+
+module() main { 
+    module(doc: "Contains three different tests for the 'Sets difference' function node") tests {
+        instance(x: -531.3333435058594, y: 2.777801513671875) test_be487a root.Std_k98ojb.Testing.Test {
+            name: "Test find_dissimilar"
+        }
+        instance(x: -165.77764892578125, y: 68.3333740234375) assertequal_e38387 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 340.88897705078125, y: 77.22219848632813) assertequal_e9f535 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 772.0001220703125, y: 76.11114501953125) assertequal_b11c9f root.Std_k98ojb.Testing.AssertEqual {}
+        data_instance(x: -321.3, y: 411.7) data_58a497  = [3, 4, 5, 6]
+        instance(x: -150.22222900390625, y: 228.33343505859375) difference_ef71f3 root.Std_k98ojb.Sets.Difference {}
+        data_instance(x: -89.8, y: 409.3) data_5bbfb8  = [5, 7, 4, 10]
+        data_instance(x: -133.1, y: -165.3) data_f3cb4f  = [3, 6, 7, 10]
+        data_instance(x: 185.7, y: 393.4) data_cd8b41  = [1, 2, 3, 4]
+        data_instance(x: 425.7, y: 394.4) data_f56dae  = [7, 2, 3, 9]
+        data_instance(x: 651.0, y: 417.8) data_45dfe4  = [21, 11, 25, 26]
+        data_instance(x: 936.1, y: 409.3) data_7a35c2  = [26, 34, 21, 36]
+        instance(x: 793.666748046875, y: 251.22222900390625) difference_cae3bc root.Std_k98ojb.Sets.Difference {}
+        instance(x: 339.22235107421875, y: 249.00006103515625) difference_a9fc9e root.Std_k98ojb.Sets.Difference {}
+        data_instance(x: 348.3, y: -142.4) data_f89646  = [1, 4, 7, 9]
+        data_instance(x: 791.9, y: -159.4) data_0d6776  = [11, 25, 34, 36]
+        data_f3cb4f -> assertequal_e38387.expect
+        difference_ef71f3.difference -> assertequal_e38387.actual
+        data_58a497 -> difference_ef71f3.left
+        data_5bbfb8 -> difference_ef71f3.right
+        data_cd8b41 -> difference_a9fc9e.left
+        data_f56dae -> difference_a9fc9e.right
+        difference_a9fc9e.difference -> assertequal_e9f535.actual
+        assertequal_e38387.continue -> assertequal_e9f535.execute
+        assertequal_e9f535.continue -> assertequal_b11c9f.execute
+        difference_cae3bc.difference -> assertequal_b11c9f.actual
+        data_45dfe4 -> difference_cae3bc.left
+        data_7a35c2 -> difference_cae3bc.right
+        data_f89646 -> assertequal_e9f535.expect
+        test_be487a.onRun -> assertequal_e38387.execute
+        data_0d6776 -> assertequal_b11c9f.expect
+
+
+    }
+
+    instance(x: -55.55885498046882, y: 80.55560302734375) difference_1f4c9a root.Std_k98ojb.Sets.Difference {}
+    
+}

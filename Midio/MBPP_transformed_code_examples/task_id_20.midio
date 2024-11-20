@@ -1,0 +1,31 @@
+@midio_version("0.1.0")
+@version("0.1.0")
+import("std", Std_k98ojb)
+import("http", Http_q7o96c)
+
+module() main { 
+    func(doc: "finds the difference of the first even and first odd number of a given list.") diff_even_odd {
+        in(x: -569.8980486478499, y: 438.54324938452424, name: "list") property(List) list_542a51
+
+        out(x: 443.494835164272, y: 427.164433987646, name: "difference") property(Number) difference_57c890
+
+        instance(x: -319.3813268225441, y: 358.2845222238808, name: "Even list") filter_f3b46d root.Std_k98ojb.Query.Filter {
+            where: "it % 2 == 0"
+        }
+        instance(x: -49.780944768085874, y: 372.9360364457649) firstitem_870503 root.Std_k98ojb.List.FirstItem {}
+        instance(x: -318.8424775906184, y: 521.0604232463519, name: "Odd list") filter_4d4556 root.Std_k98ojb.Query.Filter {
+            where: "it % 2 != 0"
+        }
+        instance(x: -48.19109902400328, y: 517.8258986626055) firstitem_3078c6 root.Std_k98ojb.List.FirstItem {}
+        instance(x: 188.43666581149444, y: 425.4357773892002) sub_852f2e root.Std_k98ojb.Math.Sub {}
+        list_542a51 -> filter_f3b46d.list
+        filter_f3b46d.result -> firstitem_870503.list
+        list_542a51 -> filter_4d4556.list
+        filter_4d4556.result -> firstitem_3078c6.list
+        firstitem_870503.item -> sub_852f2e.first
+        firstitem_3078c6.item -> sub_852f2e.second
+        sub_852f2e.result -> difference_57c890
+    }
+
+    instance(x: -67.78096191406259, y: -37.22216796875) diff_even_odd_f21f44 root.main.diff_even_odd {}
+}

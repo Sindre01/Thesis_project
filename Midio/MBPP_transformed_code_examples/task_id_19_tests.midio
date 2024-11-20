@@ -1,0 +1,52 @@
+@midio_version("0.1.0")
+@version("0.1.0")
+import("std", Std_k98ojb)
+import("http", Http_q7o96c)
+
+module() main { 
+    func(doc: "finds the difference between largest and smallest value in a given list.") big_diff {
+        in(x: -266.7777099609375, y: 82.5555419921875, name: "list") property(List) list_9abc1d
+
+        out(x: 533.6666870117188, y: 70.77783203125, name: "difference") property(Number) difference_27806e
+
+        instance(x: 15.4444580078125, y: 7) max_891a25 root.Std_k98ojb.List.Max {}
+        instance(x: 18.77783203125, y: 149.22222900390625) min_89fe87 root.Std_k98ojb.List.Min {}
+        instance(x: 285.00006103515625, y: 69) sub_a433f3 root.Std_k98ojb.Math.Sub {}
+        list_9abc1d -> max_891a25.items
+        list_9abc1d -> min_89fe87.items
+        max_891a25.max -> sub_a433f3.first
+        min_89fe87.min -> sub_a433f3.second
+        sub_a433f3.result -> difference_27806e
+    }
+
+    module(doc: "Contains three different tests for the 'big_diff' function node") tests {
+        instance(x: -82.66625195312497, y: 21.777885498046885) test_f4ee8a root.Std_k98ojb.Testing.Test {
+            name: "Test big_diff"
+        }
+        instance(x: -115.55516796874996, y: 209.3334580078125) assertequal_326ca2 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: -99.99962597656248, y: 364.889) big_diff_fa0bac root.main.big_diff {}
+        instance(x: 194.11117803709297, y: 211.2222545214715) assertequal_29374e root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 218, y: 370.1111145019531) big_698ab0 root.main.big_diff {}
+        instance(x: 495.0000973860596, y: 211.8889279410952) assertequal_3d6885 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 521.1111450195313, y: 374.1111450195313) big_f877eb root.main.big_diff {}
+        data_instance(x: -107.0, y: 483.0) data_42eaaa  = [1, 2, 3, 4]
+        data_instance(x: 221.7, y: 503.7) data_a44a69  = [4, 5, 12]
+        data_instance(x: 509.1, y: 503.3) data_05d03f  = [9, 2, 3]
+        test_f4ee8a.onRun -> assertequal_326ca2.execute
+        3 -> assertequal_326ca2.expect
+        big_diff_fa0bac.difference_27806e -> assertequal_326ca2.actual
+        big_698ab0.difference_27806e -> assertequal_29374e.actual
+        8 -> assertequal_29374e.expect
+        big_f877eb.difference_27806e -> assertequal_3d6885.actual
+        7 -> assertequal_3d6885.expect
+        assertequal_29374e.continue -> assertequal_3d6885.execute
+        assertequal_326ca2.continue -> assertequal_29374e.execute
+        data_05d03f -> big_f877eb.list_9abc1d
+        data_a44a69 -> big_698ab0.list_9abc1d
+        data_42eaaa -> big_diff_fa0bac.list_9abc1d
+
+
+    }
+
+    instance(x: -121.7777099609375, y: 41.66668701171875) big_diff_1dfbf1 root.main.big_diff {}
+}

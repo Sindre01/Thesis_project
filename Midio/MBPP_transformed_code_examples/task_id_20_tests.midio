@@ -1,0 +1,60 @@
+@midio_version("0.1.0")
+@version("0.1.0")
+import("std", Std_k98ojb)
+import("http", Http_q7o96c)
+
+module() main { 
+    func(doc: "finds the difference of the first even and first odd number of a given list.") diff_even_odd {
+        in(x: -569.8980486478499, y: 438.54324938452424, name: "list") property(List) list_542a51
+
+        out(x: 443.494835164272, y: 427.164433987646, name: "difference") property(Number) difference_57c890
+
+        instance(x: -319.3813268225441, y: 358.2845222238808, name: "Even list") filter_f3b46d root.Std_k98ojb.Query.Filter {
+            where: "it % 2 == 0"
+        }
+        instance(x: -49.780944768085874, y: 372.9360364457649) firstitem_870503 root.Std_k98ojb.List.FirstItem {}
+        instance(x: -318.8424775906184, y: 521.0604232463519, name: "Odd list") filter_4d4556 root.Std_k98ojb.Query.Filter {
+            where: "it % 2 != 0"
+        }
+        instance(x: -48.19109902400328, y: 517.8258986626055) firstitem_3078c6 root.Std_k98ojb.List.FirstItem {}
+        instance(x: 188.43666581149444, y: 425.4357773892002) sub_852f2e root.Std_k98ojb.Math.Sub {}
+        list_542a51 -> filter_f3b46d.list
+        filter_f3b46d.result -> firstitem_870503.list
+        list_542a51 -> filter_4d4556.list
+        filter_4d4556.result -> firstitem_3078c6.list
+        firstitem_870503.item -> sub_852f2e.first
+        firstitem_3078c6.item -> sub_852f2e.second
+        sub_852f2e.result -> difference_57c890
+    }
+
+    module(doc: "Contains three different tests for the 'diff_even_odd' function node") tests {
+        instance(x: -463.3365954589845, y: -72.77774047851563) test_c523d7 root.Std_k98ojb.Testing.Test {
+            name: "Test diff_even_odd"
+        }
+        data_instance(x: -156.7, y: 349.4) data_7b592d  = [1, 3, 5, 7, 4, 1, 6, 8]
+        data_instance(x: 112.2, y: 329.4) data_f662ec  = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+        data_instance(x: 410.8, y: 332.2) data_4a9cc5  = [1, 5, 7, 9, 10]
+        instance(x: -181.22216796875, y: 54.77783203125) assertequal_bc58f2 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 112.99993896484376, y: 53.4444580078125) assertequal_a755ce root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 414.1112060546875, y: 49) assertequal_99b8bd root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: -191.44436645507813, y: 224.55560302734375) diff_even_odd_12d1b5 root.main.diff_even_odd {}
+        instance(x: 409.1112712564982, y: 215.66670419597529) diff_1af570 root.main.diff_even_odd {}
+        instance(x: 90.22223817061922, y: 224.55562187822545) diff_eb1244 root.main.diff_even_odd {}
+        assertequal_bc58f2.continue -> assertequal_a755ce.execute
+        test_c523d7.onRun -> assertequal_bc58f2.execute
+        assertequal_a755ce.continue -> assertequal_99b8bd.execute
+        data_7b592d -> diff_even_odd_12d1b5.list_542a51
+        data_f662ec -> diff_eb1244.list_542a51
+        data_4a9cc5 -> diff_1af570.list_542a51
+        diff_1af570.difference_57c890 -> assertequal_99b8bd.actual
+        diff_eb1244.difference_57c890 -> assertequal_a755ce.actual
+        diff_even_odd_12d1b5.difference_57c890 -> assertequal_bc58f2.actual
+        3 -> assertequal_bc58f2.expect
+        1 -> assertequal_a755ce.expect
+        9 -> assertequal_99b8bd.expect
+
+
+    }
+
+    instance(x: -67.78096191406259, y: -37.22216796875) diff_even_odd_f21f44 root.main.diff_even_odd {}
+}
