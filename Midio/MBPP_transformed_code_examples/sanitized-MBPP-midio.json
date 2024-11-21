@@ -805,14 +805,7 @@
             "Input Property",
             "Output Property",
             "Input Trigger",
-            "Output Trigger",
-            "List Length",
-            "Std Count",
-            "Math Expression",
-            "List Slice",
-            "Logic Equal",
-            "Std If",
-            "Math Add"
+            "Output Trigger"
         ],
         "textual_instance_types": [
             "instance",
@@ -827,8 +820,7 @@
             "visual_node_types": [
                 "Event",
                 "Function",
-                "Testing Test",
-                "Testing AssertEqual"
+                "Data Object"
             ],
             "textual_instance_types": [
                 "instance",
@@ -905,10 +897,7 @@
         "visual_node_types": [
             "Function",
             "Input Property",
-            "Output Property",
-            "List Max",
-            "List Min",
-            "Math Sub"
+            "Output Property"
         ],
         "textual_instance_types": [
             "instance",
@@ -921,8 +910,6 @@
                 "root.std.Testing.AssertEqual"
             ],
             "visual_node_types": [
-                "Testing Test",
-                "Testing AssertEqual",
                 "Function",
                 "Data Object",
                 "Event"
