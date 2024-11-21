@@ -1,0 +1,178 @@
+[
+    {
+        "type": "function",
+        "function_name": "Url.UrlEncodeFormData",
+        "module_path": "Url",
+        "doc": "",
+        "body": "extern func UrlEncodeFormData {\n\n        in(name: \"form data\") property(Any) form_data\n\n        out property(String) encoded\n\n    }",
+        "types": ""
+    },
+    {
+        "type": "function",
+        "function_name": "Url.UrlEncodeString",
+        "module_path": "Url",
+        "doc": "",
+        "body": "extern func UrlEncodeString {\n\n        in property(String) string\n\n        out property(String) encoded\n\n    }",
+        "types": ""
+    },
+    {
+        "type": "function",
+        "function_name": "Url.UrlDecodeString",
+        "module_path": "Url",
+        "doc": "",
+        "body": "extern func UrlDecodeString {\n\n        in property(String) encoded\n\n        out property(String) string\n\n    }",
+        "types": ""
+    },
+    {
+        "type": "function",
+        "function_name": "Http.Response",
+        "module_path": "Http",
+        "doc": "Responds to an http request (`req`) provided by an `Http.Endpoint` event.",
+        "body": "extern func(doc: \"Responds to an http request (`req`) provided by an `Http.Endpoint` event.\") Response {\n\n        in trigger(consumes: Http.EndpointContext, ) respond\n\n        out trigger continue\n\n        in(defaultValue: 200) property(Number) status\n\n        in property headers\n\n        in property body\n\n    }",
+        "types": "type Headers Any\ntype Url String\ntype EndpointContext Any\ntype ServerContext Any"
+    },
+    {
+        "type": "function",
+        "function_name": "Http.FetchUrl",
+        "module_path": "Http",
+        "doc": "Performs a simple http/https request to the provided `url` and returns the `response` a string or a buffer depending on the value of `resopnseType`, which can be 'text' or 'buffer'. The body input will be converted to json if it is anything other than a String or Null.",
+        "body": "extern func(doc: \"Performs a simple http/https request to the provided `url` and returns the `response` a string or a buffer depending on the value of `resopnseType`, which can be 'text' or 'buffer'. The body input will be converted to json if it is anything other than a String or Null.\") FetchUrl {\n\n        in(x: 0, y: 0, name: \"execute\") trigger() execute\n\n        in(x: 0, y: 0, name: \"url\") property(String) url\n\n        in(x: 0, y: 0, name: \"response type\", editor: \"ComboBox(\\\"text\\\",\\\"json\\\",\\\"buffer\\\")\", defaultValue: \"json\") property(Any) responseType\n\n        in(x: 0, y: 0, name: \"headers\") property headers\n\n        in(x: 0, y: 0, name: \"method\", editor: \"ComboBox(\\\"GET\\\",\\\"POST\\\",\\\"HEAD\\\",\\\"PUT\\\",\\\"DELETE\\\",\\\"CONNECT\\\",\\\"OPTIONS\\\",\\\"TRACE\\\",\\\"PATCH\\\")\", defaultValue: \"GET\") property method\n\n        in(x: 0, y: 0, name: \"body\") property(Any) body\n\n        out(x: 0, y: 0, name: \"continue\") trigger() continue\n\n        out(x: 0, y: 0, name: \"response\") property(String) response\n\n        out(x: 0, y: 0, name: \"status\") property(Number) status\n\n        out(x: 0, y: 0, name: \"headers\") property(Headers) headers\n\n        out(x: 0, y: 0, name: \"on error\") trigger() onError\n\n        out(x: 0, y: 0, name: \"error\") property(String) error\n\n    }",
+        "types": "type Headers Any\ntype Url String\ntype EndpointContext Any\ntype ServerContext Any"
+    },
+    {
+        "type": "function",
+        "function_name": "Http.GetHttpQueryParam",
+        "module_path": "Http",
+        "doc": "Returns the query parameter `name` from a request (`req`) object.",
+        "body": "extern func(doc: \"Returns the query parameter `name` from a request (`req`) object.\") GetHttpQueryParam {\n\n        in(x: 0, y: 0, name: \"req\") property req\n\n        in(x: 0, y: 0, name: \"name\") property(String) name\n\n        out(x: 0, y: 0, name: \"value\") property(String) value\n\n    }",
+        "types": "type Headers Any\ntype Url String\ntype EndpointContext Any\ntype ServerContext Any"
+    },
+    {
+        "type": "function",
+        "function_name": "Http.HttpListenRoute",
+        "module_path": "Http",
+        "doc": "",
+        "body": "extern func HttpListenRoute {\n\n        in(x: 0, y: 0, name: \"listen\") trigger() listen\n\n        in(x: 0, y: 0, name: \"path\") property path\n\n        in(x: 0, y: 0, name: \"method\") property method\n\n        out(x: 0, y: 0, name: \"listening\") trigger() listening\n\n        out(x: 0, y: 0, name: \"on request\") trigger(produces: Http.EndpointContext) onRequest\n\n    }",
+        "types": "type Headers Any\ntype Url String\ntype EndpointContext Any\ntype ServerContext Any"
+    },
+    {
+        "type": "event",
+        "function_name": "Http.Endpoint",
+        "module_path": "Http",
+        "doc": "Listens for http requests on the provided `path` and `method`. `path` is an url of the form some/path/, which can be parameterized by :name for path items, and ?query_name&another_query_name for query values. Example: 'user/:name?email&joined_date' This creates `name`, `email` and `joined_date` output properties that one can use to get these values from the request. NOTE: All endpoints currently shares a single http server.",
+        "body": "extern event(doc: \"Listens for http requests on the provided `path` and `method`. `path` is an url of the form some/path/, which can be parameterized by :name for path items, and ?query_name&another_query_name for query values. Example: 'user/:name?email&joined_date' This creates `name`, `email` and `joined_date` output properties that one can use to get these values from the request. NOTE: All endpoints currently shares a single http server.\") Endpoint {\n\n        parameter(\n\n            compilerPlugin: \"Url\",\n\n            defaultValue: \"/\"\n\n        ) path\n\n        parameter(\n\n            editor: \"ComboBox(\\\"GET\\\",\\\"POST\\\",\\\"HEAD\\\",\\\"PUT\\\",\\\"DELETE\\\",\\\"CONNECT\\\",\\\"OPTIONS\\\",\\\"TRACE\\\",\\\"PATCH\\\")\",\n\n            defaultValue: \"GET\"\n\n        ) method\n\n        parameter(\n\n            editor: \"ComboBox(\\\"text\\\",\\\"buffer\\\")\",\n\n            defaultValue: \"text\",\n\n            name: \"body type\",\n\n        ) accept\n\n        out(name: \"on request\") trigger(produces: Http.EndpointContext) onRequest\n\n        out() property headers\n\n        out() property body\n\n    }",
+        "types": "type Headers Any\ntype Url String\ntype EndpointContext Any\ntype ServerContext Any"
+    },
+    {
+        "type": "function",
+        "function_name": "Http.Client.OpenNetworkStream",
+        "module_path": "Http.Client",
+        "doc": "Opens a new network stream.",
+        "body": "extern func(doc: \"Opens a new network stream.\") OpenNetworkStream {\n\n            in trigger open\n\n            in(editor: \"ComboBox(\\\"tcp\\\",\\\"tls\\\")\") property(NetworkStreamKind) kind\n\n            in property(String) url\n\n            in property(Number) port\n\n            out trigger(produces: Http.Client.ClientConnection) connected\n\n            out trigger failed\n\n            out property(String) error\n\n        }",
+        "types": "type Headers Any\ntype Url String\ntype EndpointContext Any\ntype ServerContext Any\ntype NetworkStreamKind String\ntype HttpClient Opaque\ntype ClientConnection Opaque"
+    },
+    {
+        "type": "function",
+        "function_name": "Http.Client.CreateRequest",
+        "module_path": "Http.Client",
+        "doc": "",
+        "body": "extern func CreateRequest {\n\n            in property(String) path\n\n            in property(Http.Method) method\n\n            in property(Http.Headers) headers\n\n            in property(String or Null) body\n\n            out property(Http.Client.Request) request\n\n        }",
+        "types": "type Headers Any\ntype Url String\ntype EndpointContext Any\ntype ServerContext Any\ntype NetworkStreamKind String\ntype HttpClient Opaque\ntype ClientConnection Opaque\ntype Body String\ntype Request Any\ntype Response Any"
+    },
+    {
+        "type": "function",
+        "function_name": "Http.Client.StringifyRequest",
+        "module_path": "Http.Client",
+        "doc": "",
+        "body": "extern func StringifyRequest {\n\n            in property(Http.Client.Request) request\n\n            out property(String) request\n\n        }",
+        "types": "type Headers Any\ntype Url String\ntype EndpointContext Any\ntype ServerContext Any\ntype NetworkStreamKind String\ntype HttpClient Opaque\ntype ClientConnection Opaque\ntype Body String\ntype Request Any\ntype Response Any"
+    },
+    {
+        "type": "function",
+        "function_name": "Http.Client.SendRequest",
+        "module_path": "Http.Client",
+        "doc": "",
+        "body": "extern func SendRequest {\n\n            in trigger(borrows: Http.Client.ClientConnection) send\n\n            in property(Http.Client.Request) request\n\n            out(name: \"on response\") trigger(produces: Http.Client.Response) onResponse\n\n            out trigger failed\n\n            out property(String) error\n\n        }",
+        "types": "type Headers Any\ntype Url String\ntype EndpointContext Any\ntype ServerContext Any\ntype NetworkStreamKind String\ntype HttpClient Opaque\ntype ClientConnection Opaque\ntype Body String\ntype Request Any\ntype Response Any"
+    },
+    {
+        "type": "function",
+        "function_name": "Http.Client.ResponseStatus",
+        "module_path": "Http.Client",
+        "doc": "",
+        "body": "extern func ResponseStatus {\n\n            in trigger(borrows: Http.Client.Response) get\n\n            out trigger continue\n\n            out property(Number) status\n\n            out(name: \"status text\") property(String) statusText\n\n        }",
+        "types": "type Headers Any\ntype Url String\ntype EndpointContext Any\ntype ServerContext Any\ntype NetworkStreamKind String\ntype HttpClient Opaque\ntype ClientConnection Opaque\ntype Body String\ntype Request Any\ntype Response Any"
+    },
+    {
+        "type": "function",
+        "function_name": "Http.Client.ResponseHeaders",
+        "module_path": "Http.Client",
+        "doc": "",
+        "body": "extern func ResponseHeaders {\n\n            in trigger(borrows: Http.Client.Response) get\n\n            out trigger continue\n\n            out property(Http.Headers) headers\n\n        }",
+        "types": "type Headers Any\ntype Url String\ntype EndpointContext Any\ntype ServerContext Any\ntype NetworkStreamKind String\ntype HttpClient Opaque\ntype ClientConnection Opaque\ntype Body String\ntype Request Any\ntype Response Any"
+    },
+    {
+        "type": "function",
+        "function_name": "Http.Client.ResponseBody",
+        "module_path": "Http.Client",
+        "doc": "",
+        "body": "extern func ResponseBody {\n\n            in trigger(borrows: Http.Client.Response) get\n\n            in(x: 0, y: 0, name: \"response type\", editor: \"ComboBox(\\\"text\\\",\\\"buffer\\\")\") property(String) responseType\n\n            out trigger continue\n\n            out property(Http.Client.Body) body\n\n        }",
+        "types": "type Headers Any\ntype Url String\ntype EndpointContext Any\ntype ServerContext Any\ntype NetworkStreamKind String\ntype HttpClient Opaque\ntype ClientConnection Opaque\ntype Body String\ntype Request Any\ntype Response Any"
+    },
+    {
+        "type": "function",
+        "function_name": "Http.Client.ResponseBodyStream",
+        "module_path": "Http.Client",
+        "doc": "Streams content from a response body as descrete events.",
+        "body": "extern func(doc: \"Streams content from a response body as descrete events.\") ResponseBodyStream {\n\n            in(name: \"next frame\") trigger(borrows: Http.Client.Response) nextFrame\n\n            in(x: 0, y: 0, name: \"response type\", editor: \"ComboBox(\\\"text\\\",\\\"buffer\\\")\") property(String) responseType\n\n            out(name: \"on data\") trigger onData\n\n            out property(String) data\n\n            out(name: \"on done\") trigger onDone\n\n            out trigger failed\n\n            out property(String) error\n\n        }",
+        "types": "type Headers Any\ntype Url String\ntype EndpointContext Any\ntype ServerContext Any\ntype NetworkStreamKind String\ntype HttpClient Opaque\ntype ClientConnection Opaque\ntype Body String\ntype Request Any\ntype Response Any"
+    },
+    {
+        "type": "function",
+        "function_name": "Http.Server.BindNetworkListener",
+        "module_path": "Http.Server",
+        "doc": "Binds a new network listener. If `port` is Null, the OS will assign a port number to the listener.",
+        "body": "extern func(doc: \"Binds a new network listener. If `port` is Null, the OS will assign a port number to the listener.\") BindNetworkListener {\n\n            in trigger open\n\n            in(editor: \"ComboBox(\\\"tcp\\\")\") property(Http.Server.NetworkListenerKind) kind\n\n            in property(String) addr\n\n            in property(Number or Null) port\n\n            out(name: \"listener bound\") trigger(produces: Http.Server.NetworkListener) listenerBound\n\n            out(name: \"bound address\") property(String) boundAddr\n\n            out(name: \"bound port\") property(Number) boundPort\n\n            out(name: \"on error\") trigger onError\n\n            out property(String) error\n\n        }",
+        "types": "type Headers Any\ntype Url String\ntype EndpointContext Any\ntype ServerContext Any\ntype NetworkListenerKind String\ntype NetworkListener Opaque\ntype Request Opaque\ntype Response Opaque\ntype Body String\ntype Status Number"
+    },
+    {
+        "type": "function",
+        "function_name": "Http.Server.AcceptConnections",
+        "module_path": "Http.Server",
+        "doc": "Starts accepting incoming connections on the provided `NetworkListener`. The process is forked for each accepted connection.",
+        "body": "extern func(doc: \"Starts accepting incoming connections on the provided `NetworkListener`. The process is forked for each accepted connection.\") AcceptConnections {\n\n            in trigger(consumes: Http.Server.NetworkListener) accept\n\n            out(name: \"listener started\") trigger listenerStarted\n\n            out(name: \"client connected\") trigger(produces: Http.Server.Request) clientConnected\n\n            out(name: \"on error\") trigger onError\n\n            out property(String) error\n\n        }",
+        "types": "type Headers Any\ntype Url String\ntype EndpointContext Any\ntype ServerContext Any\ntype NetworkListenerKind String\ntype NetworkListener Opaque\ntype Request Opaque\ntype Response Opaque\ntype Body String\ntype Status Number"
+    },
+    {
+        "type": "function",
+        "function_name": "Http.Server.RequestInfo",
+        "module_path": "Http.Server",
+        "doc": "",
+        "body": "extern func RequestInfo {\n\n            in trigger(borrows: Http.Server.Request) get\n\n            out trigger continue\n\n            out property(Http.Method) method\n\n            out property(Http.Url) url\n\n        }",
+        "types": "type Headers Any\ntype Url String\ntype EndpointContext Any\ntype ServerContext Any\ntype NetworkListenerKind String\ntype NetworkListener Opaque\ntype Request Opaque\ntype Response Opaque\ntype Body String\ntype Status Number"
+    },
+    {
+        "type": "function",
+        "function_name": "Http.Server.RequestBody",
+        "module_path": "Http.Server",
+        "doc": "",
+        "body": "extern func RequestBody {\n\n            in trigger(borrows: Http.Server.Request) get\n\n            in(x: 0, y: 0, name: \"response type\", editor: \"ComboBox(\\\"text\\\",\\\"buffer\\\")\") property(String) requestType\n\n            out trigger continue\n\n            out property(Http.Server.Body) body\n\n        }",
+        "types": "type Headers Any\ntype Url String\ntype EndpointContext Any\ntype ServerContext Any\ntype NetworkListenerKind String\ntype NetworkListener Opaque\ntype Request Opaque\ntype Response Opaque\ntype Body String\ntype Status Number"
+    },
+    {
+        "type": "function",
+        "function_name": "Http.Server.CreateResponse",
+        "module_path": "Http.Server",
+        "doc": "",
+        "body": "extern func CreateResponse {\n\n            in(name: \"status\") property(Http.Server.Status) Status\n\n            in property(Http.Headers) headers\n\n            in property(String or Null) body\n\n            out property(Http.Server.Response) response\n\n        }",
+        "types": "type Headers Any\ntype Url String\ntype EndpointContext Any\ntype ServerContext Any\ntype NetworkListenerKind String\ntype NetworkListener Opaque\ntype Request Opaque\ntype Response Opaque\ntype Body String\ntype Status Number"
+    },
+    {
+        "type": "function",
+        "function_name": "Http.Server.SendResponse",
+        "module_path": "Http.Server",
+        "doc": "",
+        "body": "extern func SendResponse {\n\n            in trigger(borrows: Http.Server.Request) execute\n\n            in property(Http.Server.Response) response\n\n            out trigger continue\n\n            out property(Http.Server.Body) body\n\n        }",
+        "types": "type Headers Any\ntype Url String\ntype EndpointContext Any\ntype ServerContext Any\ntype NetworkListenerKind String\ntype NetworkListener Opaque\ntype Request Opaque\ntype Response Opaque\ntype Body String\ntype Status Number"
+    }
+]

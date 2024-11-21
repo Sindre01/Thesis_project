@@ -4,7 +4,7 @@ from collections import Counter
 import os
 
 # Path to the JSON file
-json_file_path = 'Midio/MBPP_transformed_code_examples/sanitized-MBPP-midio.json'
+json_file_path = 'MBPP_transformed_code_examples/sanitized-MBPP-midio.json'
 
 # Ensure the file exists
 if not os.path.exists(json_file_path):
@@ -17,40 +17,40 @@ else:
     # Step 2: Filter the samples with task_id from 1 to 22
     filtered_data = [item for item in data if 1 <= item.get('task_id', 0) <= 22]
 
-    # Step 3: Count the occurrences of each visual_node_type
-    visual_node_counts = Counter()
-    all_visual_node_types = set()
+    # Step 3: Count the occurrences of each textual_instance_type
+    textual_instance_counts = Counter()
+    all_textual_instance_types = set()
     for item in filtered_data:
-        visual_node_types = item.get('visual_node_types', [])
+        textual_instance_types = item.get('textual_instance_types', [])
         # Remove any prefixes if necessary (adjust as needed)
-        visual_node_types = [node_type.replace('root.std.', '') for node_type in visual_node_types]
-        visual_node_counts.update(visual_node_types)
-        all_visual_node_types.update(visual_node_types)
+        textual_instance_types = [instance_type.replace('root.std.', '') for instance_type in textual_instance_types]
+        textual_instance_counts.update(textual_instance_types)
+        all_textual_instance_types.update(textual_instance_types)
 
-    # Count the total number of unique visual node types used
-    total_unique_visual_nodes = len(all_visual_node_types)
-    print(f"Total number of unique visual node types used: {total_unique_visual_nodes}")
+    # Count the total number of unique textual instance types used
+    total_unique_textual_instances = len(all_textual_instance_types)
+    print(f"Total number of unique textual instance types used: {total_unique_textual_instances}")
 
-    # Check if any visual node types were found
-    if not visual_node_counts:
-        print("No visual node types found in the specified task IDs.")
+    # Check if any textual instance types were found
+    if not textual_instance_counts:
+        print("No textual instance types found in the specified task IDs.")
     else:
         # Step 4: Create the bar chart
-        visual_node_types = list(visual_node_counts.keys())
-        counts = list(visual_node_counts.values())
+        textual_instance_types = list(textual_instance_counts.keys())
+        counts = list(textual_instance_counts.values())
 
         plt.figure(figsize=(12, 6))
-        bars = plt.bar(visual_node_types, counts, color='skyblue')
-        plt.xlabel('Visual Node Types')
+        bars = plt.bar(textual_instance_types, counts, color='skyblue')
+        plt.xlabel('Textual Instance Types')
         plt.ylabel('Count')
 
-        # Add total unique visual node types to the plot title
-        plt.title(f'Count of Visual Node Types Used (Unique Types: {total_unique_visual_nodes})\nSamples with Task ID 1 to 22')
+        # Add total unique textual instance types to the plot title
+        plt.title(f'Count of Textual Instance Types Used (Unique Types: {total_unique_textual_instances})\nSamples with Task ID 1 to 22')
         plt.xticks(rotation=90)
         plt.tight_layout()
 
         # Add text annotation inside the plot
-        plt.text(0.95, 0.95, f'Total Unique Types: {total_unique_visual_nodes}',
+        plt.text(0.95, 0.95, f'Total Unique Types: {total_unique_textual_instances}',
                  horizontalalignment='right',
                  verticalalignment='top',
                  transform=plt.gca().transAxes,

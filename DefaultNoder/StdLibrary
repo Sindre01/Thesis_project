@@ -5,6 +5,7 @@ native_dependencies_location("./libmidio_core")
 
 module Std {
     type CountContext Number
+    type AnyContext Any
     extern func(doc: "Calls the supplied `handler` function using list of arguments supplied to `inputs`.") CallFunction {
         in(x: 0, y: 0, name: "handler") property(Any) handler
         in(x: 0, y: 0, name: "inputs") property inputs
@@ -76,7 +77,6 @@ module Std {
         out(x: 0, y: 0, name: "else") trigger() else
         out(x: 0, y: 0, name: "value") property(Bool) value
     }
-
 
     extern func IfExpression {
         parameter(
@@ -172,7 +172,6 @@ module Std {
         in(name: "exit code") property(Number) exitCode
     }
 
-    type AnyContext Any
     extern func(doc: "Makes the provided value available to the context of the `continue` trigger.") ProduceContext<T> {
         in trigger execute
         out trigger(produces: T) continue
@@ -957,7 +956,7 @@ Here are a few examples:
 Prompt: Calcualte the average of three number
 Response: (a + b + c) / 3
 
-Prompt: Calculate the are of a circle of radius r
+Prompt: Calculate the area of a circle of radius r
 Response: 3.14 * r * r
 
 Prompt: Calculate the area of a rectangle
@@ -1166,7 +1165,7 @@ module Scheduling {
         out(name: "on tick") trigger onTick
     }
 
-    extern event(doc: "Creates a schedule using a cron expression (second minute hour 'day of month' 'month' 'day of week' year). See https://en.wikipedia.org/wiki/Cron for details (note that this page doesn't show with second as the lowest resolution, as we do here.") ScheduleFromCronExpression {
+    extern event(doc: "Creates a schedule using a cron expression (second minute hour 'day of month' 'month' 'day of week' year). See https://en.wikipedia.org/wiki/Cron for details (note that this page doesn't show with second as the lowest resolution, as we do here.")) ScheduleFromCronExpression {
         parameter(name: "cron expression", defaultValue: "*/5 * * * * * *") cron_expr
         out(name: "on tick") trigger onTick
     }
