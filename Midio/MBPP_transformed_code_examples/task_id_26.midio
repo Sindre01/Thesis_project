@@ -1,0 +1,9 @@
+@midio_version("0.1.0")
+@version("0.1.0")
+import("std", Std_k98ojb)
+import("http", Http_q7o96c)
+
+module() main { 
+    instance(x: -179.99993896484375, y: 30.8000549316406) toupper_59bc6e root.Std_k98ojb.Strings.ToUpper {}
+
+}

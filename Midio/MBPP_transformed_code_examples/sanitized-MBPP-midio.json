@@ -1181,20 +1181,42 @@
             "",
             ""
         ],
-        "task_id": -1,
+        "task_id": 25,
         "specification": {
-            "function_signature": "method ElementWiseModulo(a: array<int>, b: array<int>) returns (result: array<int>)",
+            "function_signature": "func(doc: \"Takes two lists of the same length and performs the element wise modulo.\") list_modulo {\n    in(x: -173.79995727539065, y: -154.79998168945315, name: \"list1\") property(List) list1_1f846b\n    in(x: -181.4000244140625, y: -13.400048828125025, name: \"list2\") property(List) list2_c62075\n\n    out(x: 784.3554869802861, y: -110.50285847796896, name: \"newList\") property(List) list_0d40f1\n}",
             "preconditions": "- Both arrays should be non-null\n- Both arrays should have the same length\n- All elements in the second array (b) should be non-zero",
             "postconditions": "- The length of the result array should be the same as the length of the input arrays\n- Each element in the result array should be the modulo of the corresponding elements in the input arrays"
         },
         "MBPP_task_id": 616,
-        "library_functions": [],
-        "visual_node_types": [],
-        "textual_instance_types": [],
+        "library_functions": [
+            "root.std.Math.Modulo",
+            "root.std.Iteration.Zip"
+
+        ],
+        "visual_node_types": [
+            "Function",
+            "Input Property",
+            "Output Property"
+        ],
+        "textual_instance_types": [
+            "instance",
+            "in",
+            "out"
+        ],
         "testing": {
-            "library_functions": [],
-            "visual_node_types": [],
-            "textual_instance_types": [],
+            "library_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertEqual"
+            ],
+            "visual_node_types": [
+                "Event",
+                "Function",
+                "Data Object"
+            ],
+            "textual_instance_types": [
+                "instance",
+                "data_instance"
+            ],
             "test_list": [
                 "assert list_modulo((10, 4, 5, 6), (5, 6, 7, 5)) == (0, 4, 5, 1)",
                 "assert list_modulo((11, 5, 6, 7), (6, 7, 8, 6)) == (5, 5, 6, 1)",
@@ -1205,23 +1227,37 @@
     {
         "prompts": [
             "Write a python function to convert a given string to uppercase.",
-            "Write a method in Dafny to convert a given string to uppercase.",
+            "",
             ""
         ],
-        "task_id": -1,
+        "task_id": 26,
         "specification": {
-            "function_signature": "method ToUppercase(s: string) returns (v: string)",
+            "function_signature": "",
             "preconditions": "- There are no preconditions, the method will always work. Strings and sequences are always not null.",
             "postconditions": "- The length of the returning string must be the same as the length of the input string\n- All lowercase characters of the input string are uppercase in the output string\n- All other characters are unchanged"
         },
         "MBPP_task_id": 624,
-        "library_functions": [],
-        "visual_node_types": [],
-        "textual_instance_types": [],
+        "library_functions": [
+            "root.std.Strings.ToUpper"
+        ],
+        "visual_node_types": [
+            "Function"
+        ],
+        "textual_instance_types": [
+            "instance"
+        ],
         "testing": {
-            "library_functions": [],
-            "visual_node_types": [],
-            "textual_instance_types": [],
+            "library_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertEqual"
+            ],
+            "visual_node_types": [
+                "Event",
+                "Function"
+            ],
+            "textual_instance_types": [
+                "instance"
+            ],
             "test_list": [
                 "assert is_upper(\"person\") ==\"PERSON\"",
                 "assert is_upper(\"final\") == \"FINAL\"",

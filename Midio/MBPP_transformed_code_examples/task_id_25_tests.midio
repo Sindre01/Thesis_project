@@ -1,0 +1,71 @@
+@midio_version("0.1.0")
+@version("0.1.0")
+import("std", Std_k98ojb)
+import("http", Http_q7o96c)
+
+module() main { 
+   func(doc: "Takes two lists of the same length and performs the element wise modulo.") list_modulo {
+        in(x: -173.79995727539065, y: -154.79998168945315, name: "list1") property(List) list1_1f846b
+        in(x: -181.4000244140625, y: -13.400048828125025, name: "list2") property(List) list2_c62075
+
+        out(x: 784.3554869802861, y: -110.50285847796896, name: "newList") property(List) list_0d40f1
+
+        instance(x: 133.6198616192762, y: -131.50246298748203) zip_201051 root.Std_k98ojb.Iteration.Zip {}
+        list1_1f846b -> zip_201051.left
+        list2_c62075 -> zip_201051.right
+        func() {
+            in(x: -231.99993896484375, y: -69.60000000000002, name: "item1") property(Number) list1_42bc6f
+            in(x: -223.5999755859375, y: 18.5999755859375, name: "item2") property(Number) list2_1d86d4
+
+            out(x: 245.2799145507812, y: -54.040021362304685, name: "result") property(Number) result_e245cb
+
+            instance(x: -8, y: -53.9999938964844) modulo_4e8c54 root.Std_k98ojb.Math.Modulo {}
+            list1_42bc6f -> modulo_4e8c54.value
+            list2_1d86d4 -> modulo_4e8c54.divisor
+            modulo_4e8c54.result -> result_e245cb
+        } -> zip_201051.handler
+        zip_201051.zipped -> list_0d40f1
+    }
+
+    module(doc: "Contains three different tests for the 'list_modulo' function node") tests {
+        instance(x: -58, y: -50.79998168945315) test_740ded root.Std_k98ojb.Testing.Test {
+            name: "Test list_modulo"
+        }
+        instance(x: -34.20001220703125, y: 101.60003662109376) assertequal_88a403 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 227.15995727539064, y: 95.96001564025882) assertequal_690b3c root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 482.76002441406246, y: 83.5600198364258) assertequal_21ec1d root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: -99.64, y: 261.9599450683594) list_modulo_b10dca root.main.list_modulo {}
+        instance(x: 193.52004882812503, y: 268.4799755859375) list_f65e17 root.main.list_modulo {}
+        instance(x: 441.9200122070313, y: 273.6799572753906) list_03f5d5 root.main.list_modulo {}
+        data_instance(x: -448.5, y: 252.1) data_e7d964  = [10, 4, 5, 6]
+        data_instance(x: -439.3, y: 457.0) data_859759  = [5, 6, 7, 5]
+        data_instance(x: -447.4, y: 43.0) data_76e163  = [0, 4, 5, 1]
+        data_instance(x: 19.6, y: 431.8) data_fb424c  = [11, 5, 6, 7]
+        data_instance(x: 210.0, y: 441.0) data_387825  = [6, 7, 8, 6]
+        data_instance(x: -152.4, y: 416.5) data_b53168  = [5, 5, 6, 1]
+        data_instance(x: 424.0, y: 443.7) data_1c2a50  = [12, 6, 7, 8]
+        data_instance(x: 681.6, y: 449.2) data_cefbe2  = [7, 8, 9, 7]
+        data_instance(x: 901.8, y: 331.5) data_a4925c  = [5, 6, 7, 1]
+        test_740ded.onRun -> assertequal_88a403.execute
+        assertequal_88a403.continue -> assertequal_690b3c.execute
+        assertequal_690b3c.continue -> assertequal_21ec1d.execute
+        data_e7d964 -> list_modulo_b10dca.list1_1f846b
+        data_859759 -> list_modulo_b10dca.list2_c62075
+        data_76e163 -> assertequal_88a403.expect
+        data_fb424c -> list_f65e17.list1_1f846b
+        data_387825 -> list_f65e17.list2_c62075
+        data_b53168 -> assertequal_690b3c.expect
+        data_1c2a50 -> list_03f5d5.list1_1f846b
+        data_cefbe2 -> list_03f5d5.list2_c62075
+        data_a4925c -> assertequal_21ec1d.expect
+        list_modulo_b10dca.list_0d40f1 -> assertequal_88a403.actual
+        list_f65e17.list_0d40f1 -> assertequal_690b3c.actual
+        list_03f5d5.list_0d40f1 -> assertequal_21ec1d.actual
+
+
+    }
+
+    instance(x: 93.4000244140625, y: -122.39998779296876) list_modulo_cbc0b6 root.main.list_modulo {}
+
+
+}

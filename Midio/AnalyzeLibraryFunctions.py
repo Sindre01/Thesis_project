@@ -14,8 +14,8 @@ else:
     with open(json_file_path, 'r') as file:
         data = json.load(file)
 
-    # Step 2: Filter the samples with task_id from 1 to 22
-    filtered_data = [item for item in data if 1 <= item.get('task_id', 0) <= 22]
+    # Step 2: Filter the samples with task_id from 1 to 24
+    filtered_data = [item for item in data if 1 <= item.get('task_id', 0) <= 24]
 
     # Step 3: Count the occurrences of each library_function
     library_function_counts = Counter()

@@ -1,0 +1,33 @@
+@midio_version("0.1.0")
+@version("0.1.0")
+import("std", Std_k98ojb)
+import("http", Http_q7o96c)
+
+module() main { 
+   func(doc: "Takes two lists of the same length and performs the element wise modulo.") list_modulo {
+        in(x: -173.79995727539065, y: -154.79998168945315, name: "list1") property(List) list1_1f846b
+        in(x: -181.4000244140625, y: -13.400048828125025, name: "list2") property(List) list2_c62075
+
+        out(x: 784.3554869802861, y: -110.50285847796896, name: "newList") property(List) list_0d40f1
+
+        instance(x: 133.6198616192762, y: -131.50246298748203) zip_201051 root.Std_k98ojb.Iteration.Zip {}
+        list1_1f846b -> zip_201051.left
+        list2_c62075 -> zip_201051.right
+        func() {
+            in(x: -231.99993896484375, y: -69.60000000000002, name: "item1") property(Number) list1_42bc6f
+            in(x: -223.5999755859375, y: 18.5999755859375, name: "item2") property(Number) list2_1d86d4
+
+            out(x: 245.2799145507812, y: -54.040021362304685, name: "result") property(Number) result_e245cb
+
+            instance(x: -8, y: -53.9999938964844) modulo_4e8c54 root.Std_k98ojb.Math.Modulo {}
+            list1_42bc6f -> modulo_4e8c54.value
+            list2_1d86d4 -> modulo_4e8c54.divisor
+            modulo_4e8c54.result -> result_e245cb
+        } -> zip_201051.handler
+        zip_201051.zipped -> list_0d40f1
+    }
+
+    instance(x: 93.4000244140625, y: -122.39998779296876) list_modulo_cbc0b6 root.main.list_modulo {}
+
+
+}
