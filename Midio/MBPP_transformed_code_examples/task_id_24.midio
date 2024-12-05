@@ -1,0 +1,25 @@
+@midio_version("0.1.0")
+@version("0.1.0")
+import("std", Std_k98ojb)
+import("http", Http_q7o96c)
+
+module() main { 
+   func(doc: "takes a list and returns a list with the same elements, but the k'th element removed.") remove_kth_element {
+        in(x: -172.79998779296875, y: 18.19999999999999, name: "k") property(Number) k_94ca93
+        in(x: -156, y: -121.40000610351564, name: "list") property(List) list_aa3106
+
+        out(x: 505.2000732421875, y: -50.199993896484386, name: "newList") property(List) newList_20b99a
+
+        instance(x: 221.5999755859375, y: -48.800018310546875, name: "remove_kth_element") remove_06d2e5 root.Std_k98ojb.List.Remove {}
+        instance(x: -11.5999755859375, y: 9.799975585937489) sub_4aeea6 root.Std_k98ojb.Math.Sub {}
+        k_94ca93 -> sub_4aeea6.first
+        1 -> sub_4aeea6.second
+        sub_4aeea6.result -> remove_06d2e5.index
+        list_aa3106 -> remove_06d2e5.list
+        remove_06d2e5.listWithoutItem -> newList_20b99a
+    }
+
+    instance(x: -138.4000244140625, y: -63.79998779296875) remove_kth_element_aad0c2 root.remove_kth_element {}
+
+
+}

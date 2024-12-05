@@ -1,0 +1,60 @@
+@midio_version("0.1.0")
+@version("0.1.0")
+import("std", Std_k98ojb)
+import("http", Http_q7o96c)
+
+module() main { 
+   func(doc: "takes a list and returns a list with the same elements, but the k'th element removed.") remove_kth_element {
+        in(x: -172.79998779296875, y: 18.19999999999999, name: "k") property(Number) k_94ca93
+        in(x: -156, y: -121.40000610351564, name: "list") property(List) list_aa3106
+
+        out(x: 505.2000732421875, y: -50.199993896484386, name: "newList") property(List) newList_20b99a
+
+        instance(x: 221.5999755859375, y: -48.800018310546875, name: "remove_kth_element") remove_06d2e5 root.Std_k98ojb.List.Remove {}
+        instance(x: -11.5999755859375, y: 9.799975585937489) sub_4aeea6 root.Std_k98ojb.Math.Sub {}
+        k_94ca93 -> sub_4aeea6.first
+        1 -> sub_4aeea6.second
+        sub_4aeea6.result -> remove_06d2e5.index
+        list_aa3106 -> remove_06d2e5.list
+        remove_06d2e5.listWithoutItem -> newList_20b99a
+    }
+
+    module(doc: "Contains three different tests for the 'remove_kth_element' function node") tests {
+        instance(x: -30.79998779296875, y: -108.00002441406252) test_baef50 root.Std_k98ojb.Testing.Test {
+            name: "Test remove_kth_element"
+        }
+        instance(x: 2, y: 45.5999816894531) assertequal_f456f0 root.Std_k98ojb.Testing.AssertEqual {}
+        data_instance(x: -243.2, y: 206.0) data_9aa9b1  = [1, 1, 2, 3, 4, 4, 5, 1]
+        data_instance(x: -253.6, y: -67.4) data_863798  = [1, 1, 3, 4, 4, 5, 1]
+        instance(x: 401.3333740234375, y: 40.59994913736978) assertequal_1ba400 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 836.6001586914063, y: 39.300006103515614) assertequal_bc76ef root.Std_k98ojb.Testing.AssertEqual {}
+        data_instance(x: 205.2, y: 310.2) data_968296  = [0, 0, 1, 2, 3, 4, 4, 5, 6, 6, 6, 7, 8, 9, 4, 4]
+        data_instance(x: 394.4, y: 322.6) data_5ba2da  = [0, 0, 1, 3, 4, 4, 5, 6, 6, 6, 7, 8, 9, 4, 4]
+        data_instance(x: 672.4, y: 326.4) data_5bd698  = [10, 10, 15, 19, 18, 18, 17, 26, 26, 17, 18, 10]
+        data_instance(x: 879.6, y: 335.4) data_7bf2fb  = [10, 10, 15, 19, 18, 17, 26, 26, 17, 18, 10]
+        instance(x: -26, y: 189.8000183105469) remove_kth_element_88ed10 root.remove_kth_element {}
+        instance(x: 314.00000000000006, y: 181.59999084472656) remove_ab9a7b root.remove_kth_element {}
+        instance(x: 794.6000366210938, y: 178.79998779296872) remove_b8c4e4 root.remove_kth_element {}
+        test_baef50.onRun -> assertequal_f456f0.execute
+        data_863798 -> assertequal_f456f0.expect
+        assertequal_f456f0.continue -> assertequal_1ba400.execute
+        assertequal_1ba400.continue -> assertequal_bc76ef.execute
+        data_5ba2da -> assertequal_1ba400.expect
+        data_7bf2fb -> assertequal_bc76ef.expect
+        data_9aa9b1 -> remove_kth_element_88ed10.list_aa3106
+        3 -> remove_kth_element_88ed10.k_94ca93
+        remove_kth_element_88ed10.newList_20b99a -> assertequal_f456f0.actual
+        4 -> remove_ab9a7b.k_94ca93
+        data_968296 -> remove_ab9a7b.list_aa3106
+        5 -> remove_b8c4e4.k_94ca93
+        data_5bd698 -> remove_b8c4e4.list_aa3106
+        remove_ab9a7b.newList_20b99a -> assertequal_1ba400.actual
+        remove_b8c4e4.newList_20b99a -> assertequal_bc76ef.actual
+
+
+    }
+
+    instance(x: -138.4000244140625, y: -63.79998779296875) remove_kth_element_aad0c2 root.remove_kth_element {}
+
+
+}

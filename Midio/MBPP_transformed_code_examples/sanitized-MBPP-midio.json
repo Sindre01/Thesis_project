@@ -150,7 +150,7 @@
         "library_functions": [
             "root.std.List.GetAt",
             "root.std.Math.Sub",
-            "root.std.IfExpression"
+            "root.std.Std.IfExpression"
         ],
         "visual_node_types": [
             "Function",
@@ -295,7 +295,7 @@
         },
         "MBPP_task_id": 431,
         "library_functions": [
-            "root.std.List.Intersection",
+            "root.std.Sets.Intersection",
             "root.std.List.NotEmpty"
         ],
         "visual_node_types": [
@@ -625,9 +625,9 @@
         "library_functions": [
             "root.std.Math.Floor",
             "root.std.Math.Modulo",
-            "root.std.Math.Division",
-            "root.std.Math.Addition",
-            "root.std.IfExpression"
+            "root.std.Math.Div",
+            "root.std.Math.Add",
+            "root.std.Std.IfExpression"
         ],
         "visual_node_types": [
             "Function",
@@ -679,8 +679,8 @@
         "MBPP_task_id": 567,
         "library_functions": [
             "root.std.List.GetAt",
-            "root.std.For",
-            "root.std.IfExpression"
+            "root.std.Std.For",
+            "root.std.Std.IfExpression"
         ],
         "visual_node_types": [
             "Function",
@@ -738,8 +738,8 @@
             "root.std.List.Contains",
             "root.std.List.Add",
             "root.std.Math.Mul",
-            "root.std.For",
-            "root.std.If"
+            "root.std.Std.For",
+            "root.std.Std.If"
         ],
         "visual_node_types": [
             "Function",
@@ -1129,51 +1129,45 @@
     },
     {
         "prompts": [
-            "Write a function to check if the given integer is a prime number.",
-            "Write a method in Dafny to check if the given integer is a prime number.",
+            "Create a flow which takes a list and returns a list with the same elements, but the k'th element removed.",
+            "",
             ""
         ],
-        "task_id": -1,
+        "task_id": 24,
         "specification": {
-            "function_signature": "method IsPrime(n: int) returns (result: bool)",
-            "preconditions": "- n should be greater than or equal to 2",
-            "postconditions": "- If the result is true, then n is a prime number\n- If the result is false, then n is not a prime number"
-        },
-        "MBPP_task_id": 605,
-        "library_functions": [],
-        "visual_node_types": [],
-        "textual_instance_types": [],
-        "testing": {
-            "library_functions": [],
-            "visual_node_types": [],
-            "textual_instance_types": [],
-            "test_list": [
-                "assert prime_num(13)==True",
-                "assert prime_num(7)==True",
-                "assert prime_num(-1010)==False"
-            ]
-        }
-    },
-    {
-        "prompts": [
-            "Write a python function which takes a list and returns a list with the same elements, but the k'th element removed.",
-            "Write a method in Dafny which takes an integer array and returns an array with the same elements, but the k'th element removed.",
-            ""
-        ],
-        "task_id": -1,
-        "specification": {
-            "function_signature": "method RemoveElement(s: array<int>, k: int) returns (v: array<int>)",
+            "function_signature": "func(doc: \"takes a list and returns a list with the same elements, but the k'th element removed.\") remove_kth_element {\n    in(x: -172.79998779296875, y: 18.19999999999999, name: \"k\") property(Number) k_94ca93\n    in(x: -156, y: -121.40000610351564, name: \"list\") property(List) list_aa3106\n\n    out(x: 505.2000732421875, y: -50.199993896484386, name: \"newList\") property(List) newList_20b99a\n}",
             "preconditions": "- k should be between 0 and the length of the array",
             "postconditions": "- The length of the returning array must be one less than the length of the input array\n- All elements before the k'th element in the input array should be the same in the output array\n- All elements after the k'th element in the input array should be shifted by one position in the output array"
         },
         "MBPP_task_id": 610,
-        "library_functions": [],
-        "visual_node_types": [],
-        "textual_instance_types": [],
+        "library_functions": [
+            "root.std.List.Remove",
+            "root.std.Math.Sub"
+        ],
+        "visual_node_types": [
+            "Function",
+            "Input Property",
+            "Output Property"
+        ],
+        "textual_instance_types": [
+            "instance",
+            "in",
+            "out"
+        ],
         "testing": {
-            "library_functions": [],
-            "visual_node_types": [],
-            "textual_instance_types": [],
+            "library_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertEqual"
+            ],
+            "visual_node_types": [
+                "Event",
+                "Function",
+                "Data Object"
+            ],
+            "textual_instance_types": [
+                "instance",
+                "data_instance"
+            ],
             "test_list": [
                 "assert remove_kth_element([1,1,2,3,4,4,5,1],3)==[1, 1, 3, 4, 4, 5, 1]",
                 "assert remove_kth_element([0, 0, 1, 2, 3, 4, 4, 5, 6, 6, 6, 7, 8, 9, 4, 4],4)==[0, 0, 1, 3, 4, 4, 5, 6, 6, 6, 7, 8, 9, 4, 4]",
@@ -1183,8 +1177,8 @@
     },
     {
         "prompts": [
-            "Write a function which takes two tuples of the same length and performs the element wise modulo.",
-            "Write a method in Dafny which takes two integer arrays of the same length and performs the element wise modulo.",
+            "Create a flow which takes two lists of the same length and performs the element wise modulo.",
+            "",
             ""
         ],
         "task_id": -1,
@@ -1202,9 +1196,9 @@
             "visual_node_types": [],
             "textual_instance_types": [],
             "test_list": [
-                "assert tuple_modulo((10, 4, 5, 6), (5, 6, 7, 5)) == (0, 4, 5, 1)",
-                "assert tuple_modulo((11, 5, 6, 7), (6, 7, 8, 6)) == (5, 5, 6, 1)",
-                "assert tuple_modulo((12, 6, 7, 8), (7, 8, 9, 7)) == (5, 6, 7, 1)"
+                "assert list_modulo((10, 4, 5, 6), (5, 6, 7, 5)) == (0, 4, 5, 1)",
+                "assert list_modulo((11, 5, 6, 7), (6, 7, 8, 6)) == (5, 5, 6, 1)",
+                "assert list_modulo((12, 6, 7, 8), (7, 8, 9, 7)) == (5, 6, 7, 1)"
             ]
         }
     },
