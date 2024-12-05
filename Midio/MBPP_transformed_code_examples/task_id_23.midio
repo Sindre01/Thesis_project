@@ -1,0 +1,48 @@
+@midio_version("0.1.0")
+@version("0.1.0")
+import("std", Std_k98ojb)
+import("http", Http_q7o96c)
+
+module() main { 
+    func(doc: "finds the first repeated character in a given string.") first_repeated_char {
+        in(x: -20.83454868200644, y: -110.63145350145422, name: "execute") trigger() execute_97d5d5
+        in(x: -216.6793062928671, y: 83.12984924120568, name: "string") property(String) string_71a657
+
+        out(x: 1545.4543910894802, y: 186.48226354870695, name: "continue") trigger() continue_1914e0
+        out(x: 904.0662851166315, y: 359.220596201445, name: "char") property(Any) char_f2523c
+
+        instance(x: 526.9445190429688, y: 135.68891601562513) add_073b72 root.Std_k98ojb.Math.Add {}
+        instance(x: 1080.0333740234373, y: 45.116687011718966) if_204695 root.Std_k98ojb.Std.If {}
+        instance(x: 710.4556640625001, y: 0) slice_1801cb root.Std_k98ojb.List.Slice {}
+        instance(x: 0, y: 79.57785498046889) characters_e4ab8f root.Std_k98ojb.Strings.Characters {}
+        instance(x: 295.50000302734367, y: 125.9114350585939) for_245354 root.Std_k98ojb.Std.For {}
+        instance(x: 903.5445190429687, y: 143.46668701171888) contains_10d4db root.Std_k98ojb.List.Contains {}
+        setter(x: 256.068, y: -169.575, name: "setter_a862c0") setter_a862c0 = first
+        setter(x: 1302.318, y: -10.824999999999989, name: "setter_28b12a") setter_28b12a = first
+        getter(x: 571.75, y: 314.25, name: "getter_d16e69") getter_d16e69 = first
+        characters_e4ab8f.characters -> for_245354.items
+        characters_e4ab8f.characters -> slice_1801cb.list
+        for_245354.index -> add_073b72.first
+        slice_1801cb.slice -> contains_10d4db.list
+        add_073b72.result -> slice_1801cb.start
+        contains_10d4db.is_contained -> if_204695.predicate
+        for_245354.onItem -> if_204695.execute
+        1 -> add_073b72.second
+        -1 -> slice_1801cb.end
+        string_71a657 -> characters_e4ab8f.input
+        for_245354.item -> contains_10d4db.item
+        if_204695.else -> for_245354.next
+        for_245354.done -> continue_1914e0
+        execute_97d5d5 -> setter_a862c0.execute
+        setter_a862c0.continue -> for_245354.reset
+        getter_d16e69.value -> char_f2523c
+        if_204695.then -> setter_28b12a.execute
+        setter_28b12a.continue -> continue_1914e0
+        for_245354.item -> setter_28b12a.new_value
+    }
+
+
+    instance(x: 1692, y: 462) first_repeated_char_f35a43 root.first_repeated_char {}
+
+
+}

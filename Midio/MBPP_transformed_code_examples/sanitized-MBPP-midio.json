@@ -1026,7 +1026,7 @@
     },
     {
         "prompts": [
-            "Write a flow to check whether the given number is even or not.",
+            "Create a flow to check whether the given number is even or not.",
             "The flow should create a user-defined function called 'is_Even'. The body of the function contains one input property of type 'Number', named 'num'. It also includes the following nodes: one 'Math Modulo' node to calculate the remainder when 'num' is divided by 2, and one 'Logic Equal' node to check if the remainder is equal to 0. Lastly, it includes an output property named 'output' of type 'Bool'.\n\nArrows are connected as follows: The input property 'num' is connected to the 'Math Modulo' node's 'value' input. The constant value 2 is connected to the 'Math Modulo' node's 'divisor' input. The 'result' output from the 'Math Modulo' node is connected to the 'left' input of the 'Logic Equal' node. The constant value 0 is connected to the 'right' input of the 'Logic Equal' node. The 'result' output from the 'Logic Equal' node is connected to the output property 'output'. The user-defined function is then created within the main module.",
             "The created user-defined function 'is_Even' should then be tested inside a separate module called 'tests', within the main module. Since the function does not contain input and ouput triggers, the flow of execution is sent between the assert nodes, using their input and output triggers."
         ],
@@ -1071,28 +1071,58 @@
         }
     },
     {
+        
         "prompts": [
-            "Write a python function to find the first repeated character in a given string.",
-            "Write a method in Dafny to find the first repeated character in a given string.",
-            ""
+            "Create a flow to find the first repeated character in a given string.",
+            "The flow should create a user-defined function called 'first_repeated_char'. The body of the function contains one input property of type String, named 'string', and one output property of type Any, named 'char'. It also includes one input trigger named 'execute' and one output trigger named 'continue'. Inside the function, use a 'Characters' node to convert the input string into a list of characters, a 'For' node to iterate over each character, and a 'Slice' node to manage portions of the list as needed. Additionally, include a 'List Contains' node to check for repeated characters and an 'If' node to handle the logic. Getter and Setter nodes are used for storing the fist char in local varibale, named 'first'. Connect the nodes appropriately: the input trigger 'execute' is connected to a Setter node, which sets the value of 'first' to null. Then this Setter is connected to the 'For' node to start the iteration. The 'Characters' node outputs to the 'For' node's items input. Within the loop, each character is sent to the 'List Contains' node to check for repetition in a the rest of the list. The 'List contains' node does also use the 'Math Add' and 'Slice' node to get the rest of the list. The result of 'List Contains' is connected to the 'If' node's predicate. If a repetition is found, use a 'Setter' node to set the output property 'char' with the repeated character and trigger 'continue'. If no repetition is found, continue the loop. After the loop completes without finding any repeats, the local variabel 'first' remains null and is then outputed though 'char'. The user-defined function is then created within the main module.",
+            "The created user-defined function 'first_repeated_char' should then be tested inside a seperate module called tests, within the main module. Since the user-defined function uses input and ouput triggers, the flow of execution is sent between the created function and assert nodes, using their input and output triggers."
         ],
-        "task_id": -1,
+        "task_id": 23,
         "specification": {
-            "function_signature": "method FindFirstRepeatedChar(s: string) returns (found: bool, c: char)",
+            "function_signature": "func(doc: \"finds the first repeated character in a given string.\") first_repeated_char {\n  in(x: -20.83454868200644, y: -110.63145350145422, name: \"input\") property(String) input_71a657\n\n  out(x: 1545.4543910894802, y: 186.48226354870695, name: \"output\") property(Any) output_f2523c\n}",
             "preconditions": "- There are no preconditions, the method will always work. Strings and sequences are always not null.",
-            "postconditions": "- If found is true, then c is the first repeated character in the input string\n- If found is false, then there are no repeated characters in the input string"
+            "postconditions": "- If returns char, then returned char is the first repeated character in the input string\n- If returns null, then there are no repeated characters in the input string"
         },
         "MBPP_task_id": 602,
-        "library_functions": [],
-        "visual_node_types": [],
-        "textual_instance_types": [],
+        "library_functions": [
+            "root.std.Strings.Characters",
+            "root.std.Std.For",
+            "root.std.List.Slice",
+            "root.std.List.Contains",
+            "root.std.Std.If",
+            "root.std.Math.Add"
+        ],
+        "visual_node_types": [
+            "Function",
+            "Input Property",
+            "Output Property",
+            "Input Trigger",
+            "Output Trigger",
+            "Setter",
+            "Getter"
+        ],
+        "textual_instance_types": [
+            "instance",
+            "in",
+            "out",
+            "setter",
+            "getter"
+        ],
         "testing": {
-            "library_functions": [],
-            "visual_node_types": [],
-            "textual_instance_types": [],
+            "library_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertEqual"
+            ],
+            "visual_node_types": [
+                "Event",
+                "Function"
+            ],
+            "textual_instance_types": [
+                "instance"
+            ],
             "test_list": [
                 "assert first_repeated_char(\"abcabc\") == \"a\"",
-                "assert first_repeated_char(\"abc\") == None",
+                "assert first_repeated_char(\"abc\") == null",
                 "assert first_repeated_char(\"123123\") == \"1\""
             ]
         }
