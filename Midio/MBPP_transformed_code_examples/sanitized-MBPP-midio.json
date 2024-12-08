@@ -1267,51 +1267,56 @@
     },
     {
         "prompts": [
-            "Write a python function to interchange the first and last element in a given list.",
-            "Write a method in Dafny to interchange the first and last element in a given integer array.",
+            "Create a flow to find the smallest missing number from a sorted list of natural numbers.",
+            "",
             ""
         ],
-        "task_id": -1,
+        "task_id": 27,
         "specification": {
-            "function_signature": "method SwapFirstAndLast(a: array<int>)",
-            "preconditions": "- The array should not be empty",
-            "postconditions": "- The first element of the input array should be the last element of the modified array\n- The last element of the input array should be the first element of the modified array\n- All other elements remain unchanged"
-        },
-        "MBPP_task_id": 625,
-        "library_functions": [],
-        "visual_node_types": [],
-        "textual_instance_types": [],
-        "testing": {
-            "library_functions": [],
-            "visual_node_types": [],
-            "textual_instance_types": [],
-            "test_list": [
-                "assert swap_List([1,2,3]) == [3,2,1]",
-                "assert swap_List([1,2,3,4,4]) == [4,2,3,4,1]",
-                "assert swap_List([4,5,6]) == [6,5,4]"
-            ]
-        }
-    },
-    {
-        "prompts": [
-            "Write a python function to find the smallest missing number from a sorted list of natural numbers.",
-            "Write a method in Dafny to find the smallest missing number from a sorted list of natural numbers.",
-            ""
-        ],
-        "task_id": -1,
-        "specification": {
-            "function_signature": "method SmallestMissingNumber(s: seq<int>) returns (v: int)",
+            "function_signature": "func(doc: \"Finds the smallest missing number from a sorted list of natural numbers.\") find_First_Missing {\n    in(x: -113, y: 62.5, name: \"list\") property(List) list_24e9a6\n    in(x: 483, y: -328, name: \"execute\") trigger() execute_fa8807\n\n    out(x: 1453, y: 319, name: \"output\") property(Number) output_25655e\n    out(x: 1491, y: -61, name: \"continue\") trigger() continue_aedf0f\n}",
             "preconditions": "- The input sequence should be sorted in non-decreasing order\n- The input sequence should only contain natural numbers (including 0)",
             "postconditions": "- The returned value should be the smallest natural number not present in the input sequence"
         },
         "MBPP_task_id": 627,
-        "library_functions": [],
-        "visual_node_types": [],
-        "textual_instance_types": [],
+        "library_functions": [
+            "root.std.List.LastItem",
+            "root.std.List.GenerateRange",
+            "root.std.List.FirstItem",
+            "root.std.Sets.Difference",
+            "root.std.Std.If",
+            "root.std.Math.Add",
+            "root.std.List.IsEmpty"
+        ],
+        "visual_node_types": [
+            "Function",
+            "Getter",
+            "Setter",
+            "Input Property",
+            "Output Property",
+            "Input Trigger",
+            "Output Trigger"
+        ],
+        "textual_instance_types": [
+            "instance",
+            "getter",
+            "setter",
+            "in",
+            "out"
+        ],
         "testing": {
-            "library_functions": [],
-            "visual_node_types": [],
-            "textual_instance_types": [],
+            "library_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertEqual"
+            ],
+            "visual_node_types": [
+                "Event",
+                "Function",
+                "Data Object"
+            ],
+            "textual_instance_types": [
+                "instance",
+                "data_instance"
+            ],
             "test_list": [
                 "assert find_First_Missing([0,1,2,3]) == 4",
                 "assert find_First_Missing([0,1,2,6,9]) == 3",
@@ -1321,24 +1326,40 @@
     },
     {
         "prompts": [
-            "Write a python function to find even numbers from a list of numbers.",
-            "Write a method in Dafny to find even numbers from an array of numbers.",
+            "Create a flow to find even numbers from a list of numbers.",
+            "",
             ""
         ],
-        "task_id": -1,
+        "task_id": 28,
         "specification": {
-            "function_signature": "method FindEvenNumbers(arr: array<int>) returns (evenNumbers: array<int>)",
+            "function_signature": "",
             "preconditions": "- There are no preconditions, the method will always work. Arrays can be empty but not null.",
             "postconditions": "- All elements in the output array are even\n- All even elements in the input array are present in the output array\n- The order of elements in the output array is the same as in the input array"
         },
         "MBPP_task_id": 629,
-        "library_functions": [],
-        "visual_node_types": [],
-        "textual_instance_types": [],
+        "library_functions": [
+            "root.std.Query.Filter"
+        ],
+        "visual_node_types": [
+            
+        ],
+        "textual_instance_types": [
+            "instance"
+        ],
         "testing": {
-            "library_functions": [],
-            "visual_node_types": [],
-            "textual_instance_types": [],
+            "library_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertEqual"
+            ],
+            "visual_node_types": [
+                "Event",
+                "Function",
+                "Data Object"
+            ],
+            "textual_instance_types": [
+                "instance",
+                "data_instance"
+            ],
             "test_list": [
                 "assert Split([1,2,3,4,5]) == [2,4]",
                 "assert Split([4,5,6,7,8,0,1]) == [4,6,8,0]",
@@ -1348,24 +1369,55 @@
     },
     {
         "prompts": [
-            "Write a python function to move all zeroes to the end of the given list.",
-            "Write a method in Dafny to move all zeroes to the end of the given array.",
+            "Create a flow to move all zeroes to the end of the given list.",
+            "",
             ""
         ],
-        "task_id": -1,
+        "task_id": 29,
         "specification": {
-            "function_signature": "method MoveZeroesToEnd(arr: array<int>)",
+            "function_signature": "func(doc: \"Moves all zeroes to the end of the given list.\") move_zero {\n    in(x: -199, y: -152, name: \"execute\") trigger() execute_1ddb9f\n    in(x: -174, y: 160, name: \"list\") property(List) list_0c1a77\n\n    out(x: 838.7, y: 168, name: \"output\") property(List) data_0_0\n    out(x: 817, y: 39, name: \"continue\") trigger() continue_a7f942\n}",
             "preconditions": "- There are no preconditions, the method will always work.",
             "postconditions": "- The length of the output array must be the same as the length of the input array\n- All zeroes in the input array are at the end of the output array\n- The relative order of the non-zero elements should be the same as in the input array\n- The number of zeroes in the input and output arrays should be the same"
         },
         "MBPP_task_id": 632,
-        "library_functions": [],
-        "visual_node_types": [],
-        "textual_instance_types": [],
+        "library_functions": [
+            "root.std.Std.For",
+            "root.std.List.Concat",
+            "root.std.Std.IfExpression",
+            "root.std.List.Empty",
+            "root.std.List.Add",
+            "root.std.Query.Filter"
+        ],
+        "visual_node_types": [
+            "Function",
+            "Input Property",
+            "Output Property",
+            "Input Trigger",
+            "Output Trigger",
+            "Setter",
+            "Getter"
+        ],
+        "textual_instance_types": [
+            "instance",
+            "in",
+            "out",
+            "setter",
+            "getter"
+        ],
         "testing": {
-            "library_functions": [],
-            "visual_node_types": [],
-            "textual_instance_types": [],
+            "library_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertEqual"
+            ],
+            "visual_node_types": [
+                "Event",
+                "Function",
+                "Data Object"
+            ],
+            "textual_instance_types": [
+                "instance",
+                "data_instance"
+            ],
             "test_list": [
                 "assert move_zero([1,0,2,0,3,4]) == [1,2,3,4,0,0]",
                 "assert move_zero([2,3,2,0,0,4,0,5,0]) == [2,3,2,4,5,0,0,0,0]",
@@ -1375,24 +1427,47 @@
     },
     {
         "prompts": [
-            "Write a python function to reverse an array upto a given position.",
-            "Write a method in Dafny to reverse an array upto a given k position.",
+            "Create a flow to reverse an array upto a given position.",
+            "",
             ""
         ],
-        "task_id": -1,
+        "task_id": 30,
         "specification": {
-            "function_signature": "method ReverseUptoK(s: array<int>, k: int)",
+            "function_signature": "func(doc: \"Reverse an list upto a given position.\") reverse_Array_Upto_K {\n    in(x: -227, y: 44.5, name: \"list\") property(List) list_f1bb24\n    in(x: -223, y: 164.5, name: \"k\") property(Number) k_cf24dd\n\n    out(x: 744, y: 146, name: \"output\") property(List) output_c4a1a8\n}",
             "preconditions": "- k should be between 0 and the length of the array",
             "postconditions": "- The input array is modified\n- The values of the array up to k are reversed\n- The values of the array after k remain unchanged"
         },
         "MBPP_task_id": 644,
-        "library_functions": [],
-        "visual_node_types": [],
-        "textual_instance_types": [],
+        "library_functions": [
+            "root.std.List.Reversed",
+            "root.std.List.Concat",
+            "root.std.List.Slice"
+
+        ],
+        "visual_node_types": [
+            "Function",
+            "Input Property",
+            "Output Property"
+        ],
+        "textual_instance_types": [
+            "instance",
+            "in",
+            "out"
+        ],
         "testing": {
-            "library_functions": [],
-            "visual_node_types": [],
-            "textual_instance_types": [],
+            "library_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertEqual"
+            ],
+            "visual_node_types": [
+                "Event",
+                "Function",
+                "Data Object"
+            ],
+            "textual_instance_types": [
+                "instance",
+                "data_instance"
+            ],
             "test_list": [
                 "assert reverse_Array_Upto_K([1, 2, 3, 4, 5, 6],4) == [4, 3, 2, 1, 5, 6]",
                 "assert reverse_Array_Upto_K([4, 5, 6, 7], 2) == [5, 4, 6, 7]",
@@ -1402,24 +1477,44 @@
     },
     {
         "prompts": [
-            "Write a function to replace all occurrences of spaces, commas, or dots with a colon.",
-            "Write a method in Dafny to replace all occurrences of spaces, commas, or dots with a colon.",
+            "Create a flow to replace all occurrences of spaces, commas, or dots with a colon.",
+            "",
             ""
         ],
-        "task_id": -1,
+        "task_id": 31,
         "specification": {
-            "function_signature": "method ReplaceWithColon(s: string) returns (v: string)",
+            "function_signature": "func(doc: \"Replace all occurrences of spaces, commas, or dots with a colon.\") replace_specialchar {\n    in(x: -230, y: 0, name: \"input\") property(String) input_0\n\n    out(x: 776, y: 0, name: \"output\") property(String) output_0\n}",
             "preconditions": "- There are no preconditions, the method will always work. Strings and sequences are always not null.",
             "postconditions": "- The length of the returning string must be the same as the length of the input string\n- All occurrences of spaces, commas, or dots in the input string are replaced with colons in the output string\n- All other characters are unchanged"
         },
         "MBPP_task_id": 732,
-        "library_functions": [],
-        "visual_node_types": [],
-        "textual_instance_types": [],
+        "library_functions": [
+            "root.std.Strings.Replace"
+        ],
+        "visual_node_types": [
+            "Function",
+            "Input Property",
+            "Output Property"
+        ],
+        "textual_instance_types": [
+            "instance",
+            "in",
+            "out"
+        ],
         "testing": {
-            "library_functions": [],
-            "visual_node_types": [],
-            "textual_instance_types": [],
+            "library_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertEqual"
+            ],
+            "visual_node_types": [
+                "Event",
+                "Function",
+                "Data Object"
+            ],
+            "textual_instance_types": [
+                "instance",
+                "data_instance"
+            ],
             "test_list": [
                 "assert replace_specialchar('Python language, Programming language.')==('Python:language::Programming:language:')",
                 "assert replace_specialchar('a b c,d e f')==('a:b:c:d:e:f')",
@@ -1430,23 +1525,49 @@
     {
         "prompts": [
             "Write a function to find the index of the first occurrence of a given number in a sorted array.",
-            "Write a method in Dafny to find the index of the first occurrence of a given number in a sorted array.",
+            "",
             ""
         ],
-        "task_id": -1,
+        "task_id": 32,
         "specification": {
             "function_signature": "method FindFirstOccurrence(arr: array<int>, target: int) returns (index: int)",
             "preconditions": "- The input array is sorted in non-decreasing order",
             "postconditions": "- If the target is found, the returned index should be the first occurrence of the target in the array\n- If the target is not found, the returned index should be -1\n- The input array remains unchanged"
         },
         "MBPP_task_id": 733,
-        "library_functions": [],
-        "visual_node_types": [],
-        "textual_instance_types": [],
+        "library_functions": [
+            "root.std.Std.For",
+            "root.std.Std.If",
+            "root.std.Logic.Equal"
+        ],
+        "visual_node_types": [
+            "Function",
+            "Input Property",
+            "Output Property",
+            "Getter",
+            "Setter"
+        ],
+        "textual_instance_types": [
+            "instance",
+            "in",
+            "out",
+            "getter",
+            "setter"
+        ],
         "testing": {
-            "library_functions": [],
-            "visual_node_types": [],
-            "textual_instance_types": [],
+            "library_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertEqual"
+            ],
+            "visual_node_types": [
+                "Event",
+                "Function",
+                "Data Object"
+            ],
+            "textual_instance_types": [
+                "instance",
+                "data_instance"
+            ],
             "test_list": [
                 "assert find_first_occurrence([2, 5, 5, 5, 6, 6, 8, 9, 9, 9], 5) == 1",
                 "assert find_first_occurrence([2, 3, 5, 5, 6, 6, 8, 9, 9, 9], 5) == 2",

@@ -1,0 +1,65 @@
+@midio_version("0.1.0")
+@version("0.1.0")
+import("std", Std_k98ojb)
+import("http", Http_q7o96c)
+
+module() main { 
+    func(doc: "Reverse an list upto a given position.") reverse_Array_Upto_K {
+        in(x: -227, y: 44.5, name: "list") property(List) list_f1bb24
+        in(x: -223, y: 164.5, name: "k") property(Number) k_cf24dd
+
+        out(x: 744, y: 146, name: "output") property(List) output_c4a1a8
+
+        instance(x: 52, y: 47.5, name: "firstChunk") slice_83e5f5 root.Std_k98ojb.List.Slice {}
+        instance(x: 69, y: 185, name: "secondChunk") slice_76ecda root.Std_k98ojb.List.Slice {}
+        instance(x: 279.9, y: 73.55000000000001) reversed_145712 root.Std_k98ojb.List.Reversed {}
+        instance(x: 516, y: 144) concat_0234d2 root.Std_k98ojb.List.Concat {}
+        list_f1bb24 -> slice_83e5f5.list
+        k_cf24dd -> slice_83e5f5.end
+        0 -> slice_83e5f5.start
+        k_cf24dd -> slice_76ecda.start
+        -1 -> slice_76ecda.end
+        list_f1bb24 -> slice_76ecda.list
+        slice_83e5f5.slice -> reversed_145712.list
+        reversed_145712.reversed -> concat_0234d2.left
+        slice_76ecda.slice -> concat_0234d2.right
+        concat_0234d2.result -> output_c4a1a8
+    }
+
+    module(doc: "Contains three different tests for the 'reverse_array_upto_k' function node") tests {
+        instance(x: 107, y: -14.5) test_a19141 root.Std_k98ojb.Testing.Test {
+            name: "Test reverse_Array_Upto_K"
+        }
+        instance(x: 98, y: 292.5) reverse_array_upto_k_10ed26 root.main.reverse_Array_Upto_K {}
+        data_instance(x: 126.0, y: 408.0) data_1bd2db  = [1, 2, 3, 4, 5, 6]
+        instance(x: 135, y: 156) assertequal_ba00a7 root.Std_k98ojb.Testing.AssertEqual {}
+        data_instance(x: -123.0, y: 212.0) data_b63973  = [4, 3, 2, 1, 5, 6]
+        instance(x: 427, y: 157) assertequal_32dba9 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 415, y: 303) reverse_04f12f root.main.reverse_Array_Upto_K {}
+        data_instance(x: 451.0, y: 432.0) data_076e45  = [4, 5, 6, 7]
+        data_instance(x: 461.0, y: -60.0) data_773b56  = [5, 4, 6, 7]
+        data_instance(x: 825.0, y: 429.0) data_d6fa9b  = [9, 8, 7, 6, 5]
+        data_instance(x: 816.0, y: -76.0) data_642587  = [7, 8, 9, 6, 5]
+        instance(x: 783, y: 303) reverse_cadc1f root.main.reverse_Array_Upto_K {}
+        instance(x: 802, y: 158) assertequal_17855b root.Std_k98ojb.Testing.AssertEqual {}
+        data_1bd2db -> reverse_array_upto_k_10ed26.list_f1bb24
+        4 -> reverse_array_upto_k_10ed26.k_cf24dd
+        test_a19141.onRun -> assertequal_ba00a7.execute
+        data_b63973 -> assertequal_ba00a7.expect
+        assertequal_ba00a7.continue -> assertequal_32dba9.execute
+        2 -> reverse_04f12f.k_cf24dd
+        data_076e45 -> reverse_04f12f.list_f1bb24
+        data_773b56 -> assertequal_32dba9.expect
+        3 -> reverse_cadc1f.k_cf24dd
+        assertequal_32dba9.continue -> assertequal_17855b.execute
+        reverse_array_upto_k_10ed26.output_c4a1a8 -> assertequal_ba00a7.actual
+        reverse_04f12f.output_c4a1a8 -> assertequal_32dba9.actual
+        reverse_cadc1f.output_c4a1a8 -> assertequal_17855b.actual
+        data_d6fa9b -> reverse_cadc1f.list_f1bb24
+        data_642587 -> assertequal_17855b.expect
+
+
+    }
+
+    instance(x: -280, y: 136.5) reverse_array_upto_k_72ef29 root.main.reverse_Array_Upto_K {}
+}

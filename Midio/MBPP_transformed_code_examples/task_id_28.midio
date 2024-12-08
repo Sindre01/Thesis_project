@@ -1,0 +1,12 @@
+@midio_version("0.1.0")
+@version("0.1.0")
+import("std", Std_k98ojb)
+import("http", Http_q7o96c)
+
+module() main { 
+
+    instance(x: -34, y: 127) filter_d4625a root.Std_k98ojb.Query.Filter {
+        where: "it % 2 == 0"
+    }
+
+}

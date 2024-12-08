@@ -1,0 +1,47 @@
+@midio_version("0.1.0")
+@version("0.1.0")
+import("std", Std_k98ojb)
+import("http", Http_q7o96c)
+
+module() main { 
+    func(doc: "Finds the smallest missing number from a sorted list of natural numbers.") find_First_Missing {
+        in(x: -113, y: 62.5, name: "list") property(List) list_24e9a6
+        in(x: 483, y: -328, name: "execute") trigger() execute_fa8807
+
+        out(x: 1453, y: 319, name: "output") property(Number) output_25655e
+        out(x: 1491, y: -61, name: "continue") trigger() continue_aedf0f
+
+        instance(x: 49, y: -95) lastitem_02a3c2 root.Std_k98ojb.List.LastItem {}
+        instance(x: 268, y: -121) generaterange_578305 root.Std_k98ojb.List.GenerateRange {}
+        instance(x: 297, y: 38) difference_988da1 root.Std_k98ojb.Sets.Difference {}
+        instance(x: 697, y: 100) firstitem_5ed176 root.Std_k98ojb.List.FirstItem {}
+        instance(x: 776, y: -147) if_f43197 root.Std_k98ojb.Std.If {}
+        setter(x: 1081, y: -194, name: "setter_8cdd78") setter_8cdd78 = firstMissing
+        setter(x: 1081, y: 53, name: "setter_9055a9") setter_9055a9 = firstMissing
+        getter(x: 1086, y: 278, name: "getter_4e1d42") getter_4e1d42 = firstMissing
+        instance(x: 841, y: -275) add_9e1a23 root.Std_k98ojb.Math.Add {}
+        instance(x: 557, y: -118) isempty_a948ab root.Std_k98ojb.List.IsEmpty {}
+        list_24e9a6 -> lastitem_02a3c2.list
+        lastitem_02a3c2.item -> generaterange_578305.to
+        0 -> generaterange_578305.from
+        generaterange_578305.list -> difference_988da1.left
+        list_24e9a6 -> difference_988da1.right
+        difference_988da1.difference -> firstitem_5ed176.list
+        if_f43197.then -> setter_8cdd78.execute
+        if_f43197.else -> setter_9055a9.execute
+        execute_fa8807 -> if_f43197.execute
+        getter_4e1d42.value -> output_25655e
+        firstitem_5ed176.item -> setter_9055a9.new_value
+        setter_8cdd78.continue -> continue_aedf0f
+        setter_9055a9.continue -> continue_aedf0f
+        lastitem_02a3c2.item -> add_9e1a23.first
+        1 -> add_9e1a23.second
+        add_9e1a23.result -> setter_8cdd78.new_value
+        difference_988da1.difference -> isempty_a948ab.list
+        isempty_a948ab.isEmpty -> if_f43197.predicate
+    }
+
+
+    instance(x: -234.9000000000001, y: 114.14999999999998) find_first_missing_870d80 root.main.find_First_Missing {}
+
+}

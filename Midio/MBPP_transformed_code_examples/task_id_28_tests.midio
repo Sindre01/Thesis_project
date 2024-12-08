@@ -1,0 +1,49 @@
+@midio_version("0.1.0")
+@version("0.1.0")
+import("std", Std_k98ojb)
+import("http", Http_q7o96c)
+
+module() main { 
+    module(doc: "Contains three different tests for the Filter function node") tests {
+        instance(x: -335, y: 279) filter_093327 root.Std_k98ojb.Query.Filter {
+            where: "it % 2 == 0"
+        }
+        instance(x: -50, y: 29) test_4ae765 root.Std_k98ojb.Testing.Test {
+            name: "Test Split"
+        }
+        instance(x: 24, y: 205) assertequal_c4a9f2 root.Std_k98ojb.Testing.AssertEqual {}
+        data_instance(x: -328.0, y: 398.0) data_e77372  = [1, 2, 3, 4, 5]
+        data_instance(x: -329.0, y: 110.0) data_dbb7d1  = [2, 4]
+        instance(x: 355.25, y: 364.75) filter_8a0789 root.Std_k98ojb.Query.Filter {
+            where: "it % 2 == 0"
+        }
+        instance(x: 359.25, y: 208.75) assertequal_6da021 root.Std_k98ojb.Testing.AssertEqual {}
+        data_instance(x: 372.2, y: 478.8) data_d25a5d  = [4, 5, 6, 7, 8, 0, 1]
+        data_instance(x: 109.2, y: 416.8) data_d1f44b  = [4, 6, 8, 0]
+        instance(x: 637.25, y: 347.75) filter_957692 root.Std_k98ojb.Query.Filter {
+            where: "it % 2 == 0"
+        }
+        instance(x: 652.25, y: 209.75) assertequal_7b690f root.Std_k98ojb.Testing.AssertEqual {}
+        data_instance(x: 782.2, y: 467.8) data_adbb3f  = [8, 12, 15, 19]
+        data_instance(x: 579.2, y: 472.8) data_e5283f  = [8, 12]
+        test_4ae765.onRun -> assertequal_c4a9f2.execute
+        filter_093327.result -> assertequal_c4a9f2.actual
+        data_e77372 -> filter_093327.list
+        data_dbb7d1 -> assertequal_c4a9f2.expect
+        filter_8a0789.result -> assertequal_6da021.actual
+        data_d25a5d -> filter_8a0789.list
+        data_d1f44b -> assertequal_6da021.expect
+        assertequal_c4a9f2.continue -> assertequal_6da021.execute
+        filter_957692.result -> assertequal_7b690f.actual
+        data_adbb3f -> filter_957692.list
+        data_e5283f -> assertequal_7b690f.expect
+        assertequal_6da021.continue -> assertequal_7b690f.execute
+
+
+    }
+
+    instance(x: -34, y: 127) filter_d4625a root.Std_k98ojb.Query.Filter {
+        where: "it % 2 == 0"
+    }
+
+}

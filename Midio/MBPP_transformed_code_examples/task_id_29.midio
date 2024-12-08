@@ -1,0 +1,50 @@
+@midio_version("0.1.0")
+@version("0.1.0")
+import("std", Std_k98ojb)
+import("http", Http_q7o96c)
+
+module() main { 
+    
+    func(doc: "Moves all zeroes to the end of the given list.") move_zero {
+        in(x: -199, y: -152, name: "execute") trigger() execute_1ddb9f
+        in(x: -174, y: 160, name: "list") property(List) list_0c1a77
+
+        out(x: 838.7, y: 168, name: "output") property(List) data_0_0
+        out(x: 817, y: 39, name: "continue") trigger() continue_a7f942
+
+        instance(x: 294, y: -19.5) for_9ab286 root.Std_k98ojb.Std.For {}
+        instance(x: 557.7, y: 167.75) concat_9b38cc root.Std_k98ojb.List.Concat {}
+        setter(x: 6, y: -64, name: "setter_8c6eda") setter_8c6eda = zeroList
+        instance(x: 554, y: -99) ifexpression_5c4634 root.Std_k98ojb.Std.IfExpression {
+            expression: "item == 0"
+        }
+        setter(x: 825, y: -223, name: "setter_95dd4c") setter_95dd4c = zeroList
+        getter(x: 252, y: -246, name: "getter_e808a2") getter_e808a2 = zeroList
+        getter(x: 313, y: 269, name: "getter_c18a69") getter_c18a69 = zeroList
+        instance(x: -200, y: 39) empty_ea3a3a root.Std_k98ojb.List.Empty {}
+        instance(x: 562, y: -203) add_14921d root.Std_k98ojb.List.Add {}
+        instance(x: 300, y: 168) filter_875ddb root.Std_k98ojb.Query.Filter {
+            where: "it != 0"
+        }
+        setter_8c6eda.continue -> for_9ab286.reset
+        execute_1ddb9f -> setter_8c6eda.execute
+        for_9ab286.onItem -> ifexpression_5c4634.execute
+        for_9ab286.item -> ifexpression_5c4634.gen_0
+        ifexpression_5c4634.then -> setter_95dd4c.execute
+        ifexpression_5c4634.else -> for_9ab286.next
+        setter_95dd4c.continue -> for_9ab286.next
+        list_0c1a77 -> for_9ab286.items
+        concat_9b38cc.result -> data_0_0
+        empty_ea3a3a.list -> setter_8c6eda.new_value
+        0 -> add_14921d.item
+        add_14921d.listWithItem -> setter_95dd4c.new_value
+        for_9ab286.done -> continue_a7f942
+        getter_c18a69.value -> concat_9b38cc.right
+        filter_875ddb.result -> concat_9b38cc.left
+        list_0c1a77 -> filter_875ddb.list
+        getter_e808a2.value -> add_14921d.list
+    }
+
+
+    instance(x: -242.325, y: -31.3125) move_zero_def9ac root.main.move_zero {}
+}
