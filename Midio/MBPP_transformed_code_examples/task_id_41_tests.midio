@@ -1,0 +1,74 @@
+@midio_version("0.1.0")
+@version("0.1.0")
+import("std", Std_k98ojb)
+import("http", Http_q7o96c)
+
+module() main { 
+    func(doc: "Finds the last position of an element in a sorted array.") last {
+        in(x: -231, y: -29, name: "list") property(List) list_2bbadf
+        in(x: -246, y: 105, name: "elem") property(Number) elem_94ca57
+        in(x: -356, y: -225, name: "execute") trigger() execute_076885
+
+        out(x: 801, y: -229, name: "continue") trigger() continue_9f5f84
+        out(x: 795, y: 205, name: "index") property(Number) index_fc05e7
+
+        instance(x: 151, y: -120) for_9ed60a root.Std_k98ojb.Std.For {}
+        instance(x: 465, y: 5) ifexpression_6c15d4 root.Std_k98ojb.Std.IfExpression {
+            expression: "x == y"
+        }
+        setter(x: -187, y: -246, name: "setter_6a6081") setter_6a6081 = index
+        getter(x: 502.7000000000001, y: 166.35, name: "getter_cc0721") getter_cc0721 = index
+        setter(x: 780, y: -125, name: "setter_60cfcd") setter_60cfcd = index
+        list_2bbadf -> for_9ed60a.items
+        elem_94ca57 -> ifexpression_6c15d4.gen_0
+        for_9ed60a.item -> ifexpression_6c15d4.gen_1
+        -1 -> setter_6a6081.new_value
+        execute_076885 -> setter_6a6081.execute
+        getter_cc0721.value -> index_fc05e7
+        for_9ed60a.done -> continue_9f5f84
+        setter_6a6081.continue -> for_9ed60a.reset
+        for_9ed60a.onItem -> ifexpression_6c15d4.execute
+        ifexpression_6c15d4.then -> setter_60cfcd.execute
+        for_9ed60a.index -> setter_60cfcd.new_value
+        setter_60cfcd.continue -> for_9ed60a.next
+        ifexpression_6c15d4.else -> for_9ed60a.next
+    }
+
+    module(doc: "Contains three different tests for the 'last' function node") tests {
+        instance(x: -359, y: 161.5) test_e0e516 root.Std_k98ojb.Testing.Test {
+            name: "Test last"
+        }
+        instance(x: -108, y: 266.5) assertequal_e535d3 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: -359.20000000000005, y: 269.75) last_ec893e root.main.last {}
+        instance(x: 362.4, y: 266.125) assertequal_83e73c root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 111.19999999999992, y: 269.375) last_2e9081 root.main.last {}
+        instance(x: 829.4, y: 279.125) assertequal_96a0a1 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 578.1999999999999, y: 282.375) last_f37b3f root.main.last {}
+        data_instance(x: -562.2, y: 304.8) data_99c885  = [1, 2, 3]
+        data_instance(x: 93.0, y: 460.0) data_3e9e23  = [1, 1, 1, 2, 3, 4]
+        data_instance(x: 596.0, y: 464.0) data_09ea6a  = [2, 3, 2, 3, 6, 8, 9]
+        test_e0e516.onRun -> last_ec893e.execute_076885
+        last_ec893e.continue_9f5f84 -> assertequal_e535d3.execute
+        last_ec893e.index_fc05e7 -> assertequal_e535d3.actual
+        last_2e9081.continue_9f5f84 -> assertequal_83e73c.execute
+        last_2e9081.index_fc05e7 -> assertequal_83e73c.actual
+        last_f37b3f.continue_9f5f84 -> assertequal_96a0a1.execute
+        last_f37b3f.index_fc05e7 -> assertequal_96a0a1.actual
+        assertequal_e535d3.continue -> last_2e9081.execute_076885
+        assertequal_83e73c.continue -> last_f37b3f.execute_076885
+        1 -> last_ec893e.elem_94ca57
+        data_99c885 -> last_ec893e.list_2bbadf
+        data_3e9e23 -> last_2e9081.list_2bbadf
+        0 -> assertequal_e535d3.expect
+        2 -> assertequal_83e73c.expect
+        3 -> assertequal_96a0a1.expect
+        data_09ea6a -> last_f37b3f.list_2bbadf
+        3 -> last_f37b3f.elem_94ca57
+        1 -> last_2e9081.elem_94ca57
+
+
+    }
+
+    instance(x: -203, y: -53.5) last_9181e6 root.main.last {}
+
+}

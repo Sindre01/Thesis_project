@@ -1,0 +1,53 @@
+@midio_version("0.1.0")
+@version("0.1.0")
+import("std", Std_k98ojb)
+import("http", Http_q7o96c)
+
+module() main { 
+    func(doc: "Checks whether every odd index contains odd numbers of a given list.") odd_position {
+        in(x: -527.6710035710528, y: -214.6648553174405, name: "list") property(List) list_07cae4
+
+        out(x: 1269.9843987439294, y: -209.515088507578, name: "output") property(Bool) output_8d07dc
+
+        instance(x: -303.941271957317, y: -205.9134813272051, name: "only odd indexes") filter_c91965 root.Std_k98ojb.Iteration.Filter {}
+        instance(x: 847.9266907885908, y: -207.557977278157) contains_32727d root.Std_k98ojb.List.Contains {}
+        instance(x: 246.96787668920248, y: -209.43990326101456, name: "transform numbers to true/false") map_c73e3b root.Std_k98ojb.Iteration.Map {}
+        instance(x: 1058.993296921549, y: -203.2646474677258) not_75283f root.Std_k98ojb.Logic.Not {}
+        func() {
+            in(x: -30, y: -25.5, name: "current") property(Number) _index_170471
+            in(x: -23, y: 79, name: "_index") property(Number) _index_769593
+
+            out(x: 705, y: 49, name: "output") property(Bool) output_efbc78
+
+            instance(x: 226, y: 56.5) modulo_c76d2b root.Std_k98ojb.Math.Modulo {}
+            instance(x: 463, y: 51) notequal_7836b4 root.Std_k98ojb.Logic.NotEqual {}
+            2 -> modulo_c76d2b.divisor
+            0 -> notequal_7836b4.right
+            notequal_7836b4.result -> output_efbc78
+            modulo_c76d2b.result -> notequal_7836b4.left
+            _index_769593 -> modulo_c76d2b.value
+        } -> filter_c91965.handler
+        list_07cae4 -> filter_c91965.items
+        func() {
+            in(x: -192, y: -16, name: "current") property(Number) current_81298e
+
+            out(x: 521, y: -28, name: "bool") property(Bool) bool_4524be
+
+            instance(x: 74, y: -23) modulo_ad7b2a root.Std_k98ojb.Math.Modulo {}
+            instance(x: 285, y: -25) notequal_cb8a55 root.Std_k98ojb.Logic.NotEqual {}
+            current_81298e -> modulo_ad7b2a.value
+            2 -> modulo_ad7b2a.divisor
+            modulo_ad7b2a.result -> notequal_cb8a55.left
+            0 -> notequal_cb8a55.right
+            notequal_cb8a55.result -> bool_4524be
+        } -> map_c73e3b.handler
+        filter_c91965.output_list -> map_c73e3b.items
+        map_c73e3b.output_list -> contains_32727d.list
+        false -> contains_32727d.item
+        not_75283f.result -> output_8d07dc
+        contains_32727d.is_contained -> not_75283f.input
+    }
+
+
+    instance(x: -293, y: -5.5) odd_position_7a4dad root.main.odd_position {}
+}

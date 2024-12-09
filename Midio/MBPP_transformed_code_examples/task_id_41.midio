@@ -1,0 +1,37 @@
+@midio_version("0.1.0")
+@version("0.1.0")
+import("std", Std_k98ojb)
+import("http", Http_q7o96c)
+
+module() main { 
+    func(doc: "Finds the last position of an element in a sorted array.") last {
+        in(x: -231, y: -29, name: "list") property(List) list_2bbadf
+        in(x: -246, y: 105, name: "elem") property(Number) elem_94ca57
+        in(x: -356, y: -225, name: "execute") trigger() execute_076885
+
+        out(x: 801, y: -229, name: "continue") trigger() continue_9f5f84
+        out(x: 795, y: 205, name: "index") property(Number) index_fc05e7
+
+        instance(x: 151, y: -120) for_9ed60a root.Std_k98ojb.Std.For {}
+        instance(x: 465, y: 5) ifexpression_6c15d4 root.Std_k98ojb.Std.IfExpression {
+            expression: "x == y"
+        }
+        setter(x: -187, y: -246, name: "setter_6a6081") setter_6a6081 = index
+        getter(x: 502.7000000000001, y: 166.35, name: "getter_cc0721") getter_cc0721 = index
+        setter(x: 780, y: -125, name: "setter_60cfcd") setter_60cfcd = index
+        list_2bbadf -> for_9ed60a.items
+        elem_94ca57 -> ifexpression_6c15d4.gen_0
+        for_9ed60a.item -> ifexpression_6c15d4.gen_1
+        -1 -> setter_6a6081.new_value
+        execute_076885 -> setter_6a6081.execute
+        getter_cc0721.value -> index_fc05e7
+        for_9ed60a.done -> continue_9f5f84
+        setter_6a6081.continue -> for_9ed60a.reset
+        for_9ed60a.onItem -> ifexpression_6c15d4.execute
+        ifexpression_6c15d4.then -> setter_60cfcd.execute
+        for_9ed60a.index -> setter_60cfcd.new_value
+        setter_60cfcd.continue -> for_9ed60a.next
+        ifexpression_6c15d4.else -> for_9ed60a.next
+    }
+
+}

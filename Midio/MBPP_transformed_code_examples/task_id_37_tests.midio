@@ -19,11 +19,9 @@ module() main {
 
             out(x: 405, y: -52, name: "output") property(Bool) output_8ba733
 
-            instance(x: -84, y: -53) numberfromstring_770ef5 root.Std_k98ojb.Math.NumberFromString {}
-            instance(x: 169, y: -52) notnull_d59c5b root.Std_k98ojb.Std.NotNull {}
-            current_86a8fb -> numberfromstring_770ef5.string
-            numberfromstring_770ef5.result -> notnull_d59c5b.input
-            notnull_d59c5b.notNull -> output_8ba733
+            instance(x: 24.5, y: -54.25, stableId: "dnbuj51ajiozratdcge1fc3s") isnumeric_9cb360 root.Std_k98ojb.Strings.IsNumeric {}
+            current_86a8fb -> isnumeric_9cb360.input
+            isnumeric_9cb360.isNumeric -> output_8ba733
         } -> filter_c1bb22.handler
         filter_c1bb22.output_list -> length_8815e6.list
         characters_7942d4.characters -> filter_c1bb22.items

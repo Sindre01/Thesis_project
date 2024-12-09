@@ -45,7 +45,7 @@ else:
         plt.ylabel('Count')
 
         # Add total unique functions to the plot title
-        plt.title(f'Count of samples using Library Functions (Unique Functions: {total_unique_functions})\nSamples with Task ID 1 to 22')
+        plt.title(f'Count of samples using Library Functions (Unique Functions: {total_unique_functions})\n')
         plt.xticks(rotation=90)
         plt.tight_layout()
 

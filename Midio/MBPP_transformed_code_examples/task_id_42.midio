@@ -1,0 +1,32 @@
+@midio_version("0.1.0")
+@version("0.1.0")
+import("std", Std_k98ojb)
+import("http", Http_q7o96c)
+
+module() main { 
+    func(doc: "Finds the sum of an array.") _sum {
+        in(x: -213, y: 28.5, name: "list") property(List) list_2c62ab
+
+        out(x: 567, y: 3.5, name: "sum") property(Number) sum_2a848f
+
+        instance(x: 0, y: 0) reduce_6245de root.Std_k98ojb.Iteration.Reduce {}
+        0 -> reduce_6245de.initialValue
+        func(doc: "Adds the accumulated value, named 'sum', with the current element, named 'elem'. Outputs the new accumulated value with the 'newSum' node.") {
+            in(x: 100, y: -47.5, name: "sum") property(Number) sum_bc0898
+            in(x: 98, y: 76.5, name: "elem") property(Number) elem_63eafb
+
+            out(x: 598, y: 25.5, name: "newSum") property(Number) newSum_431ae0
+
+            instance(x: 348, y: 29.5) add_7950c4 root.Std_k98ojb.Math.Add {}
+            sum_bc0898 -> add_7950c4.first
+            elem_63eafb -> add_7950c4.second
+            add_7950c4.result -> newSum_431ae0
+        } -> reduce_6245de.reducer
+        list_2c62ab -> reduce_6245de.items
+        reduce_6245de.output -> sum_2a848f
+    }
+
+
+    instance(x: -173, y: -103.5) _sum_f258d8 root.main._sum {}
+
+}

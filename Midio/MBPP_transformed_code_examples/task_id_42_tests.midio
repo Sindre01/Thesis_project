@@ -1,0 +1,60 @@
+@midio_version("0.1.0")
+@version("0.1.0")
+import("std", Std_k98ojb)
+import("http", Http_q7o96c)
+
+module() main { 
+    func(doc: "Finds the sum of an array.") _sum {
+        in(x: -213, y: 28.5, name: "list") property(List) list_2c62ab
+
+        out(x: 567, y: 3.5, name: "sum") property(Number) sum_2a848f
+
+        instance(x: 0, y: 0) reduce_6245de root.Std_k98ojb.Iteration.Reduce {}
+        0 -> reduce_6245de.initialValue
+        func(doc: "Adds the accumulated value, named 'sum', with the current element, named 'elem'. Outputs the new accumulated value with the 'newSum' node.") {
+            in(x: 100, y: -47.5, name: "sum") property(Number) sum_bc0898
+            in(x: 98, y: 76.5, name: "elem") property(Number) elem_63eafb
+
+            out(x: 598, y: 25.5, name: "newSum") property(Number) newSum_431ae0
+
+            instance(x: 348, y: 29.5) add_7950c4 root.Std_k98ojb.Math.Add {}
+            sum_bc0898 -> add_7950c4.first
+            elem_63eafb -> add_7950c4.second
+            add_7950c4.result -> newSum_431ae0
+        } -> reduce_6245de.reducer
+        list_2c62ab -> reduce_6245de.items
+        reduce_6245de.output -> sum_2a848f
+    }
+
+    module(doc: "Contains three different tests for the '_sum' function node") tests {
+        instance(x: 85, y: -124.5) test_eba91a root.Std_k98ojb.Testing.Test {
+            name: "Test _sum"
+        }
+        instance(x: -132, y: 24.5) assertequal_66acf7 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: -119.5, y: 160.5) _sum_76cf80 root.main._sum {}
+        data_instance(x: -114.5, y: 249.5) data_3004e8  = [1, 2, 3]
+        data_instance(x: 132.1, y: 244.8) data_96d926  = [15, 12, 13, 10]
+        data_instance(x: 374.1, y: 249.5) data_633a21  = [0, 1, 2]
+        instance(x: 128.75, y: 28) assertequal_f68699 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 141.25, y: 164) _078056 root.main._sum {}
+        instance(x: 367.75, y: 30) assertequal_c4a62d root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 380.25, y: 166) _5d1b05 root.main._sum {}
+        _sum_76cf80.sum_2a848f -> assertequal_66acf7.actual
+        test_eba91a.onRun -> assertequal_66acf7.execute
+        data_3004e8 -> _sum_76cf80.list_2c62ab
+        _078056.sum_2a848f -> assertequal_f68699.actual
+        _5d1b05.sum_2a848f -> assertequal_c4a62d.actual
+        assertequal_66acf7.continue -> assertequal_f68699.execute
+        assertequal_f68699.continue -> assertequal_c4a62d.execute
+        data_633a21 -> _5d1b05.list_2c62ab
+        data_96d926 -> _078056.list_2c62ab
+        6 -> assertequal_66acf7.expect
+        50 -> assertequal_f68699.expect
+        3 -> assertequal_c4a62d.expect
+
+
+    }
+
+    instance(x: -173, y: -103.5) _sum_f258d8 root.main._sum {}
+
+}
