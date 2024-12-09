@@ -1,0 +1,68 @@
+@midio_version("0.1.0")
+@version("0.1.0")
+import("std", Std_k98ojb)
+import("http", Http_q7o96c)
+
+module() main { 
+    func(doc: "Rotates a given list by specified number of items to the right direction.") rotate_right {
+        in(x: -186, y: -89.5, name: "list") property(List) list_48148f
+        in(x: -193, y: -3.5, name: "n") property(Number) n_68068c
+
+        out(x: 735.1, y: -112.54999999999995, name: "output") property(Any) output_823209
+
+        instance(x: 348, y: -206) slice_710389 root.Std_k98ojb.List.Slice {}
+        instance(x: 349.1, y: -0.5499999999999545) slice_479814 root.Std_k98ojb.List.Slice {}
+        instance(x: 530.1, y: -109.54999999999995) concat_107778 root.Std_k98ojb.List.Concat {}
+        instance(x: -36, y: -184) length_f7a32f root.Std_k98ojb.List.Length {}
+        instance(x: 138, y: -94) sub_a105a5 root.Std_k98ojb.Math.Sub {}
+        -1 -> slice_710389.end
+        0 -> slice_479814.start
+        list_48148f -> slice_710389.list
+        list_48148f -> slice_479814.list
+        slice_710389.slice -> concat_107778.left
+        slice_479814.slice -> concat_107778.right
+        concat_107778.result -> output_823209
+        list_48148f -> length_f7a32f.list
+        length_f7a32f.length -> sub_a105a5.first
+        sub_a105a5.result -> slice_710389.start
+        sub_a105a5.result -> slice_479814.end
+        n_68068c -> sub_a105a5.second
+    }
+
+    module(doc: "Contains three different tests for the 'rotate_right' function node") tests {
+        instance(x: -481, y: -556.5) test_ced75d root.Std_k98ojb.Testing.Test {
+            name: "Test rotate_right"
+        }
+        instance(x: -468, y: -412.5) assertequal_89f20e root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: -454, y: -260) rotate_right_0aa081 root.main.rotate_right {}
+        instance(x: -171, y: -413.25) assertequal_928222 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: -157, y: -260.75) rotate_ef4033 root.main.rotate_right {}
+        instance(x: 176, y: -422.25) assertequal_0016e2 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 190, y: -269.75) rotate_156a40 root.main.rotate_right {}
+        data_instance(x: -450.0, y: -150.0) data_2af4b6  = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+        data_instance(x: -164.0, y: -130.0) data_3eeb1c  = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+        data_instance(x: 187.0, y: -145.0) data_32bb9b  = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+        data_instance(x: -709.0, y: -356.0) data_10bbe7  = [8, 9, 10, 1, 2, 3, 4, 5, 6, 7]
+        data_instance(x: -167.0, y: -802.0) data_ba7f9e  = [9, 10, 1, 2, 3, 4, 5, 6, 7, 8]
+        data_instance(x: 170.0, y: -791.0) data_3d4569  = [6, 7, 8, 9, 10, 1, 2, 3, 4, 5]
+        test_ced75d.onRun -> assertequal_89f20e.execute
+        rotate_right_0aa081.output_823209 -> assertequal_89f20e.actual
+        rotate_ef4033.output_823209 -> assertequal_928222.actual
+        rotate_156a40.output_823209 -> assertequal_0016e2.actual
+        assertequal_89f20e.continue -> assertequal_928222.execute
+        assertequal_928222.continue -> assertequal_0016e2.execute
+        data_2af4b6 -> rotate_right_0aa081.list_48148f
+        3 -> rotate_right_0aa081.n_68068c
+        data_3eeb1c -> rotate_ef4033.list_48148f
+        data_32bb9b -> rotate_156a40.list_48148f
+        2 -> rotate_ef4033.n_68068c
+        5 -> rotate_156a40.n_68068c
+        data_10bbe7 -> assertequal_89f20e.expect
+        data_ba7f9e -> assertequal_928222.expect
+        data_3d4569 -> assertequal_0016e2.expect
+
+
+    }
+
+    instance(x: 180, y: -299.5) rotate_right_9b5fc6 root.Std_k98ojb.main.rotate_right {}
+}

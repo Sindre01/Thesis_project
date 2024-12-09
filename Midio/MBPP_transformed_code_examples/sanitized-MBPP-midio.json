@@ -1577,24 +1577,52 @@
     },
     {
         "prompts": [
-            "Write a python function to check whether all the characters are same or not.",
-            "Write a method in Dafny to check whether all the characters are same or not.",
+            "Create a flow to check whether all the characters are same or not.",
+            "",
             ""
         ],
-        "task_id": -1,
+        "task_id": 33,
         "specification": {
-            "function_signature": "method AllCharactersSame(s: string) returns (result: bool)",
+            "function_signature": "func(doc: \"Checks whether all the characters are same or not.\") all_Characters_Same {\n    in(x: -862.8, y: 188.15, name: \"string\") property(String) string_db4ddf\n    in(x: -878.5714285714289, y: 9.999999999999986, name: \"execute\") trigger() execute_f1c7e0\n\n    out(x: 588, y: 123, name: \"continue\") trigger() continue_67430e\n    out(x: 600, y: 270, name: \"output\") property(Bool) output_e9fa68\n}",
             "preconditions": "- There are no preconditions, the method will always work. Strings and sequences are always not null.",
             "postconditions": "- If the result is true, all characters in the input string are the same\n- If the result is false, there is at least one character in the input string that is different from the others"
         },
         "MBPP_task_id": 741,
-        "library_functions": [],
-        "visual_node_types": [],
-        "textual_instance_types": [],
+        "library_functions": [
+            "root.std.Strings.Characters",
+            "root.std.Strings.ToLower",
+            "root.std.List.FirstItem",
+            "root.std.Std.For",
+            "root.std.Logic.Equal",
+            "root.std.Std.If"
+        ],
+        "visual_node_types": [
+            "Function",
+            "Input Property",
+            "Output Property",
+            "Input Trigger",
+            "Output Trigger"
+        ],
+        "textual_instance_types": [
+            "instance",
+            "in",
+            "out"
+        ],
         "testing": {
-            "library_functions": [],
-            "visual_node_types": [],
-            "textual_instance_types": [],
+            "library_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertTrue",
+                "root.std.Testing.AssertFalse"
+            ],
+            "visual_node_types": [
+                "Event",
+                "Function",
+                "Data Object"
+            ],
+            "textual_instance_types": [
+                "instance",
+                "data_instance"
+            ],
             "test_list": [
                 "assert all_Characters_Same(\"python\") == False",
                 "assert all_Characters_Same(\"aaa\") == True",
@@ -1604,24 +1632,47 @@
     },
     {
         "prompts": [
-            "Write a function to rotate a given list by specified number of items to the right direction. https://www.geeksforgeeks.org/python-program-right-rotate-list-n/",
-            "Write a method in Dafny to rotate a given list by specified N number of items to the right direction.",
+            "Create a flow to rotate a given list by specified number of items to the right direction.",
+            "",
             ""
         ],
-        "task_id": -1,
+        "task_id": 34,
         "specification": {
-            "function_signature": "method RotateRight(l: seq<int>, n: int) returns (r: seq<int>)",
+            "function_signature": "func(doc: \"Rotates a given list by specified number of items to the right direction.\") rotate_right {\n    in(x: -186, y: -89.5, name: \"list\") property(List) list_48148f\n    in(x: -193, y: -3.5, name: \"n\") property(Number) n_68068c\n\n    out(x: 735.1, y: -112.54999999999995, name: \"output\") property(Any) output_823209\n}",
             "preconditions": "- n should be non-negative",
             "postconditions": "- The length of the returning sequence must be the same as the length of the input sequence\n- The elements of the input sequence are rotated by n positions to the right in the output sequence"
         },
         "MBPP_task_id": 743,
-        "library_functions": [],
-        "visual_node_types": [],
-        "textual_instance_types": [],
+        "library_functions": [
+            "root.std.List.Concat",
+            "root.std.List.Slice",
+            "root.std.List.Length",
+            "root.std.Math.Sub"
+        ],
+        "visual_node_types": [
+            "Function",
+            "Input Property",
+            "Output Property"
+        ],
+        "textual_instance_types": [
+            "instance",
+            "in",
+            "out"
+        ],
         "testing": {
-            "library_functions": [],
-            "visual_node_types": [],
-            "textual_instance_types": [],
+            "library_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertEqual"
+            ],
+            "visual_node_types": [
+                "Event",
+                "Function",
+                "Data Object"
+            ],
+            "textual_instance_types": [
+                "instance",
+                "data_instance"
+            ],
             "test_list": [
                 "assert rotate_right([1, 2, 3, 4, 5, 6, 7, 8, 9, 10],3)==[8, 9, 10, 1, 2, 3, 4, 5, 6, 7]",
                 "assert rotate_right([1, 2, 3, 4, 5, 6, 7, 8, 9, 10],2)==[9, 10, 1, 2, 3, 4, 5, 6, 7, 8]",
@@ -1631,52 +1682,104 @@
     },
     {
         "prompts": [
-            "Write a function to find the second smallest number in a list.",
-            "Write a method in Dafny to find the second-smallest number in an integer array.",
+            "Create a flow to find the second smallest number in a list.",
+            "",
             ""
         ],
-        "task_id": -1,
+        "task_id": 35,
         "specification": {
-            "function_signature": "method SecondSmallest(s: array<int>) returns (secondSmallest: int)",
+            "function_signature": "func(doc: \"Finds the second smallest number in a list.\") second_smallest {\n    in(x: -52, y: 85, name: \"list\") property(List) list_56d273\n    in(x: -244.31168019522795, y: -39.62516833200653, name: \"execute\") trigger() execute_c23a43\n\n    out(x: 1025.337586584032, y: 145.87386073641994, name: \"continue\") trigger() continue_642adb\n    out(x: 1026.50455705432, y: 287.7087130878599, name: \"output\") property(Any) output_ad16ae\n}",
             "preconditions": "- The input array should not be null\n- The input array should have at least two elements",
             "postconditions": "- The returned value should be the second-smallest number in the input array\n- The input array remains unchanged"
         },
         "MBPP_task_id": 755,
-        "library_functions": [],
-        "visual_node_types": [],
-        "textual_instance_types": [],
+        "library_functions": [
+            "root.std.List.Sort",
+            "root.std.List.GetAt",
+            "root.std.List.Length",
+            "root.std.Std.IfExpression",
+            "root.std.Sets.Intersection"	
+        ],
+        "visual_node_types": [
+            "Function",
+            "Input Property",
+            "Output Property",
+            "Input Trigger",
+            "Output Trigger",
+            "Setter",
+            "Getter"
+        ],
+        "textual_instance_types": [
+            "instance",
+            "in",
+            "out",
+            "setter",
+            "getter"
+        ],
         "testing": {
-            "library_functions": [],
-            "visual_node_types": [],
-            "textual_instance_types": [],
+            "library_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertEqual"
+            ],
+            "visual_node_types": [
+                "Event",
+                "Function",
+                "Data Object"
+            ],
+            "textual_instance_types": [
+                "instance",
+                "data_instance"
+            ],
             "test_list": [
                 "assert second_smallest([1, 2, -8, -2, 0, -2])==-2",
                 "assert second_smallest([1, 1, -0.5, 0, 2, -2, -2])==-0.5",
-                "assert second_smallest([2,2])==None",
-                "assert second_smallest([2,2,2])==None"
+                "assert second_smallest([2,2])==None"
             ]
         }
     },
     {
         "prompts": [
             "Write a python function to check whether a list of numbers contains only one distinct element or not.",
-            "Write a method in Dafny to check whether an array of numbers contains only one distinct element or not.",
+            "",
             ""
         ],
-        "task_id": -1,
+        "task_id": 36,
         "specification": {
-            "function_signature": "method HasOnlyOneDistinctElement(a: array<int>) returns (result: bool)",
+            "function_signature": "func(doc: \"Checks whether a list of numbers contains only one distinct element or not.\") unique_Element {\n    in(x: -285, y: -86.5, name: \"list\") property(List) list_3af6ba\n\n    out(x: 557, y: -97, name: \"output\") property(Bool) output_c7097f\n}",
             "preconditions": "- The input array should not be null",
             "postconditions": "- If the method returns true, all elements in the array are equal\n- If the method returns false, there are at least two distinct elements in the array"
         },
         "MBPP_task_id": 760,
-        "library_functions": [],
-        "visual_node_types": [],
-        "textual_instance_types": [],
+        "library_functions": [
+            "root.std.Sets.Intersection",
+            "root.std.List.Length",
+            "root.std.Logic.Equal"
+        ],
+        "visual_node_types": [
+            "Function",
+            "Input Property",
+            "Output Property"
+        ],
+        "textual_instance_types": [
+            "instance",
+            "in",
+            "out"
+        ],
         "testing": {
-            "library_functions": [],
-            "visual_node_types": [],
-            "textual_instance_types": [],
+            "library_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertTrue",
+                "root.std.Testing.AssertFalse"
+            ],
+            "visual_node_types": [
+                "Event",
+                "Function",
+                "Data Object"
+            ],
+            "textual_instance_types": [
+                "instance",
+                "data_instance"
+            ],
             "test_list": [
                 "assert unique_Element([1,1,1]) == True",
                 "assert unique_Element([1,2,1,2]) == False",
@@ -1686,24 +1789,48 @@
     },
     {
         "prompts": [
-            "Write a python function to count number of digits in a given string.",
-            "Write a method in Dafny to count number of digits in a given string.",
+            "Create a flow to count number of digits in a given string.",
+            "",
             ""
         ],
-        "task_id": -1,
+        "task_id": 37,
         "specification": {
-            "function_signature": "method CountDigits(s: string) returns (count: int)",
+            "function_signature": "func(doc: \"Counts number of digits in a given string.\") number_ctr {\n    in(x: -240, y: 69.5, name: \"string\") property(String) string_668bd2\n\n    out(x: 929, y: 58.5, name: \"count\") property(Number) count_1f468d\n}",
             "preconditions": "- There are no preconditions, the method will always work. Strings and sequences are always not null.",
             "postconditions": "- The count should be non-negative\n- The count should be equal to the number of digits in the input string"
         },
         "MBPP_task_id": 764,
-        "library_functions": [],
-        "visual_node_types": [],
-        "textual_instance_types": [],
+        "library_functions": [
+            "root.std.Strings.Characters",
+            "root.std.Iteration.Filtrer",
+            "root.std.List.Length",
+            "root.std.Math.NumberFromString",
+            "root.std.Std.NotNull"
+        ],
+        "visual_node_types": [
+            "Function",
+            "Input Property",
+            "Output Property"
+        ],
+        "textual_instance_types": [
+            "instance",
+            "in",
+            "out"
+        ],
         "testing": {
-            "library_functions": [],
-            "visual_node_types": [],
-            "textual_instance_types": [],
+            "library_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertEqual"
+            ],
+            "visual_node_types": [
+                "Event",
+                "Function",
+                "Data Object"
+            ],
+            "textual_instance_types": [
+                "instance",
+                "data_instance"
+            ],
             "test_list": [
                 "assert number_ctr('program2bedone') == 1",
                 "assert number_ctr('3wonders') == 1",
@@ -1714,24 +1841,47 @@
     },
     {
         "prompts": [
-            "Write a python function to find the sum of fourth power of first n odd natural numbers.",
-            "Write a method in Dafny to find the sum of fourth power of first n odd natural numbers.",
+            "Create a flow to find the sum of fourth power of first n odd natural numbers.",
+            "",
             ""
         ],
-        "task_id": -1,
+        "task_id": 38,
         "specification": {
-            "function_signature": "method SumOfFourthPowerOfOddNumbers(n: int) returns (sum: int)",
+            "function_signature": "func(doc: \"Finds the sum of fourth power of first n odd natural numbers.\") odd_num_sum {\n    in(x: -243, y: 86.5, name: \"n\") property(Number) n_0c0609\n\n    out(x: 1090, y: 53, name: \"sum\") property(Number) sum_2ad0d5\n}",
             "preconditions": "- n should be a non-negative integer",
             "postconditions": "- The sum should be the sum of the fourth power of the first n odd natural numbers"
         },
         "MBPP_task_id": 770,
-        "library_functions": [],
-        "visual_node_types": [],
-        "textual_instance_types": [],
+        "library_functions": [
+            "root.std.List.GenerateRange",
+            "root.std.Iteration.Reduce",
+            "root.std.Math.Mul",
+            "root.std.Math.Sub",
+            "root.std.Math.Expression",
+            "root.std.Math.Add"
+        ],
+        "visual_node_types": [
+            "Function",
+            "Input Property",
+            "Output Property"
+        ],
+        "textual_instance_types": [
+            "instance",
+            "in",
+            "out"
+        ],
         "testing": {
-            "library_functions": [],
-            "visual_node_types": [],
-            "textual_instance_types": [],
+            "library_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertEqual"
+            ],
+            "visual_node_types": [
+                "Event",
+                "Function"
+            ],
+            "textual_instance_types": [
+                "instance"
+            ],
             "test_list": [
                 "assert odd_num_sum(2) == 82",
                 "assert odd_num_sum(3) == 707",

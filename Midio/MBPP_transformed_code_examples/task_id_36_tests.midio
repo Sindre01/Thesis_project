@@ -1,0 +1,51 @@
+@midio_version("0.1.0")
+@version("0.1.0")
+import("std", Std_k98ojb)
+import("http", Http_q7o96c)
+
+module() main { 
+    func(doc: "Checks whether a list of numbers contains only one distinct element or not.") unique_Element {
+        in(x: -285, y: -86.5, name: "list") property(List) list_3af6ba
+
+        out(x: 557, y: -97, name: "output") property(Bool) output_c7097f
+
+        instance(x: -92, y: -97) intersection_c7c7e6 root.Std_k98ojb.Sets.Intersection {}
+        instance(x: 146, y: -96) length_8166b0 root.Std_k98ojb.List.Length {}
+        instance(x: 360, y: -95) equal_f89569 root.Std_k98ojb.Logic.Equal {}
+        list_3af6ba -> intersection_c7c7e6.left
+        intersection_c7c7e6.intersection -> length_8166b0.list
+        list_3af6ba -> intersection_c7c7e6.right
+        length_8166b0.length -> equal_f89569.left
+        1 -> equal_f89569.right
+        equal_f89569.result -> output_c7097f
+    }
+
+    module(doc: "Contains three different tests for the 'unique_Element function node") tests {
+        instance(x: -117, y: -6.5) test_251a50 root.Std_k98ojb.Testing.Test {
+            name: "Test unique_Element"
+        }
+        instance(x: -132, y: 192) asserttrue_b47f78 root.Std_k98ojb.Testing.AssertTrue {}
+        instance(x: 143, y: 192) assertfalse_956142 root.Std_k98ojb.Testing.AssertFalse {}
+        instance(x: 395, y: 192) assertfalse_d733a6 root.Std_k98ojb.Testing.AssertFalse {}
+        instance(x: -134.20000000000005, y: 296.85) unique_element_e91e6d root.main.unique_Element {}
+        instance(x: 132.39999999999998, y: 300.6) unique_0412bd root.main.unique_Element {}
+        instance(x: 383.4, y: 300.6) unique_a9a2db root.main.unique_Element {}
+        data_instance(x: -126.6, y: 417.6) data_30c8cf  = [1, 1, 1]
+        data_instance(x: 139.3, y: 424.9) data_97c25b  = [1, 2, 1, 2]
+        data_instance(x: 401.3, y: 426.3) data_2477ad  = [1, 2, 3, 4, 5]
+        test_251a50.onRun -> asserttrue_b47f78.execute
+        unique_element_e91e6d.output_c7097f -> asserttrue_b47f78.value
+        assertfalse_956142.continue -> assertfalse_d733a6.execute
+        asserttrue_b47f78.continue -> assertfalse_956142.execute
+        unique_0412bd.output_c7097f -> assertfalse_956142.value
+        unique_a9a2db.output_c7097f -> assertfalse_d733a6.value
+        data_2477ad -> unique_a9a2db.list_3af6ba
+        data_97c25b -> unique_0412bd.list_3af6ba
+        data_30c8cf -> unique_element_e91e6d.list_3af6ba
+
+
+    }
+
+    instance(x: -84, y: 59) unique_element_ac7dfb root.main.unique_Element {}
+
+}

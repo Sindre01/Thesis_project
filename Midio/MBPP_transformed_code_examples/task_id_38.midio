@@ -1,0 +1,44 @@
+@midio_version("0.1.0")
+@version("0.1.0")
+import("std", Std_k98ojb)
+import("http", Http_q7o96c)
+
+module() main { 
+    func(doc: "Finds the sum of fourth power of first n odd natural numbers.") odd_num_sum {
+        in(x: -243, y: 86.5, name: "n") property(Number) n_0c0609
+
+        out(x: 1090, y: 53, name: "sum") property(Number) sum_2ad0d5
+
+        instance(x: 88, y: 54.5) generaterange_6e8af5 root.Std_k98ojb.List.GenerateRange {}
+        instance(x: 472.7999999999999, y: 56.75) reduce_3a8e90 root.Std_k98ojb.Iteration.Reduce {}
+        1 -> generaterange_6e8af5.from
+        n_0c0609 -> generaterange_6e8af5.to
+        generaterange_6e8af5.list -> reduce_3a8e90.items
+        0 -> reduce_3a8e90.initialValue
+        func() {
+            in(x: -185, y: -84.5, name: "accumulated") property(Number) current_c750f1
+            in(x: -177, y: 22, name: "current") property(Number) current_3f11cd
+
+            out(x: 1072.3, y: -77.64999999999998, name: "sum") property(Number) sum_72dd2a
+
+            instance(x: 74, y: 2) mul_0f3be6 root.Std_k98ojb.Math.Mul {}
+            instance(x: 298, y: 1) sub_e38c7d root.Std_k98ojb.Math.Sub {}
+            instance(x: 568.3, y: 1.3500000000000227) expression_8eee0e root.Std_k98ojb.Math.Expression {
+                expression: "j*j*j*j"
+            }
+            instance(x: 818.3, y: -74.64999999999998) add_8974a2 root.Std_k98ojb.Math.Add {}
+            2 -> mul_0f3be6.first
+            current_3f11cd -> mul_0f3be6.second
+            mul_0f3be6.result -> sub_e38c7d.first
+            1 -> sub_e38c7d.second
+            sub_e38c7d.result -> expression_8eee0e.gen_0
+            current_c750f1 -> add_8974a2.first
+            expression_8eee0e.result -> add_8974a2.second
+            add_8974a2.result -> sum_72dd2a
+        } -> reduce_3a8e90.reducer
+        reduce_3a8e90.output -> sum_2ad0d5
+    }
+
+
+    instance(x: -272, y: 115.5) odd_num_sum_6c92e0 root.main.odd_num_sum {}
+}

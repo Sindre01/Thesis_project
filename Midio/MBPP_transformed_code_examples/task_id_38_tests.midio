@@ -1,0 +1,69 @@
+@midio_version("0.1.0")
+@version("0.1.0")
+import("std", Std_k98ojb)
+import("http", Http_q7o96c)
+
+module() main { 
+    func(doc: "Finds the sum of fourth power of first n odd natural numbers.") odd_num_sum {
+        in(x: -243, y: 86.5, name: "n") property(Number) n_0c0609
+
+        out(x: 1090, y: 53, name: "sum") property(Number) sum_2ad0d5
+
+        instance(x: 88, y: 54.5) generaterange_6e8af5 root.Std_k98ojb.List.GenerateRange {}
+        instance(x: 472.7999999999999, y: 56.75) reduce_3a8e90 root.Std_k98ojb.Iteration.Reduce {}
+        1 -> generaterange_6e8af5.from
+        n_0c0609 -> generaterange_6e8af5.to
+        generaterange_6e8af5.list -> reduce_3a8e90.items
+        0 -> reduce_3a8e90.initialValue
+        func() {
+            in(x: -185, y: -84.5, name: "accumulated") property(Number) current_c750f1
+            in(x: -177, y: 22, name: "current") property(Number) current_3f11cd
+
+            out(x: 1072.3, y: -77.64999999999998, name: "sum") property(Number) sum_72dd2a
+
+            instance(x: 74, y: 2) mul_0f3be6 root.Std_k98ojb.Math.Mul {}
+            instance(x: 298, y: 1) sub_e38c7d root.Std_k98ojb.Math.Sub {}
+            instance(x: 568.3, y: 1.3500000000000227) expression_8eee0e root.Std_k98ojb.Math.Expression {
+                expression: "j*j*j*j"
+            }
+            instance(x: 818.3, y: -74.64999999999998) add_8974a2 root.Std_k98ojb.Math.Add {}
+            2 -> mul_0f3be6.first
+            current_3f11cd -> mul_0f3be6.second
+            mul_0f3be6.result -> sub_e38c7d.first
+            1 -> sub_e38c7d.second
+            sub_e38c7d.result -> expression_8eee0e.gen_0
+            current_c750f1 -> add_8974a2.first
+            expression_8eee0e.result -> add_8974a2.second
+            add_8974a2.result -> sum_72dd2a
+        } -> reduce_3a8e90.reducer
+        reduce_3a8e90.output -> sum_2ad0d5
+    }
+
+    module(doc: "Contains three different tests for the 'odd_num_sum' function node") tests {
+        instance(x: -11, y: 14) test_a7d17f root.Std_k98ojb.Testing.Test {
+            name: "Test odd_num_sum"
+        }
+        instance(x: -40, y: 155) assertequal_5910c1 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: -39, y: 322) odd_num_sum_eb34c1 root.main.odd_num_sum {}
+        instance(x: 366.6, y: 149.55) assertequal_a4e490 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 367.6, y: 316.54999999999995) odd_1c6d14 root.main.odd_num_sum {}
+        instance(x: 755.6, y: 147.55) assertequal_b1808a root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 756.6, y: 314.54999999999995) odd_629985 root.main.odd_num_sum {}
+        test_a7d17f.onRun -> assertequal_5910c1.execute
+        odd_num_sum_eb34c1.sum_2ad0d5 -> assertequal_5910c1.actual
+        82 -> assertequal_5910c1.expect
+        2 -> odd_num_sum_eb34c1.n_0c0609
+        odd_1c6d14.sum_2ad0d5 -> assertequal_a4e490.actual
+        707 -> assertequal_a4e490.expect
+        3 -> odd_1c6d14.n_0c0609
+        odd_629985.sum_2ad0d5 -> assertequal_b1808a.actual
+        3108 -> assertequal_b1808a.expect
+        4 -> odd_629985.n_0c0609
+        assertequal_5910c1.continue -> assertequal_a4e490.execute
+        assertequal_a4e490.continue -> assertequal_b1808a.execute
+
+
+    }
+
+    instance(x: -272, y: 115.5) odd_num_sum_6c92e0 root.main.odd_num_sum {}
+}

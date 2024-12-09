@@ -1,0 +1,43 @@
+@midio_version("0.1.0")
+@version("0.1.0")
+import("std", Std_k98ojb)
+import("http", Http_q7o96c)
+
+module() main { 
+    func(doc: "Finds the second smallest number in a list.") second_smallest {
+        in(x: -52, y: 85, name: "list") property(List) list_56d273
+        in(x: -244.31168019522795, y: -39.62516833200653, name: "execute") trigger() execute_c23a43
+
+        out(x: 1025.337586584032, y: 145.87386073641994, name: "continue") trigger() continue_642adb
+        out(x: 1026.50455705432, y: 287.7087130878599, name: "output") property(Any) output_ad16ae
+
+        instance(x: 205.12295023385937, y: -205.81094236198624) sort_8b352b root.Std_k98ojb.List.Sort {}
+        instance(x: 391, y: 123) ifexpression_ef9cde root.Std_k98ojb.Std.IfExpression {
+            expression: "n >= 2"
+        }
+        instance(x: 164, y: 148) length_f23345 root.Std_k98ojb.List.Length {}
+        instance(x: 516, y: -8) getat_a71550 root.Std_k98ojb.List.GetAt {}
+        setter(x: 12, y: -81, name: "setter_445dfe") setter_445dfe = secondSmallest
+        setter(x: 757.541742617572, y: 6.087130878600078, name: "setter_a82658") setter_a82658 = secondSmallest
+        getter(x: 762.0036456434561, y: 243.08348523514405, name: "getter_4c77cf") getter_4c77cf = secondSmallest
+        instance(x: 420.1095369817498, y: -216.20918004320083, name: "unique list") intersection_9b398b root.Std_k98ojb.Sets.Intersection {}
+        list_56d273 -> sort_8b352b.list
+        list_56d273 -> length_f23345.list
+        length_f23345.length -> ifexpression_ef9cde.gen_0
+        1 -> getat_a71550.index
+        setter_445dfe.continue -> ifexpression_ef9cde.execute
+        ifexpression_ef9cde.then -> setter_a82658.execute
+        getat_a71550.itemAtIndex -> setter_a82658.new_value
+        setter_a82658.continue -> continue_642adb
+        getter_4c77cf.value -> output_ad16ae
+        execute_c23a43 -> setter_445dfe.execute
+        ifexpression_ef9cde.else -> continue_642adb
+        intersection_9b398b.intersection -> getat_a71550.list
+        sort_8b352b.sorted_list -> intersection_9b398b.left
+        sort_8b352b.sorted_list -> intersection_9b398b.right
+    }
+
+
+    instance(x: 49, y: 32) second_smallest_814eea root.main.second_smallest {}
+
+}

@@ -1,0 +1,35 @@
+@midio_version("0.1.0")
+@version("0.1.0")
+import("std", Std_k98ojb)
+import("http", Http_q7o96c)
+
+module() main { 
+    func(doc: "Counts number of digits in a given string.") number_ctr {
+        in(x: -240, y: 69.5, name: "string") property(String) string_668bd2
+
+        out(x: 929, y: 58.5, name: "count") property(Number) count_1f468d
+
+        instance(x: -61.200000000000045, y: 62.64999999999998) characters_7942d4 root.Std_k98ojb.Strings.Characters {}
+        instance(x: 177, y: 66) filter_c1bb22 root.Std_k98ojb.Iteration.Filter {}
+        instance(x: 723, y: 62) length_8815e6 root.Std_k98ojb.List.Length {}
+        string_668bd2 -> characters_7942d4.input
+        length_8815e6.length -> count_1f468d
+        func() {
+            in(x: -272, y: -48.5, name: "current") property(Number) current_86a8fb
+
+            out(x: 405, y: -52, name: "output") property(Bool) output_8ba733
+
+            instance(x: -84, y: -53) numberfromstring_770ef5 root.Std_k98ojb.Math.NumberFromString {}
+            instance(x: 169, y: -52) notnull_d59c5b root.Std_k98ojb.Std.NotNull {}
+            current_86a8fb -> numberfromstring_770ef5.string
+            numberfromstring_770ef5.result -> notnull_d59c5b.input
+            notnull_d59c5b.notNull -> output_8ba733
+        } -> filter_c1bb22.handler
+        filter_c1bb22.output_list -> length_8815e6.list
+        characters_7942d4.characters -> filter_c1bb22.items
+    }
+
+
+    instance(x: 14, y: -52) number_ctr_407e1b root.main.number_ctr {}
+
+}

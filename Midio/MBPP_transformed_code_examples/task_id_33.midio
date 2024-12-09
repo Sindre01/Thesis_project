@@ -1,0 +1,37 @@
+@midio_version("0.1.0")
+@version("0.1.0")
+import("std", Std_k98ojb)
+import("http", Http_q7o96c)
+
+module() main { 
+    func(doc: "Checks whether all the characters are same or not.") all_Characters_Same {
+        in(x: -862.8, y: 188.15, name: "string") property(String) string_db4ddf
+        in(x: -878.5714285714289, y: 9.999999999999986, name: "execute") trigger() execute_f1c7e0
+
+        out(x: 588, y: 123, name: "continue") trigger() continue_67430e
+        out(x: 600, y: 270, name: "output") property(Bool) output_e9fa68
+
+        instance(x: -483, y: 192.5) characters_97fc24 root.Std_k98ojb.Strings.Characters {}
+        instance(x: -704, y: 191) tolower_0caf71 root.Std_k98ojb.Strings.ToLower {}
+        instance(x: -178, y: 331) firstitem_532c77 root.Std_k98ojb.List.FirstItem {}
+        instance(x: -181, y: 102) for_942609 root.Std_k98ojb.Std.For {}
+        instance(x: 50, y: 183) equal_e1ecef root.Std_k98ojb.Logic.Equal {}
+        instance(x: 258, y: 107) if_75369f root.Std_k98ojb.Std.If {}
+        tolower_0caf71.output -> characters_97fc24.input
+        string_db4ddf -> tolower_0caf71.input
+        characters_97fc24.characters -> firstitem_532c77.list
+        characters_97fc24.characters -> for_942609.items
+        for_942609.item -> equal_e1ecef.left
+        firstitem_532c77.item -> equal_e1ecef.right
+        equal_e1ecef.result -> if_75369f.predicate
+        for_942609.onItem -> if_75369f.execute
+        if_75369f.then -> for_942609.next
+        if_75369f.else -> continue_67430e
+        for_942609.done -> continue_67430e
+        if_75369f.value -> output_e9fa68
+        execute_f1c7e0 -> for_942609.reset
+    }
+
+
+    instance(x: -192, y: 139.5) all_characters_same_935476 root.main.all_Characters_Same {}
+}

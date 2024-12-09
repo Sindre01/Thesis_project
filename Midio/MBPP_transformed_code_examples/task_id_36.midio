@@ -1,0 +1,26 @@
+@midio_version("0.1.0")
+@version("0.1.0")
+import("std", Std_k98ojb)
+import("http", Http_q7o96c)
+
+module() main { 
+    func(doc: "Checks whether a list of numbers contains only one distinct element or not.") unique_Element {
+        in(x: -285, y: -86.5, name: "list") property(List) list_3af6ba
+
+        out(x: 557, y: -97, name: "output") property(Bool) output_c7097f
+
+        instance(x: -92, y: -97) intersection_c7c7e6 root.Std_k98ojb.Sets.Intersection {}
+        instance(x: 146, y: -96) length_8166b0 root.Std_k98ojb.List.Length {}
+        instance(x: 360, y: -95) equal_f89569 root.Std_k98ojb.Logic.Equal {}
+        list_3af6ba -> intersection_c7c7e6.left
+        intersection_c7c7e6.intersection -> length_8166b0.list
+        list_3af6ba -> intersection_c7c7e6.right
+        length_8166b0.length -> equal_f89569.left
+        1 -> equal_f89569.right
+        equal_f89569.result -> output_c7097f
+    }
+
+
+    instance(x: -84, y: 59) unique_element_ac7dfb root.main.unique_Element {}
+
+}
