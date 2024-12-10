@@ -4,30 +4,82 @@ trigger inside functions
 Create a Module
 Local variables
 
+Library functions currently only in training dataset:
+Strings.ToUpper
+List.Remove
+Std.Count
+Math.Min
+List.NotEmpty
+Math.GreaterThan
+Strings.Contains
+Math.Floor
+String.Replace
+Strings.IsNumeric
+Iteration.Filtrer
+Iteration.Zip
+List.IsEmpty
+String.ToLower
+Iteration.Map
+Logic.Not
+Strings.Replace
+List.LastItem
+List.Reversed
+Strings.ToLower
+
 
 [
     {
         "prompts": [
-            "Create a flow that creates a http-endpoint that ..",
-            "The flow should ..",
-            "A test should .."
+            "Create a flow that creates a an API over some famous football players.",
+            "The flow should create an endpoint with the 'Http Endpoint' Event node, that returns a list of football players. A 200 response with a json body of football players should be created with the 'Response' node. The Json object should be created with a 'Data Object' node. Furthemore, the url of the endpoint should be logged. The baseUrl of the endpoint is accesed through a 'waypoint node' by using the instance socket of the endpoint. This value is the merged with the endpoint name through the 'Concat' node. \n The arrows are connected as follows: 'Http Endpoint' node's onRequest trigger is connected to the 'Response' node's input trigger called 'respond'. The two 'Data Object' nodes for the json body and header are connected to the input data properties, headers and body, of the 'Response' node. The 'waypoint' node is connected to the 'Concat' node, and the 'Concat' node is connected to the 'Log' node.",
+            "A test should be made to check if the API is working correctly. The test should be made in same module as the endpoint."
         ],
         "task_id": 1,
         "specification": {
-            "function_signature": "func() ..",
-            "preconditions": "- ..",
-            "postconditions": "- .."
+            "function_signature": "",
+            "preconditions": "",
+            "postconditions": ""
         },
         "MBPP_task_id": -1,
-        "library_functions" : [],
-        "visual_node_types": [],
-        "textual_instance_types": [],
+        "library_functions" : [
+            "root.http.Http.Endpoint",
+            "root.http.Http.Response",
+            "root.std.Strings.Concat",
+            "root.std.Std.Log",
+        ],
+        "visual_node_types": [
+            "Function",
+            "Event",
+            "Data Object",
+            "Waypoint"
+        ],
+        "textual_instance_types": [
+            "instance",
+            "data_instance",
+            "waypoint"
+        ],
 
         "testing": {
-            "library_functions": [],
-            "visual_node_types": [],
-            "textual_instance_types": [],
-            "test_list": []
+            "library_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertEqual",
+                "root.std.Testing.Fail",
+                "root.http.Http.FetchUrl"
+            ],
+            "visual_node_types": [
+                "Function",
+                "Event",
+                "Data Object",
+                "Waypoint"
+            ],
+            "textual_instance_types": [
+                "instance",
+                "data_instance",
+                "waypoint"
+            ],
+            "test_list": [
+                "assert fetchUrl('<baseUrl>/football-players').status == 200",
+            ]
         }
     },
     {
