@@ -1,0 +1,28 @@
+@midio_version("0.1.0")
+@version("0.1.0")
+import("std", Std_k98ojb)
+import("http", Http_q7o96c)
+
+module() main { 
+    func(doc: "Takes in an integer n and returns the sum of the squares of the first n odd natural numbers.") square_sum {
+        in(x: -219, y: 55, name: "n") property(Number) n_3a3116
+
+        out(x: 571, y: 7, name: "sum") property(Number) sum_365f7b
+
+        instance(x: 23, y: -1) mul_f892a4 root.Std_k98ojb.Math.Mul {}
+        data_instance(x: 330.0, y: 133.0) data_cde0dc  = 3
+        instance(x: 12, y: 136) expression_2d6da6 root.Std_k98ojb.Math.Expression {
+            expression: "4*n*n-1"
+        }
+        instance(x: 303, y: 2) div_64046c root.Std_k98ojb.Math.Div {}
+        data_cde0dc -> div_64046c.second
+        mul_f892a4.result -> div_64046c.first
+        expression_2d6da6.result -> mul_f892a4.second
+        n_3a3116 -> mul_f892a4.first
+        n_3a3116 -> expression_2d6da6.gen_0
+        div_64046c.result -> sum_365f7b
+    }
+
+
+    instance(x: 118.5, y: -26.73750000000001) square_sum_9dcc3d root.main.square_sum {}
+}

@@ -36,8 +36,9 @@ else:
         print("No library functions found in the specified task IDs.")
     else:
         # Step 4: Create the bar chart
-        library_functions = list(library_function_counts.keys())
-        counts = list(library_function_counts.values())
+         # Sort library functions by name
+        library_functions = sorted(library_function_counts.keys())  # Sorted alphabetically
+        counts = [library_function_counts[func] for func in library_functions]
 
         plt.figure(figsize=(12, 6))
         bars = plt.bar(library_functions, counts, color='skyblue')

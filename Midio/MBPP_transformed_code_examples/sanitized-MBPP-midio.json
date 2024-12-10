@@ -2144,31 +2144,50 @@
     },
     {
         "prompts": [
-            "Write a function to check whether the given number is a perfect square or not. https://www.geeksforgeeks.org/check-if-given-number-is-perfect-square-in-cpp/",
-            "Write a method in Dafny to check whether the given number is a perfect square or not.",
+            "Create a flow that takes in an integer n and returns the sum of the squares of the first n odd natural numbers.",
+            "",
             ""
         ],
-        "task_id": -1,
+        "task_id": 44,
         "specification": {
-            "function_signature": "method IsPerfectSquare(n: int) returns (result: bool)",
+            "function_signature": "func(doc: \"Takes in an integer n and returns the sum of the squares of the first n odd natural numbers.\") square_sum {\n    in(x: -219, y: 55, name: \"n\") property(Number) n_3a3116\n\n    out(x: 571, y: 7, name: \"sum\") property(Number) sum_365f7b\n}",
             "preconditions": "- n should be non-negative",
-            "postconditions": "- If the result is true, there exists an integer i such that i * i == n\n- If the result is false, there is no integer i such that i * i == n"
+            "postconditions": "- The sum of the squares of the first n odd natural numbers is returned"
         },
-        "MBPP_task_id": 803,
-        "library_functions": [],
-        "visual_node_types": [],
-        "textual_instance_types": [],
+        "MBPP_task_id": 267,
+        "library_functions": [
+            "root.std.Math.Mul",
+            "root.std.Math.Expression",
+            "root.std.Math.Div"
+        ],
+        "visual_node_types": [
+            "Function",
+            "Input Property",
+            "Output Property",
+            "Data Object"
+        ],
+        "textual_instance_types": [
+            "instance",
+            "in",
+            "out",
+            "data_instance"
+        ],
         "testing": {
-            "library_functions": [],
-            "visual_node_types": [],
-            "textual_instance_types": [],
-            "test_list": [
-                "assert not is_perfect_square(10)",
-                "assert is_perfect_square(36)",
-                "assert not is_perfect_square(14)",
-                "assert is_perfect_square(14*14)",
-                "assert not is_perfect_square(125)",
-                "assert is_perfect_square(125*125)"
+            "library_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertEqual"
+            ],
+            "visual_node_types": [
+                "Event",
+                "Function"
+            ],
+            "textual_instance_types": [
+                "instance"
+            ],
+        "test_list": [
+                "assert square_Sum(2) == 10",
+                "assert square_Sum(3) == 35",
+                "assert square_Sum(4) == 84"
             ]
         }
     }
