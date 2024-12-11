@@ -537,7 +537,7 @@
         },
         "MBPP_task_id": 474,
         "library_functions": [
-            "root.std.String.Replace"
+            "root.std.Strings.Replace"
         ],
         "visual_node_types": [
             "Function"
@@ -580,7 +580,7 @@
         },
         "MBPP_task_id": 477,
         "library_functions": [
-            "root.std.String.ToLower"
+            "root.std.Strings.ToLower"
         ],
         "visual_node_types": [
             "Function"
@@ -1130,8 +1130,8 @@
     {
         "prompts": [
             "Create a flow which takes a list and returns a list with the same elements, but the k'th element removed.",
-            "",
-            ""
+            "The flow should create a user-defined function called 'remove_kth_element'. The body of the function contains two input properties: an input property of type Number, named 'k', and an input property of type List, named 'list'. It also includes one output property of type List, named 'newList'. The function should have the following nodes: a 'List Remove' node to remove the k'th element from the list, and a 'Math Sub' node to calculate the index of the k'th element.\n Connect the nodes as follows: the input property 'k' is connected to the 'List Remove' node's 'index' input. The input property 'list' is connected to the 'List Remove' node's 'list' input. The result of the 'List Remove' node is connected to the 'newList' output property. The user-defined function is then created within the main module.",
+            "The created user-defined functions should then be tested inside a seperate module called tests, within the main module.  Since the function does not contain input and ouput triggers, the flow of execution is sent between the assert nodes, using their input and output triggers."
         ],
         "task_id": 24,
         "specification": {
@@ -1178,7 +1178,7 @@
     {
         "prompts": [
             "Create a flow which takes two lists of the same length and performs the element wise modulo.",
-            "",
+            "The flow should create a user-defined function called 'list_modulo'. The body of the function contains two input properties of type List, named 'list1' and 'list2', and one output property of type List, named 'newList'. The function should have the following nodes: a 'Iteration Zip' node to iterate over the two lists simultaneously and merge each element together with a provided handler anonymous function, that contains a 'Math Modulo' node to calculate the modulo of each pair of elements.\n Connect the nodes as follows: the input property 'list1' is connected to the 'Iteration Zip' node's 'left' input data. The input property 'list2' is connected to the 'Iteration Zip' node's 'right' input data. The zipped result of the 'Iteration Zip' node is connected to output data property 'newList'. The anonymous function inside 'iteration zip' have two input elements and one output elements, which takes the modulo of each element in the list. The user-defined function is then created within the main module.",
             ""
         ],
         "task_id": 25,
@@ -1226,7 +1226,7 @@
     },
     {
         "prompts": [
-            "Write a python function to convert a given string to uppercase.",
+            "Create a flow to convert a given string to uppercase.",
             "",
             ""
         ],
@@ -1802,7 +1802,7 @@
         "MBPP_task_id": 764,
         "library_functions": [
             "root.std.Strings.Characters",
-            "root.std.Iteration.Filtrer",
+            "root.std.Iteration.Filter",
             "root.std.List.Length",
             "root.std.Strings.IsNumeric"
         ],
@@ -1902,7 +1902,7 @@
         },
         "MBPP_task_id": 775,
         "library_functions": [
-            "root.std.Iteration.Filtrer",
+            "root.std.Iteration.Filter",
             "root.std.Iteration.Map",
             "root.std.List.Contains",
             "root.std.Logic.Not",

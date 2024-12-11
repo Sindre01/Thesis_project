@@ -4,7 +4,7 @@ from collections import Counter
 import os
 
 # Path to the JSON file
-json_file_path = 'MBPP_transformed_code_examples/sanitized-MBPP-midio.json'
+json_file_path = '../MBPP_transformed_code_examples/sanitized-MBPP-midio.json'
 
 # Ensure the file exists
 if not os.path.exists(json_file_path):

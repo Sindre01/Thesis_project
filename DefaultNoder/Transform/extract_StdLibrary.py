@@ -31,7 +31,7 @@ def extract_functions(filename):
                 closing_braces = line.count('}')
                 internal_brace_counter += opening_braces - closing_braces
 
-                if internal_brace_counter <= 0:
+                if internal_brace_counter <= len(module_stack):
                     # Function or event body ends
                     in_function_body = False
                     in_event_body = False
@@ -51,6 +51,7 @@ def extract_functions(filename):
                 module_stack.append(module_name)
                 brace_stack.append('module')
                 types_stack.append([])  # Initialize types list for the new module
+                internal_brace_counter += 1  # Account for the opening brace of the module
                 print(
                     f"Line {line_number}: Entered module '{module_name}'. Current module stack: {module_stack}")
                 continue
@@ -89,7 +90,7 @@ def extract_functions(filename):
                     'types': aggregated_types
                 })
                 in_event_body = True
-                internal_brace_counter = 1  # Initialize brace counter with the opening brace of the event
+                internal_brace_counter += 1  # Account for the opening brace of the event
                 current_body = [original_line]
                 print(
                     f"Line {line_number}: Found event '{full_event_name}' with doc: '{doc_string}'.")
@@ -117,7 +118,7 @@ def extract_functions(filename):
                     'types': aggregated_types
                 })
                 in_event_body = True
-                internal_brace_counter = 1  # Initialize brace counter with the opening brace of the event
+                internal_brace_counter += 1  # Account for the opening brace of the event
                 current_body = [original_line]
                 print(
                     f"Line {line_number}: Found event '{full_event_name}'.")
@@ -146,7 +147,7 @@ def extract_functions(filename):
                 })
                 brace_stack.append('function')
                 in_function_body = True
-                internal_brace_counter = 1  # Initialize brace counter with the opening brace of the function
+                internal_brace_counter += 1  # Account for the opening brace of the function
                 current_body = [original_line]
                 print(
                     f"Line {line_number}: Defined function '{full_function_name}' with doc: '{doc_string}'.")
@@ -174,7 +175,7 @@ def extract_functions(filename):
                 })
                 brace_stack.append('function')
                 in_function_body = True
-                internal_brace_counter = 1  # Initialize brace counter with the opening brace of the function
+                internal_brace_counter += 1  # Account for the opening brace of the function
                 current_body = [original_line]
                 print(
                     f"Line {line_number}: Defined function '{full_function_name}' without doc.")
@@ -184,6 +185,7 @@ def extract_functions(filename):
             if line == '}':
                 if brace_stack:
                     closed_scope = brace_stack.pop()
+                    internal_brace_counter -= 1  # Account for the closing brace
                     if closed_scope == 'module':
                         if module_stack:
                             popped_module = module_stack.pop()
@@ -197,18 +199,24 @@ def extract_functions(filename):
                         print(
                             f"Line {line_number}: Exited function scope.")
                 else:
+                    internal_brace_counter -= 1  # Account for the closing brace
                     print(
                         f"Warning: Unmatched closing brace at line {line_number}")
                 continue
 
-    # Check for any unmatched opening braces
-    if brace_stack:
-        print("Warning: There are unmatched opening braces in the file.")
+            # Account for any extra opening or closing braces outside recognized scopes
+            opening_braces = line.count('{')
+            closing_braces = line.count('}')
+            internal_brace_counter += opening_braces - closing_braces
+
+        # Check for any unmatched opening braces
+        if brace_stack:
+            print("Warning: There are unmatched opening braces in the file.")
 
     return functions
 
 # Path to the provided file
-input_file = 'StdLibrary'  # Replace with the correct path to your HttpPackage file
+input_file = 'StdLibrary'  # Replace with the correct path to your StdLibrary file
 
 # Extract functions and their module paths
 function_list = extract_functions(input_file)

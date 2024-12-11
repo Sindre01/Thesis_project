@@ -1,0 +1,63 @@
+import("std", Std_pvchbs)
+import("http", Http_cngvqt)
+
+module() main {
+    data_instance(x: -1173.7, y: 88.3) data_109a40  = { players: [{ name: "Cristiano Ronaldo", club: "Real Madrid"} , { name: "Lionel Messi", club: "Barcelona"} ]} 
+    waypoint(x: -714.3, y: 153.0) wp_758c73 = players
+    instance(x: -478.7258618892269, y: 132.15432590742125) map_47df06 root.Std_pvchbs.Iteration.Map {}
+    instance(x: 129.07320778935082, y: 130.10787834514804) join_ff3b14 root.Std_pvchbs.Strings.Join {}
+    instance(x: 391, y: 307.00006103515625) template_b5a64e root.Std_pvchbs.Strings.Template {
+        template: "\n    <!DOCTYPE html>\n<html>\n    <head>\n        <title>Footbal players</title>\n        <link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css\">\n        <style>\n            ul.quotes {\n                padding: 0;\n\n                li {\n                    list-style-type: none;\n                    margin-bottom: var(--pico-spacing);\n                }\n            }\n\n            .source::before {\n                content: \"— \";\n            }\n        </style>\n    </head>\n    <body>\n        <main class=\"container\">\n            <h1>Name</h1>\n            <ul class=\"name\">\n                {{ name }}\n            </ul>\n        </main>\n    </body>\n</html>"
+    }
+    instance(x: 909.4066776293604, y: -247.8257428083915) response_8b8ff0 root.Http_cngvqt.Http.Response {}
+    data_instance(x: 102.0, y: -107.2) data_4377ec  = { ``Content-Type``: "text/html; charset=utf-8"} 
+    instance(x: -437.6190185546876, y: -242.8571428571429) endpoint_c1897c root.Http_cngvqt.Http.Endpoint {
+        path: "/footballers"
+        method: "GET"
+        accept: "text"
+    }
+    waypoint(x: -136.0, y: -514.8) wp_7c2de1 = runtime.baseUrl
+    instance(x: -315.49518047469485, y: -794.1847535889968) test_2a275b root.Std_pvchbs.Testing.Test {
+        name: "Test footballers"
+    }
+    instance(x: 428.2676577087318, y: -750.8899872706445) assertequal_fbda48 root.Std_pvchbs.Testing.AssertEqual {}
+    instance(x: 55.4982628436843, y: -756.8899567530665) fetchurl_336e4e root.Http_cngvqt.Http.FetchUrl {}
+    instance(x: -312.7485469277224, y: -649.0245826836821) concat_c34b93 root.Std_pvchbs.Strings.Concat {}
+    instance(x: 449.1330083358748, y: -592.258660776722) fail_91b6b7 root.Std_pvchbs.Testing.Fail {}
+    data_109a40 -> wp_758c73
+    wp_758c73 -> map_47df06.items
+    func() {
+        in(x: -164.6666259765625, y: -14.66668701171875, name: "input") property(Any) input_184580
+
+        out(x: 951.3333129882813, y: -37.99993896484375, name: "output") property(String) output_7217b9
+
+        waypoint(x: 212.7, y: 108.7) wp_f3e514 = club
+        waypoint(x: 222.0, y: -68.0) wp_52b5e7 = name
+        instance(x: 436, y: -34.99993896484375) template_fc0005 root.Std_pvchbs.Strings.Template {
+            template: "<li>\n<div class=\"name\">{{name}}</div>\n<div class=\"club\">{{club}}</div>\n</li>"
+        }
+        input_184580 -> wp_f3e514
+        input_184580 -> wp_52b5e7
+        wp_52b5e7 -> template_fc0005.gen_0
+        wp_f3e514 -> template_fc0005.gen_1
+        template_fc0005.output -> output_7217b9
+    } -> map_47df06.handler
+    map_47df06.output_list -> join_ff3b14.strings
+    " " -> join_ff3b14.separator
+    join_ff3b14.result -> template_b5a64e.gen_0
+    200 -> response_8b8ff0.status
+    template_b5a64e.output -> response_8b8ff0.body
+    data_4377ec -> response_8b8ff0.headers
+    endpoint_c1897c.onRequest -> response_8b8ff0.respond
+    wp_7c2de1 -> concat_c34b93.left
+    test_2a275b.onRun -> fetchurl_336e4e.execute
+    fetchurl_336e4e.continue -> assertequal_fbda48.execute
+    fetchurl_336e4e.status -> assertequal_fbda48.actual
+    fetchurl_336e4e.onError -> fail_91b6b7.execute
+    concat_c34b93.result -> fetchurl_336e4e.url
+    200 -> assertequal_fbda48.expect
+    "json" -> fetchurl_336e4e.responseType
+    "GET" -> fetchurl_336e4e.method
+    "/football-players" -> concat_c34b93.right
+    endpoint_c1897c -> wp_7c2de1
+}

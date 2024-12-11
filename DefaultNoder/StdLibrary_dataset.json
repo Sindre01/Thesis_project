@@ -196,79 +196,7 @@
         "function_name": "ConsumeContext",
         "module_path": "",
         "doc": "Consumes the context of the `execute` trigger, and makes it available as an output through `value`.",
-        "body": "extern func(doc: \"Consumes the context of the `execute` trigger, and makes it available as an output through `value`.\") ConsumeContext {\n\n        in trigger(consumes: AnyContext) execute\n\n        out trigger continue\n\n        out property(Any) value\n\n    }",
-        "types": ""
-    },
-    {
-        "type": "function",
-        "function_name": "IsNumber",
-        "module_path": "",
-        "doc": "Returns true if the type of `input` is Number",
-        "body": "extern func(doc: \"Returns true if the type of `input` is Number\") IsNumber {\n\n        in property(Any) input\n\n        out(name: \"is number\") property(Bool) isNumber\n\n    }",
-        "types": ""
-    },
-    {
-        "type": "function",
-        "function_name": "IsBool",
-        "module_path": "",
-        "doc": "Returns true if the type of `input` is Bool",
-        "body": "extern func(doc: \"Returns true if the type of `input` is Bool\") IsBool {\n\n        in property(Any) input\n\n        out(name: \"is bool\") property(Bool) isBool\n\n    }",
-        "types": ""
-    },
-    {
-        "type": "function",
-        "function_name": "IsString",
-        "module_path": "",
-        "doc": "Returns true if the type of `input` is String",
-        "body": "extern func(doc: \"Returns true if the type of `input` is String\") IsString {\n\n        in property(Any) input\n\n        out(name: \"is string\") property(Bool) isString\n\n    }",
-        "types": ""
-    },
-    {
-        "type": "function",
-        "function_name": "IsNull",
-        "module_path": "",
-        "doc": "Returns true if the type of `input` is Null",
-        "body": "extern func(doc: \"Returns true if the type of `input` is Null\") IsNull {\n\n        in property(Any) input\n\n        out(name: \"is null\") property(Bool) isNull\n\n    }",
-        "types": ""
-    },
-    {
-        "type": "function",
-        "function_name": "NotNull",
-        "module_path": "",
-        "doc": "Returns true if the type of `input` is not Null",
-        "body": "extern func(doc: \"Returns true if the type of `input` is not Null\") NotNull {\n\n        in property(Any) input\n\n        out(name: \"not null\") property(Bool) notNull\n\n    }",
-        "types": ""
-    },
-    {
-        "type": "function",
-        "function_name": "IsList",
-        "module_path": "",
-        "doc": "Returns true if the type of `input` is List",
-        "body": "extern func(doc: \"Returns true if the type of `input` is List\") IsList {\n\n        in property(Any) input\n\n        out(name: \"is list\") property(Bool) isList\n\n    }",
-        "types": ""
-    },
-    {
-        "type": "function",
-        "function_name": "IsMap",
-        "module_path": "",
-        "doc": "Returns true if the type of `input` is Map",
-        "body": "extern func(doc: \"Returns true if the type of `input` is Map\") IsMap {\n\n        in property(Any) input\n\n        out(name: \"is map\") property(Bool) isMap\n\n    }",
-        "types": ""
-    },
-    {
-        "type": "function",
-        "function_name": "IsBuffer",
-        "module_path": "",
-        "doc": "Returns true if the type of `input` is Buffer",
-        "body": "extern func(doc: \"Returns true if the type of `input` is Buffer\") IsBuffer {\n\n        in property(Any) input\n\n        out(name: \"is buffer\") property(Bool) isBuffer\n\n    }",
-        "types": ""
-    },
-    {
-        "type": "function",
-        "function_name": "Panic",
-        "module_path": "",
-        "doc": "",
-        "body": "extern func(buildTag: \"panic\", doc: \"Causes a native panic to occur with the provided message.\") Panic {\n\n        in trigger execute\n\n        in property message\n\n        out trigger continue\n\n    }",
+        "body": "extern func(doc: \"Consumes the context of the `execute` trigger, and makes it available as an output through `value`.\") ConsumeContext {\n\n        in trigger(consumes: AnyContext) execute\n\n        out trigger continue\n\n        out property(Any) value\n\n    }\n\n\n\n    extern func(doc: \"Returns true if the type of `input` is Number\") IsNumber {\n\n        in property(Any) input\n\n        out(name: \"is number\") property(Bool) isNumber\n\n    }\n\n\n\n    extern func(doc: \"Returns true if the type of `input` is Bool\") IsBool {\n\n        in property(Any) input\n\n        out(name: \"is bool\") property(Bool) isBool\n\n    }\n\n\n\n    extern func(doc: \"Returns true if the type of `input` is String\") IsString {\n\n        in property(Any) input\n\n        out(name: \"is string\") property(Bool) isString\n\n    }\n\n\n\n    extern func(doc: \"Returns true if the type of `input` is Null\") IsNull {\n\n        in property(Any) input\n\n        out(name: \"is null\") property(Bool) isNull\n\n    }\n\n\n\n    extern func(doc: \"Returns true if the type of `input` is not Null\") NotNull {\n\n        in property(Any) input\n\n        out(name: \"not null\") property(Bool) notNull\n\n    }\n\n\n\n    extern func(doc: \"Returns true if the type of `input` is List\") IsList {\n\n        in property(Any) input\n\n        out(name: \"is list\") property(Bool) isList\n\n    }\n\n\n\n    extern func(doc: \"Returns true if the type of `input` is Map\") IsMap {\n\n        in property(Any) input\n\n        out(name: \"is map\") property(Bool) isMap\n\n    }\n\n\n\n    extern func(doc: \"Returns true if the type of `input` is Buffer\") IsBuffer {\n\n        in property(Any) input\n\n        out(name: \"is buffer\") property(Bool) isBuffer\n\n    }\n\n\n\n    extern func(buildTag: \"panic\", doc: \"Causes a native panic to occur with the provided message.\") Panic {\n\n        in trigger execute\n\n        in property message\n\n        out trigger continue\n\n    }\n\n}",
         "types": ""
     },
     {
@@ -452,7 +380,7 @@
         "function_name": "Strings.Regex.FirstMatch",
         "module_path": "Strings.Regex",
         "doc": "Returns the first match for the provided regex `pattern` matching on `input`. For each capture group, a separate output property is created.",
-        "body": "extern func(doc: \"Returns the first match for the provided regex `pattern` matching on `input`. For each capture group, a separate output property is created.\") FirstMatch {\n\n            parameter(compilerPlugin: \"Regex\", aiSystemPrompt: \"\n\nYou will generate a regex pattern based on the users prompt, and only return the generated pattern. Here are some examples:\n\n\n\nprompt: Find all the words in the sentence which start with the letter 'a'\n\npattern: \\\\b[aA]\\\\w+\\\\b\n\n\n\nprompt: Find all the words in the sentence which end with the letter 'a'\n\npattern: \\\\b\\\\w+[aA]\\\\b\n\n\n\nprompt: Match all email addresses and capture the username and domain\n\npattern: (\\\\w+)@(\\\\w+.\\\\w+)\n\n\") pattern\n\n            in(x: 0, y: 0, name: \"execute\") trigger() execute\n\n            in(x: 0, y: 0, name: \"input\") property(String) input\n\n            out(x: 0, y: 0, name: \"found match\") trigger() foundMatch\n\n            out(x: 0, y: 0, name: \"no match\") trigger() noMatch\n\n        }",
+        "body": "extern func(doc: \"Returns the first match for the provided regex `pattern` matching on `input`. For each capture group, a separate output property is created.\") FirstMatch {\n\n            parameter(compilerPlugin: \"Regex\", aiSystemPrompt: \"\n\n                You will generate a regex pattern based on the users prompt, and only return the generated pattern. Here are some examples:\n\n\n\n                prompt: Find all the words in the sentence which start with the letter 'a'\n\n                pattern: \\\\b[aA]\\\\w+\\\\b\n\n\n\n                prompt: Find all the words in the sentence which end with the letter 'a'\n\n                pattern: \\\\b\\\\w+[aA]\\\\b\n\n\n\n                prompt: Match all email addresses and capture the username and domain\n\n                pattern: (\\\\w+)@(\\\\w+.\\\\w+)\n\n            \") pattern\n\n\n\n            in(x: 0, y: 0, name: \"execute\") trigger() execute\n\n            in(x: 0, y: 0, name: \"input\") property(String) input\n\n\n\n            out(x: 0, y: 0, name: \"found match\") trigger() foundMatch\n\n            out(x: 0, y: 0, name: \"no match\") trigger() noMatch\n\n        }",
         "types": ""
     },
     {
@@ -460,7 +388,7 @@
         "function_name": "Strings.Regex.AllMatches",
         "module_path": "Strings.Regex",
         "doc": "Returns all matches for the provided regex `pattern` matching on `input` as a list of lists, where each item contains a the matches for each capture group, with the first item matching the whole expression.",
-        "body": "extern func(doc: \"Returns all matches for the provided regex `pattern` matching on `input` as a list of lists, where each item contains a the matches for each capture group, with the first item matching the whole expression.\") AllMatches {\n\n            parameter(aiSystemPrompt: \"\n\nYou will generate a regex pattern based on the users prompt, and only return the generated pattern. Here are some examples:\n\n\n\nprompt: Find all the words in the sentence which start with the letter 'a'\n\npattern: \\\\b[aA]\\\\w+\\\\b\n\n\n\nprompt: Find all the words in the sentence which end with the letter 'a'\n\npattern: \\\\b\\\\w+[aA]\\\\b\n\n\n\nprompt: Match all email addresses and capture the username and domain\n\npattern: (\\\\w+)@(\\\\w+.\\\\w+)\n\n\") pattern\n\n            in(x: 0, y: 0, name: \"execute\") trigger() execute\n\n            in(x: 0, y: 0, name: \"input\") property(String) input\n\n            out(x: 0, y: 0, name: \"continue\") trigger() foundMatches\n\n            out property(List) matches\n\n        }",
+        "body": "extern func(doc: \"Returns all matches for the provided regex `pattern` matching on `input` as a list of lists, where each item contains a the matches for each capture group, with the first item matching the whole expression.\") AllMatches {\n\n            parameter(aiSystemPrompt: \"\n\n                You will generate a regex pattern based on the users prompt, and only return the generated pattern. Here are some examples:\n\n\n\n                prompt: Find all the words in the sentence which start with the letter 'a'\n\n                pattern: \\\\b[aA]\\\\w+\\\\b\n\n\n\n                prompt: Find all the words in the sentence which end with the letter 'a'\n\n                pattern: \\\\b\\\\w+[aA]\\\\b\n\n\n\n                prompt: Match all email addresses and capture the username and domain\n\n                pattern: (\\\\w+)@(\\\\w+.\\\\w+)\n\n            \") pattern\n\n            in(x: 0, y: 0, name: \"execute\") trigger() execute\n\n            in(x: 0, y: 0, name: \"input\") property(String) input\n\n            out(x: 0, y: 0, name: \"continue\") trigger() foundMatches\n\n            out property(List) matches\n\n        }",
         "types": ""
     },
     {
@@ -468,85 +396,85 @@
         "function_name": "Strings.AllMatchesWithRange",
         "module_path": "Strings",
         "doc": "Returns all matches for the provided regex `pattern` matching on `input` as a list of lists, where each item contains a the matches for each capture group, with the first item matching the whole expression.",
-        "body": "extern func(doc: \"Returns all matches for the provided regex `pattern` matching on `input` as a list of lists, where each item contains a the matches for each capture group, with the first item matching the whole expression.\") AllMatchesWithRange {\n\n            parameter(aiSystemPrompt: \"\n\nYou will generate a regex pattern based on the users prompt, and only return the generated pattern. Here are some examples:\n\n\n\nprompt: Find all the words in the sentence which start with the letter 'a'\n\npattern: \\\\b[aA]\\\\w+\\\\b\n\n\n\nprompt: Find all the words in the sentence which end with the letter 'a'\n\npattern: \\\\b\\\\w+[aA]\\\\b\n\n\n\nprompt: Match all email addresses and capture the username and domain\n\npattern: (\\\\w+)@(\\\\w+.\\\\w+)\n\n\") pattern\n\n            in(x: 0, y: 0, name: \"execute\") trigger() execute\n\n            in(x: 0, y: 0, name: \"input\") property(String) input\n\n            out(x: 0, y: 0, name: \"continue\") trigger() foundMatches\n\n            out property(List) matches\n\n        }",
+        "body": "extern func(doc: \"Returns all matches for the provided regex `pattern` matching on `input` as a list of lists, where each item contains a the matches for each capture group, with the first item matching the whole expression.\") AllMatchesWithRange {\n\n            parameter(aiSystemPrompt: \"\n\n                You will generate a regex pattern based on the users prompt, and only return the generated pattern. Here are some examples:\n\n\n\n                prompt: Find all the words in the sentence which start with the letter 'a'\n\n                pattern: \\\\b[aA]\\\\w+\\\\b\n\n\n\n                prompt: Find all the words in the sentence which end with the letter 'a'\n\n                pattern: \\\\b\\\\w+[aA]\\\\b\n\n\n\n                prompt: Match all email addresses and capture the username and domain\n\n                pattern: (\\\\w+)@(\\\\w+.\\\\w+)\n\n            \") pattern\n\n            in(x: 0, y: 0, name: \"execute\") trigger() execute\n\n            in(x: 0, y: 0, name: \"input\") property(String) input\n\n            out(x: 0, y: 0, name: \"continue\") trigger() foundMatches\n\n            out property(List) matches\n\n        }\n\n    }",
         "types": ""
     },
     {
         "type": "function",
-        "function_name": "IsNumeric",
-        "module_path": "",
+        "function_name": "Strings.IsNumeric",
+        "module_path": "Strings",
         "doc": "",
         "body": "extern func IsNumeric {\n\n        in property(String) input\n\n        out(name: \"is numeric\") property(Bool) isNumeric\n\n    }",
         "types": ""
     },
     {
         "type": "function",
-        "function_name": "IsAlphabetic",
-        "module_path": "",
+        "function_name": "Strings.IsAlphabetic",
+        "module_path": "Strings",
         "doc": "",
         "body": "extern func IsAlphabetic {\n\n        in property(String) input\n\n        out(name: \"is alphanumeric\") property(Bool) isAlphanumeric\n\n    }",
         "types": ""
     },
     {
         "type": "function",
-        "function_name": "IsAlphaNumeric",
-        "module_path": "",
+        "function_name": "Strings.IsAlphaNumeric",
+        "module_path": "Strings",
         "doc": "",
         "body": "extern func IsAlphaNumeric {\n\n        in property(String) input\n\n        out property(Bool) isAlphaNumeric\n\n    }",
         "types": ""
     },
     {
         "type": "function",
-        "function_name": "IsWhitespace",
-        "module_path": "",
+        "function_name": "Strings.IsWhitespace",
+        "module_path": "Strings",
         "doc": "",
         "body": "extern func IsWhitespace {\n\n        in property(String) input\n\n        out(name: \"is whitespace\") property(Bool) isWhitespace\n\n    }",
         "types": ""
     },
     {
         "type": "function",
-        "function_name": "IsEmpty",
-        "module_path": "",
+        "function_name": "Strings.IsEmpty",
+        "module_path": "Strings",
         "doc": "",
         "body": "extern func IsEmpty {\n\n        in property(String) input\n\n        out(name: \"is empty\") property(Bool) isEmpty\n\n    }",
         "types": ""
     },
     {
         "type": "function",
-        "function_name": "Reversed",
-        "module_path": "",
+        "function_name": "Strings.Reversed",
+        "module_path": "Strings",
         "doc": "",
         "body": "extern func Reversed {\n\n        in property(String) input\n\n        out property(String) reversed\n\n    }",
         "types": ""
     },
     {
         "type": "function",
-        "function_name": "MatchIndices",
-        "module_path": "",
+        "function_name": "Strings.MatchIndices",
+        "module_path": "Strings",
         "doc": "Returns a list over the disjoint matches of a pattern (not regex) within the `input` string as well as the index that the match starts at.",
         "body": "extern func(doc: \"Returns a list over the disjoint matches of a pattern (not regex) within the `input` string as well as the index that the match starts at.\") MatchIndices {\n\n        in property(String) input\n\n        in property(String) pattern\n\n        out property(List) indicesOfMatches\n\n    }",
         "types": ""
     },
     {
         "type": "function",
-        "function_name": "RightMatchIndices",
-        "module_path": "",
+        "function_name": "Strings.RightMatchIndices",
+        "module_path": "Strings",
         "doc": "Returns a list over the disjoint matches of a pattern (not regex) within the `input` string as well as the index that the match starts at, yielded in reverse order.",
         "body": "extern func(doc: \"Returns a list over the disjoint matches of a pattern (not regex) within the `input` string as well as the index that the match starts at, yielded in reverse order.\") RightMatchIndices {\n\n        in property(String) input\n\n        in property(String) pattern\n\n        out property(List) indicesOfMatches\n\n    }",
         "types": ""
     },
     {
         "type": "function",
-        "function_name": "Characters",
-        "module_path": "",
+        "function_name": "Strings.Characters",
+        "module_path": "Strings",
         "doc": "",
         "body": "extern func Characters {\n\n        in property(String) input\n\n        out property(List) characters\n\n    }",
         "types": ""
     },
     {
         "type": "function",
-        "function_name": "Contains",
-        "module_path": "",
+        "function_name": "Strings.Contains",
+        "module_path": "Strings",
         "doc": "Returns true if `input` contains `contains` as a substring.",
         "body": "extern func(doc: \"Returns true if `input` contains `contains` as a substring.\") Contains {\n\n        in property(String) input\n\n        in property(String) contains\n\n        out property(Bool) result\n\n    }",
         "types": ""
@@ -1097,192 +1025,200 @@
     },
     {
         "type": "function",
-        "function_name": "Abs",
-        "module_path": "",
+        "function_name": "Math.Expression",
+        "module_path": "Math",
+        "doc": "Creates a mathematical expression using a simple expression language provided through the `expression` parameter. Example: `a + b / 10` creates two inputs, `a` and `b`. The expression is executed using the provided inputs, and the result is available on the `result` output.",
+        "body": "extern func(doc: \"Creates a mathematical expression using a simple expression language provided through the `expression` parameter. Example: `a + b / 10` creates two inputs, `a` and `b`. The expression is executed using the provided inputs, and the result is available on the `result` output.\") Expression {\n\n        parameter(\n\n            compilerPlugin: \"Expression\",\n\n            defaultValue: \"\",\n\n            aiSystemPrompt: \"You will generate math expressions based on a user prompt. The expression you generate will consist only of the following operators:\n\n                            - + (plus)\n\n                            - - (minus)\n\n                            - * (multiply)\n\n                            - / (divide)\n\n                            - % (modulo)\n\n\n\n                            Inputs that must be provided by the user are represented by valid C identifiers, and should prefer to be as short as possible, without confusing the user about what the input represents.\n\n\n\n                            Here are a few examples:\n\n\n\n                            Prompt: Calcualte the average of three number\n\n                            Response: (a + b + c) / 3\n\n\n\n                            Prompt: Calculate the area of a circle of radius r\n\n                            Response: 3.14 * r * r\n\n\n\n                            Prompt: Calculate the area of a rectangle\n\n                            Response: a * b\n\n                            \",\n\n        ) expression\n\n        out(x: 0, y: 0, name: \"result\") property result\n\n    }",
+        "types": ""
+    },
+    {
+        "type": "function",
+        "function_name": "Math.Abs",
+        "module_path": "Math",
         "doc": "Returns the absolute value of `x`.",
         "body": "extern func(doc: \"Returns the absolute value of `x`.\") Abs {\n\n        in(x: 0, y: 0, name: \"x\") property x\n\n        out(x: 0, y: 0, name: \"result\") property result\n\n    }",
         "types": ""
     },
     {
         "type": "function",
-        "function_name": "Sin",
-        "module_path": "",
+        "function_name": "Math.Sin",
+        "module_path": "Math",
         "doc": "Returns the sine of `x` (in radians).",
         "body": "extern func(doc: \"Returns the sine of `x` (in radians).\") Sin {\n\n        in(x: 0, y: 0, name: \"x\") property x\n\n        out(x: 0, y: 0, name: \"result\") property result\n\n    }",
         "types": ""
     },
     {
         "type": "function",
-        "function_name": "Cos",
-        "module_path": "",
+        "function_name": "Math.Cos",
+        "module_path": "Math",
         "doc": "Returns the cosine of `x` (in radians).",
         "body": "extern func(doc: \"Returns the cosine of `x` (in radians).\") Cos {\n\n        in(x: 0, y: 0, name: \"x\") property x\n\n        out(x: 0, y: 0, name: \"result\") property result\n\n    }",
         "types": ""
     },
     {
         "type": "function",
-        "function_name": "Tan",
-        "module_path": "",
+        "function_name": "Math.Tan",
+        "module_path": "Math",
         "doc": "Returns the tangent of `x` (in radians).",
         "body": "extern func(doc: \"Returns the tangent of `x` (in radians).\") Tan {\n\n        in(x: 0, y: 0, name: \"x\") property x\n\n        out(x: 0, y: 0, name: \"result\") property result\n\n    }",
         "types": ""
     },
     {
         "type": "function",
-        "function_name": "Asin",
-        "module_path": "",
+        "function_name": "Math.Asin",
+        "module_path": "Math",
         "doc": "Returns the arcsine of `x` (in radians).",
         "body": "extern func(doc: \"Returns the arcsine of `x` (in radians).\") Asin {\n\n        in(x: 0, y: 0, name: \"x\") property x\n\n        out(x: 0, y: 0, name: \"result\") property result\n\n    }",
         "types": ""
     },
     {
         "type": "function",
-        "function_name": "Acos",
-        "module_path": "",
+        "function_name": "Math.Acos",
+        "module_path": "Math",
         "doc": "Returns the arccosine of `x` (in radians).",
         "body": "extern func(doc: \"Returns the arccosine of `x` (in radians).\") Acos {\n\n        in(x: 0, y: 0, name: \"x\") property x\n\n        out(x: 0, y: 0, name: \"result\") property result\n\n    }",
         "types": ""
     },
     {
         "type": "function",
-        "function_name": "Atan",
-        "module_path": "",
+        "function_name": "Math.Atan",
+        "module_path": "Math",
         "doc": "Returns the arctangent of `x` (in radians).",
         "body": "extern func(doc: \"Returns the arctangent of `x` (in radians).\") Atan {\n\n        in(x: 0, y: 0, name: \"x\") property x\n\n        out(x: 0, y: 0, name: \"result\") property result\n\n    }",
         "types": ""
     },
     {
         "type": "function",
-        "function_name": "Exp",
-        "module_path": "",
+        "function_name": "Math.Exp",
+        "module_path": "Math",
         "doc": "Returns the natural exponential function of `x`.",
         "body": "extern func(doc: \"Returns the natural exponential function of `x`.\") Exp {\n\n        in(x: 0, y: 0, name: \"x\") property x\n\n        out(x: 0, y: 0, name: \"result\") property result\n\n    }",
         "types": ""
     },
     {
         "type": "function",
-        "function_name": "Log",
-        "module_path": "",
+        "function_name": "Math.Log",
+        "module_path": "Math",
         "doc": "Returns the natural logarithm (base e) of `x`.",
         "body": "extern func(doc: \"Returns the natural logarithm (base e) of `x`.\") Log {\n\n        in(x: 0, y: 0, name: \"x\") property x\n\n        out(x: 0, y: 0, name: \"result\") property result\n\n    }",
         "types": ""
     },
     {
         "type": "function",
-        "function_name": "Log10",
-        "module_path": "",
+        "function_name": "Math.Log10",
+        "module_path": "Math",
         "doc": "Returns the base-10 logarithm of `x`.",
         "body": "extern func(doc: \"Returns the base-10 logarithm of `x`.\") Log10 {\n\n        in(x: 0, y: 0, name: \"x\") property x\n\n        out(x: 0, y: 0, name: \"result\") property result\n\n    }",
         "types": ""
     },
     {
         "type": "function",
-        "function_name": "Pow",
-        "module_path": "",
+        "function_name": "Math.Pow",
+        "module_path": "Math",
         "doc": "Returns `x` raised to the power of `y`.",
         "body": "extern func(doc: \"Returns `x` raised to the power of `y`.\") Pow {\n\n        in(x: 0, y: 0, name: \"x\") property x\n\n        in(x: 0, y: 0, name: \"y\") property y\n\n        out(x: 0, y: 0, name: \"result\") property result\n\n    }",
         "types": ""
     },
     {
         "type": "function",
-        "function_name": "Sqrt",
-        "module_path": "",
+        "function_name": "Math.Sqrt",
+        "module_path": "Math",
         "doc": "Returns the positive square root of `x`.",
         "body": "extern func(doc: \"Returns the positive square root of `x`.\") Sqrt {\n\n        in(x: 0, y: 0, name: \"x\") property x\n\n        out(x: 0, y: 0, name: \"result\") property result\n\n    }",
         "types": ""
     },
     {
         "type": "function",
-        "function_name": "Cbrt",
-        "module_path": "",
+        "function_name": "Math.Cbrt",
+        "module_path": "Math",
         "doc": "Returns the cube root of `x`.",
         "body": "extern func(doc: \"Returns the cube root of `x`.\") Cbrt {\n\n        in(x: 0, y: 0, name: \"x\") property x\n\n        out(x: 0, y: 0, name: \"result\") property result\n\n    }",
         "types": ""
     },
     {
         "type": "function",
-        "function_name": "NthRoot",
-        "module_path": "",
+        "function_name": "Math.NthRoot",
+        "module_path": "Math",
         "doc": "Returns the `n`th root of `x`.",
         "body": "extern func(doc: \"Returns the `n`th root of `x`.\") NthRoot {\n\n        in(x: 0, y: 0, name: \"x\") property x\n\n        in(x: 0, y: 0, name: \"n\") property n\n\n        out(x: 0, y: 0, name: \"result\") property result\n\n    }",
         "types": ""
     },
     {
         "type": "function",
-        "function_name": "Ceil",
-        "module_path": "",
+        "function_name": "Math.Ceil",
+        "module_path": "Math",
         "doc": "Returns the smallest integer greater than or equal to `x`.",
         "body": "extern func(doc: \"Returns the smallest integer greater than or equal to `x`.\") Ceil {\n\n        in(x: 0, y: 0, name: \"x\") property x\n\n        out(x: 0, y: 0, name: \"result\") property result\n\n    }",
         "types": ""
     },
     {
         "type": "function",
-        "function_name": "Modulo",
-        "module_path": "",
+        "function_name": "Math.Modulo",
+        "module_path": "Math",
         "doc": "",
         "body": "extern func Modulo {\n\n        in(x: 0, y: 0, name: \"value\") property value\n\n        in(x: 0, y: 0, name: \"divisor\") property divisor\n\n        out(x: 0, y: 0, name: \"result\") property result\n\n    }",
         "types": ""
     },
     {
         "type": "function",
-        "function_name": "Round",
-        "module_path": "",
+        "function_name": "Math.Round",
+        "module_path": "Math",
         "doc": "Rounds `x` to the nearest integer.",
         "body": "extern func(doc: \"Rounds `x` to the nearest integer.\") Round {\n\n        in(x: 0, y: 0, name: \"x\") property x\n\n        out(x: 0, y: 0, name: \"result\") property result\n\n    }",
         "types": ""
     },
     {
         "type": "function",
-        "function_name": "RoundTo",
-        "module_path": "",
+        "function_name": "Math.RoundTo",
+        "module_path": "Math",
         "doc": "Rounds `x` to `decimals` decimal places.",
         "body": "extern func(doc: \"Rounds `x` to `decimals` decimal places.\") RoundTo {\n\n        in(x: 0, y: 0, name: \"x\") property x\n\n        in(x: 0, y: 0, name: \"decimals\") property decimals\n\n        out(x: 0, y: 0, name: \"result\") property result\n\n    }",
         "types": ""
     },
     {
         "type": "function",
-        "function_name": "Min",
-        "module_path": "",
+        "function_name": "Math.Min",
+        "module_path": "Math",
         "doc": "Returns the smallest of the input numbers.",
         "body": "extern func(doc: \"Returns the smallest of the input numbers.\") Min {\n\n        in(x: 0, y: 0, name: \"values\") property values\n\n        out(x: 0, y: 0, name: \"result\") property result\n\n    }",
         "types": ""
     },
     {
         "type": "function",
-        "function_name": "Max",
-        "module_path": "",
+        "function_name": "Math.Max",
+        "module_path": "Math",
         "doc": "Returns the largest of the input numbers.",
         "body": "extern func(doc: \"Returns the largest of the input numbers.\") Max {\n\n        in(x: 0, y: 0, name: \"values\") property values\n\n        out(x: 0, y: 0, name: \"result\") property result\n\n    }",
         "types": ""
     },
     {
         "type": "function",
-        "function_name": "Max2",
-        "module_path": "",
+        "function_name": "Math.Max2",
+        "module_path": "Math",
         "doc": "Finds the largest of two numbers",
         "body": "extern func(doc: \"Finds the largest of two numbers\") Max2 {\n\n        in(x: 0, y: 0, name: \"left\") property(Number) left\n\n        in(x: 0, y: 0, name: \"right\") property(Number) right\n\n        out property(Number) max\n\n    }",
         "types": ""
     },
     {
         "type": "function",
-        "function_name": "Min2",
-        "module_path": "",
+        "function_name": "Math.Min2",
+        "module_path": "Math",
         "doc": "Finds the smallest of two numbers",
         "body": "extern func(doc: \"Finds the smallest of two numbers\") Min2 {\n\n        in(x: 0, y: 0, name: \"left\") property(Number) left\n\n        in(x: 0, y: 0, name: \"right\") property(Number) right\n\n        out property(Number) min\n\n    }",
         "types": ""
     },
     {
         "type": "function",
-        "function_name": "Random",
-        "module_path": "",
+        "function_name": "Math.Random",
+        "module_path": "Math",
         "doc": "Creates a random `value` from `from` to `to` each time the function is `execute`d.",
         "body": "extern func(doc: \"Creates a random `value` from `from` to `to` each time the function is `execute`d.\") Random {\n\n        in(x: 0, y: 0, name: \"from\") property from\n\n        in(x: 0, y: 0, name: \"to\") property to\n\n        out(x: 0, y: 0, name: \"value\") property value\n\n    }",
         "types": ""
     },
     {
         "type": "function",
-        "function_name": "NumberFromString",
-        "module_path": "",
+        "function_name": "Math.NumberFromString",
+        "module_path": "Math",
         "doc": "Converts `string` to a number. If the string is not convertible to a number, Null is returned.",
         "body": "extern func(doc: \"Converts `string` to a number. If the string is not convertible to a number, Null is returned.\") NumberFromString {\n\n        in(x: 0, y: 0, name: \"string\") property string\n\n        out(x: 0, y: 0, name: \"result\") property result\n\n    }",
         "types": ""

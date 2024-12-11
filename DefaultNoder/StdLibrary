@@ -375,36 +375,38 @@ module Strings {
     module Regex {
         extern func(doc: "Returns the first match for the provided regex `pattern` matching on `input`. For each capture group, a separate output property is created.") FirstMatch {
             parameter(compilerPlugin: "Regex", aiSystemPrompt: "
-You will generate a regex pattern based on the users prompt, and only return the generated pattern. Here are some examples:
+                You will generate a regex pattern based on the users prompt, and only return the generated pattern. Here are some examples:
 
-prompt: Find all the words in the sentence which start with the letter 'a'
-pattern: \\b[aA]\\w+\\b
+                prompt: Find all the words in the sentence which start with the letter 'a'
+                pattern: \\b[aA]\\w+\\b
 
-prompt: Find all the words in the sentence which end with the letter 'a'
-pattern: \\b\\w+[aA]\\b
+                prompt: Find all the words in the sentence which end with the letter 'a'
+                pattern: \\b\\w+[aA]\\b
 
-prompt: Match all email addresses and capture the username and domain
-pattern: (\\w+)@(\\w+.\\w+)
-") pattern
+                prompt: Match all email addresses and capture the username and domain
+                pattern: (\\w+)@(\\w+.\\w+)
+            ") pattern
+
             in(x: 0, y: 0, name: "execute") trigger() execute
             in(x: 0, y: 0, name: "input") property(String) input
+
             out(x: 0, y: 0, name: "found match") trigger() foundMatch
             out(x: 0, y: 0, name: "no match") trigger() noMatch
         }
 
         extern func(doc: "Returns all matches for the provided regex `pattern` matching on `input` as a list of lists, where each item contains a the matches for each capture group, with the first item matching the whole expression.") AllMatches {
             parameter(aiSystemPrompt: "
-You will generate a regex pattern based on the users prompt, and only return the generated pattern. Here are some examples:
+                You will generate a regex pattern based on the users prompt, and only return the generated pattern. Here are some examples:
 
-prompt: Find all the words in the sentence which start with the letter 'a'
-pattern: \\b[aA]\\w+\\b
+                prompt: Find all the words in the sentence which start with the letter 'a'
+                pattern: \\b[aA]\\w+\\b
 
-prompt: Find all the words in the sentence which end with the letter 'a'
-pattern: \\b\\w+[aA]\\b
+                prompt: Find all the words in the sentence which end with the letter 'a'
+                pattern: \\b\\w+[aA]\\b
 
-prompt: Match all email addresses and capture the username and domain
-pattern: (\\w+)@(\\w+.\\w+)
-") pattern
+                prompt: Match all email addresses and capture the username and domain
+                pattern: (\\w+)@(\\w+.\\w+)
+            ") pattern
             in(x: 0, y: 0, name: "execute") trigger() execute
             in(x: 0, y: 0, name: "input") property(String) input
             out(x: 0, y: 0, name: "continue") trigger() foundMatches
@@ -418,17 +420,17 @@ pattern: (\\w+)@(\\w+.\\w+)
         }
         extern func(doc: "Returns all matches for the provided regex `pattern` matching on `input` as a list of lists, where each item contains a the matches for each capture group, with the first item matching the whole expression.") AllMatchesWithRange {
             parameter(aiSystemPrompt: "
-You will generate a regex pattern based on the users prompt, and only return the generated pattern. Here are some examples:
+                You will generate a regex pattern based on the users prompt, and only return the generated pattern. Here are some examples:
 
-prompt: Find all the words in the sentence which start with the letter 'a'
-pattern: \\b[aA]\\w+\\b
+                prompt: Find all the words in the sentence which start with the letter 'a'
+                pattern: \\b[aA]\\w+\\b
 
-prompt: Find all the words in the sentence which end with the letter 'a'
-pattern: \\b\\w+[aA]\\b
+                prompt: Find all the words in the sentence which end with the letter 'a'
+                pattern: \\b\\w+[aA]\\b
 
-prompt: Match all email addresses and capture the username and domain
-pattern: (\\w+)@(\\w+.\\w+)
-") pattern
+                prompt: Match all email addresses and capture the username and domain
+                pattern: (\\w+)@(\\w+.\\w+)
+            ") pattern
             in(x: 0, y: 0, name: "execute") trigger() execute
             in(x: 0, y: 0, name: "input") property(String) input
             out(x: 0, y: 0, name: "continue") trigger() foundMatches
@@ -936,32 +938,30 @@ module Math {
         out(x: 0, y: 0, name: "result") property(Bool) result
     }
 
-    extern func(
-        doc: "Creates a mathematical expression using a simple expression language provided through the `expression` parameter. Example: `a + b / 10` creates two inputs, `a` and `b`. The expression is executed using the provided inputs, and the result is available on the `result` output."
-    ) Expression {
+    extern func(doc: "Creates a mathematical expression using a simple expression language provided through the `expression` parameter. Example: `a + b / 10` creates two inputs, `a` and `b`. The expression is executed using the provided inputs, and the result is available on the `result` output.") Expression {
         parameter(
             compilerPlugin: "Expression",
             defaultValue: "",
             aiSystemPrompt: "You will generate math expressions based on a user prompt. The expression you generate will consist only of the following operators:
-- + (plus)
-- - (minus)
-- * (multiply)
-- / (divide)
-- % (modulo)
+                            - + (plus)
+                            - - (minus)
+                            - * (multiply)
+                            - / (divide)
+                            - % (modulo)
 
-Inputs that must be provided by the user are represented by valid C identifiers, and should prefer to be as short as possible, without confusing the user about what the input represents.
+                            Inputs that must be provided by the user are represented by valid C identifiers, and should prefer to be as short as possible, without confusing the user about what the input represents.
 
-Here are a few examples:
+                            Here are a few examples:
 
-Prompt: Calcualte the average of three number
-Response: (a + b + c) / 3
+                            Prompt: Calcualte the average of three number
+                            Response: (a + b + c) / 3
 
-Prompt: Calculate the area of a circle of radius r
-Response: 3.14 * r * r
+                            Prompt: Calculate the area of a circle of radius r
+                            Response: 3.14 * r * r
 
-Prompt: Calculate the area of a rectangle
-Response: a * b
-",
+                            Prompt: Calculate the area of a rectangle
+                            Response: a * b
+                            ",
         ) expression
         out(x: 0, y: 0, name: "result") property result
     }
