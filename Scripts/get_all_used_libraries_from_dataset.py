@@ -1,7 +1,7 @@
 import json
 
 # Load the sanitized-MBPP-midio dataset
-with open('../../CustomData/MBPP_transformed_code_examples/sanitized-MBPP-midio.json', 'r') as f:
+with open('../Data/MBPP_transformed_code_examples/sanitized-MBPP-midio.json', 'r') as f:
     mbpp_data = json.load(f)
 
 # Collect all used library functions from sanitized-MBPP-midio.json
@@ -13,11 +13,11 @@ for sample in mbpp_data:
     used_library_functions.update(clean_functions)
 
 # Load the StdLibrary dataset
-with open('../StdLibrary_dataset.json', 'r') as f:
+with open('../Midio_libraries/StdLibrary_dataset.json', 'r') as f:
     std_library_data = json.load(f)
 
 # Load the HttpPackage dataset
-with open('../HttpPackage_dataset.json', 'r') as f:
+with open('../Midio_libraries/HttpPackage_dataset.json', 'r') as f:
     http_package_data = json.load(f)
 
 # Combine StdLibrary and HttpPackage datasets
@@ -28,15 +28,14 @@ filtered_functions = [func for func in combined_library_data if func['function_n
 
 # Find functions in used_library_functions that are not in filtered_functions
 filtered_function_names = set(func['function_name'] for func in filtered_functions)
-missing_functions = used_library_functions - filtered_function_names
 
 # Save the filtered functions into one file
-with open('../UsedLibraryFunctions_dataset.json', 'w') as f:
+with open('../Data/used_libraries_in_datasets.json', 'w') as f:
     json.dump(filtered_functions, f, indent=4)
 
-# Optionally, print the number of functions
-print(f"Number of used library functions: {len(used_library_functions)}")
-# Optionally, print the number of functions
+# print(f"Number of used library functions: {len(used_library_functions)}")
+
 print(f"Number of used library functions included in the dataset: {len(filtered_functions)}")
 
-print(missing_functions)
+missing_functions = used_library_functions - filtered_function_names
+print(f"Functions missing from: {missing_functions}")

@@ -147,13 +147,13 @@ validation_data = data[validation_indices]
 test_data = data[test_indices]
 
 # Save the splits into files
-with open('train_dataset.json', 'w') as train_file:
+with open('../Data/train_dataset.json', 'w') as train_file:
     json.dump(train_data.tolist(), train_file, indent=4)
 
-with open('validation_dataset.json', 'w') as eval_file:
+with open('../Data/validation_dataset.json', 'w') as eval_file:
     json.dump(validation_data.tolist(), eval_file, indent=4)
 
-with open('test_dataset.json', 'w') as test_file:
+with open('../Data/test_dataset.json', 'w') as test_file:
     json.dump(test_data.tolist(), test_file, indent=4)
 
 # Print the number of samples in each dataset
