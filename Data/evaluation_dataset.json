@@ -1,22 +1,18 @@
 [
     {
         "prompts": [
-            "Create a flow to check whether the given list contains consecutive numbers or not.",
-            "The flow should create a user-defined function. The body of the function contains one input property of type any, one 'List Sort' node, one 'List Min' node, one 'List Max' node, one 'List GenerateRange' node, one 'Math Expression' node with the expression 'list1 == list2', and in this case one output property 'result' of type Bool. \n The arrows are connected as follows: The input property, called list, is connected with arrows to the 'List Sort', 'List Min', and 'List Max' nodes. The sorted list output of the 'List Sort' node is connected with arrows to the first input (list1) of the 'Math Expression' node. The outputs of the 'List.Min' and 'List.Max' nodes are connected with arrows to the from and to inputs of the 'List GenerateRange' node, respectively. The generated range output of the 'List GenerateRange' node is connected with arrows to the second input (list2) of the 'Math Expression' node. The result output of the 'Math Expression' node is then connected with arrows to the output property, called output, of the user-defined function. The user-defined function is then created within the main module",
-            "The created user-defined function should then be tested inside a seperate module called tests, within the main module. Since the function does not contain input and ouput triggers, the flow of execution is sent between the assert nodes, using their input and output triggers."
+            "Create a flow that checks whether the given two integers have opposite sign or not.",
+            "The flow should create a user-defined function. The body of the function contains two input properties of type Number, a 'Math Expression' node and one output property of type 'Bool'.\n The arrows are connected as follows: The input properties is connected with arrows to 'Math Expression', that contains an expression with the two input properties of type numbers. The 'Math Expression' result is a boolean. This value is connected with arrows to the created output property, that return the Bool from the function. The user-defined function is then created within the main module.",
+            "This created user-defined function should then be tested within a seperate module called tests, within the main module. Since the user-defined function does not contain input and ouput triggers, the flow of execution is sent between the assert nodes, using their input and output triggers. "
         ],
-        "task_id": 11,
+        "task_id": 1,
         "specification": {
-            "function_signature": "func(doc: \"check whether the given list contains consecutive numbers or not.\") ContainsConsecutiveNumbers {\n  in(x: -425.8101837730135, y: 209.16760512007824, name: \"list\") property(any) list_faf6c2\n\n  out(x: 866.1704038210295, y: 132.1480057664585, name: \"output\") property(Bool) output_a2b59d\n}",
-            "preconditions": "- There are no preconditions, the method will always work. Arrays can be empty or non-empty.",
-            "postconditions": "- If the array contains consecutive numbers, the result is true\n- If the array does not contain consecutive numbers, the result is false"
+            "function_signature": "func(doc: \"checks whether the given two integers have opposite sign or not.\") opposite_signs {\n  in(x: -426.75106687766726, y: -248.6672781623361, name: \"x\") property(Number) x_853326\n  in(x: -420.9177240472398, y: -107.83359783106482, name: \"y\") property(Number) y_5390f5\n\n  out(x: 159.11126708984375, y: -219.88885498046875, name: \"output\") property(Bool) output_3339a3\n}",
+            "preconditions": "- There are no preconditions, the method will always work.",
+            "postconditions": "- The result is true if x and y have opposite signs\n- The result is false if x and y have the same sign"
         },
-        "MBPP_task_id": 472,
+        "MBPP_task_id": 58,
         "library_functions": [
-            "List.Sort",
-            "List.Min",
-            "List.Max",
-            "List.GenerateRange",
             "Math.Expression"
         ],
         "visual_node_types": [
@@ -37,17 +33,16 @@
             ],
             "visual_node_types": [
                 "Event",
-                "Function",
-                "Data Object"
+                "Function"
             ],
             "textual_instance_types": [
-                "instance",
-                "data_instance"
+                "instance"
             ],
             "test_list": [
-                "assert check_Consecutive([1,2,3,4,5]) == True",
-                "assert check_Consecutive([1,2,3,5,6]) == False",
-                "assert check_Consecutive([1,2,1]) == False"
+                "assert opposite_Signs(1,-2) == True",
+                "assert opposite_Signs(3,2) == False",
+                "assert opposite_Signs(-10,-10) == False",
+                "assert opposite_Signs(-2,2) == True"
             ]
         }
     },
@@ -111,56 +106,6 @@
     },
     {
         "prompts": [
-            "Create a flow to find sum and average of first n natural numbers.",
-            "The flow should create a user-defined function called 'sum_average'. The body of the function contains one input property of type 'Number', named 'n'. It also includes the following nodes: one 'Math Expression' node to calculate the sum of the first n natural numbers using the formula 'n * (n + 1) / 2', and one 'Math Div' node to calculate the average by dividing the sum by 'n'. Lastly, it includes an output property named 'output' of type 'Any'.\n\nArrows are connected as follows: The input property 'n' is connected to the 'Math Expression' node's 'gen_0' input. The result of the 'Math Expression' node is connected to the 'first' input of the 'Math Div' node and to a data instance for storing the sum. The input property 'n' is also connected to the 'second' input of the 'Math Div' node. The result of the 'Math Div' node is connected to the data instance for storing the average. The data instance containing the sum and average is then connected to the output property 'output'. The user-defined function is then created within the main module.",
-            "The created user-defined function 'sum_average' should then be tested inside a separate module called 'tests', within the main module. Since the function does not contain input and ouput triggers, the flow of execution is sent between the assert nodes, using their input and output triggers."
-        ],
-        "task_id": 21,
-        "specification": {
-            "function_signature": "func(doc: \"find sum and average of first n natural numbers.\") sum_average {\n  in(x: -343.0, y: -287.0, name: \"n\") property(Number) n_c88d35\n\n  out(x: 756.0, y: -371.0, name: \"output\") property(List) output_ebef81\n}",
-            "preconditions": "- n should be a positive integer",
-            "postconditions": "- sum should be the sum of the first n natural numbers\n- average should be the average of the first n natural numbers"
-        },
-        "MBPP_task_id": 599,
-        "library_functions": [
-            "Math.Expression",
-            "Math.Div"
-        ],
-        "visual_node_types": [
-            "Function",
-            "Input Property",
-            "Output Property",
-            "Data Object"
-        ],
-        "textual_instance_types": [
-            "instance",
-            "in",
-            "out",
-            "data_instance"
-        ],
-        "testing": {
-            "library_functions": [
-                "root.std.Testing.Test",
-                "root.std.Testing.AssertEqual"
-            ],
-            "visual_node_types": [
-                "Function",
-                "Data Object",
-                "Event"
-            ],
-            "textual_instance_types": [
-                "instance",
-                "data_instance"
-            ],
-            "test_list": [
-                "assert sum_average(10)==(55, 5.5)",
-                "assert sum_average(15)==(120, 8.0)",
-                "assert sum_average(20)==(210, 10.5)"
-            ]
-        }
-    },
-    {
-        "prompts": [
             "Create a flow to find even numbers from a list of numbers.",
             "",
             ""
@@ -197,108 +142,6 @@
                 "assert Split([1,2,3,4,5]) == [2,4]",
                 "assert Split([4,5,6,7,8,0,1]) == [4,6,8,0]",
                 "assert Split ([8,12,15,19]) == [8,12]"
-            ]
-        }
-    },
-    {
-        "prompts": [
-            "Create a flow to replace all occurrences of spaces, commas, or dots with a colon.",
-            "",
-            ""
-        ],
-        "task_id": 31,
-        "specification": {
-            "function_signature": "func(doc: \"Replace all occurrences of spaces, commas, or dots with a colon.\") replace_specialchar {\n    in(x: -230, y: 0, name: \"input\") property(String) input_0\n\n    out(x: 776, y: 0, name: \"output\") property(String) output_0\n}",
-            "preconditions": "- There are no preconditions, the method will always work. Strings and sequences are always not null.",
-            "postconditions": "- The length of the returning string must be the same as the length of the input string\n- All occurrences of spaces, commas, or dots in the input string are replaced with colons in the output string\n- All other characters are unchanged"
-        },
-        "MBPP_task_id": 732,
-        "library_functions": [
-            "Strings.Replace"
-        ],
-        "visual_node_types": [
-            "Function",
-            "Input Property",
-            "Output Property"
-        ],
-        "textual_instance_types": [
-            "instance",
-            "in",
-            "out"
-        ],
-        "testing": {
-            "library_functions": [
-                "root.std.Testing.Test",
-                "root.std.Testing.AssertEqual"
-            ],
-            "visual_node_types": [
-                "Event",
-                "Function",
-                "Data Object"
-            ],
-            "textual_instance_types": [
-                "instance",
-                "data_instance"
-            ],
-            "test_list": [
-                "assert replace_specialchar('Python language, Programming language.')==('Python:language::Programming:language:')",
-                "assert replace_specialchar('a b c,d e f')==('a:b:c:d:e:f')",
-                "assert replace_specialchar('ram reshma,ram rahim')==('ram:reshma:ram:rahim')"
-            ]
-        }
-    },
-    {
-        "prompts": [
-            "Create a flow to check whether all the characters are same or not.",
-            "",
-            ""
-        ],
-        "task_id": 33,
-        "specification": {
-            "function_signature": "func(doc: \"Checks whether all the characters are same or not.\") all_Characters_Same {\n    in(x: -862.8, y: 188.15, name: \"string\") property(String) string_db4ddf\n    in(x: -878.5714285714289, y: 9.999999999999986, name: \"execute\") trigger() execute_f1c7e0\n\n    out(x: 588, y: 123, name: \"continue\") trigger() continue_67430e\n    out(x: 600, y: 270, name: \"output\") property(Bool) output_e9fa68\n}",
-            "preconditions": "- There are no preconditions, the method will always work. Strings and sequences are always not null.",
-            "postconditions": "- If the result is true, all characters in the input string are the same\n- If the result is false, there is at least one character in the input string that is different from the others"
-        },
-        "MBPP_task_id": 741,
-        "library_functions": [
-            "Strings.Characters",
-            "Strings.ToLower",
-            "List.FirstItem",
-            "Std.For",
-            "Logic.Equal",
-            "Std.If"
-        ],
-        "visual_node_types": [
-            "Function",
-            "Input Property",
-            "Output Property",
-            "Input Trigger",
-            "Output Trigger"
-        ],
-        "textual_instance_types": [
-            "instance",
-            "in",
-            "out"
-        ],
-        "testing": {
-            "library_functions": [
-                "root.std.Testing.Test",
-                "root.std.Testing.AssertTrue",
-                "root.std.Testing.AssertFalse"
-            ],
-            "visual_node_types": [
-                "Event",
-                "Function",
-                "Data Object"
-            ],
-            "textual_instance_types": [
-                "instance",
-                "data_instance"
-            ],
-            "test_list": [
-                "assert all_Characters_Same(\"python\") == False",
-                "assert all_Characters_Same(\"aaa\") == True",
-                "assert all_Characters_Same(\"data\") == False"
             ]
         }
     },
@@ -405,30 +248,34 @@
     },
     {
         "prompts": [
-            "Create a flow to find the sum of an array.",
+            "Create a flow to find the last position of an element in a sorted array.",
             "",
             ""
         ],
-        "task_id": 42,
+        "task_id": 41,
         "specification": {
-            "function_signature": "func(doc: \"Finds the sum of an array.\") _sum {\n    in(x: -213, y: 28.5, name: \"list\") property(List) list_2c62ab\n\n    out(x: 567, y: 3.5, name: \"sum\") property(Number) sum_2a848f\n}",
-            "preconditions": "- The input array should not be null",
-            "postconditions": "- The sum of all elements in the input array is returned"
+            "function_signature": "func(doc: \"Finds the last position of an element in a sorted array.\") last {\n    in(x: -231, y: -29, name: \"list\") property(List) list_2bbadf\n    in(x: -246, y: 105, name: \"elem\") property(Number) elem_94ca57\n}",
+            "preconditions": "- The input array should be sorted in non-decreasing order",
+            "postconditions": "- If the element is found, the returned position should be the last occurrence of the element in the array\n- If the element is not found, the returned position should be -1\n- The input array remains unchanged"
         },
-        "MBPP_task_id": 798,
+        "MBPP_task_id": 793,
         "library_functions": [
-            "Iteration.Reduce",
-            "Math.Add"
+            "Std.For",
+            "Std.IfExpression"
         ],
         "visual_node_types": [
             "Function",
             "Input Property",
-            "Output Property"
+            "Output Property",
+            "Getter",
+            "Setter"
         ],
         "textual_instance_types": [
             "instance",
             "in",
-            "out"
+            "out",
+            "getter",
+            "setter"
         ],
         "testing": {
             "library_functions": [
@@ -445,9 +292,9 @@
                 "data_instance"
             ],
             "test_list": [
-                "assert _sum([1, 2, 3]) == 6",
-                "assert _sum([15, 12, 13, 10]) == 50",
-                "assert _sum([0, 1, 2]) == 3"
+                "assert last([1,2,3],1) == 0",
+                "assert last([1,1,1,2,3,4],1) == 2",
+                "assert last([2,3,2,3,6,8,9],3) == 3"
             ]
         }
     }

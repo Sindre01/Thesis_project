@@ -1,0 +1,307 @@
+[
+    {
+        "prompts": [
+            "Create a flow to find whether a number is divisible by 11.",
+            "The flow should create a user-defined function. The body of the function contains one input property of type Number, one 'Data Object' node with number 11, one 'Math Modulo', one 'Math Expression' and one output property of type Bool.\n The arrows are connected as follows: The input property, called n, is connected with arrows to the value propery of the 'Math Modulo' node. The Data Object with number 11 is connected with arrowes to the divisor property og 'Math modulo'. The result output property of the 'Math modulo' node is connected with arrows to the 'Math Expression' node, which contains the expression (n == 0). The result of this 'Math Expression' node is a Bool which is connected with arrows to the output property, that return the Bool from the function. The user-defined function is then created within the main module.",
+            "This created user-defined function should then be tested in a seperate module called tests, within the main module. Since the user-defined function does not contain input and ouput triggers, the flow of execution is sent between the assert nodes, using their input and output triggers. "
+        ],
+        "task_id": 3,
+        "specification": {
+            "function_signature": "func(doc: \"finds whether a number is divisible by 11.\") is_diff {\n  in(x: 5.110832031250027, y: -25.33331298828125, name: \"n\") property(Number) n_27f29c\n\n  out(x: 668.1112060546875, y: 2.11114501953125, name: \"output\") property(Bool) output_f2630f\n}",
+            "preconditions": "- There are no preconditions, the method will always work for any integer input.",
+            "postconditions": "- The result is true if the input number is divisible by 11\n- The result is false if the input number is not divisible by 11"
+        },
+        "MBPP_task_id": 77,
+        "library_functions": [
+            "Math.Expression",
+            "Math.Modulo"
+        ],
+        "visual_node_types": [
+            "Function",
+            "Output Property",
+            "Input Property",
+            "Data Object"
+        ],
+        "textual_instance_types": [
+            "instance",
+            "in",
+            "out"
+        ],
+        "testing": {
+            "library_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertTrue"
+            ],
+            "visual_node_types": [
+                "Event",
+                "Function"
+            ],
+            "textual_instance_types": [
+                "instance"
+            ],
+            "test_list": [
+                "assert is_Diff (12345) == False",
+                "assert is_Diff(1212112) == True",
+                "assert is_Diff(1212) == False"
+            ]
+        }
+    },
+    {
+        "prompts": [
+            "Create a flow to find the kth element in the given array using 1-based indexing.",
+            "The flow should create a user-defined function called 'kth_element' with three inputs: an 'execute' trigger, 'list' of type List, and 'k' of type Number. The function should have two outputs: a 'continue' trigger and 'element' of type Number, which is the kth element in the provided list. Inside the function, a local variable is used to store the state of the input property 'k'. This variable is called 'local_k' and is set at the beginning of the flow using the setter node to the value of the input property of 'k'. Then an 'IfExpression' node is used to check if 'k' is equal to 0. If 'k' is 0, trigger the 'continue' output immediately. Otherwise, it gets the 'local_k' variable using a getter node and adjusts for zero-based indexing by using 'Math Sub' to subract 1, and assign this result back to 'local_k', using the setter node. Then, use a 'List GetAt' node to retrieve the element at the updated index from 'list'. The getter node is used for getting the value of the local variable 'local_k'. The retrieved element should be output through the 'element' property. Connect the nodes appropriately: the 'execute' trigger starts the flow and sends the flow of execution to the setter node. The setter node uses input property 'k' and therefore an arrow is created between them. The setter node then sends the flow of execution to the 'Std IfExpression' node, which also takes in the input property 'k'. The node's output trigger 'then' is connected with the output trigger 'continue' of the flow, and the output trigger 'else' is connected to another setter node. The setter node's input property 'new value' is connected to the output property 'result' of the 'Math Sub' node. Lastly, the input propery 'list' and the getter node is connected to the input properties 'list' and 'index' of the 'List GetAt' node. The outpur property 'itemAtIndex' of this node is then connected to the output property 'element' of the user-defined function, which returns the number.",
+            "This created user-defined function should then be tested in a seperate module called tests, within the main module. Since the user-defined function uses input and ouput triggers, the flow of execution is sent between the created function and assert nodes, using their input and output triggers.  "
+        ],
+        "task_id": 4,
+        "specification": {
+            "function_signature": "func(doc: \"finds the kth element in the given array using 1-based indexing.\") kth_element {\n  in(x: -286.0833326588629, y: -119.5833377136553, name: \"execute\") trigger() execute_1e159f\n  in(x: 153.3888224263642, y: 446.30657270108384, name: \"list\") property(List) list_b5d10a\n  in(x: -289.44439697265625, y: 126.55570983886724, name: \"k\") property(Number) k_1e19fb\n\n  out(x: 844.7513913467067, y: 53.95836826061554, name: \"continue\") trigger() continue_c95bcb\n  out(x: 692.8760222272696, y: 553.3761034449718, name: \"element\") property(Number) element_fd7945\n}",
+            "preconditions": "- index should be between 1 and the length of the list (inclusive)",
+            "postconditions": "- The result should be the kth element of the input list."
+        },
+        "MBPP_task_id": 101,
+        "library_functions": [
+            "List.GetAt",
+            "Math.Sub",
+            "Std.IfExpression"
+        ],
+        "visual_node_types": [
+            "Function",
+            "Setter",
+            "Getter",
+            "Output Property",
+            "Input Property",
+            "Input Trigger",
+            "Output Trigger"
+        ],
+        "textual_instance_types": [
+            "instance",
+            "data_instance",
+            "setter",
+            "getter",
+            "in",
+            "out"
+        ],
+        "testing": {
+            "library_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertEqual"
+            ],
+            "visual_node_types": [
+                "Event",
+                "Function",
+                "Data Object"
+            ],
+            "textual_instance_types": [
+                "instance",
+                "data_instance"
+            ],
+            "test_list": [
+                "assert kth_element([12,3,5,7,19], 2) == 3",
+                "assert kth_element([17,24,8,23], 3) == 8",
+                "assert kth_element([16,21,25,36,4], 4) == 36"
+            ]
+        }
+    },
+    {
+        "prompts": [
+            "Create a flow to check whether the given list contains consecutive numbers or not.",
+            "The flow should create a user-defined function. The body of the function contains one input property of type any, one 'List Sort' node, one 'List Min' node, one 'List Max' node, one 'List GenerateRange' node, one 'Math Expression' node with the expression 'list1 == list2', and in this case one output property 'result' of type Bool. \n The arrows are connected as follows: The input property, called list, is connected with arrows to the 'List Sort', 'List Min', and 'List Max' nodes. The sorted list output of the 'List Sort' node is connected with arrows to the first input (list1) of the 'Math Expression' node. The outputs of the 'List.Min' and 'List.Max' nodes are connected with arrows to the from and to inputs of the 'List GenerateRange' node, respectively. The generated range output of the 'List GenerateRange' node is connected with arrows to the second input (list2) of the 'Math Expression' node. The result output of the 'Math Expression' node is then connected with arrows to the output property, called output, of the user-defined function. The user-defined function is then created within the main module",
+            "The created user-defined function should then be tested inside a seperate module called tests, within the main module. Since the function does not contain input and ouput triggers, the flow of execution is sent between the assert nodes, using their input and output triggers."
+        ],
+        "task_id": 11,
+        "specification": {
+            "function_signature": "func(doc: \"check whether the given list contains consecutive numbers or not.\") ContainsConsecutiveNumbers {\n  in(x: -425.8101837730135, y: 209.16760512007824, name: \"list\") property(any) list_faf6c2\n\n  out(x: 866.1704038210295, y: 132.1480057664585, name: \"output\") property(Bool) output_a2b59d\n}",
+            "preconditions": "- There are no preconditions, the method will always work. Arrays can be empty or non-empty.",
+            "postconditions": "- If the array contains consecutive numbers, the result is true\n- If the array does not contain consecutive numbers, the result is false"
+        },
+        "MBPP_task_id": 472,
+        "library_functions": [
+            "List.Sort",
+            "List.Min",
+            "List.Max",
+            "List.GenerateRange",
+            "Math.Expression"
+        ],
+        "visual_node_types": [
+            "Function",
+            "Output Property",
+            "Input Property"
+        ],
+        "textual_instance_types": [
+            "instance",
+            "in",
+            "out"
+        ],
+        "testing": {
+            "library_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertTrue",
+                "root.std.Testing.AssertFalse"
+            ],
+            "visual_node_types": [
+                "Event",
+                "Function",
+                "Data Object"
+            ],
+            "textual_instance_types": [
+                "instance",
+                "data_instance"
+            ],
+            "test_list": [
+                "assert check_Consecutive([1,2,3,4,5]) == True",
+                "assert check_Consecutive([1,2,3,5,6]) == False",
+                "assert check_Consecutive([1,2,1]) == False"
+            ]
+        }
+    },
+    {
+        "prompts": [
+            "Create a flow to replace all occurrences of spaces, commas, or dots with a colon.",
+            "",
+            ""
+        ],
+        "task_id": 31,
+        "specification": {
+            "function_signature": "func(doc: \"Replace all occurrences of spaces, commas, or dots with a colon.\") replace_specialchar {\n    in(x: -230, y: 0, name: \"input\") property(String) input_0\n\n    out(x: 776, y: 0, name: \"output\") property(String) output_0\n}",
+            "preconditions": "- There are no preconditions, the method will always work. Strings and sequences are always not null.",
+            "postconditions": "- The length of the returning string must be the same as the length of the input string\n- All occurrences of spaces, commas, or dots in the input string are replaced with colons in the output string\n- All other characters are unchanged"
+        },
+        "MBPP_task_id": 732,
+        "library_functions": [
+            "Strings.Replace"
+        ],
+        "visual_node_types": [
+            "Function",
+            "Input Property",
+            "Output Property"
+        ],
+        "textual_instance_types": [
+            "instance",
+            "in",
+            "out"
+        ],
+        "testing": {
+            "library_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertEqual"
+            ],
+            "visual_node_types": [
+                "Event",
+                "Function",
+                "Data Object"
+            ],
+            "textual_instance_types": [
+                "instance",
+                "data_instance"
+            ],
+            "test_list": [
+                "assert replace_specialchar('Python language, Programming language.')==('Python:language::Programming:language:')",
+                "assert replace_specialchar('a b c,d e f')==('a:b:c:d:e:f')",
+                "assert replace_specialchar('ram reshma,ram rahim')==('ram:reshma:ram:rahim')"
+            ]
+        }
+    },
+    {
+        "prompts": [
+            "Create a flow to check whether all the characters are same or not.",
+            "",
+            ""
+        ],
+        "task_id": 33,
+        "specification": {
+            "function_signature": "func(doc: \"Checks whether all the characters are same or not.\") all_Characters_Same {\n    in(x: -862.8, y: 188.15, name: \"string\") property(String) string_db4ddf\n    in(x: -878.5714285714289, y: 9.999999999999986, name: \"execute\") trigger() execute_f1c7e0\n\n    out(x: 588, y: 123, name: \"continue\") trigger() continue_67430e\n    out(x: 600, y: 270, name: \"output\") property(Bool) output_e9fa68\n}",
+            "preconditions": "- There are no preconditions, the method will always work. Strings and sequences are always not null.",
+            "postconditions": "- If the result is true, all characters in the input string are the same\n- If the result is false, there is at least one character in the input string that is different from the others"
+        },
+        "MBPP_task_id": 741,
+        "library_functions": [
+            "Strings.Characters",
+            "Strings.ToLower",
+            "List.FirstItem",
+            "Std.For",
+            "Logic.Equal",
+            "Std.If"
+        ],
+        "visual_node_types": [
+            "Function",
+            "Input Property",
+            "Output Property",
+            "Input Trigger",
+            "Output Trigger"
+        ],
+        "textual_instance_types": [
+            "instance",
+            "in",
+            "out"
+        ],
+        "testing": {
+            "library_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertTrue",
+                "root.std.Testing.AssertFalse"
+            ],
+            "visual_node_types": [
+                "Event",
+                "Function",
+                "Data Object"
+            ],
+            "textual_instance_types": [
+                "instance",
+                "data_instance"
+            ],
+            "test_list": [
+                "assert all_Characters_Same(\"python\") == False",
+                "assert all_Characters_Same(\"aaa\") == True",
+                "assert all_Characters_Same(\"data\") == False"
+            ]
+        }
+    },
+    {
+        "prompts": [
+            "Create a flow to find the sum of an array.",
+            "",
+            ""
+        ],
+        "task_id": 42,
+        "specification": {
+            "function_signature": "func(doc: \"Finds the sum of an array.\") _sum {\n    in(x: -213, y: 28.5, name: \"list\") property(List) list_2c62ab\n\n    out(x: 567, y: 3.5, name: \"sum\") property(Number) sum_2a848f\n}",
+            "preconditions": "- The input array should not be null",
+            "postconditions": "- The sum of all elements in the input array is returned"
+        },
+        "MBPP_task_id": 798,
+        "library_functions": [
+            "Iteration.Reduce",
+            "Math.Add"
+        ],
+        "visual_node_types": [
+            "Function",
+            "Input Property",
+            "Output Property"
+        ],
+        "textual_instance_types": [
+            "instance",
+            "in",
+            "out"
+        ],
+        "testing": {
+            "library_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertEqual"
+            ],
+            "visual_node_types": [
+                "Event",
+                "Function",
+                "Data Object"
+            ],
+            "textual_instance_types": [
+                "instance",
+                "data_instance"
+            ],
+            "test_list": [
+                "assert _sum([1, 2, 3]) == 6",
+                "assert _sum([15, 12, 13, 10]) == 50",
+                "assert _sum([0, 1, 2]) == 3"
+            ]
+        }
+    }
+]
