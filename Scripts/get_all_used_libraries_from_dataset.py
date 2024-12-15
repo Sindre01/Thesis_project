@@ -43,9 +43,9 @@ def get_all_used_libraries_from_dataset(mbpp_path, std_library_path, http_packag
 
 # Example usage
 if __name__ == "__main__":
-    dataset_path = '../Data/Few-shot/train_10_shot.json'
+    dataset_path = '../Data/Few-shot/train_5_shot.json'
     std_library_path = '../Midio_libraries/StdLibrary_dataset.json'
     http_package_path = '../Midio_libraries/HttpPackage_dataset.json'
-    output_path = '../Data/Few-shot/libraries_10_shot.json'
+    output_path = '../Data/Few-shot/libraries_5_shot.json'
     
     get_all_used_libraries_from_dataset(dataset_path, std_library_path, http_package_path, output_path)

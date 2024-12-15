@@ -216,13 +216,13 @@ def extract_functions(filename):
     return functions
 
 # Path to the provided file
-input_file = 'StdLibrary'  # Replace with the correct path to your StdLibrary file
+input_file = '../Src/StdLibrary' 
 
 # Extract functions and their module paths
 function_list = extract_functions(input_file)
 
 # Save the result to a JSON file
-output_file = 'StdLibrary_dataset.json'
+output_file = '../StdLibrary_dataset.json'
 with open(output_file, 'w') as json_file:
     json.dump(function_list, json_file, indent=4)
 

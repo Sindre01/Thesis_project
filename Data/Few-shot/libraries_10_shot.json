@@ -11,8 +11,8 @@
         "type": "function",
         "function_name": "Std.IfExpression",
         "module_path": "Std",
-        "doc": "",
-        "body": "extern func IfExpression {\n\n        parameter(\n\n            compilerPlugin: \"Expression\",\n\n            defaultValue: \"\",\n\n        ) expression\n\n\n\n        in trigger execute\n\n        out trigger then\n\n        out trigger else\n\n        out property(Bool) value\n\n    }",
+        "doc": "IfExpression is a function that allows you to create a conditional expression using a simple expression language provided through the `expression` parameter. Example: `a > b ? a : b` creates two inputs, `a` and `b`. The expression is executed using the provided inputs, and the result is available on the `value` output.",
+        "body": "extern func(doc: \"IfExpression is a function that allows you to create a conditional expression using a simple expression language provided through the `expression` parameter. Example: `a > b ? a : b` creates two inputs, `a` and `b`. The expression is executed using the provided inputs, and the result is available on the `value` output.\") IfExpression {\n\n        parameter(\n\n            compilerPlugin: \"Expression\",\n\n            defaultValue: \"\",\n\n        ) expression\n\n\n\n        in trigger execute\n\n        out trigger then\n\n        out trigger else\n\n        out property(Bool) value\n\n    }",
         "types": "type CountContext Number\ntype AnyContext Any"
     },
     {
@@ -27,8 +27,8 @@
         "type": "function",
         "function_name": "Std.For",
         "module_path": "Std",
-        "doc": "",
-        "body": "extern func For {\n\n        in trigger() reset\n\n        in trigger(consumes: Number) next\n\n        in property(List) items\n\n        out(name: \"on item\") trigger(produces: Number) onItem\n\n        out trigger done\n\n        out property(Any) item\n\n        out property(Number) index\n\n    }",
+        "doc": "For is a loop construct that can be used to iterate over a list of items. The `trigger` input is used to start the loop, the `reset` input is used to reset the loop, and the `next` input is used to move to the next item in the list. The `items` input is used to provide the list of items to iterate over. The `on item` output trigger is used to signal that an item has been processed, the `done` output trigger is used to signal that the loop has finished, the `item` output property is used to provide the current item, and the `index` output property is used to provide the current index.",
+        "body": "extern func(doc: \"For is a loop construct that can be used to iterate over a list of items. The `trigger` input is used to start the loop, the `reset` input is used to reset the loop, and the `next` input is used to move to the next item in the list. The `items` input is used to provide the list of items to iterate over. The `on item` output trigger is used to signal that an item has been processed, the `done` output trigger is used to signal that the loop has finished, the `item` output property is used to provide the current item, and the `index` output property is used to provide the current index.\") For {\n\n        in trigger() reset\n\n        in trigger(consumes: Number) next\n\n        in property(List) items\n\n        out(name: \"on item\") trigger(produces: Number) onItem\n\n        out trigger done\n\n        out property(Any) item\n\n        out property(Number) index\n\n    }",
         "types": "type CountContext Number\ntype AnyContext Any"
     },
     {
@@ -43,8 +43,8 @@
         "type": "function",
         "function_name": "Strings.Characters",
         "module_path": "Strings",
-        "doc": "",
-        "body": "extern func Characters {\n\n        in property(String) input\n\n        out property(List) characters\n\n    }",
+        "doc": "Returns a list of characters in `input`, though the output 'characters' list.",
+        "body": "extern func(doc: \"Returns a list of characters in `input`, though the output 'characters' list.\") Characters {\n\n        in property(String) input\n\n        out property(List) characters\n\n    }",
         "types": ""
     },
     {
@@ -115,8 +115,8 @@
         "type": "function",
         "function_name": "List.FirstItem",
         "module_path": "List",
-        "doc": "",
-        "body": "extern func FirstItem {\n\n        in property(List) list\n\n        out property(Any) item\n\n    }",
+        "doc": "Returns the first item in 'list', through the `item` output.",
+        "body": "extern func(doc: \"Returns the first item in 'list', through the `item` output.\") FirstItem {\n\n        in property(List) list\n\n        out property(Any) item\n\n    }",
         "types": ""
     },
     {
@@ -124,15 +124,15 @@
         "function_name": "List.LastItem",
         "module_path": "List",
         "doc": "",
-        "body": "extern func LastItem {\n\n        in property(List) list\n\n        out property(Any) item\n\n    }",
+        "body": "extern func(doc: \"Returns the last item in 'list', through the `item` output.) LastItem {\n\n        in property(List) list\n\n        out property(Any) item\n\n    }",
         "types": ""
     },
     {
         "type": "function",
         "function_name": "List.IsEmpty",
         "module_path": "List",
-        "doc": "",
-        "body": "extern func IsEmpty {\n\n        in property(List) list\n\n        out(name: \"is empty\") property(Bool) isEmpty\n\n    }",
+        "doc": "Returns true if `list` is empty, through the 'isEmpty' output",
+        "body": "extern func(doc: \"Returns true if `list` is empty, through the 'isEmpty' output\") IsEmpty {\n\n        in property(List) list\n\n        out(name: \"is empty\") property(Bool) isEmpty\n\n    }",
         "types": ""
     },
     {
@@ -163,8 +163,8 @@
         "type": "function",
         "function_name": "Iteration.Filter",
         "module_path": "Iteration",
-        "doc": "",
-        "body": "extern func Filter {\n\n        in(x: 0, y: 0, name: \"items\") property items\n\n        in(x: 0, y: 0, name: \"handler\") property(Any) handler\n\n        in(x: 0, y: 0, name: \"context\") property(Any) context\n\n        out(x: 0, y: 0, name: \"output list\") property output_list\n\n    }",
+        "doc": "Filters the input list 'items' using the provided 'handler' function, which is expected to return a boolean value. The filtered list is available on the 'output_list' output.",
+        "body": "extern func(doc: \"Filters the input list 'items' using the provided 'handler' function, which is expected to return a boolean value. The filtered list is available on the 'output_list' output.\") Filter {\n\n        in(x: 0, y: 0, name: \"items\") property items\n\n        in(x: 0, y: 0, name: \"handler\") property(Any) handler\n\n        in(x: 0, y: 0, name: \"context\") property(Any) context\n\n        out(x: 0, y: 0, name: \"output list\") property output_list\n\n    }",
         "types": ""
     },
     {
@@ -211,8 +211,8 @@
         "type": "function",
         "function_name": "Math.Modulo",
         "module_path": "Math",
-        "doc": "",
-        "body": "extern func Modulo {\n\n        in(x: 0, y: 0, name: \"value\") property value\n\n        in(x: 0, y: 0, name: \"divisor\") property divisor\n\n        out(x: 0, y: 0, name: \"result\") property result\n\n    }",
+        "doc": "Calculates the modulo of `value` and `divisor`, and returns the modulo through the `result` output.",
+        "body": "extern func(doc: \"Calculates the modulo of `value` and `divisor`, and returns the modulo through the `result` output.\") Modulo {\n\n        in(x: 0, y: 0, name: \"value\") property value\n\n        in(x: 0, y: 0, name: \"divisor\") property divisor\n\n        out(x: 0, y: 0, name: \"result\") property result\n\n    }",
         "types": ""
     },
     {
@@ -243,16 +243,16 @@
         "type": "function",
         "function_name": "Sets.Intersection",
         "module_path": "Sets",
-        "doc": "",
-        "body": "extern func Intersection {\n\n        in property(List) left\n\n        in property(List) right\n\n        out property(List) intersect\n\n    }",
+        "doc": "Returns the intersection of the two input lists, `left` and `right`, through the `intersect` output.",
+        "body": "extern func(doc: \"Returns the intersection of the two input lists, `left` and `right`, through the `intersect` output.\") Intersection {\n\n        in property(List) left\n\n        in property(List) right\n\n        out property(List) intersect\n\n    }",
         "types": ""
     },
     {
         "type": "function",
         "function_name": "Sets.Difference",
         "module_path": "Sets",
-        "doc": "",
-        "body": "extern func Difference {\n\n        in property(List) left\n\n        in property(List) right\n\n        out property(List) difference\n\n    }",
+        "doc": "Returns the difference of the two input lists, `left` and `right`, through the `difference` output.",
+        "body": "extern func(doc: \"Returns the difference of the two input lists, `left` and `right`, through the `difference` output.\") Difference {\n\n        in property(List) left\n\n        in property(List) right\n\n        out property(List) difference\n\n    }",
         "types": ""
     }
 ]
