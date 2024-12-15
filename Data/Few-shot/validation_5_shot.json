@@ -1,0 +1,54 @@
+[
+    {
+        "prompts": [
+            "Create a flow to find the last position of an element in a sorted array.",
+            "",
+            ""
+        ],
+        "task_id": 41,
+        "specification": {
+            "function_signature": "func(doc: \"Finds the last position of an element in a sorted array.\") last {\n    in(x: -231, y: -29, name: \"list\") property(List) list_2bbadf\n    in(x: -246, y: 105, name: \"elem\") property(Number) elem_94ca57\n}",
+            "preconditions": "- The input array should be sorted in non-decreasing order",
+            "postconditions": "- If the element is found, the returned position should be the last occurrence of the element in the array\n- If the element is not found, the returned position should be -1\n- The input array remains unchanged"
+        },
+        "MBPP_task_id": 793,
+        "library_functions": [
+            "Std.For",
+            "Std.IfExpression"
+        ],
+        "visual_node_types": [
+            "Function",
+            "Input Property",
+            "Output Property",
+            "Getter",
+            "Setter"
+        ],
+        "textual_instance_types": [
+            "instance",
+            "in",
+            "out",
+            "getter",
+            "setter"
+        ],
+        "testing": {
+            "library_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertEqual"
+            ],
+            "visual_node_types": [
+                "Event",
+                "Function",
+                "Data Object"
+            ],
+            "textual_instance_types": [
+                "instance",
+                "data_instance"
+            ],
+            "test_list": [
+                "assert last([1,2,3],1) == 0",
+                "assert last([1,1,1,2,3,4],1) == 2",
+                "assert last([2,3,2,3,6,8,9],3) == 3"
+            ]
+        }
+    }
+]

@@ -1,0 +1,157 @@
+[
+    {
+        "prompts": [
+            "Write a python function to check whether a list of numbers contains only one distinct element or not.",
+            "",
+            ""
+        ],
+        "task_id": 36,
+        "specification": {
+            "function_signature": "func(doc: \"Checks whether a list of numbers contains only one distinct element or not.\") unique_Element {\n    in(x: -285, y: -86.5, name: \"list\") property(List) list_3af6ba\n\n    out(x: 557, y: -97, name: \"output\") property(Bool) output_c7097f\n}",
+            "preconditions": "- The input array should not be null",
+            "postconditions": "- If the method returns true, all elements in the array are equal\n- If the method returns false, there are at least two distinct elements in the array"
+        },
+        "MBPP_task_id": 760,
+        "library_functions": [
+            "Sets.Intersection",
+            "List.Length",
+            "Logic.Equal"
+        ],
+        "visual_node_types": [
+            "Function",
+            "Input Property",
+            "Output Property"
+        ],
+        "textual_instance_types": [
+            "instance",
+            "in",
+            "out"
+        ],
+        "testing": {
+            "library_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertTrue",
+                "root.std.Testing.AssertFalse"
+            ],
+            "visual_node_types": [
+                "Event",
+                "Function",
+                "Data Object"
+            ],
+            "textual_instance_types": [
+                "instance",
+                "data_instance"
+            ],
+            "test_list": [
+                "assert unique_Element([1,1,1]) == True",
+                "assert unique_Element([1,2,1,2]) == False",
+                "assert unique_Element([1,2,3,4,5]) == False"
+            ]
+        }
+    },
+    {
+        "prompts": [
+            "Write a function to find the index of the first occurrence of a given number in a sorted array.",
+            "",
+            ""
+        ],
+        "task_id": 32,
+        "specification": {
+            "function_signature": "method FindFirstOccurrence(arr: array<int>, target: int) returns (index: int)",
+            "preconditions": "- The input array is sorted in non-decreasing order",
+            "postconditions": "- If the target is found, the returned index should be the first occurrence of the target in the array\n- If the target is not found, the returned index should be -1\n- The input array remains unchanged"
+        },
+        "MBPP_task_id": 733,
+        "library_functions": [
+            "Std.For",
+            "Std.If",
+            "Logic.Equal"
+        ],
+        "visual_node_types": [
+            "Function",
+            "Input Property",
+            "Output Property",
+            "Getter",
+            "Setter"
+        ],
+        "textual_instance_types": [
+            "instance",
+            "in",
+            "out",
+            "getter",
+            "setter"
+        ],
+        "testing": {
+            "library_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertEqual"
+            ],
+            "visual_node_types": [
+                "Event",
+                "Function",
+                "Data Object"
+            ],
+            "textual_instance_types": [
+                "instance",
+                "data_instance"
+            ],
+            "test_list": [
+                "assert find_first_occurrence([2, 5, 5, 5, 6, 6, 8, 9, 9, 9], 5) == 1",
+                "assert find_first_occurrence([2, 3, 5, 5, 6, 6, 8, 9, 9, 9], 5) == 2",
+                "assert find_first_occurrence([2, 4, 1, 5, 6, 6, 8, 9, 9, 9], 6) == 4"
+            ]
+        }
+    },
+    {
+        "prompts": [
+            "Create a flow to find the last position of an element in a sorted array.",
+            "",
+            ""
+        ],
+        "task_id": 41,
+        "specification": {
+            "function_signature": "func(doc: \"Finds the last position of an element in a sorted array.\") last {\n    in(x: -231, y: -29, name: \"list\") property(List) list_2bbadf\n    in(x: -246, y: 105, name: \"elem\") property(Number) elem_94ca57\n}",
+            "preconditions": "- The input array should be sorted in non-decreasing order",
+            "postconditions": "- If the element is found, the returned position should be the last occurrence of the element in the array\n- If the element is not found, the returned position should be -1\n- The input array remains unchanged"
+        },
+        "MBPP_task_id": 793,
+        "library_functions": [
+            "Std.For",
+            "Std.IfExpression"
+        ],
+        "visual_node_types": [
+            "Function",
+            "Input Property",
+            "Output Property",
+            "Getter",
+            "Setter"
+        ],
+        "textual_instance_types": [
+            "instance",
+            "in",
+            "out",
+            "getter",
+            "setter"
+        ],
+        "testing": {
+            "library_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertEqual"
+            ],
+            "visual_node_types": [
+                "Event",
+                "Function",
+                "Data Object"
+            ],
+            "textual_instance_types": [
+                "instance",
+                "data_instance"
+            ],
+            "test_list": [
+                "assert last([1,2,3],1) == 0",
+                "assert last([1,1,1,2,3,4],1) == 2",
+                "assert last([2,3,2,3,6,8,9],3) == 3"
+            ]
+        }
+    }
+]

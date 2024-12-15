@@ -1,10 +1,9 @@
 import json
 import numpy as np
 from collections import Counter
-import matplotlib.pyplot as plt
 from sklearn.preprocessing import MultiLabelBinarizer
 from iterstrat.ml_stratifiers import MultilabelStratifiedShuffleSplit
-from Analysis.analyze_datasets import analyze_library_distribution, analyze_instance_distribution, analyze_visual_node_types_distribution
+from Scripts.Analysis.analyze_datasets import analyze_library_distribution, analyze_instance_distribution, analyze_visual_node_types_distribution
 
 # Load the dataset
 with open('../Data/MBPP_transformed_code_examples/sanitized-MBPP-midio.json', 'r') as file:
