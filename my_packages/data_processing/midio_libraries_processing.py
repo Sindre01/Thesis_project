@@ -1,7 +1,8 @@
+import os
 import re
 import json
 
-def extract_functions(filename):
+def extract_midio_functions(filename):
     functions = []
     module_stack = []
     brace_stack = []
@@ -19,7 +20,10 @@ def extract_functions(filename):
     event_pattern = re.compile(r'^\s*(?:extern\s+)?event(?:\s*\(.*?\))?\s+(\w+)\s*\{')
     type_pattern = re.compile(r'^type\s+(\w+)\s+(\w+)')
 
-    with open(filename, 'r') as file:
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    full_path = os.path.join(current_dir, filename)
+
+    with open(full_path, 'r') as file:
         for line_number, line in enumerate(file, 1):
             original_line = line  # Keep the original line for debugging
             line = line.strip()
@@ -31,7 +35,7 @@ def extract_functions(filename):
                 closing_braces = line.count('}')
                 internal_brace_counter += opening_braces - closing_braces
 
-                if internal_brace_counter <= 0:
+                if internal_brace_counter <= len(module_stack):
                     # Function or event body ends
                     in_function_body = False
                     in_event_body = False
@@ -51,8 +55,9 @@ def extract_functions(filename):
                 module_stack.append(module_name)
                 brace_stack.append('module')
                 types_stack.append([])  # Initialize types list for the new module
-                print(
-                    f"Line {line_number}: Entered module '{module_name}'. Current module stack: {module_stack}")
+                internal_brace_counter += 1  # Account for the opening brace of the module
+                # print(
+                #     f"Line {line_number}: Entered module '{module_name}'. Current module stack: {module_stack}")
                 continue
 
             # Check for type definition
@@ -62,8 +67,8 @@ def extract_functions(filename):
                 base_type = type_match.group(2)
                 type_definition = f"type {type_name} {base_type}"
                 types_stack[-1].append(type_definition)
-                print(
-                    f"Line {line_number}: Defined type '{type_name}' with base type '{base_type}' in module '{module_stack[-1]}'.")
+                # print(
+                #     f"Line {line_number}: Defined type '{type_name}' with base type '{base_type}' in module '{module_stack[-1]}'.")
                 continue
 
             # Check for event definition with doc string
@@ -89,10 +94,10 @@ def extract_functions(filename):
                     'types': aggregated_types
                 })
                 in_event_body = True
-                internal_brace_counter = 1  # Initialize brace counter with the opening brace of the event
+                internal_brace_counter += 1  # Account for the opening brace of the event
                 current_body = [original_line]
-                print(
-                    f"Line {line_number}: Found event '{full_event_name}' with doc: '{doc_string}'.")
+                # print(
+                #     f"Line {line_number}: Found event '{full_event_name}' with doc: '{doc_string}'.")
                 continue
 
             # Check for event definition without doc string
@@ -117,10 +122,10 @@ def extract_functions(filename):
                     'types': aggregated_types
                 })
                 in_event_body = True
-                internal_brace_counter = 1  # Initialize brace counter with the opening brace of the event
+                internal_brace_counter += 1  # Account for the opening brace of the event
                 current_body = [original_line]
-                print(
-                    f"Line {line_number}: Found event '{full_event_name}'.")
+                # print(
+                #     f"Line {line_number}: Found event '{full_event_name}'.")
                 continue
 
             # Check for function definition with doc string
@@ -146,10 +151,10 @@ def extract_functions(filename):
                 })
                 brace_stack.append('function')
                 in_function_body = True
-                internal_brace_counter = 1  # Initialize brace counter with the opening brace of the function
+                internal_brace_counter += 1  # Account for the opening brace of the function
                 current_body = [original_line]
-                print(
-                    f"Line {line_number}: Defined function '{full_function_name}' with doc: '{doc_string}'.")
+                # print(
+                #     f"Line {line_number}: Defined function '{full_function_name}' with doc: '{doc_string}'.")
                 continue
 
             # Check for function definition without doc string
@@ -174,48 +179,44 @@ def extract_functions(filename):
                 })
                 brace_stack.append('function')
                 in_function_body = True
-                internal_brace_counter = 1  # Initialize brace counter with the opening brace of the function
+                internal_brace_counter += 1  # Account for the opening brace of the function
                 current_body = [original_line]
-                print(
-                    f"Line {line_number}: Defined function '{full_function_name}' without doc.")
+                # print(
+                #     f"Line {line_number}: Defined function '{full_function_name}' without doc.")
                 continue
 
             # Check for closing brace
             if line == '}':
                 if brace_stack:
                     closed_scope = brace_stack.pop()
+                    internal_brace_counter -= 1  # Account for the closing brace
                     if closed_scope == 'module':
                         if module_stack:
                             popped_module = module_stack.pop()
                             types_stack.pop()  # Remove types of the exited module
-                            print(
-                                f"Line {line_number}: Exited module '{popped_module}'. Current module stack: {module_stack}")
+                            # print(
+                            #     f"Line {line_number}: Exited module '{popped_module}'. Current module stack: {module_stack}")
                     elif closed_scope == 'event':
-                        print(
-                            f"Line {line_number}: Exited event scope.")
+                        # print(
+                        #     f"Line {line_number}: Exited event scope.")
+                        pass
                     elif closed_scope == 'function':
-                        print(
-                            f"Line {line_number}: Exited function scope.")
+                        pass  # Add appropriate handling here if needed
+                        # print(
+                        #     f"Line {line_number}: Exited function scope.")
                 else:
-                    print(
-                        f"Warning: Unmatched closing brace at line {line_number}")
+                    internal_brace_counter -= 1  # Account for the closing brace
+                    # print(
+                    #     f"Warning: Unmatched closing brace at line {line_number}")
                 continue
 
-    # Check for any unmatched opening braces
-    if brace_stack:
-        print("Warning: There are unmatched opening braces in the file.")
+            # Account for any extra opening or closing braces outside recognized scopes
+            opening_braces = line.count('{')
+            closing_braces = line.count('}')
+            internal_brace_counter += opening_braces - closing_braces
 
+        # Check for any unmatched opening braces
+        if brace_stack:
+            print("Warning: There are unmatched opening braces in the file.")
+    # print(f"Extracted {len(functions)} functions")
     return functions
-
-# Path to the provided file
-input_file = 'HttpPackage'  # Replace with the correct path to your HttpPackage file
-
-# Extract functions and their module paths
-function_list = extract_functions(input_file)
-
-# Save the result to a JSON file
-output_file = 'HttpPackage_dataset.json'
-with open(output_file, 'w') as json_file:
-    json.dump(function_list, json_file, indent=4)
-
-print(f"Extracted {len(function_list)} functions and saved to {output_file}")

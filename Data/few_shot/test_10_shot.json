@@ -1,0 +1,50 @@
+[
+    {
+        "prompts": [
+            "Create a flow to find the sum of an array.",
+            "",
+            ""
+        ],
+        "task_id": 42,
+        "specification": {
+            "function_signature": "func(doc: \"Finds the sum of an array.\") _sum {\n    in(x: -213, y: 28.5, name: \"list\") property(List) list_2c62ab\n\n    out(x: 567, y: 3.5, name: \"sum\") property(Number) sum_2a848f\n}",
+            "preconditions": "- The input array should not be null",
+            "postconditions": "- The sum of all elements in the input array is returned"
+        },
+        "MBPP_task_id": 798,
+        "library_functions": [
+            "Iteration.Reduce",
+            "Math.Add"
+        ],
+        "visual_node_types": [
+            "Function",
+            "Input Property",
+            "Output Property"
+        ],
+        "textual_instance_types": [
+            "instance",
+            "in",
+            "out"
+        ],
+        "testing": {
+            "library_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertEqual"
+            ],
+            "visual_node_types": [
+                "Event",
+                "Function",
+                "Data Object"
+            ],
+            "textual_instance_types": [
+                "instance",
+                "data_instance"
+            ],
+            "test_list": [
+                "assert _sum([1, 2, 3]) == 6",
+                "assert _sum([15, 12, 13, 10]) == 50",
+                "assert _sum([0, 1, 2]) == 3"
+            ]
+        }
+    }
+]

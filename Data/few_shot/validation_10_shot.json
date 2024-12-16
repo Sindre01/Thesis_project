@@ -51,35 +51,32 @@
     },
     {
         "prompts": [
-            "Write a function to find the index of the first occurrence of a given number in a sorted array.",
+            "Create a flow to rotate a given list by specified number of items to the right direction.",
             "",
             ""
         ],
-        "task_id": 32,
+        "task_id": 34,
         "specification": {
-            "function_signature": "method FindFirstOccurrence(arr: array<int>, target: int) returns (index: int)",
-            "preconditions": "- The input array is sorted in non-decreasing order",
-            "postconditions": "- If the target is found, the returned index should be the first occurrence of the target in the array\n- If the target is not found, the returned index should be -1\n- The input array remains unchanged"
+            "function_signature": "func(doc: \"Rotates a given list by specified number of items to the right direction.\") rotate_right {\n    in(x: -186, y: -89.5, name: \"list\") property(List) list_48148f\n    in(x: -193, y: -3.5, name: \"n\") property(Number) n_68068c\n\n    out(x: 735.1, y: -112.54999999999995, name: \"output\") property(Any) output_823209\n}",
+            "preconditions": "- n should be non-negative",
+            "postconditions": "- The length of the returning sequence must be the same as the length of the input sequence\n- The elements of the input sequence are rotated by n positions to the right in the output sequence"
         },
-        "MBPP_task_id": 733,
+        "MBPP_task_id": 743,
         "library_functions": [
-            "Std.For",
-            "Std.If",
-            "Logic.Equal"
+            "List.Concat",
+            "List.Slice",
+            "List.Length",
+            "Math.Sub"
         ],
         "visual_node_types": [
             "Function",
             "Input Property",
-            "Output Property",
-            "Getter",
-            "Setter"
+            "Output Property"
         ],
         "textual_instance_types": [
             "instance",
             "in",
-            "out",
-            "getter",
-            "setter"
+            "out"
         ],
         "testing": {
             "library_functions": [
@@ -96,42 +93,33 @@
                 "data_instance"
             ],
             "test_list": [
-                "assert find_first_occurrence([2, 5, 5, 5, 6, 6, 8, 9, 9, 9], 5) == 1",
-                "assert find_first_occurrence([2, 3, 5, 5, 6, 6, 8, 9, 9, 9], 5) == 2",
-                "assert find_first_occurrence([2, 4, 1, 5, 6, 6, 8, 9, 9, 9], 6) == 4"
+                "assert rotate_right([1, 2, 3, 4, 5, 6, 7, 8, 9, 10],3)==[8, 9, 10, 1, 2, 3, 4, 5, 6, 7]",
+                "assert rotate_right([1, 2, 3, 4, 5, 6, 7, 8, 9, 10],2)==[9, 10, 1, 2, 3, 4, 5, 6, 7, 8]",
+                "assert rotate_right([1, 2, 3, 4, 5, 6, 7, 8, 9, 10],5)==[6, 7, 8, 9, 10, 1, 2, 3, 4, 5]"
             ]
         }
     },
     {
         "prompts": [
-            "Create a flow to find the last position of an element in a sorted array.",
-            "",
-            ""
+            "Creat a flow to convert the given string to lower case.",
+            "The flow should create the built-in function node from the std library, called 'String ToLower' node, should be used. The node should be created in the main module.",
+            "The 'String ToLower' node should then be tested inside a seperate module called tests, within the main module. Since the function does not contain input and ouput triggers, the flow of execution is sent between the assert nodes, using their input and output triggers."
         ],
-        "task_id": 41,
+        "task_id": 13,
         "specification": {
-            "function_signature": "func(doc: \"Finds the last position of an element in a sorted array.\") last {\n    in(x: -231, y: -29, name: \"list\") property(List) list_2bbadf\n    in(x: -246, y: 105, name: \"elem\") property(Number) elem_94ca57\n}",
-            "preconditions": "- The input array should be sorted in non-decreasing order",
-            "postconditions": "- If the element is found, the returned position should be the last occurrence of the element in the array\n- If the element is not found, the returned position should be -1\n- The input array remains unchanged"
+            "function_signature": "",
+            "preconditions": "- There are no preconditions, the method will always work. Strings and sequences are always not null.",
+            "postconditions": "- The length of the returning string must be the same as the length of the input string\n- All uppercase characters of the input string are lowercase in the output string\n- All other characters are unchanged"
         },
-        "MBPP_task_id": 793,
+        "MBPP_task_id": 477,
         "library_functions": [
-            "Std.For",
-            "Std.IfExpression"
+            "Strings.ToLower"
         ],
         "visual_node_types": [
-            "Function",
-            "Input Property",
-            "Output Property",
-            "Getter",
-            "Setter"
+            "Function"
         ],
         "textual_instance_types": [
-            "instance",
-            "in",
-            "out",
-            "getter",
-            "setter"
+            "instance"
         ],
         "testing": {
             "library_functions": [
@@ -148,9 +136,9 @@
                 "data_instance"
             ],
             "test_list": [
-                "assert last([1,2,3],1) == 0",
-                "assert last([1,1,1,2,3,4],1) == 2",
-                "assert last([2,3,2,3,6,8,9],3) == 3"
+                "assert is_lower(\"InValid\") == \"invalid\"",
+                "assert is_lower(\"TruE\") == \"true\"",
+                "assert is_lower(\"SenTenCE\") == \"sentence\""
             ]
         }
     }
