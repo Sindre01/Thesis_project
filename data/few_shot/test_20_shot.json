@@ -1,0 +1,104 @@
+[
+    {
+        "prompts": [
+            "Create a flow to find the difference between largest and smallest value in a given list.",
+            "The flow should create a user-defined function, called 'big_diff'. The body of the function contains one input property: an input property of type 'List', named 'list'. It also includes the following nodes: one 'List Max' node to find the largest value in the list, one 'List Min' node to find the smallest value in the list, and one 'Math Sub' node to calculate the difference between the maximum and minimum values. Lastly, it includes an output property named 'difference' of type 'Number'.\n\nArrows are connected as follows: The input property 'list' is connected to both the 'List Max' node and the 'List Min' node. The 'max' output from the 'List Max' node is connected to the 'first' input of the 'Math Sub' node. The 'min' output from the 'List Min' node is connected to the 'second' input of the 'Math Sub' node. The 'result' output from the 'Math Sub' node is connected to the output property 'difference'.\n\nThe user-defined function is then created within the main module.",
+            "The created user-defined function 'big_diff' should then be tested inside a separate module called 'tests', within the main module. Since the function does not contain input and ouput triggers, the flow of execution is sent between the assert nodes, using their input and output triggers."
+        ],
+        "task_id": 19,
+        "specification": {
+            "function_signature": "func(doc: \"finds the difference between largest and smallest value in a given list.\") big_diff {\n  in(x: -266.0, y: 82.0, name: \"list\") property(List) list_9abc1d\n\n  out(x: 533.0, y: 70.0, name: \"difference\") property(Number) difference_27806e\n}",
+            "preconditions": "- The input array should not be empty",
+            "postconditions": "- The difference between the largest and smallest value in the input array is returned"
+        },
+        "MBPP_task_id": 588,
+        "library_functions": [
+            "List.Max",
+            "List.Min",
+            "Math.Sub"
+        ],
+        "visual_node_types": [
+            "Function",
+            "Input Property",
+            "Output Property"
+        ],
+        "textual_instance_types": [
+            "instance",
+            "in",
+            "out"
+        ],
+        "testing": {
+            "library_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertEqual"
+            ],
+            "visual_node_types": [
+                "Function",
+                "Data Object",
+                "Event"
+            ],
+            "textual_instance_types": [
+                "instance",
+                "data_instance"
+            ],
+            "test_list": [
+                "assert big_diff([1,2,3,4]) == 3",
+                "assert big_diff([4,5,12]) == 8",
+                "assert big_diff([9,2,3]) == 7"
+            ]
+        }
+    },
+    {
+        "prompts": [
+            "Write a function to find the index of the first occurrence of a given number in a sorted array.",
+            "",
+            ""
+        ],
+        "task_id": 32,
+        "specification": {
+            "function_signature": "method FindFirstOccurrence(arr: array<int>, target: int) returns (index: int)",
+            "preconditions": "- The input array is sorted in non-decreasing order",
+            "postconditions": "- If the target is found, the returned index should be the first occurrence of the target in the array\n- If the target is not found, the returned index should be -1\n- The input array remains unchanged"
+        },
+        "MBPP_task_id": 733,
+        "library_functions": [
+            "Std.For",
+            "Std.If",
+            "Logic.Equal"
+        ],
+        "visual_node_types": [
+            "Function",
+            "Input Property",
+            "Output Property",
+            "Getter",
+            "Setter"
+        ],
+        "textual_instance_types": [
+            "instance",
+            "in",
+            "out",
+            "getter",
+            "setter"
+        ],
+        "testing": {
+            "library_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertEqual"
+            ],
+            "visual_node_types": [
+                "Event",
+                "Function",
+                "Data Object"
+            ],
+            "textual_instance_types": [
+                "instance",
+                "data_instance"
+            ],
+            "test_list": [
+                "assert find_first_occurrence([2, 5, 5, 5, 6, 6, 8, 9, 9, 9], 5) == 1",
+                "assert find_first_occurrence([2, 3, 5, 5, 6, 6, 8, 9, 9, 9], 5) == 2",
+                "assert find_first_occurrence([2, 4, 1, 5, 6, 6, 8, 9, 9, 9], 6) == 4"
+            ]
+        }
+    }
+]
