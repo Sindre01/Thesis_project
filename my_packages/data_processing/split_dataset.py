@@ -173,7 +173,7 @@ from sklearn.preprocessing import MultiLabelBinarizer
 from iterstrat.ml_stratifiers import MultilabelStratifiedShuffleSplit
 import os
 
-def split_on_shots(num_shots, eval_size_percentage, dataset, seed=62, write_to_file=False):
+def split_on_shots(num_shots, desired_eval_size, dataset, seed=62, write_to_file=False):
     # Set seeds for reproducibility
     SEED = seed
     random.seed(SEED)
@@ -230,13 +230,16 @@ def split_on_shots(num_shots, eval_size_percentage, dataset, seed=62, write_to_f
     
     # Total number of possible samples after filtering
     total_possible_samples = len(filtered_indices)
-    
-    # Calculate the number of evaluation samples based on eval_size_percentage
-    num_eval_samples = int(eval_size_percentage * total_possible_samples)
+    print(total_possible_samples)
+    # Calculate the number of evaluation samples based on desired_eval_size
+    num_eval_samples = int(desired_eval_size * total_possible_samples)
     num_eval_samples = max(num_eval_samples, 1)  # Ensure at least one sample
+    print(num_eval_samples)
+
     
     # Remaining samples go to the test set
     num_test_samples = total_possible_samples - num_eval_samples
+    print(num_test_samples)
     
     # Shuffle filtered indices to randomize before splitting
     random.shuffle(filtered_indices)
@@ -295,9 +298,9 @@ if __name__ == "__main__":
         dataset = json.load(file)
     
     num_shots = 10
-    eval_size_percentage = 0.2  # 20% of possible samples after making the training set
+    desired_eval_size = 0.5  # 20% of possible samples after making the training set
     
-    train_data, eval_data, test_data = split_on_shots(num_shots, eval_size_percentage, dataset, write_to_file=True)
+    train_data, eval_data, test_data = split_on_shots(num_shots, desired_eval_size, dataset, write_to_file=True)
     
     print(f"Training samples: {len(train_data)}")
     print(f"Evaluation samples: {len(eval_data)}")
