@@ -1,0 +1,143 @@
+[
+    {
+        "prompts": [
+            "Create a flow to find the last position of an element in a sorted array.",
+            "",
+            ""
+        ],
+        "task_id": 41,
+        "specification": {
+            "function_signature": "func(doc: \"Finds the last position of an element in a sorted array.\") last {\n    in(x: -231, y: -29, name: \"list\") property(List) list_2bbadf\n    in(x: -246, y: 105, name: \"elem\") property(Number) elem_94ca57\n}",
+            "preconditions": "- The input array should be sorted in non-decreasing order",
+            "postconditions": "- If the element is found, the returned position should be the last occurrence of the element in the array\n- If the element is not found, the returned position should be -1\n- The input array remains unchanged"
+        },
+        "MBPP_task_id": 793,
+        "library_functions": [
+            "Std.For",
+            "Std.IfExpression"
+        ],
+        "visual_node_types": [
+            "Function",
+            "Input Property",
+            "Output Property",
+            "Getter",
+            "Setter"
+        ],
+        "textual_instance_types": [
+            "instance",
+            "in",
+            "out",
+            "getter",
+            "setter"
+        ],
+        "testing": {
+            "library_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertEqual"
+            ],
+            "visual_node_types": [
+                "Event",
+                "Function",
+                "Data Object"
+            ],
+            "textual_instance_types": [
+                "instance",
+                "data_instance"
+            ],
+            "test_list": [
+                "assert last([1,2,3],1) == 0",
+                "assert last([1,1,1,2,3,4],1) == 2",
+                "assert last([2,3,2,3,6,8,9],3) == 3"
+            ]
+        }
+    },
+    {
+        "prompts": [
+            "Create a flow to check whether the given number is even or not.",
+            "The flow should create a user-defined function called 'is_Even'. The body of the function contains one input property of type 'Number', named 'num'. It also includes the following nodes: one 'Math Modulo' node to calculate the remainder when 'num' is divided by 2, and one 'Logic Equal' node to check if the remainder is equal to 0. Lastly, it includes an output property named 'output' of type 'Bool'.\n\nArrows are connected as follows: The input property 'num' is connected to the 'Math Modulo' node's 'value' input. The constant value 2 is connected to the 'Math Modulo' node's 'divisor' input. The 'result' output from the 'Math Modulo' node is connected to the 'left' input of the 'Logic Equal' node. The constant value 0 is connected to the 'right' input of the 'Logic Equal' node. The 'result' output from the 'Logic Equal' node is connected to the output property 'output'. The user-defined function is then created within the main module.",
+            "The created user-defined function 'is_Even' should then be tested inside a separate module called 'tests', within the main module. Since the function does not contain input and ouput triggers, the flow of execution is sent between the assert nodes, using their input and output triggers."
+        ],
+        "task_id": 22,
+        "specification": {
+            "function_signature": "func(doc: \"checks whether the given number is even or not.\") is_Even {\n  in(x: -389.0, y: -3.0, name: \"num\") property(Number) num_1a1743\n\n  out(x: 197.0, y: -8.0, name: \"output\") property(Bool) output_4ff980\n}",
+            "preconditions": "- There are no preconditions, the method will always work for any integer.",
+            "postconditions": "- If the input number is even, the result is true\n- If the input number is odd, the result is false"
+        },
+        "MBPP_task_id": 600,
+        "library_functions": [
+            "Math.Modulo",
+            "Logic.Equal"
+        ],
+        "visual_node_types": [
+            "Function",
+            "Input Property",
+            "Output Property"
+        ],
+        "textual_instance_types": [
+            "instance",
+            "in",
+            "out"
+        ],
+        "testing": {
+            "library_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertEqual"
+            ],
+            "visual_node_types": [
+                "Function",
+                "Event"
+            ],
+            "textual_instance_types": [
+                "instance"
+            ],
+            "test_list": [
+                "assert is_Even(1) == False",
+                "assert is_Even(2) == True",
+                "assert is_Even(3) == False"
+            ]
+        }
+    },
+    {
+        "prompts": [
+            "Create a flow to multiply two numbers.",
+            "The flow should create a 'Math Expression' node with the expression 'x * y' inside the main module",
+            "The 'Math expression' node should then be tested inside a seperate module called tests, within the main module. Since the function does not contain input and ouput triggers, the flow of execution is sent between the assert nodes, using their input and output triggers."
+        ],
+        "task_id": 5,
+        "specification": {
+            "function_signature": "",
+            "preconditions": "- There are no preconditions, the method will always work.",
+            "postconditions": "- The result should be the product of the two input integers"
+        },
+        "MBPP_task_id": 127,
+        "library_functions": [
+            "Math.Expression"
+        ],
+        "visual_node_types": [
+            "Function"
+        ],
+        "textual_instance_types": [
+            "instance"
+        ],
+        "testing": {
+            "library_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertEqual"
+            ],
+            "visual_node_types": [
+                "Event",
+                "Function",
+                "Data Object"
+            ],
+            "textual_instance_types": [
+                "instance",
+                "data_instance"
+            ],
+            "test_list": [
+                "assert multiply_int(10,20)==200",
+                "assert multiply_int(5,10)==50",
+                "assert multiply_int(4,8)==32"
+            ]
+        }
+    }
+]

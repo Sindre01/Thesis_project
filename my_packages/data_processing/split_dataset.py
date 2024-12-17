@@ -8,7 +8,7 @@ from sklearn.preprocessing import MultiLabelBinarizer
 from iterstrat.ml_stratifiers import MultilabelStratifiedShuffleSplit
 
 
-def split(dataset, write_to_file = False):
+def split(dataset, write_to_file = False, desired_training_size = 0.7, desired_eval_size = 0.2):
     # Convert data to a NumPy array for indexing
     data = np.array(dataset)
 
@@ -48,10 +48,8 @@ def split(dataset, write_to_file = False):
     training_indices = list(unique_label_samples)
     remaining_indices = list(set(range(len(data))) - unique_label_samples)
 
-    # Determine the desired sizes
+    # Determine remaining test_size
     total_samples = len(data)
-    desired_training_size = int(total_samples * 0.7)
-    desired_eval_size = int(total_samples * 0.2)
     desired_test_size = total_samples - desired_training_size - desired_eval_size  # To account for rounding
 
     # Calculate how many more samples we need in training
@@ -168,17 +166,18 @@ def split(dataset, write_to_file = False):
     #     print(label)
 
 #Splits dataset for few-shot prompting, where num-shots is number of samples to be included in train-set
-def split_on_shots(num_shots, dataset, seed = 62, write_to_file = False): 
+import json
+import numpy as np
+import random
+from sklearn.preprocessing import MultiLabelBinarizer
+from iterstrat.ml_stratifiers import MultilabelStratifiedShuffleSplit
+import os
 
+def split_on_shots(num_shots, eval_size_percentage, dataset, seed=62, write_to_file=False):
     # Set seeds for reproducibility
     SEED = seed
     random.seed(SEED)
     np.random.seed(SEED)
-    
-    # Desired split ratio
-    train_ratio = 0.7
-    val_ratio = 0.2
-    test_ratio = 0.1
     
     data = np.array(dataset)
     
@@ -197,7 +196,6 @@ def split_on_shots(num_shots, dataset, seed = 62, write_to_file = False):
     
     mlb = MultiLabelBinarizer()
     labels_array = mlb.fit_transform(combined_labels_list)
-    
     all_indices = np.arange(len(data))
     
     # Build the training set with num_shots samples
@@ -222,6 +220,7 @@ def split_on_shots(num_shots, dataset, seed = 62, write_to_file = False):
         random.shuffle(remaining_indices)
         training_indices.extend(remaining_indices[:num_shots - len(training_indices)])
     
+    # Collect labels used in the training set
     training_labels = set(label for idx in training_indices for label in combined_labels_list[idx])
     remaining_indices = list(set(all_indices) - set(training_indices))
     
@@ -229,96 +228,77 @@ def split_on_shots(num_shots, dataset, seed = 62, write_to_file = False):
     filtered_indices = [idx for idx in remaining_indices
                         if set(combined_labels_list[idx]).issubset(training_labels)]
     
-    # Compute desired exact counts for val and test
-    # With num_shots=10 (70%), total is approx 14. So val ~3, test ~1
-    desired_val = int(round((num_shots / train_ratio) * val_ratio))
-    desired_test = int(round((num_shots / train_ratio) * test_ratio))
+    # Total number of possible samples after filtering
+    total_possible_samples = len(filtered_indices)
     
-    # Ensure at least 1 sample if we intended to have test set
-    desired_val = max(desired_val, 1)
-    desired_test = max(desired_test, 1)
+    # Calculate the number of evaluation samples based on eval_size_percentage
+    num_eval_samples = int(eval_size_percentage * total_possible_samples)
+    num_eval_samples = max(num_eval_samples, 1)  # Ensure at least one sample
     
-    # If rounding causes mismatch, adjust
-    approx_total = int(round(num_shots / train_ratio))
-    allocated = num_shots + desired_val + desired_test
-    if allocated < approx_total:
-        # Add leftover to validation
-        difference = approx_total - allocated
-        desired_val += difference
+    # Remaining samples go to the test set
+    num_test_samples = total_possible_samples - num_eval_samples
     
-    # Now we have desired_val and desired_test. Check feasibility:
-    actual_filtered = len(filtered_indices)
-    total_needed = desired_val + desired_test
+    # Shuffle filtered indices to randomize before splitting
+    random.shuffle(filtered_indices)
     
-    if actual_filtered < total_needed:
-        # Not enough filtered samples to match desired counts
-        if actual_filtered == 0:
-            val_count = 0
-            test_count = 0
-        elif actual_filtered == 1:
-            val_count = 1
-            test_count = 0
-        else:
-            val_count = max(int(round(actual_filtered * 2/3)), 1)
-            test_count = actual_filtered - val_count
-            if desired_test > 0 and test_count == 0 and val_count > 1:
-                val_count -= 1
-                test_count = 1
+    # Split the filtered data into evaluation and test sets
+    if num_eval_samples > 0 and num_test_samples > 0:
+        # Prepare data and labels for stratified splitting
+        filtered_data = data[filtered_indices]
+        filtered_labels = labels_array[filtered_indices]
+        
+        msss = MultilabelStratifiedShuffleSplit(
+            n_splits=1,
+            train_size=num_eval_samples,
+            test_size=num_test_samples,
+            random_state=SEED
+        )
+        eval_indices_rel, test_indices_rel = next(msss.split(filtered_data, filtered_labels))
+        eval_indices = [filtered_indices[i] for i in eval_indices_rel]
+        test_indices = [filtered_indices[i] for i in test_indices_rel]
     else:
-        # More filtered samples than needed: trim them
-        random.shuffle(filtered_indices)
-        filtered_indices = filtered_indices[:total_needed]
-        val_count = desired_val
-        test_count = desired_test
+        # If not enough samples, assign all to evaluation or test set accordingly
+        eval_indices = filtered_indices[:num_eval_samples]
+        test_indices = filtered_indices[num_eval_samples:]
     
-    filtered_data = data[filtered_indices]
-    filtered_labels = labels_array[filtered_indices]
-    
-    validation_indices = []
-    test_indices = []
-    
-    # Perform stratified split if possible and we have at least some test samples
-    if val_count > 0 and test_count > 0 and len(filtered_indices) >= (val_count + test_count):
-        try:
-            msss = MultilabelStratifiedShuffleSplit(
-                n_splits=1,
-                train_size=val_count,
-                test_size=test_count,
-                random_state=42
-            )
-            val_indices_rel, test_indices_rel = next(msss.split(filtered_data, filtered_labels))
-            validation_indices = [filtered_indices[i] for i in val_indices_rel]
-            test_indices = [filtered_indices[i] for i in test_indices_rel]
-        except:
-            random.shuffle(filtered_indices)
-            validation_indices = filtered_indices[:val_count]
-            test_indices = filtered_indices[val_count:val_count + test_count]
-    else:
-        # No test or not enough samples, all go to validation
-        validation_indices = filtered_indices
-        test_indices = []
-    
-    # Ensure uniqueness
-    assert len(set(training_indices) & set(validation_indices)) == 0
+    # Ensure uniqueness and no overlap between sets
+    assert len(set(training_indices) & set(eval_indices)) == 0
     assert len(set(training_indices) & set(test_indices)) == 0
-    assert len(set(validation_indices) & set(test_indices)) == 0
+    assert len(set(eval_indices) & set(test_indices)) == 0
     
+    # Create the datasets
     train_data = data[training_indices]
-    validation_data = data[validation_indices]
+    eval_data = data[eval_indices]
     test_data = data[test_indices]
-
+    
     if write_to_file:
         current_dir = os.path.dirname(os.path.abspath(__file__))
         full_path = os.path.join(current_dir, '../../data/few_shot')
+        
+        os.makedirs(full_path, exist_ok=True)  # Ensure the directory exists
 
         with open(f'{full_path}/train_{num_shots}_shot.json', 'w') as train_file:
             json.dump(train_data.tolist(), train_file, indent=4)
         
-        with open(f'{full_path}/validation_{num_shots}_shot.json', 'w') as eval_file:
-            json.dump(validation_data.tolist(), eval_file, indent=4)
+        with open(f'{full_path}/eval_{num_shots}_shot.json', 'w') as eval_file:
+            json.dump(eval_data.tolist(), eval_file, indent=4)
         
         with open(f'{full_path}/test_{num_shots}_shot.json', 'w') as test_file:
             json.dump(test_data.tolist(), test_file, indent=4)
     
-    return train_data, validation_data, test_data
+    return train_data.tolist(), eval_data.tolist(), test_data.tolist()
 
+# Example usage
+if __name__ == "__main__":
+    # Load your dataset
+    with open('../../Data/MBPP_transformed_code_examples/sanitized-MBPP-midio.json', 'r') as file:
+        dataset = json.load(file)
+    
+    num_shots = 10
+    eval_size_percentage = 0.2  # 20% of possible samples after making the training set
+    
+    train_data, eval_data, test_data = split_on_shots(num_shots, eval_size_percentage, dataset, write_to_file=True)
+    
+    print(f"Training samples: {len(train_data)}")
+    print(f"Evaluation samples: {len(eval_data)}")
+    print(f"Test samples: {len(test_data)}")
