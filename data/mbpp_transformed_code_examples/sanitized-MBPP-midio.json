@@ -112,6 +112,7 @@
         ],
         "textual_instance_types": [
             "instance",
+            "data_instance",
             "in",
             "out"
         ],
@@ -260,6 +261,7 @@
         ],
         "textual_instance_types": [
             "instance",
+            "data_instance",
             "in",
             "out"
         ],
@@ -1342,7 +1344,7 @@
             "root.std.Query.Filter"
         ],
         "visual_node_types": [
-            
+            "Function"
         ],
         "textual_instance_types": [
             "instance"
