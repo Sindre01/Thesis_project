@@ -364,6 +364,7 @@
             "Function",
             "Setter",
             "Getter",
+            "Data Object",
             "Output Property",
             "Input Property",
             "Input Trigger",
