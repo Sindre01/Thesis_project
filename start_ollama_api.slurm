@@ -8,7 +8,7 @@
 #SBATCH --job-name=ollama_api                     # Job name
 #SBATCH --account=ec12                      # Project account
 #SBATCH --partition=accel                  # Partition ('accel' or 'accel_long')
-#SBATCH --gpus=1                             # Number of GPUs
+#SBATCH --gpus=2                             # Number of GPUs
 #SBATCH --time=01:00:00                             # Walltime (D-HH:MM:SS)
 #SBATCH --mem-per-cpu=16G              # Memory per CPU
 #SBATCH --output=ollama_api_%j.out                 # Standard output and error log
