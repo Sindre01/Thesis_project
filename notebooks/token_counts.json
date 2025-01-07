@@ -1,0 +1,14 @@
+[
+    {
+        "name": "llama3.1",
+        "max_tokens": 1084
+    },
+    {
+        "name": "o1-preview",
+        "max_tokens": 1084
+    },
+    {
+        "name": "gpt-4o",
+        "max_tokens": 1084
+    }
+]

@@ -10,7 +10,7 @@ HOST="fox.educloud.no"                   # Fox login address (matches SSH config
 SSH_CONFIG_NAME="fox"                # Name of the SSH config entry
 ACCOUNT="ec12"                           # Fox project account
 PARTITION="accel"                   # 'accel' or 'accel_long'
-GPUS=2                                   # Number of GPUs
+GPUS=1                                  # Number of GPUs
 TIME="01:00:00"                         # Slurm walltime (D-HH:MM:SS)
 MEM_PER_CPU="16G"                        # Memory per CPU
 OLLAMA_MODELS_DIR="/fp/projects01/ec12/ec-sindrre/cache/ollama"  # Path to where the Ollama models are stored and loaded                      
@@ -178,6 +178,7 @@ echo $'\n==== Setting up SSH port forwarding ===='
 echo "Command about to run:"
 echo "ssh -f -N -L ${LOCAL_PORT}:${NODE_NAME}:${OLLAMA_PORT} ${SSH_CONFIG_NAME}"
 
+
 # Establish SSH port forwarding in the background
 ssh -f -N -L "${LOCAL_PORT}:${NODE_NAME}:${OLLAMA_PORT}" "${SSH_CONFIG_NAME}" &
 PORT_FORWARD_PID=$!
@@ -202,7 +203,7 @@ cleanup() {
     
     # ssh -O exit fox # (optional) Close the master SSH control socket
 
-    echo $'\n==== Cancelling Slurm job '"$PORT_FORWARD_PID"'===='
+    echo $'\n==== Cancelling Slurm job '"$JOB_ID"'===='
     ssh "${SSH_CONFIG_NAME}" "scancel $JOB_ID"
     echo "Slurm job $JOB_ID cancelled."
 
