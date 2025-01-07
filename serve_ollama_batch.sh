@@ -10,7 +10,7 @@ HOST="fox.educloud.no"                   # Fox login address (matches SSH config
 SSH_CONFIG_NAME="fox"                # Name of the SSH config entry
 ACCOUNT="ec12"                           # Fox project account
 PARTITION="accel"                   # 'accel' or 'accel_long'
-GPUS=1                                  # Number of GPUs
+GPUS=2                                  # Number of GPUs
 TIME="01:00:00"                         # Slurm walltime (D-HH:MM:SS)
 MEM_PER_CPU="16G"                        # Memory per CPU
 OLLAMA_MODELS_DIR="/fp/projects01/ec12/ec-sindrre/cache/ollama"  # Path to where the Ollama models are stored and loaded                      
@@ -181,7 +181,7 @@ echo "ssh -f -N -L ${LOCAL_PORT}:${NODE_NAME}:${OLLAMA_PORT} ${SSH_CONFIG_NAME}"
 
 # Establish SSH port forwarding in the background
 ssh -f -N -L "${LOCAL_PORT}:${NODE_NAME}:${OLLAMA_PORT}" "${SSH_CONFIG_NAME}" &
-PORT_FORWARD_PID=$!
+PORT_FORWARD_PID=$! #WRONG PID. FIX THIS
 
 if [[ $? -ne 0 ]]; then
     echo "Error: Failed to establish SSH port forwarding."
@@ -198,7 +198,7 @@ echo "You can now access the Ollama API running at http://localhost:${LOCAL_PORT
 # Function to clean up SSH port forwarding and optionally cancel the job
 cleanup() {
   echo $'\n==== Terminating SSH port forwarding (PID: '"$PORT_FORWARD_PID"') ===='
-    kill "${PORT_FORWARD_PID}"
+    kill "${PORT_FORWARD_PID}" 
     echo "Port forwarding terminated."
     
     # ssh -O exit fox # (optional) Close the master SSH control socket

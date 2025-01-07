@@ -8,7 +8,7 @@ def load_code_from_file(file_path: str) -> str:
         return f.read()
 
 # Function to check if the code compiles using package-manager
-def is_code_compilable(code: str) -> bool:
+def compile_code(code: str) -> subprocess.CompletedProcess[str]:
     with tempfile.TemporaryDirectory() as tmp_dir:
         code_file_path = os.path.join(tmp_dir, "main.midio")
 
@@ -44,11 +44,22 @@ def is_code_compilable(code: str) -> bool:
                 stderr=subprocess.PIPE,
                 text=True
             )
-            print("Compiler stdout:", result.stdout)
-            print("Compiler stderr:", result.stderr)
+            # print("Compiler stdout:", result.stdout)
+            # print("Compiler stderr:", result.stderr)
 
-            # Return True if the compiler exits successfully
-            return result.returncode == 0
+
+            return result
         except FileNotFoundError:
             print("Error: package-manager not found in PATH.")
             return False
+
+def get_errors(result: subprocess.CompletedProcess[str]) -> str:
+    # Syntax Errors can be found here
+    return result.stderr
+
+def get_output(result: subprocess.CompletedProcess[str]) -> str:
+    # Semantic Erros can be found here
+    return result.stdout
+
+def is_code_compilable(result: subprocess.CompletedProcess[str]) -> bool:
+    return result.returncode == 0
