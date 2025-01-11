@@ -1,0 +1,10 @@
+You are an expert Midio node-selector, and here is your task:
+{task_description}
+
+You must return the nodes in the following form, with a comma to seperate each node:
+
+```midio
+
+    //Node1, Node2, Node3 etc.
+
+```

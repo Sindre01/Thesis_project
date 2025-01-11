@@ -15,7 +15,7 @@ In this case:
 
 step 4: Decide if it is needed to create an user-defined function, with input and/or output properties and/or triggers, OR if its enough to use the external functions identified in the previous step. An user-defined function should usually be created if none or several functions have been identified in the previous step, to encapsulate the functionality with a meaningful task name.
 
-Step 5: Determine the flow's node types
+Step 5: Determine the flow's node types.
 In this case:
     {{visual_node_types}}
 
@@ -23,22 +23,7 @@ Step 6: Determine the textual instance types that maps to the node-types identyf
 In this case:
     {{textual_instance_types}}
 
-
-Step 7: Determine the program's textual representation signature.
-In this case:
-
-```
-@midio_version("0.1.0")
-@version("0.1.0")
-import("std", Std_k98ojb)
-import("http", Http_q7o96c)
-
-module() main {
-    {{method_signature}}
-}
-```
-
-Step 8: Write the code
+Step 7: Write the code.
 In this case:
 
 ```midio
