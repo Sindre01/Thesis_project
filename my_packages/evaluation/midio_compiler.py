@@ -72,7 +72,6 @@ def print_compiled_output(result: subprocess.CompletedProcess[str]):
         print(f"\n\n\n\n New Output from Midio compilation of code:")
         print(f"STDOUT (semantic errors): {result.stdout}")
         print(f"STDERR (syntactical errors): {result.stderr}")
-def remo
 
 def analyze_compiler_output(stdout: str, stderr: str) -> dict:
     """

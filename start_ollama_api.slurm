@@ -12,7 +12,7 @@
 #SBATCH --nodes=1                  # Amount of nodes. Ollama one support single node inference
 #SBATCH --gpus=rtx30:4                             # Number of GPUs
 #SBATCH --time=04:00:00                             # Walltime (D-HH:MM:SS)
-#SBATCH --mem-per-gpu=80G              # Memory per CPU
+#SBATCH --mem-per-gpu=24GB              # Memory per CPU
 #SBATCH --output=ollama_api_%j.out                 # Standard output and error log
 
 
