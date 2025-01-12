@@ -1,19 +1,51 @@
- import("std", Std_k98jb)
-import("http", Http_q96zc)
+@midio_version("0.1.0")
+@version("0.1.0")
+import("std", Std_pvchbs)
+import("http", Http_cngvqt)
 
-module() main { 
-    func(doc: "Finds the last position of an element in a sorted array.") last_position {
-        in(x: -527.6710035710528, y: -214.6648553174405, name: "array") property(List) array_07cae4
-        in(x: -527.6710035710528, y: -214.6648553174405, name: "target") property(Number) target_e48f9
+module() Main {
+    func() foo {
+        in(x: -32, y: -77, name: "execute") trigger(consumes: Http_cngvqt.Http.EndpointContext, ) execute_a3e423
+        in(x: 72, y: 166, name: "hei") property(String) hei_ecc0f0
 
-        out(x: 1269.9843987439294, y: -209.515088507578, name: "output") property(Number) output_8d07dc
+        out(x: 603, y: -77, name: "continue") trigger(produces: Http_cngvqt.Http.EndpointContext) continue_f58e0d
+        out(x: 654, y: 166, name: "hei") property(String) hei_85eb18
 
-        instance(x: -303.941271957317, y: -205.9134813272051, name: "find last position") find_last_c91965 root.Std_k98jb.Iteration.FindLast {
-            array_07cae4 -> find_last_c91965.array
-            target_e48f9 -> find_last_c91965.target
-        }
-        find_last_c91965.output -> output_8d07dc
+        instance(x: 354, y: -77, stableId: "n13oee720283dvv3h7rrczjm") log_e5fe60 root.Std_pvchbs.Std.Log {}
+        hei_ecc0f0 -> hei_85eb18
+        execute_a3e423 -> log_e5fe60.execute
+        log_e5fe60.continue -> continue_f58e0d
+        hei_ecc0f0 -> log_e5fe60.input
+    }
+    func() bar {
+        in(x: -327, y: -162.6500244140625, name: "execute") trigger(consumes: Http_cngvqt.Http.EndpointContext, ) execute_97cc3e
+
+
+        instance(x: 4, y: -200.6500244140625, stableId: "z4e3mc1h9z1v9ob52sn8lxh6") response_de6a37 root.Http_cngvqt.Http.Response {}
+        200 -> response_de6a37.status
+        execute_97cc3e -> response_de6a37.respond
+        "ok" -> response_de6a37.body
     }
 
-    instance(x: -293, y: -5.5) last_position_7a4dad root.main.last_position {}
+    module() Foo {
+        setter(x: -323, y: 84, stableId: "tnpq8xfqadfykfu5pubt0sg5", name: "setter_86d321") setter_86d321 = foo
+        getter(x: -275, y: 309, stableId: "g5mfphbjw3v85n2a0mmffda9", name: "getter_16c2b7") getter_16c2b7 = foo
+
+
+    }
+
+    data_instance(x: -8065.0, y: -3501.1, stableId: "pni4o6ygn64dk9bbp7pssgb7") data_18feab  = { asfhasjfhk: "hsajkfhsja", sajflaskfj: ["dett ", "er ", "nok", "vanligere", ["bitte ", "litt", ["nøsta"]]], jkflaskjl: [[[[1, 2, 3, 4, 5, "fsafsafsafsafasfsafasfsafsaf", "", "jsfakl", "safkjslafk", "salfkjaslkf", "jaslkfjlaskfj", "lsadkfjlsadkjlasdkf", "sadf", "sdkafjlsdkaj", "lsdkajf", "lsdkfj", "sdlakf", "lsdkafjl"]]]]}
+    instance(x: -7142.327052714955, y: -2663.115400371452, stableId: "cu7h0trba7l60ctng2oqso72") log_8b60ce root.Std_pvchbs.Std.Log {}
+    data_instance(x: -8922.5, y: -2509.2, stableId: "cbjg2amwqwam0w3zah141cns") data_9c5fa0  = "{sjhfkasjhfkasjfhk asjdfhksajhf kasjfhkasjdfhaskfashfjksadjfhksadjhfkasdjfkasdjfhkasdjhfksdajfhka{sjhfkasjhfkasjfhk asjdfhksajhf kasjfhkasjdfhaskfashfjksadjfhksadjhfkasdjfkasdjfhkasdjhfksdajfhka{sjhfkasjhfkasjfhk asjdfhksajhf kasjfhkasjdfhaskfashfjksadjfhksadjhfkasdjfkasdjfhkasdjhfksdajfhka{sjhfkasjhfkasjfhk asjdfhksajhf kasjfhkasjdfhaskfashfjksadjfhksadjhfkasdjfkasdjfhkasdjhfksdajfhka{sjhfkasjhfkasjfhk asjdfhksajhf kasjfhkasjdfhaskfashfjksadjfhksadjhfkasdjfkasdjfhkasdjhfksdajfhka{sjhfkasjhfkasjfhk asjdfhksajhf kasjfhkasjdfhaskfashfjksadjfhksadjhfkasdjfkasdjfhkasdjhfksdajfhka{sjhfkasjhfkasjfhk asjdfhksajhf kasjfhkasjdfhaskfashfjksadjfhksadjhfkasdjfkasdjfhkasdjhfksdajfhka{sjhfkasjhfkasjfhk asjdfhksajhf kasjfhkasjdfhaskfashfjksadjfhksadjhfkasdjfkasdjfhkasdjhfksdajfhka{sjhfkasjhfkasjfhk asjdfhksajhf kasjfhkasjdfhaskfashfjksadjfhksadjhfkasdjfkasdjfhkasdjhfksdajfhka{sjhfkasjhfkasjfhk asjdfhksajhf kasjfhkasjdfhaskfashfjksadjfhksadjhfkasdjfkasdjfhkasdjhfksdajfhka"
+    data_instance(x: -7715.2, y: -1691.8, stableId: "jid0t2o8nmg1cz8wjqb3m6ur") data_2562e0  = ["simple", "list ", 1, 2, 3, ["not", "so", ["simple", "an ", "more"]]]
+    instance(x: -7099.545552091571, y: -1618.75309631131, stableId: "ign61es2mspk3964xywb4ztf") log_5c29e6 root.Std_pvchbs.Std.Log {}
+    data_instance(x: -7684.7, y: -1195.9, stableId: "me8gbfvlfhy91t1rjkw0k6mh") data_77f90a  = 1337
+    instance(x: -7101.896649657529, y: -1205.9452235277467, stableId: "eyo49ym80twgwm8fb10h5kcr") log_c9df38 root.Std_pvchbs.Std.Log {}
+    data_instance(x: -7722.0, y: -864.6, stableId: "p1313xiw9ovb6b5paaosrju2") data_5bbe89  = false
+    instance(x: -7253.704457811793, y: -870.9053683772916, stableId: "rzq15uxmd9co1ttj0k531bgq") log_d6a129 root.Std_pvchbs.Std.Log {}
+    data_2562e0 -> log_5c29e6.input
+    data_77f90a -> log_c9df38.input
+    data_5bbe89 -> log_d6a129.input
+    log_5c29e6.continue -> log_c9df38.execute
+
 }
