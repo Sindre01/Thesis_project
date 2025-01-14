@@ -31,6 +31,12 @@ def used_libraries_from_dataset(data):
 
     return filtered_functions
 
+def used_libraries_to_string(data):
+    name_doc_string = ""
+    for func in data:
+        name_doc_string += f"Function node name: {func['function_name']}\n Documentation: {func['doc']}\n\n"
+    return name_doc_string
+
 # Example usage
 if __name__ == "__main__":
 

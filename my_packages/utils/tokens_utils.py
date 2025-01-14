@@ -1,5 +1,6 @@
 import os
 
+
 def find_max_tokens_code_tokenizer(input_folder, tokenizer):
 
     max_tokens = 0

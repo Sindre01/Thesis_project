@@ -10,9 +10,9 @@
 #SBATCH --account=ec12                      # Project account
 #SBATCH --partition=accel                  # Partition ('accel' or 'accel_long')
 #SBATCH --nodes=1                  # Amount of nodes. Ollama one support single node inference
-#SBATCH --gpus=rtx30:4                             # Number of GPUs
+#SBATCH --gpus=a100:2                             # Number of GPUs
 #SBATCH --time=04:00:00                             # Walltime (D-HH:MM:SS)
-#SBATCH --mem-per-gpu=24GB              # Memory per CPU
+#SBATCH --mem-per-gpu=80GB              # Memory per CPU
 #SBATCH --output=ollama_api_%j.out                 # Standard output and error log
 
 
@@ -34,13 +34,13 @@ module purge
 export OLLAMA_MODELS=/fp/projects01/ec12/ec-sindrre/cache/ollama    # Path to where the Ollama models are stored and loaded
 export OLLAMA_HOST=0.0.0.0:11434      # Host and port where Ollama listens
 export OLLAMA_ORIGINS=”*”
-export OLLAMA_DEBUG=1
+# export OLLAMA_DEBUG=1
 export OLLAMA_LLM_LIBRARY="cuda_v12_avx" 
 export OLLAMA_FLASH_ATTENTION=1
 # export OLLAMA_KV_CACHE_TYPE="f16" # f16 (default), q8_0 (half of the memory of f16, try this), q4_0 different quantization types to find the best balance between memory usage and quality.
 # export OLLAMA_NUM_PARALLEL=2 # Number of parallel models to run. 
-export CUDA_ERROR_LEVEL=50
-export AMD_LOG_LEVEL=3
+# export CUDA_ERROR_LEVEL=50
+# export AMD_LOG_LEVEL=3
 
 # export CUDA_VISIBLE_DEVICES=0,1
 

@@ -10,10 +10,10 @@ HOST="fox.educloud.no"                   # Fox login address (matches SSH config
 SSH_CONFIG_NAME="fox"                # Name of the SSH config entry
 ACCOUNT="ec12"                           # Fox project account
 PARTITION="accel"                   # 'accel' or 'accel_long' (or 'ifi_accel' if access to ec11,ec29,ec30,ec34,ec35 or ec232)
-GPUS=rtx30:4                                 # a100 have 40GB VRAM, while rtx30 have 24GB VRAM.
+GPUS=a100:2                                 # a100 have 40GB or 80GB VRAM, while rtx30 have 24GB VRAM.
 NODES=1                                 # Number of nodes. OLLAMA does currently only support single node inference
 TIME="04:00:00"                         # Slurm walltime (D-HH:MM:SS)
-MEM_PER_GPU="24GB"                       # Memory per GPU. 
+MEM_PER_GPU="80GB"                       # Memory per GPU. 
 OLLAMA_MODELS_DIR="/fp/projects01/ec12/ec-sindrre/cache/ollama"  # Path to where the Ollama models are stored and loaded                      
 LOCAL_PORT="11434"                        # Local port for forwarding
 OLLAMA_PORT="11434"                       # Remote port where Ollama listens
@@ -66,13 +66,13 @@ module purge
 export OLLAMA_MODELS=${OLLAMA_MODELS_DIR}    # Path to where the Ollama models are stored and loaded
 export OLLAMA_HOST=0.0.0.0:${OLLAMA_PORT}      # Host and port where Ollama listens
 export OLLAMA_ORIGINS=”*”
-export OLLAMA_DEBUG=1
+# export OLLAMA_DEBUG=1
 export OLLAMA_LLM_LIBRARY="cuda_v12_avx" 
 export OLLAMA_FLASH_ATTENTION=1
 # export OLLAMA_KV_CACHE_TYPE="f16" # f16 (default), q8_0 (half of the memory of f16, try this), q4_0 different quantization types to find the best balance between memory usage and quality.
 # export OLLAMA_NUM_PARALLEL=2 # Number of parallel models to run. 
-export CUDA_ERROR_LEVEL=50
-export AMD_LOG_LEVEL=3
+# export CUDA_ERROR_LEVEL=50
+# export AMD_LOG_LEVEL=3
 
 # export CUDA_VISIBLE_DEVICES=0,1
 

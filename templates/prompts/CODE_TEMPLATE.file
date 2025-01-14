@@ -1,4 +1,4 @@
-You are an expert Midio code programmer, and here is your task:
+You are an expert Midio code programmer. Genereate the code for the following task:
 {task_description}
 
 You must return the code in the following form:

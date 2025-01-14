@@ -3,11 +3,10 @@ import os
 import numpy as np
 import random
 from collections import Counter
-from collections import Counter
 from sklearn.preprocessing import MultiLabelBinarizer
 from iterstrat.ml_stratifiers import MultilabelStratifiedShuffleSplit
 
-
+# split dataset into training, validation, and test sets
 def split(dataset, write_to_file = False, desired_training_size = 0.7, desired_eval_size = 0.2):
     # Convert data to a NumPy array for indexing
     data = np.array(dataset)
@@ -166,13 +165,6 @@ def split(dataset, write_to_file = False, desired_training_size = 0.7, desired_e
     #     print(label)
 
 #Splits dataset for few-shot prompting, where num-shots is number of samples to be included in train-set
-import json
-import numpy as np
-import random
-from sklearn.preprocessing import MultiLabelBinarizer
-from iterstrat.ml_stratifiers import MultilabelStratifiedShuffleSplit
-import os
-
 def split_on_shots(num_shots, desired_eval_size, dataset, seed=62, write_to_file=False):
     # Set seeds for reproducibility
     SEED = seed
@@ -291,17 +283,8 @@ def split_on_shots(num_shots, desired_eval_size, dataset, seed=62, write_to_file
     
     return train_data.tolist(), eval_data.tolist(), test_data.tolist()
 
-# Example usage
-if __name__ == "__main__":
-    # Load your dataset
-    with open('../../Data/MBPP_transformed_code_examples/sanitized-MBPP-midio.json', 'r') as file:
+
+def read_dataset_to_json(file_path):
+    with open(file_path, 'r') as file:
         dataset = json.load(file)
-    
-    num_shots = 10
-    desired_eval_size = 0.5  # 20% of possible samples after making the training set
-    
-    train_data, eval_data, test_data = split_on_shots(num_shots, desired_eval_size, dataset, write_to_file=True)
-    
-    print(f"Training samples: {len(train_data)}")
-    print(f"Evaluation samples: {len(eval_data)}")
-    print(f"Test samples: {len(test_data)}")
+    return dataset
