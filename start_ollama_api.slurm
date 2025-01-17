@@ -31,7 +31,7 @@ module purge
 # module load CUDA/12.4.0
 # module list
 
-export OLLAMA_MODELS=/fp/projects01/ec12/ec-sindrre/cache/ollama    # Path to where the Ollama models are stored and loaded
+export OLLAMA_MODELS=/cluster/work/projects/ec12/ec-sindrre/ollama-models    # Path to where the Ollama models are stored and loaded
 export OLLAMA_HOST=0.0.0.0:11434      # Host and port where Ollama listens
 export OLLAMA_ORIGINS=”*”
 # export OLLAMA_DEBUG=1

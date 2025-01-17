@@ -37,7 +37,6 @@ if __name__ == "__main__":
 
     # List additional dependencies (optional)
     dependencies = [
-        "scikit-learn>=1.0",
         "numpy>=1.20",
         "pandas>=1.3",
         "transformers>=4.0",

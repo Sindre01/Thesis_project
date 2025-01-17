@@ -1,3 +1,6 @@
 config.env
 .env
 package-manager
+.venv_Master/
+**/__pycache__/
+.webui_secret_key

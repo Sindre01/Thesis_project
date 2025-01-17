@@ -1,0 +1,1 @@
+{"llama3.1:8b-instruct-fp16": {"name": "llama3.1:8b-instruct-fp16", "max_tokens": 1063}, "o1-preview": {"name": "o1-preview", "max_tokens": 1064}, "gpt-4o": {"name": "gpt-4o", "max_tokens": 1064}, "claude-3-5-sonnet-latest": {"name": "claude-3-5-sonnet-latest", "max_tokens": 1064}}

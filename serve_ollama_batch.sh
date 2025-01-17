@@ -14,7 +14,7 @@ GPUS=a100:2                                 # a100 have 40GB or 80GB VRAM, while
 NODES=1                                 # Number of nodes. OLLAMA does currently only support single node inference
 TIME="04:00:00"                         # Slurm walltime (D-HH:MM:SS)
 MEM_PER_GPU="80GB"                       # Memory per GPU. 
-OLLAMA_MODELS_DIR="/fp/projects01/ec12/ec-sindrre/cache/ollama"  # Path to where the Ollama models are stored and loaded                      
+OLLAMA_MODELS_DIR="/cluster/work/projects/ec12/ec-sindrre/ollama-models"  # Path to where the Ollama models are stored and loaded                      
 LOCAL_PORT="11434"                        # Local port for forwarding
 OLLAMA_PORT="11434"                       # Remote port where Ollama listens
 SBATCH_SCRIPT="start_ollama_api.slurm"           # Slurm batch script name
@@ -231,6 +231,10 @@ cat <<EOT > "SSH_FORWARDING.sh"
 #!/bin/bash
 ssh -O forward -L ${LOCAL_PORT}:${NODE_NAME}:${OLLAMA_PORT} ${SSH_CONFIG_NAME}
 EOT
+
+# open-webui serve
+# gnome-terminal -- bash -c "open-webui serve; exec bash"
+# echo "You can now access open webui http://localhost:8080"
 
 ###############################################################################
 # Step 6: Handle Script Termination and Cleanup

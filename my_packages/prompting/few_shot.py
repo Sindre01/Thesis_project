@@ -71,3 +71,14 @@ def create_few_shot_messages(explained_used_libraries, train_prompts, train_resp
         few_shots_messages.append({"role": "user", "content": prompt})
         few_shots_messages.append({"role": "assistant", "content": response})
     return few_shots_messages
+
+def create_few_shot_string(explained_used_libraries, train_prompts, train_responses, context_template_name, context_role= "developer"):
+    context = create_context(explained_used_libraries, context_template_name)
+
+    few_shots_messages = f"{context_role}: {context}\n"
+    for i, (prompt, response) in enumerate(zip(train_prompts, train_responses)):
+        few_shots_messages+= f"\n\n\nTask {i}\n"
+        few_shots_messages+= f"User prompt: {prompt}\n"
+        few_shots_messages+= f"Assistant response: {response}\n"
+
+    return few_shots_messages

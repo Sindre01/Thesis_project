@@ -13,8 +13,8 @@ def is_remote_server_reachable(url="http://localhost:11434/api/tags", timeout=5)
         # print(f"Error reaching server: {e}")
         return False
     
-def server_diagnostics():
-    if is_remote_server_reachable( + "/api/tags"):
+def server_diagnostics(host="http://localhost:11434"):
+    if is_remote_server_reachable(host + "/api/tags"):
         print("Server is reachable.")
     else:
         rc = call("../SSH_FORWARDING.sh")
