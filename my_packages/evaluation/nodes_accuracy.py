@@ -17,7 +17,7 @@ def extract_nodes(response_text):
     return response_text.strip()
 
 
-def calculate_f1_accuracy(generated_nodes_list, true_response_list):
+def calculate_f1_score(generated_nodes_list, true_response_list):
     """
     Calculate the overall F1 score-based accuracy for generated nodes compared to the true response.
 
@@ -64,7 +64,7 @@ def calculate_f1_accuracy(generated_nodes_list, true_response_list):
     return total_f1_score / total
 
 
-def evaluate_nodes_accuracy(client, messages, model, available_nodes, prompts, responses, seed, max_new_tokens=50, temperature=0.7, top_p=0.9, debug=False):
+def evaluate_nodes(client, messages, model, available_nodes, prompts, responses, seed, max_new_tokens=50, temperature=0.7, top_p=0.9, debug=False):
     total = len(prompts)
     correct = 0.00
     for index, (prompt, true_response) in enumerate(zip(prompts, responses)):
@@ -111,7 +111,7 @@ def evaluate_nodes_accuracy(client, messages, model, available_nodes, prompts, r
 
         #Remove invalid nodes from the generated nodes
         # valid_generated_nodes = generated_nodes_set.intersection(available_nodes)
-        score = calculate_f1_accuracy([generated_nodes_set], [true_response_set])
+        score = calculate_f1_score([generated_nodes_set], [true_response_set])
         correct += score
         # print(f"{Fore.GREEN}{Style.BRIGHT} Accuracy score: {score}{Style.RESET_ALL}\n")
         # if true_response_set == valid_generated_nodes:
@@ -134,7 +134,7 @@ def run_nodes_evaluation(client, messages, model, available_nodes, val_prompts, 
     for temp in temperatures:
         for top_p in top_ps:
             print(f"Validating with temperature: {temp}, and top_p: {top_p}")
-            accuracy = evaluate_nodes_accuracy (
+            accuracy = evaluate_nodes (
                 client,
                 messages,
                 model['name'],
@@ -160,7 +160,7 @@ def run_nodes_evaluation(client, messages, model, available_nodes, val_prompts, 
         print(f"\nTesting with Seed: {seed}", end="\r")
         best_temperature = best_params["temperature"]
         best_top_p = best_params["top_p"]
-        test_accuracy = evaluate_nodes_accuracy(
+        test_accuracy = evaluate_nodes(
             client,
             messages,
             model['name'],
