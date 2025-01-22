@@ -1,8 +1,7 @@
 from collections import defaultdict
-import itertools
 import json
-
 import numpy as np
+from my_packages.evaluation.metrics import estimate_pass_at_k
 from my_packages.utils.server_utils import server_diagnostics
 from my_packages.evaluation.models import invoke_anthropic_model, invoke_openai_model, invoke_o1_model, invoke_ollama_model
 import re
@@ -20,25 +19,6 @@ def extract_nodes(response_text):
 
     # If no match, assume the response might already be nodes without markdown formatting
     return response_text.strip()
-
-def estimate_pass_at_k(num_samples, num_correct, k):
-    """Estimates pass@k of each problem and returns them in an array."""
-
-    def estimator(n: int, c: int, k: int) -> float:
-        """Calculates 1 - comb(n - c, k) / comb(n, k)."""
-        if n - c < k:
-            return 1.0
-        return 1.0 - np.prod(1.0 - k / np.arange(n - c + 1, n + 1))
-
-    if isinstance(num_samples, int):
-        num_samples_it = itertools.repeat(num_samples, len(num_correct))
-    else:
-        assert len(num_samples) == len(num_correct)
-        num_samples_it = iter(num_samples)
-
-    result = np.array([estimator(int(n), int(c), k) for n, c in zip(num_samples_it, num_correct)])
-    print(result)
-    return result
 
 def calculate_pass_at_k_scores(result_dict, ks):
     """
@@ -59,8 +39,9 @@ def calculate_pass_at_k_scores(result_dict, ks):
 #     (1, {"passed": False, "result": "Some details about the execution"}),
 #     (2, {"passed": True, "result": "Some details about the execution"}),
 # ]
+    print("\n == Pass@k computation ==\n")
 
-    # Calculate pass@k.
+    # Calculate pass@k for equal match for each problem and ks
     total, correct = [], []
     for true_result, k_results in result_dict.items():
         k_results.sort()
@@ -68,10 +49,8 @@ def calculate_pass_at_k_scores(result_dict, ks):
         total.append(len(passed))
         correct.append(sum(passed))
 
-     
     total = np.array(total)
     correct = np.array(correct)
-    print("== Pass@k computation ==\n")
     print(f"Total: {total}, Correct: {correct}")
     pass_at_k = {f"pass@{k}": estimate_pass_at_k(total, correct, k).mean() 
                  for k in ks if (total >= k).all()}
@@ -87,7 +66,7 @@ def calculate_f1_score(result_dict):
     Returns:
     - float: The average F1 score.
     """
-    print("== F1 Score computation ==\n")
+    print("\n== F1 Score computation ==\n")
     f1_scores = []
     
     for true_response, k_results in result_dict.items():
@@ -119,9 +98,9 @@ def run_model(
     available_nodes,
     prompts,
     responses,
-    max_new_tokens=50,
-    temperature=0.7,
-    top_p=0.9,
+    max_new_tokens,
+    temperature,
+    top_p,
     ks=[1], 
     seed=None,                              
     debug=False
@@ -197,9 +176,9 @@ def evaluate_nodes(
     available_nodes,
     prompts,
     responses,
-    max_new_tokens=50,
-    temperature=0.7,
-    top_p=0.9,
+    max_new_tokens,
+    temperature,
+    top_p,
     seed=None,
     ks=[1],                               
     debug=False
@@ -225,7 +204,7 @@ def evaluate_nodes(
     # }
     # ks = [1, 3]
 
-    print(f"model_result: {model_result}")
+    # print(f"model_result: {model_result}")
 
     #calculate pass@k and f1 score metrics
     pass_at_k_dict = calculate_pass_at_k_scores(model_result, ks)
@@ -240,8 +219,8 @@ def run_validation(
     available_nodes, 
     val_prompts, 
     val_responses, 
-    temperatures=[0.5, 0.7, 0.9], 
-    top_ps=[0.2, 0.5, 1.0], 
+    temperatures, 
+    top_ps, 
     ks=[1],
     seed=None, 
     debug=False
@@ -298,14 +277,15 @@ def run_testing(
     test_responses, 
     temperature, 
     top_p, 
-    ks=[1], 
-    seeds=[3, 75, 346], 
+    ks, 
+    seeds, 
     debug=False
 ):
     results = []
     
     #Test the model on the test set with different seeds and the best hyperparameters.
     print(f"{Fore.CYAN}{Style.BRIGHT}Testing Phase:{Style.RESET_ALL}")
+
     for seed in seeds:
         print(f"\nTesting with Seed: {seed} ..", end="\r")
 
@@ -337,6 +317,16 @@ def run_testing(
 
     return results
 
+def calculate_deviation(test_runs):
+    """Calculate the standard deviation of the metrics"""
+    f1_std= np.std([run["test_f1"] for run in test_runs])
+    pass_ks_std = {}
+    pass_at_ks = list(test_runs[0]["test_pass_ks"].keys())
+    for pass_at_k in pass_at_ks:
+        pass_ks_std[pass_at_k] = np.std([run["test_pass_ks"][pass_at_k] for run in test_runs])
+
+    return f1_std, pass_ks_std
+
 def print_validation_result(run: dict):
     """Print the results of a run."""
     best_temperature = run["temperature"]
@@ -348,7 +338,7 @@ def print_validation_result(run: dict):
         f"  = Validation =\n"
         f"  > Best temperature: {best_temperature:.2f}\n"
         f"  > Best top_p: {best_top_p:.2f}\n"
-        f"  > F1 {val_f1:.2f}\n"
+        f"  > F1: {val_f1:.2f}\n"
         f"  > Pass@ks {json.dumps(val_pass_ks, indent=4)}\n"
     )
         
