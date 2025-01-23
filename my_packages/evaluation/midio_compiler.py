@@ -9,7 +9,7 @@ def load_code_from_file(file_path: str) -> str:
         return f.read()
 
 # Function to check if the code compiles using package-manager
-def compile_code(code: str) -> subprocess.CompletedProcess[str]:
+def compile_code(code: str, type: str = "build") -> subprocess.CompletedProcess[str]:
     with tempfile.TemporaryDirectory() as tmp_dir:
         code_file_path = os.path.join(tmp_dir, "main.midio")
 
@@ -40,7 +40,7 @@ def compile_code(code: str) -> subprocess.CompletedProcess[str]:
         try:
             # Run package-manager build on the temporary directory
             result = subprocess.run(
-                ["package-manager", "build", tmp_dir],
+                ["package-manager", type, tmp_dir],
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
                 text=True
@@ -54,6 +54,7 @@ def compile_code(code: str) -> subprocess.CompletedProcess[str]:
             print("Error: package-manager not found in PATH.")
             return False
 
+
 def get_errors(result: subprocess.CompletedProcess[str]) -> str:
     # Syntax Errors can be found here
     return result.stderr
@@ -61,6 +62,10 @@ def get_errors(result: subprocess.CompletedProcess[str]) -> str:
 def get_output(result: subprocess.CompletedProcess[str]) -> str:
     # Semantic Erros can be found here
     return result.stdout
+def get_test_result(result: subprocess.CompletedProcess[str]) -> str:
+    pass
+def is_all_tests_passed(result: str) -> bool:
+    pass
 
 def is_code_syntax_valid(result: subprocess.CompletedProcess[str]) -> bool:
     return result.returncode == 0

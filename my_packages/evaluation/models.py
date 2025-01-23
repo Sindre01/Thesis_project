@@ -1,5 +1,5 @@
 
-def invoke_anthropic_model(client, full_prompt, model, max_new_tokens=50, temperature=0.7, top_p=0.9):
+def invoke_anthropic_model(client, full_prompt, model, max_new_tokens, temperature, top_p, top_k,):
     """Invoke the anthropic model using the anthropic client sdk."""
     kwargs = {
         'model': model,
@@ -7,6 +7,7 @@ def invoke_anthropic_model(client, full_prompt, model, max_new_tokens=50, temper
         'max_tokens': max_new_tokens,
         'temperature': temperature,
         'top_p': top_p,
+        'top_k': top_k,
         'stream': False,
         #'stop': ["```<|eot_id|>"],  # Ensure the response stops after the code block
         #'seed': seed
@@ -16,7 +17,7 @@ def invoke_anthropic_model(client, full_prompt, model, max_new_tokens=50, temper
     filtered_generated = generated.content[0].text.replace("//", "").strip() # '//' outside main module can lead to compiler not ending properly
     return filtered_generated
 
-def invoke_ollama_model(client, full_prompt, model, max_new_tokens, temperature, top_p, seed= None):
+def invoke_ollama_model(client, full_prompt, model, max_new_tokens, temperature, top_p, top_k, seed= None):
     """Invoke an opensource model using the ollama client sdk."""
     kwargs = {
         'model': model,
@@ -25,6 +26,7 @@ def invoke_ollama_model(client, full_prompt, model, max_new_tokens, temperature,
         'options': {
             'temperature': temperature,
             'top_p': top_p,
+            'top_k': top_k,
             'num_predict': max_new_tokens,
             'num_ctx': 10000,
             'stop': ["```<|eot_id|>"]  # Ensure the response stops after the code block
@@ -38,7 +40,7 @@ def invoke_ollama_model(client, full_prompt, model, max_new_tokens, temperature,
     filtered_generated = generated['message']['content'].replace("//", "").strip() # '//' outside main module can lead to compiler not ending properly
     return filtered_generated
 
-def invoke_openai_model(client, full_prompt, model, max_new_tokens, temperature, top_p, seed=None):
+def invoke_openai_model(client, full_prompt, model, max_new_tokens, temperature, top_p, top_k, seed=None):
     """Invoke the openai model using the openai client sdk."""
     kwargs = {
         'model': model,
@@ -46,6 +48,7 @@ def invoke_openai_model(client, full_prompt, model, max_new_tokens, temperature,
         'max_tokens': max_new_tokens,
         'temperature': temperature,
         'top_p': top_p,
+        'top_k,': top_k,
         'stream': False,
         'stop': ["```<|eot_id|>"],  # Ensure the response stops after the code block
     }
@@ -64,6 +67,7 @@ def invoke_o1_model(client, full_prompt, model, max_new_tokens):
         'max_tokens': max_new_tokens,
         # 'temperature': temperature,
         # 'top_p': top_p,
+        # 'top_k,': top_k,
         'stream': False,
         'stop': ["```<|eot_id|>"],  # Ensure the response stops after the code block
     }

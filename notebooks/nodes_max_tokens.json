@@ -1,1 +1,0 @@
-{"llama3.1:8b-instruct-fp16": {"name": "llama3.1:8b-instruct-fp16", "max_tokens": 31}, "qwq:32b-preview-fp16": {"name": "qwq:32b-preview-fp16", "max_tokens": 31}, "phi4:14b-fp16": {"name": "phi4:14b-fp16", "max_tokens": 31}}

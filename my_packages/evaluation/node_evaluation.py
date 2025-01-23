@@ -101,6 +101,7 @@ def run_model(
     max_new_tokens,
     temperature,
     top_p,
+    top_k,
     ks=[1], 
     seed=None,                              
     debug=False
@@ -123,19 +124,19 @@ def run_model(
 
                     if "claude" in model:
                         generated = invoke_anthropic_model(
-                            client, full_prompt, model, max_new_tokens, temperature, top_p
+                            client, full_prompt, model, max_new_tokens, temperature, top_p, top_k
                         )
                     elif "o1" in model:
                         generated = invoke_o1_model(
-                            client, full_prompt, model, max_new_tokens
+                            client, full_prompt, model, max_new_tokens, top_k
                         )
                     elif "gpt" in model:
                         generated = invoke_openai_model(
-                            client, full_prompt, model, max_new_tokens, temperature, top_p, seed=new_seed
+                            client, full_prompt, model, max_new_tokens, temperature, top_p, top_k, seed=new_seed
                         )
                     else:
                         generated = invoke_ollama_model(
-                            client, full_prompt, model, max_new_tokens, temperature, top_p, seed=new_seed
+                            client, full_prompt, model, max_new_tokens, temperature, top_p, top_k, seed=new_seed
                         )
                     break  # If generation succeeded, break out of retry loop
                 except Exception as e:
@@ -179,11 +180,12 @@ def evaluate_nodes(
     max_new_tokens,
     temperature,
     top_p,
-    seed=None,
-    ks=[1],                               
+    top_k,
+    seed,
+    ks,                               
     debug=False
 ):
-    model_result: defaultdict= run_model(
+    model_result = run_model(
         client,
         messages,
         model,
@@ -193,6 +195,7 @@ def evaluate_nodes(
         max_new_tokens,
         temperature,
         top_p,
+        top_k,
         ks,
         seed,
         debug
@@ -220,7 +223,8 @@ def run_validation(
     val_prompts, 
     val_responses, 
     temperatures, 
-    top_ps, 
+    top_ps,
+    top_ks, 
     ks=[1],
     seed=None, 
     debug=False
@@ -228,33 +232,35 @@ def run_validation(
     # SEED = 42 # During Validation Phase for reproducibility
     validation_best_f1 = 0.0
     validation_pass_ks = {} #Not the best, but the ones that gave the best f1_score
-    best_params = {"temperature": 0.5, "top_p": 0.5}
+    best_params = {"temperature": 0.5, "top_p": 0.5, "top_k": 50}
 
     print(f"{Fore.CYAN}{Style.BRIGHT}Validation Phase:{Style.RESET_ALL}")
     for temp in temperatures:
-        for top_p in top_ps:
-            print(f"Validating with temperature: {temp}, and top_p: {top_p}")
-            val_f1, val_pass_k_dict = evaluate_nodes (
-                client,
-                messages,
-                model['name'],
-                available_nodes,
-                val_prompts,
-                val_responses,
-                model["max_tokens"],
-                temp,
-                top_p,
-                seed,
-                ks=ks,
-                debug=debug
-            )
-            print(f"Validated with temp={temp} and top_p={top_p}. Gave f1={val_f1} and pass@ks={val_pass_k_dict}")
+        for top_k in top_ks:
+            for top_p in top_ps:
+                # print(f"Validating with temperature: {temp}, top_k: {top_k} and top_p: {top_p}")
+                val_f1, val_pass_k_dict = evaluate_nodes (
+                    client,
+                    messages,
+                    model['name'],
+                    available_nodes,
+                    val_prompts,
+                    val_responses,
+                    model["max_tokens"],
+                    temp,
+                    top_p,
+                    top_k,
+                    seed,
+                    ks=ks,
+                    debug=debug
+                )
+                print(f"Validation with temp={temp}, top_k={top_k} and top_p={top_p}. Gave f1={val_f1} and pass@ks={val_pass_k_dict}")
 
-            #Choose best parameters based on f1_score
-            if  val_f1 > validation_best_f1:
-                validation_best_f1 = val_f1
-                validation_pass_ks = val_pass_k_dict
-                best_params = {"temperature": temp, "top_p": top_p}
+                #Choose best parameters based on f1_score
+                if  val_f1 > validation_best_f1:
+                    validation_best_f1 = val_f1
+                    validation_pass_ks = val_pass_k_dict
+                    best_params = {"temperature": temp, "top_p": top_p, "top_k": top_k}
 
     result = {
         "seed": seed,
@@ -262,6 +268,7 @@ def run_validation(
         "val_pass_ks": validation_pass_ks,
         "temperature": best_params["temperature"],
         "top_p": best_params["top_p"],
+        "top_k": best_params["top_k"],
     }
     if debug:
         print_validation_result(result)
@@ -277,6 +284,7 @@ def run_testing(
     test_responses, 
     temperature, 
     top_p, 
+    top_k,
     ks, 
     seeds, 
     debug=False
@@ -299,6 +307,7 @@ def run_testing(
             model["max_tokens"],
             temperature,
             top_p,
+            top_k,
             seed,
             ks,
             debug
@@ -310,6 +319,7 @@ def run_testing(
             "test_pass_ks": test_pass_k_dict,
             "temperature": temperature,
             "top_p": top_p,
+            "top_k": top_k,
         }
         results.append(new_run)
         if debug:
@@ -320,23 +330,28 @@ def run_testing(
 def calculate_deviation(test_runs):
     """Calculate the standard deviation of the metrics"""
     f1_std= np.std([run["test_f1"] for run in test_runs])
+    f1_std_mean= np.array([run["test_f1"] for run in test_runs]).mean()
     pass_ks_std = {}
+    pass_at_ks_mean = {}
     pass_at_ks = list(test_runs[0]["test_pass_ks"].keys())
     for pass_at_k in pass_at_ks:
         pass_ks_std[pass_at_k] = np.std([run["test_pass_ks"][pass_at_k] for run in test_runs])
+        pass_at_ks_mean[pass_at_k] = np.array([run["test_pass_ks"][pass_at_k] for run in test_runs]).mean()
 
-    return f1_std, pass_ks_std
+    return f1_std_mean, f1_std, pass_at_ks_mean, pass_ks_std
 
 def print_validation_result(run: dict):
     """Print the results of a run."""
     best_temperature = run["temperature"]
     best_top_p = run["top_p"]
+    best_top_k = run["top_k"]
     val_f1 = run["val_f1"]
     val_pass_ks = run["val_pass_ks"]
 
     print(
         f"  = Validation =\n"
         f"  > Best temperature: {best_temperature:.2f}\n"
+        f"  > Best top_k: {best_top_k:.2f}\n"
         f"  > Best top_p: {best_top_p:.2f}\n"
         f"  > F1: {val_f1:.2f}\n"
         f"  > Pass@ks {json.dumps(val_pass_ks, indent=4)}\n"
@@ -347,13 +362,15 @@ def print_test_result(run: dict):
     seed = run["seed"]
     temperature = run["temperature"]
     top_p = run["top_p"]
+    top_k = run["top_k"]
     test_f1 = run["test_f1"]
     test_pass_ks = run["test_pass_ks"]
 
     print(
         f"===  Seed {seed} ===\n"
-        # f"  > Temperature: {temperature:.2f}\n"
-        # f"  > Top_p: {top_p:.2f}\n"
+        f"  > Temperature: {temperature:.2f}\n"
+        f"  > Top_k: {top_k:.2f}\n"
+        f"  > Top_p: {top_p:.2f}\n"
         f"  = Test =\n"
         f"{Fore.GREEN}{Style.BRIGHT}"
         f"  > F1: {test_f1:.2f}\n"

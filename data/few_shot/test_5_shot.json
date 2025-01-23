@@ -1,6 +1,49 @@
 [
     {
         "prompts": [
+            "Create a flow to multiply two numbers.",
+            "The flow should create a 'Math Expression' node with the expression 'x * y' inside the main module",
+            "The 'Math expression' node should then be tested inside a seperate module called tests, within the main module. Since the function does not contain input and ouput triggers, the flow of execution is sent between the assert nodes, using their input and output triggers."
+        ],
+        "task_id": 5,
+        "specification": {
+            "function_signature": "",
+            "preconditions": "- There are no preconditions, the method will always work.",
+            "postconditions": "- The result should be the product of the two input integers"
+        },
+        "MBPP_task_id": 127,
+        "library_functions": [
+            "Math.Expression"
+        ],
+        "visual_node_types": [
+            "Function"
+        ],
+        "textual_instance_types": [
+            "instance"
+        ],
+        "testing": {
+            "library_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertEqual"
+            ],
+            "visual_node_types": [
+                "Event",
+                "Function",
+                "Data Object"
+            ],
+            "textual_instance_types": [
+                "instance",
+                "data_instance"
+            ],
+            "test_list": [
+                "assert multiply_int(10,20)==200",
+                "assert multiply_int(5,10)==50",
+                "assert multiply_int(4,8)==32"
+            ]
+        }
+    },
+    {
+        "prompts": [
             "create a flow find the dissimilar elements in the given two lists.",
             "The flow should create the built-in function node from the std library, called 'Sets Difference' node, should be used. The node should be created in the main module.",
             "The 'Sets Difference' node should then be tested inside a seperate module called tests, within the main module. Since the function does not contain input and ouput triggers, the flow of execution is sent between the assert nodes, using their input and output triggers."
@@ -39,6 +82,58 @@
                 "assert find_dissimilar([3, 4, 5, 6], [5, 7, 4, 10]) == [3, 6, 7, 10]",
                 "assert find_dissimilar([1, 2, 3, 4], [7, 2, 3, 9]) == [1, 4, 7, 9]",
                 "assert find_dissimilar([21, 11, 25, 26], [26, 34, 21, 36]) == [11,25,34,36]"
+            ]
+        }
+    },
+    {
+        "prompts": [
+            "Create a flow to find the last position of an element in a sorted array.",
+            "",
+            ""
+        ],
+        "task_id": 41,
+        "specification": {
+            "function_signature": "func(doc: \"Finds the last position of an element in a sorted array.\") last {\n    in(x: -231, y: -29, name: \"list\") property(List) list_2bbadf\n    in(x: -246, y: 105, name: \"elem\") property(Number) elem_94ca57\n}",
+            "preconditions": "- The input array should be sorted in non-decreasing order",
+            "postconditions": "- If the element is found, the returned position should be the last occurrence of the element in the array\n- If the element is not found, the returned position should be -1\n- The input array remains unchanged"
+        },
+        "MBPP_task_id": 793,
+        "library_functions": [
+            "Std.For",
+            "Std.IfExpression"
+        ],
+        "visual_node_types": [
+            "Function",
+            "Input Property",
+            "Output Property",
+            "Getter",
+            "Setter"
+        ],
+        "textual_instance_types": [
+            "instance",
+            "in",
+            "out",
+            "getter",
+            "setter"
+        ],
+        "testing": {
+            "library_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertEqual"
+            ],
+            "visual_node_types": [
+                "Event",
+                "Function",
+                "Data Object"
+            ],
+            "textual_instance_types": [
+                "instance",
+                "data_instance"
+            ],
+            "test_list": [
+                "assert last([1,2,3],1) == 0",
+                "assert last([1,1,1,2,3,4],1) == 2",
+                "assert last([2,3,2,3,6,8,9],3) == 3"
             ]
         }
     }

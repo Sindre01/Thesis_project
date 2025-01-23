@@ -1,0 +1,45 @@
+[
+    {
+        "prompts": [
+            "create a flow find the dissimilar elements in the given two lists.",
+            "The flow should create the built-in function node from the std library, called 'Sets Difference' node, should be used. The node should be created in the main module.",
+            "The 'Sets Difference' node should then be tested inside a seperate module called tests, within the main module. Since the function does not contain input and ouput triggers, the flow of execution is sent between the assert nodes, using their input and output triggers."
+        ],
+        "task_id": 18,
+        "specification": {
+            "function_signature": "",
+            "preconditions": "- Both input arrays should be non-null",
+            "postconditions": "- The result array should contain all elements from both input arrays that are not present in the other array\n- The result array should not contain any duplicate elements\n- The order of elements in the result array does not matter"
+        },
+        "MBPP_task_id": 579,
+        "library_functions": [
+            "Sets.Difference"
+        ],
+        "visual_node_types": [
+            "Function"
+        ],
+        "textual_instance_types": [
+            "instance"
+        ],
+        "testing": {
+            "library_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertEqual"
+            ],
+            "visual_node_types": [
+                "Event",
+                "Function",
+                "Data Object"
+            ],
+            "textual_instance_types": [
+                "instance",
+                "data_instance"
+            ],
+            "test_list": [
+                "assert find_dissimilar([3, 4, 5, 6], [5, 7, 4, 10]) == [3, 6, 7, 10]",
+                "assert find_dissimilar([1, 2, 3, 4], [7, 2, 3, 9]) == [1, 4, 7, 9]",
+                "assert find_dissimilar([21, 11, 25, 26], [26, 34, 21, 36]) == [11,25,34,36]"
+            ]
+        }
+    }
+]

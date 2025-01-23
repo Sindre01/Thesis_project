@@ -21,8 +21,8 @@ def remove_first_three_words(text: str) -> str:
 
 def split_and_format(data: json, template_name: str, code_folder = None):
     script_path = os.path.dirname(os.getcwd())
-    prompt_template_path = os.path.join(script_path, f'templates/prompts/{template_name}.file')
-    response_template_path = os.path.join(script_path, f'templates/responses/{template_name}.file')
+    prompt_template_path = os.path.join(script_path, f'../templates/prompts/{template_name}.file')
+    response_template_path = os.path.join(script_path, f'../templates/responses/{template_name}.file')
 
     if not (os.path.exists(prompt_template_path)):
         print(f"{prompt_template_path}.file not found!!")
@@ -54,7 +54,7 @@ def split_and_format(data: json, template_name: str, code_folder = None):
 
 def create_context(explained_used_libraries, context_template_name):
     script_path = os.path.dirname(os.getcwd())
-    context_template_path = os.path.join(script_path, f'templates/contexts/{context_template_name}.file')
+    context_template_path = os.path.join(script_path, f'../templates/contexts/{context_template_name}.file')
     
     if not (os.path.exists(context_template_path)):
         print(f"{context_template_name}.file not found!!")
