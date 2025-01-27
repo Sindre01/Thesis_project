@@ -34,11 +34,21 @@ def check_correctness(result_dict):
     for key, candidates in result_dict.items():
         checked_canidates = []
         for candidate in candidates:
-            test_result = compile_code(candidate, "test")
-            if is_all_tests_passed(test_result):
-                checked_canidates.append({"passed": True, "info": "Code is correct"})
+            compiled = compile_code(candidate)
+            #check if the code syntax is valid and semantically valid
+            if not is_code_syntax_valid(compiled):
+                checked_canidates.append({"passed": False, "info": get_errors(compiled)})
+            elif not is_code_semantically_valid(compiled):
+                checked_canidates.append({"passed": False, "info": get_output(compiled)})
             else:
-                checked_canidates.append({"passed": False, "info": get_test_result(test_result)})
+                # If the code is semantically valid, run the tests
+                test_result_json = compile_code(candidate, "test --json")
+
+                if is_all_tests_passed(test_result_json):
+                    checked_canidates.append({"passed": True, "info": "All tests passed"})
+                else:
+                    checked_canidates.append({"passed": False, "info": get_test_result(test_result_json)})
+            
         results[key] = checked_canidates
 
     return results

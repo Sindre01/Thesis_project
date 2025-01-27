@@ -41,11 +41,19 @@ def calculate_pass_at_k_scores(result_dict, ks):
 # ]
     print("\n == Pass@k computation ==\n")
 
-    # Calculate pass@k for equal match for each problem and ks
+    # Calculate pass@k for is_subset for each problem and ks
+    
     total, correct = [], []
     for true_result, k_results in result_dict.items():
         k_results.sort()
-        passed = [True if result == true_result else False for result in k_results]
+        true_result_set = set(true_result.split(","))
+        passed = [
+            True 
+            if true_result_set.issubset(set(result.split(","))) 
+            else 
+            False 
+            for result in k_results
+        ]
         total.append(len(passed))
         correct.append(sum(passed))
 

@@ -2193,5 +2193,54 @@
                 "assert square_Sum(4) == 84"
             ]
         }
+    },
+    {
+        "prompts": [
+            "Create a flow that finds the minimum of two numbers.",
+            "",
+            ""
+        ],
+        "task_id": 45,
+        "specification": {
+            "method_signature": " func(doc: \"finds the minimum of two numbers\") Min {\n in() property(Number) a_9f7759 \n in() property(Number) b_f9110a\n in() trigger() execute_12bf99",
+            "preconditions": "- There are no preconditions, the method will always work.",
+            "postconditions": "- The minValue is either a or b\n- The minValue is less than or equal to both a and b"
+        },
+        "MBPP_task_id": 404,
+        "library_functions": [
+            "root.std.Std.IfExpression"
+        ],
+        "visual_node_types": [
+            "Function",
+            "Input Property",
+            "Output Property",
+            "Input Trigger",
+            "Output Trigger"
+        ],
+        "textual_instance_types": [
+            "instance",
+            "in",
+            "out",
+            "setter",
+            "getter"
+        ],
+        "testing": {
+            "library_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertEqual"
+            ],
+            "visual_node_types": [
+                "Event",
+                "Function"
+            ],
+            "textual_instance_types": [
+                "instance"
+            ],
+        "test_list": [
+            "assert minimum(1,2) == 1",
+            "assert minimum(-5,-4) == -5",
+            "assert minimum(0,0) == 0"
+            ]
+        }
     }
 ]

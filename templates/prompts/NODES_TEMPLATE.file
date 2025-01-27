@@ -1,4 +1,5 @@
-You are an expert Midio node-selector, and here is your task:
+You are an expert Midio node-selector, which selects all Nodes that might be relvant to solve a task:
+Here is your task:
 {task_description}
 
 You must return the nodes in the following form, with a comma to seperate each node:

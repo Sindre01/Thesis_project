@@ -1,0 +1,64 @@
+import("std", Std_k98ojb)
+import("http", Http_q7o96c)
+
+module() main {
+    func(doc: "finds the minimum of two numbers") Min {
+        in(x: -281.0000305175781, y: -193.79998168945315, name: "a") property(Number) a_9f7759
+        in(x: -272.2399816894531, y: 17.720033569335953, name: "b") property(Number) b_f9110a
+        in(x: -450, y: -114, name: "execute") trigger() execute_12bf99
+
+        out(x: 46.79998779296875, y: 158.3999938964844, name: "min") property(Number) min_b2508f
+        out(x: 512, y: -114, name: "continue") trigger() continue_685c8f
+
+        instance(x: -105.60003662109376, y: -110.59999084472656) ifexpression_e38995 root.Std_k98ojb.Std.IfExpression {
+            expression: "a < b"
+        }
+        getter(x: -144.3199633789062, y: 112.12, name: "getter_9cceb3") getter_9cceb3 = min
+        setter(x: 116.6, y: -268.2, name: "setter_1cedb2") setter_1cedb2 = min
+        setter(x: 118.6, y: -56.19999999999999, name: "setter_37db7f") setter_37db7f = min
+        a_9f7759 -> ifexpression_e38995.gen_0
+        b_f9110a -> ifexpression_e38995.gen_1
+        getter_9cceb3.value -> min_b2508f
+        ifexpression_e38995.then -> setter_1cedb2.execute
+        a_9f7759 -> setter_1cedb2.new_value
+        b_f9110a -> setter_37db7f.new_value
+        ifexpression_e38995.else -> setter_37db7f.execute
+        execute_12bf99 -> ifexpression_e38995.execute
+        setter_1cedb2.continue -> continue_685c8f
+        setter_37db7f.continue -> continue_685c8f
+    }
+
+    module() tests {
+        instance(x: -397, y: -19.5) test_e35bd8 root.Std_k98ojb.Testing.Test {
+            name: "Test Min"
+        }
+        instance(x: -292, y: 144.5) min_377cca root.main.Min {}
+        instance(x: -65, y: 150.5) assertequal_082d2c root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 166.5, y: 153) min_ccd64a root.main.Min {}
+        instance(x: 393.5, y: 159) assertequal_34a9aa root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 646.5, y: 159) min_875643 root.main.Min {}
+        instance(x: 873.5, y: 165) assertequal_92da4f root.Std_k98ojb.Testing.AssertEqual {}
+        test_e35bd8.onRun -> min_377cca.execute_12bf99
+        min_377cca.continue_685c8f -> assertequal_082d2c.execute
+        1 -> min_377cca.a_9f7759
+        2 -> min_377cca.b_f9110a
+        min_377cca.min_b2508f -> assertequal_082d2c.actual
+        1 -> assertequal_082d2c.expect
+        min_ccd64a.continue_685c8f -> assertequal_34a9aa.execute
+        -5 -> min_ccd64a.a_9f7759
+        -4 -> min_ccd64a.b_f9110a
+        -5 -> assertequal_34a9aa.expect
+        min_875643.continue_685c8f -> assertequal_92da4f.execute
+        min_875643.min_b2508f -> assertequal_92da4f.actual
+        0 -> min_875643.a_9f7759
+        0 -> min_875643.b_f9110a
+        0 -> assertequal_92da4f.expect
+        min_ccd64a.min_b2508f -> assertequal_34a9aa.actual
+        assertequal_34a9aa.continue -> min_875643.execute_12bf99
+        assertequal_082d2c.continue -> min_ccd64a.execute_12bf99
+
+
+    }
+
+    instance(x: -174.79998779296875, y: -63.20000610351565) Min_d6e930 root.main.Min {}
+}

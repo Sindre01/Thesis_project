@@ -1,3 +1,4 @@
+import json
 import subprocess
 import os
 import tempfile
@@ -63,9 +64,18 @@ def get_output(result: subprocess.CompletedProcess[str]) -> str:
     # Semantic Erros can be found here
     return result.stdout
 def get_test_result(result: subprocess.CompletedProcess[str]) -> str:
-    pass
-def is_all_tests_passed(result: str) -> bool:
-    pass
+    json_result = json.loads(result.stdout)
+    num_passed = json_result['num_passed']
+    num_tests = json_result['num_tests']
+    assertions = json_result['test_results']
+
+    return f"{num_passed}/{num_tests} test passed. All tests: {assertions}"
+
+def is_all_tests_passed(result: subprocess.CompletedProcess[str]) -> bool:
+    json_result = json.loads(result.stdout)
+    num_passed = json_result['num_passed']
+    num_tests = json_result['num_tests']
+    return num_passed == num_tests
 
 def is_code_syntax_valid(result: subprocess.CompletedProcess[str]) -> bool:
     return result.returncode == 0
