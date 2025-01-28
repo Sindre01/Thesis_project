@@ -1,0 +1,20 @@
+import("std", Std_k98ojb)
+import("http", Http_q7o96c)
+
+module() main {
+    func(doc: "find the surface area of a cube of a given size.") CubeSurfaceArea {
+            in(x: -56, y: -44.5, name: "size") property(Number) size_49c776
+
+            out(x: 582, y: -80.5, name: "Area") property(Number) Area_a3e36f
+
+            instance(x: 159, y: -44.5) mul_b6493a root.Std_k98ojb.Math.Mul {}
+            instance(x: 394, y: -170.5) mul_a368ef root.Std_k98ojb.Math.Mul {}
+            size_49c776 -> mul_b6493a.first
+            6 -> mul_b6493a.second
+            size_49c776 -> mul_a368ef.first
+            mul_b6493a.result -> mul_a368ef.second
+            mul_a368ef.result -> Area_a3e36f
+        }
+
+        instance(x: -140, y: 184.5) cubesurfacearea_5b796d root.main.CubeSurfaceArea {}
+}

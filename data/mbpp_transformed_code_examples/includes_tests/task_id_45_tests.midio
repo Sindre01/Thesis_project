@@ -28,7 +28,7 @@ module() main {
         setter_37db7f.continue -> continue_685c8f
     }
 
-    module() tests {
+    module(doc: "Contains three different tests for the 'Min' function node") tests {
         instance(x: -397, y: -19.5) test_e35bd8 root.Std_k98ojb.Testing.Test {
             name: "Test Min"
         }

@@ -2215,7 +2215,9 @@
             "Input Property",
             "Output Property",
             "Input Trigger",
-            "Output Trigger"
+            "Output Trigger",
+            "Getter",
+            "Setter"
         ],
         "textual_instance_types": [
             "instance",
@@ -2237,10 +2239,279 @@
                 "instance"
             ],
         "test_list": [
-            "assert minimum(1,2) == 1",
-            "assert minimum(-5,-4) == -5",
-            "assert minimum(0,0) == 0"
+            "assert min(1,2) == 1",
+            "assert min(-5,-4) == -5",
+            "assert min(0,0) == 0"
             ]
+        }
+    },
+    {
+        "prompts": [
+            "Create a flow to find the surface area of a cube of a given size.",
+            "",
+            ""
+        ],
+        "task_id": 46,
+        "specification": {
+            "method_signature": "func(doc: \"find the surface area of a cube of a given size.\") CubeSurfaceArea { \n in(x: -56, y: -44.5, name: \"size\") property(Number) size_49c776\n out(x: 582, y: -80.5, name: \"Area\") property(Number) Area_a3e36f",
+            "preconditions": "- The size of the cube should be greater than 0",
+            "postconditions": "- The surface area of the cube is calculated correctly"
+        },
+        "MBPP_task_id": 441,
+        "library_functions": [
+            "root.std.Math.Mul"
+        ],
+        "visual_node_types": [
+            "Function",
+            "Input Property",
+            "Output Property"
+        ],
+        "textual_instance_types": [
+            "instance",
+            "in",
+            "out"
+        ],
+        "testing": {
+            "library_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertEqual"
+            ],
+            "visual_node_types": [
+                "Event",
+                "Function"
+            ],
+            "textual_instance_types": [
+                "instance"
+            ],
+        "test_list": [
+            "assert CubeSurfaceArea(5)==150",
+            "assert CubeSurfaceArea(3)==54",
+            "assert CubeSurfaceArea(10)==600"
+            ]
+        }
+    },
+    {
+        "prompts": [
+            "Create a flow to find cubes of individual elements in a list.",
+            "",
+            ""
+        ],
+        "task_id": 47,
+        "specification": {
+            "method_signature": " func(doc: \"find cubes of individual elements in a list.\") cube_nums {\nin(x: -122, y: -81.5, name: \"list\") property(List) list_63c248\n out(x: 656, y: -68.5, name: \"result\") property(List) result_cbb7bd",
+            "preconditions": "- There are no preconditions, the method will always work. Arrays can be empty or non-empty.",
+            "postconditions": "- The length of the output array must be the same as the length of the input array\n- Each element in the output array is the cube of the corresponding element in the input array"
+        },
+        "MBPP_task_id": 447,
+        "library_functions": [
+            "root.std.Math.Pow",
+            "root.std.Iteration.Map"
+        ],
+        "visual_node_types": [
+            "Function",
+            "Input Property",
+            "Output Property"
+        ],
+        "textual_instance_types": [
+            "instance",
+            "in",
+            "out"
+        ],
+        "testing": {
+            "library_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertEqual"
+            ],
+            "visual_node_types": [
+                "Event",
+                "Function",
+                "Data Object"
+            ],
+            "textual_instance_types": [
+                "instance",
+                "data_instance"
+            ],
+        "test_list": [
+            "assert cube_nums([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])==[1, 8, 27, 64, 125, 216, 343, 512, 729, 1000]",
+            "assert cube_nums([10,20,30])==([1000, 8000, 27000])",
+            "assert cube_nums([12,15])==([1728, 3375])"
+            ]
+        }
+    },
+    {
+        "prompts": [
+            "Create a flow to check if the given integer is a prime number.",
+            "",
+            ""
+        ],
+        "task_id": 48,
+        "specification": {
+            "method_signature": "func(doc: \"check if the given integer is a prime number.\") num_prime {\nin(x: -167, y: 27.5, name: \"num\") property(Number) num_5c0677\nin(x: -112, y: -216, name: \"execute\") trigger() execute_b7b391\n out(x: 1016, y: -26.5, name: \"output\") property(Bool) output_c457b3\n out(x: 1211, y: -110, name: \"continue\") trigger() continue_9a54bb",
+           "preconditions": "- n should be greater than or equal to 2",
+            "postconditions": "- If the result is true, then n is a prime number\n- If the result is false, then n is not a prime number"
+        },
+        "MBPP_task_id": 605,
+        "library_functions": [
+            "root.std.Std.IfExpression",
+            "root.std.Std.For",
+            "root.std.Math.Modulo",
+            "root.std.Math.Div",
+            "root.std.Math.Add",
+            "root.std.List.GenerateRange",
+            "root.std.Std.If",
+            "root.std.Logic.Equal"
+
+        ],
+        "visual_node_types": [
+            "Function",
+            "Input Property",
+            "Output Property",
+            "Input Trigger",
+            "Output Trigger",
+            "Setter",
+            "Getter"
+        ],
+        "textual_instance_types": [
+            "instance",
+            "in",
+            "out",
+            "setter",
+            "getter"
+        ],
+        "testing": {
+            "library_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertTrue",
+                "root.std.Testing.AssertFalse"
+            ],
+            "visual_node_types": [
+                "Event",
+                "Function"
+            ],
+            "textual_instance_types": [
+                "instance"
+            ],
+        "test_list": [
+            "assert prime_num(13)==True",
+            "assert prime_num(7)==True",
+            "assert prime_num(-1010)==False"
+        ]
+        }
+    },
+    {
+        "prompts": [
+            "Create a flow to interchange the first and last element in a given list.",
+            "",
+            ""
+        ],
+        "task_id": 49,
+        "specification": {
+            "method_signature": "",
+            "preconditions": "- The array should not be empty",
+      "postconditions": "- The first element of the input array should be the last element of the modified array\n- The last element of the input array should be the first element of the modified array\n- All other elements remain unchanged"
+        },
+        "MBPP_task_id": 625,
+        "library_functions": [
+            "root.std.List.FirstItem",
+            "root.std.List.LastItem",
+            "root.std.List.Flatten",
+            "root.std.List.Slice",
+            "root.std.List.Length",
+            "root.std.Math.Sub"
+
+        ],
+        "visual_node_types": [
+            "Function",
+            "Input Property",
+            "Output Property",
+            "Data Object"
+          
+        ],
+        "textual_instance_types": [
+            "instance",
+            "in",
+            "out",
+            "data_instance"
+            
+        ],
+        "testing": {
+            "library_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertEqual"
+               
+            ],
+            "visual_node_types": [
+                "Event",
+                "Function",
+                "Data Object"
+                
+            ],
+            "textual_instance_types": [
+                "instance",
+                "data_instance"
+            ],
+        "test_list": [
+            "assert swap_List([1,2,3]) == [3,2,1]",
+            "assert swap_List([1,2,3,4,4]) == [4,2,3,4,1]",
+            "assert swap_List([4,5,6]) == [6,5,4]"
+        ]
+        }
+    },
+    {
+        "prompts": [
+            "Create a flow to check whether the given number is a perfect square or not.",
+            "",
+            ""
+        ],
+        "task_id": 50,
+        "specification": {
+            "method_signature": "",
+            "preconditions": "- n should be non-negative",
+            "postconditions": "- If the result is true, there exists an integer i such that i * i == n\n- If the result is false, there is no integer i such that i * i == n"
+        },
+        "MBPP_task_id": 803,
+        "library_functions": [
+            "root.std.Iteration.Map",
+            "root.std.List.GenerateRange",
+            "root.std.Math.LessThanOrEqual",
+            "root.std.Std.For",
+            "root.std.Logic.And",
+            "root.std.Std.If",
+            "root.std.Math.Expression",
+            "root.std.Math.Add",
+            "root.std.Math.Mul"
+        ],
+        "visual_node_types": [
+            "Function",
+            "Input Property",
+            "Output Property",
+            "Input Trigger",
+            "Output Trigger"
+        ],
+        "textual_instance_types": [
+            "instance",
+            "in",
+            "out"
+        ],
+        "testing": {
+            "library_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertTrue",
+                "root.std.Testing.AssertFalse"
+               
+            ],
+            "visual_node_types": [
+                "Event",
+                "Function"
+            ],
+            "textual_instance_types": [
+                "instance"
+            ],
+        "test_list": [
+            "assert is_perfect_square(10) == False",
+            "assert is_perfect_square(36) == True",
+            "assert is_perfect_square(14) == False"
+        ]
         }
     }
 ]

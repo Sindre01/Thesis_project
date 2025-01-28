@@ -1,0 +1,63 @@
+import("std", Std_k98ojb)
+import("http", Http_q7o96c)
+
+module() main {
+    func(doc: "checks whether the given number is a perfect square or not.") is_perfect_square {
+        in(x: 354.8534228128, y: -53.570902536908875, name: "input") property(Number) input_f5c03d
+        in(x: 161.86656944950778, y: -211.44732045205976, name: "execute") trigger() execute_27b8c3
+
+        out(x: 1748.7398492866953, y: -10.179326168336845, name: "out") property(Bool) out_f3db9f
+        out(x: 1894.6987078855211, y: 120.75836251660428, name: "continue") trigger() continue_8ba06b
+
+        instance(x: 352.29435795182377, y: -493.40392241475513) map_6030c9 root.Std_k98ojb.Iteration.Map {}
+        instance(x: 591.093649540918, y: 74.39457308484964) generaterange_038fce root.Std_k98ojb.List.GenerateRange {}
+        instance(x: 933.4372723261322, y: 25.370036244678204) lessthanorequal_f11fda root.Std_k98ojb.Math.LessThanOrEqual {}
+        instance(x: 714.6587368675281, y: -155.30334500664162) for_8cb3f6 root.Std_k98ojb.Std.For {}
+        instance(x: 1812.5807321161728, y: -319.3114369615595) and_80a119 root.Std_k98ojb.Logic.And {}
+        instance(x: 1121.8451877792538, y: -54.34126313247202) if_07b8c7 root.Std_k98ojb.Std.If {}
+        instance(x: 1504.9651145687808, y: -400.53431283054744) expression_b720d7 root.Std_k98ojb.Math.Expression {
+            expression: "(n % i == 0)"
+        }
+        instance(x: 1496.3746737091876, y: -187.54174318988652) expression_9fba8c root.Std_k98ojb.Math.Expression {
+            expression: "(n / i == i)"
+        }
+        instance(x: 2136.5336397886786, y: -356.96973200228246) if_e19a62 root.Std_k98ojb.Std.If {}
+        instance(x: 1088.0328462746047, y: -256.007728535201) add_b4554f root.Std_k98ojb.Math.Add {}
+        1 -> generaterange_038fce.from
+        input_f5c03d -> generaterange_038fce.to
+        generaterange_038fce.list -> map_6030c9.items
+        func() {
+            in(x: -76, y: 46.5, name: "element") property(Number) element_5f51f7
+
+            out(x: 382, y: 19, name: "out") property(Number) out_d0fd24
+
+            instance(x: 106, y: 17) mul_2f9d09 root.Std_k98ojb.Math.Mul {}
+            element_5f51f7 -> mul_2f9d09.first
+            element_5f51f7 -> mul_2f9d09.second
+            mul_2f9d09.result -> out_d0fd24
+        } -> map_6030c9.handler
+        map_6030c9.output_list -> for_8cb3f6.items
+        for_8cb3f6.item -> lessthanorequal_f11fda.left
+        input_f5c03d -> lessthanorequal_f11fda.right
+        lessthanorequal_f11fda.result -> if_07b8c7.predicate
+        for_8cb3f6.onItem -> if_07b8c7.execute
+        if_07b8c7.else -> continue_8ba06b
+        expression_b720d7.result -> and_80a119.left
+        expression_9fba8c.result -> and_80a119.right
+        and_80a119.result -> if_e19a62.predicate
+        if_07b8c7.then -> if_e19a62.execute
+        for_8cb3f6.index -> add_b4554f.first
+        1 -> add_b4554f.second
+        add_b4554f.result -> expression_b720d7.gen_1
+        add_b4554f.result -> expression_9fba8c.gen_1
+        input_f5c03d -> expression_9fba8c.gen_0
+        input_f5c03d -> expression_b720d7.gen_0
+        if_07b8c7.value -> out_f3db9f
+        if_e19a62.then -> continue_8ba06b
+        for_8cb3f6.done -> continue_8ba06b
+        execute_27b8c3 -> for_8cb3f6.reset
+        if_e19a62.else -> for_8cb3f6.next
+    }
+
+    instance(x: -189, y: 222.5) is_perfect_square_f0be66 root.main.is_perfect_square {}
+}

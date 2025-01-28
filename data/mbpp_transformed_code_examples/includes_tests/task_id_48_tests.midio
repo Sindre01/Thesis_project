@@ -1,0 +1,79 @@
+import("std", Std_k98ojb)
+import("http", Http_q7o96c)
+
+module() main {
+    func(doc: "check if the given integer is a prime number.") num_prime {
+        in(x: -167, y: 27.5, name: "num") property(Number) num_5c0677
+        in(x: -112, y: -216, name: "execute") trigger() execute_b7b391
+
+        out(x: 1016, y: -26.5, name: "output") property(Bool) output_c457b3
+        out(x: 1211, y: -110, name: "continue") trigger() continue_9a54bb
+
+        instance(x: -12, y: 2) ifexpression_5ccdce root.Std_k98ojb.Std.IfExpression {
+            expression: "num <= 1"
+        }
+        instance(x: 343, y: 25) for_f3c0da root.Std_k98ojb.Std.For {}
+        instance(x: 308, y: 213) generaterange_ba4b43 root.Std_k98ojb.List.GenerateRange {}
+        instance(x: -195, y: 217) div_67d3ef root.Std_k98ojb.Math.Div {}
+        instance(x: 32, y: 214) add_f63d12 root.Std_k98ojb.Math.Add {}
+        instance(x: 593, y: 28) if_677f7c root.Std_k98ojb.Std.If {}
+        instance(x: 517, y: 204) modulo_347fe3 root.Std_k98ojb.Math.Modulo {}
+        instance(x: 724, y: 185) equal_0ddec5 root.Std_k98ojb.Logic.Equal {}
+        getter(x: 847, y: -70, name: "getter_14cbb9") getter_14cbb9 = is_prime
+        setter(x: 496, y: -186, name: "setter_334906") setter_334906 = is_prime
+        setter(x: 1003, y: 151, name: "setter_0816c8") setter_0816c8 = is_prime
+        num_5c0677 -> ifexpression_5ccdce.gen_0
+        execute_b7b391 -> ifexpression_5ccdce.execute
+        ifexpression_5ccdce.else -> for_f3c0da.reset
+        2 -> generaterange_ba4b43.from
+        num_5c0677 -> div_67d3ef.first
+        2 -> div_67d3ef.second
+        div_67d3ef.result -> add_f63d12.first
+        1 -> add_f63d12.second
+        generaterange_ba4b43.list -> for_f3c0da.items
+        for_f3c0da.item -> modulo_347fe3.divisor
+        for_f3c0da.onItem -> if_677f7c.execute
+        num_5c0677 -> modulo_347fe3.value
+        modulo_347fe3.result -> equal_0ddec5.right
+        0 -> equal_0ddec5.left
+        equal_0ddec5.result -> if_677f7c.predicate
+        getter_14cbb9.value -> output_c457b3
+        add_f63d12.result -> generaterange_ba4b43.to
+        if_677f7c.else -> for_f3c0da.next
+        false -> setter_334906.new_value
+        ifexpression_5ccdce.then -> setter_334906.execute
+        if_677f7c.then -> setter_334906.execute
+        setter_334906.continue -> continue_9a54bb
+        true -> setter_0816c8.new_value
+        for_f3c0da.done -> setter_0816c8.execute
+        setter_0816c8.continue -> continue_9a54bb
+    }
+
+    module(doc: "Contains three different tests for the 'num_prime' function node") tests {
+        instance(x: 35, y: -110.5) asserttrue_e871b6 root.Std_k98ojb.Testing.AssertTrue {}
+        instance(x: -172, y: -111.5) num_prime_1188ac root.main.num_prime {}
+        instance(x: -206, y: -224.5) test_85ec3b root.Std_k98ojb.Testing.Test {
+            name: "Test num_prime"
+        }
+        instance(x: 487.5, y: -113.5) asserttrue_19edae root.Std_k98ojb.Testing.AssertTrue {}
+        instance(x: 280.5, y: -114.5) num_40dfba root.main.num_prime {}
+        instance(x: 718.5, y: -117.5) num_1cd86a root.main.num_prime {}
+        instance(x: 963, y: -123) assertfalse_b842b8 root.Std_k98ojb.Testing.AssertFalse {}
+        13 -> num_prime_1188ac.num_5c0677
+        test_85ec3b.onRun -> num_prime_1188ac.execute_b7b391
+        num_prime_1188ac.continue_9a54bb -> asserttrue_e871b6.execute
+        num_prime_1188ac.output_c457b3 -> asserttrue_e871b6.value
+        num_40dfba.continue_9a54bb -> asserttrue_19edae.execute
+        num_40dfba.output_c457b3 -> asserttrue_19edae.value
+        7 -> num_40dfba.num_5c0677
+        asserttrue_e871b6.continue -> num_40dfba.execute_b7b391
+        -1010 -> num_1cd86a.num_5c0677
+        num_1cd86a.continue_9a54bb -> assertfalse_b842b8.execute
+        asserttrue_19edae.continue -> num_1cd86a.execute_b7b391
+        num_1cd86a.output_c457b3 -> assertfalse_b842b8.value
+
+
+    }
+
+    instance(x: -361, y: 185.5) num_prime_88fd7e root.main.num_prime {}
+}
