@@ -1,12 +1,15 @@
-from collections import defaultdict
 import json
 import numpy as np
+import re
 from my_packages.evaluation.metrics import estimate_pass_at_k
+from my_packages.prompting.few_shot import create_few_shot_prompt, create_final_node_prompt
 from my_packages.utils.server_utils import server_diagnostics
 from my_packages.evaluation.models import invoke_anthropic_model, invoke_openai_model, invoke_o1_model, invoke_ollama_model
-import re
 from colorama import Fore, Back, Style # type: ignore
 from sklearn.metrics import f1_score
+from langchain_ollama import OllamaEmbeddings, ChatOllama
+from langchain_anthropic import ChatAnthropic
+from langchain_openai import OpenAIEmbeddings, ChatOpenAI
 
 def extract_nodes(response_text):
     """Extract nodes from the response using regex."""
@@ -100,12 +103,11 @@ def calculate_f1_score(result_dict):
     return np.array(f1_scores).mean()
 
 def run_model(
-    client,
-    messages,
+    client: ChatOllama | ChatOpenAI | ChatAnthropic,
     model,
     available_nodes,
-    prompts,
-    responses,
+    data,
+    example_pool,
     max_new_tokens,
     temperature,
     top_p,
@@ -116,8 +118,17 @@ def run_model(
 ):
     results = {}
 
-    for index, (prompt, true_response) in enumerate(zip(prompts, responses)):
+    for index, sample in enumerate(data):
         generated_candidates = []
+        true_response = sample["response"]
+        task = sample["task"]
+
+        # How to chose between random or semantic similarity example selector?
+        # Do calulations before evaluation and just pass in an class that get the examples for the task.
+        similar_examples = example_pool.select_examples({"task": task})
+        few_shot = create_few_shot_prompt(similar_examples, 'NODES_TEMPLATE')
+        final_prompt_template = create_final_node_prompt(few_shot, "NODE_GENERATOR_TEMPLATE", "NODES_TEMPLATE")
+        prompt = final_prompt_template.format(task=task, library_functions=available_nodes)
 
         for attempt_i in range(max(ks)):
             max_retries = 3
@@ -126,26 +137,41 @@ def run_model(
             generated = ""
             while retries < max_retries:
                 try:
-                    full_prompt = messages + [{"role": "user", "content": prompt}]
-                    
                     print(f"Generating response for sample {index}..", end="\r")
-
+                    
                     if "claude" in model:
-                        generated = invoke_anthropic_model(
-                            client, full_prompt, model, max_new_tokens, temperature, top_p, top_k
-                        )
-                    elif "o1" in model:
-                        generated = invoke_o1_model(
-                            client, full_prompt, model, max_new_tokens, top_k
-                        )
-                    elif "gpt" in model:
-                        generated = invoke_openai_model(
-                            client, full_prompt, model, max_new_tokens, temperature, top_p, top_k, seed=new_seed
+                        llm = client(
+                            model=model,
+                            temperature=temperature,
+                            num_predict=max_new_tokens,
+                            top_p=top_p,
+                            top_k=top_k,
+                            stream=False,
+                            num_ctx=10000,
+                            stop=["```<|eot_id|>"],
+                            seed=new_seed
                         )
                     else:
-                        generated = invoke_ollama_model(
-                            client, full_prompt, model, max_new_tokens, temperature, top_p, top_k, seed=new_seed
+                        llm = client(
+                            model=model,
+                            temperature=temperature,
+                            num_predict=max_new_tokens,
+                            top_p=top_p,
+                            top_k=top_k,
+                            stream=False,
+                            num_ctx=10000,
+                            stop=["```<|eot_id|>"],
+                            seed=new_seed
                         )
+                    
+                    chain = (final_prompt_template | llm)
+
+                    response = chain.invoke({
+                        "task": task, 
+                        "library_functions": available_nodes
+                    })
+
+                    generated = response.content
                     break  # If generation succeeded, break out of retry loop
                 except Exception as e:
                     retries += 1
@@ -179,12 +205,11 @@ def run_model(
     return results
 
 def evaluate_nodes(
-    client,
-    messages,
+    client: ChatOllama | ChatOpenAI | ChatAnthropic,
     model,
     available_nodes,
-    prompts,
-    responses,
+    data,
+    example_pool,
     max_new_tokens,
     temperature,
     top_p,
@@ -195,11 +220,10 @@ def evaluate_nodes(
 ):
     model_result = run_model(
         client,
-        messages,
         model,
         available_nodes,
-        prompts,
-        responses,
+        data,
+        example_pool,
         max_new_tokens,
         temperature,
         top_p,
@@ -208,6 +232,7 @@ def evaluate_nodes(
         seed,
         debug
     )
+   
     # model_result = {
     # "node1, node2": ["node1, node2", "node1, node2", "node1, node2", "node1, node2"],  # 1 correct out of 3
     # "node3, node4": ["node1, node2", "node1, node2", "node1, node2", "node1, node2"],    # 1 correct out of 3
@@ -223,13 +248,13 @@ def evaluate_nodes(
 
     return f1_score, pass_at_k_dict
 
+
 def run_validation(
-    client,
-    messages, 
+    client: ChatOllama | ChatOpenAI | ChatAnthropic,
     model, 
     available_nodes, 
-    val_prompts, 
-    val_responses, 
+    val_data,
+    example_pool,
     temperatures, 
     top_ps,
     top_ks, 
@@ -249,11 +274,10 @@ def run_validation(
                 # print(f"Validating with temperature: {temp}, top_k: {top_k} and top_p: {top_p}")
                 val_f1, val_pass_k_dict = evaluate_nodes (
                     client,
-                    messages,
                     model['name'],
                     available_nodes,
-                    val_prompts,
-                    val_responses,
+                    val_data,
+                    example_pool,
                     model["max_tokens"],
                     temp,
                     top_p,
@@ -284,12 +308,11 @@ def run_validation(
     return result
     
 def run_testing(
-    client,
-    messages, 
+    client: ChatOllama | ChatOpenAI | ChatAnthropic,
     model, 
     available_nodes, 
-    test_prompts, 
-    test_responses, 
+    test_data,
+    example_pool,
     temperature, 
     top_p, 
     top_k,
@@ -299,6 +322,7 @@ def run_testing(
 ):
     results = []
     
+    
     #Test the model on the test set with different seeds and the best hyperparameters.
     print(f"{Fore.CYAN}{Style.BRIGHT}Testing Phase:{Style.RESET_ALL}")
 
@@ -307,11 +331,10 @@ def run_testing(
 
         test_f1, test_pass_k_dict = evaluate_nodes(
             client,
-            messages,
             model['name'],
             available_nodes,
-            test_prompts,
-            test_responses,
+            test_data,
+            example_pool,
             model["max_tokens"],
             temperature,
             top_p,

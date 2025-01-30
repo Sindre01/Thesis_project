@@ -6,6 +6,8 @@ def get_label_distribution(data_subset, label_type):
     subset_labels = []
     for item in data_subset:
         labels = item.get(label_type, [])
+        #remove "root.std" from the labels string
+        labels = [label.replace("root.std.", "") for label in labels]
         subset_labels.extend(labels)
     return subset_labels
 
@@ -33,7 +35,7 @@ def analyze_visual_node_types_distribution(train_data, validation_data, test_dat
     plt.bar(x_lib, validation_library_counts, width, label='Validation')
     plt.bar(x_lib + width, test_library_counts, width, label='Test')
     plt.ylabel('Count')
-    plt.title('Library Functions Distribution by Dataset')
+    plt.title('Visual Node types Distribution by Dataset')
     plt.xticks(x_lib, all_visual_node_types, rotation=90)
     plt.legend()
     plt.tight_layout()

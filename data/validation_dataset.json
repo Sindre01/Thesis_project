@@ -1,1 +1,441 @@
-[]
+[
+    {
+        "prompts": [
+            "Create a flow that checks whether the given two integers have opposite sign or not.",
+            "The flow should create a user-defined function. The body of the function contains two input properties of type Number, a 'Math Expression' node and one output property of type 'Bool'.\n The arrows are connected as follows: The input properties is connected with arrows to 'Math Expression', that contains an expression with the two input properties of type numbers. The 'Math Expression' result is a boolean. This value is connected with arrows to the created output property, that return the Bool from the function. The user-defined function is then created within the main module.",
+            "This created user-defined function should then be tested within a seperate module called tests, within the main module. Since the user-defined function does not contain input and ouput triggers, the flow of execution is sent between the assert nodes, using their input and output triggers. "
+        ],
+        "task_id": 1,
+        "specification": {
+            "function_signature": "func(doc: \"checks whether the given two integers have opposite sign or not.\") opposite_signs {\n  in(x: -426.75106687766726, y: -248.6672781623361, name: \"x\") property(Number) x_853326\n  in(x: -420.9177240472398, y: -107.83359783106482, name: \"y\") property(Number) y_5390f5\n\n  out(x: 159.11126708984375, y: -219.88885498046875, name: \"output\") property(Bool) output_3339a3\n}",
+            "preconditions": "- There are no preconditions, the method will always work.",
+            "postconditions": "- The result is true if x and y have opposite signs\n- The result is false if x and y have the same sign"
+        },
+        "MBPP_task_id": 58,
+        "library_functions": [
+            "root.std.Math.Expression"
+        ],
+        "visual_node_types": [
+            "Function",
+            "Output Property",
+            "Input Property"
+        ],
+        "textual_instance_types": [
+            "instance",
+            "in",
+            "out"
+        ],
+        "testing": {
+            "library_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertTrue",
+                "root.std.Testing.AssertFalse"
+            ],
+            "visual_node_types": [
+                "Event",
+                "Function"
+            ],
+            "textual_instance_types": [
+                "instance"
+            ],
+            "test_list": [
+                "assert opposite_Signs(1,-2) == True",
+                "assert opposite_Signs(3,2) == False",
+                "assert opposite_Signs(-10,-10) == False",
+                "assert opposite_Signs(-2,2) == True"
+            ]
+        }
+    },
+    {
+        "prompts": [
+            "Create a flow to find whether a number is divisible by 11.",
+            "The flow should create a user-defined function. The body of the function contains one input property of type Number, one 'Data Object' node with number 11, one 'Math Modulo', one 'Math Expression' and one output property of type Bool.\n The arrows are connected as follows: The input property, called n, is connected with arrows to the value propery of the 'Math Modulo' node. The Data Object with number 11 is connected with arrowes to the divisor property og 'Math modulo'. The result output property of the 'Math modulo' node is connected with arrows to the 'Math Expression' node, which contains the expression (n == 0). The result of this 'Math Expression' node is a Bool which is connected with arrows to the output property, that return the Bool from the function. The user-defined function is then created within the main module.",
+            "This created user-defined function should then be tested in a seperate module called tests, within the main module. Since the user-defined function does not contain input and ouput triggers, the flow of execution is sent between the assert nodes, using their input and output triggers. "
+        ],
+        "task_id": 3,
+        "specification": {
+            "function_signature": "func(doc: \"finds whether a number is divisible by 11.\") is_diff {\n  in(x: 5.110832031250027, y: -25.33331298828125, name: \"n\") property(Number) n_27f29c\n\n  out(x: 668.1112060546875, y: 2.11114501953125, name: \"output\") property(Bool) output_f2630f\n}",
+            "preconditions": "- There are no preconditions, the method will always work for any integer input.",
+            "postconditions": "- The result is true if the input number is divisible by 11\n- The result is false if the input number is not divisible by 11"
+        },
+        "MBPP_task_id": 77,
+        "library_functions": [
+            "root.std.Math.Expression",
+            "root.std.Math.Modulo"
+        ],
+        "visual_node_types": [
+            "Function",
+            "Output Property",
+            "Input Property",
+            "Data Object"
+        ],
+        "textual_instance_types": [
+            "instance",
+            "data_instance",
+            "in",
+            "out"
+        ],
+        "testing": {
+            "library_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertTrue"
+            ],
+            "visual_node_types": [
+                "Event",
+                "Function"
+            ],
+            "textual_instance_types": [
+                "instance"
+            ],
+            "test_list": [
+                "assert is_Diff (12345) == False",
+                "assert is_Diff(1212112) == True",
+                "assert is_Diff(1212) == False"
+            ]
+        }
+    },
+    {
+        "prompts": [
+            "Create a flow to replace characters in a string.",
+            "The flow should use the built-in function node from the std library, called 'String Replace' node. The node should be created in the main module.",
+            "The 'String Replace' node should then be tested inside a seperate module called tests, within the main module. Since the function does not contain input and ouput triggers, the flow of execution is sent between the assert nodes, using their input and output triggers."
+        ],
+        "task_id": 12,
+        "specification": {
+            "function_signature": "",
+            "preconditions": "- There are no preconditions, the method will always work. Strings and sequences are always not null.",
+            "postconditions": "- The length of the returning string must be the same as the length of the input string\n- All occurrences of oldChar in the input string are replaced with newChar in the output string\n- All other characters are unchanged"
+        },
+        "MBPP_task_id": 474,
+        "library_functions": [
+            "root.std.Strings.Replace"
+        ],
+        "visual_node_types": [
+            "Function"
+        ],
+        "textual_instance_types": [
+            "instance"
+        ],
+        "testing": {
+            "library_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertEqual"
+            ],
+            "visual_node_types": [
+                "Event",
+                "Function",
+                "Data Object"
+            ],
+            "textual_instance_types": [
+                "instance",
+                "data_instance"
+            ],
+            "test_list": [
+                "assert replace_char(\"polygon\",'y','l')==(\"pollgon\")",
+                "assert replace_char(\"character\",'c','a')==(\"aharaater\")",
+                "assert replace_char(\"python\",'l','a')==(\"python\")"
+            ]
+        }
+    },
+    {
+        "prompts": [
+            "Creat a flow to convert the given string to lower case.",
+            "The flow should create the built-in function node from the std library, called 'String ToLower' node, should be used. The node should be created in the main module.",
+            "The 'String ToLower' node should then be tested inside a seperate module called tests, within the main module. Since the function does not contain input and ouput triggers, the flow of execution is sent between the assert nodes, using their input and output triggers."
+        ],
+        "task_id": 13,
+        "specification": {
+            "function_signature": "",
+            "preconditions": "- There are no preconditions, the method will always work. Strings and sequences are always not null.",
+            "postconditions": "- The length of the returning string must be the same as the length of the input string\n- All uppercase characters of the input string are lowercase in the output string\n- All other characters are unchanged"
+        },
+        "MBPP_task_id": 477,
+        "library_functions": [
+            "root.std.Strings.ToLower"
+        ],
+        "visual_node_types": [
+            "Function"
+        ],
+        "textual_instance_types": [
+            "instance"
+        ],
+        "testing": {
+            "library_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertEqual"
+            ],
+            "visual_node_types": [
+                "Event",
+                "Function",
+                "Data Object"
+            ],
+            "textual_instance_types": [
+                "instance",
+                "data_instance"
+            ],
+            "test_list": [
+                "assert is_lower(\"InValid\") == \"invalid\"",
+                "assert is_lower(\"HellO\") == \"hello\"",
+                "assert is_lower(\"SenTenCE\") == \"sentence\""
+            ]
+        }
+    },
+    {
+        "prompts": [
+            "Create a flow to calculate the product of the unique numbers in a given list.",
+            "The flow should create a user-defined function, called unique_product. The body of the function contains two inputs: an input trigger named 'execute' and an input property of type List, named 'list'. It also includes the following nodes: one 'List Empty' node to initialize an empty list, for the local varibale 'usedNumbers', several Setter and Getter nodes for managing local variables 'product' and 'usedNumbers', one 'Std For' node to iterate over the 'items' in the input property 'list', one 'List Contains' node to check if an item is already in 'usedNumbers', one 'Std If' node to control flow based on whether an item is unique, one 'Math Mul' node to multiply the current product by the unique item, and one 'List Add' node to add the unique item to 'usedNumbers'. Lastly, it includes an output property named 'output' of type Number and an output trigger named 'continue'.\n\nArrows are connected as follows: The input trigger execute is connected to the Setter node that initializes the variable product to 1. This Setter node's continue output is connected to another Setter node that initializes 'usedNumbers' to an empty list using the 'List Empty' node. After initializing, the flow continues to the 'Std For' node, which iterates over the items property set to the input list. Inside the loop, the 'List Contains' node checks if the current item is in 'usedNumbers' by using the item from the 'Std For' node and 'usedNumbers' retrieved via a Getter node. The result from 'List Contains' is connected to the predicate of the 'Std If' node.\n\nIf the item is already in 'usedNumbers' (predicate is true), the flow proceeds to the next input of the 'Std For' node, skipping the current item.\nIf the item is not in 'usedNumbers' (predicate is false), the flow proceeds to a Setter node that updates 'usedNumbers' by adding the current item. This is done using a 'List Add' node connected to the Setter node. After updating usedNumbers, the flow continues to a 'Math Mul' node where the current product (retrieved via a Getter node) is multiplied by the current item. The result is stored back into product using another Setter node. The flow then returns to the next input of the 'Std For' node for the next iteration.\nOnce the 'Std For' loop is complete (all items have been processed), the flow proceeds to output the final product through the output property 'output', and the 'continue' output trigger is activated to signal the end of the function execution. The user-defined function is then created within the main module.",
+            "The created user-defined function 'unique_product' should then be tested inside a seperate module called tests, within the main module. Since the user-defined function uses input and ouput triggers, the flow of execution is sent between the created function and assert nodes, using their input and output triggers. "
+        ],
+        "task_id": 16,
+        "specification": {
+            "function_signature": "func(doc: \"Calculates the product of the unique numbers in a given list.\") unique_product {\n  in(x: -757.333251953125, y: -167.22222900390625, name: \"execute\") trigger() execute_19300c\n  in(x: -241.5073968048319, y: 24.718980205535843, name: \"list\") property(List) list_5fda54\n\n  out(x: 887.2698254909816, y: -144.87763740156333, name: \"continue\") trigger() continue_45190b\n  out(x: 683.0457784343986, y: 73.83239411456998, name: \"output\") property(Number) output_cffcc2\n}",
+            "preconditions": "- There are no preconditions, the method will always work.",
+            "postconditions": "- The product should be the multiplication of all unique elements in the array"
+        },
+        "MBPP_task_id": 573,
+        "library_functions": [
+            "root.std.List.Empty",
+            "root.std.List.Contains",
+            "root.std.List.Add",
+            "root.std.Math.Mul",
+            "root.std.Std.For",
+            "root.std.Std.If"
+        ],
+        "visual_node_types": [
+            "Function",
+            "Setter",
+            "Getter",
+            "Output Property",
+            "Input Property",
+            "Input Trigger",
+            "Output Trigger"
+        ],
+        "textual_instance_types": [
+            "instance",
+            "getter",
+            "setter",
+            "in",
+            "out"
+        ],
+        "testing": {
+            "library_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertEqual"
+            ],
+            "visual_node_types": [
+                "Event",
+                "Function",
+                "Data Object"
+            ],
+            "textual_instance_types": [
+                "instance",
+                "data_instance"
+            ],
+            "test_list": [
+                "assert unique_product([10, 20, 30, 40, 20, 50, 60, 40]) ==  720000000",
+                "assert unique_product([1, 2, 3, 1,]) == 6",
+                "assert unique_product([7, 8, 9, 0, 1, 1]) == 0"
+            ]
+        }
+    },
+    {
+        "prompts": [
+            "create a flow find the dissimilar elements in the given two lists.",
+            "The flow should create the built-in function node from the std library, called 'Sets Difference' node, should be used. The node should be created in the main module.",
+            "The 'Sets Difference' node should then be tested inside a seperate module called tests, within the main module. Since the function does not contain input and ouput triggers, the flow of execution is sent between the assert nodes, using their input and output triggers."
+        ],
+        "task_id": 18,
+        "specification": {
+            "function_signature": "",
+            "preconditions": "- Both input arrays should be non-null",
+            "postconditions": "- The result array should contain all elements from both input arrays that are not present in the other array\n- The result array should not contain any duplicate elements\n- The order of elements in the result array does not matter"
+        },
+        "MBPP_task_id": 579,
+        "library_functions": [
+            "root.std.Sets.Difference"
+        ],
+        "visual_node_types": [
+            "Function"
+        ],
+        "textual_instance_types": [
+            "instance"
+        ],
+        "testing": {
+            "library_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertEqual"
+            ],
+            "visual_node_types": [
+                "Event",
+                "Function",
+                "Data Object"
+            ],
+            "textual_instance_types": [
+                "instance",
+                "data_instance"
+            ],
+            "test_list": [
+                "assert find_dissimilar([3, 4, 5, 6], [5, 7, 4, 10]) == [3, 6, 7, 10]",
+                "assert find_dissimilar([1, 2, 3, 4], [7, 2, 3, 9]) == [1, 4, 7, 9]",
+                "assert find_dissimilar([21, 11, 25, 26], [26, 34, 21, 36]) == [11,25,34,36]"
+            ]
+        }
+    },
+    {
+        "prompts": [
+            "Create a flow to rotate a given list by specified number of items to the right direction.",
+            "",
+            ""
+        ],
+        "task_id": 34,
+        "specification": {
+            "function_signature": "func(doc: \"Rotates a given list by specified number of items to the right direction.\") rotate_right {\n    in(x: -186, y: -89.5, name: \"list\") property(List) list_48148f\n    in(x: -193, y: -3.5, name: \"n\") property(Number) n_68068c\n\n    out(x: 735.1, y: -112.54999999999995, name: \"output\") property(Any) output_823209\n}",
+            "preconditions": "- n should be non-negative",
+            "postconditions": "- The length of the returning sequence must be the same as the length of the input sequence\n- The elements of the input sequence are rotated by n positions to the right in the output sequence"
+        },
+        "MBPP_task_id": 743,
+        "library_functions": [
+            "root.std.List.Concat",
+            "root.std.List.Slice",
+            "root.std.List.Length",
+            "root.std.Math.Sub"
+        ],
+        "visual_node_types": [
+            "Function",
+            "Input Property",
+            "Output Property"
+        ],
+        "textual_instance_types": [
+            "instance",
+            "in",
+            "out"
+        ],
+        "testing": {
+            "library_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertEqual"
+            ],
+            "visual_node_types": [
+                "Event",
+                "Function",
+                "Data Object"
+            ],
+            "textual_instance_types": [
+                "instance",
+                "data_instance"
+            ],
+            "test_list": [
+                "assert rotate_right([1, 2, 3, 4, 5, 6, 7, 8, 9, 10],3)==[8, 9, 10, 1, 2, 3, 4, 5, 6, 7]",
+                "assert rotate_right([1, 2, 3, 4, 5, 6, 7, 8, 9, 10],2)==[9, 10, 1, 2, 3, 4, 5, 6, 7, 8]",
+                "assert rotate_right([1, 2, 3, 4, 5, 6, 7, 8, 9, 10],5)==[6, 7, 8, 9, 10, 1, 2, 3, 4, 5]"
+            ]
+        }
+    },
+    {
+        "prompts": [
+            "Create a flow to find the sum of an array.",
+            "",
+            ""
+        ],
+        "task_id": 42,
+        "specification": {
+            "function_signature": "func(doc: \"Finds the sum of an array.\") _sum {\n    in(x: -213, y: 28.5, name: \"list\") property(List) list_2c62ab\n\n    out(x: 567, y: 3.5, name: \"sum\") property(Number) sum_2a848f\n}",
+            "preconditions": "- The input array should not be null",
+            "postconditions": "- The sum of all elements in the input array is returned"
+        },
+        "MBPP_task_id": 798,
+        "library_functions": [
+            "root.std.Iteration.Reduce",
+            "root.std.Math.Add"
+        ],
+        "visual_node_types": [
+            "Function",
+            "Input Property",
+            "Output Property"
+        ],
+        "textual_instance_types": [
+            "instance",
+            "in",
+            "out"
+        ],
+        "testing": {
+            "library_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertEqual"
+            ],
+            "visual_node_types": [
+                "Event",
+                "Function",
+                "Data Object"
+            ],
+            "textual_instance_types": [
+                "instance",
+                "data_instance"
+            ],
+            "test_list": [
+                "assert _sum([1, 2, 3]) == 6",
+                "assert _sum([15, 12, 13, 10]) == 50",
+                "assert _sum([0, 1, 2]) == 3"
+            ]
+        }
+    },
+    {
+        "prompts": [
+            "Create a flow to check if the given integer is a prime number.",
+            "",
+            ""
+        ],
+        "task_id": 48,
+        "specification": {
+            "method_signature": "func(doc: \"check if the given integer is a prime number.\") num_prime {\nin(x: -167, y: 27.5, name: \"num\") property(Number) num_5c0677\nin(x: -112, y: -216, name: \"execute\") trigger() execute_b7b391\n out(x: 1016, y: -26.5, name: \"output\") property(Bool) output_c457b3\n out(x: 1211, y: -110, name: \"continue\") trigger() continue_9a54bb",
+            "preconditions": "- n should be greater than or equal to 2",
+            "postconditions": "- If the result is true, then n is a prime number\n- If the result is false, then n is not a prime number"
+        },
+        "MBPP_task_id": 605,
+        "library_functions": [
+            "root.std.Std.IfExpression",
+            "root.std.Std.For",
+            "root.std.Math.Modulo",
+            "root.std.Math.Div",
+            "root.std.Math.Add",
+            "root.std.List.GenerateRange",
+            "root.std.Std.If",
+            "root.std.Logic.Equal"
+        ],
+        "visual_node_types": [
+            "Function",
+            "Input Property",
+            "Output Property",
+            "Input Trigger",
+            "Output Trigger",
+            "Setter",
+            "Getter"
+        ],
+        "textual_instance_types": [
+            "instance",
+            "in",
+            "out",
+            "setter",
+            "getter"
+        ],
+        "testing": {
+            "library_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertTrue",
+                "root.std.Testing.AssertFalse"
+            ],
+            "visual_node_types": [
+                "Event",
+                "Function"
+            ],
+            "textual_instance_types": [
+                "instance"
+            ],
+            "test_list": [
+                "assert prime_num(13)==True",
+                "assert prime_num(7)==True",
+                "assert prime_num(-1010)==False"
+            ]
+        }
+    }
+]
