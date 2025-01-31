@@ -173,12 +173,14 @@ def get_prompt_template_variables(template_name):
     return variable_names
 
 def transform_node_data(data):
+    """[{'task_id': str, 'task': str, 'response': list, 'MBPP_task_id': str}]"""
     new_data_format = []
-    for task in data:
+    for sample in data:
         new_obj = {}
-        # new_obj['task_id'] = str(task['task_id'])
-        new_obj['task'] = task['prompts'][0]
-        library_functions = [func.replace("root.std.", "") for func in task['library_functions']]
+        new_obj['MBPP_task_id'] = str(sample['MBPP_task_id'])
+        new_obj['task_id'] = str(sample['task_id'])
+        new_obj['task'] = sample['prompts'][0]
+        library_functions = [func.replace("root.std.", "") for func in sample['library_functions']]
         new_obj['response'] = ', '.join(library_functions)
         new_data_format.append(new_obj)
     return new_data_format

@@ -295,8 +295,8 @@
     {
         "prompts": [
             "Create a flow to find the second smallest number in a list.",
-            "",
-            ""
+            "N/A",
+            "N/A"
         ],
         "task_id": 35,
         "specification": {
@@ -352,8 +352,8 @@
     {
         "prompts": [
             "Create a flow to find the product of first even and odd number of a given list.",
-            "",
-            ""
+            "N/A",
+            "N/A"
         ],
         "task_id": 40,
         "specification": {
@@ -403,8 +403,8 @@
     {
         "prompts": [
             "Create a flow to find the last position of an element in a sorted array.",
-            "",
-            ""
+            "N/A",
+            "N/A"
         ],
         "task_id": 41,
         "specification": {

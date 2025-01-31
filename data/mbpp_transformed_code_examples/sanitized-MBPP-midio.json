@@ -54,7 +54,7 @@
         ],
         "task_id": 2,
         "specification": {
-            "function_signature": "",
+            "function_signature": "N/A",
             "preconditions": "- The input array should not be empty",
             "postconditions": "- The returned value should be the smallest number in the input array"
         },
@@ -390,7 +390,7 @@
         ],
         "task_id": 9,
         "specification": {
-            "function_signature": "",
+            "function_signature": "N/A",
             "preconditions": "- n should be a non-negative integer",
             "postconditions": "- The returned digit d should be between 0 and 9\n- d should be the last digit of the input number n"
         },
@@ -534,7 +534,7 @@
         ],
         "task_id": 12,
         "specification": {
-            "function_signature": "",
+            "function_signature": "N/A",
             "preconditions": "- There are no preconditions, the method will always work. Strings and sequences are always not null.",
             "postconditions": "- The length of the returning string must be the same as the length of the input string\n- All occurrences of oldChar in the input string are replaced with newChar in the output string\n- All other characters are unchanged"
         },
@@ -577,7 +577,7 @@
         ],
         "task_id": 13,
         "specification": {
-            "function_signature": "",
+            "function_signature": "N/A",
             "preconditions": "- There are no preconditions, the method will always work. Strings and sequences are always not null.",
             "postconditions": "- The length of the returning string must be the same as the length of the input string\n- All uppercase characters of the input string are lowercase in the output string\n- All other characters are unchanged"
         },
@@ -844,7 +844,7 @@
         ],
         "task_id": 18,
         "specification": {
-            "function_signature": "",
+            "function_signature": "N/A",
             "preconditions": "- Both input arrays should be non-null",
             "postconditions": "- The result array should contain all elements from both input arrays that are not present in the other array\n- The result array should not contain any duplicate elements\n- The order of elements in the result array does not matter"
         },
@@ -1182,7 +1182,7 @@
         "prompts": [
             "Create a flow which takes two lists of the same length and performs the element wise modulo.",
             "The flow should create a user-defined function called 'list_modulo'. The body of the function contains two input properties of type List, named 'list1' and 'list2', and one output property of type List, named 'newList'. The function should have the following nodes: a 'Iteration Zip' node to iterate over the two lists simultaneously and merge each element together with a provided handler anonymous function, that contains a 'Math Modulo' node to calculate the modulo of each pair of elements.\n Connect the nodes as follows: the input property 'list1' is connected to the 'Iteration Zip' node's 'left' input data. The input property 'list2' is connected to the 'Iteration Zip' node's 'right' input data. The zipped result of the 'Iteration Zip' node is connected to output data property 'newList'. The anonymous function inside 'iteration zip' have two input elements and one output elements, which takes the modulo of each element in the list. The user-defined function is then created within the main module.",
-            ""
+            "The created user-defined functions should then be tested inside a seperate module called tests, within the main module.  Since the function does not contain input and ouput triggers, the flow of execution is sent between the assert nodes, using their input and output triggers."
         ],
         "task_id": 25,
         "specification": {
@@ -1230,12 +1230,12 @@
     {
         "prompts": [
             "Create a flow to convert a given string to uppercase.",
-            "",
-            ""
+            "N/A",
+            "N/A"
         ],
         "task_id": 26,
         "specification": {
-            "function_signature": "",
+            "function_signature": "N/A",
             "preconditions": "- There are no preconditions, the method will always work. Strings and sequences are always not null.",
             "postconditions": "- The length of the returning string must be the same as the length of the input string\n- All lowercase characters of the input string are uppercase in the output string\n- All other characters are unchanged"
         },
@@ -1271,8 +1271,8 @@
     {
         "prompts": [
             "Create a flow to find the smallest missing number from a sorted list of natural numbers.",
-            "",
-            ""
+            "N/A",
+            "N/A"
         ],
         "task_id": 27,
         "specification": {
@@ -1330,12 +1330,12 @@
     {
         "prompts": [
             "Create a flow to find even numbers from a list of numbers.",
-            "",
-            ""
+            "N/A",
+            "N/A"
         ],
         "task_id": 28,
         "specification": {
-            "function_signature": "",
+            "function_signature": "N/A",
             "preconditions": "- There are no preconditions, the method will always work. Arrays can be empty but not null.",
             "postconditions": "- All elements in the output array are even\n- All even elements in the input array are present in the output array\n- The order of elements in the output array is the same as in the input array"
         },
@@ -1373,8 +1373,8 @@
     {
         "prompts": [
             "Create a flow to move all zeroes to the end of the given list.",
-            "",
-            ""
+            "N/A",
+            "N/A"
         ],
         "task_id": 29,
         "specification": {
@@ -1431,8 +1431,8 @@
     {
         "prompts": [
             "Create a flow to reverse an array upto a given position.",
-            "",
-            ""
+            "N/A",
+            "N/A"
         ],
         "task_id": 30,
         "specification": {
@@ -1481,8 +1481,8 @@
     {
         "prompts": [
             "Create a flow to replace all occurrences of spaces, commas, or dots with a colon.",
-            "",
-            ""
+            "N/A",
+            "N/A"
         ],
         "task_id": 31,
         "specification": {
@@ -1528,8 +1528,8 @@
     {
         "prompts": [
             "Write a function to find the index of the first occurrence of a given number in a sorted array.",
-            "",
-            ""
+            "N/A",
+            "N/A"
         ],
         "task_id": 32,
         "specification": {
@@ -1581,8 +1581,8 @@
     {
         "prompts": [
             "Create a flow to check whether all the characters are same or not.",
-            "",
-            ""
+            "N/A",
+            "N/A"
         ],
         "task_id": 33,
         "specification": {
@@ -1636,8 +1636,8 @@
     {
         "prompts": [
             "Create a flow to rotate a given list by specified number of items to the right direction.",
-            "",
-            ""
+            "N/A",
+            "N/A"
         ],
         "task_id": 34,
         "specification": {
@@ -1686,8 +1686,8 @@
     {
         "prompts": [
             "Create a flow to find the second smallest number in a list.",
-            "",
-            ""
+            "N/A",
+            "N/A"
         ],
         "task_id": 35,
         "specification": {
@@ -1743,8 +1743,8 @@
     {
         "prompts": [
             "Write a python function to check whether a list of numbers contains only one distinct element or not.",
-            "",
-            ""
+            "N/A",
+            "N/A"
         ],
         "task_id": 36,
         "specification": {
@@ -1793,8 +1793,8 @@
     {
         "prompts": [
             "Create a flow to count number of digits in a given string.",
-            "",
-            ""
+            "N/A",
+            "N/A"
         ],
         "task_id": 37,
         "specification": {
@@ -1844,8 +1844,8 @@
     {
         "prompts": [
             "Create a flow to find the sum of fourth power of first n odd natural numbers.",
-            "",
-            ""
+            "N/A",
+            "N/A"
         ],
         "task_id": 38,
         "specification": {
@@ -1894,8 +1894,8 @@
     {
         "prompts": [
             "Create a flow to check whether every odd index contains odd numbers of a given list.",
-            "",
-            ""
+            "N/A",
+            "N/A"
         ],
         "task_id": 39,
         "specification": {
@@ -1947,8 +1947,8 @@
     {
         "prompts": [
             "Create a flow to find the product of first even and odd number of a given list.",
-            "",
-            ""
+            "N/A",
+            "N/A"
         ],
         "task_id": 40,
         "specification": {
@@ -1998,8 +1998,8 @@
     {
         "prompts": [
             "Create a flow to find the last position of an element in a sorted array.",
-            "",
-            ""
+            "N/A",
+            "N/A"
         ],
         "task_id": 41,
         "specification": {
@@ -2050,8 +2050,8 @@
     {
         "prompts": [
             "Create a flow to find the sum of an array.",
-            "",
-            ""
+            "N/A",
+            "N/A"
         ],
         "task_id": 42,
         "specification": {
@@ -2099,8 +2099,8 @@
     {
         "prompts": [
             "Create a flow to find the first odd number in a given list of numbers.",
-            "",
-            ""
+            "N/A",
+            "N/A"
         ],
         "task_id": 43,
         "specification": {
@@ -2148,8 +2148,8 @@
     {
         "prompts": [
             "Create a flow that takes in an integer n and returns the sum of the squares of the first n odd natural numbers.",
-            "",
-            ""
+            "N/A",
+            "N/A"
         ],
         "task_id": 44,
         "specification": {
@@ -2197,8 +2197,8 @@
     {
         "prompts": [
             "Create a flow that finds the minimum of two numbers.",
-            "",
-            ""
+            "N/A",
+            "N/A"
         ],
         "task_id": 45,
         "specification": {
@@ -2248,8 +2248,8 @@
     {
         "prompts": [
             "Create a flow to find the surface area of a cube of a given size.",
-            "",
-            ""
+            "N/A",
+            "N/A"
         ],
         "task_id": 46,
         "specification": {
@@ -2293,8 +2293,8 @@
     {
         "prompts": [
             "Create a flow to find cubes of individual elements in a list.",
-            "",
-            ""
+            "N/A",
+            "N/A"
         ],
         "task_id": 47,
         "specification": {
@@ -2341,8 +2341,8 @@
     {
         "prompts": [
             "Create a flow to check if the given integer is a prime number.",
-            "",
-            ""
+            "N/A",
+            "N/A"
         ],
         "task_id": 48,
         "specification": {
@@ -2401,14 +2401,14 @@
     {
         "prompts": [
             "Create a flow to interchange the first and last element in a given list.",
-            "",
-            ""
+            "N/A",
+            "N/A"
         ],
         "task_id": 49,
         "specification": {
-            "method_signature": "",
+            "method_signature": "func(doc: \"interchange the first and last element in a given list.\") swap_list {\n in(x: -1489, y: -536, name: \"list\") property(List) list_752c60\n out(x: -189.2999999999999, y: -620.25, name: \"output\") property(List) output_195363",
             "preconditions": "- The array should not be empty",
-      "postconditions": "- The first element of the input array should be the last element of the modified array\n- The last element of the input array should be the first element of the modified array\n- All other elements remain unchanged"
+            "postconditions": "- The first element of the input array should be the last element of the modified array\n- The last element of the input array should be the first element of the modified array\n- All other elements remain unchanged"
         },
         "MBPP_task_id": 625,
         "library_functions": [
@@ -2460,12 +2460,12 @@
     {
         "prompts": [
             "Create a flow to check whether the given number is a perfect square or not.",
-            "",
-            ""
+            "N/A",
+            "N/A"
         ],
         "task_id": 50,
         "specification": {
-            "method_signature": "",
+            "method_signature": "func(doc: \"checks whether the given number is a perfect square or not.\") is_perfect_square {\nin(x: 354.8534228128, y: -53.570902536908875, name: \"input\") property(Number) input_f5c03d\n in(x: 161.86656944950778, y: -211.44732045205976, name: \"execute\") trigger() execute_27b8c3\n out(x: 1748.7398492866953, y: -10.179326168336845, name: \"out\") property(Bool) out_f3db9f\n out(x: 1894.6987078855211, y: 120.75836251660428, name: \"continue\") trigger() continue_8ba06b",
             "preconditions": "- n should be non-negative",
             "postconditions": "- If the result is true, there exists an integer i such that i * i == n\n- If the result is false, there is no integer i such that i * i == n"
         },

@@ -102,7 +102,7 @@
         ],
         "task_id": 12,
         "specification": {
-            "function_signature": "",
+            "function_signature": "N/A",
             "preconditions": "- There are no preconditions, the method will always work. Strings and sequences are always not null.",
             "postconditions": "- The length of the returning string must be the same as the length of the input string\n- All occurrences of oldChar in the input string are replaced with newChar in the output string\n- All other characters are unchanged"
         },
@@ -145,7 +145,7 @@
         ],
         "task_id": 13,
         "specification": {
-            "function_signature": "",
+            "function_signature": "N/A",
             "preconditions": "- There are no preconditions, the method will always work. Strings and sequences are always not null.",
             "postconditions": "- The length of the returning string must be the same as the length of the input string\n- All uppercase characters of the input string are lowercase in the output string\n- All other characters are unchanged"
         },
@@ -246,7 +246,7 @@
         ],
         "task_id": 18,
         "specification": {
-            "function_signature": "",
+            "function_signature": "N/A",
             "preconditions": "- Both input arrays should be non-null",
             "postconditions": "- The result array should contain all elements from both input arrays that are not present in the other array\n- The result array should not contain any duplicate elements\n- The order of elements in the result array does not matter"
         },
@@ -284,8 +284,8 @@
     {
         "prompts": [
             "Create a flow to rotate a given list by specified number of items to the right direction.",
-            "",
-            ""
+            "N/A",
+            "N/A"
         ],
         "task_id": 34,
         "specification": {
@@ -334,8 +334,8 @@
     {
         "prompts": [
             "Create a flow to find the sum of an array.",
-            "",
-            ""
+            "N/A",
+            "N/A"
         ],
         "task_id": 42,
         "specification": {
@@ -382,8 +382,8 @@
     {
         "prompts": [
             "Create a flow to check if the given integer is a prime number.",
-            "",
-            ""
+            "N/A",
+            "N/A"
         ],
         "task_id": 48,
         "specification": {
