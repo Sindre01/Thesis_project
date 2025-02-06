@@ -10,7 +10,7 @@ module() main {
         instance(x: -128.22222900390625, y: 30.888854980468764) assertequal_6c0391 root.Std_k98ojb.Testing.AssertEqual {}
         instance(x: -130.77777099609375, y: 212.55563354492188) tolower_6c8e74 root.Std_k98ojb.Strings.ToLower {}
         data_instance(x: -109.7, y: 357.3) data_be00f3  = "InValid"
-        data_instance(x: 167.0, y: 356.0) data_479927  = "TruE"
+        data_instance(x: 167.0, y: 356.0) data_479927  = "HellO"
         data_instance(x: 495.1, y: 350.6) data_1c03df  = "SenTenCE"
         instance(x: 157.18516031901044, y: 31.55549112955728) assertequal_96d89c root.Std_k98ojb.Testing.AssertEqual {}
         instance(x: 468.85178629557294, y: 32.22205607096353) assertequal_68e70e root.Std_k98ojb.Testing.AssertEqual {}
@@ -20,7 +20,7 @@ module() main {
         tolower_6c8e74.output -> assertequal_6c0391.actual
         "invalid" -> assertequal_6c0391.expect
         test_cdd89c.onRun -> assertequal_6c0391.execute
-        true -> assertequal_96d89c.expect
+        "hello" -> assertequal_96d89c.expect
         assertequal_6c0391.continue -> assertequal_96d89c.execute
         tolower_7389c1.output -> assertequal_68e70e.actual
         "sentence" -> assertequal_68e70e.expect

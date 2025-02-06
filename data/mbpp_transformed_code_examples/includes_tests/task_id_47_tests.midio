@@ -1,0 +1,58 @@
+import("std", Std_k98ojb)
+import("http", Http_q7o96c)
+
+module() main {
+    func(doc: "find cubes of individual elements in a list.") cube_nums {
+        in(x: -122, y: -81.5, name: "list") property(List) list_63c248
+
+        out(x: 656, y: -68.5, name: "result") property(List) result_cbb7bd
+
+        instance(x: 94, y: -105.5) map_f2330d root.Std_k98ojb.Iteration.Map {}
+        list_63c248 -> map_f2330d.items
+        func() {
+            in(x: -121, y: -37.5, name: "x") property(Number) x_8ee839
+
+            out(x: 333, y: -50.5, name: "") property(Number) _7dd980
+
+            instance(x: 92, y: -22.5) pow_584bfd root.Std_k98ojb.Math.Pow {}
+            x_8ee839 -> pow_584bfd.x
+            3 -> pow_584bfd.y
+            pow_584bfd.result -> _7dd980
+        } -> map_f2330d.handler
+        map_f2330d.output_list -> result_cbb7bd
+    }
+
+    module(doc: "Contains three different tests for the 'cube_nums' function node") tests {
+        data_instance(x: -307.0, y: 73.5) data_a177ad  = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+        data_instance(x: 180.0, y: 98.5) data_190828  = [10, 20, 30]
+        data_instance(x: 604.0, y: 132.0) data_a1e2d7  = [12, 15]
+        instance(x: -69, y: -294) test_a2a5a5 root.Std_k98ojb.Testing.Test {
+            name: "Test cube_nums"
+        }
+        instance(x: -65, y: -130) assertequal_4d627a root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: -232, y: -32) cube_nums_9d15b5 root.main.cube_nums {}
+        instance(x: 178, y: -11) cube_nums_1f6309 root.main.cube_nums {}
+        instance(x: 617, y: 15) cube_nums_5cf622 root.main.cube_nums {}
+        data_instance(x: -440.0, y: -359.0) data_9a9dde  = [1, 8, 27, 64, 125, 216, 343, 512, 729, 1000]
+        data_instance(x: 261.0, y: -346.0) data_f01682  = [1000, 8000, 27000]
+        data_instance(x: 597.0, y: -250.0) data_9d9e0a  = [1728, 3375]
+        instance(x: 579, y: -95) assertequal_e22e39 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 206, y: -151) assertequal_2e6fd6 root.Std_k98ojb.Testing.AssertEqual {}
+        data_a177ad -> cube_nums_9d15b5.list_63c248
+        cube_nums_9d15b5.result_cbb7bd -> assertequal_4d627a.actual
+        data_190828 -> cube_nums_1f6309.list_63c248
+        data_a1e2d7 -> cube_nums_5cf622.list_63c248
+        test_a2a5a5.onRun -> assertequal_4d627a.execute
+        data_9a9dde -> assertequal_4d627a.expect
+        assertequal_4d627a.continue -> assertequal_2e6fd6.execute
+        cube_nums_1f6309.result_cbb7bd -> assertequal_2e6fd6.actual
+        data_f01682 -> assertequal_2e6fd6.expect
+        assertequal_2e6fd6.continue -> assertequal_e22e39.execute
+        data_9d9e0a -> assertequal_e22e39.expect
+        cube_nums_5cf622.result_cbb7bd -> assertequal_e22e39.actual
+
+
+    }
+
+    instance(x: -92, y: 45.5) cube_nums_b9ff6b root.main.cube_nums {}
+}

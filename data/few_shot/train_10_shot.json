@@ -60,59 +60,57 @@
     },
     {
         "prompts": [
-            "Create a flow to calculate the product of the unique numbers in a given list.",
-            "The flow should create a user-defined function, called unique_product. The body of the function contains two inputs: an input trigger named 'execute' and an input property of type List, named 'list'. It also includes the following nodes: one 'List Empty' node to initialize an empty list, for the local varibale 'usedNumbers', several Setter and Getter nodes for managing local variables 'product' and 'usedNumbers', one 'Std For' node to iterate over the 'items' in the input property 'list', one 'List Contains' node to check if an item is already in 'usedNumbers', one 'Std If' node to control flow based on whether an item is unique, one 'Math Mul' node to multiply the current product by the unique item, and one 'List Add' node to add the unique item to 'usedNumbers'. Lastly, it includes an output property named 'output' of type Number and an output trigger named 'continue'.\n\nArrows are connected as follows: The input trigger execute is connected to the Setter node that initializes the variable product to 1. This Setter node's continue output is connected to another Setter node that initializes 'usedNumbers' to an empty list using the 'List Empty' node. After initializing, the flow continues to the 'Std For' node, which iterates over the items property set to the input list. Inside the loop, the 'List Contains' node checks if the current item is in 'usedNumbers' by using the item from the 'Std For' node and 'usedNumbers' retrieved via a Getter node. The result from 'List Contains' is connected to the predicate of the 'Std If' node.\n\nIf the item is already in 'usedNumbers' (predicate is true), the flow proceeds to the next input of the 'Std For' node, skipping the current item.\nIf the item is not in 'usedNumbers' (predicate is false), the flow proceeds to a Setter node that updates 'usedNumbers' by adding the current item. This is done using a 'List Add' node connected to the Setter node. After updating usedNumbers, the flow continues to a 'Math Mul' node where the current product (retrieved via a Getter node) is multiplied by the current item. The result is stored back into product using another Setter node. The flow then returns to the next input of the 'Std For' node for the next iteration.\nOnce the 'Std For' loop is complete (all items have been processed), the flow proceeds to output the final product through the output property 'output', and the 'continue' output trigger is activated to signal the end of the function execution. The user-defined function is then created within the main module.",
-            "The created user-defined function 'unique_product' should then be tested inside a seperate module called tests, within the main module. Since the user-defined function uses input and ouput triggers, the flow of execution is sent between the created function and assert nodes, using their input and output triggers. "
+            "Create a flow to check whether the given number is a perfect square or not.",
+            "",
+            ""
         ],
-        "task_id": 16,
+        "task_id": 50,
         "specification": {
-            "function_signature": "func(doc: \"Calculates the product of the unique numbers in a given list.\") unique_product {\n  in(x: -757.333251953125, y: -167.22222900390625, name: \"execute\") trigger() execute_19300c\n  in(x: -241.5073968048319, y: 24.718980205535843, name: \"list\") property(List) list_5fda54\n\n  out(x: 887.2698254909816, y: -144.87763740156333, name: \"continue\") trigger() continue_45190b\n  out(x: 683.0457784343986, y: 73.83239411456998, name: \"output\") property(Number) output_cffcc2\n}",
-            "preconditions": "- There are no preconditions, the method will always work.",
-            "postconditions": "- The product should be the multiplication of all unique elements in the array"
+            "method_signature": "",
+            "preconditions": "- n should be non-negative",
+            "postconditions": "- If the result is true, there exists an integer i such that i * i == n\n- If the result is false, there is no integer i such that i * i == n"
         },
-        "MBPP_task_id": 573,
+        "MBPP_task_id": 803,
         "library_functions": [
-            "List.Empty",
-            "List.Contains",
-            "List.Add",
-            "Math.Mul",
+            "Iteration.Map",
+            "List.GenerateRange",
+            "Math.LessThanOrEqual",
             "Std.For",
-            "Std.If"
+            "Logic.And",
+            "Std.If",
+            "Math.Expression",
+            "Math.Add",
+            "Math.Mul"
         ],
         "visual_node_types": [
             "Function",
-            "Setter",
-            "Getter",
-            "Output Property",
             "Input Property",
+            "Output Property",
             "Input Trigger",
             "Output Trigger"
         ],
         "textual_instance_types": [
             "instance",
-            "getter",
-            "setter",
             "in",
             "out"
         ],
         "testing": {
             "library_functions": [
                 "root.std.Testing.Test",
-                "root.std.Testing.AssertEqual"
+                "root.std.Testing.AssertTrue",
+                "root.std.Testing.AssertFalse"
             ],
             "visual_node_types": [
                 "Event",
-                "Function",
-                "Data Object"
+                "Function"
             ],
             "textual_instance_types": [
-                "instance",
-                "data_instance"
+                "instance"
             ],
             "test_list": [
-                "assert unique_product([10, 20, 30, 40, 20, 50, 60, 40]) ==  720000000",
-                "assert unique_product([1, 2, 3, 1,]) == 6",
-                "assert unique_product([7, 8, 9, 0, 1, 1]) == 0"
+                "assert is_perfect_square(10) == False",
+                "assert is_perfect_square(36) == True",
+                "assert is_perfect_square(14) == False"
             ]
         }
     },
@@ -232,6 +230,61 @@
     },
     {
         "prompts": [
+            "Create a flow to get the sum of the digits of a non-negative integer.",
+            "The flow should create a user-defined function, called sum_digits. The body of the function contains one input property of type Number, called 'n', and one input trigger, called 'execute'. It also includes the following node: one 'Math Floor' node, one 'Math Modulo' node with the divisor set to 10, one 'Math Division' node with the divisor set to 10, one 'Math Addition' node, one 'Std IfExpression' node, local variable creation with the getter and setter nodes, and the current sum_digits function node to be able to do recursive calls. Lastly, it includes an output property of type number and an output trigger, called 'continue'.\n The arrows are connected as follows:  The input property, called n, is connected with arrows to the input property of the 'Math Floor' node. The output property of the 'Math Floor' node, called 'output', is connected with three arrows to the input properties of 'Std IfExpression', 'Math Div' and 'Math Modulo'. The input trigger, called 'execute' is conencted with an arrow to the setter node, which sets the value of a variable sum to the number 0. Then, the flow of execution is futher sent to the 'Std IfExpression' node, which evaluates if 'n <= 0'. If true, then the flow of execution is sent to the output trigger, called 'continue'. If false, the the flow of execution is sent to the current sum_digits node which starts a recursive call, with the input property 'n' set to the result of the 'Math Div' node, which divides n (after going through 'Math Floor') with 10. After the recursive calls, the flow of execution is sent to a setter node, which sets the variable 'sum' to the value of 'Math Add', which add the output of 'sum_digits' and the 'Math Modulo' node with divisor 10. After the varible 'sum' have been set by the setter node, the flow of execution is sent to the ouput trigger 'continue'. At the end of the main flow and all the recursive calls, the output property is returned by connecting it to a 'getter' node, which gets the value of the variable 'sum'. The user-defined function is then created within the main module.",
+            "The created user-defined function should then be tested inside a seperate module called tests, within the main module. Since the user-defined function uses input and ouput triggers, the flow of execution is sent between the created function and assert nodes, using their input and output triggers. "
+        ],
+        "task_id": 14,
+        "specification": {
+            "function_signature": "func(doc: \"gets the sum of the digits of a non-negative integer.\") sum_digits {\n  in(x: -450.6285128462196, y: -421.0174318758901, name: \"execute\") trigger() execute_cdac2a\n  in(x: -436.0110785806854, y: -213.9943182008108, name: \"n\") property(Number) n_6b655b\n\n  out(x: 1146.875280258343, y: -647.121552710005, name: \"continue\") trigger() continue_d9efd7\n  out(x: 1169.392184087017, y: -269.1458067062002, name: \"output\") property(Number) output_732a8a\n}",
+            "preconditions": "- n should be a non-negative integer",
+            "postconditions": "- The sum of the digits of the input integer is returned\n- The sum is non-negative"
+        },
+        "MBPP_task_id": 566,
+        "library_functions": [
+            "Math.Floor",
+            "Math.Modulo",
+            "Math.Div",
+            "Math.Add",
+            "Std.IfExpression"
+        ],
+        "visual_node_types": [
+            "Function",
+            "Setter",
+            "Getter",
+            "Output Property",
+            "Input Property",
+            "Input Trigger",
+            "Output Trigger"
+        ],
+        "textual_instance_types": [
+            "instance",
+            "in",
+            "out"
+        ],
+        "testing": {
+            "library_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertEqual"
+            ],
+            "visual_node_types": [
+                "Event",
+                "Function",
+                "Data Object"
+            ],
+            "textual_instance_types": [
+                "instance",
+                "data_instance"
+            ],
+            "test_list": [
+                "assert sum_digits(345)==12",
+                "assert sum_digits(12)==3",
+                "assert sum_digits(97)==16"
+            ]
+        }
+    },
+    {
+        "prompts": [
             "Create a flow to check whether a list is a sublist of another list.",
             "The flow should create a user-defined function, called 'is_Sub_Array'. The body of the function contains three input properties: an input trigger named 'execute', and two input properties of type 'List', named 'main_list' and 'sub_list'. It also includes the following nodes: two 'List Length' nodes to obtain the lengths of 'main_list' and 'sub_list', respectively; one 'Math Expression' node to calculate the number of iterations using the expression 'n - m + 1', where 'n' is the length of 'main_list' and 'm' is the length of 'sub_list'; one 'Std Count' node to iterate over the possible starting indices in 'main_list'; one 'List Slice' node to extract a sublist from 'main_list', starting at the current index and ending at 'current_index + m'; one 'Logic Equal' node to compare the sliced sublist with 'sub_list'; and one 'Std If' node to control the flow based on whether a match is found. Lastly, it includes an output property named 'output' of type 'Bool' and an output trigger named 'continue'.\n\nArrows are connected as follows: The input trigger 'execute' is connected to the 'Std Count' node's 'reset' input. The 'Std Count' node's 'iterations' property is set using the result from the 'Math Expression' node, which calculates 'n - m + 1' using the lengths obtained from the two 'List Length' nodes. Inside the loop, the 'Std Count' node's 'iteration' output is connected to the 'start' input of the 'List Slice' node, and also to a 'Math Add' node along with 'm' to calculate the 'end' index for slicing. The 'List Slice' node extracts a sublist from 'main_list' using the 'start' and 'end' indices. The sliced sublist is then connected to the 'left' input of the 'Logic Equal' node, while 'sub_list' is connected to the 'right' input. The result from the 'Logic Equal' node is connected to the predicate of the 'Std If' node.\n\nIf the predicate evaluates to 'true' (the sublists are equal), the flow proceeds to set the output property 'output' to 'True' and triggers the output trigger 'continue', effectively ending the function execution. If the predicate evaluates to 'false', the flow proceeds to the 'count' input of the 'Std Count' node to continue with the next iteration. If the 'Std Count' node completes all iterations without finding a match (indicated by the 'done' output), the function sets the output property 'output' to 'False' and triggers the output trigger 'continue'.\n\nThe user-defined function is then created within the main module.",
             "The created user-defined function 'is_Sub_Array' should then be tested inside a seperate module called tests, within the main module. Since the user-defined function uses input and ouput triggers, the flow of execution is sent between the created function and assert nodes, using their input and output triggers."
@@ -282,63 +335,6 @@
                 "assert is_Sub_Array([1,4,3,5],[1,2]) == False",
                 "assert is_Sub_Array([1,2,1],[1,2,1]) == True",
                 "assert is_Sub_Array([1,0,2,2],[2,2,0]) == False"
-            ]
-        }
-    },
-    {
-        "prompts": [
-            "Create a flow to find the second smallest number in a list.",
-            "",
-            ""
-        ],
-        "task_id": 35,
-        "specification": {
-            "function_signature": "func(doc: \"Finds the second smallest number in a list.\") second_smallest {\n    in(x: -52, y: 85, name: \"list\") property(List) list_56d273\n    in(x: -244.31168019522795, y: -39.62516833200653, name: \"execute\") trigger() execute_c23a43\n\n    out(x: 1025.337586584032, y: 145.87386073641994, name: \"continue\") trigger() continue_642adb\n    out(x: 1026.50455705432, y: 287.7087130878599, name: \"output\") property(Any) output_ad16ae\n}",
-            "preconditions": "- The input array should not be null\n- The input array should have at least two elements",
-            "postconditions": "- The returned value should be the second-smallest number in the input array\n- The input array remains unchanged"
-        },
-        "MBPP_task_id": 755,
-        "library_functions": [
-            "List.Sort",
-            "List.GetAt",
-            "List.Length",
-            "Std.IfExpression",
-            "Sets.Intersection"
-        ],
-        "visual_node_types": [
-            "Function",
-            "Input Property",
-            "Output Property",
-            "Input Trigger",
-            "Output Trigger",
-            "Setter",
-            "Getter"
-        ],
-        "textual_instance_types": [
-            "instance",
-            "in",
-            "out",
-            "setter",
-            "getter"
-        ],
-        "testing": {
-            "library_functions": [
-                "root.std.Testing.Test",
-                "root.std.Testing.AssertEqual"
-            ],
-            "visual_node_types": [
-                "Event",
-                "Function",
-                "Data Object"
-            ],
-            "textual_instance_types": [
-                "instance",
-                "data_instance"
-            ],
-            "test_list": [
-                "assert second_smallest([1, 2, -8, -2, 0, -2])==-2",
-                "assert second_smallest([1, 1, -0.5, 0, 2, -2, -2])==-0.5",
-                "assert second_smallest([2,2])==None"
             ]
         }
     },
@@ -401,111 +397,6 @@
     },
     {
         "prompts": [
-            "Create a flow to check whether all the characters are same or not.",
-            "",
-            ""
-        ],
-        "task_id": 33,
-        "specification": {
-            "function_signature": "func(doc: \"Checks whether all the characters are same or not.\") all_Characters_Same {\n    in(x: -862.8, y: 188.15, name: \"string\") property(String) string_db4ddf\n    in(x: -878.5714285714289, y: 9.999999999999986, name: \"execute\") trigger() execute_f1c7e0\n\n    out(x: 588, y: 123, name: \"continue\") trigger() continue_67430e\n    out(x: 600, y: 270, name: \"output\") property(Bool) output_e9fa68\n}",
-            "preconditions": "- There are no preconditions, the method will always work. Strings and sequences are always not null.",
-            "postconditions": "- If the result is true, all characters in the input string are the same\n- If the result is false, there is at least one character in the input string that is different from the others"
-        },
-        "MBPP_task_id": 741,
-        "library_functions": [
-            "Strings.Characters",
-            "Strings.ToLower",
-            "List.FirstItem",
-            "Std.For",
-            "Logic.Equal",
-            "Std.If"
-        ],
-        "visual_node_types": [
-            "Function",
-            "Input Property",
-            "Output Property",
-            "Input Trigger",
-            "Output Trigger"
-        ],
-        "textual_instance_types": [
-            "instance",
-            "in",
-            "out"
-        ],
-        "testing": {
-            "library_functions": [
-                "root.std.Testing.Test",
-                "root.std.Testing.AssertTrue",
-                "root.std.Testing.AssertFalse"
-            ],
-            "visual_node_types": [
-                "Event",
-                "Function",
-                "Data Object"
-            ],
-            "textual_instance_types": [
-                "instance",
-                "data_instance"
-            ],
-            "test_list": [
-                "assert all_Characters_Same(\"python\") == False",
-                "assert all_Characters_Same(\"aaa\") == True",
-                "assert all_Characters_Same(\"data\") == False"
-            ]
-        }
-    },
-    {
-        "prompts": [
-            "Create a flow to find the sum of fourth power of first n odd natural numbers.",
-            "",
-            ""
-        ],
-        "task_id": 38,
-        "specification": {
-            "function_signature": "func(doc: \"Finds the sum of fourth power of first n odd natural numbers.\") odd_num_sum {\n    in(x: -243, y: 86.5, name: \"n\") property(Number) n_0c0609\n\n    out(x: 1090, y: 53, name: \"sum\") property(Number) sum_2ad0d5\n}",
-            "preconditions": "- n should be a non-negative integer",
-            "postconditions": "- The sum should be the sum of the fourth power of the first n odd natural numbers"
-        },
-        "MBPP_task_id": 770,
-        "library_functions": [
-            "List.GenerateRange",
-            "Iteration.Reduce",
-            "Math.Mul",
-            "Math.Sub",
-            "Math.Expression",
-            "Math.Add"
-        ],
-        "visual_node_types": [
-            "Function",
-            "Input Property",
-            "Output Property"
-        ],
-        "textual_instance_types": [
-            "instance",
-            "in",
-            "out"
-        ],
-        "testing": {
-            "library_functions": [
-                "root.std.Testing.Test",
-                "root.std.Testing.AssertEqual"
-            ],
-            "visual_node_types": [
-                "Event",
-                "Function"
-            ],
-            "textual_instance_types": [
-                "instance"
-            ],
-            "test_list": [
-                "assert odd_num_sum(2) == 82",
-                "assert odd_num_sum(3) == 707",
-                "assert odd_num_sum(4) == 3108"
-            ]
-        }
-    },
-    {
-        "prompts": [
             "Create a flow to check whether every odd index contains odd numbers of a given list.",
             "",
             ""
@@ -554,6 +445,300 @@
                 "assert odd_position([2,1,4,3,6,7,6,3]) == True",
                 "assert odd_position([4,1,2]) == True",
                 "assert odd_position([1,2,3]) == False"
+            ]
+        }
+    },
+    {
+        "prompts": [
+            "Create a flow to check whether the given list contains consecutive numbers or not.",
+            "The flow should create a user-defined function. The body of the function contains one input property of type any, one 'List Sort' node, one 'List Min' node, one 'List Max' node, one 'List GenerateRange' node, one 'Math Expression' node with the expression 'list1 == list2', and in this case one output property 'result' of type Bool. \n The arrows are connected as follows: The input property, called list, is connected with arrows to the 'List Sort', 'List Min', and 'List Max' nodes. The sorted list output of the 'List Sort' node is connected with arrows to the first input (list1) of the 'Math Expression' node. The outputs of the 'List.Min' and 'List.Max' nodes are connected with arrows to the from and to inputs of the 'List GenerateRange' node, respectively. The generated range output of the 'List GenerateRange' node is connected with arrows to the second input (list2) of the 'Math Expression' node. The result output of the 'Math Expression' node is then connected with arrows to the output property, called output, of the user-defined function. The user-defined function is then created within the main module",
+            "The created user-defined function should then be tested inside a seperate module called tests, within the main module. Since the function does not contain input and ouput triggers, the flow of execution is sent between the assert nodes, using their input and output triggers."
+        ],
+        "task_id": 11,
+        "specification": {
+            "function_signature": "func(doc: \"check whether the given list contains consecutive numbers or not.\") ContainsConsecutiveNumbers {\n  in(x: -425.8101837730135, y: 209.16760512007824, name: \"list\") property(any) list_faf6c2\n\n  out(x: 866.1704038210295, y: 132.1480057664585, name: \"output\") property(Bool) output_a2b59d\n}",
+            "preconditions": "- There are no preconditions, the method will always work. Arrays can be empty or non-empty.",
+            "postconditions": "- If the array contains consecutive numbers, the result is true\n- If the array does not contain consecutive numbers, the result is false"
+        },
+        "MBPP_task_id": 472,
+        "library_functions": [
+            "List.Sort",
+            "List.Min",
+            "List.Max",
+            "List.GenerateRange",
+            "Math.Expression"
+        ],
+        "visual_node_types": [
+            "Function",
+            "Output Property",
+            "Input Property"
+        ],
+        "textual_instance_types": [
+            "instance",
+            "in",
+            "out"
+        ],
+        "testing": {
+            "library_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertTrue",
+                "root.std.Testing.AssertFalse"
+            ],
+            "visual_node_types": [
+                "Event",
+                "Function",
+                "Data Object"
+            ],
+            "textual_instance_types": [
+                "instance",
+                "data_instance"
+            ],
+            "test_list": [
+                "assert check_Consecutive([1,2,3,4,5]) == True",
+                "assert check_Consecutive([1,2,3,5,6]) == False",
+                "assert check_Consecutive([1,2,1]) == False"
+            ]
+        }
+    },
+    {
+        "prompts": [
+            "Create a flow to find the first odd number in a given list of numbers.",
+            "",
+            ""
+        ],
+        "task_id": 43,
+        "specification": {
+            "function_signature": "func(doc: \"Finds the first odd number in a given list of numbers.\") first_odd {\n    in(x: -284, y: -0.5, name: \"list\") property(List) list_abed4a\n\n    out(x: 593, y: -1, name: \"number\") property(Number) number_3bc2ae\n}",
+            "preconditions": "- The input array should not be null",
+            "postconditions": "- If found is true, then the value at index is odd\n- If found is false, then there are no odd numbers in the array\n- If there are multiple odd numbers, the index should be the smallest index with an odd number"
+        },
+        "MBPP_task_id": 807,
+        "library_functions": [
+            "Iteration.Find",
+            "Math.Modulo",
+            "Logic.NotEqual"
+        ],
+        "visual_node_types": [
+            "Function",
+            "Input Property",
+            "Output Property"
+        ],
+        "textual_instance_types": [
+            "instance",
+            "in",
+            "out"
+        ],
+        "testing": {
+            "library_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertEqual"
+            ],
+            "visual_node_types": [
+                "Event",
+                "Function",
+                "Data Object"
+            ],
+            "textual_instance_types": [
+                "instance",
+                "data_instance"
+            ],
+            "test_list": [
+                "assert first_odd([1,3,5]) == 1",
+                "assert first_odd([2,4,1,3]) == 1",
+                "assert first_odd ([8,9,1]) == 9"
+            ]
+        }
+    },
+    {
+        "prompts": [
+            "Create a flow that takes two lists and returns true if they have at least one common element.",
+            "The flow should create a user-defined function. The function should contain two input properties of type List, one 'List Intersection' node, one 'List Not Empty' node and one output property of type Bool.\n The arrows are connected as follows: The input properties are connected with arrows to the 'List Intersection' node. The result of the 'List Intersection' node is connected with arrows to the 'List not empty' node property, which is then connected with arrows to the output property, that return the Bool from the function. The user-defined function is then created within the main module.",
+            "The created user-defined function should then be tested inside a seperate module called tests, within the main module. Since the function does not contain input and ouput triggers, the flow of execution is sent between the assert nodes, using their input and output triggers."
+        ],
+        "task_id": 7,
+        "specification": {
+            "function_signature": "func(doc: \"takes two lists and returns true if they have at least one common element.\") common_element {\n  in(x: -334.3332824707031, y: -104.11111450195313, name: \"list1\") property(List) list1_71bb8f\n  in(x: -346.5555114746094, y: -6.555541992187528, name: \"list2\") property(List) list2_b16d46\n\n  out(x: 433.7780839843749, y: -82.83377099609373, name: \"output\") property(Bool) output_879de6\n}",
+            "preconditions": "- Both arrays should be non-null",
+            "postconditions": "- If the method returns true, there exists at least one common element between the two arrays\n- If the method returns false, there are no common elements between the two arrays"
+        },
+        "MBPP_task_id": 431,
+        "library_functions": [
+            "Sets.Intersection",
+            "List.NotEmpty"
+        ],
+        "visual_node_types": [
+            "Function",
+            "Output Property",
+            "Input Property"
+        ],
+        "textual_instance_types": [
+            "instance",
+            "in",
+            "out"
+        ],
+        "testing": {
+            "library_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertTrue",
+                "root.std.Testing.AssertFalse"
+            ],
+            "visual_node_types": [
+                "Event",
+                "Function",
+                "Data Object"
+            ],
+            "textual_instance_types": [
+                "instance",
+                "data_instance"
+            ],
+            "test_list": [
+                "assert common_element([1,2,3,4,5], [5,6,7,8,9])==True",
+                "assert common_element([1,2,3,4,5], [6,7,8,9])==False",
+                "assert common_element(['a','b','c'], ['d','b','e'])==True"
+            ]
+        }
+    },
+    {
+        "prompts": [
+            "Create a flow that matches a word containing 'z'.",
+            "The flow should create a user-defined function. The body of the function contains one input property of type String, one 'Strings ToLower' node, one 'Strings Contains' node with the input property, named 'contains', set to z in lower case and one output property of type Bool.\n The arrows are connected as follows: The input property, called string, is connected with arrows to the input propery of the 'String ToLower' node. The output property, called output, of the 'Strings ToLower' node is then connected with arrows to the input property, named input, of the 'Strings Contains' node. The output property, named result, of the 'Strings contains' node is then connected with arrows to the output property, named result, of the user-defined function. The user-defined function is then created within the main module.",
+            "The created user-defined function should then be tested inside a seperate module called tests, within the main module. Since the function does not contain input and ouput triggers, the flow of execution is sent between the assert nodes, using their input and output triggers."
+        ],
+        "task_id": 10,
+        "specification": {
+            "function_signature": "func(doc: \"matches a word containing 'z'.\") text_match_wordz {\n  in(x: -230, y: 0, name: \"string\") property(String) input_0\n\n  out(x: 530.1946625341826, y: -2.499938652351375, name: \"result\") property(Bool) result_0\n}",
+            "preconditions": "- There are no preconditions, the method will always work. Strings and sequences are always not null.",
+            "postconditions": "- The result is true if the input string contains the character 'z' or 'Z'\n- The result is false if the input string does not contain the character 'z' or 'Z'"
+        },
+        "MBPP_task_id": 454,
+        "library_functions": [
+            "Strings.ToLower",
+            "Strings.Contains"
+        ],
+        "visual_node_types": [
+            "Function",
+            "Output Property",
+            "Input Property"
+        ],
+        "textual_instance_types": [
+            "instance",
+            "in",
+            "out"
+        ],
+        "testing": {
+            "library_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertFalse",
+                "root.std.Testing.AssertTrue"
+            ],
+            "visual_node_types": [
+                "Event",
+                "Function",
+                "Data Object"
+            ],
+            "textual_instance_types": [
+                "instance",
+                "data_instance"
+            ],
+            "test_list": [
+                "assert text_match_wordz(\"pythonz.\")==True",
+                "assert text_match_wordz(\"xyz.\")==True",
+                "assert text_match_wordz(\"  lang  .\")==False"
+            ]
+        }
+    },
+    {
+        "prompts": [
+            "Create a flow to find the sum of an array.",
+            "",
+            ""
+        ],
+        "task_id": 42,
+        "specification": {
+            "function_signature": "func(doc: \"Finds the sum of an array.\") _sum {\n    in(x: -213, y: 28.5, name: \"list\") property(List) list_2c62ab\n\n    out(x: 567, y: 3.5, name: \"sum\") property(Number) sum_2a848f\n}",
+            "preconditions": "- The input array should not be null",
+            "postconditions": "- The sum of all elements in the input array is returned"
+        },
+        "MBPP_task_id": 798,
+        "library_functions": [
+            "Iteration.Reduce",
+            "Math.Add"
+        ],
+        "visual_node_types": [
+            "Function",
+            "Input Property",
+            "Output Property"
+        ],
+        "textual_instance_types": [
+            "instance",
+            "in",
+            "out"
+        ],
+        "testing": {
+            "library_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertEqual"
+            ],
+            "visual_node_types": [
+                "Event",
+                "Function",
+                "Data Object"
+            ],
+            "textual_instance_types": [
+                "instance",
+                "data_instance"
+            ],
+            "test_list": [
+                "assert _sum([1, 2, 3]) == 6",
+                "assert _sum([15, 12, 13, 10]) == 50",
+                "assert _sum([0, 1, 2]) == 3"
+            ]
+        }
+    },
+    {
+        "prompts": [
+            "Create a flow to replace all occurrences of spaces, commas, or dots with a colon.",
+            "",
+            ""
+        ],
+        "task_id": 31,
+        "specification": {
+            "function_signature": "func(doc: \"Replace all occurrences of spaces, commas, or dots with a colon.\") replace_specialchar {\n    in(x: -230, y: 0, name: \"input\") property(String) input_0\n\n    out(x: 776, y: 0, name: \"output\") property(String) output_0\n}",
+            "preconditions": "- There are no preconditions, the method will always work. Strings and sequences are always not null.",
+            "postconditions": "- The length of the returning string must be the same as the length of the input string\n- All occurrences of spaces, commas, or dots in the input string are replaced with colons in the output string\n- All other characters are unchanged"
+        },
+        "MBPP_task_id": 732,
+        "library_functions": [
+            "Strings.Replace"
+        ],
+        "visual_node_types": [
+            "Function",
+            "Input Property",
+            "Output Property"
+        ],
+        "textual_instance_types": [
+            "instance",
+            "in",
+            "out"
+        ],
+        "testing": {
+            "library_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertEqual"
+            ],
+            "visual_node_types": [
+                "Event",
+                "Function",
+                "Data Object"
+            ],
+            "textual_instance_types": [
+                "instance",
+                "data_instance"
+            ],
+            "test_list": [
+                "assert replace_specialchar('Python language, Programming language.')==('Python:language::Programming:language:')",
+                "assert replace_specialchar('a b c,d e f')==('a:b:c:d:e:f')",
+                "assert replace_specialchar('ram reshma,ram rahim')==('ram:reshma:ram:rahim')"
             ]
         }
     }

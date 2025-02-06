@@ -17,7 +17,7 @@ def server_diagnostics(host="http://localhost:11434"):
     if is_remote_server_reachable(host + "/api/tags"):
         print("Server is reachable.")
     else:
-        rc = call("../SSH_FORWARDING.sh")
+        rc = call("../../SSH_FORWARDING.sh")
         # Check the result
         if rc == 0:
             print("Executed ssh forwarding successfully! Check job status on the server if failure continues.")

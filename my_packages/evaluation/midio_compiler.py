@@ -1,3 +1,4 @@
+import json
 import subprocess
 import os
 import tempfile
@@ -9,7 +10,7 @@ def load_code_from_file(file_path: str) -> str:
         return f.read()
 
 # Function to check if the code compiles using package-manager
-def compile_code(code: str) -> subprocess.CompletedProcess[str]:
+def compile_code(code: str, type: str = "build") -> subprocess.CompletedProcess[str]:
     with tempfile.TemporaryDirectory() as tmp_dir:
         code_file_path = os.path.join(tmp_dir, "main.midio")
 
@@ -40,7 +41,7 @@ def compile_code(code: str) -> subprocess.CompletedProcess[str]:
         try:
             # Run package-manager build on the temporary directory
             result = subprocess.run(
-                ["package-manager", "build", tmp_dir],
+                ["package-manager", type, tmp_dir],
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
                 text=True
@@ -54,6 +55,7 @@ def compile_code(code: str) -> subprocess.CompletedProcess[str]:
             print("Error: package-manager not found in PATH.")
             return False
 
+
 def get_errors(result: subprocess.CompletedProcess[str]) -> str:
     # Syntax Errors can be found here
     return result.stderr
@@ -61,6 +63,19 @@ def get_errors(result: subprocess.CompletedProcess[str]) -> str:
 def get_output(result: subprocess.CompletedProcess[str]) -> str:
     # Semantic Erros can be found here
     return result.stdout
+def get_test_result(result: subprocess.CompletedProcess[str]) -> str:
+    json_result = json.loads(result.stdout)
+    num_passed = json_result['num_passed']
+    num_tests = json_result['num_tests']
+    assertions = json_result['test_results']
+
+    return f"{num_passed}/{num_tests} test passed. All tests: {assertions}"
+
+def is_all_tests_passed(result: subprocess.CompletedProcess[str]) -> bool:
+    json_result = json.loads(result.stdout)
+    num_passed = json_result['num_passed']
+    num_tests = json_result['num_tests']
+    return num_passed == num_tests
 
 def is_code_syntax_valid(result: subprocess.CompletedProcess[str]) -> bool:
     return result.returncode == 0
