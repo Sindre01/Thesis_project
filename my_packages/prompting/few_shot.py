@@ -6,8 +6,8 @@ from langchain_core.prompts import (
     ChatPromptTemplate
 )
 from langchain_core.example_selectors import SemanticSimilarityExampleSelector
-from langchain_chroma import Chroma
-from my_packages.prompting.example_selectors import RandomExampleSelector
+from langchain_community.vectorstores import FAISS
+from my_packages.prompting.example_selectors import CoverageExampleSelector
 
 def read_file(_file):
     with open(_file) as reader:
@@ -57,7 +57,7 @@ def remove_first_three_words(text: str) -> str:
 #             except Exception as e:
 #                 responses.append(f"Error: {e}")
 #     else: #Node generation
-#         responses = [response_template.format(nodes=(", ".join(task['library_functions']))) for task in data]
+#         responses = [response_template.format(nodes=(", ".join(task['external_functions']))) for task in data]
 #     return (prompts, responses)
 
 def get_system_template(context_template_name):
@@ -111,30 +111,35 @@ def get_prompt_template(template_name):
         return
     return read_file(template_path)
 
-def get_semantic_similarity_example_selector(example_pool, embedding, shots):
+def get_semantic_similarity_example_selector(example_pool, embedding, shots, input_keys):
     return SemanticSimilarityExampleSelector.from_examples(
         # The list of examples available to select from.
         example_pool,
         # The embedding class used to produce embeddings which are used to measure semantic similarity.
         embedding,
         # The VectorStore class that is used to store the embeddings and do a similarity search over.
-        Chroma,
+        FAISS,
         # The number of examples to produce.
         k=shots,
+        input_keys=input_keys
     )
-def get_random_example_selector(example_pool, embedding, shots):
-    return RandomExampleSelector.from_examples(
+def get_coverage_example_selector(example_pool: list[dict], embedding, shots):
+    return CoverageExampleSelector.from_examples(
         # The list of examples available to select from.
         example_pool,
         # The embedding class used to produce embeddings which are used to measure semantic similarity.
         embedding,
         # The VectorStore class that is used to store the embeddings and do a similarity search over.
-        Chroma,
+        FAISS,
         # The number of examples to produce.
         k=shots,
     )
 
-def create_few_shot_prompt(examples, template_name):
+def create_few_shot_prompt(
+        examples: list[dict], 
+        template_name: str
+    ) -> FewShotChatMessagePromptTemplate:
+    
     prompt_template = get_prompt_template(template_name)
     response_template = get_response_template(template_name)
 
@@ -151,7 +156,12 @@ def create_few_shot_prompt(examples, template_name):
     )
     return few_shot_prompt
 
-def create_final_node_prompt(few_shot_prompt, system_template_name, prompt_template_name):
+def create_final_node_prompt(
+        few_shot_prompt: FewShotChatMessagePromptTemplate, 
+        system_template_name: str, 
+        prompt_template_name: str
+    ) -> ChatPromptTemplate:
+
     system_msg = get_system_template(system_template_name)
     prompt_template = get_prompt_template(prompt_template_name)
     final_prompt = ChatPromptTemplate.from_messages(
@@ -180,8 +190,8 @@ def transform_node_data(data):
         new_obj['MBPP_task_id'] = str(sample['MBPP_task_id'])
         new_obj['task_id'] = str(sample['task_id'])
         new_obj['task'] = sample['prompts'][0]
-        library_functions = [func.replace("root.std.", "") for func in sample['library_functions']]
-        new_obj['response'] = ', '.join(library_functions)
+        external_functions = [func.replace("root.std.", "") for func in sample['external_functions']]
+        new_obj['response'] = ', '.join(external_functions)
         new_data_format.append(new_obj)
     return new_data_format
 

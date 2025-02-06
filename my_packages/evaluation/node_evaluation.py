@@ -10,8 +10,11 @@ from sklearn.metrics import f1_score
 from langchain_ollama import OllamaEmbeddings, ChatOllama
 from langchain_anthropic import ChatAnthropic
 from langchain_openai import OpenAIEmbeddings, ChatOpenAI
+from langsmith.schemas import Example
 
-def extract_nodes(response_text):
+def extract_nodes(
+        response_text: str
+    ):
     """Extract nodes from the response using regex."""
     # Match content between ```language and ```
     match = re.search(fr"```midio(.*?)```", response_text, re.DOTALL)
@@ -23,7 +26,10 @@ def extract_nodes(response_text):
     # If no match, assume the response might already be nodes without markdown formatting
     return response_text.strip()
 
-def calculate_pass_at_k_scores(result_dict, ks):
+def calculate_pass_at_k_scores(
+        result_dict: dict[str, list[str]],
+        ks: int
+    ):
     """
     Pass@k evaluation for a given result dictionary.
     Pass@k asses the probability that out of k samples, at least one was correct.
@@ -68,7 +74,9 @@ def calculate_pass_at_k_scores(result_dict, ks):
     print(f"Pass@K: {pass_at_k}")
     return pass_at_k
 
-def calculate_f1_score(result_dict):
+def calculate_f1_score(
+        result_dict: dict[str, list[str]]
+    ):
     """
     Calculate the average F1 score.
 
@@ -106,7 +114,7 @@ def run_model(
     client: ChatOllama | ChatOpenAI | ChatAnthropic,
     model,
     available_nodes,
-    data,
+    data : list[Example],
     example_pool,
     max_new_tokens,
     temperature,
@@ -119,16 +127,16 @@ def run_model(
     results = {}
 
     for index, sample in enumerate(data):
-        generated_candidates = []
-        true_response = sample["response"]
-        task = sample["task"]
+        generated_candidates: list[str] = []
+        true_response = sample.outputs["response"]
+        true_response_nodes = extract_nodes(true_response)
+        task = sample.inputs["task"]
 
-        # How to chose between random or semantic similarity example selector?
         # Do calulations before evaluation and just pass in an class that get the examples for the task.
-        similar_examples = example_pool.select_examples({"task": task})
+        similar_examples = example_pool.select_examples(sample.inputs)
         few_shot = create_few_shot_prompt(similar_examples, 'NODES_TEMPLATE')
         final_prompt_template = create_final_node_prompt(few_shot, "NODE_GENERATOR_TEMPLATE", "NODES_TEMPLATE")
-        prompt = final_prompt_template.format(task=task, library_functions=available_nodes)
+        prompt = final_prompt_template.format(task=task, external_functions=available_nodes)
 
         for attempt_i in range(max(ks)):
             max_retries = 3
@@ -168,8 +176,9 @@ def run_model(
 
                     response = chain.invoke({
                         "task": task, 
-                        "library_functions": available_nodes
-                    })
+                        "external_functions": available_nodes
+                    },
+                    {"run_name": "Node prediction"})
 
                     generated = response.content
                     break  # If generation succeeded, break out of retry loop
@@ -186,11 +195,10 @@ def run_model(
             # Extract nodes from the generated response and transform to a set
             generated_nodes = extract_nodes(generated)
             generated_candidates.append(generated_nodes)
+            
+            generated_example: Example = sample.copy(update={"outputs": {"response": generated_nodes}})
 
         # --- Now we have up to k responses for this prompt. ---
-
-        # Extract the "true" nodes from the reference.
-        true_response_nodes = extract_nodes(true_response)
 
         #Then add the generated candidates to the results dictionary
         results[true_response_nodes] = generated_candidates
@@ -216,7 +224,7 @@ def evaluate_nodes(
     top_k,
     seed,
     ks,                               
-    debug=False
+    debug=False,
 ):
     model_result = run_model(
         client,
@@ -253,8 +261,8 @@ def run_validation(
     client: ChatOllama | ChatOpenAI | ChatAnthropic,
     model, 
     available_nodes, 
-    val_data,
-    example_pool,
+    val_data: list[Example],
+    example_pool: list[Example],
     temperatures, 
     top_ps,
     top_ks, 
@@ -311,17 +319,16 @@ def run_testing(
     client: ChatOllama | ChatOpenAI | ChatAnthropic,
     model, 
     available_nodes, 
-    test_data,
-    example_pool,
+    test_data: list[Example],
+    example_pool: list[Example],
     temperature, 
     top_p, 
     top_k,
     ks, 
     seeds, 
-    debug=False
+    debug=False,
 ):
     results = []
-    
     
     #Test the model on the test set with different seeds and the best hyperparameters.
     print(f"{Fore.CYAN}{Style.BRIGHT}Testing Phase:{Style.RESET_ALL}")

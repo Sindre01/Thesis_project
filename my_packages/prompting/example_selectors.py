@@ -1,7 +1,7 @@
 from langchain_core.example_selectors.base import BaseExampleSelector
 
 
-class RandomExampleSelector(BaseExampleSelector):
+class CoverageExampleSelector(BaseExampleSelector):
     def __init__(self, examples):
         self.examples = examples
 

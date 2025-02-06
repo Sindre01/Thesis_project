@@ -11,7 +11,7 @@ from iterstrat.ml_stratifiers import MultilabelStratifiedShuffleSplit
 def split_on_shots_nodes(num_shots, desired_val_size, dataset, seed=62, random_few_shots=False, write_to_file=False):
     """
     Split the dataset into training, validation, and test sets for few-shot learning.
-    - For each sample, the combined labels of library functions and textual instance types are used.
+    - For each sample, the combined labels of external functions and textual instance types are used.
     - The training set is built by selecting num-shot samples that cover as many labels as possible,
       unless random=True, in which case num_shots are randomly selected.
     - The remaining samples are split into validation and test sets based on desired_val_size.
@@ -49,8 +49,8 @@ def split_on_shots_nodes(num_shots, desired_val_size, dataset, seed=62, random_f
 
     # If num_shots == 0, fallback to a different split logic
     if num_shots == 0:
-        print("NOT WORKING: Number of shots is zero. splitting into only validation and test sets")
-        return split(dataset, write_to_file, 0, 0.2, 0.8)  # Some custom function or logic not shown
+        print("NOT WORKING: Number of shots is zero.")
+        #return split(dataset, write_to_file, 0, 0.2, 0.8)  # Some custom function or logic not shown
 
     # Set seeds for reproducibility
     SEED = seed
@@ -62,15 +62,15 @@ def split_on_shots_nodes(num_shots, desired_val_size, dataset, seed=62, random_f
     # Clean up and combine labels
     combined_labels_list = []
     for item in data:
-        library_functions = item.get('library_functions', [])
+        external_functions = item.get('external_functions', [])
         # Remove 'root.std.' if present
-        library_functions = [func.replace('root.std.', '') for func in library_functions]
-        item['library_functions'] = library_functions
+        external_functions = [func.replace('root.std.', '') for func in external_functions]
+        item['external_functions'] = external_functions
     
         visual_node_types = item.get('visual_node_types', [])
         item['visual_node_types'] = visual_node_types
     
-        combined_labels = library_functions + visual_node_types
+        combined_labels = external_functions + visual_node_types
         combined_labels_list.append(combined_labels)
     
     # Binarize labels
@@ -206,7 +206,7 @@ def split_on_shots_nodes(num_shots, desired_val_size, dataset, seed=62, random_f
     return train_data.tolist(), val_data.tolist(), test_data.tolist()
 
 
-def read_dataset_to_json(file_path):
+def read_dataset_to_json(file_path: str):
     with open(file_path, 'r') as file:
         dataset = json.load(file)
     return dataset
@@ -217,17 +217,17 @@ def read_dataset_to_json(file_path):
 def multi_stratified_split(dataset, write_to_file, eval_size, seed=58):
     SEED = seed
     prompts = [item['prompts'][0] for item in dataset]   # e.g., take the 'prompts' list as your features
-    responses = [item['library_functions']  for item in dataset]  # e.g., take the ?? as your labels
+    responses = [item['external_functions']  for item in dataset]  # e.g., take the ?? as your labels
 
     # Convert to numpy arrays (optional, but often convenient for sklearn usage)
     prompts = np.array(prompts, dtype=object)
     responses = np.array(responses, dtype=object)
     #Convert to a numpy array of objects
     data = np.array(dataset, dtype=object)
-    # 'responses' is a list of lists of library functions
-    responses_raw = [item['library_functions'] for item in dataset]
+    # 'responses' is a list of lists of external functions
+    responses_raw = [item['external_functions'] for item in dataset]
 
-    # Build a list of all unique library functions
+    # Build a list of all unique external functions
     all_libs = sorted({fn for libs in responses_raw for fn in libs})
     lib_to_idx = {fn: i for i, fn in enumerate(all_libs)}
     num_labels = len(all_libs)
@@ -269,25 +269,25 @@ def multi_stratified_split(dataset, write_to_file, eval_size, seed=58):
     print("Validation:", val.shape)
     print("Test:", test.shape)
 
-    def collect_libraries(data_subset):
+    def collect_external_functions(data_subset):
         """
-        Collects all library functions from the 'library_functions' key
+        Collects all external functions from the 'external_functions' key
         in a given subset of the dataset and returns them as a set.
         """
         libs = set()
         for item in data_subset:
-            for fn in item['library_functions']:
+            for fn in item['external_functions']:
                 libs.add(fn)
         return libs
 
-    train_libs = collect_libraries(train)
-    val_libs   = collect_libraries(val)
-    test_libs  = collect_libraries(test)
-    print("Number of unique libraries in train:", len(train_libs))
-    print("Number of unique libraries in validation:", len(val_libs))
-    print("Number of unique libraries in test:", len(test_libs))
+    train_libs = collect_external_functions(train)
+    val_libs   = collect_external_functions(val)
+    test_libs  = collect_external_functions(test)
+    print("Number of unique external_functions in train:", len(train_libs))
+    print("Number of unique external_functions in validation:", len(val_libs))
+    print("Number of unique external_functions in test:", len(test_libs))
 
-    # Step 2: Identify library functions present in val or test but not in train.
+    # Step 2: Identify external functions present in val or test but not in train.
 
     val_extra_libs  = val_libs - train_libs
     test_extra_libs = test_libs - train_libs
@@ -295,16 +295,16 @@ def multi_stratified_split(dataset, write_to_file, eval_size, seed=58):
     # Step 3: Print the results.
 
     if val_extra_libs:
-        print("Libraries in validation set not present in training set:")
+        print("external_functions in validation set not present in training set:")
         print(val_extra_libs)
     else:
-        print("No 'new' libraries in validation set that aren't in training.")
+        print("No 'new' external_functions in validation set that aren't in training.")
 
     if test_extra_libs:
-        print("Libraries in test set not present in training set:")
+        print("external_functions in test set not present in training set:")
         print(test_extra_libs)
     else:
-        print("No 'new' libraries in test set that aren't in training.")
+        print("No 'new' external_functions in test set that aren't in training.")
 
     #Write to file:
     if write_to_file:

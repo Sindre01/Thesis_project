@@ -11,4 +11,4 @@ Generate only the code and no text, so that it can be directly executed in a com
 Only the library functions that is provided can be used. If you need to create a new function, that does something different than the library functions provided, you can do so by creating a new function in the code.
 
 Only use the following library functions to solve the given tasks:
-{library_functions}
+{external_functions}

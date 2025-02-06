@@ -41,23 +41,23 @@ def analyze_visual_node_types_distribution(train_data, validation_data, test_dat
     plt.tight_layout()
     plt.show()
 
-def analyze_library_distribution(train_data, validation_data, test_data):
-    train_library_distribution = Counter(get_label_distribution(train_data, 'library_functions'))
-    validation_library_distribution = Counter(get_label_distribution(validation_data, 'library_functions'))
-    test_library_distribution = Counter(get_label_distribution(test_data, 'library_functions'))
+def analyze_functions_distribution(train_data, validation_data, test_data):
+    train_library_distribution = Counter(get_label_distribution(train_data, 'external_functions'))
+    validation_library_distribution = Counter(get_label_distribution(validation_data, 'external_functions'))
+    test_library_distribution = Counter(get_label_distribution(test_data, 'external_functions'))
 
     # Generate bar chart for library functions distribution
-    all_library_functions = sorted(set(
+    all_external_functions = sorted(set(
         list(train_library_distribution.keys()) +
         list(validation_library_distribution.keys()) +
         list(test_library_distribution.keys())
     ))
-    x_lib = np.arange(len(all_library_functions))  # the label locations
+    x_lib = np.arange(len(all_external_functions))  # the label locations
     width = 0.2  # the width of the bars
 
-    train_library_counts = [train_library_distribution.get(func, 0) for func in all_library_functions]
-    validation_library_counts = [validation_library_distribution.get(func, 0) for func in all_library_functions]
-    test_library_counts = [test_library_distribution.get(func, 0) for func in all_library_functions]
+    train_library_counts = [train_library_distribution.get(func, 0) for func in all_external_functions]
+    validation_library_counts = [validation_library_distribution.get(func, 0) for func in all_external_functions]
+    test_library_counts = [test_library_distribution.get(func, 0) for func in all_external_functions]
 
     # Plotting code
     plt.figure(figsize=(10, 6))
@@ -65,8 +65,8 @@ def analyze_library_distribution(train_data, validation_data, test_data):
     plt.bar(x_lib, validation_library_counts, width, label='Validation')
     plt.bar(x_lib + width, test_library_counts, width, label='Test')
     plt.ylabel('Count')
-    plt.title('Library Functions Distribution by Dataset')
-    plt.xticks(x_lib, all_library_functions, rotation=90)
+    plt.title('External Functions Distribution by Dataset')
+    plt.xticks(x_lib, all_external_functions, rotation=90)
     plt.legend()
     plt.tight_layout()
     plt.show()
