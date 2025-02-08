@@ -1,12 +1,14 @@
 import json
 import os
+import random
 import re
+
+import numpy as np
 from langchain_core.prompts import (
     FewShotChatMessagePromptTemplate,
     ChatPromptTemplate
 )
-from langchain_core.example_selectors import SemanticSimilarityExampleSelector
-from langchain_community.vectorstores import FAISS
+
 from my_packages.prompting.example_selectors import CoverageExampleSelector
 
 def read_file(_file):
@@ -111,30 +113,6 @@ def get_prompt_template(template_name):
         return
     return read_file(template_path)
 
-def get_semantic_similarity_example_selector(example_pool, embedding, shots, input_keys):
-    return SemanticSimilarityExampleSelector.from_examples(
-        # The list of examples available to select from.
-        example_pool,
-        # The embedding class used to produce embeddings which are used to measure semantic similarity.
-        embedding,
-        # The VectorStore class that is used to store the embeddings and do a similarity search over.
-        FAISS,
-        # The number of examples to produce.
-        k=shots,
-        input_keys=input_keys
-    )
-def get_coverage_example_selector(example_pool: list[dict], embedding, shots):
-    return CoverageExampleSelector.from_examples(
-        # The list of examples available to select from.
-        example_pool,
-        # The embedding class used to produce embeddings which are used to measure semantic similarity.
-        embedding,
-        # The VectorStore class that is used to store the embeddings and do a similarity search over.
-        FAISS,
-        # The number of examples to produce.
-        k=shots,
-    )
-
 def create_few_shot_prompt(
         examples: list[dict], 
         template_name: str
@@ -183,7 +161,13 @@ def get_prompt_template_variables(template_name):
     return variable_names
 
 def transform_node_data(data):
-    """[{'task_id': str, 'task': str, 'response': list, 'MBPP_task_id': str}]"""
+    """[{
+        'task_id': str, 
+        'task': str, 
+        'response': list, 
+        'MBPP_task_id': str,
+        'external_functions': list
+        }]"""
     new_data_format = []
     for sample in data:
         new_obj = {}
@@ -192,6 +176,7 @@ def transform_node_data(data):
         new_obj['task'] = sample['prompts'][0]
         external_functions = [func.replace("root.std.", "") for func in sample['external_functions']]
         new_obj['response'] = ', '.join(external_functions)
+        new_obj['external_functions'] = ', '.join(external_functions)
         new_data_format.append(new_obj)
     return new_data_format
 

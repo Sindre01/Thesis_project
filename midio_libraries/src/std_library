@@ -688,7 +688,7 @@ module List {
         out property(Any) item
     }
 
-    extern func(doc: "Returns the last item in 'list', through the `item` output.) LastItem {
+    extern func(doc: "Returns the last item in 'list', through the `item` output.") LastItem {
         in property(List) list
         out property(Any) item
     }
@@ -855,7 +855,7 @@ module Iteration {
         out(x: 0, y: 0, name: "output list") property output_list
     }
 
-    extern func Zip {
+    extern func(doc: "Call the given function instance ('handler') on corresponding pairs of elements from 'left' and 'right' lists. The function applies 'handler(left[i], right[i])' for each index 'i', up to the length of the shorter list. The results are collected into the output property 'zipped'.") Zip {
         in property(List) left
         in property(List) right
         in property(Any) handler
@@ -926,13 +926,13 @@ module Math {
         out(x: 0, y: 0, name: "result") property(Bool) result
     }
 
-    extern func() LessThanOrEqual {
+    extern func(doc: "Checks if 'left' is les than or eqaul to the 'right'") LessThanOrEqual {
         in(x: 0, y: 0, name: "left") property(Number) left
         in(x: 0, y: 0, name: "right") property(Number) right
         out(x: 0, y: 0, name: "result") property(Bool) result
     }
 
-    extern func() GreaterThanOrEqual {
+    extern func(doc: "Checks if the 'left' is greater than or equal to the 'right'") GreaterThanOrEqual {
         in(x: 0, y: 0, name: "left") property(Number) left
         in(x: 0, y: 0, name: "right") property(Number) right
         out(x: 0, y: 0, name: "result") property(Bool) result

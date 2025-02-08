@@ -133,8 +133,8 @@ def run_model(
         task = sample.inputs["task"]
 
         # Do calulations before evaluation and just pass in an class that get the examples for the task.
-        similar_examples = example_pool.select_examples(sample.inputs)
-        few_shot = create_few_shot_prompt(similar_examples, 'NODES_TEMPLATE')
+        examples = example_pool.select_examples(sample.inputs)
+        few_shot = create_few_shot_prompt(examples, 'NODES_TEMPLATE')
         final_prompt_template = create_final_node_prompt(few_shot, "NODE_GENERATOR_TEMPLATE", "NODES_TEMPLATE")
         prompt = final_prompt_template.format(task=task, external_functions=available_nodes)
 
