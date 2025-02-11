@@ -8,7 +8,7 @@ module() main {
         out(x: 571, y: 7, name: "sum") property(Number) sum_365f7b
 
         instance(x: 23, y: -1) mul_f892a4 root.Std_k98ojb.Math.Mul {}
-        data_instance(x: 330.0, y: 133.0) data_cde0dc  = 3
+        data_instance(x: 330, y: 133) data_cde0dc  = 3
         instance(x: 12, y: 136) expression_2d6da6 root.Std_k98ojb.Math.Expression {
             expression: "4*n*n-1"
         }
@@ -22,5 +22,5 @@ module() main {
     }
 
 
-    instance(x: 118.5, y: -26.73750000000001) square_sum_9dcc3d root.main.square_sum {}
+    instance(x: 118, y: -26) square_sum_9dcc3d root.main.square_sum {}
 }

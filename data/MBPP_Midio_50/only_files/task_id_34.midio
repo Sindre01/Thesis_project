@@ -3,14 +3,14 @@ import("http", Http_q7o96c)
 
 module() main { 
     func(doc: "Rotates a given list by specified number of items to the right direction.") rotate_right {
-        in(x: -186, y: -89.5, name: "list") property(List) list_48148f
-        in(x: -193, y: -3.5, name: "n") property(Number) n_68068c
+        in(x: -186, y: -89, name: "list") property(List) list_48148f
+        in(x: -193, y: -3, name: "n") property(Number) n_68068c
 
-        out(x: 735.1, y: -112.54999999999995, name: "output") property(Any) output_823209
+        out(x: 735, y: -112, name: "output") property(Any) output_823209
 
         instance(x: 348, y: -206) slice_710389 root.Std_k98ojb.List.Slice {}
-        instance(x: 349.1, y: -0.5499999999999545) slice_479814 root.Std_k98ojb.List.Slice {}
-        instance(x: 530.1, y: -109.54999999999995) concat_107778 root.Std_k98ojb.List.Concat {}
+        instance(x: 349, y: -0) slice_479814 root.Std_k98ojb.List.Slice {}
+        instance(x: 530, y: -109) concat_107778 root.Std_k98ojb.List.Concat {}
         instance(x: -36, y: -184) length_f7a32f root.Std_k98ojb.List.Length {}
         instance(x: 138, y: -94) sub_a105a5 root.Std_k98ojb.Math.Sub {}
         -1 -> slice_710389.end
@@ -28,5 +28,5 @@ module() main {
     }
 
 
-    instance(x: 180, y: -299.5) rotate_right_9b5fc6 root.main.rotate_right {}
+    instance(x: 180, y: -299) rotate_right_9b5fc6 root.main.rotate_right {}
 }

@@ -3,22 +3,22 @@ import("http", Http_q7o96c)
 
 module() main { 
     func(doc: "finds the kth element in the given array using 1-based indexing.") kth_element {
-        in(x: -286.0833326588629, y: -119.5833377136553, name: "execute") trigger() execute_1e159f
-        in(x: 153.3888224263642, y: 446.30657270108384, name: "list") property(List) list_b5d10a
-        in(x: -289.44439697265625, y: 126.55570983886724, name: "k") property(Number) k_1e19fb
+        in(x: -286, y: -119, name: "execute") trigger() execute_1e159f
+        in(x: 153, y: 446, name: "list") property(List) list_b5d10a
+        in(x: -289, y: 126, name: "k") property(Number) k_1e19fb
 
-        out(x: 844.7513913467067, y: 53.95836826061554, name: "continue") trigger() continue_c95bcb
-        out(x: 692.8760222272696, y: 553.3761034449718, name: "element") property(Number) element_fd7945
+        out(x: 844, y: 53, name: "continue") trigger() continue_c95bcb
+        out(x: 692, y: 553, name: "element") property(Number) element_fd7945
 
-        instance(x: 406.05002884892315, y: 546.3175125173792) getat_8eae56 root.Std_k98ojb.List.GetAt {}
-        instance(x: 215.72223319375735, y: 100.58297592451191) ifexpression_a2fa90 root.Std_k98ojb.Std.IfExpression {
+        instance(x: 406, y: 546) getat_8eae56 root.Std_k98ojb.List.GetAt {}
+        instance(x: 215, y: 100) ifexpression_a2fa90 root.Std_k98ojb.Std.IfExpression {
             expression: "a == 0"
         }
-        instance(x: 196.08429439590276, y: 256.94999327134036) sub_9ff257 root.Std_k98ojb.Math.Sub {}
-        setter(x: -37.888916015625, y: -48.66664123535156, name: "setter_d09207") setter_d09207 = local_k
-        getter(x: -130.55505132226426, y: 211.30537914149969, name: "getter_7f13b7") getter_7f13b7 = local_k
-        getter(x: 118.50036625419602, y: 540.6262022364415, name: "getter_44a047") getter_44a047 = local_k
-        setter(x: 491.8761215307038, y: 194.37543975069025, name: "setter_29a5c8") setter_29a5c8 = local_k
+        instance(x: 196, y: 256) sub_9ff257 root.Std_k98ojb.Math.Sub {}
+        setter(x: -37, y: -48, name: "setter_d09207") setter_d09207 = local_k
+        getter(x: -130, y: 211, name: "getter_7f13b7") getter_7f13b7 = local_k
+        getter(x: 118, y: 540, name: "getter_44a047") getter_44a047 = local_k
+        setter(x: 491, y: 194, name: "setter_29a5c8") setter_29a5c8 = local_k
         list_b5d10a -> getat_8eae56.list
         1 -> sub_9ff257.second
         execute_1e159f -> setter_d09207.execute
@@ -34,5 +34,5 @@ module() main {
         setter_29a5c8.continue -> continue_c95bcb
     }
 
-    instance(x: -97.84163360595704, y: -68.99722900390626) kth_element_49c6ac root.main.kth_element {}
+    instance(x: -97, y: -68) kth_element_49c6ac root.main.kth_element {}
 }

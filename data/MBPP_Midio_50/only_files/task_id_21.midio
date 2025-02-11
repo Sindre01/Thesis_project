@@ -3,15 +3,15 @@ import("http", Http_q7o96c)
 
 module() main { 
     func(doc: "find sum and average of first n natural numbers.") sum_average {
-        in(x: -343.8920972493336, y: -287.2221990039212, name: "n") property(Number) n_c88d35
+        in(x: -343, y: -287, name: "n") property(Number) n_c88d35
 
-        out(x: 756.5555369922204, y: -371.1631536397618, name: "output") property(Any) output_ebef81
+        out(x: 756, y: -371, name: "output") property(Any) output_ebef81
 
-        data_instance(x: 394.7, y: -339.2) data_3c713b  = [sum, average]
-        instance(x: 46.33355129553502, y: -383.55556084309217, name: "sum") expression_634b7e root.Std_k98ojb.Math.Expression {
+        data_instance(x: 394, y: -339) data_3c713b  = [sum, average]
+        instance(x: 46, y: -383, name: "sum") expression_634b7e root.Std_k98ojb.Math.Expression {
             expression: "n * (n+1)/2"
         }
-        instance(x: 62.15625018292224, y: -226.68738706776583, name: "average") div_2d44da root.Std_k98ojb.Math.Div {}
+        instance(x: 62, y: -226, name: "average") div_2d44da root.Std_k98ojb.Math.Div {}
         data_3c713b -> output_ebef81
         n_c88d35 -> expression_634b7e.gen_0
         expression_634b7e.result -> data_3c713b.sum
@@ -21,5 +21,5 @@ module() main {
     }
 
 
-    instance(x: -81.4892290039063, y: 159.91114501953126) sum_average_f15bad root.main.sum_average {}
+    instance(x: -81, y: 159) sum_average_f15bad root.main.sum_average {}
 }

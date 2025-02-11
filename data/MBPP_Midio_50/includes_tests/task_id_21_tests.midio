@@ -26,16 +26,16 @@ module() main {
         }
         instance(x: -45, y: 129) assertequal_c078ec root.Std_k98ojb.Testing.AssertEqual {}
         instance(x: -48, y: 268) sum_average_522599 root.main.sum_average {}
-        data_instance(x: -319, y: 218) data_5d39ef  = [55, ``5``]
+        data_instance(x: -319, y: 218) data_5d39ef  = [55, ``5.5``]
         instance(x: 273, y: 122) assertequal_6b1829 root.Std_k98ojb.Testing.AssertEqual {}
         instance(x: 263, y: 274) sum_cdc322 root.main.sum_average {}
-        data_instance(x: 206, y: 360) data_7dbe92  = [120, ``8``]
+        data_instance(x: 206, y: 360) data_7dbe92  = [120, ``8.0``]
         instance(x: 595, y: 120) assertequal_8b30ae root.Std_k98ojb.Testing.AssertEqual {}
         instance(x: 583, y: 286) sum_a4f03b root.main.sum_average {}
-        data_instance(x: 706, y: 375) data_4d40d9  = [210, ``10,5``]
+        data_instance(x: 706, y: 375) data_4d40d9  = [210, ``10.5``]
         data_instance(x: 37, y: 378) data_003749  = 8
-        data_instance(x: 531, y: 408) data_d8720e  = 10
-        data_instance(x: -299, y: 398) data_b9a055  = 5
+        data_instance(x: 531, y: 408) data_d8720e  = 10.5
+        data_instance(x: -299, y: 398) data_b9a055  = 5.5
         10 -> sum_average_522599.n_c88d35
         data_5d39ef -> assertequal_c078ec.expect
         sum_average_522599.output_ebef81 -> assertequal_c078ec.actual
@@ -45,9 +45,9 @@ module() main {
         sum_a4f03b.output_ebef81 -> assertequal_8b30ae.actual
         data_4d40d9 -> assertequal_8b30ae.expect
         20 -> sum_a4f03b.n_c88d35
-        data_d8720e -> data_4d40d9.``10,5``
-        data_b9a055 -> data_5d39ef.``5``
-        data_003749 -> data_7dbe92.``8``
+        data_d8720e -> data_4d40d9.``10.5``
+        data_b9a055 -> data_5d39ef.``5.5``
+        data_003749 -> data_7dbe92.``8.0``
         test_a24d30.onRun -> assertequal_c078ec.execute
         assertequal_c078ec.continue -> assertequal_6b1829.execute
         assertequal_6b1829.continue -> assertequal_8b30ae.execute

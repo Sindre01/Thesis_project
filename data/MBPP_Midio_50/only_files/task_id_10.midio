@@ -5,15 +5,15 @@ module() main {
     func() text_match_wordz {
         in(x: -230, y: 0, name: "string") property(String) input_0
 
-        out(x: 530.1946625341826, y: -2.499938652351375, name: "result") property(Bool) result_0
+        out(x: 530, y: -2, name: "result") property(Bool) result_0
 
-        instance(x: 0, y: 1.3058023559636922) tolower_2e1444 root.Std_k98ojb.Strings.ToLower {}
-        instance(x: 265.19469742675653, y: 0) contains_d42dce root.Std_k98ojb.Strings.Contains {}
+        instance(x: 0, y: 1) tolower_2e1444 root.Std_k98ojb.Strings.ToLower {}
+        instance(x: 265, y: 0) contains_d42dce root.Std_k98ojb.Strings.Contains {}
         tolower_2e1444.output -> contains_d42dce.input
         "z" -> contains_d42dce.contains
         input_0 -> tolower_2e1444.input
         contains_d42dce.result -> result_0
     }
 
-    instance(x: 81.77777099609375, y: 52) text_match_wordz_e54b7f root.main.text_match_wordz {}
+    instance(x: 81, y: 52) text_match_wordz_e54b7f root.main.text_match_wordz {}
 }

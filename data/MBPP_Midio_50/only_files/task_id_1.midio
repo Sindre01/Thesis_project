@@ -3,18 +3,18 @@ import("http", Http_q7o96c)
 
 module() main {
     func(doc: "checks whether the given two integers have opposite sign or not.") opposite_signs {
-        in(x: -426.75106687766726, y: -248.6672781623361, name: "x") property(Number) x_853326
-        in(x: -420.9177240472398, y: -107.83359783106482, name: "y") property(Number) y_5390f5
-        out(x: 159.11126708984375, y: -219.88885498046875, name: "output") property(Bool) output_3339a3
+        in(x: -426, y: -248, name: "x") property(Number) x_853326
+        in(x: -420, y: -107, name: "y") property(Number) y_5390f5
+        out(x: 159, y: -219, name: "output") property(Bool) output_3339a3
 
-        instance(x: -208.8202290039062, y: -217.13977099609372) expression_ea12d8 root.Std_k98ojb.Math.Expression {
+        instance(x: -208, y: -217) expression_ea12d8 root.Std_k98ojb.Math.Expression {
             expression: "(x < 0 && y > 0) || (x > 0 && y < 0)"
         }
         x_853326 -> expression_ea12d8.gen_0
         y_5390f5 -> expression_ea12d8.gen_1
         expression_ea12d8.result -> output_3339a3
     }
-    instance(x: -745.1109619140625, y: -368.1112060546875) task_id_58_77805a root.main.opposite_signs {}
+    instance(x: -745, y: -368) task_id_58_77805a root.main.opposite_signs {}
 }
 
 

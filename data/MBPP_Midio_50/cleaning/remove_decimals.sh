@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Directory containing files (modify if needed)
-DIR="../includes_tests"
+DIR="../only_files"
 
 # Loop through all text-based files (modify file pattern if necessary)
 for file in "$DIR"/*.midio; do

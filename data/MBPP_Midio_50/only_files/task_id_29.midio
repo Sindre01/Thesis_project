@@ -7,11 +7,11 @@ module() main {
         in(x: -199, y: -152, name: "execute") trigger() execute_1ddb9f
         in(x: -174, y: 160, name: "list") property(List) list_0c1a77
 
-        out(x: 838.7, y: 168, name: "output") property(List) data_0_0
+        out(x: 838, y: 168, name: "output") property(List) data_0_0
         out(x: 817, y: 39, name: "continue") trigger() continue_a7f942
 
-        instance(x: 294, y: -19.5) for_9ab286 root.Std_k98ojb.Std.For {}
-        instance(x: 557.7, y: 167.75) concat_9b38cc root.Std_k98ojb.List.Concat {}
+        instance(x: 294, y: -19) for_9ab286 root.Std_k98ojb.Std.For {}
+        instance(x: 557, y: 167) concat_9b38cc root.Std_k98ojb.List.Concat {}
         setter(x: 6, y: -64, name: "setter_8c6eda") setter_8c6eda = zeroList
         instance(x: 554, y: -99) ifexpression_5c4634 root.Std_k98ojb.Std.IfExpression {
             expression: "item == 0"
@@ -44,5 +44,5 @@ module() main {
     }
 
 
-    instance(x: -242.325, y: -31.3125) move_zero_def9ac root.main.move_zero {}
+    instance(x: -242, y: -31) move_zero_def9ac root.main.move_zero {}
 }

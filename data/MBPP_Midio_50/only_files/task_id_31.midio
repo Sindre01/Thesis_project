@@ -7,7 +7,7 @@ module() main {
 
         out(x: 776, y: 0, name: "output") property(String) output_0
 
-        instance(x: 546, y: 0.5) replace_306f69 root.Std_k98ojb.Strings.Replace {}
+        instance(x: 546, y: 0) replace_306f69 root.Std_k98ojb.Strings.Replace {}
         instance(x: 0, y: 1) replace_ed0af2 root.Std_k98ojb.Strings.Replace {}
         instance(x: 305, y: 0) replace_371e46 root.Std_k98ojb.Strings.Replace {}
         replace_ed0af2.output -> replace_371e46.input
@@ -24,5 +24,5 @@ module() main {
     }
 
 
-    instance(x: 175.66666666666666, y: -25) replace_specialchar_695b5e root.main.replace_specialchar {}
+    instance(x: 175, y: -25) replace_specialchar_695b5e root.main.replace_specialchar {}
 }

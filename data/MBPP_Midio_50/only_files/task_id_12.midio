@@ -3,5 +3,5 @@ import("http", Http_q7o96c)
 
 module() main { 
     
-    instance(x: -184.44408398437497, y: -66.66654199218749) replace_740561 root.Std_k98ojb.Strings.Replace {}
+    instance(x: -184, y: -66) replace_740561 root.Std_k98ojb.Strings.Replace {}
 }

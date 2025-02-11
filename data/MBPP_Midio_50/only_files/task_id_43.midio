@@ -3,13 +3,13 @@ import("http", Http_q7o96c)
 
 module() main { 
      func(doc: "Finds the first odd number in a given list of numbers.") first_odd {
-        in(x: -284, y: -0.5, name: "list") property(List) list_abed4a
+        in(x: -284, y: -0, name: "list") property(List) list_abed4a
 
         out(x: 593, y: -1, name: "number") property(Number) number_3bc2ae
 
         instance(x: 0, y: 0) find_6d05b0 root.Std_k98ojb.Iteration.Find {}
         func() {
-            in(x: -113, y: 34.5, name: "elem") property(Number) elem_9f6850
+            in(x: -113, y: 34, name: "elem") property(Number) elem_9f6850
 
             out(x: 515, y: 44, name: "bool") property(Bool) bool_af09a7
 
@@ -26,5 +26,5 @@ module() main {
     }
 
 
-    instance(x: -55, y: 529.5) first_odd_2c856f root.main.first_odd {}
+    instance(x: -55, y: 529) first_odd_2c856f root.main.first_odd {}
 }

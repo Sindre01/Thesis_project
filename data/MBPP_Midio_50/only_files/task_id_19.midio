@@ -3,13 +3,13 @@ import("http", Http_q7o96c)
 
 module() main { 
     func(doc: "finds the difference between largest and smallest value in a given list.") big_diff {
-        in(x: -266.7777099609375, y: 82.5555419921875, name: "list") property(List) list_9abc1d
+        in(x: -266, y: 82, name: "list") property(List) list_9abc1d
 
-        out(x: 533.6666870117188, y: 70.77783203125, name: "difference") property(Number) difference_27806e
+        out(x: 533, y: 70, name: "difference") property(Number) difference_27806e
 
-        instance(x: 15.4444580078125, y: 7) max_891a25 root.Std_k98ojb.List.Max {}
-        instance(x: 18.77783203125, y: 149.22222900390625) min_89fe87 root.Std_k98ojb.List.Min {}
-        instance(x: 285.00006103515625, y: 69) sub_a433f3 root.Std_k98ojb.Math.Sub {}
+        instance(x: 15, y: 7) max_891a25 root.Std_k98ojb.List.Max {}
+        instance(x: 18, y: 149) min_89fe87 root.Std_k98ojb.List.Min {}
+        instance(x: 285, y: 69) sub_a433f3 root.Std_k98ojb.Math.Sub {}
         list_9abc1d -> max_891a25.items
         list_9abc1d -> min_89fe87.items
         max_891a25.max -> sub_a433f3.first
@@ -17,5 +17,5 @@ module() main {
         sub_a433f3.result -> difference_27806e
     }
 
-    instance(x: -121.7777099609375, y: 41.66668701171875) big_diff_1dfbf1 root.main.big_diff {}
+    instance(x: -121, y: 41) big_diff_1dfbf1 root.main.big_diff {}
 }

@@ -3,7 +3,7 @@ import("http", Http_q7o96c)
 
 module() main { 
     func(doc: "Checks whether a list of numbers contains only one distinct element or not.") unique_Element {
-        in(x: -285, y: -86.5, name: "list") property(List) list_3af6ba
+        in(x: -285, y: -86, name: "list") property(List) list_3af6ba
 
         out(x: 557, y: -97, name: "output") property(Bool) output_c7097f
 

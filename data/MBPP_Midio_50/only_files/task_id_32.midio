@@ -4,15 +4,15 @@ import("http", Http_q7o96c)
 module() main { 
     func(doc: "Finds the index of the first occurrence of a given number in a sorted array.") find_first_occurrence {
         in(x: 5, y: 218, name: "list") property(List) list_d128d8
-        in(x: -252.9, y: -11.950000000000005, name: "execute") trigger() execute_467172
-        in(x: 349, y: -105.99999999999994, name: "target") property(Number) target_fbe60e
+        in(x: -252, y: -11, name: "execute") trigger() execute_467172
+        in(x: 349, y: -105, name: "target") property(Number) target_fbe60e
 
-        out(x: 1217.1, y: 29.05000000000001, name: "continue") trigger() continue_075eef
-        out(x: 966.1, y: 219.05, name: "output") property(Number) output_3ae271
+        out(x: 1217, y: 29, name: "continue") trigger() continue_075eef
+        out(x: 966, y: 219, name: "output") property(Number) output_3ae271
 
         setter(x: 0, y: 0, name: "setter_6e7b4e") setter_6e7b4e = index
         instance(x: 340, y: 60) for_065883 root.Std_k98ojb.Std.For {}
-        getter(x: 704.1, y: 170.05, name: "getter_84fbbe") getter_84fbbe = index
+        getter(x: 704, y: 170, name: "getter_84fbbe") getter_84fbbe = index
         setter(x: 955, y: -158, name: "setter_7e2b42") setter_7e2b42 = index
         instance(x: 551, y: -105) equal_aabb6e root.Std_k98ojb.Logic.Equal {}
         instance(x: 758, y: -75) if_7c284f root.Std_k98ojb.Std.If {}

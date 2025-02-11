@@ -15,7 +15,7 @@ module() main {
             expression: "x == y"
         }
         setter(x: -187, y: -246, name: "setter_6a6081") setter_6a6081 = index
-        getter(x: 502.7000000000001, y: 166.35, name: "getter_cc0721") getter_cc0721 = index
+        getter(x: 502, y: 166, name: "getter_cc0721") getter_cc0721 = index
         setter(x: 780, y: -125, name: "setter_60cfcd") setter_60cfcd = index
         list_2bbadf -> for_9ed60a.items
         elem_94ca57 -> ifexpression_6c15d4.gen_0

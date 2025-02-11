@@ -3,13 +3,13 @@ import("http", Http_q7o96c)
 
 module() main { 
     func(doc: "Checks whether all the characters are same or not.") all_Characters_Same {
-        in(x: -862.8, y: 188.15, name: "string") property(String) string_db4ddf
-        in(x: -878.5714285714289, y: 9.999999999999986, name: "execute") trigger() execute_f1c7e0
+        in(x: -862, y: 188, name: "string") property(String) string_db4ddf
+        in(x: -878, y: 9, name: "execute") trigger() execute_f1c7e0
 
         out(x: 588, y: 123, name: "continue") trigger() continue_67430e
         out(x: 600, y: 270, name: "output") property(Bool) output_e9fa68
 
-        instance(x: -483, y: 192.5) characters_97fc24 root.Std_k98ojb.Strings.Characters {}
+        instance(x: -483, y: 192) characters_97fc24 root.Std_k98ojb.Strings.Characters {}
         instance(x: -704, y: 191) tolower_0caf71 root.Std_k98ojb.Strings.ToLower {}
         instance(x: -178, y: 331) firstitem_532c77 root.Std_k98ojb.List.FirstItem {}
         instance(x: -181, y: 102) for_942609 root.Std_k98ojb.Std.For {}
@@ -31,5 +31,5 @@ module() main {
     }
 
 
-    instance(x: -192, y: 139.5) all_characters_same_935476 root.main.all_Characters_Same {}
+    instance(x: -192, y: 139) all_characters_same_935476 root.main.all_Characters_Same {}
 }

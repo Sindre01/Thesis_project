@@ -3,6 +3,6 @@ import("http", Http_q7o96c)
 
 module() main { 
 
-    instance(x: -55.55885498046882, y: 80.55560302734375) difference_1f4c9a root.Std_k98ojb.Sets.Difference {}
+    instance(x: -55, y: 80) difference_1f4c9a root.Std_k98ojb.Sets.Difference {}
     
 }

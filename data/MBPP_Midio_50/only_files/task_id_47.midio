@@ -3,18 +3,18 @@ import("http", Http_q7o96c)
 
 module() main {
     func(doc: "find cubes of individual elements in a list.") cube_nums {
-        in(x: -122, y: -81.5, name: "list") property(List) list_63c248
+        in(x: -122, y: -81, name: "list") property(List) list_63c248
 
-        out(x: 656, y: -68.5, name: "result") property(List) result_cbb7bd
+        out(x: 656, y: -68, name: "result") property(List) result_cbb7bd
 
-        instance(x: 94, y: -105.5) map_f2330d root.Std_k98ojb.Iteration.Map {}
+        instance(x: 94, y: -105) map_f2330d root.Std_k98ojb.Iteration.Map {}
         list_63c248 -> map_f2330d.items
         func() {
-            in(x: -121, y: -37.5, name: "x") property(Number) x_8ee839
+            in(x: -121, y: -37, name: "x") property(Number) x_8ee839
 
-            out(x: 333, y: -50.5, name: "") property(Number) _7dd980
+            out(x: 333, y: -50, name: "") property(Number) _7dd980
 
-            instance(x: 92, y: -22.5) pow_584bfd root.Std_k98ojb.Math.Pow {}
+            instance(x: 92, y: -22) pow_584bfd root.Std_k98ojb.Math.Pow {}
             x_8ee839 -> pow_584bfd.x
             3 -> pow_584bfd.y
             pow_584bfd.result -> _7dd980
@@ -22,5 +22,5 @@ module() main {
         map_f2330d.output_list -> result_cbb7bd
     }
 
-    instance(x: -92, y: 45.5) cube_nums_b9ff6b root.main.cube_nums {}
+    instance(x: -92, y: 45) cube_nums_b9ff6b root.main.cube_nums {}
 }

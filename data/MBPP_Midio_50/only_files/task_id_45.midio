@@ -3,19 +3,19 @@ import("http", Http_q7o96c)
 
 module() main {
     func(doc: "finds the minimum of two numbers") Min {
-        in(x: -281.0000305175781, y: -193.79998168945315, name: "a") property(Number) a_9f7759
-        in(x: -272.2399816894531, y: 17.720033569335953, name: "b") property(Number) b_f9110a
+        in(x: -281, y: -193, name: "a") property(Number) a_9f7759
+        in(x: -272, y: 17, name: "b") property(Number) b_f9110a
         in(x: -450, y: -114, name: "execute") trigger() execute_12bf99
 
-        out(x: 46.79998779296875, y: 158.3999938964844, name: "min") property(Number) min_b2508f
+        out(x: 46, y: 158, name: "min") property(Number) min_b2508f
         out(x: 512, y: -114, name: "continue") trigger() continue_685c8f
 
-        instance(x: -105.60003662109376, y: -110.59999084472656) ifexpression_e38995 root.Std_k98ojb.Std.IfExpression {
+        instance(x: -105, y: -110) ifexpression_e38995 root.Std_k98ojb.Std.IfExpression {
             expression: "a < b"
         }
-        getter(x: -144.3199633789062, y: 112.12, name: "getter_9cceb3") getter_9cceb3 = min
-        setter(x: 116.6, y: -268.2, name: "setter_1cedb2") setter_1cedb2 = min
-        setter(x: 118.6, y: -56.19999999999999, name: "setter_37db7f") setter_37db7f = min
+        getter(x: -144, y: 112, name: "getter_9cceb3") getter_9cceb3 = min
+        setter(x: 116, y: -268, name: "setter_1cedb2") setter_1cedb2 = min
+        setter(x: 118, y: -56, name: "setter_37db7f") setter_37db7f = min
         a_9f7759 -> ifexpression_e38995.gen_0
         b_f9110a -> ifexpression_e38995.gen_1
         getter_9cceb3.value -> min_b2508f
@@ -28,5 +28,5 @@ module() main {
         setter_37db7f.continue -> continue_685c8f
     }
 
-    instance(x: -174.79998779296875, y: -63.20000610351565) Min_d6e930 root.main.Min {}
+    instance(x: -174, y: -63) Min_d6e930 root.main.Min {}
 }

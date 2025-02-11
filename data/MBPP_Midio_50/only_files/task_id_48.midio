@@ -3,10 +3,10 @@ import("http", Http_q7o96c)
 
 module() main {
     func(doc: "check if the given integer is a prime number.") num_prime {
-        in(x: -167, y: 27.5, name: "num") property(Number) num_5c0677
+        in(x: -167, y: 27, name: "num") property(Number) num_5c0677
         in(x: -112, y: -216, name: "execute") trigger() execute_b7b391
 
-        out(x: 1016, y: -26.5, name: "output") property(Bool) output_c457b3
+        out(x: 1016, y: -26, name: "output") property(Bool) output_c457b3
         out(x: 1211, y: -110, name: "continue") trigger() continue_9a54bb
 
         instance(x: -12, y: 2) ifexpression_5ccdce root.Std_k98ojb.Std.IfExpression {
@@ -49,5 +49,5 @@ module() main {
         setter_0816c8.continue -> continue_9a54bb
     }
 
-    instance(x: -361, y: 185.5) num_prime_88fd7e root.main.num_prime {}
+    instance(x: -361, y: 185) num_prime_88fd7e root.main.num_prime {}
 }
