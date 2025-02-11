@@ -7,17 +7,17 @@ module() main {
 
         out(x: 800, y: 145.5, name: "output") property(Number) output_edc2e3
 
-        instance(x: 532, y: 147.5") mul_7e1ce0 root.Std_k98ojb.Math.Mul {}
-        instance(x: -39, y: 26.725000000000023", name: "First even number") find_de624f root.Std_k98ojb.Iteration.Find {}
-        instance(x: -39, y: 257.725", name: "First odd number") ``First even number_0b1361`` root.Std_k98ojb.Iteration.Find {}
+        instance(x: 532, y: 147.5) mul_7e1ce0 root.Std_k98ojb.Math.Mul {}
+        instance(x: -39, y: 26, name: "First even number") find_de624f root.Std_k98ojb.Iteration.Find {}
+        instance(x: -39, y: 257, name: "First odd number") ``First even number_0b1361`` root.Std_k98ojb.Iteration.Find {}
         list_09fcba -> find_de624f.items
         func() {
             in(x: -192, y: 84.5, name: "current") property(Number) current_afd5b1
 
             out(x: 698, y: 85, name: "bool") property(Bool) bool_1eb6e9
 
-            instance(x: 112, y: 80") modulo_45e806 root.Std_k98ojb.Math.Modulo {}
-            instance(x: 415, y: 86") equal_a54bdc root.Std_k98ojb.Logic.Equal {}
+            instance(x: 112, y: 80) modulo_45e806 root.Std_k98ojb.Math.Modulo {}
+            instance(x: 415, y: 86) equal_a54bdc root.Std_k98ojb.Logic.Equal {}
             current_afd5b1 -> modulo_45e806.value
             2 -> modulo_45e806.divisor
             modulo_45e806.result -> equal_a54bdc.left
@@ -29,8 +29,8 @@ module() main {
 
             out(x: 698, y: 85, name: "bool") property(Bool) bool_1eb6e9
 
-            instance(x: 112, y: 80") modulo_45e806 root.Std_k98ojb.Math.Modulo {}
-            instance(x: 421, y: 79") notequal_148aeb root.Std_k98ojb.Logic.NotEqual {}
+            instance(x: 112, y: 80) modulo_45e806 root.Std_k98ojb.Math.Modulo {}
+            instance(x: 421, y: 79) notequal_148aeb root.Std_k98ojb.Logic.NotEqual {}
             current_afd5b1 -> modulo_45e806.value
             2 -> modulo_45e806.divisor
             modulo_45e806.result -> notequal_148aeb.left
@@ -44,6 +44,6 @@ module() main {
     }
 
 
-    instance(x: -291, y: 177.5") mul_even_odd_f53d27 root.main.mul_even_odd {}
+    instance(x: -291, y: 177.5) mul_even_odd_f53d27 root.main.mul_even_odd {}
 
 }

@@ -10,7 +10,7 @@ def load_code_from_file(file_path: str) -> str:
         return f.read()
 
 # Function to check if the code compiles using package-manager
-def compile_code(code: str, type: str = "build") -> subprocess.CompletedProcess[str]:
+def compile_code(code: str, type: str = "build", flag: str = "") -> subprocess.CompletedProcess[str]:
     with tempfile.TemporaryDirectory() as tmp_dir:
         code_file_path = os.path.join(tmp_dir, "main.midio")
 
@@ -40,15 +40,20 @@ def compile_code(code: str, type: str = "build") -> subprocess.CompletedProcess[
 
         try:
             # Run package-manager build on the temporary directory
-            result = subprocess.run(
-                ["package-manager", type, tmp_dir],
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
-                text=True
-            )
-            # print("Compiler stdout:", result.stdout)
-            # print("Compiler stderr:", result.stderr)
-
+            if flag:
+                result = subprocess.run(
+                    ["package-manager", type, flag, tmp_dir],
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE,
+                    text=True
+                )
+            else:
+                result = subprocess.run(
+                    ["package-manager", type, tmp_dir],
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE,
+                    text=True
+                )
 
             return result
         except FileNotFoundError:
@@ -63,16 +68,44 @@ def get_errors(result: subprocess.CompletedProcess[str]) -> str:
 def get_output(result: subprocess.CompletedProcess[str]) -> str:
     # Semantic Erros can be found here
     return result.stdout
-def get_test_result(result: subprocess.CompletedProcess[str]) -> str:
-    json_result = json.loads(result.stdout)
+
+def get_json_test_result(result: subprocess.CompletedProcess[str]) -> dict:
+    output = result.stdout.strip()
+    
+    # Find the first occurrence of '{' (start of JSON)
+    json_start = output.find('{')
+    
+    if json_start == -1:
+        print("Error: No JSON found in stdout")
+        return {}
+
+    json_text = output[json_start:]  # Extract only the JSON part
+
+    try:
+        json_result = json.loads(json_text)
+        return json_result
+    except json.JSONDecodeError as e:
+        print("Failed to parse JSON:", e)
+        print("Extracted JSON part:", json_text)
+        return {}
+    
+def clean_output(text: str) -> str:
+    """Remove ANSI escape codes and extra whitespace from the output."""
+    ansi_escape = re.compile(r'\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])')
+    return ansi_escape.sub('', text).strip()
+
+def extract_errors(text: str) -> str:
+    """Extract only lines that contain 'ERROR'."""
+    clean_text = clean_output(text)
+    return "\n".join(line for line in clean_text.split("\n") if "ERROR" in line)
+
+def get_test_result(json_result: dict) -> str:
     num_passed = json_result['num_passed']
     num_tests = json_result['num_tests']
     assertions = json_result['test_results']
-
     return f"{num_passed}/{num_tests} test passed. All tests: {assertions}"
 
-def is_all_tests_passed(result: subprocess.CompletedProcess[str]) -> bool:
-    json_result = json.loads(result.stdout)
+def is_all_tests_passed(json_result: dict) -> bool:
     num_passed = json_result['num_passed']
     num_tests = json_result['num_tests']
     return num_passed == num_tests

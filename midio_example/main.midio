@@ -1,63 +1,77 @@
 import("std", Std_k98ojb)
 import("http", Http_q7o96c)
 
-module() main {
-  func(doc: "interchange the first and last element in a given list.") swap_list {
-        in(x: -1489, y: -536, name: "list") property(List) list_752c60
+module() main { 
+    func(doc: "Finds the product of first even and odd number of a given list.") mul_even_odd {
+        in(x: -277, y: 166.5, name: "list") property(List) list_09fcba
 
-        out(x: -189.2999999999999, y: -620.25, name: "output") property(List) output_195363
+        out(x: 800, y: 145.5, name: "output") property(Number) output_edc2e3
 
-        instance(x: -1049, y: -375) firstitem_9b1bc3 root.Std_k98ojb.List.FirstItem {}
-        instance(x: -1059, y: -696) lastitem_d831ca root.Std_k98ojb.List.LastItem {}
-        data_instance(x: -753.0, y: -588.0) data_cc1b1b  = [first, middle, last]
-        instance(x: -432, y: -620) flatten_c31c7c root.Std_k98ojb.List.Flatten {}
-        instance(x: -978, y: -566) slice_3f3ee6 root.Std_k98ojb.List.Slice {}
-        instance(x: -1405, y: -438) length_4b8927 root.Std_k98ojb.List.Length {}
-        instance(x: -1191, y: -492) sub_f133b2 root.Std_k98ojb.Math.Sub {}
-        list_752c60 -> lastitem_d831ca.list
-        list_752c60 -> firstitem_9b1bc3.list
-        data_cc1b1b -> flatten_c31c7c.items
-        firstitem_9b1bc3.item -> data_cc1b1b.last
-        lastitem_d831ca.item -> data_cc1b1b.first
-        list_752c60 -> slice_3f3ee6.list
-        1 -> slice_3f3ee6.start
-        slice_3f3ee6.slice -> data_cc1b1b.middle
-        flatten_c31c7c.flattened -> output_195363
-        list_752c60 -> length_4b8927.list
-        length_4b8927.length -> sub_f133b2.first
-        1 -> sub_f133b2.second
-        sub_f133b2.result -> slice_3f3ee6.end
+        instance(x: 532, y: 147.5) mul_7e1ce0 root.Std_k98ojb.Math.Mul {}
+        instance(x: -39, y: 26, name: "First even number") find_de624f root.Std_k98ojb.Iteration.Find {}
+        instance(x: -39, y: 257, name: "First odd number") ``First even number_0b1361`` root.Std_k98ojb.Iteration.Find {}
+        list_09fcba -> find_de624f.items
+        func() {
+            in(x: -192, y: 84.5, name: "current") property(Number) current_afd5b1
+
+            out(x: 698, y: 85, name: "bool") property(Bool) bool_1eb6e9
+
+            instance(x: 112, y: 80) modulo_45e806 root.Std_k98ojb.Math.Modulo {}
+            instance(x: 415, y: 86) equal_a54bdc root.Std_k98ojb.Logic.Equal {}
+            current_afd5b1 -> modulo_45e806.value
+            2 -> modulo_45e806.divisor
+            modulo_45e806.result -> equal_a54bdc.left
+            0 -> equal_a54bdc.right
+            equal_a54bdc.result -> bool_1eb6e9
+        } -> find_de624f.predicate
+        func() {
+            in(x: -192, y: 84.5, name: "current") property(Number) current_afd5b1
+
+            out(x: 698, y: 85, name: "bool") property(Bool) bool_1eb6e9
+
+            instance(x: 112, y: 80) modulo_45e806 root.Std_k98ojb.Math.Modulo {}
+            instance(x: 421, y: 79) notequal_148aeb root.Std_k98ojb.Logic.NotEqual {}
+            current_afd5b1 -> modulo_45e806.value
+            2 -> modulo_45e806.divisor
+            modulo_45e806.result -> notequal_148aeb.left
+            0 -> notequal_148aeb.right
+            notequal_148aeb.result -> bool_1eb6e9
+        } -> ``First even number_0b1361``.predicate
+        list_09fcba -> ``First even number_0b1361``.items
+        find_de624f.item -> mul_7e1ce0.first
+        ``First even number_0b1361``.item -> mul_7e1ce0.second
+        mul_7e1ce0.result -> output_edc2e3
     }
 
-    instance(x: 101, y: -67.5) swap_list_496e5e root.main.swap_list {}
-}
+    module(doc: "Contains three different tests for the 'mul_even_odd' function node") tests {
+        instance(x: -125, y: 29.5) test_1c15c2 root.Std_k98ojb.Testing.Test {
+            name: "Test mul_even_odd"
+        }
+        instance(x: -60, y: 184) assertequal_8bd971 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 259, y: 179) assertequal_d6f614 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 558, y: 176) assertequal_9994ce root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: -58, y: 351) mul_even_odd_3b4ccc root.main.mul_even_odd {}
+        instance(x: 246, y: 353) mul_c7c7ff root.main.mul_even_odd {}
+        instance(x: 557.2, y: 345.4) mul_f282df root.main.mul_even_odd {}
+        data_instance(x: -38.0, y: 465.0) data_d3fb13  = [1, 3, 5, 7, 4, 1, 6, 8]
+        data_instance(x: 245.0, y: 462.0) data_09b997  = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+        data_instance(x: 547.0, y: 455.0) data_c8c2d3  = [1, 5, 7, 9, 10]
+        test_1c15c2.onRun -> assertequal_8bd971.execute
+        assertequal_8bd971.continue -> assertequal_d6f614.execute
+        assertequal_d6f614.continue -> assertequal_9994ce.execute
+        mul_even_odd_3b4ccc.output_edc2e3 -> assertequal_8bd971.expect
+        mul_c7c7ff.output_edc2e3 -> assertequal_d6f614.expect
+        mul_f282df.output_edc2e3 -> assertequal_9994ce.expect
+        data_d3fb13 -> mul_even_odd_3b4ccc.list_09fcba
+        4 -> assertequal_8bd971.actual
+        data_09b997 -> mul_c7c7ff.list_09fcba
+        2 -> assertequal_d6f614.actual
+        data_c8c2d3 -> mul_f282df.list_09fcba
+        10 -> assertequal_9994ce.actual
 
-module(doc: "Contains three different tests for the 'swap_list' function node") tests {
-    instance(x: -413.7999999999999, y: 178.05) assertequal_78d2be root.Std_k98ojb.Testing.AssertEqual {}
-    instance(x: 7.200000000000044, y: 158.05) assertequal_201d01 root.Std_k98ojb.Testing.AssertEqual {}
-    instance(x: 461.2000000000001, y: 150.05) assertequal_741900 root.Std_k98ojb.Testing.AssertEqual {}
-    instance(x: -632.8, y: 185.05) swap_list_050df4 root.main.swap_list {}
-    instance(x: -192.70000000000005, y: 246.1) swap_list_d7e7ad root.main.swap_list {}
-    instance(x: 227.29999999999995, y: 262.1) swap_list_acd8ac root.main.swap_list {}
-    data_instance(x: -191.3, y: 363.3) data_421885  = [1, 2, 3, 4, 4]
-    data_instance(x: -867.1, y: 200.6) data_6b740b  = [1, 2, 3]
-    data_instance(x: -50.1, y: -106.5) data_c9a02f  = [4, 2, 3, 4, 1]
-    data_instance(x: -662.0, y: -161.0) data_12e5b0  = [3, 2, 1]
-    data_instance(x: 252.0, y: 362.0) data_383b29  = [4, 5, 6]
-    data_instance(x: 332.0, y: -105.0) data_ff4907  = [6, 5, 4]
-    instance(x: -375.4500000000001, y: 14.649999999999975) test_c84d1b root.Std_k98ojb.Testing.Test {
-        name: "Test swap_list"
+
     }
-    swap_list_050df4.output_195363 -> assertequal_78d2be.actual
-    swap_list_d7e7ad.output_195363 -> assertequal_201d01.actual
-    swap_list_acd8ac.output_195363 -> assertequal_741900.actual
-    data_421885 -> swap_list_d7e7ad.list_752c60
-    data_6b740b -> swap_list_050df4.list_752c60
-    data_c9a02f -> assertequal_201d01.expect
-    data_12e5b0 -> assertequal_78d2be.expect
-    data_383b29 -> swap_list_acd8ac.list_752c60
-    data_ff4907 -> assertequal_741900.expect
-    test_c84d1b.onRun -> assertequal_78d2be.execute
-    assertequal_78d2be.continue -> assertequal_201d01.execute
-    assertequal_201d01.continue -> assertequal_741900.execute
+
+    instance(x: -291, y: 177.5) mul_even_odd_f53d27 root.main.mul_even_odd {}
+
 }

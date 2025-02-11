@@ -40,7 +40,7 @@ module() main {
     }
 
 
-    instance(x: 1692, y: 462) first_repeated_char_f35a43 root.first_repeated_char {}
+    instance(x: 1692, y: 462) first_repeated_char_f35a43 root.main.first_repeated_char {}
 
 
 }

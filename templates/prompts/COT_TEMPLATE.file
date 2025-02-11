@@ -1,33 +1,33 @@
-TASK:
-{task_description}
-
-Step 1: Determine the preconditions for the task.
-In this case:
-    {{preconditions}}
-
-Step 2: Determine the postconditions for the task.
-In this case:
-    {{postconditions}}
-
-Step 3: Pick the most relevant stdLibrary and httpPackage external functions that can be used for this task. If several functions can do the same task.
-In this case:
-    {{library_functions}}
-
-step 4: Decide if it is needed to create an user-defined function, with input and/or output properties and/or triggers, OR if its enough to use the external functions identified in the previous step. An user-defined function should usually be created if none or several functions have been identified in the previous step, to encapsulate the functionality with a meaningful task name.
-
-Step 5: Determine the flow's node types.
-In this case:
-    {{visual_node_types}}
-
-Step 6: Determine the textual instance types that maps to the node-types identyfied in the previous step.
-In this case:
-    {{textual_instance_types}}
-
-Step 7: Write the code.
-In this case:
+Generate the code that might be used to solve the given task.
+You must return the code inside a code block, in the following form:
 
 ```midio
 
-    {{code}}
+    //Midio Code
 
 ```
+The task should be solved step by step. These are the steps:
+1. Determine the preconditions for the task.
+2. Determine the postconditions for the task.
+3. Pick the most relevant stdLibrary and httpPackage external functions that can be used for this task. If several functions can do the same task.
+4. Decide if it is needed to create an user-defined function, with input and/or output properties and/or triggers, OR if its enough to use the external functions identified in the previous step. An user-defined function should usually be created if none or several functions have been identified in the previous step, to encapsulate the functionality with a meaningful task name.
+5. Write the code.
+
+The created Midio function should adhere to this signature:
+```midio
+    {func_signature}
+    ...
+```
+And solve these tests:
+```midio
+    {tests}
+```
+
+Here is your task:
+"{task}"
+
+
+
+
+
+

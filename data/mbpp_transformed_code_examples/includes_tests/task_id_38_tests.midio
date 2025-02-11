@@ -17,14 +17,14 @@ module() main {
             in(x: -185, y: -84.5, name: "accumulated") property(Number) current_c750f1
             in(x: -177, y: 22, name: "current") property(Number) current_3f11cd
 
-            out(x: 1072.3, y: -77.64999999999998, name: "sum") property(Number) sum_72dd2a
+            out(x: 1072.3, y: -77, name: "sum") property(Number) sum_72dd2a
 
             instance(x: 74, y: 2) mul_0f3be6 root.Std_k98ojb.Math.Mul {}
             instance(x: 298, y: 1) sub_e38c7d root.Std_k98ojb.Math.Sub {}
-            instance(x: 568.3, y: 1.3500000000000227) expression_8eee0e root.Std_k98ojb.Math.Expression {
+            instance(x: 568.3, y: 1) expression_8eee0e root.Std_k98ojb.Math.Expression {
                 expression: "j*j*j*j"
             }
-            instance(x: 818.3, y: -74.64999999999998) add_8974a2 root.Std_k98ojb.Math.Add {}
+            instance(x: 818.3, y: -74) add_8974a2 root.Std_k98ojb.Math.Add {}
             2 -> mul_0f3be6.first
             current_3f11cd -> mul_0f3be6.second
             mul_0f3be6.result -> sub_e38c7d.first

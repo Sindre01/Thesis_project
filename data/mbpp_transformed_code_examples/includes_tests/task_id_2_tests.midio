@@ -4,8 +4,8 @@ import("http", Http_q7o96c)
 module() main {
 
     module(doc: "Contains three different tests for the 'List min' function node") tests {
-        instance(x: -278.57087910482176, y: 84.16315230254101) min_17cef2 root.Std_k98ojb.List.Min {}
-        instance(x: -700.2377340852905, y: -267.8369774582012) test_6f9def root.Std_k98ojb.Testing.Test {
+        instance(x: -278, y: 84) min_17cef2 root.Std_k98ojb.List.Min {}
+        instance(x: -700, y: -267) test_6f9def root.Std_k98ojb.Testing.Test {
             name: "Test List min"
         }
         instance(x: -302.4600002734128, y: -81.61479160337464) assertequal_158f04 root.Std_k98ojb.Testing.AssertEqual {}

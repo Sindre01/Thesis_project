@@ -29,39 +29,6 @@ def remove_first_three_words(text: str) -> str:
     # Slice from the 4th word onward (index 3, zero-based)
     return " ".join(words[4:])
 
-# def split_and_format(data: json, template_name: str, code_folder = None):
-#     script_path = os.path.dirname(os.getcwd())
-#     prompt_template_path = os.path.join(script_path, f'../templates/prompts/{template_name}.file')
-#     response_template_path = os.path.join(script_path, f'../templates/responses/{template_name}.file')
-
-#     if not (os.path.exists(prompt_template_path)):
-#         print(f"{prompt_template_path}.file not found!!")
-#         return
-#     if not (os.path.exists(response_template_path)):
-#         print(f"{response_template_path}.file not found!!")
-#         return
-    
-#     prompt_template = read_file(prompt_template_path)
-#     response_template = read_file(response_template_path)
-
-#     prompts = [prompt_template.format(task_description=task['prompts'][0]) for task in data]
-
-#     if code_folder: #Code generation
-#         responses = []
-#         for task in data:
-#             file_path = f"{code_folder}/task_id_{task['task_id']}.midio"
-#             try:
-#                 with open(file_path, 'r') as file:
-#                     solution_code = response_template.format(code=file.read().strip())
-#                     responses.append(solution_code)
-#             except FileNotFoundError:
-#                 responses.append("File not found")
-#             except Exception as e:
-#                 responses.append(f"Error: {e}")
-#     else: #Node generation
-#         responses = [response_template.format(nodes=(", ".join(task['external_functions']))) for task in data]
-#     return (prompts, responses)
-
 def get_system_template(context_template_name):
     script_path = os.path.dirname(os.getcwd())
     context_template_path = os.path.join(script_path, f'../templates/contexts/{context_template_name}.file')
@@ -80,28 +47,6 @@ def get_response_template(template_name):
         print(f"{template_name}.file not found!!")
         return
     return read_file(template_path)
-
-# def create_few_shot_messages(explained_used_libraries, train_prompts, train_responses, context_template_name, context_role= "developer"):
-#     context = create_context(explained_used_libraries, context_template_name)
-
-#     few_shots_messages = [{"role": context_role, "content": context}] 
-#     for i, (prompt, response) in enumerate(zip(train_prompts, train_responses)):
-#         few_shots_messages.append({"role": "user", "content": prompt})
-#         few_shots_messages.append({"role": "assistant", "content": response})
-#     return few_shots_messages
-
-# def create_few_shot_string(explained_used_libraries, train_prompts, train_responses, context_template_name, context_role= "developer"):
-#     context = create_context(explained_used_libraries, context_template_name)
-
-#     few_shots_messages = f"{context_role}: {context}\n"
-#     for i, (prompt, response) in enumerate(zip(train_prompts, train_responses)):
-#         few_shots_messages+= f"\n\n\nTask {i}\n"
-#         few_shots_messages+= f"User prompt: {prompt}\n"
-#         few_shots_messages+= f"Assistant response: {response}\n"
-
-#     return few_shots_messages
-
-
 
 ##############LANGCHAIN################
 def get_prompt_template(template_name):
@@ -134,7 +79,7 @@ def create_few_shot_prompt(
     )
     return few_shot_prompt
 
-def create_final_node_prompt(
+def create_final_prompt(
         few_shot_prompt: FewShotChatMessagePromptTemplate, 
         system_template_name: str, 
         prompt_template_name: str
@@ -151,14 +96,15 @@ def create_final_node_prompt(
     )
     return final_prompt
 
-def get_prompt_template_variables(template_name):
-    # Extract variables inside { } or {{ }}
-    template = get_prompt_template(template_name)
-    variables = re.findall(r'\{\{(.*?)\}\}|\{(.*?)\}', template)
 
-    # Flatten and remove None values
-    variable_names = [var for group in variables for var in group if var]
-    return variable_names
+# def get_prompt_template_variables(template_name):
+#     # Extract variables inside { } or {{ }}
+#     template = get_prompt_template(template_name)
+#     variables = re.findall(r'\{\{(.*?)\}\}|\{(.*?)\}', template)
+
+#     # Flatten and remove None values
+#     variable_names = [var for group in variables for var in group if var]
+#     return variable_names
 
 def transform_node_data(data):
     """[{
@@ -181,13 +127,33 @@ def transform_node_data(data):
     return new_data_format
 
 def transform_code_data(data):
+    """[{
+        'task_id': str, 
+        'task': str, 
+        'response': str, 
+        'MBPP_task_id': str,
+        'external_functions': list
+        }]"""
     new_data_format = []
-    for task in data:
+    for sample in data:
         new_obj = {}
-        new_obj['task_id'] = task['task_id']
-        new_obj['task'] = task['prompts'][0]
-        new_obj['response'] = task['code']
-        # new_obj['tests'] = get_tests(new_obj['task_id'])
-        new_obj['python_tests'] = task['testing']['tests_list']
+        new_obj['MBPP_task_id'] = str(sample['MBPP_task_id'])
+        new_obj['task_id'] = str(sample['task_id'])
+        new_obj['task'] = sample['prompts'][0]
+        new_obj['response'] = read_code_file(sample['task_id'])
+        new_obj['external_functions'] = ', '.join([func.replace("root.std.", "") for func in sample['external_functions']])
+        new_obj['python_tests'] = sample['testing']['test_list']
         new_data_format.append(new_obj)
-    return 
+    return new_data_format
+
+def read_code_file(task_id):
+    script_path = os.path.dirname(os.getcwd())
+    file_path = os.path.join(script_path, f'../data/mbpp_transformed_code_examples/only_files/task_id_{task_id}.midio')
+    try:
+        with open(file_path, 'r') as file:
+            return file.read().strip()
+    except FileNotFoundError:
+        return "File not found"
+    except Exception as e:
+        return f"Error: {e}"
+    

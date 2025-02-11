@@ -4,29 +4,30 @@ import("http", Http_q7o96c)
 module() main {
 
     func(doc: "checks whether the given two integers have opposite sign or not.") opposite_signs {
-        in(x: -426.75106687766726, y: -248.6672781623361, name: "x") property(Number) x_853326
-        in(x: -420.9177240472398, y: -107.83359783106482, name: "y") property(Number) y_5390f5
-        out(x: 159.11126708984375, y: -219.88885498046875, name: "output") property(Bool) output_3339a3
+        in(x: -426, y: -248, name: "x") property(Number) x_853326
+        in(x: -420, y: -107, name: "y") property(Number) y_5390f5
+        out(x: 159, y: -219, name: "output") property(Bool) output_3339a3
 
-        instance(x: -208.8202290039062, y: -217.13977099609372) expression_ea12d8 root.Std_k98ojb.Math.Expression {
+        instance(x: -208, y: -217) expression_ea12d8 root.Std_k98ojb.Math.Expression {
             expression: "(x < 0 && y > 0) || (x > 0 && y < 0)"
         }
         x_853326 -> expression_ea12d8.gen_0
         y_5390f5 -> expression_ea12d8.gen_1
         expression_ea12d8.result -> output_3339a3
     }
+    
     module(doc: "Contains four different tests for the 'opposite_signs' function node") tests {
-        instance(x: -565.5751366373697, y: 51.16856408013234) task_c90e87 root.main.opposite_signs {}
-        instance(x: -914.9086022135418, y: -199.72013831244578) test_db5683 root.Std_k98ojb.Testing.Test {
+        instance(x: -565, y: 51) task_c90e87 root.main.opposite_signs {}
+        instance(x: -914, y: -199) test_db5683 root.Std_k98ojb.Testing.Test {
             name: "Test opposite_signs"
         }
-        instance(x: -541.5752587076822, y: -110.83134436713328) asserttrue_49a544 root.Std_k98ojb.Testing.AssertTrue {}
-        instance(x: -207.13092277018228, y: 44.16877770317922) opposite_208299 root.main.opposite_signs {}
-        instance(x: -224.68609855143228, y: -113.49801612006297) assertfalse_ba2ad6 root.Std_k98ojb.Testing.AssertFalse {}
-        instance(x: 102.98016121419272, y: -116.60908484564891) assertfalse_5acbca root.Std_k98ojb.Testing.AssertFalse {}
-        instance(x: 120.75919930013032, y: 49.323541130913554) opposite_f7dab0 root.main.opposite_signs {}
-        instance(x: 474.71505428059896, y: 48.72365563286667) opposite_80a2be root.main.opposite_signs {}
-        instance(x: 475.42490926106774, y: -120.72464972601995) asserttrue_2ca070 root.Std_k98ojb.Testing.AssertTrue {}
+        instance(x: -541, y: -110) asserttrue_49a544 root.Std_k98ojb.Testing.AssertTrue {}
+        instance(x: -207, y: 44) opposite_208299 root.main.opposite_signs {}
+        instance(x: -224, y: -113) assertfalse_ba2ad6 root.Std_k98ojb.Testing.AssertFalse {}
+        instance(x: 102, y: -116) assertfalse_5acbca root.Std_k98ojb.Testing.AssertFalse {}
+        instance(x: 120, y: 49) opposite_f7dab0 root.main.opposite_signs {}
+        instance(x: 474, y: 48) opposite_80a2be root.main.opposite_signs {}
+        instance(x: 475, y: -120) asserttrue_2ca070 root.Std_k98ojb.Testing.AssertTrue {}
         task_c90e87.output_3339a3 -> asserttrue_49a544.value
         test_db5683.onRun -> asserttrue_49a544.execute
         asserttrue_49a544.continue -> assertfalse_ba2ad6.execute
@@ -45,5 +46,5 @@ module() main {
         2 -> opposite_80a2be.y_5390f5
     }
 
-    instance(x: -745.1109619140625, y: -368.1112060546875) task_id_58_77805a root.main.opposite_signs {}
+    instance(x: -745, y: -368) task_id_58_77805a root.main.opposite_signs {}
 }

@@ -29,37 +29,5 @@ module() main {
         sub_f133b2.result -> slice_3f3ee6.end
     }
 
-    module(doc: "Contains three different tests for the 'swap_list' function node") tests {
-        instance(x: -413.7999999999999, y: 178.05) assertequal_78d2be root.Std_k98ojb.Testing.AssertEqual {}
-        instance(x: 7.200000000000044, y: 158.05) assertequal_201d01 root.Std_k98ojb.Testing.AssertEqual {}
-        instance(x: 461.2000000000001, y: 150.05) assertequal_741900 root.Std_k98ojb.Testing.AssertEqual {}
-        instance(x: -632.8, y: 185.05) swap_list_050df4 root.main.swap_list {}
-        instance(x: -192.70000000000005, y: 246.1) swap_list_d7e7ad root.main.swap_list {}
-        instance(x: 227.29999999999995, y: 262.1) swap_list_acd8ac root.main.swap_list {}
-        data_instance(x: -191.3, y: 363.3) data_421885  = [1, 2, 3, 4, 4]
-        data_instance(x: -867.1, y: 200.6) data_6b740b  = [1, 2, 3]
-        data_instance(x: -50.1, y: -106.5) data_c9a02f  = [4, 2, 3, 4, 1]
-        data_instance(x: -662.0, y: -161.0) data_12e5b0  = [3, 2, 1]
-        data_instance(x: 252.0, y: 362.0) data_383b29  = [4, 5, 6]
-        data_instance(x: 332.0, y: -105.0) data_ff4907  = [6, 5, 4]
-        instance(x: -375.4500000000001, y: 14.649999999999975) test_c84d1b root.Std_k98ojb.Testing.Test {
-            name: "Test swap_list"
-        }
-        swap_list_050df4.output_195363 -> assertequal_78d2be.actual
-        swap_list_d7e7ad.output_195363 -> assertequal_201d01.actual
-        swap_list_acd8ac.output_195363 -> assertequal_741900.actual
-        data_421885 -> swap_list_d7e7ad.list_752c60
-        data_6b740b -> swap_list_050df4.list_752c60
-        data_c9a02f -> assertequal_201d01.expect
-        data_12e5b0 -> assertequal_78d2be.expect
-        data_383b29 -> swap_list_acd8ac.list_752c60
-        data_ff4907 -> assertequal_741900.expect
-        test_c84d1b.onRun -> assertequal_78d2be.execute
-        assertequal_78d2be.continue -> assertequal_201d01.execute
-        assertequal_201d01.continue -> assertequal_741900.execute
-
-
-    }
-
     instance(x: 101, y: -67.5) swap_list_496e5e root.main.swap_list {}
 }

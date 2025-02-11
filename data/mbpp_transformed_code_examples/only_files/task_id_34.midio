@@ -28,5 +28,5 @@ module() main {
     }
 
 
-    instance(x: 180, y: -299.5) rotate_right_9b5fc6 root.Std_k98ojb.main.rotate_right {}
+    instance(x: 180, y: -299.5) rotate_right_9b5fc6 root.main.rotate_right {}
 }

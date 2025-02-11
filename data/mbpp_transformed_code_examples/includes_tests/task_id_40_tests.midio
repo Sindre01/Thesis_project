@@ -7,17 +7,17 @@ module() main {
 
         out(x: 800, y: 145.5, name: "output") property(Number) output_edc2e3
 
-        instance(x: 532, y: 147.5") mul_7e1ce0 root.Std_k98ojb.Math.Mul {}
-        instance(x: -39, y: 26.725000000000023", name: "First even number") find_de624f root.Std_k98ojb.Iteration.Find {}
-        instance(x: -39, y: 257.725", name: "First odd number") ``First even number_0b1361`` root.Std_k98ojb.Iteration.Find {}
+        instance(x: 532, y: 147.5) mul_7e1ce0 root.Std_k98ojb.Math.Mul {}
+        instance(x: -39, y: 26, name: "First even number") find_de624f root.Std_k98ojb.Iteration.Find {}
+        instance(x: -39, y: 257, name: "First odd number") ``First even number_0b1361`` root.Std_k98ojb.Iteration.Find {}
         list_09fcba -> find_de624f.items
         func() {
             in(x: -192, y: 84.5, name: "current") property(Number) current_afd5b1
 
             out(x: 698, y: 85, name: "bool") property(Bool) bool_1eb6e9
 
-            instance(x: 112, y: 80") modulo_45e806 root.Std_k98ojb.Math.Modulo {}
-            instance(x: 415, y: 86") equal_a54bdc root.Std_k98ojb.Logic.Equal {}
+            instance(x: 112, y: 80) modulo_45e806 root.Std_k98ojb.Math.Modulo {}
+            instance(x: 415, y: 86) equal_a54bdc root.Std_k98ojb.Logic.Equal {}
             current_afd5b1 -> modulo_45e806.value
             2 -> modulo_45e806.divisor
             modulo_45e806.result -> equal_a54bdc.left
@@ -29,8 +29,8 @@ module() main {
 
             out(x: 698, y: 85, name: "bool") property(Bool) bool_1eb6e9
 
-            instance(x: 112, y: 80") modulo_45e806 root.Std_k98ojb.Math.Modulo {}
-            instance(x: 421, y: 79") notequal_148aeb root.Std_k98ojb.Logic.NotEqual {}
+            instance(x: 112, y: 80) modulo_45e806 root.Std_k98ojb.Math.Modulo {}
+            instance(x: 421, y: 79) notequal_148aeb root.Std_k98ojb.Logic.NotEqual {}
             current_afd5b1 -> modulo_45e806.value
             2 -> modulo_45e806.divisor
             modulo_45e806.result -> notequal_148aeb.left
@@ -44,18 +44,18 @@ module() main {
     }
 
     module(doc: "Contains three different tests for the 'mul_even_odd' function node") tests {
-        instance(x: -125, y: 29.5") test_1c15c2 root.Std_k98ojb.Testing.Test {
+        instance(x: -125, y: 29.5) test_1c15c2 root.Std_k98ojb.Testing.Test {
             name: "Test mul_even_odd"
         }
-        instance(x: -60, y: 184") assertequal_8bd971 root.Std_k98ojb.Testing.AssertEqual {}
-        instance(x: 259, y: 179.85000000000002") assertequal_d6f614 root.Std_k98ojb.Testing.AssertEqual {}
-        instance(x: 558, y: 176.85000000000002") assertequal_9994ce root.Std_k98ojb.Testing.AssertEqual {}
-        instance(x: -58, y: 351.85") mul_even_odd_3b4ccc root.main.mul_even_odd {}
-        instance(x: 246.20000000000005, y: 353.4") mul_c7c7ff root.main.mul_even_odd {}
-        instance(x: 557.2, y: 345.4") mul_f282df root.main.mul_even_odd {}
-        data_instance(x: -38.0, y: 465.0") data_d3fb13  = [1, 3, 5, 7, 4, 1, 6, 8]
-        data_instance(x: 245.0, y: 462.0") data_09b997  = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-        data_instance(x: 547.0, y: 455.0") data_c8c2d3  = [1, 5, 7, 9, 10]
+        instance(x: -60, y: 184) assertequal_8bd971 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 259, y: 179) assertequal_d6f614 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 558, y: 176) assertequal_9994ce root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: -58, y: 351) mul_even_odd_3b4ccc root.main.mul_even_odd {}
+        instance(x: 246, y: 353) mul_c7c7ff root.main.mul_even_odd {}
+        instance(x: 557.2, y: 345.4) mul_f282df root.main.mul_even_odd {}
+        data_instance(x: -38.0, y: 465.0) data_d3fb13  = [1, 3, 5, 7, 4, 1, 6, 8]
+        data_instance(x: 245.0, y: 462.0) data_09b997  = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+        data_instance(x: 547.0, y: 455.0) data_c8c2d3  = [1, 5, 7, 9, 10]
         test_1c15c2.onRun -> assertequal_8bd971.execute
         assertequal_8bd971.continue -> assertequal_d6f614.execute
         assertequal_d6f614.continue -> assertequal_9994ce.execute
@@ -72,6 +72,6 @@ module() main {
 
     }
 
-    instance(x: -291, y: 177.5") mul_even_odd_f53d27 root.main.mul_even_odd {}
+    instance(x: -291, y: 177.5) mul_even_odd_f53d27 root.main.mul_even_odd {}
 
 }

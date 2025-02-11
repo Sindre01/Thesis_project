@@ -8,3 +8,12 @@ You must return the code inside a code block, in the following form:
 ```
 Here is your task:
 "{task}"
+
+The created Midio function should adhere to this signature:
+```midio
+    {func_signature}
+    ...
+```
+
+
+

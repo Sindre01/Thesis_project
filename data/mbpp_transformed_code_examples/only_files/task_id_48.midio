@@ -49,31 +49,5 @@ module() main {
         setter_0816c8.continue -> continue_9a54bb
     }
 
-    module(doc: "Contains three different tests for the 'num_prime' function node") tests {
-        instance(x: 35, y: -110.5) asserttrue_e871b6 root.Std_k98ojb.Testing.AssertTrue {}
-        instance(x: -172, y: -111.5) num_prime_1188ac root.main.num_prime {}
-        instance(x: -206, y: -224.5) test_85ec3b root.Std_k98ojb.Testing.Test {
-            name: "Test num_prime"
-        }
-        instance(x: 487.5, y: -113.5) asserttrue_19edae root.Std_k98ojb.Testing.AssertTrue {}
-        instance(x: 280.5, y: -114.5) num_40dfba root.main.num_prime {}
-        instance(x: 718.5, y: -117.5) num_1cd86a root.main.num_prime {}
-        instance(x: 963, y: -123) assertfalse_b842b8 root.Std_k98ojb.Testing.AssertFalse {}
-        13 -> num_prime_1188ac.num_5c0677
-        test_85ec3b.onRun -> num_prime_1188ac.execute_b7b391
-        num_prime_1188ac.continue_9a54bb -> asserttrue_e871b6.execute
-        num_prime_1188ac.output_c457b3 -> asserttrue_e871b6.value
-        num_40dfba.continue_9a54bb -> asserttrue_19edae.execute
-        num_40dfba.output_c457b3 -> asserttrue_19edae.value
-        7 -> num_40dfba.num_5c0677
-        asserttrue_e871b6.continue -> num_40dfba.execute_b7b391
-        -1010 -> num_1cd86a.num_5c0677
-        num_1cd86a.continue_9a54bb -> assertfalse_b842b8.execute
-        asserttrue_19edae.continue -> num_1cd86a.execute_b7b391
-        num_1cd86a.output_c457b3 -> assertfalse_b842b8.value
-
-
-    }
-
     instance(x: -361, y: 185.5) num_prime_88fd7e root.main.num_prime {}
 }

@@ -2,7 +2,7 @@ import json
 import numpy as np
 import re
 from my_packages.evaluation.metrics import estimate_pass_at_k
-from my_packages.prompting.few_shot import create_few_shot_prompt, create_final_node_prompt
+from my_packages.prompting.few_shot import create_few_shot_prompt, create_final_prompt
 from my_packages.utils.server_utils import server_diagnostics
 from my_packages.evaluation.models import invoke_anthropic_model, invoke_openai_model, invoke_o1_model, invoke_ollama_model
 from colorama import Fore, Back, Style # type: ignore
@@ -124,6 +124,15 @@ def run_model(
     seed=None,                              
     debug=False
 ):
+    """
+    Returns: 
+    {
+        "node1, node2": ["node1, node2", "node1, node2", "node1, node2", "node1, node2"],  # 1 correct out of 3
+        "node3, node4": ["node1, node2", "node1, node2", "node1, node2", "node1, node2"],    # 1 correct out of 3
+        "node5, node6": ["node5, node6", "node1, node2", "node1, node2", "node1, node2"],   # 2 correct out of 3
+    }
+    
+    """
     results = {}
 
     for index, sample in enumerate(data):
@@ -135,7 +144,7 @@ def run_model(
         # Do calulations before evaluation and just pass in an class that get the examples for the task.
         examples = example_pool.select_examples(sample.inputs)
         few_shot = create_few_shot_prompt(examples, 'NODES_TEMPLATE')
-        final_prompt_template = create_final_node_prompt(few_shot, "NODE_GENERATOR_TEMPLATE", "NODES_TEMPLATE")
+        final_prompt_template = create_final_prompt(few_shot, "NODE_GENERATOR_TEMPLATE", "NODES_TEMPLATE")
         prompt = final_prompt_template.format(task=task, external_functions=available_nodes)
 
         for attempt_i in range(max(ks)):
@@ -240,15 +249,6 @@ def evaluate_nodes(
         seed,
         debug
     )
-   
-    # model_result = {
-    # "node1, node2": ["node1, node2", "node1, node2", "node1, node2", "node1, node2"],  # 1 correct out of 3
-    # "node3, node4": ["node1, node2", "node1, node2", "node1, node2", "node1, node2"],    # 1 correct out of 3
-    # "node5, node6": ["node5, node6", "node1, node2", "node1, node2", "node1, node2"],   # 2 correct out of 3
-    # }
-    # ks = [1, 3]
-
-    # print(f"model_result: {model_result}")
 
     #calculate pass@k and f1 score metrics
     pass_at_k_dict = calculate_pass_at_k_scores(model_result, ks)
@@ -297,7 +297,7 @@ def run_validation(
                 print(f"Validation with temp={temp}, top_k={top_k} and top_p={top_p}. Gave f1={val_f1} and pass@ks={val_pass_k_dict}")
 
                 #Choose best parameters based on f1_score
-                if  val_f1 > validation_best_f1:
+                if val_f1 > validation_best_f1:
                     validation_best_f1 = val_f1
                     validation_pass_ks = val_pass_k_dict
                     best_params = {"temperature": temp, "top_p": top_p, "top_k": top_k}

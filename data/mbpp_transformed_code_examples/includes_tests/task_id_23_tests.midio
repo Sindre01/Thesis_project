@@ -3,21 +3,21 @@ import("http", Http_q7o96c)
 
 module() main { 
     func(doc: "finds the first repeated character in a given string.") first_repeated_char {
-        in(x: -20.83454868200644, y: -110.63145350145422, name: "execute") trigger() execute_97d5d5
-        in(x: -216.6793062928671, y: 83.12984924120568, name: "string") property(String) string_71a657
+        in(x: -20, y: -110, name: "execute") trigger() execute_97d5d5
+        in(x: -216, y: 83, name: "string") property(String) string_71a657
 
-        out(x: 1545.4543910894802, y: 186.48226354870695, name: "continue") trigger() continue_1914e0
-        out(x: 904.0662851166315, y: 359.220596201445, name: "char") property(Any) char_f2523c
+        out(x: 1545, y: 186, name: "continue") trigger() continue_1914e0
+        out(x: 904, y: 359, name: "char") property(Any) char_f2523c
 
-        instance(x: 526.9445190429688, y: 135.68891601562513) add_073b72 root.Std_k98ojb.Math.Add {}
-        instance(x: 1080.0333740234373, y: 45.116687011718966) if_204695 root.Std_k98ojb.Std.If {}
-        instance(x: 710.4556640625001, y: 0) slice_1801cb root.Std_k98ojb.List.Slice {}
-        instance(x: 0, y: 79.57785498046889) characters_e4ab8f root.Std_k98ojb.Strings.Characters {}
-        instance(x: 295.50000302734367, y: 125.9114350585939) for_245354 root.Std_k98ojb.Std.For {}
-        instance(x: 903.5445190429687, y: 143.46668701171888) contains_10d4db root.Std_k98ojb.List.Contains {}
-        setter(x: 256.068, y: -169.575, name: "setter_a862c0") setter_a862c0 = first
-        setter(x: 1302.318, y: -10.824999999999989, name: "setter_28b12a") setter_28b12a = first
-        getter(x: 571.75, y: 314.25, name: "getter_d16e69") getter_d16e69 = first
+        instance(x: 526, y: 135) add_073b72 root.Std_k98ojb.Math.Add {}
+        instance(x: 1080, y: 45) if_204695 root.Std_k98ojb.Std.If {}
+        instance(x: 710, y: 0) slice_1801cb root.Std_k98ojb.List.Slice {}
+        instance(x: 0, y: 79) characters_e4ab8f root.Std_k98ojb.Strings.Characters {}
+        instance(x: 295, y: 125) for_245354 root.Std_k98ojb.Std.For {}
+        instance(x: 903, y: 143) contains_10d4db root.Std_k98ojb.List.Contains {}
+        setter(x: 256, y: -169, name: "setter_a862c0") setter_a862c0 = first
+        setter(x: 1302, y: -10, name: "setter_28b12a") setter_28b12a = first
+        getter(x: 571, y: 314.25, name: "getter_d16e69") getter_d16e69 = first
         characters_e4ab8f.characters -> for_245354.items
         characters_e4ab8f.characters -> slice_1801cb.list
         for_245354.index -> add_073b72.first
@@ -40,15 +40,15 @@ module() main {
     }
 
     module(doc: "Contains three different tests for the 'first_repeated_char' function node") tests {
-        instance(x: -900.7888807059152, y: 177.85163685825893) first_566408 root.first_repeated_char {}
-        instance(x: -978.285186549014, y: -82.4752728097098) test_81b8b4 root.Std_k98ojb.Testing.Test {
+        instance(x: -900, y: 177) first_566408 root.main.first_repeated_char {}
+        instance(x: -978, y: -82) test_81b8b4 root.Std_k98ojb.Testing.Test {
             name: "Test first_repeated_char"
         }
-        instance(x: -570.785186549014, y: 115.0247271902902) assertequal_ed5c8b root.Std_k98ojb.Testing.AssertEqual {}
-        instance(x: -347.03703362746455, y: 120.68818202427457) first_5ce37b root.first_repeated_char {}
-        instance(x: -50.03333947056353, y: 99.8612723563059) assertequal_ad10b9 root.Std_k98ojb.Testing.AssertEqual {}
-        instance(x: 215.46296637253545, y: 104.68818202427457) first_d938f8 root.first_repeated_char {}
-        instance(x: 512.4666605294367, y: 83.8612723563059) assertequal_7b8338 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: -570, y: 115) assertequal_ed5c8b root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: -347, y: 120) first_5ce37b root.main.first_repeated_char {}
+        instance(x: -50, y: 99) assertequal_ad10b9 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 215, y: 104) first_d938f8 root.main.first_repeated_char {}
+        instance(x: 512, y: 83) assertequal_7b8338 root.Std_k98ojb.Testing.AssertEqual {}
         first_566408.continue_1914e0 -> assertequal_ed5c8b.execute
         first_566408.char_f2523c -> assertequal_ed5c8b.actual
         test_81b8b4.onRun -> first_566408.execute_97d5d5
@@ -68,7 +68,7 @@ module() main {
 
     }
 
-    instance(x: 1692, y: 462) first_repeated_char_f35a43 root.first_repeated_char {}
+    instance(x: 1692, y: 462) first_repeated_char_f35a43 root.main.first_repeated_char {}
 
 
 }

@@ -1,6 +1,8 @@
 import itertools
+import os
 import numpy as np
-from my_packages.evaluation.midio_compiler import compile_code, get_errors, get_output, get_test_result, is_all_tests_passed, is_code_semantically_valid, is_code_syntax_valid
+from my_packages.data_processing.code_files import extract_tests_module
+from my_packages.evaluation.midio_compiler import clean_output, compile_code, extract_errors, get_errors, get_json_test_result, get_output, get_test_result, is_all_tests_passed, is_code_semantically_valid, is_code_syntax_valid
 
 def estimate_pass_at_k(num_samples, num_correct, k):
     """Estimates pass@k of each problem and returns them in an array."""
@@ -22,45 +24,73 @@ def estimate_pass_at_k(num_samples, num_correct, k):
     print(result)
     return result
 
+def read_test_code(task_id: int) -> str:
+    """Reads the test code from the file."""
+    current_path = os.path.dirname(os.getcwd())
+    test_file = os.path.join(current_path, f'../data/mbpp_transformed_code_examples/includes_tests/task_id_{task_id}_tests.midio')
+    test_file = os.path.abspath(test_file)     # Normalize the path to resolve '..' segments.
 
-def check_correctness(result_dict):
+    with open(test_file, "r") as file:
+        content = file.read()
+    module_tests = extract_tests_module(content)
+    if module_tests:
+        print(f"Found tests module block for task {task_id}")
+    else:
+        print("No module tests block found")
+    return module_tests
+ 
+def check_correctness(
+        result_dict: dict[int, list[str]],
+
+    ) -> dict[int, list[dict[str, bool | str]]]:
     """
     Returns a dictionary of the results of the correctness (all unit tests passed) for each candidate code.
 
     e.g. {key: [result1, result2, result3, ...], key2: [result1, result2, result3, ...]}
     where results are dictionaries with the keys "passed": true/false and "info".
     """
-    results = {}
-    for key, candidates in result_dict.items():
+    results: dict[int, list[dict[str, str]]] = {}
+    for task_id, candidates in result_dict.items():
+        test_code = read_test_code(task_id)
         checked_canidates = []
         for candidate in candidates:
             compiled = compile_code(candidate)
             #check if the code syntax is valid and semantically valid
             if not is_code_syntax_valid(compiled):
-                checked_canidates.append({"passed": False, "info": get_errors(compiled)})
+                print("syntax error")
+                checked_canidates.append({"passed": False, "info": clean_output(get_errors(compiled))})
             elif not is_code_semantically_valid(compiled):
-                checked_canidates.append({"passed": False, "info": get_output(compiled)})
-            else:
-                # If the code is semantically valid, run the tests
-                test_result_json = compile_code(candidate, "test --json")
+                print("semantics error")
+                checked_canidates.append({"passed": False, "info": extract_errors(get_output(compiled))})
+            else: # If the code is semantically valid, run the tests
 
-                if is_all_tests_passed(test_result_json):
+                # Add the testing code to the candidate code
+                test_candidate = candidate + "\n" + test_code
+                print("candidate with test code: ", test_candidate)
+
+                test_result = compile_code(test_candidate, "test", "--json")
+                json_test_result = get_json_test_result(test_result)
+                print(json_test_result)
+
+                if is_all_tests_passed(json_test_result):
                     checked_canidates.append({"passed": True, "info": "All tests passed"})
                 else:
-                    checked_canidates.append({"passed": False, "info": get_test_result(test_result_json)})
+                    checked_canidates.append({"passed": False, "info": get_test_result(json_test_result)})
             
-        results[key] = checked_canidates
+        results[task_id] = checked_canidates
 
     return results
 
-def check_syntax(result_dict):
+def check_syntax(
+        result_dict: dict[int, list[str]],
+    ):
     """
     Returns a dictionary of the results of the syntax check for each candidate code.
 
     e.g. {key: [result1, result2, result3, ...], key2: [result1, result2, result3, ...]}
     where results are dictionaries with the keys "passed": true/false and "info".
     """
-    results = {}
+    results: dict = {}
     for key, candidates in result_dict.items():
         checked_canidates = []
         for candidate in candidates:

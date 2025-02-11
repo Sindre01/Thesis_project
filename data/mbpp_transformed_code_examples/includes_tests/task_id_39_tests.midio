@@ -7,10 +7,10 @@ module() main {
 
         out(x: 1269.9843987439294, y: -209.515088507578, name: "output") property(Bool) output_8d07dc
 
-        instance(x: -303.941271957317, y: -205.9134813272051, name: "only odd indexes") filter_c91965 root.Std_k98ojb.Iteration.Filter {}
-        instance(x: 847.9266907885908, y: -207.557977278157) contains_32727d root.Std_k98ojb.List.Contains {}
-        instance(x: 246.96787668920248, y: -209.43990326101456, name: "transform numbers to true/false") map_c73e3b root.Std_k98ojb.Iteration.Map {}
-        instance(x: 1058.993296921549, y: -203.2646474677258) not_75283f root.Std_k98ojb.Logic.Not {}
+        instance(x: -303, y: -205, name: "only odd indexes") filter_c91965 root.Std_k98ojb.Iteration.Filter {}
+        instance(x: 847, y: -207) contains_32727d root.Std_k98ojb.List.Contains {}
+        instance(x: 246, y: -209, name: "transform numbers to true/false") map_c73e3b root.Std_k98ojb.Iteration.Map {}
+        instance(x: 1058, y: -203) not_75283f root.Std_k98ojb.Logic.Not {}
         func() {
             in(x: -30, y: -25.5, name: "current") property(Number) _index_170471
             in(x: -23, y: 79, name: "_index") property(Number) _index_769593

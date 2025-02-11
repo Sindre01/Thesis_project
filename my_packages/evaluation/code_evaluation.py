@@ -1,12 +1,16 @@
 from collections import defaultdict
 import json
+from typing import Tuple
 import numpy as np
 from my_packages.evaluation.metrics import check_correctness, check_semantics, check_syntax, estimate_pass_at_k
-from my_packages.evaluation.midio_compiler import compile_code, is_code_syntax_valid, is_code_semantically_valid, print_compiled_output
+from my_packages.prompting.few_shot import create_few_shot_prompt, create_final_prompt
 from my_packages.utils.server_utils import server_diagnostics
-from my_packages.evaluation.models import invoke_anthropic_model, invoke_openai_model, invoke_o1_model, invoke_ollama_model
 import re
 from colorama import Fore, Back, Style
+from langchain_ollama import OllamaEmbeddings, ChatOllama
+from langchain_anthropic import ChatAnthropic
+from langchain_openai import OpenAIEmbeddings, ChatOpenAI
+from langsmith.schemas import Example
 
 class Run:
     def __init__(
@@ -16,7 +20,8 @@ class Run:
         top_p: float,
         top_k: int,
         metric_results: dict,
-        seed = None
+        seed = None,
+        metadata: dict | None = None
     ):
         self.phase = phase
         self.temperature = temperature
@@ -24,6 +29,7 @@ class Run:
         self.top_k = top_k
         self.metric_results = metric_results
         self.seed = seed
+        self.metadata = metadata
     
     def print(self):
 
@@ -36,6 +42,7 @@ class Run:
                 f"  > Top_p: {self.top_p:.2f}\n"
                 f"{Style.RESET_ALL}"
                 f"  > Optimized metric result:: {json.dumps(self.metric_results, indent=4)}"
+                f" > Metadata: {json.dumps(self.metadata, indent=4)}"
             )
 
         elif self.phase == "testing":
@@ -46,6 +53,7 @@ class Run:
                 f"  > Top_p: {self.top_p:.2f}\n"
                 f"{Fore.GREEN}{Style.BRIGHT}"
                 f"  > Metric results: {json.dumps(self.metric_results, indent=4)}"
+                f"  > Metadata: {json.dumps(self.metadata, indent=4)}"
                 f"{Style.RESET_ALL}"
             )
 
@@ -57,12 +65,15 @@ class Run:
                 f"  > Top_p: {self.top_p:.2f}\n"
                 f"{Fore.GREEN}{Style.BRIGHT}"
                 f"  > Metric results: {json.dumps(self.metric_results, indent=4)}"
+                f"  > Metadata: {json.dumps(self.metadata, indent=4)}"
                 f"{Style.RESET_ALL}"
             )
 
     
 
-def extract_code(response_text):
+def extract_code(
+        response_text: str
+    ):
     """Extract code snippet from the response using regex."""
     # Match content between ```language and ```
     match = re.search(fr"```midio(.*?)```", response_text, re.DOTALL)
@@ -74,7 +85,11 @@ def extract_code(response_text):
     # If no match, assume the response might already be code without markdown formatting
     return response_text.strip()
 
-def calculate_pass_at_k_scores(result_dict, ks, metric):
+def calculate_pass_at_k_scores(
+        result_dict: dict[int, list[str]],
+        ks: list[int], 
+        metric: str
+    ):
     """
     Pass@k evaluation for a given result dictionary.
     Pass@k asses the probability that out of k samples, at least one was correct.
@@ -82,7 +97,7 @@ def calculate_pass_at_k_scores(result_dict, ks, metric):
     Parameters:
     - result_dict: A dictionary of true results and generated candidates.
     - ks: A list of k values to calculate pass@k for.
-    - run_tests: A boolean flag to indicate whether to run tests or not. If False, semantic correctness is used as metric.
+    - metric: which metric to calulcate pass_at_k for. E.g. syntax, semantic, tests
 
     Returns:
     - dict: A dictionary of pass@k scores for each k value.
@@ -113,14 +128,14 @@ def calculate_pass_at_k_scores(result_dict, ks, metric):
         test_results = check_semantics(result_dict)
         print("test_results:\n")
         print(test_results)
+
     # elif metric == "EM": #Equal to the true response
     #     print("Evaluating EM..\n")
     #     test_results = check_EM(result_dict)
 
     total, correct = [], []
-    #Endre true_result til en id som er unik for hver test
-    for true_result, k_results in test_results.items():
-        k_results.sort()
+    for task_id, k_results in test_results.items():
+        # k_results.sort(key=lambda d: d["passed"]) #sort the results by the passed key
         passed = [result["passed"] for result in k_results] #if all tests have passed, then passed = True
         total.append(len(passed))
         correct.append(sum(passed))
@@ -134,11 +149,11 @@ def calculate_pass_at_k_scores(result_dict, ks, metric):
     return pass_at_k
 
 def run_model(
-    client,
-    messages,
+    client: ChatOllama | ChatOpenAI | ChatAnthropic,
     model,
-    prompts,
-    responses,
+    available_nodes,
+    data : list[Example],
+    example_pool,
     max_new_tokens,
     temperature,
     top_p,
@@ -146,12 +161,29 @@ def run_model(
     ks=[1], 
     seed=None,                              
     debug=False
-):
-    results = {}
+)-> tuple[dict[int, list[str]], int]:
+    
+    results: dict[int, list[str]] = {}
+    largest_prompt_context_size = 0
+    for index, sample in enumerate(data):
+        generated_candidates: list[str] = []
+        true_response = sample.outputs["response"]
+        true_response_code = extract_code(true_response)
+        task = sample.inputs["task"]
+        task_id = int(sample.metadata["task_id"])
+        
+        # Do calulations before evaluation and just pass in an class that get the examples for the task.
+        examples = example_pool.select_examples(sample.inputs)
+        few_shot = create_few_shot_prompt(examples, 'CODE_TEMPLATE')
+        final_prompt_template = create_final_prompt(few_shot, "CODE_GENERATOR_TEMPLATE", "CODE_TEMPLATE")
+        prompt = final_prompt_template.format(task=task, external_functions=available_nodes)
 
-    for index, (prompt, true_response) in enumerate(zip(prompts, responses)):
-        generated_candidates = []
-
+        prompt_size = client(model=model, num_ctx=10000).get_num_tokens(prompt)
+        print(f"Tokens in the final prompt: {prompt_size}")
+        
+        if prompt_size > largest_prompt_context_size:
+            largest_prompt_context_size = prompt_size
+        
         for attempt_i in range(max(ks)):
             max_retries = 3
             retries = 0
@@ -159,26 +191,42 @@ def run_model(
             generated = ""
             while retries < max_retries:
                 try:
-                    full_prompt = messages + [{"role": "user", "content": prompt}]
-                    
                     print(f"Generating response for sample {index}..", end="\r")
-
+                    
                     if "claude" in model:
-                        generated = invoke_anthropic_model(
-                            client, full_prompt, model, max_new_tokens, temperature, top_p, top_k
-                        )
-                    elif "o1" in model:
-                        generated = invoke_o1_model(
-                            client, full_prompt, model, max_new_tokens
-                        )
-                    elif "gpt" in model:
-                        generated = invoke_openai_model(
-                            client, full_prompt, model, max_new_tokens, temperature, top_p, top_k, seed=new_seed
+                        llm = client(
+                            model=model,
+                            temperature=temperature,
+                            num_predict=max_new_tokens,
+                            top_p=top_p,
+                            top_k=top_k,
+                            stream=False,
+                            num_ctx=10000,
+                            stop=["```<|eot_id|>"],
+                            seed=new_seed
                         )
                     else:
-                        generated = invoke_ollama_model(
-                            client, full_prompt, model, max_new_tokens, temperature, top_p, top_k, seed=new_seed
+                        llm = client(
+                            model=model,
+                            temperature=temperature,
+                            num_predict=max_new_tokens,
+                            top_p=top_p,
+                            top_k=top_k,
+                            stream=False,
+                            num_ctx=10000,
+                            stop=["```<|eot_id|>"],
+                            seed=new_seed
                         )
+                    
+                    chain = (final_prompt_template | llm)
+
+                    response = chain.invoke({
+                        "task": task, 
+                        "external_functions": available_nodes
+                    },
+                    {"run_name": "Node prediction"})
+
+                    generated = response.content
                     break  # If generation succeeded, break out of retry loop
                 except Exception as e:
                     retries += 1
@@ -194,13 +242,11 @@ def run_model(
             generated_code = extract_code(generated)
             generated_candidates.append(generated_code)
 
+            generated_example: Example = sample.copy(update={"outputs": {"response": generated_code}})
         # --- Now we have up to k responses for this prompt. ---
 
-        # Extract the "true" code from the reference.
-        true_response_code = extract_code(true_response)
-
         #Then add the generated candidates to the results dictionary
-        results[true_response_code] = generated_candidates
+        results[task_id] = generated_candidates
 
         if debug:
             print(f"\n\n{Style.BRIGHT}=== Sample: {index} ===")
@@ -209,29 +255,30 @@ def run_model(
                 print(f"{Fore.YELLOW}{Style.BRIGHT} Assistant response: #{i+1}:\n{cand}\n")
             print(f"{Fore.GREEN}{Style.BRIGHT} True response:{Style.RESET_ALL}\n {true_response_code}\n")
 
-    return results
+    return results, largest_prompt_context_size
 
 def evaluate_code(
-    client,
-    messages,
+    client: ChatOllama | ChatOpenAI | ChatAnthropic,
     model,
-    prompts,
-    responses,
+    available_nodes,
+    data,
+    example_pool,
     max_new_tokens,
     temperature,
     top_p,
     top_k,
-    seed=None,
-    ks=[1],                               
+    seed,
+    ks,                               
     debug=False,
     evaluation_metric = ["syntax", "semantic", "tests"]
-):
-    model_result = run_model(
+)-> tuple[list[dict[str, dict[int, float]]], int]:
+    
+    model_result, largest_context = run_model(
         client,
-        messages,
         model,
-        prompts,
-        responses,
+        available_nodes,
+        data,
+        example_pool,
         max_new_tokens,
         temperature,
         top_p,
@@ -248,22 +295,22 @@ def evaluate_code(
         else:
             pass_at_k_dict = calculate_pass_at_k_scores(model_result, ks, metric)
             metric_results.append(pass_at_k_dict)
-    return metric_results
+    return metric_results, largest_context
 
 def run_validation(
-        client, 
-        messages, 
+        client: ChatOllama | ChatOpenAI | ChatAnthropic,
         model, 
-        val_prompts, 
-        val_responses, 
+        available_nodes, 
+        val_data: list[Example],
+        example_pool: list[Example],
         temperatures, 
-        top_ps, 
-        top_ks,
+        top_ps,
+        top_ks, 
         ks=[1], #optimizing for pass@k, for the first k in the list
-        seed=None,
+        seed=None, 
         debug=False,
         optimizer_metric="semantic" #tests, syntax, semantic
-):
+    ):
     val_best_pass_ks = {}
     val_best_metric = 0.0
     best_params = {"temperature": 0.5, "top_p": 0.5, "top_k": 50}
@@ -273,12 +320,12 @@ def run_validation(
         for top_k in top_ks:
             for top_p in top_ps:
                 # print(f"Validating with temperature: {temp}, top_k: {top_k} and top_p: {top_p}")
-                metric_results_lists = evaluate_code (
+                metric_results_lists, largest_context = evaluate_code (
                     client,
-                    messages,
                     model['name'],
-                    val_prompts,
-                    val_responses,
+                    available_nodes,
+                    val_data,
+                    example_pool,
                     model["max_tokens"],
                     temp,
                     top_p,
@@ -291,8 +338,9 @@ def run_validation(
                 pass_at_k_dict = metric_results_lists[0]
                 val_metric = pass_at_k_dict[f"pass@{ks[0]}"]
                 print(f"Validation with temp={temp}, top_k={top_k} and top_p={top_p}. Gave pass@{ks[0]}={val_metric} and pass@ks={pass_at_k_dict}")
+                
                 #Optimize for the best pass@ks[0] for the provided metric
-                if  val_metric > val_best_metric:
+                if val_metric > val_best_metric:
                     val_best_metric = val_metric
                     val_best_pass_ks = pass_at_k_dict
                     best_params = {"temperature": temp, "top_p": top_p, "top_k": top_k}
@@ -303,7 +351,8 @@ def run_validation(
         top_p=best_params["top_p"],
         top_k=best_params["top_k"],
         metric_results={f"pass@k_{optimizer_metric}": val_best_pass_ks},
-        seed=seed
+        seed=seed,
+        metadata={"largest_prompt_size": largest_context}
     )
 
     if debug:
@@ -312,11 +361,11 @@ def run_validation(
     return result
 
 def run_testing(
-    client,
-    messages, 
+    client: ChatOllama | ChatOpenAI | ChatAnthropic,
     model, 
-    test_prompts, 
-    test_responses, 
+    available_nodes, 
+    test_data: list[Example],
+    example_pool: list[Example],
     temperature, 
     top_p, 
     top_k,
@@ -333,12 +382,12 @@ def run_testing(
     for seed in seeds:
         print(f"\nTesting with Seed: {seed} ..", end="\r")
 
-        metric_results_lists = evaluate_code(
+        metric_results_lists, largest_context = evaluate_code(
             client,
-            messages,
             model['name'],
-            test_prompts,
-            test_responses,
+            available_nodes,
+            test_data,
+            example_pool,
             model["max_tokens"],
             temperature,
             top_p,
@@ -357,10 +406,11 @@ def run_testing(
             metric_results=
             { # pass@k for each metric. E.g. pass@k syntax, pass@k semantic and pass@k tests
                 # e.g. {"pass@k_syntax": {pass@1: 0.1}, "pass@k semantic": {pass@1: 0.1}}
-                f"pass@k_{metrics[i]}": result # result is a dictionary of pass@k scores for each k value. 
-                for result, i in metric_results_lists
+                f"pass@k_{metrics[i]}": metric_results # result is a dictionary of pass@k scores for each k value. 
+                for i, metric_results in enumerate(metric_results_lists)
             },
-            seed=seed
+            seed=seed,
+            metadata={"largest_prompt_size": largest_context}
         )
 
         results.append(new_run)
@@ -369,7 +419,6 @@ def run_testing(
 
     return results
 
-    
  
 def calculate_final_result(testing_runs) -> Run:
     """Calculate the standard deviation mean of the metrics, across all testing runs.
@@ -401,67 +450,28 @@ def calculate_final_result(testing_runs) -> Run:
                     "pass@k_semantic": {"pass@1": 0.2, "pass@5": 0.4}
             }
     """
+    # Initialize the final result dictionary
+    final_result = defaultdict(dict)
 
-    pass
+    # Initialize a dictionary to store the metric results for each run
+    metric_results = defaultdict(list)
 
-# def print_validation_result(run: dict):
-#     """Print the results of a run.
-#     run: A dictionary containing the results of a run.
-#     e.g. {
-#         "seed": seed,
-#         "temperature": best_params["temperature"],
-#         "top_p": best_params["top_p"],
-#         "top_k": best_params["top_k"],
-#         "metric_results": {
-#             f"pass@k_{optimizer_metric}": pass_at_k_dict
-#         }
-#     """
+    # Loop through the testing runs and store the metric results in the metric_results dictionary
+    for run in testing_runs:
+        for metric, pass_at_k in run.metric_results.items():
+            metric_results[metric].append(pass_at_k)
+
+    # Calculate the mean and standard deviation of the metric results
+    for metric, pass_at_k_list in metric_results.items():
+        mean = np.mean(pass_at_k_list)
+        std = np.std(pass_at_k_list)
+        final_result[metric] = {"mean": mean, "std": std}
+
+    return Run(
+        phase="final",
+        temperature=testing_runs[0].temperature,
+        top_p=testing_runs[0].top_p,
+        top_k=testing_runs[0].top_k,
+        metric_results=final_result
+    )
     
-#     best_temperature = run["temperature"]
-#     best_top_p = run["top_p"]
-#     best_top_k = run["top_k"]
-#     pass_at_k = run["metric_results"]
-
-#     print(
-#         f"  = Validation =\n"
-#         f"  > Best temperature: {best_temperature:.2f}\n"
-#         f"  > Best top_k: {best_top_k:.2f}\n"
-#         f"  > Best top_p: {best_top_p:.2f}\n"
-#         f"  > Optimized metric result: {json.dumps(pass_at_k, indent=4)}\n"
-#     )
-
-# def print_test_result(run: dict):
-#     """Print the result of a run."""
-#     seed = run["seed"]
-#     temperature = run["temperature"]
-#     top_p = run["top_p"]
-#     top_k = run["top_k"]
-#     pass_at_ks = run["metric_results"]
-
-#     print(
-#         f"===  Seed {seed} ===\n"
-#         f"  > Temperature: {temperature:.2f}\n"
-#         f"  > Top_k: {top_k:.2f}\n"
-#         f"  > Top_p: {top_p:.2f}\n"
-#         f"  = Test =\n"
-#         f"{Fore.GREEN}{Style.BRIGHT}"
-#         f"  > Metric results: {json.dumps(pass_at_ks, indent=4)}"
-#         f"{Style.RESET_ALL}"
-#     )
-
-# def print_final_result(run: dict):
-#     """Print the result of a run."""
-#     temperature = run["temperature"]
-#     top_p = run["top_p"]
-#     top_k = run["top_k"]
-#     pass_at_ks = run["metric_results"]
-
-#     print(
-#         f"\n===  FINAL RESULTS ===\n"
-#         f"  > Temperature: {temperature:.2f}\n"
-#         f"  > Top_k: {top_k:.2f}\n"
-#         f"  > Top_p: {top_p:.2f}\n"
-#         f"{Fore.GREEN}{Style.BRIGHT}"
-#         f"  > Metric results: {json.dumps(pass_at_ks, indent=4)}"
-#         f"{Style.RESET_ALL}"
-#     )
