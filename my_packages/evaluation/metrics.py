@@ -66,10 +66,11 @@ def check_correctness(
 
                 # Add the testing code to the candidate code
                 test_candidate = candidate + "\n" + test_code
-                print("candidate with test code: ", test_candidate)
-
+                # print("candidate with test code: ", test_candidate)
+                print("Running tests...")
                 test_result = compile_code(test_candidate, "test", "--json")
                 json_test_result = get_json_test_result(test_result)
+                print("json_test_result: ")
                 print(json_test_result)
 
                 if is_all_tests_passed(json_test_result):

@@ -113,7 +113,7 @@ def calculate_pass_at_k_scores(
 
     if metric == "tests":
         #  for unit test runs
-        print("Running tests..\n")
+        print("Evaluting functionality...\n")
         #https://github.com/openai/human-eval/blob/master/human_eval/evaluation.py
         test_results = check_correctness(result_dict)
 
