@@ -27,7 +27,7 @@ def estimate_pass_at_k(num_samples, num_correct, k):
 def read_test_code(task_id: int) -> str:
     """Reads the test code from the file."""
     current_path = os.path.dirname(os.getcwd())
-    test_file = os.path.join(current_path, f'../data/mbpp_transformed_code_examples/includes_tests/task_id_{task_id}_tests.midio')
+    test_file = os.path.join(current_path, f'../data/MBPP_Midio_50/includes_tests/task_id_{task_id}_tests.midio')
     test_file = os.path.abspath(test_file)     # Normalize the path to resolve '..' segments.
 
     with open(test_file, "r") as file:

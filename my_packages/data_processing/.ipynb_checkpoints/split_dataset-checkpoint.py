@@ -30,7 +30,7 @@ def split_dataset_on_shots(num_shots, dataset_path):
     test_ratio = 0.1
     
     # Load the dataset
-    with open("../../Data/MBPP_transformed_code_examples/sanitized-MBPP-midio.json", 'r') as file:
+    with open("../../Data/MBPP_Midio_50/sanitized-MBPP-midio.json", 'r') as file:
         data = json.load(file)
     
     data = np.array(data)

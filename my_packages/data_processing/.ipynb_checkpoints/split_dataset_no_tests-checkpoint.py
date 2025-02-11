@@ -6,7 +6,7 @@ from iterstrat.ml_stratifiers import MultilabelStratifiedShuffleSplit
 from Scripts.Analysis.analyze_datasets import analyze_library_distribution, analyze_instance_distribution, analyze_visual_node_types_distribution
 
 # Load the dataset
-with open('../Data/MBPP_transformed_code_examples/sanitized-MBPP-midio.json', 'r') as file:
+with open('../Data/MBPP_Midio_50/sanitized-MBPP-midio.json', 'r') as file:
     data = json.load(file)
 
 # Convert data to a NumPy array for indexing

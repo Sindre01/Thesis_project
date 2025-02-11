@@ -148,7 +148,7 @@ def transform_code_data(data):
 
 def read_code_file(task_id):
     script_path = os.path.dirname(os.getcwd())
-    file_path = os.path.join(script_path, f'../data/mbpp_transformed_code_examples/only_files/task_id_{task_id}.midio')
+    file_path = os.path.join(script_path, f'../data/MBPP_Midio_50/only_files/task_id_{task_id}.midio')
     try:
         with open(file_path, 'r') as file:
             return file.read().strip()
