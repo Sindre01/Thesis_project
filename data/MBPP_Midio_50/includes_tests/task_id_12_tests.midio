@@ -3,18 +3,18 @@ import("http", Http_q7o96c)
 
 module() main { 
     module(doc: "Contains three different tests for the 'Strings Replace' function node") tests {
-        instance(x: -426.6663129882812, y: -99.111) test_ef2bcb root.Std_k98ojb.Testing.Test {
+        instance(x: -426, y: -99) test_ef2bcb root.Std_k98ojb.Testing.Test {
             name: "Test Replace"
         }
-        instance(x: -145.5555419921875, y: 6.4444580078125) assertequal_22e34a root.Std_k98ojb.Testing.AssertEqual {}
-        instance(x: -153.5555419921875, y: 155) replace_63f7b5 root.Std_k98ojb.Strings.Replace {}
-        data_instance(x: -141.0, y: 331.1) data_b395d9  = "polygon"
-        instance(x: 173.4814453125, y: 7.8148193359375) assertequal_672713 root.Std_k98ojb.Testing.AssertEqual {}
-        instance(x: 165.4814453125, y: 156.370361328125) replace_c8f0cd root.Std_k98ojb.Strings.Replace {}
-        data_instance(x: 178.0, y: 332.5) data_b753c1  = "character"
-        instance(x: 477.4814453125, y: 7.7037353515625) assertequal_d125fc root.Std_k98ojb.Testing.AssertEqual {}
-        instance(x: 469.4814453125, y: 156.25927734375) replace_241ca2 root.Std_k98ojb.Strings.Replace {}
-        data_instance(x: 482.0, y: 332.4) data_4eb4b3  = "python"
+        instance(x: -145, y: 6) assertequal_22e34a root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: -153, y: 155) replace_63f7b5 root.Std_k98ojb.Strings.Replace {}
+        data_instance(x: -141, y: 331) data_b395d9  = "polygon"
+        instance(x: 173, y: 7) assertequal_672713 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 165, y: 156) replace_c8f0cd root.Std_k98ojb.Strings.Replace {}
+        data_instance(x: 178, y: 332) data_b753c1  = "character"
+        instance(x: 477, y: 7) assertequal_d125fc root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 469, y: 156) replace_241ca2 root.Std_k98ojb.Strings.Replace {}
+        data_instance(x: 482, y: 332) data_4eb4b3  = "python"
         data_b395d9 -> replace_63f7b5.input
         "y" -> replace_63f7b5.search
         "l" -> replace_63f7b5.replace
@@ -37,5 +37,5 @@ module() main {
 
     }
 
-    instance(x: -184.44408398437497, y: -66.66654199218749) replace_740561 root.Std_k98ojb.Strings.Replace {}
+    instance(x: -184, y: -66) replace_740561 root.Std_k98ojb.Strings.Replace {}
 }

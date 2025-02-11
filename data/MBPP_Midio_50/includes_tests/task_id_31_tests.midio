@@ -7,7 +7,7 @@ module() main {
 
         out(x: 776, y: 0, name: "output") property(String) output_0
 
-        instance(x: 546, y: 0.5) replace_306f69 root.Std_k98ojb.Strings.Replace {}
+        instance(x: 546, y: 0) replace_306f69 root.Std_k98ojb.Strings.Replace {}
         instance(x: 0, y: 1) replace_ed0af2 root.Std_k98ojb.Strings.Replace {}
         instance(x: 305, y: 0) replace_371e46 root.Std_k98ojb.Strings.Replace {}
         replace_ed0af2.output -> replace_371e46.input
@@ -24,21 +24,21 @@ module() main {
     }
 
     module(doc: "Contains three different tests for the 'replace_specialchar' function node") tests {
-        instance(x: 78, y: 41.5) test_cce697 root.Std_k98ojb.Testing.Test {
+        instance(x: 78, y: 41) test_cce697 root.Std_k98ojb.Testing.Test {
             name: "Test replace_specialchar"
         }
-        instance(x: 123, y: 140.5) assertequal_25657f root.Std_k98ojb.Testing.AssertEqual {}
-        data_instance(x: -319.0, y: 311.0) data_5bda71  = "Python language, Programming language."
+        instance(x: 123, y: 140) assertequal_25657f root.Std_k98ojb.Testing.AssertEqual {}
+        data_instance(x: -319, y: 311) data_5bda71  = "Python language, Programming language."
         instance(x: 103, y: 288) replace_specialchar_94e794 root.main.replace_specialchar {}
-        data_instance(x: -317.1, y: 199.3) data_975143  = "Python:language::Programming:language:"
-        instance(x: 492, y: 144.25) assertequal_e77d23 root.Std_k98ojb.Testing.AssertEqual {}
-        instance(x: 472, y: 291.75) replace_96bf7c root.main.replace_specialchar {}
-        instance(x: 938, y: 137.25) assertequal_1426ad root.Std_k98ojb.Testing.AssertEqual {}
-        instance(x: 918, y: 284.75) replace_0fa585 root.main.replace_specialchar {}
-        data_instance(x: 500.0, y: 399.0) data_30fdff  = "a b c,d e f"
-        data_instance(x: 265.0, y: 397.0) data_f2f634  = "a:b:c:d:e:f"
-        data_instance(x: 1020.0, y: 403.0) data_ca3419  = "ram reshma,ram rahim"
-        data_instance(x: 740.0, y: 399.0) data_4a24c9  = "ram:reshma:ram:rahim"
+        data_instance(x: -317, y: 199) data_975143  = "Python:language::Programming:language:"
+        instance(x: 492, y: 144) assertequal_e77d23 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 472, y: 291) replace_96bf7c root.main.replace_specialchar {}
+        instance(x: 938, y: 137) assertequal_1426ad root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 918, y: 284) replace_0fa585 root.main.replace_specialchar {}
+        data_instance(x: 500, y: 399) data_30fdff  = "a b c,d e f"
+        data_instance(x: 265, y: 397) data_f2f634  = "a:b:c:d:e:f"
+        data_instance(x: 1020, y: 403) data_ca3419  = "ram reshma,ram rahim"
+        data_instance(x: 740, y: 399) data_4a24c9  = "ram:reshma:ram:rahim"
         test_cce697.onRun -> assertequal_25657f.execute
         data_5bda71 -> replace_specialchar_94e794.input_0
         replace_specialchar_94e794.output_0 -> assertequal_25657f.actual
@@ -55,5 +55,5 @@ module() main {
 
     }
 
-    instance(x: 175.66666666666666, y: -25) replace_specialchar_695b5e root.main.replace_specialchar {}
+    instance(x: 175, y: -25) replace_specialchar_695b5e root.main.replace_specialchar {}
 }

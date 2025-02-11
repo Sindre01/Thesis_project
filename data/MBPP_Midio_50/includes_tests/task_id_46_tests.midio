@@ -3,12 +3,12 @@ import("http", Http_q7o96c)
 
 module() main {
     func(doc: "find the surface area of a cube of a given size.") CubeSurfaceArea {
-            in(x: -56, y: -44.5, name: "size") property(Number) size_49c776
+            in(x: -56, y: -44, name: "size") property(Number) size_49c776
 
-            out(x: 582, y: -80.5, name: "Area") property(Number) Area_a3e36f
+            out(x: 582, y: -80, name: "Area") property(Number) Area_a3e36f
 
-            instance(x: 159, y: -44.5) mul_b6493a root.Std_k98ojb.Math.Mul {}
-            instance(x: 394, y: -170.5) mul_a368ef root.Std_k98ojb.Math.Mul {}
+            instance(x: 159, y: -44) mul_b6493a root.Std_k98ojb.Math.Mul {}
+            instance(x: 394, y: -170) mul_a368ef root.Std_k98ojb.Math.Mul {}
             size_49c776 -> mul_b6493a.first
             6 -> mul_b6493a.second
             size_49c776 -> mul_a368ef.first
@@ -17,15 +17,15 @@ module() main {
         }
 
         module(doc: "Contains three different tests for the 'CubeSurfaceArea' function node") tests {
-            instance(x: -502, y: 184.5) test_9fa6ad root.Std_k98ojb.Testing.Test {
+            instance(x: -502, y: 184) test_9fa6ad root.Std_k98ojb.Testing.Test {
                 name: "Test CubeSurfaceArea"
             }
-            instance(x: -463, y: 293.5) assertequal_efa274 root.Std_k98ojb.Testing.AssertEqual {}
+            instance(x: -463, y: 293) assertequal_efa274 root.Std_k98ojb.Testing.AssertEqual {}
             instance(x: -447, y: 433) cubesurfacearea_dac858 root.main.CubeSurfaceArea {}
-            instance(x: -205.4000000000001, y: 289.95) assertequal_11f45d root.Std_k98ojb.Testing.AssertEqual {}
-            instance(x: 41.59999999999991, y: 291.95) assertequal_aa176c root.Std_k98ojb.Testing.AssertEqual {}
-            instance(x: -188.4000000000001, y: 437.95) cubesurfacearea_e45916 root.main.CubeSurfaceArea {}
-            instance(x: 47.5, y: 433.6) cubesurfacearea_f494ca root.main.CubeSurfaceArea {}
+            instance(x: -205, y: 289) assertequal_11f45d root.Std_k98ojb.Testing.AssertEqual {}
+            instance(x: 41, y: 291) assertequal_aa176c root.Std_k98ojb.Testing.AssertEqual {}
+            instance(x: -188, y: 437) cubesurfacearea_e45916 root.main.CubeSurfaceArea {}
+            instance(x: 47, y: 433) cubesurfacearea_f494ca root.main.CubeSurfaceArea {}
             test_9fa6ad.onRun -> assertequal_efa274.execute
             cubesurfacearea_dac858.Area_a3e36f -> assertequal_efa274.actual
             assertequal_efa274.continue -> assertequal_11f45d.execute
@@ -42,5 +42,5 @@ module() main {
 
         }
 
-        instance(x: -140, y: 184.5) cubesurfacearea_5b796d root.main.CubeSurfaceArea {}
+        instance(x: -140, y: 184) cubesurfacearea_5b796d root.main.CubeSurfaceArea {}
 }

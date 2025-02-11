@@ -8,7 +8,7 @@ module() main {
         out(x: 571, y: 7, name: "sum") property(Number) sum_365f7b
 
         instance(x: 23, y: -1) mul_f892a4 root.Std_k98ojb.Math.Mul {}
-        data_instance(x: 330.0, y: 133.0) data_cde0dc  = 3
+        data_instance(x: 330, y: 133) data_cde0dc  = 3
         instance(x: 12, y: 136) expression_2d6da6 root.Std_k98ojb.Math.Expression {
             expression: "4*n*n-1"
         }
@@ -22,15 +22,15 @@ module() main {
     }
 
     module(doc: "Contains three different tests for the 'square_sum' function node") tests {
-        instance(x: -91, y: 34.5) test_b95a92 root.Std_k98ojb.Testing.Test {
+        instance(x: -91, y: 34) test_b95a92 root.Std_k98ojb.Testing.Test {
             name: "Test square_sum"
         }
-        instance(x: -104, y: 182.5) assertequal_eb213f root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: -104, y: 182) assertequal_eb213f root.Std_k98ojb.Testing.AssertEqual {}
         instance(x: -96, y: 317) square_sum_0ab8bc root.main.square_sum {}
-        instance(x: 270.29999999999995, y: 179.5) assertequal_c13c2b root.Std_k98ojb.Testing.AssertEqual {}
-        instance(x: 278.29999999999995, y: 314) square_9faa83 root.main.square_sum {}
-        instance(x: 605.3, y: 181.5) assertequal_c173ac root.Std_k98ojb.Testing.AssertEqual {}
-        instance(x: 613.3, y: 316) square_14daa9 root.main.square_sum {}
+        instance(x: 270, y: 179) assertequal_c13c2b root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 278, y: 314) square_9faa83 root.main.square_sum {}
+        instance(x: 605, y: 181) assertequal_c173ac root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 613, y: 316) square_14daa9 root.main.square_sum {}
         test_b95a92.onRun -> assertequal_eb213f.execute
         square_sum_0ab8bc.sum_365f7b -> assertequal_eb213f.actual
         2 -> square_sum_0ab8bc.n_3a3116
@@ -47,5 +47,5 @@ module() main {
 
     }
 
-    instance(x: 118.5, y: -26.73750000000001) square_sum_9dcc3d root.main.square_sum {}
+    instance(x: 118, y: -26) square_sum_9dcc3d root.main.square_sum {}
 }

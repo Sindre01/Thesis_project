@@ -3,31 +3,31 @@ import("http", Http_q7o96c)
 
 module() main {
     func(doc: "checks whether the given number is a perfect square or not.") is_perfect_square {
-        in(x: 354.8534228128, y: -53.570902536908875, name: "input") property(Number) input_f5c03d
-        in(x: 161.86656944950778, y: -211.44732045205976, name: "execute") trigger() execute_27b8c3
+        in(x: 354, y: -53, name: "input") property(Number) input_f5c03d
+        in(x: 161, y: -211, name: "execute") trigger() execute_27b8c3
 
-        out(x: 1748.7398492866953, y: -10.179326168336845, name: "out") property(Bool) out_f3db9f
-        out(x: 1894.6987078855211, y: 120.75836251660428, name: "continue") trigger() continue_8ba06b
+        out(x: 1748, y: -10, name: "out") property(Bool) out_f3db9f
+        out(x: 1894, y: 120, name: "continue") trigger() continue_8ba06b
 
-        instance(x: 352.29435795182377, y: -493.40392241475513) map_6030c9 root.Std_k98ojb.Iteration.Map {}
-        instance(x: 591.093649540918, y: 74.39457308484964) generaterange_038fce root.Std_k98ojb.List.GenerateRange {}
-        instance(x: 933.4372723261322, y: 25.370036244678204) lessthanorequal_f11fda root.Std_k98ojb.Math.LessThanOrEqual {}
-        instance(x: 714.6587368675281, y: -155.30334500664162) for_8cb3f6 root.Std_k98ojb.Std.For {}
-        instance(x: 1812.5807321161728, y: -319.3114369615595) and_80a119 root.Std_k98ojb.Logic.And {}
-        instance(x: 1121.8451877792538, y: -54.34126313247202) if_07b8c7 root.Std_k98ojb.Std.If {}
-        instance(x: 1504.9651145687808, y: -400.53431283054744) expression_b720d7 root.Std_k98ojb.Math.Expression {
+        instance(x: 352, y: -493) map_6030c9 root.Std_k98ojb.Iteration.Map {}
+        instance(x: 591, y: 74) generaterange_038fce root.Std_k98ojb.List.GenerateRange {}
+        instance(x: 933, y: 25) lessthanorequal_f11fda root.Std_k98ojb.Math.LessThanOrEqual {}
+        instance(x: 714, y: -155) for_8cb3f6 root.Std_k98ojb.Std.For {}
+        instance(x: 1812, y: -319) and_80a119 root.Std_k98ojb.Logic.And {}
+        instance(x: 1121, y: -54) if_07b8c7 root.Std_k98ojb.Std.If {}
+        instance(x: 1504, y: -400) expression_b720d7 root.Std_k98ojb.Math.Expression {
             expression: "(n % i == 0)"
         }
-        instance(x: 1496.3746737091876, y: -187.54174318988652) expression_9fba8c root.Std_k98ojb.Math.Expression {
+        instance(x: 1496, y: -187) expression_9fba8c root.Std_k98ojb.Math.Expression {
             expression: "(n / i == i)"
         }
-        instance(x: 2136.5336397886786, y: -356.96973200228246) if_e19a62 root.Std_k98ojb.Std.If {}
-        instance(x: 1088.0328462746047, y: -256.007728535201) add_b4554f root.Std_k98ojb.Math.Add {}
+        instance(x: 2136, y: -356) if_e19a62 root.Std_k98ojb.Std.If {}
+        instance(x: 1088, y: -256) add_b4554f root.Std_k98ojb.Math.Add {}
         1 -> generaterange_038fce.from
         input_f5c03d -> generaterange_038fce.to
         generaterange_038fce.list -> map_6030c9.items
         func() {
-            in(x: -76, y: 46.5, name: "element") property(Number) element_5f51f7
+            in(x: -76, y: 46, name: "element") property(Number) element_5f51f7
 
             out(x: 382, y: 19, name: "out") property(Number) out_d0fd24
 
@@ -60,15 +60,15 @@ module() main {
     }
 
     module(doc: "Contains three different tests for the 'is_perfect_square' function node") tests {
-        instance(x: -131, y: 259.4) test_d403cd root.Std_k98ojb.Testing.Test {
+        instance(x: -131, y: 259) test_d403cd root.Std_k98ojb.Testing.Test {
             name: "Test is_perfect_square"
         }
-        instance(x: 143, y: 465.4) assertfalse_f1ec26 root.Std_k98ojb.Testing.AssertFalse {}
-        instance(x: 599.6, y: 461.15) asserttrue_521fa3 root.Std_k98ojb.Testing.AssertTrue {}
-        instance(x: 1053.6, y: 449.15) assertfalse_0dd85c root.Std_k98ojb.Testing.AssertFalse {}
-        instance(x: -83.39999999999998, y: 472.15) is_perfect_square_7e3ec8 root.main.is_perfect_square {}
-        instance(x: 825.6, y: 458.15) is_22fa40 root.main.is_perfect_square {}
-        instance(x: 364.6, y: 461.15) is_d954e8 root.main.is_perfect_square {}
+        instance(x: 143, y: 465) assertfalse_f1ec26 root.Std_k98ojb.Testing.AssertFalse {}
+        instance(x: 599, y: 461) asserttrue_521fa3 root.Std_k98ojb.Testing.AssertTrue {}
+        instance(x: 1053, y: 449) assertfalse_0dd85c root.Std_k98ojb.Testing.AssertFalse {}
+        instance(x: -83, y: 472) is_perfect_square_7e3ec8 root.main.is_perfect_square {}
+        instance(x: 825, y: 458) is_22fa40 root.main.is_perfect_square {}
+        instance(x: 364, y: 461) is_d954e8 root.main.is_perfect_square {}
         test_d403cd.onRun -> is_perfect_square_7e3ec8.execute_27b8c3
         is_perfect_square_7e3ec8.continue_8ba06b -> assertfalse_f1ec26.execute
         assertfalse_f1ec26.continue -> is_d954e8.execute_27b8c3
@@ -85,5 +85,5 @@ module() main {
 
     }
 
-    instance(x: -189, y: 222.5) is_perfect_square_f0be66 root.main.is_perfect_square {}
+    instance(x: -189, y: 222) is_perfect_square_f0be66 root.main.is_perfect_square {}
 }

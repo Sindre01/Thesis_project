@@ -15,7 +15,7 @@ module() main {
             expression: "x == y"
         }
         setter(x: -187, y: -246, name: "setter_6a6081") setter_6a6081 = index
-        getter(x: 502.7000000000001, y: 166.35, name: "getter_cc0721") getter_cc0721 = index
+        getter(x: 502, y: 166, name: "getter_cc0721") getter_cc0721 = index
         setter(x: 780, y: -125, name: "setter_60cfcd") setter_60cfcd = index
         list_2bbadf -> for_9ed60a.items
         elem_94ca57 -> ifexpression_6c15d4.gen_0
@@ -33,18 +33,18 @@ module() main {
     }
 
     module(doc: "Contains three different tests for the 'last' function node") tests {
-        instance(x: -359, y: 161.5) test_e0e516 root.Std_k98ojb.Testing.Test {
+        instance(x: -359, y: 161) test_e0e516 root.Std_k98ojb.Testing.Test {
             name: "Test last"
         }
-        instance(x: -108, y: 266.5) assertequal_e535d3 root.Std_k98ojb.Testing.AssertEqual {}
-        instance(x: -359.20000000000005, y: 269.75) last_ec893e root.main.last {}
-        instance(x: 362.4, y: 266.125) assertequal_83e73c root.Std_k98ojb.Testing.AssertEqual {}
-        instance(x: 111.19999999999992, y: 269.375) last_2e9081 root.main.last {}
-        instance(x: 829.4, y: 279.125) assertequal_96a0a1 root.Std_k98ojb.Testing.AssertEqual {}
-        instance(x: 578.1999999999999, y: 282.375) last_f37b3f root.main.last {}
-        data_instance(x: -562.2, y: 304.8) data_99c885  = [1, 2, 3]
-        data_instance(x: 93.0, y: 460.0) data_3e9e23  = [1, 1, 1, 2, 3, 4]
-        data_instance(x: 596.0, y: 464.0) data_09ea6a  = [2, 3, 2, 3, 6, 8, 9]
+        instance(x: -108, y: 266) assertequal_e535d3 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: -359, y: 269) last_ec893e root.main.last {}
+        instance(x: 362, y: 266) assertequal_83e73c root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 111, y: 269) last_2e9081 root.main.last {}
+        instance(x: 829, y: 279) assertequal_96a0a1 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 578, y: 282) last_f37b3f root.main.last {}
+        data_instance(x: -562, y: 304) data_99c885  = [1, 2, 3]
+        data_instance(x: 93, y: 460) data_3e9e23  = [1, 1, 1, 2, 3, 4]
+        data_instance(x: 596, y: 464) data_09ea6a  = [2, 3, 2, 3, 6, 8, 9]
         test_e0e516.onRun -> last_ec893e.execute_076885
         last_ec893e.continue_9f5f84 -> assertequal_e535d3.execute
         last_ec893e.index_fc05e7 -> assertequal_e535d3.actual
@@ -67,6 +67,6 @@ module() main {
 
     }
 
-    instance(x: -203, y: -53.5) last_9181e6 root.main.last {}
+    instance(x: -203, y: -53) last_9181e6 root.main.last {}
 
 }

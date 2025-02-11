@@ -3,13 +3,13 @@ import("http", Http_q7o96c)
 
 module() main {
     func(doc: "finds whether a number is divisible by 11.") is_diff {
-        in(x: 5.110832031250027, y: -25.33331298828125, name: "n") property(Number) n_27f29c
+        in(x: 5, y: -25, name: "n") property(Number) n_27f29c
 
-        out(x: 668.1112060546875, y: 2.11114501953125, name: "output") property(Bool) output_f2630f
+        out(x: 668, y: 2, name: "output") property(Bool) output_f2630f
 
-        data_instance(x: 0.0, y: 64.9) data_1e2ff2  = 11
-        instance(x: 190.22193896484373, y: 0) modulo_629f32 root.Std_k98ojb.Math.Modulo {}
-        instance(x: 408.111083984375, y: -4.333251953125) expression_a794a5 root.Std_k98ojb.Math.Expression {
+        data_instance(x: 0, y: 64) data_1e2ff2  = 11
+        instance(x: 190, y: 0) modulo_629f32 root.Std_k98ojb.Math.Modulo {}
+        instance(x: 408, y: -4) expression_a794a5 root.Std_k98ojb.Math.Expression {
             expression: "n == 0"
         }
         data_1e2ff2 -> modulo_629f32.divisor
@@ -18,15 +18,15 @@ module() main {
         expression_a794a5.result -> output_f2630f
     }
     module(doc: "Contains three different tests for the 'is_diff' function node") tests {
-        instance(x: -7.92560563151045, y: 221.85217553710945) is_281447 root.main.is_diff {}
-        instance(x: -318.03669718424476, y: -98.25927478027344) test_9f064f root.Std_k98ojb.Testing.Test {
+        instance(x: -7, y: 221) is_281447 root.main.is_diff {}
+        instance(x: -318, y: -98) test_9f064f root.Std_k98ojb.Testing.Test {
             name: "Test is_diff"
         }
-        instance(x: 553.1109619140625, y: 52.55557250976564) assertfalse_ed6a3d root.Std_k98ojb.Testing.AssertFalse {}
-        instance(x: 289.11114501953125, y: 221.44445800781247) is_diff_d486dd root.main.is_diff {}
-        instance(x: 273.15570996093754, y: 52.177709960937506) asserttrue_7a40c4 root.Std_k98ojb.Testing.AssertTrue {}
-        instance(x: 600.6666870117188, y: 225.4444274902344) is_diff_d5d4de root.main.is_diff {}
-        instance(x: -20.222167968750018, y: 56) assertfalse_3e35c9 root.Std_k98ojb.Testing.AssertFalse {}
+        instance(x: 553, y: 52) assertfalse_ed6a3d root.Std_k98ojb.Testing.AssertFalse {}
+        instance(x: 289, y: 221) is_diff_d486dd root.main.is_diff {}
+        instance(x: 273, y: 52) asserttrue_7a40c4 root.Std_k98ojb.Testing.AssertTrue {}
+        instance(x: 600, y: 225) is_diff_d5d4de root.main.is_diff {}
+        instance(x: -20, y: 56) assertfalse_3e35c9 root.Std_k98ojb.Testing.AssertFalse {}
         12345 -> is_281447.n_27f29c
         1212112 -> is_diff_d486dd.n_27f29c
         1212 -> is_diff_d5d4de.n_27f29c
@@ -38,6 +38,6 @@ module() main {
         is_diff_d486dd.output_f2630f -> asserttrue_7a40c4.value
     }
 
-    instance(x: 98.888916015625, y: -87.77777099609375) is_diff_586588 root.main.is_diff {}
+    instance(x: 98, y: -87) is_diff_586588 root.main.is_diff {}
 
 }

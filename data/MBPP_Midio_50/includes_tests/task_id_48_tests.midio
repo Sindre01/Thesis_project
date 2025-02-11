@@ -3,10 +3,10 @@ import("http", Http_q7o96c)
 
 module() main {
     func(doc: "check if the given integer is a prime number.") num_prime {
-        in(x: -167, y: 27.5, name: "num") property(Number) num_5c0677
+        in(x: -167, y: 27, name: "num") property(Number) num_5c0677
         in(x: -112, y: -216, name: "execute") trigger() execute_b7b391
 
-        out(x: 1016, y: -26.5, name: "output") property(Bool) output_c457b3
+        out(x: 1016, y: -26, name: "output") property(Bool) output_c457b3
         out(x: 1211, y: -110, name: "continue") trigger() continue_9a54bb
 
         instance(x: -12, y: 2) ifexpression_5ccdce root.Std_k98ojb.Std.IfExpression {
@@ -50,14 +50,14 @@ module() main {
     }
 
     module(doc: "Contains three different tests for the 'num_prime' function node") tests {
-        instance(x: 35, y: -110.5) asserttrue_e871b6 root.Std_k98ojb.Testing.AssertTrue {}
-        instance(x: -172, y: -111.5) num_prime_1188ac root.main.num_prime {}
-        instance(x: -206, y: -224.5) test_85ec3b root.Std_k98ojb.Testing.Test {
+        instance(x: 35, y: -110) asserttrue_e871b6 root.Std_k98ojb.Testing.AssertTrue {}
+        instance(x: -172, y: -111) num_prime_1188ac root.main.num_prime {}
+        instance(x: -206, y: -224) test_85ec3b root.Std_k98ojb.Testing.Test {
             name: "Test num_prime"
         }
-        instance(x: 487.5, y: -113.5) asserttrue_19edae root.Std_k98ojb.Testing.AssertTrue {}
-        instance(x: 280.5, y: -114.5) num_40dfba root.main.num_prime {}
-        instance(x: 718.5, y: -117.5) num_1cd86a root.main.num_prime {}
+        instance(x: 487, y: -113) asserttrue_19edae root.Std_k98ojb.Testing.AssertTrue {}
+        instance(x: 280, y: -114) num_40dfba root.main.num_prime {}
+        instance(x: 718, y: -117) num_1cd86a root.main.num_prime {}
         instance(x: 963, y: -123) assertfalse_b842b8 root.Std_k98ojb.Testing.AssertFalse {}
         13 -> num_prime_1188ac.num_5c0677
         test_85ec3b.onRun -> num_prime_1188ac.execute_b7b391
@@ -75,5 +75,5 @@ module() main {
 
     }
 
-    instance(x: -361, y: 185.5) num_prime_88fd7e root.main.num_prime {}
+    instance(x: -361, y: 185) num_prime_88fd7e root.main.num_prime {}
 }

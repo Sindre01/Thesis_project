@@ -17,7 +17,7 @@ module() main {
         instance(x: 903, y: 143) contains_10d4db root.Std_k98ojb.List.Contains {}
         setter(x: 256, y: -169, name: "setter_a862c0") setter_a862c0 = first
         setter(x: 1302, y: -10, name: "setter_28b12a") setter_28b12a = first
-        getter(x: 571, y: 314.25, name: "getter_d16e69") getter_d16e69 = first
+        getter(x: 571, y: 314, name: "getter_d16e69") getter_d16e69 = first
         characters_e4ab8f.characters -> for_245354.items
         characters_e4ab8f.characters -> slice_1801cb.list
         for_245354.index -> add_073b72.first

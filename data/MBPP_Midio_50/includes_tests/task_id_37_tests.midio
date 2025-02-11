@@ -3,21 +3,21 @@ import("http", Http_q7o96c)
 
 module() main { 
     func(doc: "Counts number of digits in a given string.") number_ctr {
-        in(x: -240, y: 69.5, name: "string") property(String) string_668bd2
+        in(x: -240, y: 69, name: "string") property(String) string_668bd2
 
-        out(x: 929, y: 58.5, name: "count") property(Number) count_1f468d
+        out(x: 929, y: 58, name: "count") property(Number) count_1f468d
 
-        instance(x: -61.200000000000045, y: 62.64999999999998) characters_7942d4 root.Std_k98ojb.Strings.Characters {}
+        instance(x: -61, y: 62) characters_7942d4 root.Std_k98ojb.Strings.Characters {}
         instance(x: 177, y: 66) filter_c1bb22 root.Std_k98ojb.Iteration.Filter {}
         instance(x: 723, y: 62) length_8815e6 root.Std_k98ojb.List.Length {}
         string_668bd2 -> characters_7942d4.input
         length_8815e6.length -> count_1f468d
         func() {
-            in(x: -272, y: -48.5, name: "current") property(Number) current_86a8fb
+            in(x: -272, y: -48, name: "current") property(Number) current_86a8fb
 
             out(x: 405, y: -52, name: "output") property(Bool) output_8ba733
 
-            instance(x: 24.5, y: -54.25, stableId: "dnbuj51ajiozratdcge1fc3s") isnumeric_9cb360 root.Std_k98ojb.Strings.IsNumeric {}
+            instance(x: 24, y: -54, stableId: "dnbuj51ajiozratdcge1fc3s") isnumeric_9cb360 root.Std_k98ojb.Strings.IsNumeric {}
             current_86a8fb -> isnumeric_9cb360.input
             isnumeric_9cb360.isNumeric -> output_8ba733
         } -> filter_c1bb22.handler
@@ -26,17 +26,17 @@ module() main {
     }
 
     module(doc: "Contains four different tests for the 'number_ctr' function node") tests {
-        instance(x: -179, y: 98.5) test_c33bba root.Std_k98ojb.Testing.Test {
+        instance(x: -179, y: 98) test_c33bba root.Std_k98ojb.Testing.Test {
             name: "Test number_ctr"
         }
         instance(x: -144, y: 222) assertequal_4f78cc root.Std_k98ojb.Testing.AssertEqual {}
-        instance(x: 127.5, y: 227.25) assertequal_f7f2ac root.Std_k98ojb.Testing.AssertEqual {}
-        instance(x: 382.9, y: 214.8) assertequal_929321 root.Std_k98ojb.Testing.AssertEqual {}
-        instance(x: -176.10000000000002, y: 365.8) number_ctr_990bed root.main.number_ctr {}
-        instance(x: 102.89999999999998, y: 366.8) number_3b4311 root.main.number_ctr {}
-        instance(x: 398.9, y: 358.8) number_3aec82 root.main.number_ctr {}
-        instance(x: 645, y: 215.99999999999991) assertequal_e0d22d root.Std_k98ojb.Testing.AssertEqual {}
-        instance(x: 661, y: 359.99999999999994) number_ceb5ff root.main.number_ctr {}
+        instance(x: 127, y: 227) assertequal_f7f2ac root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 382, y: 214) assertequal_929321 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: -176, y: 365) number_ctr_990bed root.main.number_ctr {}
+        instance(x: 102, y: 366) number_3b4311 root.main.number_ctr {}
+        instance(x: 398, y: 358) number_3aec82 root.main.number_ctr {}
+        instance(x: 645, y: 215) assertequal_e0d22d root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 661, y: 359) number_ceb5ff root.main.number_ctr {}
         test_c33bba.onRun -> assertequal_4f78cc.execute
         assertequal_4f78cc.continue -> assertequal_f7f2ac.execute
         assertequal_f7f2ac.continue -> assertequal_929321.execute

@@ -5,10 +5,10 @@ module() main {
     func(doc: "matches a word containing 'z'.") text_match_wordz {
         in(x: -230, y: 0, name: "string") property(String) input_0
 
-        out(x: 530.1946625341826, y: -2.499938652351375, name: "result") property(Bool) result_0
+        out(x: 530, y: -2, name: "result") property(Bool) result_0
 
-        instance(x: 0, y: 1.3058023559636922) tolower_2e1444 root.Std_k98ojb.Strings.ToLower {}
-        instance(x: 265.19469742675653, y: 0) contains_d42dce root.Std_k98ojb.Strings.Contains {}
+        instance(x: 0, y: 1) tolower_2e1444 root.Std_k98ojb.Strings.ToLower {}
+        instance(x: 265, y: 0) contains_d42dce root.Std_k98ojb.Strings.Contains {}
         tolower_2e1444.output -> contains_d42dce.input
         "z" -> contains_d42dce.contains
         input_0 -> tolower_2e1444.input
@@ -20,12 +20,12 @@ module() main {
         instance(x: -188, y: -122) test_01218b root.Std_k98ojb.Testing.Test {
             name: "Test text_match_wordz"
         }
-        data_instance(x: 133.9, y: 282.6) data_aae543  = "pythonz."
-        instance(x: 421.8880771692699, y: 183.26843946680088) ContainsZ_ce7e71 root.main.text_match_wordz {}
-        data_instance(x: 433.1, y: 282.8) data_f0aa32  = "xyz."
+        data_instance(x: 133, y: 282) data_aae543  = "pythonz."
+        instance(x: 421, y: 183) ContainsZ_ce7e71 root.main.text_match_wordz {}
+        data_instance(x: 433, y: 282) data_f0aa32  = "xyz."
         instance(x: 731, y: 190) ContainsZ_10caba root.main.text_match_wordz {}
         instance(x: 722, y: 62) assertfalse_f583e0 root.Std_k98ojb.Testing.AssertFalse {}
-        data_instance(x: 742.9, y: 289.6) data_53c1b4  = "  lang  ."
+        data_instance(x: 742, y: 289) data_53c1b4  = "  lang  ."
         instance(x: 130, y: 59) asserttrue_17b8b5 root.Std_k98ojb.Testing.AssertTrue {}
         instance(x: 427, y: 50) asserttrue_f142a6 root.Std_k98ojb.Testing.AssertTrue {}
         data_aae543 -> ContainsZ_fd3d4c.input_0

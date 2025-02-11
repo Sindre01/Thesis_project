@@ -3,14 +3,14 @@ import("http", Http_q7o96c)
 
 module() main { 
     func(doc: "finds the minimum of three numbers.") min_of_three {
-        in(x: -903.6855759900376, y: -379.0358560546829, name: "a") property(Number) a_f37c19
-        in(x: -908.4615926769588, y: -241.94665736242496, name: "b") property(Number) b_ca79ac
-        in(x: -907.4906914682103, y: -94.85470946491404, name: "c") property(Number) c_a89f71
+        in(x: -903, y: -379, name: "a") property(Number) a_f37c19
+        in(x: -908, y: -241, name: "b") property(Number) b_ca79ac
+        in(x: -907, y: -94, name: "c") property(Number) c_a89f71
 
-        out(x: -78.08754971418284, y: -306.1206884918196, name: "min") property(Number) smallest_8713cf
+        out(x: -78, y: -306, name: "min") property(Number) smallest_8713cf
 
-        data_instance(x: -609.8, y: -363.4) data_9a9c70  = [a, b, c]
-        instance(x: -341.0431638161865, y: -301.62782305489975) min_c3e343 root.Std_k98ojb.List.Min {}
+        data_instance(x: -609, y: -363) data_9a9c70  = [a, b, c]
+        instance(x: -341, y: -301) min_c3e343 root.Std_k98ojb.List.Min {}
         a_f37c19 -> data_9a9c70.a
         b_ca79ac -> data_9a9c70.b
         c_a89f71 -> data_9a9c70.c
@@ -18,15 +18,15 @@ module() main {
         min_c3e343.min -> smallest_8713cf
     }
     module(doc: "Contains three different tests for the 'min_of_three' function node") tests {
-        instance(x: -128.71068123277806, y: -313.2936314100216) test_95406e root.Std_k98ojb.Testing.Test {
+        instance(x: -128, y: -313) test_95406e root.Std_k98ojb.Testing.Test {
             name: "Test min of three"
         }
-        instance(x: 274.93358548722676, y: 22.82031847517402) min_0b82f1 root.main.min_of_three {}
-        instance(x: 273.898018918851, y: -128.02979509205846) assertequal_eb511c root.Std_k98ojb.Testing.AssertEqual {}
-        instance(x: 579.6226012379251, y: 27.817605162244035) min_fac964 root.main.min_of_three {}
-        instance(x: 578.4445190429688, y: -127.55551147460938) assertequal_e65911 root.Std_k98ojb.Testing.AssertEqual {}
-        instance(x: 882.4444580078125, y: -126.66664123535156) assertequal_328609 root.Std_k98ojb.Testing.AssertEqual {}
-        instance(x: 886.8889770507811, y: 31.111175537109375) min_of_three_9714d8 root.main.min_of_three {}
+        instance(x: 274, y: 22) min_0b82f1 root.main.min_of_three {}
+        instance(x: 273, y: -128) assertequal_eb511c root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 579, y: 27) min_fac964 root.main.min_of_three {}
+        instance(x: 578, y: -127) assertequal_e65911 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 882, y: -126) assertequal_328609 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 886, y: 31) min_of_three_9714d8 root.main.min_of_three {}
         test_95406e.onRun -> assertequal_eb511c.execute
         min_0b82f1.smallest_8713cf -> assertequal_eb511c.actual
         0 -> assertequal_eb511c.expect
@@ -49,5 +49,5 @@ module() main {
 
     }
 
-    instance(x: 322.6315450748268, y: 568.9992811215039) min_of_three_cee202 root.main.min_of_three {}
+    instance(x: 322, y: 568) min_of_three_cee202 root.main.min_of_three {}
 }

@@ -3,7 +3,7 @@ import("http", Http_q7o96c)
 
 module() main { 
     func(doc: "Finds the smallest missing number from a sorted list of natural numbers.") find_First_Missing {
-        in(x: -113, y: 62.5, name: "list") property(List) list_24e9a6
+        in(x: -113, y: 62, name: "list") property(List) list_24e9a6
         in(x: 483, y: -328, name: "execute") trigger() execute_fa8807
 
         out(x: 1453, y: 319, name: "output") property(Number) output_25655e
@@ -40,18 +40,18 @@ module() main {
     }
 
     module(doc: "Contains three different tests for the 'find_First_Missing' function node") tests {
-        instance(x: -246, y: 12.5) test_2f6a00 root.Std_k98ojb.Testing.Test {
+        instance(x: -246, y: 12) test_2f6a00 root.Std_k98ojb.Testing.Test {
             name: "Test find_First_missing"
         }
-        instance(x: -112, y: 162.5) assertequal_925892 root.Std_k98ojb.Testing.AssertEqual {}
-        instance(x: 403, y: 159.5) assertequal_6e1d5c root.Std_k98ojb.Testing.AssertEqual {}
-        instance(x: -384, y: 167.49999999999997) find_first_missing_075f73 root.main.find_First_Missing {}
-        data_instance(x: -586.8, y: 192.1) data_59d1f6  = [0, 1, 2, 3]
-        data_instance(x: 145.0, y: 290.0) data_cecf0e  = [0, 1, 2, 6, 9]
-        instance(x: 140.89999999999998, y: 163.35) find_first_missing_ab11f6 root.main.find_First_Missing {}
-        instance(x: 923.2666666666668, y: 152.5666666666667) assertequal_3bd699 root.Std_k98ojb.Testing.AssertEqual {}
-        data_instance(x: 665.3, y: 283.1) data_af6c4e  = [2, 3, 5, 8, 9]
-        instance(x: 677.1666666666666, y: 161.4166666666667) find_eaa4d9 root.main.find_First_Missing {}
+        instance(x: -112, y: 162) assertequal_925892 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 403, y: 159) assertequal_6e1d5c root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: -384, y: 167) find_first_missing_075f73 root.main.find_First_Missing {}
+        data_instance(x: -586, y: 192) data_59d1f6  = [0, 1, 2, 3]
+        data_instance(x: 145, y: 290) data_cecf0e  = [0, 1, 2, 6, 9]
+        instance(x: 140, y: 163) find_first_missing_ab11f6 root.main.find_First_Missing {}
+        instance(x: 923, y: 152) assertequal_3bd699 root.Std_k98ojb.Testing.AssertEqual {}
+        data_instance(x: 665, y: 283) data_af6c4e  = [2, 3, 5, 8, 9]
+        instance(x: 677, y: 161) find_eaa4d9 root.main.find_First_Missing {}
         3 -> assertequal_6e1d5c.expect
         4 -> assertequal_925892.expect
         find_first_missing_075f73.output_25655e -> assertequal_925892.actual
@@ -71,6 +71,6 @@ module() main {
 
     }
 
-    instance(x: -234.9000000000001, y: 114.14999999999998) find_first_missing_870d80 root.main.find_First_Missing {}
+    instance(x: -234, y: 114) find_first_missing_870d80 root.main.find_First_Missing {}
 
 }

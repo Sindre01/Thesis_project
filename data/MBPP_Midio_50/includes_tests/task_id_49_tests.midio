@@ -5,11 +5,11 @@ module() main {
   func(doc: "interchange the first and last element in a given list.") swap_list {
         in(x: -1489, y: -536, name: "list") property(List) list_752c60
 
-        out(x: -189.2999999999999, y: -620.25, name: "output") property(List) output_195363
+        out(x: -189, y: -620, name: "output") property(List) output_195363
 
         instance(x: -1049, y: -375) firstitem_9b1bc3 root.Std_k98ojb.List.FirstItem {}
         instance(x: -1059, y: -696) lastitem_d831ca root.Std_k98ojb.List.LastItem {}
-        data_instance(x: -753.0, y: -588.0) data_cc1b1b  = [first, middle, last]
+        data_instance(x: -753, y: -588) data_cc1b1b  = [first, middle, last]
         instance(x: -432, y: -620) flatten_c31c7c root.Std_k98ojb.List.Flatten {}
         instance(x: -978, y: -566) slice_3f3ee6 root.Std_k98ojb.List.Slice {}
         instance(x: -1405, y: -438) length_4b8927 root.Std_k98ojb.List.Length {}
@@ -30,19 +30,19 @@ module() main {
     }
 
     module(doc: "Contains three different tests for the 'swap_list' function node") tests {
-        instance(x: -413.7999999999999, y: 178.05) assertequal_78d2be root.Std_k98ojb.Testing.AssertEqual {}
-        instance(x: 7.200000000000044, y: 158.05) assertequal_201d01 root.Std_k98ojb.Testing.AssertEqual {}
-        instance(x: 461.2000000000001, y: 150.05) assertequal_741900 root.Std_k98ojb.Testing.AssertEqual {}
-        instance(x: -632.8, y: 185.05) swap_list_050df4 root.main.swap_list {}
-        instance(x: -192.70000000000005, y: 246.1) swap_list_d7e7ad root.main.swap_list {}
-        instance(x: 227.29999999999995, y: 262.1) swap_list_acd8ac root.main.swap_list {}
-        data_instance(x: -191.3, y: 363.3) data_421885  = [1, 2, 3, 4, 4]
-        data_instance(x: -867.1, y: 200.6) data_6b740b  = [1, 2, 3]
-        data_instance(x: -50.1, y: -106.5) data_c9a02f  = [4, 2, 3, 4, 1]
-        data_instance(x: -662.0, y: -161.0) data_12e5b0  = [3, 2, 1]
-        data_instance(x: 252.0, y: 362.0) data_383b29  = [4, 5, 6]
-        data_instance(x: 332.0, y: -105.0) data_ff4907  = [6, 5, 4]
-        instance(x: -375.4500000000001, y: 14.649999999999975) test_c84d1b root.Std_k98ojb.Testing.Test {
+        instance(x: -413, y: 178) assertequal_78d2be root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 7, y: 158) assertequal_201d01 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 461, y: 150) assertequal_741900 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: -632, y: 185) swap_list_050df4 root.main.swap_list {}
+        instance(x: -192, y: 246) swap_list_d7e7ad root.main.swap_list {}
+        instance(x: 227, y: 262) swap_list_acd8ac root.main.swap_list {}
+        data_instance(x: -191, y: 363) data_421885  = [1, 2, 3, 4, 4]
+        data_instance(x: -867, y: 200) data_6b740b  = [1, 2, 3]
+        data_instance(x: -50, y: -106) data_c9a02f  = [4, 2, 3, 4, 1]
+        data_instance(x: -662, y: -161) data_12e5b0  = [3, 2, 1]
+        data_instance(x: 252, y: 362) data_383b29  = [4, 5, 6]
+        data_instance(x: 332, y: -105) data_ff4907  = [6, 5, 4]
+        instance(x: -375, y: 14) test_c84d1b root.Std_k98ojb.Testing.Test {
             name: "Test swap_list"
         }
         swap_list_050df4.output_195363 -> assertequal_78d2be.actual
@@ -61,5 +61,5 @@ module() main {
 
     }
 
-    instance(x: 101, y: -67.5) swap_list_496e5e root.main.swap_list {}
+    instance(x: 101, y: -67) swap_list_496e5e root.main.swap_list {}
 }

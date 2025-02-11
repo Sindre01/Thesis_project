@@ -4,21 +4,21 @@ import("http", Http_q7o96c)
 module() main { 
     func(doc: "Finds the second smallest number in a list.") second_smallest {
         in(x: -52, y: 85, name: "list") property(List) list_56d273
-        in(x: -244.31168019522795, y: -39.62516833200653, name: "execute") trigger() execute_c23a43
+        in(x: -244, y: -39, name: "execute") trigger() execute_c23a43
 
-        out(x: 1025.337586584032, y: 145.87386073641994, name: "continue") trigger() continue_642adb
-        out(x: 1026.50455705432, y: 287.7087130878599, name: "output") property(Any) output_ad16ae
+        out(x: 1025, y: 145, name: "continue") trigger() continue_642adb
+        out(x: 1026, y: 287, name: "output") property(Any) output_ad16ae
 
-        instance(x: 205.12295023385937, y: -205.81094236198624) sort_8b352b root.Std_k98ojb.List.Sort {}
+        instance(x: 205, y: -205) sort_8b352b root.Std_k98ojb.List.Sort {}
         instance(x: 391, y: 123) ifexpression_ef9cde root.Std_k98ojb.Std.IfExpression {
             expression: "n >= 2"
         }
         instance(x: 164, y: 148) length_f23345 root.Std_k98ojb.List.Length {}
         instance(x: 516, y: -8) getat_a71550 root.Std_k98ojb.List.GetAt {}
         setter(x: 12, y: -81, name: "setter_445dfe") setter_445dfe = secondSmallest
-        setter(x: 757.541742617572, y: 6.087130878600078, name: "setter_a82658") setter_a82658 = secondSmallest
-        getter(x: 762.0036456434561, y: 243.08348523514405, name: "getter_4c77cf") getter_4c77cf = secondSmallest
-        instance(x: 420.1095369817498, y: -216.20918004320083, name: "unique list") intersection_9b398b root.Std_k98ojb.Sets.Intersection {}
+        setter(x: 757, y: 6, name: "setter_a82658") setter_a82658 = secondSmallest
+        getter(x: 762, y: 243, name: "getter_4c77cf") getter_4c77cf = secondSmallest
+        instance(x: 420, y: -216, name: "unique list") intersection_9b398b root.Std_k98ojb.Sets.Intersection {}
         list_56d273 -> sort_8b352b.list
         list_56d273 -> length_f23345.list
         length_f23345.length -> ifexpression_ef9cde.gen_0
@@ -41,13 +41,13 @@ module() main {
             name: "Test second_smallest"
         }
         instance(x: 178, y: 114) assertequal_01a02e root.Std_k98ojb.Testing.AssertEqual {}
-        instance(x: 423.5, y: 117.5) second_0b8e2c root.main.second_smallest {}
-        instance(x: 710.5, y: 110.5) assertequal_5cd621 root.Std_k98ojb.Testing.AssertEqual {}
-        instance(x: 977.5, y: 124.5) second_d6b46c root.main.second_smallest {}
-        instance(x: 1264.5, y: 117.5) assertequal_64065d root.Std_k98ojb.Testing.AssertEqual {}
-        data_instance(x: -99.0, y: 246.0) data_3efee3  = [1, 2, -8, -2, 0, -2]
-        data_instance(x: 434.0, y: 246.0) data_1cddfd  = [1, 1, -0.5, 0, 2, -2, -2]
-        data_instance(x: 1003.0, y: 294.0) data_42c57b  = [2, 2]
+        instance(x: 423, y: 117) second_0b8e2c root.main.second_smallest {}
+        instance(x: 710, y: 110) assertequal_5cd621 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 977, y: 124) second_d6b46c root.main.second_smallest {}
+        instance(x: 1264, y: 117) assertequal_64065d root.Std_k98ojb.Testing.AssertEqual {}
+        data_instance(x: -99, y: 246) data_3efee3  = [1, 2, -8, -2, 0, -2]
+        data_instance(x: 434, y: 246) data_1cddfd  = [1, 1, -0, 0, 2, -2, -2]
+        data_instance(x: 1003, y: 294) data_42c57b  = [2, 2]
         test_756f72.onRun -> second_smallest_4179fe.execute_c23a43
         second_smallest_4179fe.continue_642adb -> assertequal_01a02e.execute
         second_0b8e2c.continue_642adb -> assertequal_5cd621.execute
@@ -58,7 +58,7 @@ module() main {
         data_1cddfd -> second_0b8e2c.list_56d273
         data_42c57b -> second_d6b46c.list_56d273
         second_0b8e2c.output_ad16ae -> assertequal_5cd621.actual
-        -0.5 -> assertequal_5cd621.expect
+        -0 -> assertequal_5cd621.expect
         second_smallest_4179fe.output_ad16ae -> assertequal_01a02e.actual
         -2 -> assertequal_01a02e.expect
         second_d6b46c.output_ad16ae -> assertequal_64065d.actual

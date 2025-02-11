@@ -4,7 +4,7 @@
 DIR="../includes_tests"
 
 # Loop through all text-based files (modify file pattern if necessary)
-for file in "$DIR"/*.txt; do
+for file in "$DIR"/*.midio; do
     if [[ -f "$file" ]]; then
         echo "Processing: $file"
 

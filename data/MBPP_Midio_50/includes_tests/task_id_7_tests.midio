@@ -3,13 +3,13 @@ import("http", Http_q7o96c)
 
 module() main {
     func(doc: "takes two lists and returns true if they have at least one common element.") common_element {
-        in(x: -337.22222900390625, y: -126.888916015625, name: "list1") property(List) list1_016b2e
-        in(x: -331.8888549804688, y: 30, name: "list2") property(List) list2_c8f404
+        in(x: -337, y: -126, name: "list1") property(List) list1_016b2e
+        in(x: -331, y: 30, name: "list2") property(List) list2_c8f404
 
-        out(x: 441.7780839843749, y: -72.16711450195311, name: "output") property(Bool) output_879de6
+        out(x: 441, y: -72, name: "output") property(Bool) output_879de6
 
-        instance(x: -121.333251953125, y: -71.11111450195313) intersection_78d487 root.Std_k98ojb.Sets.Intersection {}
-        instance(x: 169.00006103515625, y: -77.33331298828125) notempty_cd5cc4 root.Std_k98ojb.List.NotEmpty {}
+        instance(x: -121, y: -71) intersection_78d487 root.Std_k98ojb.Sets.Intersection {}
+        instance(x: 169, y: -77) notempty_cd5cc4 root.Std_k98ojb.List.NotEmpty {}
         intersection_78d487.intersection -> notempty_cd5cc4.list
         notempty_cd5cc4.isEmpty -> output_879de6
         list1_016b2e -> intersection_78d487.left
@@ -17,21 +17,21 @@ module() main {
     }
 
     module(doc: "Contains three different tests for the 'common_element' function node") tests {
-        instance(x: 279.14917161572976, y: 165.02455636962938) common_1c74ea root.main.common_element {}
-        data_instance(x: 35.3, y: 231.8) data_c2c58d  = [1, 2, 3, 4, 5]
-        instance(x: 0.9273051757812709, y: -145.25318017578124, name: "commom") test_e8c573 root.Std_k98ojb.Testing.Test {
+        instance(x: 279, y: 165) common_1c74ea root.main.common_element {}
+        data_instance(x: 35, y: 231) data_c2c58d  = [1, 2, 3, 4, 5]
+        instance(x: 0, y: -145, name: "commom") test_e8c573 root.Std_k98ojb.Testing.Test {
             name: "Test common_element"
         }
-        instance(x: 290.92687792968763, y: 41.41338476562504) asserttrue_e37748 root.Std_k98ojb.Testing.AssertTrue {}
-        instance(x: 763.4499013388203, y: 162.89172954961714) common_bdf571 root.main.common_element {}
-        data_instance(x: 563.2, y: 165.3) data_9585af  = [1, 2, 3, 4, 5]
-        instance(x: 1196.199870133258, y: 148.89175037310088) common_09383a root.main.common_element {}
-        data_instance(x: 1094.2, y: 287.6) data_4f063b  = ["a", "b", "c"]
-        data_instance(x: 1308.0, y: 284.4) data_2e680a  = ["d", "b", "e"]
-        instance(x: 1206.4775308583544, y: 36.28060409697417) asserttrue_051142 root.Std_k98ojb.Testing.AssertTrue {}
-        instance(x: 774.8749641757856, y: 32.624995921875495) assertfalse_6fcae3 root.Std_k98ojb.Testing.AssertFalse {}
-        data_instance(x: 365.5, y: 316.0) data_e0c3f5  = [5, 6, 7, 8, 9]
-        data_instance(x: 885.5, y: 290.2) data_360eeb  = [6, 7, 8, 9]
+        instance(x: 290, y: 41) asserttrue_e37748 root.Std_k98ojb.Testing.AssertTrue {}
+        instance(x: 763, y: 162) common_bdf571 root.main.common_element {}
+        data_instance(x: 563, y: 165) data_9585af  = [1, 2, 3, 4, 5]
+        instance(x: 1196, y: 148) common_09383a root.main.common_element {}
+        data_instance(x: 1094, y: 287) data_4f063b  = ["a", "b", "c"]
+        data_instance(x: 1308, y: 284) data_2e680a  = ["d", "b", "e"]
+        instance(x: 1206, y: 36) asserttrue_051142 root.Std_k98ojb.Testing.AssertTrue {}
+        instance(x: 774, y: 32) assertfalse_6fcae3 root.Std_k98ojb.Testing.AssertFalse {}
+        data_instance(x: 365, y: 316) data_e0c3f5  = [5, 6, 7, 8, 9]
+        data_instance(x: 885, y: 290) data_360eeb  = [6, 7, 8, 9]
         common_1c74ea.output_879de6 -> asserttrue_e37748.value
         data_c2c58d -> common_1c74ea.list1_016b2e
         test_e8c573.onRun -> asserttrue_e37748.execute
@@ -48,7 +48,7 @@ module() main {
 
     }
 
-    instance(x: 425.77777099609375, y: -186) common_element_33ad55 root.main.common_element {}
+    instance(x: 425, y: -186) common_element_33ad55 root.main.common_element {}
 
 
 }

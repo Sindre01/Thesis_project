@@ -3,21 +3,21 @@ import("http", Http_q7o96c)
 
 module() main { 
     func(doc: "Checks whether every odd index contains odd numbers of a given list.") odd_position {
-        in(x: -527.6710035710528, y: -214.6648553174405, name: "list") property(List) list_07cae4
+        in(x: -527, y: -214, name: "list") property(List) list_07cae4
 
-        out(x: 1269.9843987439294, y: -209.515088507578, name: "output") property(Bool) output_8d07dc
+        out(x: 1269, y: -209, name: "output") property(Bool) output_8d07dc
 
         instance(x: -303, y: -205, name: "only odd indexes") filter_c91965 root.Std_k98ojb.Iteration.Filter {}
         instance(x: 847, y: -207) contains_32727d root.Std_k98ojb.List.Contains {}
         instance(x: 246, y: -209, name: "transform numbers to true/false") map_c73e3b root.Std_k98ojb.Iteration.Map {}
         instance(x: 1058, y: -203) not_75283f root.Std_k98ojb.Logic.Not {}
         func() {
-            in(x: -30, y: -25.5, name: "current") property(Number) _index_170471
+            in(x: -30, y: -25, name: "current") property(Number) _index_170471
             in(x: -23, y: 79, name: "_index") property(Number) _index_769593
 
             out(x: 705, y: 49, name: "output") property(Bool) output_efbc78
 
-            instance(x: 226, y: 56.5) modulo_c76d2b root.Std_k98ojb.Math.Modulo {}
+            instance(x: 226, y: 56) modulo_c76d2b root.Std_k98ojb.Math.Modulo {}
             instance(x: 463, y: 51) notequal_7836b4 root.Std_k98ojb.Logic.NotEqual {}
             2 -> modulo_c76d2b.divisor
             0 -> notequal_7836b4.right
@@ -47,15 +47,15 @@ module() main {
     }
 
     module(doc: "Contains three different tests for the 'odd_position' function node") tests {
-        instance(x: -249, y: -4.5) test_ecdfed root.Std_k98ojb.Testing.Test {
+        instance(x: -249, y: -4) test_ecdfed root.Std_k98ojb.Testing.Test {
             name: "Test odd_position"
         }
         instance(x: 208, y: 118) asserttrue_74879b root.Std_k98ojb.Testing.AssertTrue {}
         instance(x: -120, y: 126) asserttrue_587026 root.Std_k98ojb.Testing.AssertTrue {}
         instance(x: 544, y: 116) assertfalse_30c48f root.Std_k98ojb.Testing.AssertFalse {}
-        data_instance(x: -125.0, y: 353.0) data_7e3eb4  = [2, 1, 4, 3, 6, 7, 6, 3]
-        data_instance(x: 195.0, y: 362.0) data_9f2c73  = [4, 1, 2]
-        data_instance(x: 542.7, y: 355.9) data_936c71  = [1, 2, 3]
+        data_instance(x: -125, y: 353) data_7e3eb4  = [2, 1, 4, 3, 6, 7, 6, 3]
+        data_instance(x: 195, y: 362) data_9f2c73  = [4, 1, 2]
+        data_instance(x: 542, y: 355) data_936c71  = [1, 2, 3]
         instance(x: -117, y: 246) odd_position_128608 root.main.odd_position {}
         instance(x: 207, y: 227) odd_position_ab374a root.main.odd_position {}
         instance(x: 543, y: 234) odd_position_465e58 root.main.odd_position {}
@@ -72,5 +72,5 @@ module() main {
 
     }
 
-    instance(x: -293, y: -5.5) odd_position_7a4dad root.main.odd_position {}
+    instance(x: -293, y: -5) odd_position_7a4dad root.main.odd_position {}
 }

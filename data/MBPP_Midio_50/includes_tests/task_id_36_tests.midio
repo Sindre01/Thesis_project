@@ -3,7 +3,7 @@ import("http", Http_q7o96c)
 
 module() main { 
     func(doc: "Checks whether a list of numbers contains only one distinct element or not.") unique_Element {
-        in(x: -285, y: -86.5, name: "list") property(List) list_3af6ba
+        in(x: -285, y: -86, name: "list") property(List) list_3af6ba
 
         out(x: 557, y: -97, name: "output") property(Bool) output_c7097f
 
@@ -19,18 +19,18 @@ module() main {
     }
 
     module(doc: "Contains three different tests for the 'unique_Element function node") tests {
-        instance(x: -117, y: -6.5) test_251a50 root.Std_k98ojb.Testing.Test {
+        instance(x: -117, y: -6) test_251a50 root.Std_k98ojb.Testing.Test {
             name: "Test unique_Element"
         }
         instance(x: -132, y: 192) asserttrue_b47f78 root.Std_k98ojb.Testing.AssertTrue {}
         instance(x: 143, y: 192) assertfalse_956142 root.Std_k98ojb.Testing.AssertFalse {}
         instance(x: 395, y: 192) assertfalse_d733a6 root.Std_k98ojb.Testing.AssertFalse {}
-        instance(x: -134.20000000000005, y: 296.85) unique_element_e91e6d root.main.unique_Element {}
-        instance(x: 132.39999999999998, y: 300.6) unique_0412bd root.main.unique_Element {}
-        instance(x: 383.4, y: 300.6) unique_a9a2db root.main.unique_Element {}
-        data_instance(x: -126.6, y: 417.6) data_30c8cf  = [1, 1, 1]
-        data_instance(x: 139.3, y: 424.9) data_97c25b  = [1, 2, 1, 2]
-        data_instance(x: 401.3, y: 426.3) data_2477ad  = [1, 2, 3, 4, 5]
+        instance(x: -134, y: 296) unique_element_e91e6d root.main.unique_Element {}
+        instance(x: 132, y: 300) unique_0412bd root.main.unique_Element {}
+        instance(x: 383, y: 300) unique_a9a2db root.main.unique_Element {}
+        data_instance(x: -126, y: 417) data_30c8cf  = [1, 1, 1]
+        data_instance(x: 139, y: 424) data_97c25b  = [1, 2, 1, 2]
+        data_instance(x: 401, y: 426) data_2477ad  = [1, 2, 3, 4, 5]
         test_251a50.onRun -> asserttrue_b47f78.execute
         unique_element_e91e6d.output_c7097f -> asserttrue_b47f78.value
         assertfalse_956142.continue -> assertfalse_d733a6.execute

@@ -3,20 +3,20 @@ import("http", Http_q7o96c)
 
 module() main { 
     func(doc: "Checks whether a specified list is sorted or not.") issort_list {
-        in(x: -465.5555419921875, y: -235.55555725097656, name: "execute") trigger() execute_90aaec
-        in(x: -485.5555725097656, y: 30.000091552734403, name: "list") property(List) list_ec88cd
+        in(x: -465, y: -235, name: "execute") trigger() execute_90aaec
+        in(x: -485, y: 30, name: "list") property(List) list_ec88cd
 
-        out(x: 1227.7780151367188, y: 5.7777252197265625, name: "continue") trigger() continue_a96db6
-        out(x: 1218, y: 147.88906860351565, name: "output") property(Bool) output_5bbcd7
+        out(x: 1227, y: 5, name: "continue") trigger() continue_a96db6
+        out(x: 1218, y: 147, name: "output") property(Bool) output_5bbcd7
 
-        instance(x: 752.111328125, y: 93.00003051757808) ifexpression_875761 root.Std_k98ojb.Std.IfExpression {
+        instance(x: 752, y: 93) ifexpression_875761 root.Std_k98ojb.Std.IfExpression {
             expression: "index == 0 || previous <= current"
         }
-        getter(x: 334.5556030273437, y: 160.11114501953116, name: "getter_b280eb") getter_b280eb = previous
-        setter(x: 679.8890991210938, y: -313.4444885253906, name: "setter_9d4f1c") setter_9d4f1c = previous
-        instance(x: 321.8888549804687, y: -20.444427490234375) for_d26972 root.Std_k98ojb.Std.For {}
-        setter(x: -0.3333740234375, y: -121.66668701171872, name: "setter_9d4f1c") setter_38e107 = previous
-        instance(x: -275.8888816833496, y: -35.000030517578125) getat_ce2a48 root.Std_k98ojb.List.GetAt {}
+        getter(x: 334, y: 160, name: "getter_b280eb") getter_b280eb = previous
+        setter(x: 679, y: -313, name: "setter_9d4f1c") setter_9d4f1c = previous
+        instance(x: 321, y: -20) for_d26972 root.Std_k98ojb.Std.For {}
+        setter(x: -0, y: -121, name: "setter_9d4f1c") setter_38e107 = previous
+        instance(x: -275, y: -35) getat_ce2a48 root.Std_k98ojb.List.GetAt {}
         ifexpression_875761.else -> continue_a96db6
         ifexpression_875761.value -> output_5bbcd7
         ifexpression_875761.then -> setter_9d4f1c.execute
@@ -36,18 +36,18 @@ module() main {
     }
 
     module(doc: "Contains three different tests for the 'issort_list' function node") tests {
-        instance(x: -228.89216796875007, y: -109.44439697265624) test_fdfcf8 root.Std_k98ojb.Testing.Test {
+        instance(x: -228, y: -109) test_fdfcf8 root.Std_k98ojb.Testing.Test {
             name: "Test issort_list"
         }
-        instance(x: 38.88566406249993, y: 9.4444580078125) issort_list_86fc37 root.main.issort_list {}
-        data_instance(x: 35.6, y: 143.9) data_8c271c  = [1, 2, 4, 6, 8, 10, 12, 14, 16, 17]
-        data_instance(x: 530.8, y: 146.0) data_0d031e  = [1, 2, 4, 6, 8, 10, 12, 14, 20, 17]
-        data_instance(x: 1040.8, y: 143.7) data_dc388d  = [1, 2, 4, 6, 8, 10, 15, 14, 20]
-        instance(x: 271.11114501953125, y: 9.11114501953125) asserttrue_6bd27c root.Std_k98ojb.Testing.AssertTrue {}
-        instance(x: 531, y: 8.222259521484375) issort_list_3b99d9 root.main.issort_list {}
-        instance(x: 1028.0001220703125, y: 8.55560302734375) issort_ba37d5 root.main.issort_list {}
-        instance(x: 759.111083984375, y: 7.3333740234375) assertfalse_36bb22 root.Std_k98ojb.Testing.AssertFalse {}
-        instance(x: 1367.77783203125, y: 5.22222900390625) assertfalse_60230c root.Std_k98ojb.Testing.AssertFalse {}
+        instance(x: 38, y: 9) issort_list_86fc37 root.main.issort_list {}
+        data_instance(x: 35, y: 143) data_8c271c  = [1, 2, 4, 6, 8, 10, 12, 14, 16, 17]
+        data_instance(x: 530, y: 146) data_0d031e  = [1, 2, 4, 6, 8, 10, 12, 14, 20, 17]
+        data_instance(x: 1040, y: 143) data_dc388d  = [1, 2, 4, 6, 8, 10, 15, 14, 20]
+        instance(x: 271, y: 9) asserttrue_6bd27c root.Std_k98ojb.Testing.AssertTrue {}
+        instance(x: 531, y: 8) issort_list_3b99d9 root.main.issort_list {}
+        instance(x: 1028, y: 8) issort_ba37d5 root.main.issort_list {}
+        instance(x: 759, y: 7) assertfalse_36bb22 root.Std_k98ojb.Testing.AssertFalse {}
+        instance(x: 1367, y: 5) assertfalse_60230c root.Std_k98ojb.Testing.AssertFalse {}
         data_8c271c -> issort_list_86fc37.list_ec88cd
         test_fdfcf8.onRun -> issort_list_86fc37.execute_90aaec
         issort_list_86fc37.continue_a96db6 -> asserttrue_6bd27c.execute
@@ -64,6 +64,6 @@ module() main {
 
     }
 
-    instance(x: 10.814860026041666, y: -177.3703409830729) issort_list_fc79d5 root.main.issort_list {}
+    instance(x: 10, y: -177) issort_list_fc79d5 root.main.issort_list {}
 
 }

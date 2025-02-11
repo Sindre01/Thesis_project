@@ -4,23 +4,23 @@ import("http", Http_q7o96c)
 module() main { 
     
     func(doc: "gets the sum of the digits of a non-negative integer.") sum_digits {
-        in(x: -450.6285128462196, y: -421.0174318758901, name: "execute") trigger() execute_cdac2a
-        in(x: -436.0110785806854, y: -213.9943182008108, name: "n") property(Number) n_6b655b
+        in(x: -450, y: -421, name: "execute") trigger() execute_cdac2a
+        in(x: -436, y: -213, name: "n") property(Number) n_6b655b
 
-        out(x: 1146.875280258343, y: -647.121552710005, name: "continue") trigger() continue_d9efd7
-        out(x: 1169.392184087017, y: -269.1458067062002, name: "output") property(Number) output_732a8a
+        out(x: 1146, y: -647, name: "continue") trigger() continue_d9efd7
+        out(x: 1169, y: -269, name: "output") property(Number) output_732a8a
 
-        instance(x: 80.89579303986966, y: -417.65972326008614) ifexpression_3d7de6 root.Std_k98ojb.Std.IfExpression {
+        instance(x: 80, y: -417) ifexpression_3d7de6 root.Std_k98ojb.Std.IfExpression {
             expression: "n <= 0"
         }
-        instance(x: 395.7852006176033, y: -378.5346681524448) sum_digits_96023e root.main.sum_digits {}
-        instance(x: 97.26073178843272, y: -127.20828320589732) modulo_adfa16 root.Std_k98ojb.Math.Modulo {}
-        instance(x: 656.7392544046465, y: -330.05550447098767) add_88bb8a root.Std_k98ojb.Math.Add {}
-        instance(x: 99.04512033110508, y: -249.19776888949687) div_547f34 root.Std_k98ojb.Math.Div {}
-        setter(x: -215.149250043669, y: -463.6943773173606, name: "setter_41e4ad") setter_41e4ad = sum
-        setter(x: 875.4620892015823, y: -518.993104265236, name: "setter_375321") setter_375321 = sum
-        getter(x: 902.9272555296948, y: -314.6630512598314, name: "getter_38583a") getter_38583a = sum
-        instance(x: -202.35927021027717, y: -236.812380106833) floor_61b38d root.Std_k98ojb.Math.Floor {}
+        instance(x: 395, y: -378) sum_digits_96023e root.main.sum_digits {}
+        instance(x: 97, y: -127) modulo_adfa16 root.Std_k98ojb.Math.Modulo {}
+        instance(x: 656, y: -330) add_88bb8a root.Std_k98ojb.Math.Add {}
+        instance(x: 99, y: -249) div_547f34 root.Std_k98ojb.Math.Div {}
+        setter(x: -215, y: -463, name: "setter_41e4ad") setter_41e4ad = sum
+        setter(x: 875, y: -518, name: "setter_375321") setter_375321 = sum
+        getter(x: 902, y: -314, name: "getter_38583a") getter_38583a = sum
+        instance(x: -202, y: -236) floor_61b38d root.Std_k98ojb.Math.Floor {}
         10 -> modulo_adfa16.divisor
         modulo_adfa16.result -> add_88bb8a.first
         10 -> div_547f34.second
@@ -42,15 +42,15 @@ module() main {
     }
 
     module(doc: "Contains three different tests for the 'sum_digits' function node") tests {
-        instance(x: -706.6698474121094, y: -13.888854980468722) sum_digits_05e902 root.main.sum_digits {}
-        instance(x: -575.7777709960938, y: -216.1110687255859) test_381590 root.Std_k98ojb.Testing.Test {
+        instance(x: -706, y: -13) sum_digits_05e902 root.main.sum_digits {}
+        instance(x: -575, y: -216) test_381590 root.Std_k98ojb.Testing.Test {
             name: "Test sum_digits"
         }
-        instance(x: -418.5554211589349, y: -28.88902877434248) assertequal_d37f9a root.Std_k98ojb.Testing.AssertEqual {}
-        instance(x: -380.1127700488896, y: 126.66657508631396) sum_92f23d root.main.sum_digits {}
-        instance(x: -19.220258457173145, y: 114.4443910823851) assertequal_cb0424 root.Std_k98ojb.Testing.AssertEqual {}
-        instance(x: -18.66828526054223, y: -51.4444927489908) sum_c936d6 root.main.sum_digits {}
-        instance(x: 310.5573892316396, y: -57.55569475091545) assertequal_d4e709 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: -418, y: -28) assertequal_d37f9a root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: -380, y: 126) sum_92f23d root.main.sum_digits {}
+        instance(x: -19, y: 114) assertequal_cb0424 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: -18, y: -51) sum_c936d6 root.main.sum_digits {}
+        instance(x: 310, y: -57) assertequal_d4e709 root.Std_k98ojb.Testing.AssertEqual {}
         345 -> sum_digits_05e902.n_6b655b
         12 -> assertequal_d37f9a.expect
         12 -> sum_92f23d.n_6b655b
@@ -70,6 +70,6 @@ module() main {
 
     }
 
-    instance(x: -176.88885498046875, y: -38.111114501953125) sum_digits_86117a root.main.sum_digits {}
+    instance(x: -176, y: -38) sum_digits_86117a root.main.sum_digits {}
 
 }
