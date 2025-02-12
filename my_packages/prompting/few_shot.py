@@ -72,7 +72,8 @@ def create_few_shot_prompt(
             ("ai", response_template)
         ]
     )
-
+    print("Example Prompt ", examples[0])
+    print("Example Prompt Template: ", example_prompt_template)
     few_shot_prompt = FewShotChatMessagePromptTemplate(
         examples=examples,
         example_prompt=example_prompt_template, #Formats each individual example
@@ -97,14 +98,14 @@ def create_final_prompt(
     return final_prompt
 
 
-# def get_prompt_template_variables(template_name):
-#     # Extract variables inside { } or {{ }}
-#     template = get_prompt_template(template_name)
-#     variables = re.findall(r'\{\{(.*?)\}\}|\{(.*?)\}', template)
+def get_prompt_template_variables(template_name):
+    # Extract variables inside { } or {{ }}
+    template = get_prompt_template(template_name)
+    variables = re.findall(r'\{\{(.*?)\}\}|\{(.*?)\}', template)
 
-#     # Flatten and remove None values
-#     variable_names = [var for group in variables for var in group if var]
-#     return variable_names
+    # Flatten and remove None values
+    variable_names = [var for group in variables for var in group if var]
+    return variable_names
 
 def transform_node_data(data):
     """[{

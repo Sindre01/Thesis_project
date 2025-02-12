@@ -7,7 +7,7 @@
         ],
         "task_id": 1,
         "specification": {
-            "function_signature": "func(doc: \"checks whether the given two integers have opposite sign or not.\") opposite_signs {\n  in(x: -426.75106687766726, y: -248.6672781623361, name: \"x\") property(Number) x_853326\n  in(x: -420.9177240472398, y: -107.83359783106482, name: \"y\") property(Number) y_5390f5\n\n  out(x: 159.11126708984375, y: -219.88885498046875, name: \"output\") property(Bool) output_3339a3\n}",
+            "function_signature": "func(doc: \"checks whether the given two integers have opposite sign or not.\") opposite_signs {\n  in(x: -426, y: -248, name: \"x\") property(Number) x_853326\n  in(x: -420, y: -107, name: \"y\") property(Number) y_5390f5\n\n  out(x: 159, y: -219, name: \"output\") property(Bool) output_3339a3\n}",
             "preconditions": "- There are no preconditions, the method will always work.",
             "postconditions": "- The result is true if x and y have opposite signs\n- The result is false if x and y have the same sign"
         },
@@ -158,7 +158,7 @@
         ],
         "task_id": 3,
         "specification": {
-            "function_signature": "func(doc: \"finds whether a number is divisible by 11.\") is_diff {\n  in(x: 5.110832031250027, y: -25.33331298828125, name: \"n\") property(Number) n_27f29c\n\n  out(x: 668.1112060546875, y: 2.11114501953125, name: \"output\") property(Bool) output_f2630f\n}",
+            "function_signature": "func(doc: \"finds whether a number is divisible by 11.\") is_diff {\n  in(x: 5, y: -25, name: \"n\") property(Number) n_27f29c\n\n  out(x: 668, y: 2, name: \"output\") property(Bool) output_f2630f\n}",
             "preconditions": "- There are no preconditions, the method will always work for any integer input.",
             "postconditions": "- The result is true if the input number is divisible by 11\n- The result is false if the input number is not divisible by 11"
         },
@@ -218,7 +218,7 @@
         ],
         "task_id": 4,
         "specification": {
-            "function_signature": "func(doc: \"finds the kth element in the given array using 1-based indexing.\") kth_element {\n  in(x: -286.0833326588629, y: -119.5833377136553, name: \"execute\") trigger() execute_1e159f\n  in(x: 153.3888224263642, y: 446.30657270108384, name: \"list\") property(List) list_b5d10a\n  in(x: -289.44439697265625, y: 126.55570983886724, name: \"k\") property(Number) k_1e19fb\n\n  out(x: 844.7513913467067, y: 53.95836826061554, name: \"continue\") trigger() continue_c95bcb\n  out(x: 692.8760222272696, y: 553.3761034449718, name: \"element\") property(Number) element_fd7945\n}",
+            "function_signature": "func(doc: \"finds the kth element in the given array using 1-based indexing.\") kth_element {\n  in(x: -286, y: -119, name: \"execute\") trigger() execute_1e159f\n  in(x: 153, y: 446, name: \"list\") property(List) list_b5d10a\n  in(x: -289, y: 126, name: \"k\") property(Number) k_1e19fb\n\n  out(x: 844, y: 53, name: \"continue\") trigger() continue_c95bcb\n  out(x: 692, y: 553, name: \"element\") property(Number) element_fd7945\n}",
             "preconditions": "- index should be between 1 and the length of the list (inclusive)",
             "postconditions": "- The result should be the kth element of the input list."
         },
@@ -385,7 +385,7 @@
         ],
         "task_id": 6,
         "specification": {
-            "function_signature": "func(doc: \"finds the minimum of three numbers.\") min_of_three {\n  in(x: -903.6855759900376, y: -379.0358560546829, name: \"a\") property(Number) a_f37c19\n  in(x: -908.4615926769588, y: -241.94665736242496, name: \"b\") property(Number) b_ca79ac\n  in(x: -907.4906914682103, y: -94.85470946491404, name: \"c\") property(Number) c_a89f71\n\n  out(x: -78.08754971418284, y: -306.1206884918196, name: \"min\") property(Number) smallest_8713cf\n}",
+            "function_signature": "func(doc: \"finds the minimum of three numbers.\") min_of_three {\n  in(x: -903, y: -379, name: \"a\") property(Number) a_f37c19\n  in(x: -908, y: -241, name: \"b\") property(Number) b_ca79ac\n  in(x: -907, y: -94, name: \"c\") property(Number) c_a89f71\n\n  out(x: -78, y: -306, name: \"min\") property(Number) smallest_8713cf\n}",
             "preconditions": "- There are no preconditions, the method will always work.",
             "postconditions": "- The returned value is the minimum of the three input numbers\n- The returned value is less than or equal to all input numbers"
         },
@@ -452,7 +452,7 @@
         ],
         "task_id": 7,
         "specification": {
-            "function_signature": "func(doc: \"takes two lists and returns true if they have at least one common element.\") common_element {\n  in(x: -334.3332824707031, y: -104.11111450195313, name: \"list1\") property(List) list1_71bb8f\n  in(x: -346.5555114746094, y: -6.555541992187528, name: \"list2\") property(List) list2_b16d46\n\n  out(x: 433.7780839843749, y: -82.83377099609373, name: \"output\") property(Bool) output_879de6\n}",
+            "function_signature": "func(doc: \"takes two lists and returns true if they have at least one common element.\") common_element {\n  in(x: -334, y: -104, name: \"list1\") property(List) list1_71bb8f\n  in(x: -346, y: -6, name: \"list2\") property(List) list2_b16d46\n\n  out(x: 433, y: -82, name: \"output\") property(Bool) output_879de6\n}",
             "preconditions": "- Both arrays should be non-null",
             "postconditions": "- If the method returns true, there exists at least one common element between the two arrays\n- If the method returns false, there are no common elements between the two arrays"
         },
@@ -557,7 +557,7 @@
         ],
         "task_id": 8,
         "specification": {
-            "function_signature": "func(doc: \"check whether the entered number is greater than the elements of the given array.\") check_greater {\n  in(x: -33.73497780295881, y: -26.418843685612387, name: \"n\") property(Number) n_a6cea7\n  in(x: -294.1111145019531, y: 155.3333740234375, name: \"list\") property(Any) list_0b075e\n\n  out(x: 546.266521417203, y: 63.50263358467032, name: \"output\") property(Bool) output_b1d7f8\n}",
+            "function_signature": "func(doc: \"check whether the entered number is greater than the elements of the given array.\") check_greater {\n  in(x: -33, y: -26, name: \"n\") property(Number) n_a6cea7\n  in(x: -294, y: 155, name: \"list\") property(Any) list_0b075e\n\n  out(x: 546, y: 63, name: \"output\") property(Bool) output_b1d7f8\n}",
             "preconditions": "- The array should not be null",
             "postconditions": "- If the result is true, then n is greater than all elements in the array\n- If the result is false, then there exists at least one element in the array that is greater than or equal to n"
         },
@@ -709,7 +709,7 @@
         ],
         "task_id": 10,
         "specification": {
-            "function_signature": "func(doc: \"matches a word containing 'z'.\") text_match_wordz {\n  in(x: -230, y: 0, name: \"string\") property(String) input_0\n\n  out(x: 530.1946625341826, y: -2.499938652351375, name: \"result\") property(Bool) result_0\n}",
+            "function_signature": "func(doc: \"matches a word containing 'z'.\") text_match_wordz {\n  in(x: -230, y: 0, name: \"string\") property(String) input_0\n\n  out(x: 530, y: -2, name: \"result\") property(Bool) result_0\n}",
             "preconditions": "- There are no preconditions, the method will always work. Strings and sequences are always not null.",
             "postconditions": "- The result is true if the input string contains the character 'z' or 'Z'\n- The result is false if the input string does not contain the character 'z' or 'Z'"
         },
@@ -774,7 +774,7 @@
         ],
         "task_id": 11,
         "specification": {
-            "function_signature": "func(doc: \"check whether the given list contains consecutive numbers or not.\") ContainsConsecutiveNumbers {\n  in(x: -425.8101837730135, y: 209.16760512007824, name: \"list\") property(any) list_faf6c2\n\n  out(x: 866.1704038210295, y: 132.1480057664585, name: \"output\") property(Bool) output_a2b59d\n}",
+            "function_signature": "func(doc: \"check whether the given list contains consecutive numbers or not.\") ContainsConsecutiveNumbers {\n  in(x: -425, y: 209, name: \"list\") property(any) list_faf6c2\n\n  out(x: 866, y: 132, name: \"output\") property(Bool) output_a2b59d\n}",
             "preconditions": "- There are no preconditions, the method will always work. Arrays can be empty or non-empty.",
             "postconditions": "- If the array contains consecutive numbers, the result is true\n- If the array does not contain consecutive numbers, the result is false"
         },
@@ -963,7 +963,7 @@
         ],
         "task_id": 14,
         "specification": {
-            "function_signature": "func(doc: \"gets the sum of the digits of a non-negative integer.\") sum_digits {\n  in(x: -450.6285128462196, y: -421.0174318758901, name: \"execute\") trigger() execute_cdac2a\n  in(x: -436.0110785806854, y: -213.9943182008108, name: \"n\") property(Number) n_6b655b\n\n  out(x: 1146.875280258343, y: -647.121552710005, name: \"continue\") trigger() continue_d9efd7\n  out(x: 1169.392184087017, y: -269.1458067062002, name: \"output\") property(Number) output_732a8a\n}",
+            "function_signature": "func(doc: \"gets the sum of the digits of a non-negative integer.\") sum_digits {\n  in(x: -450, y: -421, name: \"execute\") trigger() execute_cdac2a\n  in(x: -436, y: -213, name: \"n\") property(Number) n_6b655b\n\n  out(x: 1146, y: -647, name: \"continue\") trigger() continue_d9efd7\n  out(x: 1169, y: -269, name: \"output\") property(Number) output_732a8a\n}",
             "preconditions": "- n should be a non-negative integer",
             "postconditions": "- The sum of the digits of the input integer is returned\n- The sum is non-negative"
         },
@@ -1034,7 +1034,7 @@
         ],
         "task_id": 15,
         "specification": {
-            "function_signature": "func(doc: \"Checks whether a specified list is sorted or not.\") issort_list {\n  in(x: -465.5555419921875, y: -235.55555725097656, name: \"execute\") trigger() execute_90aaec\n  in(x: -485.5555725097656, y: 30.000091552734403, name: \"list\") property(List) list_ec88cd\n\n  out(x: 1227.7780151367188, y: 5.7777252197265625, name: \"continue\") trigger() continue_a96db6\n  out(x: 1218, y: 147.88906860351565, name: \"output\") property(Bool) output_5bbcd7\n}",
+            "function_signature": "func(doc: \"Checks whether a specified list is sorted or not.\") issort_list {\n  in(x: -465, y: -235, name: \"execute\") trigger() execute_90aaec\n  in(x: -485, y: 30, name: \"list\") property(List) list_ec88cd\n\n  out(x: 1227, y: 5, name: \"continue\") trigger() continue_a96db6\n  out(x: 1218, y: 147, name: \"output\") property(Bool) output_5bbcd7\n}",
             "preconditions": "- There are no preconditions, the method will always work. Arrays can be empty or have any length.",
             "postconditions": "- If the method returns true, the array is sorted in non-decreasing order\n- If the method returns false, the array is not sorted in non-decreasing order"
         },
@@ -1138,7 +1138,7 @@
         ],
         "task_id": 16,
         "specification": {
-            "function_signature": "func(doc: \"Calculates the product of the unique numbers in a given list.\") unique_product {\n  in(x: -757.333251953125, y: -167.22222900390625, name: \"execute\") trigger() execute_19300c\n  in(x: -241.5073968048319, y: 24.718980205535843, name: \"list\") property(List) list_5fda54\n\n  out(x: 887.2698254909816, y: -144.87763740156333, name: \"continue\") trigger() continue_45190b\n  out(x: 683.0457784343986, y: 73.83239411456998, name: \"output\") property(Number) output_cffcc2\n}",
+            "function_signature": "func(doc: \"Calculates the product of the unique numbers in a given list.\") unique_product {\n  in(x: -757, y: -167, name: \"execute\") trigger() execute_19300c\n  in(x: -241, y: 24, name: \"list\") property(List) list_5fda54\n\n  out(x: 887, y: -144, name: \"continue\") trigger() continue_45190b\n  out(x: 683, y: 73, name: \"output\") property(Number) output_cffcc2\n}",
             "preconditions": "- There are no preconditions, the method will always work.",
             "postconditions": "- The product should be the multiplication of all unique elements in the array"
         },
@@ -1233,7 +1233,7 @@
         ],
         "task_id": 17,
         "specification": {
-            "function_signature": "func(doc: \"Checks whether a list is sublist of another or not.\") is_Sub_Array {\n  in(x: -2030.0, y: 959.0, name: \"main_list\") property(List) main_list_25f077\n  in(x: -2032.0, y: 1297.0, name: \"sub_list\") property(List) sub_list_f9cb80\n  in(x: -1875.542233077594, y: 677.5031994030661, name: \"execute\") trigger() execute_68160a\n\n  out(x: -243.0, y: 1021.0, name: \"continue\") trigger() continue_d72620\n  out(x: -239.0, y: 1163, name: \"output\") property(Bool) output_ebc87c\n}",
+            "function_signature": "func(doc: \"Checks whether a list is sublist of another or not.\") is_Sub_Array {\n  in(x: -2030, y: 959, name: \"main_list\") property(List) main_list_25f077\n  in(x: -2032, y: 1297, name: \"sub_list\") property(List) sub_list_f9cb80\n  in(x: -1875, y: 677, name: \"execute\") trigger() execute_68160a\n\n  out(x: -243, y: 1021, name: \"continue\") trigger() continue_d72620\n  out(x: -239, y: 1163, name: \"output\") property(Bool) output_ebc87c\n}",
             "preconditions": "- Both `main_list` and `sub_list` are not null.",
             "postconditions": "- The output is `True` if `sub_list` is a sublist of `main_list`.\n- The output is `False` if `sub_list` is not a sublist of `main_list`."
         },
@@ -1451,7 +1451,7 @@
         ],
         "task_id": 19,
         "specification": {
-            "function_signature": "func(doc: \"finds the difference between largest and smallest value in a given list.\") big_diff {\n  in(x: -266.0, y: 82.0, name: \"list\") property(List) list_9abc1d\n\n  out(x: 533.0, y: 70.0, name: \"difference\") property(Number) difference_27806e\n}",
+            "function_signature": "func(doc: \"finds the difference between largest and smallest value in a given list.\") big_diff {\n  in(x: -266, y: 82, name: \"list\") property(List) list_9abc1d\n\n  out(x: 533, y: 70, name: \"difference\") property(Number) difference_27806e\n}",
             "preconditions": "- The input array should not be empty",
             "postconditions": "- The difference between the largest and smallest value in the input array is returned"
         },
@@ -1529,7 +1529,7 @@
         ],
         "task_id": 20,
         "specification": {
-            "function_signature": "func(doc: \"finds the difference of the first even and first odd number of a given list.\") diff_even_odd {\n  in(x: -569.8980486478499, y: 438.54324938452424, name: \"list\") property(List) list_542a51\n\n  out(x: 443.494835164272, y: 427.164433987646, name: \"difference\") property(Number) difference_57c890\n}",
+            "function_signature": "func(doc: \"finds the difference of the first even and first odd number of a given list.\") diff_even_odd {\n  in(x: -569, y: 438, name: \"list\") property(List) list_542a51\n\n  out(x: 443, y: 427, name: \"difference\") property(Number) difference_57c890\n}",
             "preconditions": "- The array should not be empty\n- The array should contain at least one even and one odd number",
             "postconditions": "- The difference is the first even number minus the first odd number in the array"
         },
@@ -1620,7 +1620,7 @@
         ],
         "task_id": 21,
         "specification": {
-            "function_signature": "func(doc: \"find sum and average of first n natural numbers.\") sum_average {\n  in(x: -343.0, y: -287.0, name: \"n\") property(Number) n_c88d35\n\n  out(x: 756.0, y: -371.0, name: \"output\") property(List) output_ebef81\n}",
+            "function_signature": "func(doc: \"find sum and average of first n natural numbers.\") sum_average {\n  in(x: -343, y: -287, name: \"n\") property(Number) n_c88d35\n\n  out(x: 756, y: -371, name: \"output\") property(List) output_ebef81\n}",
             "preconditions": "- n should be a positive integer",
             "postconditions": "- sum should be the sum of the first n natural numbers\n- average should be the average of the first n natural numbers"
         },
@@ -1673,7 +1673,7 @@
         ],
         "task_id": 22,
         "specification": {
-            "function_signature": "func(doc: \"checks whether the given number is even or not.\") is_Even {\n  in(x: -389.0, y: -3.0, name: \"num\") property(Number) num_1a1743\n\n  out(x: 197.0, y: -8.0, name: \"output\") property(Bool) output_4ff980\n}",
+            "function_signature": "func(doc: \"checks whether the given number is even or not.\") is_Even {\n  in(x: -389, y: -3, name: \"num\") property(Number) num_1a1743\n\n  out(x: 197, y: -8, name: \"output\") property(Bool) output_4ff980\n}",
             "preconditions": "- There are no preconditions, the method will always work for any integer.",
             "postconditions": "- If the input number is even, the result is true\n- If the input number is odd, the result is false"
         },
@@ -1735,7 +1735,7 @@
         ],
         "task_id": 23,
         "specification": {
-            "function_signature": "func(doc: \"finds the first repeated character in a given string.\") first_repeated_char {\n  in(x: -20.83454868200644, y: -110.63145350145422, name: \"input\") property(String) input_71a657\n\n  out(x: 1545.4543910894802, y: 186.48226354870695, name: \"output\") property(Any) output_f2523c\n}",
+            "function_signature": "func(doc: \"finds the first repeated character in a given string.\") first_repeated_char {\n  in(x: -20, y: -110, name: \"input\") property(String) input_71a657\n\n  out(x: 1545, y: 186, name: \"output\") property(Any) output_f2523c\n}",
             "preconditions": "- There are no preconditions, the method will always work. Strings and sequences are always not null.",
             "postconditions": "- If returns char, then returned char is the first repeated character in the input string\n- If returns null, then there are no repeated characters in the input string"
         },
@@ -1803,7 +1803,7 @@
         ],
         "task_id": 24,
         "specification": {
-            "function_signature": "func(doc: \"takes a list and returns a list with the same elements, but the k'th element removed.\") remove_kth_element {\n    in(x: -172.79998779296875, y: 18.19999999999999, name: \"k\") property(Number) k_94ca93\n    in(x: -156, y: -121.40000610351564, name: \"list\") property(List) list_aa3106\n\n    out(x: 505.2000732421875, y: -50.199993896484386, name: \"newList\") property(List) newList_20b99a\n}",
+            "function_signature": "func(doc: \"takes a list and returns a list with the same elements, but the k'th element removed.\") remove_kth_element {\n    in(x: -172, y: 18, name: \"k\") property(Number) k_94ca93\n    in(x: -156, y: -121, name: \"list\") property(List) list_aa3106\n\n    out(x: 505, y: -50, name: \"newList\") property(List) newList_20b99a\n}",
             "preconditions": "- k should be between 0 and the length of the array",
             "postconditions": "- The length of the returning array must be one less than the length of the input array\n- All elements before the k'th element in the input array should be the same in the output array\n- All elements after the k'th element in the input array should be shifted by one position in the output array"
         },
@@ -1951,7 +1951,7 @@
         ],
         "task_id": 25,
         "specification": {
-            "function_signature": "func(doc: \"Takes two lists of the same length and performs the element wise modulo.\") list_modulo {\n    in(x: -173.79995727539065, y: -154.79998168945315, name: \"list1\") property(List) list1_1f846b\n    in(x: -181.4000244140625, y: -13.400048828125025, name: \"list2\") property(List) list2_c62075\n\n    out(x: 784.3554869802861, y: -110.50285847796896, name: \"newList\") property(List) list_0d40f1\n}",
+            "function_signature": "func(doc: \"Takes two lists of the same length and performs the element wise modulo.\") list_modulo {\n    in(x: -173, y: -154, name: \"list1\") property(List) list1_1f846b\n    in(x: -181, y: -13, name: \"list2\") property(List) list2_c62075\n\n    out(x: 784, y: -110, name: \"newList\") property(List) list_0d40f1\n}",
             "preconditions": "- Both arrays should be non-null\n- Both arrays should have the same length\n- All elements in the second array (b) should be non-zero",
             "postconditions": "- The length of the result array should be the same as the length of the input arrays\n- Each element in the result array should be the modulo of the corresponding elements in the input arrays"
         },
@@ -2059,7 +2059,7 @@
         ],
         "task_id": 27,
         "specification": {
-            "function_signature": "func(doc: \"Finds the smallest missing number from a sorted list of natural numbers.\") find_First_Missing {\n    in(x: -113, y: 62.5, name: \"list\") property(List) list_24e9a6\n    in(x: 483, y: -328, name: \"execute\") trigger() execute_fa8807\n\n    out(x: 1453, y: 319, name: \"output\") property(Number) output_25655e\n    out(x: 1491, y: -61, name: \"continue\") trigger() continue_aedf0f\n}",
+            "function_signature": "func(doc: \"Finds the smallest missing number from a sorted list of natural numbers.\") find_First_Missing {\n    in(x: -113, y: 62, name: \"list\") property(List) list_24e9a6\n    in(x: 483, y: -328, name: \"execute\") trigger() execute_fa8807\n\n    out(x: 1453, y: 319, name: \"output\") property(Number) output_25655e\n    out(x: 1491, y: -61, name: \"continue\") trigger() continue_aedf0f\n}",
             "preconditions": "- The input sequence should be sorted in non-decreasing order\n- The input sequence should only contain natural numbers (including 0)",
             "postconditions": "- The returned value should be the smallest natural number not present in the input sequence"
         },
@@ -2228,7 +2228,7 @@
         ],
         "task_id": 29,
         "specification": {
-            "function_signature": "func(doc: \"Moves all zeroes to the end of the given list.\") move_zero {\n    in(x: -199, y: -152, name: \"execute\") trigger() execute_1ddb9f\n    in(x: -174, y: 160, name: \"list\") property(List) list_0c1a77\n\n    out(x: 838.7, y: 168, name: \"output\") property(List) data_0_0\n    out(x: 817, y: 39, name: \"continue\") trigger() continue_a7f942\n}",
+            "function_signature": "func(doc: \"Moves all zeroes to the end of the given list.\") move_zero {\n    in(x: -199, y: -152, name: \"execute\") trigger() execute_1ddb9f\n    in(x: -174, y: 160, name: \"list\") property(List) list_0c1a77\n\n    out(x: 838, y: 168, name: \"output\") property(List) data_0_0\n    out(x: 817, y: 39, name: \"continue\") trigger() continue_a7f942\n}",
             "preconditions": "- There are no preconditions, the method will always work.",
             "postconditions": "- The length of the output array must be the same as the length of the input array\n- All zeroes in the input array are at the end of the output array\n- The relative order of the non-zero elements should be the same as in the input array\n- The number of zeroes in the input and output arrays should be the same"
         },
@@ -2348,7 +2348,7 @@
         ],
         "task_id": 30,
         "specification": {
-            "function_signature": "func(doc: \"Reverse an list upto a given position.\") reverse_Array_Upto_K {\n    in(x: -227, y: 44.5, name: \"list\") property(List) list_f1bb24\n    in(x: -223, y: 164.5, name: \"k\") property(Number) k_cf24dd\n\n    out(x: 744, y: 146, name: \"output\") property(List) output_c4a1a8\n}",
+            "function_signature": "func(doc: \"Reverse an list upto a given position.\") reverse_Array_Upto_K {\n    in(x: -227, y: 44, name: \"list\") property(List) list_f1bb24\n    in(x: -223, y: 164, name: \"k\") property(Number) k_cf24dd\n\n    out(x: 744, y: 146, name: \"output\") property(List) output_c4a1a8\n}",
             "preconditions": "- k should be between 0 and the length of the array",
             "postconditions": "- The input array is modified\n- The values of the array up to k are reversed\n- The values of the array after k remain unchanged"
         },
@@ -2619,7 +2619,7 @@
         ],
         "task_id": 33,
         "specification": {
-            "function_signature": "func(doc: \"Checks whether all the characters are same or not.\") all_Characters_Same {\n    in(x: -862.8, y: 188.15, name: \"string\") property(String) string_db4ddf\n    in(x: -878.5714285714289, y: 9.999999999999986, name: \"execute\") trigger() execute_f1c7e0\n\n    out(x: 588, y: 123, name: \"continue\") trigger() continue_67430e\n    out(x: 600, y: 270, name: \"output\") property(Bool) output_e9fa68\n}",
+            "function_signature": "func(doc: \"Checks whether all the characters are same or not.\") all_Characters_Same {\n    in(x: -862, y: 188, name: \"string\") property(String) string_db4ddf\n    in(x: -878, y: 9, name: \"execute\") trigger() execute_f1c7e0\n\n    out(x: 588, y: 123, name: \"continue\") trigger() continue_67430e\n    out(x: 600, y: 270, name: \"output\") property(Bool) output_e9fa68\n}",
             "preconditions": "- There are no preconditions, the method will always work. Strings and sequences are always not null.",
             "postconditions": "- If the result is true, all characters in the input string are the same\n- If the result is false, there is at least one character in the input string that is different from the others"
         },
@@ -2690,7 +2690,7 @@
         ],
         "task_id": 34,
         "specification": {
-            "function_signature": "func(doc: \"Rotates a given list by specified number of items to the right direction.\") rotate_right {\n    in(x: -186, y: -89.5, name: \"list\") property(List) list_48148f\n    in(x: -193, y: -3.5, name: \"n\") property(Number) n_68068c\n\n    out(x: 735.1, y: -112.54999999999995, name: \"output\") property(Any) output_823209\n}",
+            "function_signature": "func(doc: \"Rotates a given list by specified number of items to the right direction.\") rotate_right {\n    in(x: -186, y: -89, name: \"list\") property(List) list_48148f\n    in(x: -193, y: -3, name: \"n\") property(Number) n_68068c\n\n    out(x: 735, y: -112, name: \"output\") property(Any) output_823209\n}",
             "preconditions": "- n should be non-negative",
             "postconditions": "- The length of the returning sequence must be the same as the length of the input sequence\n- The elements of the input sequence are rotated by n positions to the right in the output sequence"
         },
@@ -2831,7 +2831,7 @@
         ],
         "task_id": 35,
         "specification": {
-            "function_signature": "func(doc: \"Finds the second smallest number in a list.\") second_smallest {\n    in(x: -52, y: 85, name: \"list\") property(List) list_56d273\n    in(x: -244.31168019522795, y: -39.62516833200653, name: \"execute\") trigger() execute_c23a43\n\n    out(x: 1025.337586584032, y: 145.87386073641994, name: \"continue\") trigger() continue_642adb\n    out(x: 1026.50455705432, y: 287.7087130878599, name: \"output\") property(Any) output_ad16ae\n}",
+            "function_signature": "func(doc: \"Finds the second smallest number in a list.\") second_smallest {\n    in(x: -52, y: 85, name: \"list\") property(List) list_56d273\n    in(x: -244, y: -39, name: \"execute\") trigger() execute_c23a43\n\n    out(x: 1025, y: 145, name: \"continue\") trigger() continue_642adb\n    out(x: 1026, y: 287, name: \"output\") property(Any) output_ad16ae\n}",
             "preconditions": "- The input array should not be null\n- The input array should have at least two elements",
             "postconditions": "- The returned value should be the second-smallest number in the input array\n- The input array remains unchanged"
         },
@@ -2891,7 +2891,7 @@
         ],
         "task_id": 36,
         "specification": {
-            "function_signature": "func(doc: \"Checks whether a list of numbers contains only one distinct element or not.\") unique_Element {\n    in(x: -285, y: -86.5, name: \"list\") property(List) list_3af6ba\n\n    out(x: 557, y: -97, name: \"output\") property(Bool) output_c7097f\n}",
+            "function_signature": "func(doc: \"Checks whether a list of numbers contains only one distinct element or not.\") unique_Element {\n    in(x: -285, y: -86, name: \"list\") property(List) list_3af6ba\n\n    out(x: 557, y: -97, name: \"output\") property(Bool) output_c7097f\n}",
             "preconditions": "- The input array should not be null",
             "postconditions": "- If the method returns true, all elements in the array are equal\n- If the method returns false, there are at least two distinct elements in the array"
         },
@@ -2972,7 +2972,7 @@
         ],
         "task_id": 37,
         "specification": {
-            "function_signature": "func(doc: \"Counts number of digits in a given string.\") number_ctr {\n    in(x: -240, y: 69.5, name: \"string\") property(String) string_668bd2\n\n    out(x: 929, y: 58.5, name: \"count\") property(Number) count_1f468d\n}",
+            "function_signature": "func(doc: \"Counts number of digits in a given string.\") number_ctr {\n    in(x: -240, y: 69, name: \"string\") property(String) string_668bd2\n\n    out(x: 929, y: 58, name: \"count\") property(Number) count_1f468d\n}",
             "preconditions": "- There are no preconditions, the method will always work. Strings and sequences are always not null.",
             "postconditions": "- The count should be non-negative\n- The count should be equal to the number of digits in the input string"
         },
@@ -3043,7 +3043,7 @@
         ],
         "task_id": 38,
         "specification": {
-            "function_signature": "func(doc: \"Finds the sum of fourth power of first n odd natural numbers.\") odd_num_sum {\n    in(x: -243, y: 86.5, name: \"n\") property(Number) n_0c0609\n\n    out(x: 1090, y: 53, name: \"sum\") property(Number) sum_2ad0d5\n}",
+            "function_signature": "func(doc: \"Finds the sum of fourth power of first n odd natural numbers.\") odd_num_sum {\n    in(x: -243, y: 86, name: \"n\") property(Number) n_0c0609\n\n    out(x: 1090, y: 53, name: \"sum\") property(Number) sum_2ad0d5\n}",
             "preconditions": "- n should be a non-negative integer",
             "postconditions": "- The sum should be the sum of the fourth power of the first n odd natural numbers"
         },
@@ -3109,7 +3109,7 @@
         ],
         "task_id": 39,
         "specification": {
-            "function_signature": "func(doc: \"Checks whether every odd index contains odd numbers of a given list.\") odd_position {\n    in(x: -527.6710035710528, y: -214.6648553174405, name: \"list\") property(List) list_07cae4\n\n    out(x: 1269.9843987439294, y: -209.515088507578, name: \"output\") property(Bool) output_8d07dc\n}",
+            "function_signature": "func(doc: \"Checks whether every odd index contains odd numbers of a given list.\") odd_position {\n    in(x: -527, y: -214, name: \"list\") property(List) list_07cae4\n\n    out(x: 1269, y: -209, name: \"output\") property(Bool) output_8d07dc\n}",
             "preconditions": "- There are no preconditions, the method will always work.",
             "postconditions": "- The result is true if every odd index contains an odd number\n- The result is false otherwise"
         },
@@ -3195,7 +3195,7 @@
         ],
         "task_id": 40,
         "specification": {
-            "function_signature": "func(doc: \"Finds the product of first even and odd number of a given list.\") mul_even_odd {\n    in(x: -277, y: 166.5, name: \"list\") property(List) list_09fcba\n\n    out(x: 800, y: 145.5, name: \"output\") property(Number) output_edc2e3\n}",
+            "function_signature": "func(doc: \"Finds the product of first even and odd number of a given list.\") mul_even_odd {\n    in(x: -277, y: 166, name: \"list\") property(List) list_09fcba\n\n    out(x: 800, y: 145, name: \"output\") property(Number) output_edc2e3\n}",
             "preconditions": "- The list must have at least one even and one odd number",
             "postconditions": "- The product is the multiplication of the first even and first odd number found in the list"
         },
@@ -3384,7 +3384,7 @@
         ],
         "task_id": 42,
         "specification": {
-            "function_signature": "func(doc: \"Finds the sum of an array.\") _sum {\n    in(x: -213, y: 28.5, name: \"list\") property(List) list_2c62ab\n\n    out(x: 567, y: 3.5, name: \"sum\") property(Number) sum_2a848f\n}",
+            "function_signature": "func(doc: \"Finds the sum of an array.\") _sum {\n    in(x: -213, y: 28, name: \"list\") property(List) list_2c62ab\n\n    out(x: 567, y: 3, name: \"sum\") property(Number) sum_2a848f\n}",
             "preconditions": "- The input array should not be null",
             "postconditions": "- The sum of all elements in the input array is returned"
         },
@@ -3461,7 +3461,7 @@
         ],
         "task_id": 43,
         "specification": {
-            "function_signature": "func(doc: \"Finds the first odd number in a given list of numbers.\") first_odd {\n    in(x: -284, y: -0.5, name: \"list\") property(List) list_abed4a\n\n    out(x: 593, y: -1, name: \"number\") property(Number) number_3bc2ae\n}",
+            "function_signature": "func(doc: \"Finds the first odd number in a given list of numbers.\") first_odd {\n    in(x: -284, y: -0, name: \"list\") property(List) list_abed4a\n\n    out(x: 593, y: -1, name: \"number\") property(Number) number_3bc2ae\n}",
             "preconditions": "- The input array should not be null",
             "postconditions": "- If found is true, then the value at index is odd\n- If found is false, then there are no odd numbers in the array\n- If there are multiple odd numbers, the index should be the smallest index with an odd number"
         },
@@ -3665,7 +3665,7 @@
         ],
         "task_id": 46,
         "specification": {
-            "function_signature": "func(doc: \"find the surface area of a cube of a given size.\") CubeSurfaceArea { \n in(x: -56, y: -44.5, name: \"size\") property(Number) size_49c776\n out(x: 582, y: -80.5, name: \"Area\") property(Number) Area_a3e36f",
+            "function_signature": "func(doc: \"find the surface area of a cube of a given size.\") CubeSurfaceArea { \n in(x: -56, y: -44, name: \"size\") property(Number) size_49c776\n out(x: 582, y: -80, name: \"Area\") property(Number) Area_a3e36f",
             "preconditions": "- The size of the cube should be greater than 0",
             "postconditions": "- The surface area of the cube is calculated correctly"
         },
@@ -3726,7 +3726,7 @@
         ],
         "task_id": 47,
         "specification": {
-            "function_signature": " func(doc: \"find cubes of individual elements in a list.\") cube_nums {\nin(x: -122, y: -81.5, name: \"list\") property(List) list_63c248\n out(x: 656, y: -68.5, name: \"result\") property(List) result_cbb7bd",
+            "function_signature": " func(doc: \"find cubes of individual elements in a list.\") cube_nums {\nin(x: -122, y: -81, name: \"list\") property(List) list_63c248\n out(x: 656, y: -68, name: \"result\") property(List) result_cbb7bd",
             "preconditions": "- There are no preconditions, the method will always work. Arrays can be empty or non-empty.",
             "postconditions": "- The length of the output array must be the same as the length of the input array\n- Each element in the output array is the cube of the corresponding element in the input array"
         },
@@ -3804,7 +3804,7 @@
         ],
         "task_id": 48,
         "specification": {
-            "function_signature": "func(doc: \"check if the given integer is a prime number.\") num_prime {\nin(x: -167, y: 27.5, name: \"num\") property(Number) num_5c0677\nin(x: -112, y: -216, name: \"execute\") trigger() execute_b7b391\n out(x: 1016, y: -26.5, name: \"output\") property(Bool) output_c457b3\n out(x: 1211, y: -110, name: \"continue\") trigger() continue_9a54bb",
+            "function_signature": "func(doc: \"check if the given integer is a prime number.\") num_prime {\nin(x: -167, y: 27, name: \"num\") property(Number) num_5c0677\nin(x: -112, y: -216, name: \"execute\") trigger() execute_b7b391\n out(x: 1016, y: -26, name: \"output\") property(Bool) output_c457b3\n out(x: 1211, y: -110, name: \"continue\") trigger() continue_9a54bb",
             "preconditions": "- n should be greater than or equal to 2",
             "postconditions": "- If the result is true, then n is a prime number\n- If the result is false, then n is not a prime number"
         },
@@ -3879,7 +3879,7 @@
         ],
         "task_id": 49,
         "specification": {
-            "function_signature": "func(doc: \"interchange the first and last element in a given list.\") swap_list {\n in(x: -1489, y: -536, name: \"list\") property(List) list_752c60\n out(x: -189.2999999999999, y: -620.25, name: \"output\") property(List) output_195363",
+            "function_signature": "func(doc: \"interchange the first and last element in a given list.\") swap_list {\n in(x: -1489, y: -536, name: \"list\") property(List) list_752c60\n out(x: -189, y: -620, name: \"output\") property(List) output_195363",
             "preconditions": "- The array should not be empty",
             "postconditions": "- The first element of the input array should be the last element of the modified array\n- The last element of the input array should be the first element of the modified array\n- All other elements remain unchanged"
         },
@@ -3977,7 +3977,7 @@
         ],
         "task_id": 50,
         "specification": {
-            "function_signature": "func(doc: \"checks whether the given number is a perfect square or not.\") is_perfect_square {\nin(x: 354.8534228128, y: -53.570902536908875, name: \"input\") property(Number) input_f5c03d\n in(x: 161.86656944950778, y: -211.44732045205976, name: \"execute\") trigger() execute_27b8c3\n out(x: 1748.7398492866953, y: -10.179326168336845, name: \"out\") property(Bool) out_f3db9f\n out(x: 1894.6987078855211, y: 120.75836251660428, name: \"continue\") trigger() continue_8ba06b",
+            "function_signature": "func(doc: \"checks whether the given number is a perfect square or not.\") is_perfect_square {\nin(x: 354, y: -53, name: \"input\") property(Number) input_f5c03d\n in(x: 161, y: -211, name: \"execute\") trigger() execute_27b8c3\n out(x: 1748, y: -10, name: \"out\") property(Bool) out_f3db9f\n out(x: 1894, y: 120, name: \"continue\") trigger() continue_8ba06b",
             "preconditions": "- n should be non-negative",
             "postconditions": "- If the result is true, there exists an integer i such that i * i == n\n- If the result is false, there is no integer i such that i * i == n"
         },

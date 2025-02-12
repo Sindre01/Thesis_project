@@ -12,7 +12,7 @@ Here is your task:
 The created Midio function should adhere to this signature:
 ```midio
 
-    {function_signature}
+    "{function_signature}"
 
 ```
 

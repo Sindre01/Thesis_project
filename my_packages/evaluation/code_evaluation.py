@@ -3,7 +3,7 @@ import json
 from typing import Tuple
 import numpy as np
 from my_packages.evaluation.metrics import check_correctness, check_semantics, check_syntax, estimate_pass_at_k
-from my_packages.prompting.few_shot import create_few_shot_prompt, create_final_prompt
+from my_packages.prompting.few_shot import create_few_shot_prompt, create_final_prompt, get_prompt_template_variables
 from my_packages.utils.server_utils import server_diagnostics
 import re
 from colorama import Fore, Back, Style
@@ -173,16 +173,17 @@ def run_model(
         task = sample.inputs["task"]
         task_id = int(sample.metadata["task_id"])
         
-        # Do calulations before evaluation and just pass in an class that get the examples for the task.
-        examples = example_pool.select_examples(sample.inputs)
+        few_shot_examples = example_pool.select_examples(sample.inputs)
         if "tests" in metrics:
-            print("Uses signature prompt!")
-            few_shot = create_few_shot_prompt(examples, 'CODE_SIGNATURE_TEMPLATE')
+            # print("Uses signature prompt!")
+            few_shot = create_few_shot_prompt(few_shot_examples, 'CODE_SIGNATURE_TEMPLATE')
             final_prompt_template = create_final_prompt(few_shot, "CODE_GENERATOR_TEMPLATE", "CODE_SIGNATURE_TEMPLATE")
-            function_signature = sample.metadata["testing"]["function_signature"]
+
+            function_signature = sample.inputs["function_signature"]
+            print(f"Function signature: {function_signature}")
             prompt = final_prompt_template.format(task=task, function_signature=function_signature, external_functions=available_nodes)
         else:    
-            few_shot = create_few_shot_prompt(examples, 'CODE_TEMPLATE')
+            few_shot = create_few_shot_prompt(few_shot_examples, 'CODE_TEMPLATE')
             final_prompt_template = create_final_prompt(few_shot, "CODE_GENERATOR_TEMPLATE", "CODE_TEMPLATE")
             prompt = final_prompt_template.format(task=task, external_functions=available_nodes)
         
@@ -231,11 +232,10 @@ def run_model(
                     
                     chain = (final_prompt_template | llm)
 
-                    response = chain.invoke({
-                        "task": task, 
-                        "external_functions": available_nodes
-                    },
-                    {"run_name": "Node prediction"})
+                    response = chain.invoke(
+                        prompt,
+                        {"run_name": f"Few-shot code prediction"}
+                    )
 
                     generated = response.content
                     break  # If generation succeeded, break out of retry loop
@@ -244,7 +244,7 @@ def run_model(
                     print(f"Attempt {retries} failed with error: {e}")
                     server_diagnostics()
 
-            else:
+            if retries == max_retries:
                 print("Failed to get a response from the server after "
                       + str(retries) + " attempts.")
                 generated = ""
