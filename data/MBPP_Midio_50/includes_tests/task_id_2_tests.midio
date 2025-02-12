@@ -2,34 +2,45 @@ import("std", Std_k98ojb)
 import("http", Http_q7o96c)
 
 module() main {
+    func(doc: "finds the smallest number in a list.") smallest_num {
+        in(x: -426, y: -248, name: "items") property(List) items_ai
+        out(x: 159, y: -219, name: "min") property(Number) min_ai
 
-    module(doc: "Contains three different tests for the 'List min' function node") tests {
-        instance(x: -278, y: 84) min_17cef2 root.Std_k98ojb.List.Min {}
+        instance(x: 426, y: -303) list_min_node root.Std_k98ojb.List.Min {}
+        items_ai -> list_min_node.items
+        list_min_node.min -> min_ai
+    }
+
+    module(doc: "Contains three different tests for the 'smallest_num' function node") tests {
         instance(x: -700, y: -267) test_6f9def root.Std_k98ojb.Testing.Test {
-            name: "Test List min"
+            name: "Test smallest_num"
         }
         instance(x: -302, y: -81) assertequal_158f04 root.Std_k98ojb.Testing.AssertEqual {}
-        instance(x: 23, y: 87) min_5d3b2b root.Std_k98ojb.List.Min {}
-        instance(x: 389, y: 86) min_c98fed root.Std_k98ojb.List.Min {}
         instance(x: 23, y: -83) assertequal_983e63 root.Std_k98ojb.Testing.AssertEqual {}
         instance(x: 387, y: -80) assertequal_4a2921 root.Std_k98ojb.Testing.AssertEqual {}
+
+        instance(x: -278, y: 84) min_17cef2 root.main.smallest_num {}
+        instance(x: 23, y: 87) min_5d3b2b root.main.smallest_num {}
+        instance(x: 389, y: 86) min_c98fed root.main.smallest_num {}
+        
         data_instance(x: -308, y: 215) data_4533e5  = [10, 20, 1, 45, 99]
         data_instance(x: 5, y: 240) data_0b786a  = [1, 2, 3]
         data_instance(x: 303, y: 217) data_6497d2  = [45, 46, 50, 60]
-        min_17cef2.min -> assertequal_158f04.actual
+        min_17cef2.min_ai -> assertequal_158f04.actual
         test_6f9def.onRun -> assertequal_158f04.execute
         assertequal_158f04.continue -> assertequal_983e63.execute
-        min_5d3b2b.min -> assertequal_983e63.actual
-        min_c98fed.min -> assertequal_4a2921.actual
+        min_5d3b2b.min_ai -> assertequal_983e63.actual
+        min_c98fed.min_ai -> assertequal_4a2921.actual
         assertequal_983e63.continue -> assertequal_4a2921.execute
         1 -> assertequal_158f04.expect
         1 -> assertequal_983e63.expect
         45 -> assertequal_4a2921.expect
-        data_4533e5 -> min_17cef2.items
-        data_0b786a -> min_5d3b2b.items
-        data_6497d2 -> min_c98fed.items
+        data_4533e5 -> min_17cef2.items_ai
+        data_0b786a -> min_5d3b2b.items_ai
+        data_6497d2 -> min_c98fed.items_ai
     }
+    instance(x: 426, y: -303) smallest_num_node root.main.smallest_num {}
 
-    instance(x: 426, y: -303) min_fa1ac0 root.Std_k98ojb.List.Min {}
+    
 }
 

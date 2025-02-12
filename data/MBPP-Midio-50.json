@@ -39,10 +39,10 @@
                 "instance"
             ],
             "python_tests": [
-                "assert opposite_Signs(1,-2) == True",
-                "assert opposite_Signs(3,2) == False",
-                "assert opposite_Signs(-10,-10) == False",
-                "assert opposite_Signs(-2,2) == True"
+                "assert opposite_signs(1,-2) == True",
+                "assert opposite_signs(3,2) == False",
+                "assert opposite_signs(-10,-10) == False",
+                "assert opposite_signs(-2,2) == True"
             ],
             "tests": {
                 "test_cases": [
@@ -86,7 +86,7 @@
         ],
         "task_id": 2,
         "specification": {
-            "function_signature": "N/A",
+            "function_signature": " func(doc: 'finds the smallest number in a list.') smallest_num {\n in(x: -426, y: -248, name: 'items') property(List) items_ai\n out(x: 159, y: -219, name: 'min') property(Number) min_ai\n",
             "preconditions": "- The input array should not be empty",
             "postconditions": "- The returned value should be the smallest number in the input array"
         },
@@ -192,9 +192,9 @@
                 "instance"
             ],
             "python_tests": [
-                "assert is_Diff (12345) == False",
-                "assert is_Diff(1212112) == True",
-                "assert is_Diff(1212) == False"
+                "assert is_diff (12345) == False",
+                "assert is_diff(1212112) == True",
+                "assert is_diff(1212) == False"
             ],
             "tests": {
                 "test_cases": [
@@ -317,7 +317,7 @@
         ],
         "task_id": 5,
         "specification": {
-            "function_signature": "",
+            "function_signature": "func(doc: 'multiply two numbers') multiply_int{\n in(x: 0, y: 0, name: 'x') property(Number) x_ai\n in(x: 0, y: 0, name: 'y') property(Number) y_ai\n out(x: 0, y: 0, name: 'result') property(Number) result_ai\n",
             "preconditions": "- There are no preconditions, the method will always work.",
             "postconditions": "- The result should be the product of the two input integers"
         },
@@ -2029,9 +2029,9 @@
                 "instance"
             ],
             "python_tests": [
-                "assert is_upper(\"person\") ==\"PERSON\"",
-                "assert is_upper(\"final\") == \"FINAL\"",
-                "assert is_upper(\"Valid\") == \"VALID\""
+                "assert ToUpper(\"person\") ==\"PERSON\"",
+                "assert ToUpper(\"final\") == \"FINAL\"",
+                "assert ToUpper(\"Valid\") == \"VALID\""
             ],
             "tests": {
                 "test_cases": [

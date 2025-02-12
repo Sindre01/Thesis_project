@@ -2,7 +2,18 @@ import("std", Std_k98ojb)
 import("http", Http_q7o96c)
 
 module() main { 
-    instance(x: -85, y: -46, name: "multiply_int") expression_3e25a9 root.Std_k98ojb.Math.Expression {
-        expression: "x * y"
-    }
+   func(doc: "multiply two numbers") multiply_int{
+        in(x: 0, y: 0, name: "x") property(Number) x_ai
+        in(x: 0, y: 0, name: "y") property(Number) y_ai
+        out(x: 0, y: 0, name: "result") property(Number) result_ai
+
+        instance(x: 0, y: 0) math_expr_node root.Std_k98ojb.Math.Expression {
+            expression: "x * y"
+        }
+        x_ai -> math_expr_node.gen_0
+        y_ai -> math_expr_node.gen_1
+        math_expr_node.result -> result_ai
+   }
+
+    instance(x: -85, y: -46, name: "multiply_int") expression_3e25a9 root.main.multiply_int {}
 }

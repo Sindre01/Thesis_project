@@ -2,6 +2,17 @@ import("std", Std_k98ojb)
 import("http", Http_q7o96c)
 
 module() main {
-    instance(x: 103, y: -525) min_76f497 root.Std_k98ojb.List.Min {}
+    func(doc: "finds the smallest number in a list.") smallest_num {
+        in(x: -426, y: -248, name: "items") property(List) items_ai
+        out(x: 159, y: -219, name: "min") property(Number) min_ai
+
+        instance(x: 426, y: -303) list_min_node root.Std_k98ojb.List.Min {}
+        items_ai -> list_min_node.items
+        list_min_node.min -> min_ai
+    }
+
+    instance(x: 426, y: -303) smallest_num_node root.main.smallest_num {}
+
+    
 }
 

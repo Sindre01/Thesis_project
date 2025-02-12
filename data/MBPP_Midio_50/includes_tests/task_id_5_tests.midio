@@ -2,46 +2,51 @@ import("std", Std_k98ojb)
 import("http", Http_q7o96c)
 
 module() main { 
-   module(doc: "Contains three different tests for the 'Math Expression' function node, which multiplies two numbers") tests {
-        instance(x: 7, y: 131, name: "multiply_int") expression_9584aa root.Std_k98ojb.Math.Expression {
+   func(doc: "multiply two numbers") multiply_int{
+        in(x: 0, y: 0, name: "x") property(Number) x_ai
+        in(x: 0, y: 0, name: "y") property(Number) y_ai
+        out(x: 0, y: 0, name: "result") property(Number) result_ai
+
+        instance(x: 0, y: 0) math_expr_node root.Std_k98ojb.Math.Expression {
             expression: "x * y"
         }
+        x_ai -> math_expr_node.gen_0
+        y_ai -> math_expr_node.gen_1
+        math_expr_node.result -> result_ai
+   }
+   module(doc: "Contains three different tests for the 'multiply_int' function node, which multiplies two numbers with the built-in node 'Math.Expression'") tests {
+        instance(x: 7, y: 131, name: "multiply_int") multiply_int_ai_1 root.main.multiply_int {}
         instance(x: -58, y: -142, name: "multiply_int") test_c47d8e root.Std_k98ojb.Testing.Test {
             name: "Test multiply"
         }
         instance(x: 211, y: -56) assertequal_90d9f0 root.Std_k98ojb.Testing.AssertEqual {}
         data_instance(x: -208, y: 82) data_ad6cab  = 10
         data_instance(x: -203, y: 234) data_76b715  = 20
-        instance(x: 517, y: 131, name: "multiply_int") expression_23f2cc root.Std_k98ojb.Math.Expression {
-            expression: "x * y"
-        }
+
+        instance(x: 517, y: 131, name: "multiply_int") multiply_int_ai_2 root.main.multiply_int {}
         data_instance(x: 317, y: 95) data_dc12a0  = 5
         data_instance(x: 315, y: 238) data_e98288  = 10
-        instance(x: 986, y: 130, name: "multiply_int") expression_c27b37 root.Std_k98ojb.Math.Expression {
-            expression: "x * y"
-        }
+        instance(x: 986, y: 130, name: "multiply_int") multiply_int_ai_3 root.main.multiply_int {}
         data_instance(x: 787, y: 103) data_7ba3d7  = 4
         data_instance(x: 788, y: 234) data_a0c3c0  = 8
         instance(x: 527, y: -54) assertequal_33a0ee root.Std_k98ojb.Testing.AssertEqual {}
         instance(x: 961, y: -52) assertequal_7cd470 root.Std_k98ojb.Testing.AssertEqual {}
-        expression_9584aa.result -> assertequal_90d9f0.actual
+        multiply_int_ai_1.result_ai -> assertequal_90d9f0.actual
         test_c47d8e.onRun -> assertequal_90d9f0.execute
-        data_ad6cab -> expression_9584aa.gen_0
-        data_76b715 -> expression_9584aa.gen_1
+        data_ad6cab -> multiply_int_ai_1.x_ai
+        data_76b715 -> multiply_int_ai_1.y_ai
         200 -> assertequal_90d9f0.expect
-        data_dc12a0 -> expression_23f2cc.gen_0
-        data_e98288 -> expression_23f2cc.gen_1
-        data_7ba3d7 -> expression_c27b37.gen_0
-        data_a0c3c0 -> expression_c27b37.gen_1
+        data_dc12a0 -> multiply_int_ai_2.x_ai
+        data_e98288 -> multiply_int_ai_2.y_ai
+        data_7ba3d7 -> multiply_int_ai_3.x_ai
+        data_a0c3c0 -> multiply_int_ai_3.y_ai
         assertequal_90d9f0.continue -> assertequal_33a0ee.execute
-        expression_23f2cc.result -> assertequal_33a0ee.actual
+        multiply_int_ai_2.result_ai -> assertequal_33a0ee.actual
         50 -> assertequal_33a0ee.expect
         assertequal_33a0ee.continue -> assertequal_7cd470.execute
-        expression_c27b37.result -> assertequal_7cd470.actual
+        multiply_int_ai_3.result_ai -> assertequal_7cd470.actual
         32 -> assertequal_7cd470.expect
     }
 
-    instance(x: -85, y: -46, name: "multiply_int") expression_3e25a9 root.Std_k98ojb.Math.Expression {
-        expression: "x * y"
-    }
+    instance(x: -85, y: -46, name: "multiply_int") expression_3e25a9 root.main.multiply_int {}
 }
