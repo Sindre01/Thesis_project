@@ -2,7 +2,7 @@ import("std", Std_k98ojb)
 import("http", Http_q7o96c)
 
 module() main {
-    func(doc: "check whether the given list contains consecutive numbers or not.") ContainsConsecutiveNumbers {
+    func(doc: "check whether the given list contains consecutive numbers or not.") check_consecutive {
         in(x: -425, y: 209, name: "list") property(List) list_faf6c2
 
         out(x: 866, y: 132, name: "output") property(Bool) output_a2b59d
@@ -24,33 +24,33 @@ module() main {
         list_faf6c2 -> max_a8e56c.items
     }
 
-    module(doc: "Contains three different tests for the 'ContainsConsecutiveNumbers' function node") tests {
-        instance(x: -255, y: -35) ContainsConsecutiveNumbers_e5eb91 root.main.ContainsConsecutiveNumbers {}
+    module(doc: "Contains three different tests for the 'check_consecutive' function node") tests {
+        instance(x: -255, y: -35) check_consecutive_e5eb91 root.main.check_consecutive {}
         instance(x: -527, y: -306) test_67cced root.Std_k98ojb.Testing.Test {
-            name: "Test ContainsConsecutiveNumbers"
+            name: "Test check_consecutive"
         }
         instance(x: -225, y: -183) asserttrue_c23525 root.Std_k98ojb.Testing.AssertTrue {}
         data_instance(x: -228, y: 106) data_ccc21a  = [1, 2, 3, 4, 5]
-        instance(x: 78, y: -45) ContainsConsecutiveNumbers_b59c88 root.main.ContainsConsecutiveNumbers {}
+        instance(x: 78, y: -45) check_consecutive_b59c88 root.main.check_consecutive {}
         data_instance(x: 105, y: 95) data_1af3f8  = [1, 2, 3, 5, 6]
-        instance(x: 420, y: -52) ContainsConsecutiveNumbers_8fa272 root.main.ContainsConsecutiveNumbers {}
+        instance(x: 420, y: -52) check_consecutive_8fa272 root.main.check_consecutive {}
         data_instance(x: 447, y: 88) data_aa17da  = [1, 2, 1]
         instance(x: 103, y: -181) assertfalse_b7f69c root.Std_k98ojb.Testing.AssertFalse {}
         instance(x: 422, y: -180) assertfalse_5430d0 root.Std_k98ojb.Testing.AssertFalse {}
-        ContainsConsecutiveNumbers_e5eb91.output_a2b59d -> asserttrue_c23525.value
+        check_consecutive_e5eb91.output_a2b59d -> asserttrue_c23525.value
         test_67cced.onRun -> asserttrue_c23525.execute
         asserttrue_c23525.continue -> assertfalse_b7f69c.execute
-        data_ccc21a -> ContainsConsecutiveNumbers_e5eb91.list_faf6c2
-        ContainsConsecutiveNumbers_b59c88.output_a2b59d -> assertfalse_b7f69c.value
-        data_1af3f8 -> ContainsConsecutiveNumbers_b59c88.list_faf6c2
-        ContainsConsecutiveNumbers_8fa272.output_a2b59d -> assertfalse_5430d0.value
-        data_aa17da -> ContainsConsecutiveNumbers_8fa272.list_faf6c2
+        data_ccc21a -> check_consecutive_e5eb91.list_faf6c2
+        check_consecutive_b59c88.output_a2b59d -> assertfalse_b7f69c.value
+        data_1af3f8 -> check_consecutive_b59c88.list_faf6c2
+        check_consecutive_8fa272.output_a2b59d -> assertfalse_5430d0.value
+        data_aa17da -> check_consecutive_8fa272.list_faf6c2
         assertfalse_b7f69c.continue -> assertfalse_5430d0.execute
 
 
     }
 
-    instance(x: 203, y: -192) containsconsecutivenumbers_24d4b5 root.main.ContainsConsecutiveNumbers {}
+    instance(x: 203, y: -192) check_consecutive_24d4b5 root.main.check_consecutive {}
 
 
 }

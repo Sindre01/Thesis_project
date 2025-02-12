@@ -2,6 +2,15 @@ import("std", Std_k98ojb)
 import("http", Http_q7o96c)
 
 module() main {
-    instance(x: 264, y: -464, name: "last_Digit") last_091f94 root.Std_k98ojb.Math.Modulo {}
-    10 -> last_091f94.divisor
+    func(doc: "find the last digit of a given number.") last_digit{
+        in(x: 0, y: 0, name: "value") property(Number) value_ai
+        out(x: 39, y: 0, name: "result") property(Number) result_ai
+
+        instance(x: 15, y: 0) math_modulo_node root.Std_k98ojb.Math.Modulo {}
+        value_ai -> math_modulo_node.value
+        10 -> math_modulo_node.divisor
+        math_modulo_node.result -> result_ai
+   }
+
+    instance(x: 264, y: -464, name: "last_Digit") last_091f94 root.main.last_digit {}
 }

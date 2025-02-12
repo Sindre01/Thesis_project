@@ -2,46 +2,48 @@ import("std", Std_k98ojb)
 import("http", Http_q7o96c)
 
 module() main { 
-    module(doc: "Contains three different tests for the Filter function node") tests {
-        instance(x: -335, y: 279) filter_093327 root.Std_k98ojb.Query.Filter {
+
+    func(doc:"find even numbers from a list of numbers.") Split {
+        in(x: -531, y: 2, name: "list") property(List) list_ai
+        out(x: 340, y: 77, name: "output") property(List) output_ai
+        instance(x: 772, y: 76) filter_7b3b7b root.Std_k98ojb.Query.Filter {
             where: "it % 2 == 0"
         }
+        list_ai -> filter_7b3b7b.list
+        filter_7b3b7b.result -> output_ai
+    }
+    module(doc: "Contains three different tests for the 'Split' function node") tests {
+        instance(x: -335, y: 279) split_node_1 root.main.Split {}
         instance(x: -50, y: 29) test_4ae765 root.Std_k98ojb.Testing.Test {
             name: "Test Split"
         }
         instance(x: 24, y: 205) assertequal_c4a9f2 root.Std_k98ojb.Testing.AssertEqual {}
         data_instance(x: -328, y: 398) data_e77372  = [1, 2, 3, 4, 5]
         data_instance(x: -329, y: 110) data_dbb7d1  = [2, 4]
-        instance(x: 355, y: 364) filter_8a0789 root.Std_k98ojb.Query.Filter {
-            where: "it % 2 == 0"
-        }
+        instance(x: 355, y: 364) split_node_2 root.main.Split {}
         instance(x: 359, y: 208) assertequal_6da021 root.Std_k98ojb.Testing.AssertEqual {}
         data_instance(x: 372, y: 478) data_d25a5d  = [4, 5, 6, 7, 8, 0, 1]
         data_instance(x: 109, y: 416) data_d1f44b  = [4, 6, 8, 0]
-        instance(x: 637, y: 347) filter_957692 root.Std_k98ojb.Query.Filter {
-            where: "it % 2 == 0"
-        }
+        instance(x: 637, y: 347) split_node_3 root.main.Split {}
         instance(x: 652, y: 209) assertequal_7b690f root.Std_k98ojb.Testing.AssertEqual {}
         data_instance(x: 782, y: 467) data_adbb3f  = [8, 12, 15, 19]
         data_instance(x: 579, y: 472) data_e5283f  = [8, 12]
         test_4ae765.onRun -> assertequal_c4a9f2.execute
-        filter_093327.result -> assertequal_c4a9f2.actual
-        data_e77372 -> filter_093327.list
+        split_node_1.output_ai -> assertequal_c4a9f2.actual
+        data_e77372 -> split_node_1.list_ai
         data_dbb7d1 -> assertequal_c4a9f2.expect
-        filter_8a0789.result -> assertequal_6da021.actual
-        data_d25a5d -> filter_8a0789.list
+        split_node_2.output_ai -> assertequal_6da021.actual
+        data_d25a5d -> split_node_2.list_ai
         data_d1f44b -> assertequal_6da021.expect
         assertequal_c4a9f2.continue -> assertequal_6da021.execute
-        filter_957692.result -> assertequal_7b690f.actual
-        data_adbb3f -> filter_957692.list
+        split_node_3.output_ai -> assertequal_7b690f.actual
+        data_adbb3f -> split_node_3.list_ai
         data_e5283f -> assertequal_7b690f.expect
         assertequal_6da021.continue -> assertequal_7b690f.execute
 
 
     }
 
-    instance(x: -34, y: 127) filter_d4625a root.Std_k98ojb.Query.Filter {
-        where: "it % 2 == 0"
-    }
+    instance(x: -34, y: 127) split_node root.main.Split {}
 
 }

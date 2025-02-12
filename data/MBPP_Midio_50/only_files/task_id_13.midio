@@ -3,5 +3,14 @@ import("http", Http_q7o96c)
 
 module() main { 
 
+    func(doc: "convert the given string to lower case.") is_lower {
+        in(x: -425, y: 209, name: "input") property(String) input_ai
+        out(x: 866, y: 132, name: "output") property(Bool) output_ai
+
+        instance(x: 5, y: 346) strings_tolower_node root.Std_k98ojb.Strings.ToLower {}
+        input_ai -> strings_tolower_node.input
+        strings_tolower_node.output -> output_ai
+    }
+    
     instance(x: -49, y: -62) tolower_3985fd root.Std_k98ojb.Strings.ToLower {}
 }

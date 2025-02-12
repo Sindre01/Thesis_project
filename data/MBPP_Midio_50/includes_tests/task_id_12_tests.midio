@@ -2,40 +2,52 @@ import("std", Std_k98ojb)
 import("http", Http_q7o96c)
 
 module() main { 
-    module(doc: "Contains three different tests for the 'Strings Replace' function node") tests {
+    func(doc: "function to replace characters in a string.") replace_char {
+        in(x: -426, y: 209, name: "input") property(String) input_ai
+        in(x: -426, y: 332, name: "search") property(String) search_ai
+        in(x: -426, y: 455, name: "replace") property(String) replace_ai
+        out(x: 866, y: 132, name: "output") property(String) output_ai
+
+        instance(x: 5, y: 346) replace_node root.Std_k98ojb.Strings.Replace {}
+        input_ai -> replace_node.input
+        search_ai -> replace_node.search
+        replace_ai -> replace_node.replace
+        replace_node.output -> output_ai
+    }
+    module(doc: "Contains three different tests for the 'replace_char' function node") tests {
         instance(x: -426, y: -99) test_ef2bcb root.Std_k98ojb.Testing.Test {
             name: "Test Replace"
         }
         instance(x: -145, y: 6) assertequal_22e34a root.Std_k98ojb.Testing.AssertEqual {}
-        instance(x: -153, y: 155) replace_63f7b5 root.Std_k98ojb.Strings.Replace {}
+        instance(x: -153, y: 155) replace_63f7b5 root.main.replace_char {}
         data_instance(x: -141, y: 331) data_b395d9  = "polygon"
         instance(x: 173, y: 7) assertequal_672713 root.Std_k98ojb.Testing.AssertEqual {}
-        instance(x: 165, y: 156) replace_c8f0cd root.Std_k98ojb.Strings.Replace {}
+        instance(x: 165, y: 156) replace_c8f0cd root.main.replace_char {}
         data_instance(x: 178, y: 332) data_b753c1  = "character"
         instance(x: 477, y: 7) assertequal_d125fc root.Std_k98ojb.Testing.AssertEqual {}
-        instance(x: 469, y: 156) replace_241ca2 root.Std_k98ojb.Strings.Replace {}
+        instance(x: 469, y: 156) replace_241ca2 root.main.replace_char {}
         data_instance(x: 482, y: 332) data_4eb4b3  = "python"
-        data_b395d9 -> replace_63f7b5.input
-        "y" -> replace_63f7b5.search
-        "l" -> replace_63f7b5.replace
-        replace_63f7b5.output -> assertequal_22e34a.actual
+        data_b395d9 -> replace_63f7b5.input_ai
+        "y" -> replace_63f7b5.search_ai
+        "l" -> replace_63f7b5.replace_ai
+        replace_63f7b5.output_ai -> assertequal_22e34a.actual
         "pollgon" -> assertequal_22e34a.expect
         test_ef2bcb.onRun -> assertequal_22e34a.execute
-        replace_c8f0cd.output -> assertequal_672713.actual
-        data_b753c1 -> replace_c8f0cd.input
+        replace_c8f0cd.output_ai -> assertequal_672713.actual
+        data_b753c1 -> replace_c8f0cd.input_ai
         "aharaater" -> assertequal_672713.expect
-        "c" -> replace_c8f0cd.search
-        "a" -> replace_c8f0cd.replace
-        replace_241ca2.output -> assertequal_d125fc.actual
-        data_4eb4b3 -> replace_241ca2.input
+        "c" -> replace_c8f0cd.search_ai
+        "a" -> replace_c8f0cd.replace_ai
+        replace_241ca2.output_ai -> assertequal_d125fc.actual
+        data_4eb4b3 -> replace_241ca2.input_ai
         "python" -> assertequal_d125fc.expect
-        "l" -> replace_241ca2.search
-        "a" -> replace_241ca2.replace
+        "l" -> replace_241ca2.search_ai
+        "a" -> replace_241ca2.replace_ai
         assertequal_672713.continue -> assertequal_d125fc.execute
         assertequal_22e34a.continue -> assertequal_672713.execute
 
 
     }
 
-    instance(x: -184, y: -66) replace_740561 root.Std_k98ojb.Strings.Replace {}
+    instance(x: -184, y: -66) replace_740561 root.main.replace_char {}
 }

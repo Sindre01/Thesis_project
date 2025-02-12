@@ -2,31 +2,40 @@ import("std", Std_k98ojb)
 import("http", Http_q7o96c)
 
 module() main {
-    module(doc: "Contains three different tests for the 'Math Modulo' function node, for finding the last digit") tests {
-        instance(x: 68, y: 10, name: "last_Digit") last_2fbb2a root.Std_k98ojb.Math.Modulo {}
+    func(doc: "find the last digit of a given number.") last_digit{
+        in(x: 0, y: 0, name: "value") property(Number) value_ai
+        out(x: 39, y: 0, name: "result") property(Number) result_ai
+
+        instance(x: 15, y: 0) math_modulo_node root.Std_k98ojb.Math.Modulo {}
+        value_ai -> math_modulo_node.value
+        10 -> math_modulo_node.divisor
+        math_modulo_node.result -> result_ai
+   }
+    module(doc: "Contains three different tests for the 'last_digit' function node.") tests {
+        instance(x: 68, y: 10, name: "last_Digit") last_digit_1 root.main.last_digit {}
         instance(x: -243, y: -218) test_b77ac8 root.Std_k98ojb.Testing.Test {
             name: "Test last_Digit"
         }
         instance(x: 73, y: -153) assertequal_b9f3e7 root.Std_k98ojb.Testing.AssertEqual {}
         data_instance(x: 88, y: 134) data_24e124  = 123
-        instance(x: 366, y: 6, name: "last_Digit") last_2833b0 root.Std_k98ojb.Math.Modulo {}
+        instance(x: 366, y: 6, name: "last_Digit") last_digit_2 root.main.last_digit {}
         instance(x: 370, y: -158) assertequal_6ef0ce root.Std_k98ojb.Testing.AssertEqual {}
         data_instance(x: 386, y: 129) data_208171  = 25
-        instance(x: 686, y: -1, name: "last_Digit") last_e62600 root.Std_k98ojb.Math.Modulo {}
+        instance(x: 686, y: -1, name: "last_Digit") last_digit_3 root.main.last_digit {}
         instance(x: 690, y: -165) assertequal_9719e5 root.Std_k98ojb.Testing.AssertEqual {}
         data_instance(x: 706, y: 122) data_836d3f  = 30
-        last_2fbb2a.result -> assertequal_b9f3e7.actual
+        last_digit_1.result_ai -> assertequal_b9f3e7.actual
         test_b77ac8.onRun -> assertequal_b9f3e7.execute
-        data_24e124 -> last_2fbb2a.value
-        10 -> last_2fbb2a.divisor
+        data_24e124 -> last_digit_1.value_ai
+
         3 -> assertequal_b9f3e7.expect
-        last_2833b0.result -> assertequal_6ef0ce.actual
-        data_208171 -> last_2833b0.value
-        10 -> last_2833b0.divisor
+        last_digit_2.result_ai -> assertequal_6ef0ce.actual
+        data_208171 -> last_digit_2.value_ai
+
         5 -> assertequal_6ef0ce.expect
-        last_e62600.result -> assertequal_9719e5.actual
-        data_836d3f -> last_e62600.value
-        10 -> last_e62600.divisor
+        last_digit_3.result_ai -> assertequal_9719e5.actual
+        data_836d3f -> last_digit_3.value_ai
+
         0 -> assertequal_9719e5.expect
         assertequal_b9f3e7.continue -> assertequal_6ef0ce.execute
         assertequal_6ef0ce.continue -> assertequal_9719e5.execute
@@ -34,6 +43,5 @@ module() main {
 
     }
 
-    instance(x: 264, y: -464, name: "last_Digit") last_091f94 root.Std_k98ojb.Math.Modulo {}
-    10 -> last_091f94.divisor
+    instance(x: 264, y: -464, name: "last_Digit") last_091f94 root.main.last_digit {}
 }

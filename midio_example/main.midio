@@ -2,51 +2,71 @@ import("std", Std_k98ojb)
 import("http", Http_q7o96c)
 
 module() main { 
-   func(doc: "multiply two numbers") multiply_int{
-        in(x: 0, y: 0, name: "x") property(Number) x_ai
-        in(x: 0, y: 0, name: "y") property(Number) y_ai
-        out(x: 0, y: 0, name: "result") property(Number) result_ai
+    func(doc: "Finds the index of the first occurrence of a given number in a sorted array.") find_first_occurrence {
+        in(x: 5, y: 218, name: "list") property(List) list_d128d8
+        in(x: -252, y: -11, name: "execute") trigger() execute_467172
+        in(x: 349, y: -105, name: "target") property(Number) target_fbe60e
 
-        instance(x: 0, y: 0) math_expr_node root.Std_k98ojb.Math.Expression {
-            expression: "x * y"
-        }
-        x_ai -> math_expr_node.gen_0
-        y_ai -> math_expr_node.gen_1
-        math_expr_node.result -> result_ai
-   }
-   module(doc: "Contains three different tests for the 'multiply_int' function node, which multiplies two numbers with the built-in node 'Math.Expression'") tests {
-        instance(x: 7, y: 131, name: "multiply_int") multiply_int_ai_1 root.main.multiply_int {}
-        instance(x: -58, y: -142, name: "multiply_int") test_c47d8e root.Std_k98ojb.Testing.Test {
-            name: "Test multiply"
-        }
-        instance(x: 211, y: -56) assertequal_90d9f0 root.Std_k98ojb.Testing.AssertEqual {}
-        data_instance(x: -208, y: 82) data_ad6cab  = 10
-        data_instance(x: -203, y: 234) data_76b715  = 20
+        out(x: 1217, y: 29, name: "continue") trigger() continue_075eef
+        out(x: 966, y: 219, name: "output") property(Number) output_3ae271
 
-        instance(x: 517, y: 131, name: "multiply_int") multiply_int_ai_2 root.main.multiply_int {}
-        data_instance(x: 317, y: 95) data_dc12a0  = 5
-        data_instance(x: 315, y: 238) data_e98288  = 10
-        instance(x: 986, y: 130, name: "multiply_int") multiply_int_ai_3 root.main.multiply_int {}
-        data_instance(x: 787, y: 103) data_7ba3d7  = 4
-        data_instance(x: 788, y: 234) data_a0c3c0  = 8
-        instance(x: 527, y: -54) assertequal_33a0ee root.Std_k98ojb.Testing.AssertEqual {}
-        instance(x: 961, y: -52) assertequal_7cd470 root.Std_k98ojb.Testing.AssertEqual {}
-        multiply_int_ai_1.result_ai -> assertequal_90d9f0.actual
-        test_c47d8e.onRun -> assertequal_90d9f0.execute
-        data_ad6cab -> multiply_int_ai_1.x_ai
-        data_76b715 -> multiply_int_ai_1.y_ai
-        200 -> assertequal_90d9f0.expect
-        data_dc12a0 -> multiply_int_ai_2.x_ai
-        data_e98288 -> multiply_int_ai_2.y_ai
-        data_7ba3d7 -> multiply_int_ai_3.x_ai
-        data_a0c3c0 -> multiply_int_ai_3.y_ai
-        assertequal_90d9f0.continue -> assertequal_33a0ee.execute
-        multiply_int_ai_2.result_ai -> assertequal_33a0ee.actual
-        50 -> assertequal_33a0ee.expect
-        assertequal_33a0ee.continue -> assertequal_7cd470.execute
-        multiply_int_ai_3.result_ai -> assertequal_7cd470.actual
-        32 -> assertequal_7cd470.expect
+        setter(x: 0, y: 0, name: "setter_6e7b4e") setter_6e7b4e = index
+        instance(x: 340, y: 60) for_065883 root.Std_k98ojb.Std.For {}
+        getter(x: 704, y: 170, name: "getter_84fbbe") getter_84fbbe = index
+        setter(x: 955, y: -158, name: "setter_7e2b42") setter_7e2b42 = index
+        instance(x: 551, y: -105) equal_aabb6e root.Std_k98ojb.Logic.Equal {}
+        instance(x: 758, y: -75) if_7c284f root.Std_k98ojb.Std.If {}
+        setter_6e7b4e.continue -> for_065883.reset
+        list_d128d8 -> for_065883.items
+        execute_467172 -> setter_6e7b4e.execute
+        -1 -> setter_6e7b4e.new_value
+        for_065883.done -> continue_075eef
+        getter_84fbbe.value -> output_3ae271
+        target_fbe60e -> equal_aabb6e.left
+        for_065883.item -> equal_aabb6e.right
+        for_065883.onItem -> if_7c284f.execute
+        equal_aabb6e.result -> if_7c284f.predicate
+        if_7c284f.else -> for_065883.next
+        if_7c284f.then -> setter_7e2b42.execute
+        setter_7e2b42.continue -> continue_075eef
+        for_065883.index -> setter_7e2b42.new_value
     }
 
-    instance(x: -85, y: -46, name: "multiply_int") expression_3e25a9 root.main.multiply_int {}
+    module(doc: "Contains three different tests for the 'find_first_occurrence' function node") tests {
+        instance(x: -261, y: 51) find_first_occurrence_3d5f50 root.main.find_first_occurrence {}
+        instance(x: -307, y: -79) test_7a694f root.Std_k98ojb.Testing.Test {
+            name: "Test find_first_occurance"
+        }
+        data_instance(x: -215, y: 197) data_5476ee  = [2, 5, 5, 5, 6, 6, 8, 9, 9, 9]
+        instance(x: 49, y: 51) assertequal_9e6b85 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 351, y: 49) find_f82504 root.main.find_first_occurrence {}
+        data_instance(x: 397, y: 195) data_923c1c  = [2, 3, 5, 5, 6, 6, 8, 9, 9, 9]
+        instance(x: 661, y: 49) assertequal_21fee0 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 943, y: 42) find_8a869e root.main.find_first_occurrence {}
+        data_instance(x: 989, y: 188) data_1920e8  = [2, 4, 1, 5, 6, 6, 8, 9, 9, 9]
+        instance(x: 1253, y: 42) assertequal_a7c2ca root.Std_k98ojb.Testing.AssertEqual {}
+        test_7a694f.onRun -> find_first_occurrence_3d5f50.execute_467172
+        data_5476ee -> find_first_occurrence_3d5f50.list_d128d8
+        5 -> find_first_occurrence_3d5f50.target_fbe60e
+        find_first_occurrence_3d5f50.continue_075eef -> assertequal_9e6b85.execute
+        find_first_occurrence_3d5f50.output_3ae271 -> assertequal_9e6b85.actual
+        1 -> assertequal_9e6b85.expect
+        find_f82504.continue_075eef -> assertequal_21fee0.execute
+        find_f82504.output_3ae271 -> assertequal_21fee0.actual
+        data_923c1c -> find_f82504.list_d128d8
+        5 -> find_f82504.target_fbe60e
+        2 -> assertequal_21fee0.expect
+        find_8a869e.continue_075eef -> assertequal_a7c2ca.execute
+        find_8a869e.output_3ae271 -> assertequal_a7c2ca.actual
+        data_1920e8 -> find_8a869e.list_d128d8
+        6 -> find_8a869e.target_fbe60e
+        4 -> assertequal_a7c2ca.expect
+        assertequal_9e6b85.continue -> find_f82504.execute_467172
+        assertequal_21fee0.continue -> find_8a869e.execute_467172
+
+
+    }
+
+    instance(x: 777, y: 760) find_first_occurrence_6e6bfd root.main.find_first_occurrence {}
+
 }

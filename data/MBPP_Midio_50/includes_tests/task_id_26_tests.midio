@@ -2,32 +2,42 @@ import("std", Std_k98ojb)
 import("http", Http_q7o96c)
 
 module() main { 
-    module(doc: "Contains three different tests for the String ToUpper function node") tests {
+
+    func(doc: "convert a given string to uppercase.") ToUpper {
+        in(x: -531, y: 2, name: "input") property(String) input_ai
+        out(x: 340, y: 77, name: "output") property(String) output_ai
+
+        instance(x: 772, y: 76) toupper_7b3b7b root.Std_k98ojb.Strings.ToUpper {}
+        input_ai -> toupper_7b3b7b.input
+        toupper_7b3b7b.output -> output_ai
+    }
+
+    module(doc: "Contains three different tests for the 'ToUpper' function node") tests {
         instance(x: 7, y: -15) test_b0f5c0 root.Std_k98ojb.Testing.Test {
             name: "Test ToUpper"
         }
         instance(x: 64, y: 99) assertequal_47dbd4 root.Std_k98ojb.Testing.AssertEqual {}
         instance(x: 312, y: 96) assertequal_502ee8 root.Std_k98ojb.Testing.AssertEqual {}
         instance(x: 558, y: 97) assertequal_6abc22 root.Std_k98ojb.Testing.AssertEqual {}
-        instance(x: 54, y: 248) toupper_781e04 root.Std_k98ojb.Strings.ToUpper {}
-        instance(x: 296, y: 250) toupper_b59871 root.Std_k98ojb.Strings.ToUpper {}
-        instance(x: 565, y: 245) toupper_988607 root.Std_k98ojb.Strings.ToUpper {}
+        instance(x: 54, y: 248) toupper_781e04 root.main.ToUpper {}
+        instance(x: 296, y: 250) toupper_b59871 root.main.ToUpper {}
+        instance(x: 565, y: 245) toupper_988607 root.main.ToUpper {}
         test_b0f5c0.onRun -> assertequal_47dbd4.execute
         assertequal_47dbd4.continue -> assertequal_502ee8.execute
         assertequal_502ee8.continue -> assertequal_6abc22.execute
-        "person" -> toupper_781e04.input
+        "person" -> toupper_781e04.input_ai
         "PERSON" -> assertequal_47dbd4.expect
         "FINAL" -> assertequal_502ee8.expect
         "VALID" -> assertequal_6abc22.expect
-        "final" -> toupper_b59871.input
-        "valid" -> toupper_988607.input
-        toupper_988607.output -> assertequal_6abc22.actual
-        toupper_b59871.output -> assertequal_502ee8.actual
-        toupper_781e04.output -> assertequal_47dbd4.actual
+        "final" -> toupper_b59871.input_ai
+        "valid" -> toupper_988607.input_ai
+        toupper_988607.output_ai -> assertequal_6abc22.actual
+        toupper_b59871.output_ai -> assertequal_502ee8.actual
+        toupper_781e04.output_ai -> assertequal_47dbd4.actual
 
 
     }
 
-    instance(x: -179, y: 30) toupper_59bc6e root.Std_k98ojb.Strings.ToUpper {}
+    instance(x: -179, y: 30) toupper_59bc6e root.main.ToUpper {}
 
 }

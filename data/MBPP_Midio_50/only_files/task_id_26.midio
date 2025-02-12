@@ -2,6 +2,16 @@ import("std", Std_k98ojb)
 import("http", Http_q7o96c)
 
 module() main { 
-    instance(x: -179, y: 30) toupper_59bc6e root.Std_k98ojb.Strings.ToUpper {}
+
+    func(doc: "convert a given string to uppercase.") ToUpper {
+        in(x: -531, y: 2, name: "input") property(String) input_ai
+        out(x: 340, y: 77, name: "output") property(String) output_ai
+
+        instance(x: 772, y: 76) toupper_7b3b7b root.Std_k98ojb.Strings.ToUpper {}
+        input_ai -> toupper_7b3b7b.input
+        toupper_7b3b7b.output -> output_ai
+    }
+
+    instance(x: -179, y: 30) toupper_59bc6e root.main.ToUpper {}
 
 }

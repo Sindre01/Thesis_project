@@ -2,32 +2,41 @@ import("std", Std_k98ojb)
 import("http", Http_q7o96c)
 
 module() main { 
+
+    func(doc: "convert the given string to lower case.") is_lower {
+        in(x: -425, y: 209, name: "input") property(String) input_ai
+        out(x: 866, y: 132, name: "output") property(Bool) output_ai
+
+        instance(x: 5, y: 346) strings_tolower_node root.Std_k98ojb.Strings.ToLower {}
+        input_ai -> strings_tolower_node.input
+        strings_tolower_node.output -> output_ai
+    }
     
-    module(doc: "Contains three different tests for the 'Strings ToLower' function node") tests {
+    module(doc: "Contains three different tests for the 'is_lower' function node") tests {
         instance(x: -150, y: -157) test_cdd89c root.Std_k98ojb.Testing.Test {
             name: "Test ToLowerCase"
         }
         instance(x: -128, y: 30) assertequal_6c0391 root.Std_k98ojb.Testing.AssertEqual {}
-        instance(x: -130, y: 212) tolower_6c8e74 root.Std_k98ojb.Strings.ToLower {}
+        instance(x: -130, y: 212) tolower_6c8e74 root.main.is_lower {}
         data_instance(x: -109, y: 357) data_be00f3  = "InValid"
         data_instance(x: 167, y: 356) data_479927  = "HellO"
         data_instance(x: 495, y: 350) data_1c03df  = "SenTenCE"
         instance(x: 157, y: 31) assertequal_96d89c root.Std_k98ojb.Testing.AssertEqual {}
         instance(x: 468, y: 32) assertequal_68e70e root.Std_k98ojb.Testing.AssertEqual {}
-        instance(x: 488, y: 203) tolower_7389c1 root.Std_k98ojb.Strings.ToLower {}
-        instance(x: 161, y: 213) tolower_41dd46 root.Std_k98ojb.Strings.ToLower {}
-        data_be00f3 -> tolower_6c8e74.input
-        tolower_6c8e74.output -> assertequal_6c0391.actual
+        instance(x: 488, y: 203) tolower_7389c1 root.main.is_lower {}
+        instance(x: 161, y: 213) tolower_41dd46 root.main.is_lower {}
+        data_be00f3 -> tolower_6c8e74.input_ai
+        tolower_6c8e74.output_ai -> assertequal_6c0391.actual
         "invalid" -> assertequal_6c0391.expect
         test_cdd89c.onRun -> assertequal_6c0391.execute
         "hello" -> assertequal_96d89c.expect
         assertequal_6c0391.continue -> assertequal_96d89c.execute
-        tolower_7389c1.output -> assertequal_68e70e.actual
+        tolower_7389c1.output_ai -> assertequal_68e70e.actual
         "sentence" -> assertequal_68e70e.expect
-        data_1c03df -> tolower_7389c1.input
+        data_1c03df -> tolower_7389c1.input_ai
         assertequal_96d89c.continue -> assertequal_68e70e.execute
-        data_479927 -> tolower_41dd46.input
-        tolower_41dd46.output -> assertequal_96d89c.actual
+        data_479927 -> tolower_41dd46.input_ai
+        tolower_41dd46.output_ai -> assertequal_96d89c.actual
 
 
     }

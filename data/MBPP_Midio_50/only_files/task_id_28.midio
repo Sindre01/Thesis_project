@@ -3,8 +3,16 @@ import("http", Http_q7o96c)
 
 module() main { 
 
-    instance(x: -34, y: 127) filter_d4625a root.Std_k98ojb.Query.Filter {
-        where: "it % 2 == 0"
+    func(doc:"find even numbers from a list of numbers.") Split {
+        in(x: -531, y: 2, name: "list") property(List) list_ai
+        out(x: 340, y: 77, name: "output") property(List) output_ai
+        instance(x: 772, y: 76) filter_7b3b7b root.Std_k98ojb.Query.Filter {
+            where: "it % 2 == 0"
+        }
+        list_ai -> filter_7b3b7b.list
+        filter_7b3b7b.result -> output_ai
     }
+
+    instance(x: -34, y: 127) split_node root.main.Split {}
 
 }

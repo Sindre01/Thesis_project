@@ -81,7 +81,7 @@
     {
         "prompts": [
             "Create a function to find the smallest number in a list.",
-            "The flow should use the built-in function node from the std library, called 'List Min' node. The node should be created in the main module.",
+            "The flow should create the built-in function node from the std library, called 'List.Min' node, should be used. The node should be created inside a function, with proper name.",
             "The built-in function 'List Min' should then be tested within a seperate module called tests, within the main module. Since the function does not contain input and ouput triggers, the flow of execution is sent between the assert nodes, using their input and output triggers. "
         ],
         "task_id": 2,
@@ -312,7 +312,7 @@
     {
         "prompts": [
             "Create a function to multiply two numbers.",
-            "The flow should create a 'Math Expression' node with the expression 'x * y' inside the main module",
+            "The flow should create the built-in function node from the std library, called 'Math.Expression' node, should be used. The node should be created inside a function, with proper name.",
             "The 'Math expression' node should then be tested inside a seperate module called tests, within the main module. Since the function does not contain input and ouput triggers, the flow of execution is sent between the assert nodes, using their input and output triggers."
         ],
         "task_id": 5,
@@ -645,12 +645,12 @@
     {
         "prompts": [
             "Create a function to find the last digit of a given number.",
-            "The flow should create a 'Math Modulo' node which uses 10 as divisor and the given number as value. The node should be created in the main module.",
+            "",
             "The 'Math Modulo' node should then be tested inside a seperate module called tests, within the main module. Since the function does not contain input and ouput triggers, the flow of execution is sent between the assert nodes, using their input and output triggers."
         ],
         "task_id": 9,
         "specification": {
-            "function_signature": "N/A",
+            "function_signature": "func(doc: 'find the last digit of a given number.') last_digit{\n in(x: 0, y: 0, name: 'value') property(Number) value_ai\n out(x: 39, y: 0, name: 'result') property(Number) result_ai\n",
             "preconditions": "- n should be a non-negative integer",
             "postconditions": "- The returned digit d should be between 0 and 9\n- d should be the last digit of the input number n"
         },
@@ -679,9 +679,9 @@
                 "data_instance"
             ],
             "python_tests": [
-                "assert last_Digit(123) == 3",
-                "assert last_Digit(25) == 5",
-                "assert last_Digit(30) == 0"
+                "assert last_digit(123) == 3",
+                "assert last_digit(25) == 5",
+                "assert last_digit(30) == 0"
             ],
             "tests": {
                 "test_cases": [
@@ -774,7 +774,7 @@
         ],
         "task_id": 11,
         "specification": {
-            "function_signature": "func(doc: \"check whether the given list contains consecutive numbers or not.\") ContainsConsecutiveNumbers {\n  in(x: -425, y: 209, name: \"list\") property(any) list_faf6c2\n\n  out(x: 866, y: 132, name: \"output\") property(Bool) output_a2b59d\n}",
+            "function_signature": "func(doc: \"check whether the given list contains consecutive numbers or not.\") check_consecutive {\n  in(x: -425, y: 209, name: \"list\") property(any) list_faf6c2\n\n  out(x: 866, y: 132, name: \"output\") property(Bool) output_a2b59d\n}",
             "preconditions": "- There are no preconditions, the method will always work. Arrays can be empty or non-empty.",
             "postconditions": "- If the array contains consecutive numbers, the result is true\n- If the array does not contain consecutive numbers, the result is false"
         },
@@ -812,9 +812,9 @@
                 "data_instance"
             ],
             "python_tests": [
-                "assert check_Consecutive([1,2,3,4,5]) == True",
-                "assert check_Consecutive([1,2,3,5,6]) == False",
-                "assert check_Consecutive([1,2,1]) == False"
+                "assert check_consecutive([1,2,3,4,5]) == True",
+                "assert check_consecutive([1,2,3,5,6]) == False",
+                "assert check_consecutive([1,2,1]) == False"
             ],
             "tests": {
                 "test_cases": [
@@ -853,12 +853,12 @@
     {
         "prompts": [
             "Create a function to replace characters in a string.",
-            "The flow should use the built-in function node from the std library, called 'String Replace' node. The node should be created in the main module.",
+            "The flow should create the built-in function node from the std library, called 'Strings.Replace' node, should be used. The node should be created inside a function, with proper name.",
             "The 'String Replace' node should then be tested inside a seperate module called tests, within the main module. Since the function does not contain input and ouput triggers, the flow of execution is sent between the assert nodes, using their input and output triggers."
         ],
         "task_id": 12,
         "specification": {
-            "function_signature": "N/A",
+            "function_signature": "  func(doc: 'function to replace characters in a string.') replace_char {\n in(x: -426, y: 209, name: 'input') property(String) input_ai\n in(x: -426, y: 332, name: 'search') property(String) search_ai\n in(x: -426, y: 455, name: 'replace') property(String) replace_ai\n out(x: 866, y: 132, name: 'output') property(String) output_ai\n",
             "preconditions": "- There are no preconditions, the method will always work. Strings and sequences are always not null.",
             "postconditions": "- The length of the returning string must be the same as the length of the input string\n- All occurrences of oldChar in the input string are replaced with newChar in the output string\n- All other characters are unchanged"
         },
@@ -899,12 +899,12 @@
     {
         "prompts": [
             "Creat a flow to convert the given string to lower case.",
-            "The flow should create the built-in function node from the std library, called 'String ToLower' node, should be used. The node should be created in the main module.",
+            "The flow should create the built-in function node from the std library, called 'Strings.ToLower' node, should be used. The node should be created inside a function, with proper name.",
             "The 'String ToLower' node should then be tested inside a seperate module called tests, within the main module. Since the function does not contain input and ouput triggers, the flow of execution is sent between the assert nodes, using their input and output triggers."
         ],
         "task_id": 13,
         "specification": {
-            "function_signature": "N/A",
+            "function_signature": " func(doc: 'convert the given string to lower case.') is_lower {\n in(x: -425, y: 209, name: 'input') property(String) input_ai\n out(x: 866, y: 132, name: 'output') property(Bool) output_ai\n",
             "preconditions": "- There are no preconditions, the method will always work. Strings and sequences are always not null.",
             "postconditions": "- The length of the returning string must be the same as the length of the input string\n- All uppercase characters of the input string are lowercase in the output string\n- All other characters are unchanged"
         },
@@ -1333,12 +1333,12 @@
     {
         "prompts": [
             "create a function find the dissimilar elements in the given two lists.",
-            "The flow should create the built-in function node from the std library, called 'Sets Difference' node, should be used. The node should be created in the main module.",
+            "The flow should create the built-in function node from the std library, called 'Sets.Difference' node, should be used. The node should be created ina function with proper name.",
             "The 'Sets Difference' node should then be tested inside a seperate module called tests, within the main module. Since the function does not contain input and ouput triggers, the flow of execution is sent between the assert nodes, using their input and output triggers."
         ],
         "task_id": 18,
         "specification": {
-            "function_signature": "N/A",
+            "function_signature": " func(doc: 'find the dissimilar elements in the given two lists.') find_dissimilar {\n in(x: -531, y: 2, name: 'list1') property(List) list1_ai\n in(x: -165, y: 68, name: 'list2') property(List) list2_ai\n out(x: 340, y: 77, name: 'output') property(List) output_ai\n",
             "preconditions": "- Both input arrays should be non-null",
             "postconditions": "- The result array should contain all elements from both input arrays that are not present in the other array\n- The result array should not contain any duplicate elements\n- The order of elements in the result array does not matter"
         },
@@ -1997,12 +1997,12 @@
     {
         "prompts": [
             "Create a function to convert a given string to uppercase.",
-            "N/A",
-            "N/A"
+            "The flow should create the built-in function node from the std library, called 'Strings.ToUpper' node, should be used. The node should be created in a function with proper name.",
+            "The created user-defined function should then be tested inside a separate module called 'tests', within the main module. Since the function does not contain input and ouput triggers, the flow of execution is sent between the assert nodes, using their input and output triggers."
         ],
         "task_id": 26,
         "specification": {
-            "function_signature": "N/A",
+            "function_signature": " func(doc: 'convert a given string to uppercase.') ToUpper {\n in(x: -531, y: 2, name: 'input') property(String) input_ai\n out(x: 340, y: 77, name: 'output') property(String) output_ai\n",
             "preconditions": "- There are no preconditions, the method will always work. Strings and sequences are always not null.",
             "postconditions": "- The length of the returning string must be the same as the length of the input string\n- All lowercase characters of the input string are uppercase in the output string\n- All other characters are unchanged"
         },
@@ -2151,7 +2151,7 @@
         ],
         "task_id": 28,
         "specification": {
-            "function_signature": "N/A",
+            "function_signature": " func(doc:'find even numbers from a list of numbers.') Split {\n in(x: -531, y: 2, name: 'list') property(List) list_ai\n out(x: 340, y: 77, name: 'output') property(List) output_ai\n",
             "preconditions": "- There are no preconditions, the method will always work. Arrays can be empty but not null.",
             "postconditions": "- All elements in the output array are even\n- All even elements in the input array are present in the output array\n- The order of elements in the output array is the same as in the input array"
         },
@@ -2508,7 +2508,7 @@
         ],
         "task_id": 32,
         "specification": {
-            "function_signature": "method FindFirstOccurrence(arr: array<int>, target: int) returns (index: int)",
+            "function_signature": " func(doc: 'Finds the index of the first occurrence of a given number in a sorted array.') find_first_occurrence {\n in(x: 5, y: 218, name: 'list') property(List) list_d128d8\n in(x: -252, y: -11, name: 'execute') trigger() execute_467172\n in(x: 349, y: -105, name: 'target') property(Number) target_fbe60e",
             "preconditions": "- The input array is sorted in non-decreasing order",
             "postconditions": "- If the target is found, the returned index should be the first occurrence of the target in the array\n- If the target is not found, the returned index should be -1\n- The input array remains unchanged"
         },
@@ -3566,9 +3566,9 @@
                 "instance"
             ],
             "python_tests": [
-                "assert square_Sum(2) == 10",
-                "assert square_Sum(3) == 35",
-                "assert square_Sum(4) == 84"
+                "assert square_sum(2) == 10",
+                "assert square_sum(3) == 35",
+                "assert square_sum(4) == 84"
             ],
             "tests": {
                 "test_cases": [
@@ -3633,9 +3633,9 @@
                 "instance"
             ],
             "python_tests": [
-                "assert min(1,2) == 1",
-                "assert min(-5,-4) == -5",
-                "assert min(0,0) == 0"
+                "assert Min(1,2) == 1",
+                "assert Min(-5,-4) == -5",
+                "assert Min(0,0) == 0"
             ],
             "tests": {
                 "test_cases": [
@@ -3849,9 +3849,9 @@
                 "instance"
             ],
             "python_tests": [
-                "assert prime_num(13)==True",
-                "assert prime_num(7)==True",
-                "assert prime_num(-1010)==False"
+                "assert num_prime(13)==True",
+                "assert num_prime(7)==True",
+                "assert num_prime(-1010)==False"
             ],
             "tests": {
                 "test_cases": [
@@ -3919,9 +3919,9 @@
                 "data_instance"
             ],
             "python_tests": [
-                "assert swap_List([1,2,3]) == [3,2,1]",
-                "assert swap_List([1,2,3,4,4]) == [4,2,3,4,1]",
-                "assert swap_List([4,5,6]) == [6,5,4]"
+                "assert swap_list([1,2,3]) == [3,2,1]",
+                "assert swap_list([1,2,3,4,4]) == [4,2,3,4,1]",
+                "assert swap_list([4,5,6]) == [6,5,4]"
             ],
             "tests": {
                 "test_cases": [

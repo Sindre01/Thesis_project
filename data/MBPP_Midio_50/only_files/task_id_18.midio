@@ -3,6 +3,18 @@ import("http", Http_q7o96c)
 
 module() main { 
 
-    instance(x: -55, y: 80) difference_1f4c9a root.Std_k98ojb.Sets.Difference {}
+    func(doc: "find the dissimilar elements in the given two lists.") find_dissimilar {
+        in(x: -531, y: 2, name: "list1") property(List) list1_ai
+        in(x: -165, y: 68, name: "list2") property(List) list2_ai
+        out(x: 340, y: 77, name: "output") property(List) output_ai
+
+        instance(x: 772, y: 76) difference_7b3b7b root.Std_k98ojb.Sets.Difference {}
+        list1_ai -> difference_7b3b7b.left
+        list2_ai -> difference_7b3b7b.right
+        difference_7b3b7b.difference -> output_ai
+    }
+
+
+    instance(x: -55, y: 80) difference_1f4c9a root.main.find_dissimilar {}
     
 }

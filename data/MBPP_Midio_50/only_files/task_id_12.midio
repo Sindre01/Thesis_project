@@ -2,6 +2,18 @@ import("std", Std_k98ojb)
 import("http", Http_q7o96c)
 
 module() main { 
-    
-    instance(x: -184, y: -66) replace_740561 root.Std_k98ojb.Strings.Replace {}
+    func(doc: "function to replace characters in a string.") replace_char {
+        in(x: -426, y: 209, name: "input") property(String) input_ai
+        in(x: -426, y: 332, name: "search") property(String) search_ai
+        in(x: -426, y: 455, name: "replace") property(String) replace_ai
+        out(x: 866, y: 132, name: "output") property(String) output_ai
+
+        instance(x: 5, y: 346) replace_node root.Std_k98ojb.Strings.Replace {}
+        input_ai -> replace_node.input
+        search_ai -> replace_node.search
+        replace_ai -> replace_node.replace
+        replace_node.output -> output_ai
+    }
+
+    instance(x: -184, y: -66) replace_740561 root.main.replace_char {}
 }
