@@ -12,6 +12,9 @@
             "postconditions": "- The result is true if x and y have opposite signs\n- The result is false if x and y have the same sign"
         },
         "MBPP_task_id": 58,
+        "external_functions": [
+            "root.std.Math.Expression"
+        ],
         "visual_node_types": [
             "Function",
             "Output Property",
@@ -23,6 +26,11 @@
             "out"
         ],
         "testing": {
+            "external_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertTrue",
+                "root.std.Testing.AssertFalse"
+            ],
             "visual_node_types": [
                 "Event",
                 "Function"
@@ -30,7 +38,13 @@
             "textual_instance_types": [
                 "instance"
             ],
-            "test_list": {
+            "python_tests": [
+                "assert opposite_Signs(1,-2) == True",
+                "assert opposite_Signs(3,2) == False",
+                "assert opposite_Signs(-10,-10) == False",
+                "assert opposite_Signs(-2,2) == True"
+            ],
+            "tests": {
                 "test_cases": [
                     {
                         "input": [
@@ -61,16 +75,8 @@
                         "expected_output": true
                     }
                 ]
-            },
-            "external_functions": [
-                "root.std.Testing.Test",
-                "root.std.Testing.AssertTrue",
-                "root.std.Testing.AssertFalse"
-            ]
-        },
-        "external_functions": [
-            "root.std.Math.Expression"
-        ]
+            }
+        }
     },
     {
         "prompts": [
@@ -85,6 +91,10 @@
             "postconditions": "- The result is true if the input number is divisible by 11\n- The result is false if the input number is not divisible by 11"
         },
         "MBPP_task_id": 77,
+        "external_functions": [
+            "root.std.Math.Expression",
+            "root.std.Math.Modulo"
+        ],
         "visual_node_types": [
             "Function",
             "Output Property",
@@ -98,6 +108,10 @@
             "out"
         ],
         "testing": {
+            "external_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertTrue"
+            ],
             "visual_node_types": [
                 "Event",
                 "Function"
@@ -105,7 +119,12 @@
             "textual_instance_types": [
                 "instance"
             ],
-            "test_list": {
+            "python_tests": [
+                "assert is_Diff (12345) == False",
+                "assert is_Diff(1212112) == True",
+                "assert is_Diff(1212) == False"
+            ],
+            "tests": {
                 "test_cases": [
                     {
                         "input": 1212112,
@@ -116,16 +135,8 @@
                         "expected_output": false
                     }
                 ]
-            },
-            "external_functions": [
-                "root.std.Testing.Test",
-                "root.std.Testing.AssertTrue"
-            ]
-        },
-        "external_functions": [
-            "root.std.Math.Expression",
-            "root.std.Math.Modulo"
-        ]
+            }
+        }
     },
     {
         "prompts": [
@@ -140,6 +151,9 @@
             "postconditions": "- The length of the returning string must be the same as the length of the input string\n- All occurrences of oldChar in the input string are replaced with newChar in the output string\n- All other characters are unchanged"
         },
         "MBPP_task_id": 474,
+        "external_functions": [
+            "root.std.Strings.Replace"
+        ],
         "visual_node_types": [
             "Function"
         ],
@@ -147,6 +161,10 @@
             "instance"
         ],
         "testing": {
+            "external_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertEqual"
+            ],
             "visual_node_types": [
                 "Event",
                 "Function",
@@ -156,17 +174,15 @@
                 "instance",
                 "data_instance"
             ],
-            "test_list": {
+            "python_tests": [
+                "assert replace_char(\"polygon\",'y','l')==(\"pollgon\")",
+                "assert replace_char(\"character\",'c','a')==(\"aharaater\")",
+                "assert replace_char(\"python\",'l','a')==(\"python\")"
+            ],
+            "tests": {
                 "test_cases": []
-            },
-            "external_functions": [
-                "root.std.Testing.Test",
-                "root.std.Testing.AssertEqual"
-            ]
-        },
-        "external_functions": [
-            "root.std.Strings.Replace"
-        ]
+            }
+        }
     },
     {
         "prompts": [
@@ -181,6 +197,9 @@
             "postconditions": "- The length of the returning string must be the same as the length of the input string\n- All uppercase characters of the input string are lowercase in the output string\n- All other characters are unchanged"
         },
         "MBPP_task_id": 477,
+        "external_functions": [
+            "root.std.Strings.ToLower"
+        ],
         "visual_node_types": [
             "Function"
         ],
@@ -188,6 +207,10 @@
             "instance"
         ],
         "testing": {
+            "external_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertEqual"
+            ],
             "visual_node_types": [
                 "Event",
                 "Function",
@@ -197,7 +220,12 @@
                 "instance",
                 "data_instance"
             ],
-            "test_list": {
+            "python_tests": [
+                "assert is_lower(\"InValid\") == \"invalid\"",
+                "assert is_lower(\"HellO\") == \"hello\"",
+                "assert is_lower(\"SenTenCE\") == \"sentence\""
+            ],
+            "tests": {
                 "test_cases": [
                     {
                         "input": "InValid",
@@ -212,15 +240,8 @@
                         "expected_output": "sentence"
                     }
                 ]
-            },
-            "external_functions": [
-                "root.std.Testing.Test",
-                "root.std.Testing.AssertEqual"
-            ]
-        },
-        "external_functions": [
-            "root.std.Strings.ToLower"
-        ]
+            }
+        }
     },
     {
         "prompts": [
@@ -235,6 +256,14 @@
             "postconditions": "- The product should be the multiplication of all unique elements in the array"
         },
         "MBPP_task_id": 573,
+        "external_functions": [
+            "root.std.List.Empty",
+            "root.std.List.Contains",
+            "root.std.List.Add",
+            "root.std.Math.Mul",
+            "root.std.Std.For",
+            "root.std.Std.If"
+        ],
         "visual_node_types": [
             "Function",
             "Setter",
@@ -252,6 +281,10 @@
             "out"
         ],
         "testing": {
+            "external_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertEqual"
+            ],
             "visual_node_types": [
                 "Event",
                 "Function",
@@ -261,7 +294,12 @@
                 "instance",
                 "data_instance"
             ],
-            "test_list": {
+            "python_tests": [
+                "assert unique_product([10, 20, 30, 40, 20, 50, 60, 40]) ==  720000000",
+                "assert unique_product([1, 2, 3, 1,]) == 6",
+                "assert unique_product([7, 8, 9, 0, 1, 1]) == 0"
+            ],
+            "tests": {
                 "test_cases": [
                     {
                         "input": [
@@ -297,20 +335,8 @@
                         "expected_output": 0
                     }
                 ]
-            },
-            "external_functions": [
-                "root.std.Testing.Test",
-                "root.std.Testing.AssertEqual"
-            ]
-        },
-        "external_functions": [
-            "root.std.List.Empty",
-            "root.std.List.Contains",
-            "root.std.List.Add",
-            "root.std.Math.Mul",
-            "root.std.Std.For",
-            "root.std.Std.If"
-        ]
+            }
+        }
     },
     {
         "prompts": [
@@ -325,6 +351,9 @@
             "postconditions": "- The result array should contain all elements from both input arrays that are not present in the other array\n- The result array should not contain any duplicate elements\n- The order of elements in the result array does not matter"
         },
         "MBPP_task_id": 579,
+        "external_functions": [
+            "root.std.Sets.Difference"
+        ],
         "visual_node_types": [
             "Function"
         ],
@@ -332,6 +361,10 @@
             "instance"
         ],
         "testing": {
+            "external_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertEqual"
+            ],
             "visual_node_types": [
                 "Event",
                 "Function",
@@ -341,7 +374,12 @@
                 "instance",
                 "data_instance"
             ],
-            "test_list": {
+            "python_tests": [
+                "assert find_dissimilar([3, 4, 5, 6], [5, 7, 4, 10]) == [3, 6, 7, 10]",
+                "assert find_dissimilar([1, 2, 3, 4], [7, 2, 3, 9]) == [1, 4, 7, 9]",
+                "assert find_dissimilar([21, 11, 25, 26], [26, 34, 21, 36]) == [11,25,34,36]"
+            ],
+            "tests": {
                 "test_cases": [
                     {
                         "input": [
@@ -410,15 +448,8 @@
                         ]
                     }
                 ]
-            },
-            "external_functions": [
-                "root.std.Testing.Test",
-                "root.std.Testing.AssertEqual"
-            ]
-        },
-        "external_functions": [
-            "root.std.Sets.Difference"
-        ]
+            }
+        }
     },
     {
         "prompts": [
@@ -433,6 +464,12 @@
             "postconditions": "- The length of the returning sequence must be the same as the length of the input sequence\n- The elements of the input sequence are rotated by n positions to the right in the output sequence"
         },
         "MBPP_task_id": 743,
+        "external_functions": [
+            "root.std.List.Concat",
+            "root.std.List.Slice",
+            "root.std.List.Length",
+            "root.std.Math.Sub"
+        ],
         "visual_node_types": [
             "Function",
             "Input Property",
@@ -444,6 +481,10 @@
             "out"
         ],
         "testing": {
+            "external_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertEqual"
+            ],
             "visual_node_types": [
                 "Event",
                 "Function",
@@ -453,7 +494,12 @@
                 "instance",
                 "data_instance"
             ],
-            "test_list": {
+            "python_tests": [
+                "assert rotate_right([1, 2, 3, 4, 5, 6, 7, 8, 9, 10],3)==[8, 9, 10, 1, 2, 3, 4, 5, 6, 7]",
+                "assert rotate_right([1, 2, 3, 4, 5, 6, 7, 8, 9, 10],2)==[9, 10, 1, 2, 3, 4, 5, 6, 7, 8]",
+                "assert rotate_right([1, 2, 3, 4, 5, 6, 7, 8, 9, 10],5)==[6, 7, 8, 9, 10, 1, 2, 3, 4, 5]"
+            ],
+            "tests": {
                 "test_cases": [
                     {
                         "input": [
@@ -543,18 +589,8 @@
                         ]
                     }
                 ]
-            },
-            "external_functions": [
-                "root.std.Testing.Test",
-                "root.std.Testing.AssertEqual"
-            ]
-        },
-        "external_functions": [
-            "root.std.List.Concat",
-            "root.std.List.Slice",
-            "root.std.List.Length",
-            "root.std.Math.Sub"
-        ]
+            }
+        }
     },
     {
         "prompts": [
@@ -569,6 +605,10 @@
             "postconditions": "- The sum of all elements in the input array is returned"
         },
         "MBPP_task_id": 798,
+        "external_functions": [
+            "root.std.Iteration.Reduce",
+            "root.std.Math.Add"
+        ],
         "visual_node_types": [
             "Function",
             "Input Property",
@@ -580,6 +620,10 @@
             "out"
         ],
         "testing": {
+            "external_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertEqual"
+            ],
             "visual_node_types": [
                 "Event",
                 "Function",
@@ -589,7 +633,12 @@
                 "instance",
                 "data_instance"
             ],
-            "test_list": {
+            "python_tests": [
+                "assert _sum([1, 2, 3]) == 6",
+                "assert _sum([15, 12, 13, 10]) == 50",
+                "assert _sum([0, 1, 2]) == 3"
+            ],
+            "tests": {
                 "test_cases": [
                     {
                         "input": [
@@ -617,16 +666,8 @@
                         "expected_output": 3
                     }
                 ]
-            },
-            "external_functions": [
-                "root.std.Testing.Test",
-                "root.std.Testing.AssertEqual"
-            ]
-        },
-        "external_functions": [
-            "root.std.Iteration.Reduce",
-            "root.std.Math.Add"
-        ]
+            }
+        }
     },
     {
         "prompts": [
@@ -636,11 +677,21 @@
         ],
         "task_id": 48,
         "specification": {
-            "method_signature": "func(doc: \"check if the given integer is a prime number.\") num_prime {\nin(x: -167, y: 27.5, name: \"num\") property(Number) num_5c0677\nin(x: -112, y: -216, name: \"execute\") trigger() execute_b7b391\n out(x: 1016, y: -26.5, name: \"output\") property(Bool) output_c457b3\n out(x: 1211, y: -110, name: \"continue\") trigger() continue_9a54bb",
+            "function_signature": "func(doc: \"check if the given integer is a prime number.\") num_prime {\nin(x: -167, y: 27.5, name: \"num\") property(Number) num_5c0677\nin(x: -112, y: -216, name: \"execute\") trigger() execute_b7b391\n out(x: 1016, y: -26.5, name: \"output\") property(Bool) output_c457b3\n out(x: 1211, y: -110, name: \"continue\") trigger() continue_9a54bb",
             "preconditions": "- n should be greater than or equal to 2",
             "postconditions": "- If the result is true, then n is a prime number\n- If the result is false, then n is not a prime number"
         },
         "MBPP_task_id": 605,
+        "external_functions": [
+            "root.std.Std.IfExpression",
+            "root.std.Std.For",
+            "root.std.Math.Modulo",
+            "root.std.Math.Div",
+            "root.std.Math.Add",
+            "root.std.List.GenerateRange",
+            "root.std.Std.If",
+            "root.std.Logic.Equal"
+        ],
         "visual_node_types": [
             "Function",
             "Input Property",
@@ -658,6 +709,11 @@
             "getter"
         ],
         "testing": {
+            "external_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertTrue",
+                "root.std.Testing.AssertFalse"
+            ],
             "visual_node_types": [
                 "Event",
                 "Function"
@@ -665,7 +721,12 @@
             "textual_instance_types": [
                 "instance"
             ],
-            "test_list": {
+            "python_tests": [
+                "assert prime_num(13)==True",
+                "assert prime_num(7)==True",
+                "assert prime_num(-1010)==False"
+            ],
+            "tests": {
                 "test_cases": [
                     {
                         "input": 13,
@@ -680,22 +741,7 @@
                         "expected_output": false
                     }
                 ]
-            },
-            "external_functions": [
-                "root.std.Testing.Test",
-                "root.std.Testing.AssertTrue",
-                "root.std.Testing.AssertFalse"
-            ]
-        },
-        "external_functions": [
-            "root.std.Std.IfExpression",
-            "root.std.Std.For",
-            "root.std.Math.Modulo",
-            "root.std.Math.Div",
-            "root.std.Math.Add",
-            "root.std.List.GenerateRange",
-            "root.std.Std.If",
-            "root.std.Logic.Equal"
-        ]
+            }
+        }
     }
 ]

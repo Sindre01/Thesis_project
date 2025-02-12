@@ -11,8 +11,9 @@ Here is your task:
 
 The created Midio function should adhere to this signature:
 ```midio
-    {func_signature}
-    ...
+
+    {function_signature}
+
 ```
 
 

@@ -11,7 +11,7 @@
 #SBATCH --partition=accel                  # Partition ('accel' or 'accel_long')
 #SBATCH --nodes=1                  # Amount of nodes. Ollama one support single node inference
 #SBATCH --gpus=a100:2                             # Number of GPUs
-#SBATCH --time=08:00:00                             # Walltime (D-HH:MM:SS)
+#SBATCH --time=10:00:00                             # Walltime (D-HH:MM:SS)
 #SBATCH --mem-per-gpu=80GB              # Memory per CPU
 #SBATCH --output=ollama_api_%j.out                 # Standard output and error log
 

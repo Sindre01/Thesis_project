@@ -12,6 +12,9 @@
             "postconditions": "- The result should be the product of the two input integers"
         },
         "MBPP_task_id": 127,
+        "external_functions": [
+            "root.std.Math.Expression"
+        ],
         "visual_node_types": [
             "Function"
         ],
@@ -19,6 +22,10 @@
             "instance"
         ],
         "testing": {
+            "external_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertEqual"
+            ],
             "visual_node_types": [
                 "Event",
                 "Function",
@@ -28,7 +35,12 @@
                 "instance",
                 "data_instance"
             ],
-            "test_list": {
+            "python_tests": [
+                "assert multiply_int(10,20)==200",
+                "assert multiply_int(5,10)==50",
+                "assert multiply_int(4,8)==32"
+            ],
+            "tests": {
                 "test_cases": [
                     {
                         "input": [
@@ -52,15 +64,8 @@
                         "expected_output": 32
                     }
                 ]
-            },
-            "external_functions": [
-                "root.std.Testing.Test",
-                "root.std.Testing.AssertEqual"
-            ]
-        },
-        "external_functions": [
-            "root.std.Math.Expression"
-        ]
+            }
+        }
     },
     {
         "prompts": [
@@ -75,6 +80,11 @@
             "postconditions": "- The difference between the largest and smallest value in the input array is returned"
         },
         "MBPP_task_id": 588,
+        "external_functions": [
+            "root.std.List.Max",
+            "root.std.List.Min",
+            "root.std.Math.Sub"
+        ],
         "visual_node_types": [
             "Function",
             "Input Property",
@@ -86,6 +96,10 @@
             "out"
         ],
         "testing": {
+            "external_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertEqual"
+            ],
             "visual_node_types": [
                 "Function",
                 "Data Object",
@@ -95,7 +109,12 @@
                 "instance",
                 "data_instance"
             ],
-            "test_list": {
+            "python_tests": [
+                "assert big_diff([1,2,3,4]) == 3",
+                "assert big_diff([4,5,12]) == 8",
+                "assert big_diff([9,2,3]) == 7"
+            ],
+            "tests": {
                 "test_cases": [
                     {
                         "input": [
@@ -123,17 +142,8 @@
                         "expected_output": 7
                     }
                 ]
-            },
-            "external_functions": [
-                "root.std.Testing.Test",
-                "root.std.Testing.AssertEqual"
-            ]
-        },
-        "external_functions": [
-            "root.std.List.Max",
-            "root.std.List.Min",
-            "root.std.Math.Sub"
-        ]
+            }
+        }
     },
     {
         "prompts": [
@@ -148,6 +158,11 @@
             "postconditions": "- The difference is the first even number minus the first odd number in the array"
         },
         "MBPP_task_id": 594,
+        "external_functions": [
+            "root.std.Query.Filter",
+            "root.std.List.FirstItem",
+            "root.std.Math.Sub"
+        ],
         "visual_node_types": [
             "Function",
             "Input Property",
@@ -159,6 +174,10 @@
             "out"
         ],
         "testing": {
+            "external_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertEqual"
+            ],
             "visual_node_types": [
                 "Event",
                 "Function",
@@ -168,7 +187,12 @@
                 "instance",
                 "data_instance"
             ],
-            "test_list": {
+            "python_tests": [
+                "assert diff_even_odd([1,3,5,7,4,1,6,8])==3",
+                "assert diff_even_odd([1,2,3,4,5,6,7,8,9,10])==1",
+                "assert diff_even_odd([1,5,7,9,10])==9"
+            ],
+            "tests": {
                 "test_cases": [
                     {
                         "input": [
@@ -209,17 +233,8 @@
                         "expected_output": 9
                     }
                 ]
-            },
-            "external_functions": [
-                "root.std.Testing.Test",
-                "root.std.Testing.AssertEqual"
-            ]
-        },
-        "external_functions": [
-            "root.std.Query.Filter",
-            "root.std.List.FirstItem",
-            "root.std.Math.Sub"
-        ]
+            }
+        }
     },
     {
         "prompts": [
@@ -234,6 +249,10 @@
             "postconditions": "- sum should be the sum of the first n natural numbers\n- average should be the average of the first n natural numbers"
         },
         "MBPP_task_id": 599,
+        "external_functions": [
+            "root.std.Math.Expression",
+            "root.std.Math.Div"
+        ],
         "visual_node_types": [
             "Function",
             "Input Property",
@@ -247,6 +266,10 @@
             "data_instance"
         ],
         "testing": {
+            "external_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertEqual"
+            ],
             "visual_node_types": [
                 "Function",
                 "Data Object",
@@ -256,18 +279,15 @@
                 "instance",
                 "data_instance"
             ],
-            "test_list": {
+            "python_tests": [
+                "assert sum_average(10)==(55, 5.5)",
+                "assert sum_average(15)==(120, 8.0)",
+                "assert sum_average(20)==(210, 10.5)"
+            ],
+            "tests": {
                 "test_cases": []
-            },
-            "external_functions": [
-                "root.std.Testing.Test",
-                "root.std.Testing.AssertEqual"
-            ]
-        },
-        "external_functions": [
-            "root.std.Math.Expression",
-            "root.std.Math.Div"
-        ]
+            }
+        }
     },
     {
         "prompts": [
@@ -282,6 +302,10 @@
             "postconditions": "- If the input number is even, the result is true\n- If the input number is odd, the result is false"
         },
         "MBPP_task_id": 600,
+        "external_functions": [
+            "root.std.Math.Modulo",
+            "root.std.Logic.Equal"
+        ],
         "visual_node_types": [
             "Function",
             "Input Property",
@@ -293,6 +317,10 @@
             "out"
         ],
         "testing": {
+            "external_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertEqual"
+            ],
             "visual_node_types": [
                 "Function",
                 "Event"
@@ -300,7 +328,12 @@
             "textual_instance_types": [
                 "instance"
             ],
-            "test_list": {
+            "python_tests": [
+                "assert is_Even(1) == False",
+                "assert is_Even(2) == True",
+                "assert is_Even(3) == False"
+            ],
+            "tests": {
                 "test_cases": [
                     {
                         "input": 1,
@@ -315,16 +348,8 @@
                         "expected_output": false
                     }
                 ]
-            },
-            "external_functions": [
-                "root.std.Testing.Test",
-                "root.std.Testing.AssertEqual"
-            ]
-        },
-        "external_functions": [
-            "root.std.Math.Modulo",
-            "root.std.Logic.Equal"
-        ]
+            }
+        }
     },
     {
         "prompts": [
@@ -339,6 +364,14 @@
             "postconditions": "- If returns char, then returned char is the first repeated character in the input string\n- If returns null, then there are no repeated characters in the input string"
         },
         "MBPP_task_id": 602,
+        "external_functions": [
+            "root.std.Strings.Characters",
+            "root.std.Std.For",
+            "root.std.List.Slice",
+            "root.std.List.Contains",
+            "root.std.Std.If",
+            "root.std.Math.Add"
+        ],
         "visual_node_types": [
             "Function",
             "Input Property",
@@ -356,6 +389,10 @@
             "getter"
         ],
         "testing": {
+            "external_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertEqual"
+            ],
             "visual_node_types": [
                 "Event",
                 "Function"
@@ -363,7 +400,12 @@
             "textual_instance_types": [
                 "instance"
             ],
-            "test_list": {
+            "python_tests": [
+                "assert first_repeated_char(\"abcabc\") == \"a\"",
+                "assert first_repeated_char(\"abc\") == null",
+                "assert first_repeated_char(\"123123\") == \"1\""
+            ],
+            "tests": {
                 "test_cases": [
                     {
                         "input": "abcabc",
@@ -374,20 +416,8 @@
                         "expected_output": "1"
                     }
                 ]
-            },
-            "external_functions": [
-                "root.std.Testing.Test",
-                "root.std.Testing.AssertEqual"
-            ]
-        },
-        "external_functions": [
-            "root.std.Strings.Characters",
-            "root.std.Std.For",
-            "root.std.List.Slice",
-            "root.std.List.Contains",
-            "root.std.Std.If",
-            "root.std.Math.Add"
-        ]
+            }
+        }
     },
     {
         "prompts": [
@@ -402,6 +432,13 @@
             "postconditions": "- The returned value should be the second-smallest number in the input array\n- The input array remains unchanged"
         },
         "MBPP_task_id": 755,
+        "external_functions": [
+            "root.std.List.Sort",
+            "root.std.List.GetAt",
+            "root.std.List.Length",
+            "root.std.Std.IfExpression",
+            "root.std.Sets.Intersection"
+        ],
         "visual_node_types": [
             "Function",
             "Input Property",
@@ -419,6 +456,10 @@
             "getter"
         ],
         "testing": {
+            "external_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertEqual"
+            ],
             "visual_node_types": [
                 "Event",
                 "Function",
@@ -428,21 +469,15 @@
                 "instance",
                 "data_instance"
             ],
-            "test_list": {
+            "python_tests": [
+                "assert second_smallest([1, 2, -8, -2, 0, -2])==-2",
+                "assert second_smallest([1, 1, -0.5, 0, 2, -2, -2])==-0.5",
+                "assert second_smallest([2,2])==None"
+            ],
+            "tests": {
                 "test_cases": []
-            },
-            "external_functions": [
-                "root.std.Testing.Test",
-                "root.std.Testing.AssertEqual"
-            ]
-        },
-        "external_functions": [
-            "root.std.List.Sort",
-            "root.std.List.GetAt",
-            "root.std.List.Length",
-            "root.std.Std.IfExpression",
-            "root.std.Sets.Intersection"
-        ]
+            }
+        }
     },
     {
         "prompts": [
@@ -457,6 +492,13 @@
             "postconditions": "- The product is the multiplication of the first even and first odd number found in the list"
         },
         "MBPP_task_id": 784,
+        "external_functions": [
+            "root.std.Math.Mul",
+            "root.std.Iteration.Find",
+            "root.std.Math.Modulo",
+            "root.std.Logic.Equal",
+            "root.std.Logic.NotEqual"
+        ],
         "visual_node_types": [
             "Function",
             "Input Property",
@@ -468,6 +510,10 @@
             "out"
         ],
         "testing": {
+            "external_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertEqual"
+            ],
             "visual_node_types": [
                 "Event",
                 "Function",
@@ -477,7 +523,12 @@
                 "instance",
                 "data_instance"
             ],
-            "test_list": {
+            "python_tests": [
+                "assert mul_even_odd([1,3,5,7,4,1,6,8])==4",
+                "assert mul_even_odd([1,2,3,4,5,6,7,8,9,10])==2",
+                "assert mul_even_odd([1,5,7,9,10])==10"
+            ],
+            "tests": {
                 "test_cases": [
                     {
                         "input": [
@@ -518,19 +569,8 @@
                         "expected_output": 10
                     }
                 ]
-            },
-            "external_functions": [
-                "root.std.Testing.Test",
-                "root.std.Testing.AssertEqual"
-            ]
-        },
-        "external_functions": [
-            "root.std.Math.Mul",
-            "root.std.Iteration.Find",
-            "root.std.Math.Modulo",
-            "root.std.Logic.Equal",
-            "root.std.Logic.NotEqual"
-        ]
+            }
+        }
     },
     {
         "prompts": [
@@ -545,6 +585,10 @@
             "postconditions": "- If the element is found, the returned position should be the last occurrence of the element in the array\n- If the element is not found, the returned position should be -1\n- The input array remains unchanged"
         },
         "MBPP_task_id": 793,
+        "external_functions": [
+            "root.std.Std.For",
+            "root.std.Std.IfExpression"
+        ],
         "visual_node_types": [
             "Function",
             "Input Property",
@@ -560,6 +604,10 @@
             "setter"
         ],
         "testing": {
+            "external_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertEqual"
+            ],
             "visual_node_types": [
                 "Event",
                 "Function",
@@ -569,7 +617,12 @@
                 "instance",
                 "data_instance"
             ],
-            "test_list": {
+            "python_tests": [
+                "assert last([1,2,3],1) == 0",
+                "assert last([1,1,1,2,3,4],1) == 2",
+                "assert last([2,3,2,3,6,8,9],3) == 3"
+            ],
+            "tests": {
                 "test_cases": [
                     {
                         "input": [
@@ -612,15 +665,7 @@
                         "expected_output": 3
                     }
                 ]
-            },
-            "external_functions": [
-                "root.std.Testing.Test",
-                "root.std.Testing.AssertEqual"
-            ]
-        },
-        "external_functions": [
-            "root.std.Std.For",
-            "root.std.Std.IfExpression"
-        ]
+            }
+        }
     }
 ]

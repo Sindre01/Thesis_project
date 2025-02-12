@@ -160,11 +160,12 @@ def run_model(
     top_k,
     ks=[1], 
     seed=None,                              
-    debug=False
+    debug=False,
+    metrics=None
 )-> tuple[dict[int, list[str]], int]:
     
     results: dict[int, list[str]] = {}
-    largest_prompt_context_size = 0
+    largest_prompt_ctx_size = 0
     for index, sample in enumerate(data):
         generated_candidates: list[str] = []
         true_response = sample.outputs["response"]
@@ -174,15 +175,25 @@ def run_model(
         
         # Do calulations before evaluation and just pass in an class that get the examples for the task.
         examples = example_pool.select_examples(sample.inputs)
-        few_shot = create_few_shot_prompt(examples, 'CODE_TEMPLATE')
-        final_prompt_template = create_final_prompt(few_shot, "CODE_GENERATOR_TEMPLATE", "CODE_TEMPLATE")
-        prompt = final_prompt_template.format(task=task, external_functions=available_nodes)
+        if "tests" in metrics:
+            print("Uses signature prompt!")
+            few_shot = create_few_shot_prompt(examples, 'CODE_SIGNATURE_TEMPLATE')
+            final_prompt_template = create_final_prompt(few_shot, "CODE_GENERATOR_TEMPLATE", "CODE_SIGNATURE_TEMPLATE")
+            function_signature = sample.metadata["testing"]["function_signature"]
+            prompt = final_prompt_template.format(task=task, function_signature=function_signature, external_functions=available_nodes)
+        else:    
+            few_shot = create_few_shot_prompt(examples, 'CODE_TEMPLATE')
+            final_prompt_template = create_final_prompt(few_shot, "CODE_GENERATOR_TEMPLATE", "CODE_TEMPLATE")
+            prompt = final_prompt_template.format(task=task, external_functions=available_nodes)
+        
+        print(client(model=model))
 
-        prompt_size = client(model=model, num_ctx=10000).get_num_tokens(prompt)
+
+        prompt_size = client(model=model).get_num_tokens(prompt) # Will print warning if prompt is too big for model
         print(f"Tokens in the final prompt: {prompt_size}")
         
-        if prompt_size > largest_prompt_context_size:
-            largest_prompt_context_size = prompt_size
+        if prompt_size > largest_prompt_ctx_size:
+            largest_prompt_ctx_size = prompt_size
         
         for attempt_i in range(max(ks)):
             max_retries = 3
@@ -201,7 +212,7 @@ def run_model(
                             top_p=top_p,
                             top_k=top_k,
                             stream=False,
-                            num_ctx=10000,
+                            num_ctx=largest_prompt_ctx_size,
                             stop=["```<|eot_id|>"],
                             seed=new_seed
                         )
@@ -213,7 +224,7 @@ def run_model(
                             top_p=top_p,
                             top_k=top_k,
                             stream=False,
-                            num_ctx=10000,
+                            num_ctx=largest_prompt_ctx_size,
                             stop=["```<|eot_id|>"],
                             seed=new_seed
                         )
@@ -255,7 +266,7 @@ def run_model(
                 print(f"{Fore.YELLOW}{Style.BRIGHT} Assistant response: #{i+1}:\n{cand}\n")
             print(f"{Fore.GREEN}{Style.BRIGHT} True response:{Style.RESET_ALL}\n {true_response_code}\n")
 
-    return results, largest_prompt_context_size
+    return results, largest_prompt_ctx_size
 
 def evaluate_code(
     client: ChatOllama | ChatOpenAI | ChatAnthropic,
@@ -285,7 +296,8 @@ def evaluate_code(
         top_k,
         ks,
         seed,
-        debug
+        debug, 
+        evaluation_metric
     )
 
     metric_results = []

@@ -15,10 +15,17 @@
         "textual_instance_types": [
             "instance"
         ],
+        "external_functions": [
+            "root.std.List.Min"
+        ],
         "visual_node_types": [
             "Function"
         ],
         "testing": {
+            "external_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertEqual"
+            ],
             "visual_node_types": [
                 "Event",
                 "Function"
@@ -26,7 +33,12 @@
             "textual_instance_types": [
                 "instance"
             ],
-            "test_list": {
+            "python_tests": [
+                "assert smallest_num([10, 20, 1, 45, 99]) == 1",
+                "assert smallest_num([1, 2, 3]) == 1",
+                "assert smallest_num([45, 46, 50, 60]) == 45"
+            ],
+            "tests": {
                 "test_cases": [
                     {
                         "input": [
@@ -56,15 +68,8 @@
                         "expected_output": 45
                     }
                 ]
-            },
-            "external_functions": [
-                "root.std.Testing.Test",
-                "root.std.Testing.AssertEqual"
-            ]
-        },
-        "external_functions": [
-            "root.std.List.Min"
-        ]
+            }
+        }
     },
     {
         "prompts": [
@@ -79,6 +84,11 @@
             "postconditions": "- The result should be the kth element of the input list."
         },
         "MBPP_task_id": 101,
+        "external_functions": [
+            "root.std.List.GetAt",
+            "root.std.Math.Sub",
+            "root.std.Std.IfExpression"
+        ],
         "visual_node_types": [
             "Function",
             "Setter",
@@ -98,6 +108,10 @@
             "out"
         ],
         "testing": {
+            "external_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertEqual"
+            ],
             "visual_node_types": [
                 "Event",
                 "Function",
@@ -107,7 +121,12 @@
                 "instance",
                 "data_instance"
             ],
-            "test_list": {
+            "python_tests": [
+                "assert kth_element([12,3,5,7,19], 2) == 3",
+                "assert kth_element([17,24,8,23], 3) == 8",
+                "assert kth_element([16,21,25,36,4], 4) == 36"
+            ],
+            "tests": {
                 "test_cases": [
                     {
                         "input": [
@@ -148,17 +167,8 @@
                         "expected_output": 36
                     }
                 ]
-            },
-            "external_functions": [
-                "root.std.Testing.Test",
-                "root.std.Testing.AssertEqual"
-            ]
-        },
-        "external_functions": [
-            "root.std.List.GetAt",
-            "root.std.Math.Sub",
-            "root.std.Std.IfExpression"
-        ]
+            }
+        }
     },
     {
         "prompts": [
@@ -173,6 +183,9 @@
             "postconditions": "- The returned value is the minimum of the three input numbers\n- The returned value is less than or equal to all input numbers"
         },
         "MBPP_task_id": 227,
+        "external_functions": [
+            "root.std.Math.Min"
+        ],
         "visual_node_types": [
             "Function",
             "Data Object",
@@ -186,6 +199,10 @@
             "out"
         ],
         "testing": {
+            "external_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertEqual"
+            ],
             "visual_node_types": [
                 "Event",
                 "Function"
@@ -193,7 +210,12 @@
             "textual_instance_types": [
                 "instance"
             ],
-            "test_list": {
+            "python_tests": [
+                "assert min_of_three(10,20,0)==0",
+                "assert min_of_three(19,15,18)==15",
+                "assert min_of_three(-10,-20,-30)==-30"
+            ],
+            "tests": {
                 "test_cases": [
                     {
                         "input": [
@@ -212,15 +234,8 @@
                         "expected_output": 15
                     }
                 ]
-            },
-            "external_functions": [
-                "root.std.Testing.Test",
-                "root.std.Testing.AssertEqual"
-            ]
-        },
-        "external_functions": [
-            "root.std.Math.Min"
-        ]
+            }
+        }
     },
     {
         "prompts": [
@@ -235,6 +250,10 @@
             "postconditions": "- If the method returns true, there exists at least one common element between the two arrays\n- If the method returns false, there are no common elements between the two arrays"
         },
         "MBPP_task_id": 431,
+        "external_functions": [
+            "root.std.Sets.Intersection",
+            "root.std.List.NotEmpty"
+        ],
         "visual_node_types": [
             "Function",
             "Output Property",
@@ -246,6 +265,11 @@
             "out"
         ],
         "testing": {
+            "external_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertTrue",
+                "root.std.Testing.AssertFalse"
+            ],
             "visual_node_types": [
                 "Event",
                 "Function",
@@ -255,7 +279,12 @@
                 "instance",
                 "data_instance"
             ],
-            "test_list": {
+            "python_tests": [
+                "assert common_element([1,2,3,4,5], [5,6,7,8,9])==True",
+                "assert common_element([1,2,3,4,5], [6,7,8,9])==False",
+                "assert common_element(['a','b','c'], ['d','b','e'])==True"
+            ],
+            "tests": {
                 "test_cases": [
                     {
                         "input": [
@@ -310,17 +339,8 @@
                         "expected_output": true
                     }
                 ]
-            },
-            "external_functions": [
-                "root.std.Testing.Test",
-                "root.std.Testing.AssertTrue",
-                "root.std.Testing.AssertFalse"
-            ]
-        },
-        "external_functions": [
-            "root.std.Sets.Intersection",
-            "root.std.List.NotEmpty"
-        ]
+            }
+        }
     },
     {
         "prompts": [
@@ -335,6 +355,10 @@
             "postconditions": "- If the result is true, then n is greater than all elements in the array\n- If the result is false, then there exists at least one element in the array that is greater than or equal to n"
         },
         "MBPP_task_id": 433,
+        "external_functions": [
+            "root.std.List.Length",
+            "root.std.Math.GreaterThan"
+        ],
         "visual_node_types": [
             "Function",
             "Output Property",
@@ -346,6 +370,11 @@
             "out"
         ],
         "testing": {
+            "external_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertTrue",
+                "root.std.Testing.AssertFalse"
+            ],
             "visual_node_types": [
                 "Event",
                 "Function",
@@ -355,7 +384,12 @@
                 "instance",
                 "data_instance"
             ],
-            "test_list": {
+            "python_tests": [
+                "assert check_greater([1, 2, 3, 4, 5], 4) == False",
+                "assert check_greater([2, 3, 4, 5, 6], 8) == True",
+                "assert check_greater([9, 7, 4, 8, 6, 1], 11) == True"
+            ],
+            "tests": {
                 "test_cases": [
                     {
                         "input": [
@@ -398,17 +432,8 @@
                         "expected_output": true
                     }
                 ]
-            },
-            "external_functions": [
-                "root.std.Testing.Test",
-                "root.std.Testing.AssertTrue",
-                "root.std.Testing.AssertFalse"
-            ]
-        },
-        "external_functions": [
-            "root.std.List.Length",
-            "root.std.Math.GreaterThan"
-        ]
+            }
+        }
     },
     {
         "prompts": [
@@ -423,6 +448,9 @@
             "postconditions": "- The returned digit d should be between 0 and 9\n- d should be the last digit of the input number n"
         },
         "MBPP_task_id": 435,
+        "external_functions": [
+            "root.std.Math.Modulo"
+        ],
         "visual_node_types": [
             "Function"
         ],
@@ -430,6 +458,10 @@
             "instance"
         ],
         "testing": {
+            "external_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertEqual"
+            ],
             "visual_node_types": [
                 "Event",
                 "Function",
@@ -439,7 +471,12 @@
                 "instance",
                 "data_instance"
             ],
-            "test_list": {
+            "python_tests": [
+                "assert last_Digit(123) == 3",
+                "assert last_Digit(25) == 5",
+                "assert last_Digit(30) == 0"
+            ],
+            "tests": {
                 "test_cases": [
                     {
                         "input": 123,
@@ -454,15 +491,8 @@
                         "expected_output": 0
                     }
                 ]
-            },
-            "external_functions": [
-                "root.std.Testing.Test",
-                "root.std.Testing.AssertEqual"
-            ]
-        },
-        "external_functions": [
-            "root.std.Math.Modulo"
-        ]
+            }
+        }
     },
     {
         "prompts": [
@@ -477,6 +507,10 @@
             "postconditions": "- The result is true if the input string contains the character 'z' or 'Z'\n- The result is false if the input string does not contain the character 'z' or 'Z'"
         },
         "MBPP_task_id": 454,
+        "external_functions": [
+            "root.std.Strings.ToLower",
+            "root.std.Strings.Contains"
+        ],
         "visual_node_types": [
             "Function",
             "Output Property",
@@ -488,6 +522,11 @@
             "out"
         ],
         "testing": {
+            "external_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertFalse",
+                "root.std.Testing.AssertTrue"
+            ],
             "visual_node_types": [
                 "Event",
                 "Function",
@@ -497,7 +536,12 @@
                 "instance",
                 "data_instance"
             ],
-            "test_list": {
+            "python_tests": [
+                "assert text_match_wordz(\"pythonz.\")==True",
+                "assert text_match_wordz(\"xyz.\")==True",
+                "assert text_match_wordz(\"  lang  .\")==False"
+            ],
+            "tests": {
                 "test_cases": [
                     {
                         "input": "pythonz.",
@@ -512,17 +556,8 @@
                         "expected_output": false
                     }
                 ]
-            },
-            "external_functions": [
-                "root.std.Testing.Test",
-                "root.std.Testing.AssertFalse",
-                "root.std.Testing.AssertTrue"
-            ]
-        },
-        "external_functions": [
-            "root.std.Strings.ToLower",
-            "root.std.Strings.Contains"
-        ]
+            }
+        }
     },
     {
         "prompts": [
@@ -537,6 +572,13 @@
             "postconditions": "- If the array contains consecutive numbers, the result is true\n- If the array does not contain consecutive numbers, the result is false"
         },
         "MBPP_task_id": 472,
+        "external_functions": [
+            "root.std.List.Sort",
+            "root.std.List.Min",
+            "root.std.List.Max",
+            "root.std.List.GenerateRange",
+            "root.std.Math.Expression"
+        ],
         "visual_node_types": [
             "Function",
             "Output Property",
@@ -548,6 +590,11 @@
             "out"
         ],
         "testing": {
+            "external_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertTrue",
+                "root.std.Testing.AssertFalse"
+            ],
             "visual_node_types": [
                 "Event",
                 "Function",
@@ -557,7 +604,12 @@
                 "instance",
                 "data_instance"
             ],
-            "test_list": {
+            "python_tests": [
+                "assert check_Consecutive([1,2,3,4,5]) == True",
+                "assert check_Consecutive([1,2,3,5,6]) == False",
+                "assert check_Consecutive([1,2,1]) == False"
+            ],
+            "tests": {
                 "test_cases": [
                     {
                         "input": [
@@ -588,20 +640,8 @@
                         "expected_output": false
                     }
                 ]
-            },
-            "external_functions": [
-                "root.std.Testing.Test",
-                "root.std.Testing.AssertTrue",
-                "root.std.Testing.AssertFalse"
-            ]
-        },
-        "external_functions": [
-            "root.std.List.Sort",
-            "root.std.List.Min",
-            "root.std.List.Max",
-            "root.std.List.GenerateRange",
-            "root.std.Math.Expression"
-        ]
+            }
+        }
     },
     {
         "prompts": [
@@ -616,6 +656,13 @@
             "postconditions": "- The sum of the digits of the input integer is returned\n- The sum is non-negative"
         },
         "MBPP_task_id": 566,
+        "external_functions": [
+            "root.std.Math.Floor",
+            "root.std.Math.Modulo",
+            "root.std.Math.Div",
+            "root.std.Math.Add",
+            "root.std.Std.IfExpression"
+        ],
         "visual_node_types": [
             "Function",
             "Setter",
@@ -631,6 +678,10 @@
             "out"
         ],
         "testing": {
+            "external_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertEqual"
+            ],
             "visual_node_types": [
                 "Event",
                 "Function",
@@ -640,7 +691,12 @@
                 "instance",
                 "data_instance"
             ],
-            "test_list": {
+            "python_tests": [
+                "assert sum_digits(345)==12",
+                "assert sum_digits(12)==3",
+                "assert sum_digits(97)==16"
+            ],
+            "tests": {
                 "test_cases": [
                     {
                         "input": 345,
@@ -655,19 +711,8 @@
                         "expected_output": 16
                     }
                 ]
-            },
-            "external_functions": [
-                "root.std.Testing.Test",
-                "root.std.Testing.AssertEqual"
-            ]
-        },
-        "external_functions": [
-            "root.std.Math.Floor",
-            "root.std.Math.Modulo",
-            "root.std.Math.Div",
-            "root.std.Math.Add",
-            "root.std.Std.IfExpression"
-        ]
+            }
+        }
     },
     {
         "prompts": [
@@ -682,6 +727,11 @@
             "postconditions": "- If the method returns true, the array is sorted in non-decreasing order\n- If the method returns false, the array is not sorted in non-decreasing order"
         },
         "MBPP_task_id": 567,
+        "external_functions": [
+            "root.std.List.GetAt",
+            "root.std.Std.For",
+            "root.std.Std.IfExpression"
+        ],
         "visual_node_types": [
             "Function",
             "Setter",
@@ -699,6 +749,11 @@
             "out"
         ],
         "testing": {
+            "external_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertTrue",
+                "root.std.Testing.AssertFalse"
+            ],
             "visual_node_types": [
                 "Event",
                 "Function",
@@ -708,7 +763,12 @@
                 "instance",
                 "data_instance"
             ],
-            "test_list": {
+            "python_tests": [
+                "assert issort_list([1,2,4,6,8,10,12,14,16,17])==True",
+                "assert issort_list([1, 2, 4, 6, 8, 10, 12, 14, 20, 17])==False",
+                "assert issort_list([1, 2, 4, 6, 8, 10,15,14,20])==False"
+            ],
+            "tests": {
                 "test_cases": [
                     {
                         "input": [
@@ -755,18 +815,8 @@
                         "expected_output": false
                     }
                 ]
-            },
-            "external_functions": [
-                "root.std.Testing.Test",
-                "root.std.Testing.AssertTrue",
-                "root.std.Testing.AssertFalse"
-            ]
-        },
-        "external_functions": [
-            "root.std.List.GetAt",
-            "root.std.Std.For",
-            "root.std.Std.IfExpression"
-        ]
+            }
+        }
     },
     {
         "prompts": [
@@ -781,6 +831,15 @@
             "postconditions": "- The output is `True` if `sub_list` is a sublist of `main_list`.\n- The output is `False` if `sub_list` is not a sublist of `main_list`."
         },
         "MBPP_task_id": 576,
+        "external_functions": [
+            "root.std.List.Length",
+            "root.std.Std.Count",
+            "root.std.Math.Expression",
+            "root.std.List.Slice",
+            "root.std.Logic.Equal",
+            "root.std.Std.If",
+            "root.std.Math.Add"
+        ],
         "visual_node_types": [
             "Function",
             "Input Property",
@@ -794,6 +853,10 @@
             "out"
         ],
         "testing": {
+            "external_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertEqual"
+            ],
             "visual_node_types": [
                 "Event",
                 "Function",
@@ -803,7 +866,12 @@
                 "instance",
                 "data_instance"
             ],
-            "test_list": {
+            "python_tests": [
+                "assert is_Sub_Array([1,4,3,5],[1,2]) == False",
+                "assert is_Sub_Array([1,2,1],[1,2,1]) == True",
+                "assert is_Sub_Array([1,0,2,2],[2,2,0]) == False"
+            ],
+            "tests": {
                 "test_cases": [
                     {
                         "input": [
@@ -852,21 +920,8 @@
                         "expected_output": false
                     }
                 ]
-            },
-            "external_functions": [
-                "root.std.Testing.Test",
-                "root.std.Testing.AssertEqual"
-            ]
-        },
-        "external_functions": [
-            "root.std.List.Length",
-            "root.std.Std.Count",
-            "root.std.Math.Expression",
-            "root.std.List.Slice",
-            "root.std.Logic.Equal",
-            "root.std.Std.If",
-            "root.std.Math.Add"
-        ]
+            }
+        }
     },
     {
         "prompts": [
@@ -881,6 +936,10 @@
             "postconditions": "- The length of the returning array must be one less than the length of the input array\n- All elements before the k'th element in the input array should be the same in the output array\n- All elements after the k'th element in the input array should be shifted by one position in the output array"
         },
         "MBPP_task_id": 610,
+        "external_functions": [
+            "root.std.List.Remove",
+            "root.std.Math.Sub"
+        ],
         "visual_node_types": [
             "Function",
             "Input Property",
@@ -892,6 +951,10 @@
             "out"
         ],
         "testing": {
+            "external_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertEqual"
+            ],
             "visual_node_types": [
                 "Event",
                 "Function",
@@ -901,7 +964,12 @@
                 "instance",
                 "data_instance"
             ],
-            "test_list": {
+            "python_tests": [
+                "assert remove_kth_element([1,1,2,3,4,4,5,1],3)==[1, 1, 3, 4, 4, 5, 1]",
+                "assert remove_kth_element([0, 0, 1, 2, 3, 4, 4, 5, 6, 6, 6, 7, 8, 9, 4, 4],4)==[0, 0, 1, 3, 4, 4, 5, 6, 6, 6, 7, 8, 9, 4, 4]",
+                "assert remove_kth_element([10, 10, 15, 19, 18, 18, 17, 26, 26, 17, 18, 10],5)==[10,10,15,19, 18, 17, 26, 26, 17, 18, 10]"
+            ],
+            "tests": {
                 "test_cases": [
                     {
                         "input": [
@@ -1000,16 +1068,8 @@
                         ]
                     }
                 ]
-            },
-            "external_functions": [
-                "root.std.Testing.Test",
-                "root.std.Testing.AssertEqual"
-            ]
-        },
-        "external_functions": [
-            "root.std.List.Remove",
-            "root.std.Math.Sub"
-        ]
+            }
+        }
     },
     {
         "prompts": [
@@ -1024,6 +1084,10 @@
             "postconditions": "- The length of the result array should be the same as the length of the input arrays\n- Each element in the result array should be the modulo of the corresponding elements in the input arrays"
         },
         "MBPP_task_id": 616,
+        "external_functions": [
+            "root.std.Math.Modulo",
+            "root.std.Iteration.Zip"
+        ],
         "visual_node_types": [
             "Function",
             "Input Property",
@@ -1035,6 +1099,10 @@
             "out"
         ],
         "testing": {
+            "external_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertEqual"
+            ],
             "visual_node_types": [
                 "Event",
                 "Function",
@@ -1044,18 +1112,15 @@
                 "instance",
                 "data_instance"
             ],
-            "test_list": {
+            "python_tests": [
+                "assert list_modulo((10, 4, 5, 6), (5, 6, 7, 5)) == (0, 4, 5, 1)",
+                "assert list_modulo((11, 5, 6, 7), (6, 7, 8, 6)) == (5, 5, 6, 1)",
+                "assert list_modulo((12, 6, 7, 8), (7, 8, 9, 7)) == (5, 6, 7, 1)"
+            ],
+            "tests": {
                 "test_cases": []
-            },
-            "external_functions": [
-                "root.std.Testing.Test",
-                "root.std.Testing.AssertEqual"
-            ]
-        },
-        "external_functions": [
-            "root.std.Math.Modulo",
-            "root.std.Iteration.Zip"
-        ]
+            }
+        }
     },
     {
         "prompts": [
@@ -1070,6 +1135,9 @@
             "postconditions": "- The length of the returning string must be the same as the length of the input string\n- All lowercase characters of the input string are uppercase in the output string\n- All other characters are unchanged"
         },
         "MBPP_task_id": 624,
+        "external_functions": [
+            "root.std.Strings.ToUpper"
+        ],
         "visual_node_types": [
             "Function"
         ],
@@ -1077,6 +1145,10 @@
             "instance"
         ],
         "testing": {
+            "external_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertEqual"
+            ],
             "visual_node_types": [
                 "Event",
                 "Function"
@@ -1084,7 +1156,12 @@
             "textual_instance_types": [
                 "instance"
             ],
-            "test_list": {
+            "python_tests": [
+                "assert is_upper(\"person\") ==\"PERSON\"",
+                "assert is_upper(\"final\") == \"FINAL\"",
+                "assert is_upper(\"Valid\") == \"VALID\""
+            ],
+            "tests": {
                 "test_cases": [
                     {
                         "input": "person",
@@ -1099,15 +1176,8 @@
                         "expected_output": "VALID"
                     }
                 ]
-            },
-            "external_functions": [
-                "root.std.Testing.Test",
-                "root.std.Testing.AssertEqual"
-            ]
-        },
-        "external_functions": [
-            "root.std.Strings.ToUpper"
-        ]
+            }
+        }
     },
     {
         "prompts": [
@@ -1122,6 +1192,15 @@
             "postconditions": "- The returned value should be the smallest natural number not present in the input sequence"
         },
         "MBPP_task_id": 627,
+        "external_functions": [
+            "root.std.List.LastItem",
+            "root.std.List.GenerateRange",
+            "root.std.List.FirstItem",
+            "root.std.Sets.Difference",
+            "root.std.Std.If",
+            "root.std.Math.Add",
+            "root.std.List.IsEmpty"
+        ],
         "visual_node_types": [
             "Function",
             "Getter",
@@ -1139,6 +1218,10 @@
             "out"
         ],
         "testing": {
+            "external_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertEqual"
+            ],
             "visual_node_types": [
                 "Event",
                 "Function",
@@ -1148,7 +1231,12 @@
                 "instance",
                 "data_instance"
             ],
-            "test_list": {
+            "python_tests": [
+                "assert find_First_Missing([0,1,2,3]) == 4",
+                "assert find_First_Missing([0,1,2,6,9]) == 3",
+                "assert find_First_Missing([2,3,5,8,9]) == 0"
+            ],
+            "tests": {
                 "test_cases": [
                     {
                         "input": [
@@ -1180,21 +1268,8 @@
                         "expected_output": 0
                     }
                 ]
-            },
-            "external_functions": [
-                "root.std.Testing.Test",
-                "root.std.Testing.AssertEqual"
-            ]
-        },
-        "external_functions": [
-            "root.std.List.LastItem",
-            "root.std.List.GenerateRange",
-            "root.std.List.FirstItem",
-            "root.std.Sets.Difference",
-            "root.std.Std.If",
-            "root.std.Math.Add",
-            "root.std.List.IsEmpty"
-        ]
+            }
+        }
     },
     {
         "prompts": [
@@ -1209,6 +1284,9 @@
             "postconditions": "- All elements in the output array are even\n- All even elements in the input array are present in the output array\n- The order of elements in the output array is the same as in the input array"
         },
         "MBPP_task_id": 629,
+        "external_functions": [
+            "root.std.Query.Filter"
+        ],
         "visual_node_types": [
             "Function"
         ],
@@ -1216,6 +1294,10 @@
             "instance"
         ],
         "testing": {
+            "external_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertEqual"
+            ],
             "visual_node_types": [
                 "Event",
                 "Function",
@@ -1225,7 +1307,12 @@
                 "instance",
                 "data_instance"
             ],
-            "test_list": {
+            "python_tests": [
+                "assert Split([1,2,3,4,5]) == [2,4]",
+                "assert Split([4,5,6,7,8,0,1]) == [4,6,8,0]",
+                "assert Split ([8,12,15,19]) == [8,12]"
+            ],
+            "tests": {
                 "test_cases": [
                     {
                         "input": [
@@ -1258,15 +1345,8 @@
                         ]
                     }
                 ]
-            },
-            "external_functions": [
-                "root.std.Testing.Test",
-                "root.std.Testing.AssertEqual"
-            ]
-        },
-        "external_functions": [
-            "root.std.Query.Filter"
-        ]
+            }
+        }
     },
     {
         "prompts": [
@@ -1281,6 +1361,14 @@
             "postconditions": "- The length of the output array must be the same as the length of the input array\n- All zeroes in the input array are at the end of the output array\n- The relative order of the non-zero elements should be the same as in the input array\n- The number of zeroes in the input and output arrays should be the same"
         },
         "MBPP_task_id": 632,
+        "external_functions": [
+            "root.std.Std.For",
+            "root.std.List.Concat",
+            "root.std.Std.IfExpression",
+            "root.std.List.Empty",
+            "root.std.List.Add",
+            "root.std.Query.Filter"
+        ],
         "visual_node_types": [
             "Function",
             "Input Property",
@@ -1298,6 +1386,10 @@
             "getter"
         ],
         "testing": {
+            "external_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertEqual"
+            ],
             "visual_node_types": [
                 "Event",
                 "Function",
@@ -1307,7 +1399,12 @@
                 "instance",
                 "data_instance"
             ],
-            "test_list": {
+            "python_tests": [
+                "assert move_zero([1,0,2,0,3,4]) == [1,2,3,4,0,0]",
+                "assert move_zero([2,3,2,0,0,4,0,5,0]) == [2,3,2,4,5,0,0,0,0]",
+                "assert move_zero([0,1,0,1,1]) == [1,1,1,0,0]"
+            ],
+            "tests": {
                 "test_cases": [
                     {
                         "input": [
@@ -1368,20 +1465,8 @@
                         ]
                     }
                 ]
-            },
-            "external_functions": [
-                "root.std.Testing.Test",
-                "root.std.Testing.AssertEqual"
-            ]
-        },
-        "external_functions": [
-            "root.std.Std.For",
-            "root.std.List.Concat",
-            "root.std.Std.IfExpression",
-            "root.std.List.Empty",
-            "root.std.List.Add",
-            "root.std.Query.Filter"
-        ]
+            }
+        }
     },
     {
         "prompts": [
@@ -1396,6 +1481,11 @@
             "postconditions": "- The input array is modified\n- The values of the array up to k are reversed\n- The values of the array after k remain unchanged"
         },
         "MBPP_task_id": 644,
+        "external_functions": [
+            "root.std.List.Reversed",
+            "root.std.List.Concat",
+            "root.std.List.Slice"
+        ],
         "visual_node_types": [
             "Function",
             "Input Property",
@@ -1407,6 +1497,10 @@
             "out"
         ],
         "testing": {
+            "external_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertEqual"
+            ],
             "visual_node_types": [
                 "Event",
                 "Function",
@@ -1416,7 +1510,12 @@
                 "instance",
                 "data_instance"
             ],
-            "test_list": {
+            "python_tests": [
+                "assert reverse_Array_Upto_K([1, 2, 3, 4, 5, 6],4) == [4, 3, 2, 1, 5, 6]",
+                "assert reverse_Array_Upto_K([4, 5, 6, 7], 2) == [5, 4, 6, 7]",
+                "assert reverse_Array_Upto_K([9, 8, 7, 6, 5],3) == [7, 8, 9, 6, 5]"
+            ],
+            "tests": {
                 "test_cases": [
                     {
                         "input": [
@@ -1476,17 +1575,8 @@
                         ]
                     }
                 ]
-            },
-            "external_functions": [
-                "root.std.Testing.Test",
-                "root.std.Testing.AssertEqual"
-            ]
-        },
-        "external_functions": [
-            "root.std.List.Reversed",
-            "root.std.List.Concat",
-            "root.std.List.Slice"
-        ]
+            }
+        }
     },
     {
         "prompts": [
@@ -1501,6 +1591,9 @@
             "postconditions": "- The length of the returning string must be the same as the length of the input string\n- All occurrences of spaces, commas, or dots in the input string are replaced with colons in the output string\n- All other characters are unchanged"
         },
         "MBPP_task_id": 732,
+        "external_functions": [
+            "root.std.Strings.Replace"
+        ],
         "visual_node_types": [
             "Function",
             "Input Property",
@@ -1512,6 +1605,10 @@
             "out"
         ],
         "testing": {
+            "external_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertEqual"
+            ],
             "visual_node_types": [
                 "Event",
                 "Function",
@@ -1521,17 +1618,15 @@
                 "instance",
                 "data_instance"
             ],
-            "test_list": {
+            "python_tests": [
+                "assert replace_specialchar('Python language, Programming language.')==('Python:language::Programming:language:')",
+                "assert replace_specialchar('a b c,d e f')==('a:b:c:d:e:f')",
+                "assert replace_specialchar('ram reshma,ram rahim')==('ram:reshma:ram:rahim')"
+            ],
+            "tests": {
                 "test_cases": []
-            },
-            "external_functions": [
-                "root.std.Testing.Test",
-                "root.std.Testing.AssertEqual"
-            ]
-        },
-        "external_functions": [
-            "root.std.Strings.Replace"
-        ]
+            }
+        }
     },
     {
         "prompts": [
@@ -1546,6 +1641,11 @@
             "postconditions": "- If the target is found, the returned index should be the first occurrence of the target in the array\n- If the target is not found, the returned index should be -1\n- The input array remains unchanged"
         },
         "MBPP_task_id": 733,
+        "external_functions": [
+            "root.std.Std.For",
+            "root.std.Std.If",
+            "root.std.Logic.Equal"
+        ],
         "visual_node_types": [
             "Function",
             "Input Property",
@@ -1561,6 +1661,10 @@
             "setter"
         ],
         "testing": {
+            "external_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertEqual"
+            ],
             "visual_node_types": [
                 "Event",
                 "Function",
@@ -1570,7 +1674,12 @@
                 "instance",
                 "data_instance"
             ],
-            "test_list": {
+            "python_tests": [
+                "assert find_first_occurrence([2, 5, 5, 5, 6, 6, 8, 9, 9, 9], 5) == 1",
+                "assert find_first_occurrence([2, 3, 5, 5, 6, 6, 8, 9, 9, 9], 5) == 2",
+                "assert find_first_occurrence([2, 4, 1, 5, 6, 6, 8, 9, 9, 9], 6) == 4"
+            ],
+            "tests": {
                 "test_cases": [
                     {
                         "input": [
@@ -1627,17 +1736,8 @@
                         "expected_output": 4
                     }
                 ]
-            },
-            "external_functions": [
-                "root.std.Testing.Test",
-                "root.std.Testing.AssertEqual"
-            ]
-        },
-        "external_functions": [
-            "root.std.Std.For",
-            "root.std.Std.If",
-            "root.std.Logic.Equal"
-        ]
+            }
+        }
     },
     {
         "prompts": [
@@ -1652,6 +1752,14 @@
             "postconditions": "- If the result is true, all characters in the input string are the same\n- If the result is false, there is at least one character in the input string that is different from the others"
         },
         "MBPP_task_id": 741,
+        "external_functions": [
+            "root.std.Strings.Characters",
+            "root.std.Strings.ToLower",
+            "root.std.List.FirstItem",
+            "root.std.Std.For",
+            "root.std.Logic.Equal",
+            "root.std.Std.If"
+        ],
         "visual_node_types": [
             "Function",
             "Input Property",
@@ -1665,6 +1773,11 @@
             "out"
         ],
         "testing": {
+            "external_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertTrue",
+                "root.std.Testing.AssertFalse"
+            ],
             "visual_node_types": [
                 "Event",
                 "Function",
@@ -1674,7 +1787,12 @@
                 "instance",
                 "data_instance"
             ],
-            "test_list": {
+            "python_tests": [
+                "assert all_Characters_Same(\"python\") == False",
+                "assert all_Characters_Same(\"aaa\") == True",
+                "assert all_Characters_Same(\"data\") == False"
+            ],
+            "tests": {
                 "test_cases": [
                     {
                         "input": "python",
@@ -1689,21 +1807,8 @@
                         "expected_output": false
                     }
                 ]
-            },
-            "external_functions": [
-                "root.std.Testing.Test",
-                "root.std.Testing.AssertTrue",
-                "root.std.Testing.AssertFalse"
-            ]
-        },
-        "external_functions": [
-            "root.std.Strings.Characters",
-            "root.std.Strings.ToLower",
-            "root.std.List.FirstItem",
-            "root.std.Std.For",
-            "root.std.Logic.Equal",
-            "root.std.Std.If"
-        ]
+            }
+        }
     },
     {
         "prompts": [
@@ -1718,6 +1823,11 @@
             "postconditions": "- If the method returns true, all elements in the array are equal\n- If the method returns false, there are at least two distinct elements in the array"
         },
         "MBPP_task_id": 760,
+        "external_functions": [
+            "root.std.Sets.Intersection",
+            "root.std.List.Length",
+            "root.std.Logic.Equal"
+        ],
         "visual_node_types": [
             "Function",
             "Input Property",
@@ -1729,6 +1839,11 @@
             "out"
         ],
         "testing": {
+            "external_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertTrue",
+                "root.std.Testing.AssertFalse"
+            ],
             "visual_node_types": [
                 "Event",
                 "Function",
@@ -1738,7 +1853,12 @@
                 "instance",
                 "data_instance"
             ],
-            "test_list": {
+            "python_tests": [
+                "assert unique_Element([1,1,1]) == True",
+                "assert unique_Element([1,2,1,2]) == False",
+                "assert unique_Element([1,2,3,4,5]) == False"
+            ],
+            "tests": {
                 "test_cases": [
                     {
                         "input": [
@@ -1768,18 +1888,8 @@
                         "expected_output": false
                     }
                 ]
-            },
-            "external_functions": [
-                "root.std.Testing.Test",
-                "root.std.Testing.AssertTrue",
-                "root.std.Testing.AssertFalse"
-            ]
-        },
-        "external_functions": [
-            "root.std.Sets.Intersection",
-            "root.std.List.Length",
-            "root.std.Logic.Equal"
-        ]
+            }
+        }
     },
     {
         "prompts": [
@@ -1794,6 +1904,12 @@
             "postconditions": "- The count should be non-negative\n- The count should be equal to the number of digits in the input string"
         },
         "MBPP_task_id": 764,
+        "external_functions": [
+            "root.std.Strings.Characters",
+            "root.std.Iteration.Filter",
+            "root.std.List.Length",
+            "root.std.Strings.IsNumeric"
+        ],
         "visual_node_types": [
             "Function",
             "Input Property",
@@ -1805,6 +1921,10 @@
             "out"
         ],
         "testing": {
+            "external_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertEqual"
+            ],
             "visual_node_types": [
                 "Event",
                 "Function",
@@ -1814,7 +1934,13 @@
                 "instance",
                 "data_instance"
             ],
-            "test_list": {
+            "python_tests": [
+                "assert number_ctr('program2bedone') == 1",
+                "assert number_ctr('3wonders') == 1",
+                "assert number_ctr('123') == 3",
+                "assert number_ctr('3wond-1ers2') == 3"
+            ],
+            "tests": {
                 "test_cases": [
                     {
                         "input": "program2bedone",
@@ -1833,18 +1959,8 @@
                         "expected_output": 3
                     }
                 ]
-            },
-            "external_functions": [
-                "root.std.Testing.Test",
-                "root.std.Testing.AssertEqual"
-            ]
-        },
-        "external_functions": [
-            "root.std.Strings.Characters",
-            "root.std.Iteration.Filter",
-            "root.std.List.Length",
-            "root.std.Strings.IsNumeric"
-        ]
+            }
+        }
     },
     {
         "prompts": [
@@ -1859,6 +1975,14 @@
             "postconditions": "- The sum should be the sum of the fourth power of the first n odd natural numbers"
         },
         "MBPP_task_id": 770,
+        "external_functions": [
+            "root.std.List.GenerateRange",
+            "root.std.Iteration.Reduce",
+            "root.std.Math.Mul",
+            "root.std.Math.Sub",
+            "root.std.Math.Expression",
+            "root.std.Math.Add"
+        ],
         "visual_node_types": [
             "Function",
             "Input Property",
@@ -1870,6 +1994,10 @@
             "out"
         ],
         "testing": {
+            "external_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertEqual"
+            ],
             "visual_node_types": [
                 "Event",
                 "Function"
@@ -1877,7 +2005,12 @@
             "textual_instance_types": [
                 "instance"
             ],
-            "test_list": {
+            "python_tests": [
+                "assert odd_num_sum(2) == 82",
+                "assert odd_num_sum(3) == 707",
+                "assert odd_num_sum(4) == 3108"
+            ],
+            "tests": {
                 "test_cases": [
                     {
                         "input": 2,
@@ -1892,20 +2025,8 @@
                         "expected_output": 3108
                     }
                 ]
-            },
-            "external_functions": [
-                "root.std.Testing.Test",
-                "root.std.Testing.AssertEqual"
-            ]
-        },
-        "external_functions": [
-            "root.std.List.GenerateRange",
-            "root.std.Iteration.Reduce",
-            "root.std.Math.Mul",
-            "root.std.Math.Sub",
-            "root.std.Math.Expression",
-            "root.std.Math.Add"
-        ]
+            }
+        }
     },
     {
         "prompts": [
@@ -1920,6 +2041,14 @@
             "postconditions": "- The result is true if every odd index contains an odd number\n- The result is false otherwise"
         },
         "MBPP_task_id": 775,
+        "external_functions": [
+            "root.std.Iteration.Filter",
+            "root.std.Iteration.Map",
+            "root.std.List.Contains",
+            "root.std.Logic.Not",
+            "root.std.Math.Modulo",
+            "root.std.Logic.NotEqual"
+        ],
         "visual_node_types": [
             "Function",
             "Input Property",
@@ -1931,6 +2060,11 @@
             "out"
         ],
         "testing": {
+            "external_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertTrue",
+                "root.std.Testing.AssertFalse"
+            ],
             "visual_node_types": [
                 "Event",
                 "Function",
@@ -1940,7 +2074,12 @@
                 "instance",
                 "data_instance"
             ],
-            "test_list": {
+            "python_tests": [
+                "assert odd_position([2,1,4,3,6,7,6,3]) == True",
+                "assert odd_position([4,1,2]) == True",
+                "assert odd_position([1,2,3]) == False"
+            ],
+            "tests": {
                 "test_cases": [
                     {
                         "input": [
@@ -1972,21 +2111,8 @@
                         "expected_output": false
                     }
                 ]
-            },
-            "external_functions": [
-                "root.std.Testing.Test",
-                "root.std.Testing.AssertTrue",
-                "root.std.Testing.AssertFalse"
-            ]
-        },
-        "external_functions": [
-            "root.std.Iteration.Filter",
-            "root.std.Iteration.Map",
-            "root.std.List.Contains",
-            "root.std.Logic.Not",
-            "root.std.Math.Modulo",
-            "root.std.Logic.NotEqual"
-        ]
+            }
+        }
     },
     {
         "prompts": [
@@ -2001,6 +2127,11 @@
             "postconditions": "- If found is true, then the value at index is odd\n- If found is false, then there are no odd numbers in the array\n- If there are multiple odd numbers, the index should be the smallest index with an odd number"
         },
         "MBPP_task_id": 807,
+        "external_functions": [
+            "root.std.Iteration.Find",
+            "root.std.Math.Modulo",
+            "root.std.Logic.NotEqual"
+        ],
         "visual_node_types": [
             "Function",
             "Input Property",
@@ -2012,6 +2143,10 @@
             "out"
         ],
         "testing": {
+            "external_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertEqual"
+            ],
             "visual_node_types": [
                 "Event",
                 "Function",
@@ -2021,7 +2156,12 @@
                 "instance",
                 "data_instance"
             ],
-            "test_list": {
+            "python_tests": [
+                "assert first_odd([1,3,5]) == 1",
+                "assert first_odd([2,4,1,3]) == 1",
+                "assert first_odd ([8,9,1]) == 9"
+            ],
+            "tests": {
                 "test_cases": [
                     {
                         "input": [
@@ -2041,17 +2181,8 @@
                         "expected_output": 1
                     }
                 ]
-            },
-            "external_functions": [
-                "root.std.Testing.Test",
-                "root.std.Testing.AssertEqual"
-            ]
-        },
-        "external_functions": [
-            "root.std.Iteration.Find",
-            "root.std.Math.Modulo",
-            "root.std.Logic.NotEqual"
-        ]
+            }
+        }
     },
     {
         "prompts": [
@@ -2066,6 +2197,11 @@
             "postconditions": "- The sum of the squares of the first n odd natural numbers is returned"
         },
         "MBPP_task_id": 267,
+        "external_functions": [
+            "root.std.Math.Mul",
+            "root.std.Math.Expression",
+            "root.std.Math.Div"
+        ],
         "visual_node_types": [
             "Function",
             "Input Property",
@@ -2079,6 +2215,10 @@
             "data_instance"
         ],
         "testing": {
+            "external_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertEqual"
+            ],
             "visual_node_types": [
                 "Event",
                 "Function"
@@ -2086,7 +2226,12 @@
             "textual_instance_types": [
                 "instance"
             ],
-            "test_list": {
+            "python_tests": [
+                "assert square_Sum(2) == 10",
+                "assert square_Sum(3) == 35",
+                "assert square_Sum(4) == 84"
+            ],
+            "tests": {
                 "test_cases": [
                     {
                         "input": 2,
@@ -2101,17 +2246,8 @@
                         "expected_output": 84
                     }
                 ]
-            },
-            "external_functions": [
-                "root.std.Testing.Test",
-                "root.std.Testing.AssertEqual"
-            ]
-        },
-        "external_functions": [
-            "root.std.Math.Mul",
-            "root.std.Math.Expression",
-            "root.std.Math.Div"
-        ]
+            }
+        }
     },
     {
         "prompts": [
@@ -2121,11 +2257,14 @@
         ],
         "task_id": 45,
         "specification": {
-            "method_signature": " func(doc: \"finds the minimum of two numbers\") Min {\n in() property(Number) a_9f7759 \n in() property(Number) b_f9110a\n in() trigger() execute_12bf99",
+            "function_signature": " func(doc: \"finds the minimum of two numbers\") Min {\n in() property(Number) a_9f7759 \n in() property(Number) b_f9110a\n in() trigger() execute_12bf99",
             "preconditions": "- There are no preconditions, the method will always work.",
             "postconditions": "- The minValue is either a or b\n- The minValue is less than or equal to both a and b"
         },
         "MBPP_task_id": 404,
+        "external_functions": [
+            "root.std.Std.IfExpression"
+        ],
         "visual_node_types": [
             "Function",
             "Input Property",
@@ -2143,6 +2282,10 @@
             "getter"
         ],
         "testing": {
+            "external_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertEqual"
+            ],
             "visual_node_types": [
                 "Event",
                 "Function"
@@ -2150,7 +2293,12 @@
             "textual_instance_types": [
                 "instance"
             ],
-            "test_list": {
+            "python_tests": [
+                "assert min(1,2) == 1",
+                "assert min(-5,-4) == -5",
+                "assert min(0,0) == 0"
+            ],
+            "tests": {
                 "test_cases": [
                     {
                         "input": [
@@ -2167,15 +2315,8 @@
                         "expected_output": 0
                     }
                 ]
-            },
-            "external_functions": [
-                "root.std.Testing.Test",
-                "root.std.Testing.AssertEqual"
-            ]
-        },
-        "external_functions": [
-            "root.std.Std.IfExpression"
-        ]
+            }
+        }
     },
     {
         "prompts": [
@@ -2185,11 +2326,14 @@
         ],
         "task_id": 46,
         "specification": {
-            "method_signature": "func(doc: \"find the surface area of a cube of a given size.\") CubeSurfaceArea { \n in(x: -56, y: -44.5, name: \"size\") property(Number) size_49c776\n out(x: 582, y: -80.5, name: \"Area\") property(Number) Area_a3e36f",
+            "function_signature": "func(doc: \"find the surface area of a cube of a given size.\") CubeSurfaceArea { \n in(x: -56, y: -44.5, name: \"size\") property(Number) size_49c776\n out(x: 582, y: -80.5, name: \"Area\") property(Number) Area_a3e36f",
             "preconditions": "- The size of the cube should be greater than 0",
             "postconditions": "- The surface area of the cube is calculated correctly"
         },
         "MBPP_task_id": 441,
+        "external_functions": [
+            "root.std.Math.Mul"
+        ],
         "visual_node_types": [
             "Function",
             "Input Property",
@@ -2201,6 +2345,10 @@
             "out"
         ],
         "testing": {
+            "external_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertEqual"
+            ],
             "visual_node_types": [
                 "Event",
                 "Function"
@@ -2208,7 +2356,12 @@
             "textual_instance_types": [
                 "instance"
             ],
-            "test_list": {
+            "python_tests": [
+                "assert CubeSurfaceArea(5)==150",
+                "assert CubeSurfaceArea(3)==54",
+                "assert CubeSurfaceArea(10)==600"
+            ],
+            "tests": {
                 "test_cases": [
                     {
                         "input": 5,
@@ -2223,15 +2376,8 @@
                         "expected_output": 600
                     }
                 ]
-            },
-            "external_functions": [
-                "root.std.Testing.Test",
-                "root.std.Testing.AssertEqual"
-            ]
-        },
-        "external_functions": [
-            "root.std.Math.Mul"
-        ]
+            }
+        }
     },
     {
         "prompts": [
@@ -2241,11 +2387,15 @@
         ],
         "task_id": 47,
         "specification": {
-            "method_signature": " func(doc: \"find cubes of individual elements in a list.\") cube_nums {\nin(x: -122, y: -81.5, name: \"list\") property(List) list_63c248\n out(x: 656, y: -68.5, name: \"result\") property(List) result_cbb7bd",
+            "function_signature": " func(doc: \"find cubes of individual elements in a list.\") cube_nums {\nin(x: -122, y: -81.5, name: \"list\") property(List) list_63c248\n out(x: 656, y: -68.5, name: \"result\") property(List) result_cbb7bd",
             "preconditions": "- There are no preconditions, the method will always work. Arrays can be empty or non-empty.",
             "postconditions": "- The length of the output array must be the same as the length of the input array\n- Each element in the output array is the cube of the corresponding element in the input array"
         },
         "MBPP_task_id": 447,
+        "external_functions": [
+            "root.std.Math.Pow",
+            "root.std.Iteration.Map"
+        ],
         "visual_node_types": [
             "Function",
             "Input Property",
@@ -2257,6 +2407,10 @@
             "out"
         ],
         "testing": {
+            "external_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertEqual"
+            ],
             "visual_node_types": [
                 "Event",
                 "Function",
@@ -2266,7 +2420,12 @@
                 "instance",
                 "data_instance"
             ],
-            "test_list": {
+            "python_tests": [
+                "assert cube_nums([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])==[1, 8, 27, 64, 125, 216, 343, 512, 729, 1000]",
+                "assert cube_nums([10,20,30])==([1000, 8000, 27000])",
+                "assert cube_nums([12,15])==([1728, 3375])"
+            ],
+            "tests": {
                 "test_cases": [
                     {
                         "input": [
@@ -2295,16 +2454,8 @@
                         ]
                     }
                 ]
-            },
-            "external_functions": [
-                "root.std.Testing.Test",
-                "root.std.Testing.AssertEqual"
-            ]
-        },
-        "external_functions": [
-            "root.std.Math.Pow",
-            "root.std.Iteration.Map"
-        ]
+            }
+        }
     },
     {
         "prompts": [
@@ -2314,11 +2465,19 @@
         ],
         "task_id": 49,
         "specification": {
-            "method_signature": "func(doc: \"interchange the first and last element in a given list.\") swap_list {\n in(x: -1489, y: -536, name: \"list\") property(List) list_752c60\n out(x: -189.2999999999999, y: -620.25, name: \"output\") property(List) output_195363",
+            "function_signature": "func(doc: \"interchange the first and last element in a given list.\") swap_list {\n in(x: -1489, y: -536, name: \"list\") property(List) list_752c60\n out(x: -189.2999999999999, y: -620.25, name: \"output\") property(List) output_195363",
             "preconditions": "- The array should not be empty",
             "postconditions": "- The first element of the input array should be the last element of the modified array\n- The last element of the input array should be the first element of the modified array\n- All other elements remain unchanged"
         },
         "MBPP_task_id": 625,
+        "external_functions": [
+            "root.std.List.FirstItem",
+            "root.std.List.LastItem",
+            "root.std.List.Flatten",
+            "root.std.List.Slice",
+            "root.std.List.Length",
+            "root.std.Math.Sub"
+        ],
         "visual_node_types": [
             "Function",
             "Input Property",
@@ -2332,6 +2491,10 @@
             "data_instance"
         ],
         "testing": {
+            "external_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertEqual"
+            ],
             "visual_node_types": [
                 "Event",
                 "Function",
@@ -2341,7 +2504,12 @@
                 "instance",
                 "data_instance"
             ],
-            "test_list": {
+            "python_tests": [
+                "assert swap_List([1,2,3]) == [3,2,1]",
+                "assert swap_List([1,2,3,4,4]) == [4,2,3,4,1]",
+                "assert swap_List([4,5,6]) == [6,5,4]"
+            ],
+            "tests": {
                 "test_cases": [
                     {
                         "input": [
@@ -2384,20 +2552,8 @@
                         ]
                     }
                 ]
-            },
-            "external_functions": [
-                "root.std.Testing.Test",
-                "root.std.Testing.AssertEqual"
-            ]
-        },
-        "external_functions": [
-            "root.std.List.FirstItem",
-            "root.std.List.LastItem",
-            "root.std.List.Flatten",
-            "root.std.List.Slice",
-            "root.std.List.Length",
-            "root.std.Math.Sub"
-        ]
+            }
+        }
     },
     {
         "prompts": [
@@ -2407,11 +2563,22 @@
         ],
         "task_id": 50,
         "specification": {
-            "method_signature": "func(doc: \"checks whether the given number is a perfect square or not.\") is_perfect_square {\nin(x: 354.8534228128, y: -53.570902536908875, name: \"input\") property(Number) input_f5c03d\n in(x: 161.86656944950778, y: -211.44732045205976, name: \"execute\") trigger() execute_27b8c3\n out(x: 1748.7398492866953, y: -10.179326168336845, name: \"out\") property(Bool) out_f3db9f\n out(x: 1894.6987078855211, y: 120.75836251660428, name: \"continue\") trigger() continue_8ba06b",
+            "function_signature": "func(doc: \"checks whether the given number is a perfect square or not.\") is_perfect_square {\nin(x: 354.8534228128, y: -53.570902536908875, name: \"input\") property(Number) input_f5c03d\n in(x: 161.86656944950778, y: -211.44732045205976, name: \"execute\") trigger() execute_27b8c3\n out(x: 1748.7398492866953, y: -10.179326168336845, name: \"out\") property(Bool) out_f3db9f\n out(x: 1894.6987078855211, y: 120.75836251660428, name: \"continue\") trigger() continue_8ba06b",
             "preconditions": "- n should be non-negative",
             "postconditions": "- If the result is true, there exists an integer i such that i * i == n\n- If the result is false, there is no integer i such that i * i == n"
         },
         "MBPP_task_id": 803,
+        "external_functions": [
+            "root.std.Iteration.Map",
+            "root.std.List.GenerateRange",
+            "root.std.Math.LessThanOrEqual",
+            "root.std.Std.For",
+            "root.std.Logic.And",
+            "root.std.Std.If",
+            "root.std.Math.Expression",
+            "root.std.Math.Add",
+            "root.std.Math.Mul"
+        ],
         "visual_node_types": [
             "Function",
             "Input Property",
@@ -2425,6 +2592,11 @@
             "out"
         ],
         "testing": {
+            "external_functions": [
+                "root.std.Testing.Test",
+                "root.std.Testing.AssertTrue",
+                "root.std.Testing.AssertFalse"
+            ],
             "visual_node_types": [
                 "Event",
                 "Function"
@@ -2432,7 +2604,12 @@
             "textual_instance_types": [
                 "instance"
             ],
-            "test_list": {
+            "python_tests": [
+                "assert is_perfect_square(10) == False",
+                "assert is_perfect_square(36) == True",
+                "assert is_perfect_square(14) == False"
+            ],
+            "tests": {
                 "test_cases": [
                     {
                         "input": 10,
@@ -2447,23 +2624,7 @@
                         "expected_output": false
                     }
                 ]
-            },
-            "external_functions": [
-                "root.std.Testing.Test",
-                "root.std.Testing.AssertTrue",
-                "root.std.Testing.AssertFalse"
-            ]
-        },
-        "external_functions": [
-            "root.std.Iteration.Map",
-            "root.std.List.GenerateRange",
-            "root.std.Math.LessThanOrEqual",
-            "root.std.Std.For",
-            "root.std.Logic.And",
-            "root.std.Std.If",
-            "root.std.Math.Expression",
-            "root.std.Math.Add",
-            "root.std.Math.Mul"
-        ]
+            }
+        }
     }
 ]

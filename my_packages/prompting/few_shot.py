@@ -132,7 +132,9 @@ def transform_code_data(data):
         'task': str, 
         'response': str, 
         'MBPP_task_id': str,
-        'external_functions': list
+        'external_functions': list,
+        'tests': list,
+        'signature': str
         }]"""
     new_data_format = []
     for sample in data:
@@ -142,7 +144,8 @@ def transform_code_data(data):
         new_obj['task'] = sample['prompts'][0]
         new_obj['response'] = read_code_file(sample['task_id'])
         new_obj['external_functions'] = ', '.join([func.replace("root.std.", "") for func in sample['external_functions']])
-        new_obj['python_tests'] = sample['testing']['test_list']
+        new_obj['tests'] = sample['testing']['tests']
+        new_obj['function_signature'] = sample['specification']['function_signature']
         new_data_format.append(new_obj)
     return new_data_format
 
