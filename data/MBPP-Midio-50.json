@@ -3288,7 +3288,7 @@
         ],
         "task_id": 41,
         "specification": {
-            "function_signature": "func(doc: \"Finds the last position of an element in a sorted array.\") last {\n    in(x: -231, y: -29, name: \"list\") property(List) list_2bbadf\n    in(x: -246, y: 105, name: \"elem\") property(Number) elem_94ca57\n}",
+            "function_signature": "func(doc: \"Finds the last position of an element in a sorted array.\") last {\n    in(x: -231, y: -29, name: \"list\") property(List) list_2bbadf\n    in(x: -246, y: 105, name: \"elem\") property(Number) elem_94ca57\n      in(x: -356, y: -225, name: 'execute') trigger() execute_076885\n     out(x: 801, y: -229, name: 'continue') trigger() continue_9f5f84\n      out(x: 795, y: 205, name: 'index') property(Number) index_fc05e7\n}",
             "preconditions": "- The input array should be sorted in non-decreasing order",
             "postconditions": "- If the element is found, the returned position should be the last occurrence of the element in the array\n- If the element is not found, the returned position should be -1\n- The input array remains unchanged"
         },

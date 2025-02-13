@@ -72,8 +72,7 @@ def create_few_shot_prompt(
             ("ai", response_template)
         ]
     )
-    print("Example Prompt ", examples[0])
-    print("Example Prompt Template: ", example_prompt_template)
+    
     few_shot_prompt = FewShotChatMessagePromptTemplate(
         examples=examples,
         example_prompt=example_prompt_template, #Formats each individual example

@@ -71,19 +71,31 @@ class Run:
 
     
 
-def extract_code(
-        response_text: str
-    ):
-    """Extract code snippet from the response using regex."""
-    # Match content between ```language and ```
-    match = re.search(fr"```midio(.*?)```", response_text, re.DOTALL)
 
-    # Extract and clean up the code
+def extract_code(response_text: str) -> str:
+    """
+    Extracts a code snippet from the response using a regex for ```midio code blocks.
+    Also removes any line that starts with // or #.
+    """
+    # Match content between ```midio and ```
+    match = re.search(r"```midio(.*?)```", response_text, re.DOTALL)
+    
+    # Extract code or assume entire response might be the code
     if match:
-        return match.group(1).strip()  # Return only the code block
+        code_block = match.group(1)
+    else:
+        code_block = response_text
+    
+    # Remove lines that start with // or #
+    # Explanation:
+    #   - ^\s*  : Matches the start of a line plus any leading spaces
+    #   - (?:\/\/|#) : Matches // or #
+    #   - .*?$ : Matches the rest of the line (non-greedy)
+    # The 'flags=re.MULTILINE' ensures '^' and '$' match start/end of each line
+    code_without_comments = re.sub(r'^\s*(?:\/\/|#).*?$', '', code_block, flags=re.MULTILINE)
 
-    # If no match, assume the response might already be code without markdown formatting
-    return response_text.strip()
+    # Strip leading/trailing whitespace and return
+    return code_without_comments.strip()
 
 def calculate_pass_at_k_scores(
         result_dict: dict[int, list[str]],
@@ -95,39 +107,32 @@ def calculate_pass_at_k_scores(
     Pass@k asses the probability that out of k samples, at least one was correct.
 
     Parameters:
-    - result_dict: A dictionary of true results and generated candidates.
+    - result_dict: A dictionary of taks_id and generated candidates. dict[int, list[str]]
+        E.g:
+        (<task_id>, {"passed": True, "result": "Some details about the execution"}),
+        (<task_id>, {"passed": False, "result": "Some details about the execution"}),
+        (<task_id>, {"passed": True, "result": "Some details about the execution"}),
+    ]
     - ks: A list of k values to calculate pass@k for.
     - metric: which metric to calulcate pass_at_k for. E.g. syntax, semantic, tests
 
     Returns:
     - dict: A dictionary of pass@k scores for each k value.
     """
-
-    # test_results = run_tests(model_result, ks, debug) 
-    #     (0, {"passed": True, "result": "Some details about the execution"}), #(id, test_result)
-    #     (1, {"passed": False, "result": "Some details about the execution"}),
-    #     (2, {"passed": True, "result": "Some details about the execution"}),
-    # ]
-
-    print("\n == Pass@k computation ==\n")
+    
 
     if metric == "tests":
-        #  for unit test runs
-        print("Evaluting functionality...\n")
+        print("\n == Pass@k computation for tests ==\n")
         #https://github.com/openai/human-eval/blob/master/human_eval/evaluation.py
         test_results = check_correctness(result_dict)
 
     elif metric == "syntax":
-        print("Evaluating syntax..\n")
-        # for semantic correctness
+        print("\n == Pass@k computation for syntax ==\n")
         test_results = check_syntax(result_dict)
 
     elif metric == "semantic":
-        print("Evaluating semantic..\n")
-        # for semantic correctness
+        print("\n == Pass@k computation for semantics ==\n")
         test_results = check_semantics(result_dict)
-        print("test_results:\n")
-        print(test_results)
 
     # elif metric == "EM": #Equal to the true response
     #     print("Evaluating EM..\n")
@@ -174,22 +179,24 @@ def run_model(
         task_id = int(sample.metadata["task_id"])
         
         few_shot_examples = example_pool.select_examples(sample.inputs)
-        if "tests" in metrics:
-            # print("Uses signature prompt!")
+        if "tests" in metrics: # Uses signature prompt
             few_shot = create_few_shot_prompt(few_shot_examples, 'CODE_SIGNATURE_TEMPLATE')
             final_prompt_template = create_final_prompt(few_shot, "CODE_GENERATOR_TEMPLATE", "CODE_SIGNATURE_TEMPLATE")
 
-            function_signature = sample.inputs["function_signature"]
-            print(f"Function signature: {function_signature}")
-            prompt = final_prompt_template.format(task=task, function_signature=function_signature, external_functions=available_nodes)
-        else:    
+            prompt_variables_dict ={
+                "task": task, 
+                "function_signature": sample.inputs["function_signature"],
+                "external_functions": available_nodes
+            }
+        else: # Uses regular prompt
             few_shot = create_few_shot_prompt(few_shot_examples, 'CODE_TEMPLATE')
             final_prompt_template = create_final_prompt(few_shot, "CODE_GENERATOR_TEMPLATE", "CODE_TEMPLATE")
-            prompt = final_prompt_template.format(task=task, external_functions=available_nodes)
-        
-        print(client(model=model))
+            prompt_variables_dict ={
+                "task": task, 
+                "external_functions": available_nodes
+            }
 
-
+        prompt = final_prompt_template.format(**prompt_variables_dict)
         prompt_size = client(model=model).get_num_tokens(prompt) # Will print warning if prompt is too big for model
         print(f"Tokens in the final prompt: {prompt_size}")
         
@@ -199,11 +206,11 @@ def run_model(
         for attempt_i in range(max(ks)):
             max_retries = 3
             retries = 0
-            new_seed = seed * attempt_i if seed else None # Use different seed for each attempt if not None
+            new_seed = seed * attempt_i if seed else None # different seed for each attempt if not None
             generated = ""
             while retries < max_retries:
                 try:
-                    print(f"Generating response for sample {index}..", end="\r")
+                    print(f"Generating response for sample {index + 1}..", end="\r")
                     
                     if "claude" in model:
                         llm = client(
@@ -233,7 +240,7 @@ def run_model(
                     chain = (final_prompt_template | llm)
 
                     response = chain.invoke(
-                        prompt,
+                        prompt_variables_dict,
                         {"run_name": f"Few-shot code prediction"}
                     )
 
@@ -256,7 +263,6 @@ def run_model(
             generated_example: Example = sample.copy(update={"outputs": {"response": generated_code}})
         # --- Now we have up to k responses for this prompt. ---
 
-        #Then add the generated candidates to the results dictionary
         results[task_id] = generated_candidates
 
         if debug:
@@ -387,6 +393,7 @@ def run_testing(
     metrics=["syntax", "semantic", "tests"]
 ):
     results = []
+ 
     
     #Test the model on the test set with different seeds and the best hyperparameters.
     print(f"{Fore.CYAN}{Style.BRIGHT}Testing Phase:{Style.RESET_ALL}")
@@ -431,12 +438,15 @@ def run_testing(
 
     return results
 
- 
-def calculate_final_result(testing_runs) -> Run:
-    """Calculate the standard deviation mean of the metrics, across all testing runs.
+from collections import defaultdict
+import numpy as np
+
+def calculate_final_result(testing_runs: list[Run]) -> Run:
+    """
+    Calculate the mean and standard deviation of the metrics, across all testing runs.
 
     Parameters: 
-        - testing_runs: A list of dictionaries containing the test results. 
+        testing_runs: A list of Run objects (or dictionaries) containing the test results.
             Example:
             [
                 {
@@ -448,42 +458,70 @@ def calculate_final_result(testing_runs) -> Run:
                         "pass@k syntax": {"pass@1": 0.1, "pass@5": 0.3},
                         "pass@k semantic": {"pass@1": 0.2, "pass@5": 0.4}
                     }
-                }
+                    "metadata": {"largest_prompt_size": 1000}
+                },
+                ...
             ]
     Returns:
-        - dict: A dictionary containing the mean and standard deviation of the metrics.
-            Example:
+        A final Run object that contains the mean and standard deviation for each metric.
+        Example:
             {
                 "temperature": 0.6,
                 "top_p": 0.9,
                 "top_k": 50,
                 "metric_results": {
-                    "pass@k_syntax": {"pass@1": 0.1, "pass@5": 0.3},
-                    "pass@k_semantic": {"pass@1": 0.2, "pass@5": 0.4}
+                    "pass@k_syntax": {
+                        "pass@1": {"mean": 0.1, "std": 0.0},
+                        "pass@5": {"mean": 0.3, "std": 0.0}
+                    },
+                    "pass@k_semantic": {
+                        "pass@1": {"mean": 0.2, "std": 0.0},
+                        "pass@5": {"mean": 0.4, "std": 0.0}
+                    }
+                }
             }
     """
-    # Initialize the final result dictionary
-    final_result = defaultdict(dict)
 
-    # Initialize a dictionary to store the metric results for each run
-    metric_results = defaultdict(list)
-
-    # Loop through the testing runs and store the metric results in the metric_results dictionary
+    # Nested dictionary to collect all values per metric and per pass@k:
+    # Structure: { metric_name: { pass@k: [list of values across runs] } }
+    aggregated_metrics = defaultdict(lambda: defaultdict(list))
+    
     for run in testing_runs:
-        for metric, pass_at_k in run.metric_results.items():
-            metric_results[metric].append(pass_at_k)
+        for metric_name, metric_vals in run.metric_results.items():
 
-    # Calculate the mean and standard deviation of the metric results
-    for metric, pass_at_k_list in metric_results.items():
-        mean = np.mean(pass_at_k_list)
-        std = np.std(pass_at_k_list)
-        final_result[metric] = {"mean": mean, "std": std}
+            for pass_k, value in metric_vals.items():
+                aggregated_metrics[metric_name][pass_k].append(value)
+    
+    # Build the final metric_results with computed mean and std.
+    final_metric_results = {}
+    for metric_name, pass_data in aggregated_metrics.items():
+        metric_summary = {}
+        for pass_k, values in pass_data.items():
+            mean_val = np.mean(values)
+            std_val = np.std(values)
+            metric_summary[pass_k] = {"mean": mean_val, "std": std_val}
+        # Normalize metric name if desired (e.g., replace spaces with underscores)
+        final_metric_results[metric_name.replace(" ", "_")] = metric_summary
 
+    final_metric_results = round_results(final_metric_results)
+    # Return a new Run object for the final result
     return Run(
         phase="final",
         temperature=testing_runs[0].temperature,
         top_p=testing_runs[0].top_p,
         top_k=testing_runs[0].top_k,
-        metric_results=final_result
+        metric_results=final_metric_results,
+        metadata=testing_runs[0].metadata
     )
-    
+def round_results(metric_results, ndigits=2):
+    rounded = {}
+    for metric, passes in metric_results.items():
+        rounded[metric] = {}
+        for pass_k, stats in passes.items():
+            rounded[metric][pass_k] = {
+                "mean": round(stats["mean"], ndigits),
+                "std": round(stats["std"], ndigits)
+            }
+    return rounded
+
+

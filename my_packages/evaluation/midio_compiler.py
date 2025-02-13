@@ -114,7 +114,8 @@ def is_code_syntax_valid(result: subprocess.CompletedProcess[str]) -> bool:
     return result.returncode == 0
 
 def is_code_semantically_valid(result: subprocess.CompletedProcess[str]) -> bool:
-    return "Error" not in result.stdout
+    print(result.stdout.lower())
+    return "error" not in result.stdout.lower()
 
 def print_compiled_output(result: subprocess.CompletedProcess[str]):
         print(f"\n\n\n\n New Output from Midio compilation of code:")
