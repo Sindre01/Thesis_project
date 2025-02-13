@@ -1,4 +1,5 @@
 import re
+
 def find_matching_brace(text: str, start_index: int) -> int:
     """
     Given a string and the index of an opening brace '{', return the index of its

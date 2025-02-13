@@ -3,6 +3,7 @@ import os
 import numpy as np
 from my_packages.data_processing.code_files import extract_tests_module
 from my_packages.evaluation.midio_compiler import clean_output, compile_code, extract_errors, get_errors, get_json_test_result, get_output, get_test_result, is_all_tests_passed, is_code_semantically_valid, is_code_syntax_valid
+from my_packages.utils.file_utils import get_test_module_from_file
 
 def estimate_pass_at_k(num_samples, num_correct, k):
     """Estimates pass@k of each problem and returns them in an array."""
@@ -24,18 +25,7 @@ def estimate_pass_at_k(num_samples, num_correct, k):
     print(result)
     return result
 
-def read_test_code(task_id: int) -> str:
-    """Reads the test code from the file."""
-    current_path = os.path.dirname(os.getcwd())
-    test_file = os.path.join(current_path, f'../data/MBPP_Midio_50/includes_tests/task_id_{task_id}_tests.midio')
-    test_file = os.path.abspath(test_file)     # Normalize the path to resolve '..' segments.
 
-    with open(test_file, "r") as file:
-        content = file.read()
-    module_tests = extract_tests_module(content)
-    if not module_tests:
-        print(f"Did NOT found tests module block for task {task_id}!!")
-    return module_tests
  
 def check_correctness(
         result_dict: dict[int, list[str]],
@@ -54,15 +44,14 @@ def check_correctness(
     results: dict[int, list[dict[str, str]]] = {}
     for task_id, candidates in result_dict.items():
         print(f"Checking correctness for task {task_id}...")
-        test_code = read_test_code(task_id)
+        test_code = get_test_module_from_file(task_id)
         checked_canidates = []
         for i, candidate in enumerate(candidates):
             print(f"> Compiling code with tests for candidate {i+1}...")
             # Add the testing code to the candidate code
             test_candidate = candidate + "\n" + test_code
             compiled = compile_code(test_candidate)
-            #check if the code syntax is valid and semantically valid
-            print(compiled)
+            #check if the code syntax and semantics are valid for new test_candidate
             if not is_code_syntax_valid(compiled):
                 print("     syntax error found")
                 checked_canidates.append({"passed": False, "info": clean_output(get_errors(compiled))})

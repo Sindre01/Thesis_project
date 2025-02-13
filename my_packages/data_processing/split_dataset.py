@@ -205,14 +205,6 @@ from iterstrat.ml_stratifiers import MultilabelStratifiedShuffleSplit
     
 #     return train_data.tolist(), val_data.tolist(), test_data.tolist()
 
-
-def read_dataset_to_json(file_path: str):
-    with open(file_path, 'r') as file:
-        dataset = json.load(file)
-    return dataset
-
-
-
   
 def multi_stratified_split(dataset, write_to_file, eval_size, seed=58):
     SEED = seed

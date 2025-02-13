@@ -5,26 +5,34 @@ module() main {
     func(doc: "Finds the last position of an element in a sorted array.") last {
         in(x: -231, y: -29, name: "list") property(List) list_2bbadf
         in(x: -246, y: 105, name: "elem") property(Number) elem_94ca57
+        in(x: -356, y: -225, name: "execute") trigger() execute_076885
 
-        out(x: -84, y: 349, name: "continue") trigger() continue_4e6c4a
-        out(x: 121, y: 319, name: "last_position") property(Number) last_position_f0d45b
+        out(x: 801, y: -229, name: "continue") trigger() continue_9f5f84
+        out(x: 795, y: 205, name: "index") property(Number) index_fc05e7
+        
+        instance(x: 236, y: -168) filter_0 root.Std_k98ojb.Iteration.Filter {}
+        instance(x: 467, y: -316) length_2bbadf root.Std_k98ojb.List.Length {}
+        
+        execute_076885 -> filter_0.execute
+        list_2bbadf -> filter_0.items
 
-        instance(x: -187, y: 323) for_0 root.Std_k98ojb.Std.For {}
-        instance(x: -169, y: 256) ifexpression_0 root.Std_k98ojb.Std.IfExpression {
-            expression: "item == elem"
-        }
-        setter(x: -347, y: 258, name: "setter_0") setter_0 = last_position
-        getter(x: -109, y: 359, name: "getter_0") getter_0 = last_position
+        func() {
+            in(x: 304, y: -223, name: "item") property(Number) item_9f1c6b
+            
+            out(x: 171, y: -185, name: "out") property(Bool) is_last_item
 
-        list_2bbadf -> for_0.items
-        for_0.item -> ifexpression_0.gen_0
-        elem_94ca57 -> ifexpression_0.gen_1
-        ifexpression_0.then -> setter_0.execute
-        setter_0.new_value -> last_position_f0d45b
-        setter_0.continue -> for_0.next
-        getter_0.value -> last_position_f0d45b
-        list_2bbadf -> for_0.items
+            Logic.Equal {
+                left: elem_94ca57
+                right: item_9f1c6b
+                result: is_last_item
+            }
+        } -> filter_0.handler
+        
+        filter_0.output_list -> length_2bbadf.list
+        length_2bbadf.result -> index_fc05e7
+
+        continue_9f5f84 <- execute_076885
     }
 
-    instance(x: -319, y: 6) last_8a7e8f root.main.last {}
+    instance(x: -13, y: 13) last_5c45d2 root.main.last {}
 }

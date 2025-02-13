@@ -10,10 +10,9 @@ from langchain_core.prompts import (
 )
 
 from my_packages.prompting.example_selectors import CoverageExampleSelector
+from my_packages.utils.file_utils import read_code_file, read_file
 
-def read_file(_file):
-    with open(_file) as reader:
-        return reader.read()
+
 def replace_third_word(text, new_word):
     words = text.split()
     if len(words) < 3:
@@ -149,14 +148,3 @@ def transform_code_data(data):
         new_data_format.append(new_obj)
     return new_data_format
 
-def read_code_file(task_id):
-    script_path = os.path.dirname(os.getcwd())
-    file_path = os.path.join(script_path, f'../data/MBPP_Midio_50/only_files/task_id_{task_id}.midio')
-    try:
-        with open(file_path, 'r') as file:
-            return file.read().strip()
-    except FileNotFoundError:
-        return "File not found"
-    except Exception as e:
-        return f"Error: {e}"
-    
