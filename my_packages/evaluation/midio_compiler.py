@@ -114,7 +114,7 @@ def is_code_syntax_valid(result: subprocess.CompletedProcess[str]) -> bool:
     return result.returncode == 0
 
 def is_code_semantically_valid(result: subprocess.CompletedProcess[str]) -> bool:
-    print(result.stdout.lower())
+    # print(result.stdout.lower())
     return "error" not in result.stdout.lower()
 
 def print_compiled_output(result: subprocess.CompletedProcess[str]):

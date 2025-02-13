@@ -7,10 +7,12 @@ def read_file(_file: str) -> str:
     with open(_file) as reader:
         return reader.read()
 
+
 def read_code_file(task_id: int) -> str:
     """Reads the code file from MBPP_Midio_50/only_files/ folder."""
-    script_path = os.path.dirname(os.getcwd())
-    file_path = os.path.join(script_path, f'../data/MBPP_Midio_50/only_files/task_id_{task_id}.midio')
+    project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '../..'))
+    file_path = os.path.join(project_root, f'data/MBPP_Midio_50/only_files/task_id_{task_id}.midio')
+
     try:
         with open(file_path, 'r') as file:
             return file.read().strip()
@@ -19,32 +21,61 @@ def read_code_file(task_id: int) -> str:
     except Exception as e:
         return f"Error: {e}"
 
+def write_code_file(task_id: int, code: str):
+    project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '../..'))
+    file_path = os.path.join(project_root, f'data/MBPP_Midio_50/only_files/task_id_{task_id}.midio')
+    with open(file_path, 'w') as f:
+        f.write(code)
+    
 def extract_func_signature(code_str: str) -> str:
-    """Extracts the function signature from the code string."""
-    # Regex explanation:
-    # - Start with "func(" (including its parameters) until the opening brace '{'
-    # - Then match lazily any text until encountering a line with "in("
-    # - Continue matching lazily until encountering a line with "out("
-    # - Continue until the first closing '}' that marks the end of the function block.
-    pattern = re.compile(
-        r'(func\(.*?\{.*?in\(.*?out\(.*?\})',
-        re.DOTALL
-    )
-
+    """
+    Extracts a function block starting with 'func(' and ending with a closing brace,
+    and returns a string that contains only:
+      - the header line (first line),
+      - lines inside the function that start with 'in(' or 'out(' (ignoring leading whitespace),
+      - the closing brace line if it exists.
+    """
+    # First, use a regex to extract the whole function block.
+    # This pattern captures from "func(" up to the first occurrence of a closing brace on its own line.
+    pattern = re.compile(r'(func\(.*?\{.*?\n\})', re.DOTALL)
     match = pattern.search(code_str)
-    if match:
-        extracted_block = match.group(1)
-        print("Extracted block:")
-        print(extracted_block)
-        return extracted_block
-    else:
-        print("No match found.")
+    if not match:
+        print("No function block found.")
         return "Not found"
+    
+    block = match.group(1)
+    # Split the block into individual lines.
+    lines = block.splitlines()
+    if not lines:
+        return ""
+    
+    # Assume the first line is the header.
+    header = lines[0]
+    
+    # Determine if the last line is just the closing brace.
+    closing = ""
+    if lines[-1].strip() == "}":
+        closing = lines[-1]
+        inner_lines = lines[1:-1]
+    else:
+        inner_lines = lines[1:]
+    
+    # Filter inner lines: only keep lines starting with "in(" or "out(" (ignoring leading whitespace).
+    filtered_inner = [line for line in inner_lines if line.lstrip().startswith("in(") or line.lstrip().startswith("out(")]
+    
+    # Reconstruct the block.
+    result_lines = [header] + filtered_inner
+    if closing:
+        result_lines.append(closing)
+
+
+    return "\n".join(result_lines)
     
 def read_test_code_file(task_id):
     """Reads the code file with tests from MBPP_Midio_50/includes_tests/ folder."""
-    script_path = os.path.dirname(os.getcwd())
-    file_path = os.path.join(script_path, f'../data/MBPP_Midio_50/includes_tests/task_id_{task_id}_tests.midio')
+    project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '../..'))
+    file_path = os.path.join(project_root, f'data/MBPP_Midio_50/includes_tests/task_id_{task_id}_tests.midio')
+
     try:
         with open(file_path, 'r') as file:
             return file.read().strip()
