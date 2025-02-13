@@ -2,7 +2,7 @@ import("std", Std_k98ojb)
 import("http", Http_q7o96c)
 
 module() main {
-    func(doc: "check whether the given list contains consecutive numbers or not.") ContainsConsecutiveNumbers {
+    func(doc: "check whether the given list contains consecutive numbers or not.") check_consecutive {
         in(x: -425, y: 209, name: "list") property(List) list_faf6c2
 
         out(x: 866, y: 132, name: "output") property(Bool) output_a2b59d
@@ -24,7 +24,9 @@ module() main {
         list_faf6c2 -> max_a8e56c.items
     }
 
-    instance(x: 203, y: -192) containsconsecutivenumbers_24d4b5 root.main.ContainsConsecutiveNumbers {}
+    
+
+    instance(x: 203, y: -192) check_consecutive_24d4b5 root.main.check_consecutive {}
 
 
 }

@@ -30,6 +30,7 @@ module() main {
         execute_f1c7e0 -> for_942609.reset
     }
 
+    
 
     instance(x: -192, y: 139) all_characters_same_935476 root.main.all_Characters_Same {}
 }

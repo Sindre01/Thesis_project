@@ -32,4 +32,8 @@ module() main {
         ifexpression_6c15d4.else -> for_9ed60a.next
     }
 
+    
+
+    instance(x: -203, y: -53) last_9181e6 root.main.last {}
+
 }

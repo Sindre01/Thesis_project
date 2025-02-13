@@ -18,5 +18,6 @@ module() main {
         min_c3e343.min -> smallest_8713cf
     }
     
+
     instance(x: 322, y: 568) min_of_three_cee202 root.main.min_of_three {}
 }

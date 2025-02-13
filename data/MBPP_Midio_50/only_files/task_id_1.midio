@@ -2,6 +2,7 @@ import("std", Std_k98ojb)
 import("http", Http_q7o96c)
 
 module() main {
+
     func(doc: "checks whether the given two integers have opposite sign or not.") opposite_signs {
         in(x: -426, y: -248, name: "x") property(Number) x_853326
         in(x: -420, y: -107, name: "y") property(Number) y_5390f5
@@ -14,9 +15,8 @@ module() main {
         y_5390f5 -> expression_ea12d8.gen_1
         expression_ea12d8.result -> output_3339a3
     }
+    
+    
+
     instance(x: -745, y: -368) task_id_58_77805a root.main.opposite_signs {}
 }
-
-
-        
-        

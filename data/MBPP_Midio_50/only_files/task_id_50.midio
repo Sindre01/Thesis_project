@@ -59,5 +59,7 @@ module() main {
         if_e19a62.else -> for_8cb3f6.next
     }
 
+    
+
     instance(x: -189, y: 222) is_perfect_square_f0be66 root.main.is_perfect_square {}
 }

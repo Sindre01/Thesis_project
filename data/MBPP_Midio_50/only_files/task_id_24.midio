@@ -17,6 +17,8 @@ module() main {
         remove_06d2e5.listWithoutItem -> newList_20b99a
     }
 
+    
+
     instance(x: -138, y: -63) remove_kth_element_aad0c2 root.main.remove_kth_element {}
 
 

@@ -13,7 +13,7 @@ module() main {
         list2_ai -> difference_7b3b7b.right
         difference_7b3b7b.difference -> output_ai
     }
-
+    
 
     instance(x: -55, y: 80) difference_1f4c9a root.main.find_dissimilar {}
     

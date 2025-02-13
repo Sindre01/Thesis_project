@@ -17,6 +17,8 @@ module() main {
         modulo_629f32.result -> expression_a794a5.gen_0
         expression_a794a5.result -> output_f2630f
     }
+    
 
-    instance(x: -118, y: -27) is_diff_d910e0 root.main.is_diff {}
+    instance(x: 98, y: -87) is_diff_586588 root.main.is_diff {}
+
 }

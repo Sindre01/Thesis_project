@@ -1,5 +1,16 @@
 import re
 
+from my_packages.utils.file_utils import get_test_module_from_file, write_code_file, read_test_code_file, write_code_file
+def extract_all_code_and_write_to_file():
+    """ Extracts code wthout tests module from the files in includes_files folder and writes to files only_files folder"""
+    for i in range(50):
+        code = read_test_code_file(i+1)
+        print(f"Code {i+1}: {code}")
+        test_module = get_test_module_from_file(i+1)
+        removed_module= code.replace(test_module, "")
+        print(f"Removed module: {removed_module}")
+        write_code_file(i+1, removed_module)
+
 def find_matching_brace(text: str, start_index: int) -> int:
     """
     Given a string and the index of an opening brace '{', return the index of its

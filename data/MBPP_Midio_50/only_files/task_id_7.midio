@@ -16,5 +16,9 @@ module() main {
         list2_c8f404 -> intersection_78d487.right
     }
 
-    instance(x: 165, y: -125) common_element_7d78a4 root.main.common_element {}
+    
+
+    instance(x: 425, y: -186) common_element_33ad55 root.main.common_element {}
+
+
 }

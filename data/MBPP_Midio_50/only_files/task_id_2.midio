@@ -11,8 +11,8 @@ module() main {
         list_min_node.min -> min_ai
     }
 
+    
     instance(x: 426, y: -303) smallest_num_node root.main.smallest_num {}
 
     
 }
-

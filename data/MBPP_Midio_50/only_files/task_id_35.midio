@@ -35,6 +35,7 @@ module() main {
         sort_8b352b.sorted_list -> intersection_9b398b.right
     }
 
+    
 
     instance(x: 49, y: 32) second_smallest_814eea root.main.second_smallest {}
 

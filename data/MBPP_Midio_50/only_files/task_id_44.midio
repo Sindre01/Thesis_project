@@ -21,6 +21,7 @@ module() main {
         div_64046c.result -> sum_365f7b
     }
 
+    
 
     instance(x: 118, y: -26) square_sum_9dcc3d root.main.square_sum {}
 }
