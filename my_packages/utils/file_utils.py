@@ -3,6 +3,19 @@ import os
 import re
 from my_packages.data_processing.code_files import extract_tests_module
 
+
+
+def extract_all_code_and_write_to_file():
+    """ Extracts code wthout tests module from the files in includes_files folder and writes to files only_files folder"""
+    for i in range(50):
+        code = read_test_code_file(i+1)
+        print(f"Code {i+1}: {code}")
+        test_module = get_test_module_from_file(i+1)
+        removed_module= code.replace(test_module, "")
+        print(f"Removed module: {removed_module}")
+        write_code_file(i+1, removed_module)
+        
+
 def read_file(_file: str) -> str:
     with open(_file) as reader:
         return reader.read()

@@ -7,7 +7,7 @@
         ],
         "task_id": 1,
         "specification": {
-            "function_signature": "func(doc: \"checks whether the given two integers have opposite sign or not.\") opposite_signs {\n  in(x: -426, y: -248, name: \"x\") property(Number) x_853326\n  in(x: -420, y: -107, name: \"y\") property(Number) y_5390f5\n\n  out(x: 159, y: -219, name: \"output\") property(Bool) output_3339a3\n}",
+            "function_signature": "func(doc: \\\"checks whether the given two integers have opposite sign or not.\\\") opposite_signs {\\n        in(x: -426, y: -248, name: \\\"x\\\") property(Number) x_853326\\n        in(x: -420, y: -107, name: \\\"y\\\") property(Number) y_5390f5\\n        out(x: 159, y: -219, name: \\\"output\\\") property(Bool) output_3339a3\\n}",
             "preconditions": "- There are no preconditions, the method will always work.",
             "postconditions": "- The result is true if x and y have opposite signs\n- The result is false if x and y have the same sign"
         },
@@ -86,7 +86,7 @@
         ],
         "task_id": 3,
         "specification": {
-            "function_signature": "func(doc: \"finds whether a number is divisible by 11.\") is_diff {\n  in(x: 5, y: -25, name: \"n\") property(Number) n_27f29c\n\n  out(x: 668, y: 2, name: \"output\") property(Bool) output_f2630f\n}",
+            "function_signature": "func(doc: \\\"finds whether a number is divisible by 11.\\\") is_diff {\\n        in(x: 5, y: -25, name: \\\"n\\\") property(Number) n_27f29c\\n        out(x: 668, y: 2, name: \\\"output\\\") property(Bool) output_f2630f\\n}",
             "preconditions": "- There are no preconditions, the method will always work for any integer input.",
             "postconditions": "- The result is true if the input number is divisible by 11\n- The result is false if the input number is not divisible by 11"
         },
@@ -146,7 +146,7 @@
         ],
         "task_id": 12,
         "specification": {
-            "function_signature": "  func(doc: 'function to replace characters in a string.') replace_char {\n in(x: -426, y: 209, name: 'input') property(String) input_ai\n in(x: -426, y: 332, name: 'search') property(String) search_ai\n in(x: -426, y: 455, name: 'replace') property(String) replace_ai\n out(x: 866, y: 132, name: 'output') property(String) output_ai\n",
+            "function_signature": "func(doc: \\\"function to replace characters in a string.\\\") replace_char {\\n        in(x: -426, y: 209, name: \\\"input\\\") property(String) input_ai\\n        in(x: -426, y: 332, name: \\\"search\\\") property(String) search_ai\\n        in(x: -426, y: 455, name: \\\"replace\\\") property(String) replace_ai\\n        out(x: 866, y: 132, name: \\\"output\\\") property(String) output_ai\\n}",
             "preconditions": "- There are no preconditions, the method will always work. Strings and sequences are always not null.",
             "postconditions": "- The length of the returning string must be the same as the length of the input string\n- All occurrences of oldChar in the input string are replaced with newChar in the output string\n- All other characters are unchanged"
         },
@@ -192,7 +192,7 @@
         ],
         "task_id": 13,
         "specification": {
-            "function_signature": " func(doc: 'convert the given string to lower case.') is_lower {\n in(x: -425, y: 209, name: 'input') property(String) input_ai\n out(x: 866, y: 132, name: 'output') property(Bool) output_ai\n",
+            "function_signature": "func(doc: \\\"convert the given string to lower case.\\\") is_lower {\\n        in(x: -425, y: 209, name: \\\"input\\\") property(String) input_ai\\n        out(x: 866, y: 132, name: \\\"output\\\") property(Bool) output_ai\\n}",
             "preconditions": "- There are no preconditions, the method will always work. Strings and sequences are always not null.",
             "postconditions": "- The length of the returning string must be the same as the length of the input string\n- All uppercase characters of the input string are lowercase in the output string\n- All other characters are unchanged"
         },
@@ -251,7 +251,7 @@
         ],
         "task_id": 16,
         "specification": {
-            "function_signature": "func(doc: \"Calculates the product of the unique numbers in a given list.\") unique_product {\n  in(x: -757, y: -167, name: \"execute\") trigger() execute_19300c\n  in(x: -241, y: 24, name: \"list\") property(List) list_5fda54\n\n  out(x: 887, y: -144, name: \"continue\") trigger() continue_45190b\n  out(x: 683, y: 73, name: \"output\") property(Number) output_cffcc2\n}",
+            "function_signature": "func(doc: \\\"Calculates the product of the unique numbers in a given list.\\\") unique_product {\\n        in(x: -757, y: -167, name: \\\"execute\\\") trigger() execute_19300c\\n        in(x: -241, y: 24, name: \\\"list\\\") property(List) list_5fda54\\n        out(x: 887, y: -144, name: \\\"continue\\\") trigger() continue_45190b\\n        out(x: 683, y: 73, name: \\\"output\\\") property(Number) output_cffcc2\\n}",
             "preconditions": "- There are no preconditions, the method will always work.",
             "postconditions": "- The product should be the multiplication of all unique elements in the array"
         },
@@ -346,7 +346,7 @@
         ],
         "task_id": 18,
         "specification": {
-            "function_signature": " func(doc: 'find the dissimilar elements in the given two lists.') find_dissimilar {\n in(x: -531, y: 2, name: 'list1') property(List) list1_ai\n in(x: -165, y: 68, name: 'list2') property(List) list2_ai\n out(x: 340, y: 77, name: 'output') property(List) output_ai\n",
+            "function_signature": "func(doc: \\\"find the dissimilar elements in the given two lists.\\\") find_dissimilar {\\n        in(x: -531, y: 2, name: \\\"list1\\\") property(List) list1_ai\\n        in(x: -165, y: 68, name: \\\"list2\\\") property(List) list2_ai\\n        out(x: 340, y: 77, name: \\\"output\\\") property(List) output_ai\\n}",
             "preconditions": "- Both input arrays should be non-null",
             "postconditions": "- The result array should contain all elements from both input arrays that are not present in the other array\n- The result array should not contain any duplicate elements\n- The order of elements in the result array does not matter"
         },
@@ -459,7 +459,7 @@
         ],
         "task_id": 34,
         "specification": {
-            "function_signature": "func(doc: \"Rotates a given list by specified number of items to the right direction.\") rotate_right {\n    in(x: -186, y: -89, name: \"list\") property(List) list_48148f\n    in(x: -193, y: -3, name: \"n\") property(Number) n_68068c\n\n    out(x: 735, y: -112, name: \"output\") property(Any) output_823209\n}",
+            "function_signature": "func(doc: \\\"Rotates a given list by specified number of items to the right direction.\\\") rotate_right {\\n        in(x: -186, y: -89, name: \\\"list\\\") property(List) list_48148f\\n        in(x: -193, y: -3, name: \\\"n\\\") property(Number) n_68068c\\n        out(x: 735, y: -112, name: \\\"output\\\") property(Any) output_823209\\n}",
             "preconditions": "- n should be non-negative",
             "postconditions": "- The length of the returning sequence must be the same as the length of the input sequence\n- The elements of the input sequence are rotated by n positions to the right in the output sequence"
         },
@@ -600,7 +600,7 @@
         ],
         "task_id": 42,
         "specification": {
-            "function_signature": "func(doc: \"Finds the sum of an array.\") _sum {\n    in(x: -213, y: 28, name: \"list\") property(List) list_2c62ab\n\n    out(x: 567, y: 3, name: \"sum\") property(Number) sum_2a848f\n}",
+            "function_signature": "func(doc: \\\"Finds the sum of an array.\\\") _sum {\\n        in(x: -213, y: 28, name: \\\"list\\\") property(List) list_2c62ab\\n        out(x: 567, y: 3, name: \\\"sum\\\") property(Number) sum_2a848f\\n            in(x: 100, y: -47, name: \\\"sum\\\") property(Number) sum_bc0898\\n            in(x: 98, y: 76, name: \\\"elem\\\") property(Number) elem_63eafb\\n            out(x: 598, y: 25, name: \\\"newSum\\\") property(Number) newSum_431ae0\\n}",
             "preconditions": "- The input array should not be null",
             "postconditions": "- The sum of all elements in the input array is returned"
         },
@@ -677,7 +677,7 @@
         ],
         "task_id": 48,
         "specification": {
-            "function_signature": "func(doc: \"check if the given integer is a prime number.\") num_prime {\nin(x: -167, y: 27, name: \"num\") property(Number) num_5c0677\nin(x: -112, y: -216, name: \"execute\") trigger() execute_b7b391\n out(x: 1016, y: -26, name: \"output\") property(Bool) output_c457b3\n out(x: 1211, y: -110, name: \"continue\") trigger() continue_9a54bb",
+            "function_signature": "func(doc: \\\"check if the given integer is a prime number.\\\") num_prime {\\n        in(x: -167, y: 27, name: \\\"num\\\") property(Number) num_5c0677\\n        in(x: -112, y: -216, name: \\\"execute\\\") trigger() execute_b7b391\\n        out(x: 1016, y: -26, name: \\\"output\\\") property(Bool) output_c457b3\\n        out(x: 1211, y: -110, name: \\\"continue\\\") trigger() continue_9a54bb\\n}",
             "preconditions": "- n should be greater than or equal to 2",
             "postconditions": "- If the result is true, then n is a prime number\n- If the result is false, then n is not a prime number"
         },

@@ -1,15 +1,15 @@
 import re
 
-from my_packages.utils.file_utils import get_test_module_from_file, write_code_file, read_test_code_file, write_code_file
-def extract_all_code_and_write_to_file():
-    """ Extracts code wthout tests module from the files in includes_files folder and writes to files only_files folder"""
-    for i in range(50):
-        code = read_test_code_file(i+1)
-        print(f"Code {i+1}: {code}")
-        test_module = get_test_module_from_file(i+1)
-        removed_module= code.replace(test_module, "")
-        print(f"Removed module: {removed_module}")
-        write_code_file(i+1, removed_module)
+from my_packages.utils.file_utils import extract_func_signature
+
+def format_func_string(code: str) -> str:
+    """Convert string to an inline string with escaped quotes and tabs after newlines."""
+    func_string = extract_func_signature(code)
+    # Escape double quotes by replacing " with \"
+    func_string = func_string.replace('"', '\"')
+    # Replace newlines followed by any whitespace with a newline and a tab.
+    func_string = re.sub(r'\n\s+', '\n\t', func_string)
+    return func_string
 
 def find_matching_brace(text: str, start_index: int) -> int:
     """
