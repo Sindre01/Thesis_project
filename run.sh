@@ -8,12 +8,12 @@
 USER="ec-sindrre"                        # Your Educloud username
 HOST="fox.educloud.no"                   # Fox login address (matches SSH config)
 SSH_CONFIG_NAME="fox"                # Name of the SSH config entry
-ACCOUNT="ec12"                           # Fox project account
+ACCOUNT="ec30"                           # Fox project account
 PARTITION="accel"                   # 'accel' or 'accel_long' (or 'ifi_accel' if access to ec11,ec29,ec30,ec34,ec35 or ec232)
-GPUS=a100:2                               # a100 have 40GB or 80GB VRAM, while rtx30 have 24GB VRAM.
+GPUS=1                               # a100 have 40GB or 80GB VRAM, while rtx30 have 24GB VRAM.
 NODES=1                                 # Number of nodes. OLLAMA does currently only support single node inference
 TIME="10:00:00"                         # Slurm walltime (D-HH:MM:SS)
-MEM_PER_GPU="80GB"                       # Memory per GPU. 
+MEM_PER_GPU="40GB"                       # Memory per GPU. 
 OLLAMA_MODELS_DIR="/cluster/work/projects/ec12/ec-sindrre/ollama-models"  # Path to where the Ollama models are stored and loaded                      
 LOCAL_PORT="11434"                        # Local port for forwarding
 OLLAMA_PORT="11434"                       # Remote port where Ollama listens
@@ -236,8 +236,15 @@ EOT
 # gnome-terminal -- bash -c "open-webui serve; exec bash"
 # echo "You can now access open webui http://localhost:8080"
 
+
 ###############################################################################
-# Step 6: Handle Script Termination and Cleanup
+# Step 6 : Start MongoDB
+###############################################################################
+
+./scripts/start_mongo.sh
+
+###############################################################################
+# LAST: Handle Script Termination and Cleanup
 ###############################################################################
 
 cleanup() {
@@ -255,6 +262,8 @@ cleanup() {
     echo $'\n==== Cancelling Slurm job '"$JOB_ID"'===='
     ssh "${SSH_CONFIG_NAME}" "scancel $JOB_ID"
     echo "Slurm job $JOB_ID cancelled."
+
+    ./scripts/stop_mongo.sh
 
     echo "Cleanup complete."
     exit

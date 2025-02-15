@@ -1,9 +1,10 @@
 from collections import defaultdict
-import json
-from typing import Tuple
 import numpy as np
+from my_packages.common import CodeEvaluationResult, Run
 from my_packages.evaluation.metrics import check_correctness, check_semantics, check_syntax, estimate_pass_at_k
-from my_packages.prompting.few_shot import create_few_shot_prompt, create_final_prompt, get_prompt_template_variables
+from my_packages.prompting.few_shot import create_few_shot_prompt, create_final_prompt
+from my_packages.few_shot_db_service import bar_chart_errors_by_type, save_errors_to_db, save_results_to_db, visualize_results
+from my_packages.utils.file_utils import save_results_as_string, save_results_to_file
 from my_packages.utils.server_utils import server_diagnostics
 import re
 from colorama import Fore, Back, Style
@@ -12,146 +13,100 @@ from langchain_anthropic import ChatAnthropic
 from langchain_openai import OpenAIEmbeddings, ChatOpenAI
 from langsmith.schemas import Example
 
-class Run:
-    def __init__(
-        self,
-        phase: str,
-        temperature: float,
-        top_p: float,
-        top_k: int,
-        metric_results: dict,
-        seed = None,
-        metadata: dict | None = None
-    ):
-        self.phase = phase
-        self.temperature = temperature
-        self.top_p = top_p
-        self.top_k = top_k
-        self.metric_results = metric_results
-        self.seed = seed
-        self.metadata = metadata
-    
-    def print(self):
-
-        if self.phase == "validation":
-            print(
-                f"\n===  VALIDATION ===\n"
-                f"{Fore.GREEN}{Style.BRIGHT}"
-                f"  > Temperature: {self.temperature:.2f}\n"
-                f"  > Top_k: {self.top_k:.2f}\n"
-                f"  > Top_p: {self.top_p:.2f}\n"
-                f"{Style.RESET_ALL}"
-                f"  > Optimized metric result:: {json.dumps(self.metric_results, indent=4)}"
-                f" > Metadata: {json.dumps(self.metadata, indent=4)}"
-            )
-
-        elif self.phase == "testing":
-            print(
-                f"  = TESTING SEED {self.seed} =\n"
-                f"  > Temperature: {self.temperature:.2f}\n"
-                f"  > Top_k: {self.top_k:.2f}\n"
-                f"  > Top_p: {self.top_p:.2f}\n"
-                f"{Fore.GREEN}{Style.BRIGHT}"
-                f"  > Metric results: {json.dumps(self.metric_results, indent=4)}"
-                f"  > Metadata: {json.dumps(self.metadata, indent=4)}"
-                f"{Style.RESET_ALL}"
-            )
-
-        elif self.phase == "final":
-            print(
-                f"\n===  FINAL RESULTS ===\n"
-                f"  > Temperature: {self.temperature:.2f}\n"
-                f"  > Top_k: {self.top_k:.2f}\n"
-                f"  > Top_p: {self.top_p:.2f}\n"
-                f"{Fore.GREEN}{Style.BRIGHT}"
-                f"  > Metric results: {json.dumps(self.metric_results, indent=4)}"
-                f"  > Metadata: {json.dumps(self.metadata, indent=4)}"
-                f"{Style.RESET_ALL}"
-            )
-
-    
-
-
 def extract_code(response_text: str) -> str:
     """
     Extracts a code snippet from the response using a regex for ```midio code blocks.
-    Also removes any line that starts with // or #.
+    Also removes any comments—whether they are on lines by themselves or inline.
     """
     # Match content between ```midio and ```
     match = re.search(r"```midio(.*?)```", response_text, re.DOTALL)
-    
-    # Extract code or assume entire response might be the code
     if match:
         code_block = match.group(1)
     else:
         code_block = response_text
-    
-    # Remove lines that start with // or #
-    # Explanation:
-    #   - ^\s*  : Matches the start of a line plus any leading spaces
-    #   - (?:\/\/|#) : Matches // or #
-    #   - .*?$ : Matches the rest of the line (non-greedy)
-    # The 'flags=re.MULTILINE' ensures '^' and '$' match start/end of each line
-    code_without_comments = re.sub(r'^\s*(?:\/\/|#).*?$', '', code_block, flags=re.MULTILINE)
 
-    # Strip leading/trailing whitespace and return
+    # Remove comments:
+    # This regex finds any occurrence of '//' or '#' and removes everything until the end of the line.
+    # It will work for both full-line comments and inline comments.
+    code_without_comments = re.sub(r'(?://|#).*$', '', code_block, flags=re.MULTILINE)
+
     return code_without_comments.strip()
 
+def evaluate_code_metric(
+      result_dict: dict[int, list[str]],
+      metric: str
+    ) -> dict[int, list[CodeEvaluationResult]]:
+    """
+    Parameters:
+        - candidates_dict: A dictionary of task_id and generated candidates. dict[int, list[str]]
+              E.g:
+                    {
+                        {<task_id>, [candidate1, candidate2, candidate3]},
+                        {<task_id>, [candidate1, candidate2, candidate3]},
+                        {<task_id>, [candidate1, candidate2, candidate3]},
+                    }
+        - metric: which metric to calulcate pass_at_k for. E.g. syntax, semantic, tests
+    Returns:
+        - test_results: A dictionary of task_id and CodeEvaluationResult objects.
+    
+    """
+    if metric == "syntax":
+        test_results = check_syntax(result_dict)
+    elif metric == "semantic":
+        test_results = check_semantics(result_dict)
+    elif metric == "tests":
+        test_results = check_correctness(result_dict)
+    
+    return test_results
+
 def calculate_pass_at_k_scores(
-        result_dict: dict[int, list[str]],
+        test_results: dict[int, CodeEvaluationResult],
         ks: list[int], 
-        metric: str
     ):
     """
     Pass@k evaluation for a given result dictionary.
     Pass@k asses the probability that out of k samples, at least one was correct.
 
     Parameters:
-    - result_dict: A dictionary of taks_id and generated candidates. dict[int, list[str]]
-        E.g:
-        (<task_id>, {"passed": True, "result": "Some details about the execution"}),
-        (<task_id>, {"passed": False, "result": "Some details about the execution"}),
-        (<task_id>, {"passed": True, "result": "Some details about the execution"}),
-    ]
-    - ks: A list of k values to calculate pass@k for.
-    - metric: which metric to calulcate pass_at_k for. E.g. syntax, semantic, tests
+        - result_dict: A dictionary of taks_id and generated candidates. dict[int, list[str]]
+            E.g:
+            [
+                (<task_id>, {"passed": True, "result": "Some details about the execution"}),
+                (<task_id>, {"passed": False, "result": "Some details about the execution"}),
+                (<task_id>, {"passed": True, "result": "Some details about the execution"}),
+            ]
+        - ks: A list of k values to calculate pass@k for.
+        - metric: which metric to calulcate pass_at_k for. E.g. syntax, semantic, tests
 
     Returns:
-    - dict: A dictionary of pass@k scores for each k value.
+        - dict: A dictionary of pass@k scores for each k value.
     """
-    
-
-    if metric == "tests":
-        print("\n == Pass@k computation for tests ==\n")
-        #https://github.com/openai/human-eval/blob/master/human_eval/evaluation.py
-        test_results = check_correctness(result_dict)
-
-    elif metric == "syntax":
-        print("\n == Pass@k computation for syntax ==\n")
-        test_results = check_syntax(result_dict)
-
-    elif metric == "semantic":
-        print("\n == Pass@k computation for semantics ==\n")
-        test_results = check_semantics(result_dict)
-
-    # elif metric == "EM": #Equal to the true response
-    #     print("Evaluating EM..\n")
-    #     test_results = check_EM(result_dict)
 
     total, correct = [], []
-    for task_id, k_results in test_results.items():
-        # k_results.sort(key=lambda d: d["passed"]) #sort the results by the passed key
-        passed = [result["passed"] for result in k_results] #if all tests have passed, then passed = True
+    for task_id, eval_results in test_results.items():
+        # eval_results.sort(key=lambda d: d["passed"]) #sort the results by the passed key
+        passed = [result.passed for result in eval_results] #if all tests have passed, then passed = True
         total.append(len(passed))
         correct.append(sum(passed))
 
     total = np.array(total)
     correct = np.array(correct)
     print(f"Total: {total}, Correct: {correct}")
-    pass_at_k = {f"pass@{k}": estimate_pass_at_k(total, correct, k).mean() 
-                 for k in ks if (total >= k).all()}
+
+    pass_at_k = {}
+
+    for k in ks:
+        # Check if the total is greater than or equal to k for all elements
+        # only calculate pass@k for this k if all elements have at least k samples
+        if (total >= k).all():
+            # Estimate the pass rate at k and take the mean
+            pass_at_k[f"pass@{k}"] = estimate_pass_at_k(total, correct, k).mean()
+
+    # Now pass_at_k contains the pass rates for each valid k
     print(f"Pass@K: {pass_at_k}")
+
     return pass_at_k
+
 
 def run_model(
     client: ChatOllama | ChatOpenAI | ChatAnthropic,
@@ -266,7 +221,7 @@ def run_model(
         results[task_id] = generated_candidates
 
         if debug:
-            print(f"\n\n{Style.BRIGHT}=== Sample: {index} ===")
+            print(f"\n\n{Style.BRIGHT}=== Sample: {index+1} ===")
             print(f"{Fore.CYAN}{Style.BRIGHT} User prompt: {Style.RESET_ALL}\n{prompt}\n")
             for i, cand in enumerate(generated_candidates):
                 print(f"{Fore.YELLOW}{Style.BRIGHT} Assistant response: #{i+1}:\n{cand}\n")
@@ -275,45 +230,49 @@ def run_model(
     return results, largest_prompt_ctx_size
 
 def evaluate_code(
-    client: ChatOllama | ChatOpenAI | ChatAnthropic,
-    model,
-    available_nodes,
-    data,
-    example_pool,
-    max_new_tokens,
-    temperature,
-    top_p,
-    top_k,
-    seed,
+    candidate_dict: dict[int, list[str]],
     ks,                               
-    debug=False,
-    evaluation_metric = ["syntax", "semantic", "tests"]
-)-> tuple[list[dict[str, dict[int, float]]], int]:
-    
-    model_result, largest_context = run_model(
-        client,
-        model,
-        available_nodes,
-        data,
-        example_pool,
-        max_new_tokens,
-        temperature,
-        top_p,
-        top_k,
-        ks,
-        seed,
-        debug, 
-        evaluation_metric
-    )
+    evaluation_metric = ["syntax", "semantic", "tests"],
+    experiment_name="",
+    model_name="",
+    env="dev"
+)-> list[dict[str, dict[int, float]]]:
+    """
+    Evaluate the code quality of the generated candidates.
+
+    Returns: a list of dictionaries containing the pass@k scores for each metric and ks.
+    - E.g. [
+
+        {
+            "pass@k_syntax": {1: 0.1, 5: 0.3},
+    """
 
     metric_results = []
     for metric in evaluation_metric:
         if metric not in ["syntax", "semantic", "tests"]:
             raise ValueError("Invalid evaluation metric. Choose from 'syntax', 'semantic', 'tests'")
         else:
-            pass_at_k_dict = calculate_pass_at_k_scores(model_result, ks, metric)
+            test_results = evaluate_code_metric(candidate_dict, metric)
+            pass_at_k_dict = calculate_pass_at_k_scores(test_results, ks)
+
+            # Save errors
+            if experiment_name:
+                if env == "dev":
+                    save_results_as_string(test_results, f"{metric}_{experiment_name}.txt")
+                    save_results_to_file(test_results, f"{metric}_{experiment_name}.json")
+                elif env == "prod":
+                    save_errors_to_db(
+                        experiment_name,
+                        model_name,
+                        test_results
+                    )
+                    print(f"✅ Errors saved to database for {metric} in {experiment_name}")
+                    print("📊 Generating error bar chart...")
+                    bar_chart_errors_by_type(experiment_name)
+
             metric_results.append(pass_at_k_dict)
-    return metric_results, largest_context
+
+    return metric_results
 
 def run_validation(
         client: ChatOllama | ChatOpenAI | ChatAnthropic,
@@ -328,19 +287,30 @@ def run_validation(
         seed=None, 
         debug=False,
         optimizer_metric="semantic" #tests, syntax, semantic
-    ):
+    ) -> Run:
+
+    """
+    Run the model on the validation set with different hyperparameters and seeds.
+    Calculate the pass@k for the optimizer_metric and ks provided. We use always k=1.
+
+    Returns: 
+        A Run object containing the best hyperparameters and pass@k for the optimizer
+    """
     val_best_pass_ks = {}
     val_best_metric = 0.0
     best_params = {"temperature": 0.5, "top_p": 0.5, "top_k": 50}
 
     print(f"{Fore.CYAN}{Style.BRIGHT}Validation Phase:{Style.RESET_ALL}")
+    print(f"Optimizing for metric: {optimizer_metric}")
+
     for temp in temperatures:
         for top_k in top_ks:
             for top_p in top_ps:
                 # print(f"Validating with temperature: {temp}, top_k: {top_k} and top_p: {top_p}")
-                metric_results_lists, largest_context = evaluate_code (
+                
+                model_result, largest_context = run_model(
                     client,
-                    model['name'],
+                    model["name"],
                     available_nodes,
                     val_data,
                     example_pool,
@@ -348,11 +318,20 @@ def run_validation(
                     temp,
                     top_p,
                     top_k,
+                    ks,
                     seed,
-                    ks=ks,
-                    debug=debug,
-                    evaluation_metric=[optimizer_metric]
+                    debug, 
+                    [optimizer_metric]
                 )
+
+                metric_results_lists = evaluate_code (
+                    model_result,
+                    ks=ks,
+                    evaluation_metric=[optimizer_metric],
+                    
+
+                )
+                ## Optimizing for the first k in the ks list
                 pass_at_k_dict = metric_results_lists[0]
                 val_metric = pass_at_k_dict[f"pass@{ks[0]}"]
                 print(f"Validation with temp={temp}, top_k={top_k} and top_p={top_p}. Gave pass@{ks[0]}={val_metric} and pass@ks={pass_at_k_dict}")
@@ -390,20 +369,28 @@ def run_testing(
     ks, 
     seeds, 
     debug=False,
-    metrics=["syntax", "semantic", "tests"]
-):
+    metrics=["syntax", "semantic", "tests"],
+    experiment_name="",
+    env="dev"
+) -> list[Run]:
+    """
+    Run the model on the test set with different seeds and the best hyperparameters.
+    Calculate the pass@k for each metric and ks provided.
+
+    Returns: a list of Run objects containing the test results for each seed.
+    """
+
     results = []
  
-    
     #Test the model on the test set with different seeds and the best hyperparameters.
     print(f"{Fore.CYAN}{Style.BRIGHT}Testing Phase:{Style.RESET_ALL}")
 
     for seed in seeds:
         print(f"\nTesting with Seed: {seed} ..", end="\r")
 
-        metric_results_lists, largest_context = evaluate_code(
+        model_result, largest_context = run_model(
             client,
-            model['name'],
+            model["name"],
             available_nodes,
             test_data,
             example_pool,
@@ -411,11 +398,39 @@ def run_testing(
             temperature,
             top_p,
             top_k,
-            seed,
             ks,
-            debug,
-            evaluation_metric=metrics
+            seed,
+            debug, 
+            metrics
         )
+
+        metric_results_lists = evaluate_code (
+            model_result,
+            ks=ks,
+            evaluation_metric=metrics,
+            experiment_name=experiment_name,
+            model_name=model["name"],
+            env=env
+
+        )
+        if env == "prod":
+            save_results_to_db(
+                experiment_name,
+                model["name"],
+                seed,
+                temperature,
+                top_p,
+                top_k,
+                ks,
+                metrics,
+                metric_results_lists
+            )
+            print(f"✅ Results saved to database for seed {seed} in {experiment_name}")
+            visualize_results(experiment_name)
+
+
+        elif env == "dev":
+            pass
 
         new_run = Run(
             phase="testing",

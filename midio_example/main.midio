@@ -2,7 +2,7 @@ import("std", Std_k98ojb)
 import("http", Http_q7o96c)
 
 module() main {
-    
+
     func(doc: "Finds the last position of an element in a sorted array.") last {
         in(x: -231, y: -29, name: "list") property(List) list_2bbadf
         in(x: -246, y: 105, name: "elem") property(Number) elem_94ca57
@@ -10,68 +10,39 @@ module() main {
 
         out(x: 801, y: -229, name: "continue") trigger() continue_9f5f84
         out(x: 795, y: 205, name: "index") property(Number) index_fc05e7
-        
-        instance(x: 336, y: -197) findlast_index_eeb2d0 root.Std_k98ojb.Iteration.Find {}
-        instance(x: 443, y: -185) not_equal_7f2a1c root.Std_k98ojb.Logic.NotEqual {}
 
-        list_2bbadf -> findlast_index_eeb2d0.items
-        elem_94ca57 -> not_equal_7f2a1c.left
-        
+        instance(x: 463, y: -138) filter_7a3bce root.Std_k98ojb.Iteration.Filter {}
+        list_2bbadf -> filter_7a3bce.items
         func() {
-            in(x: 36, y: -328, name: "elem") property(Number) elem_f3e405
-            
-            out(x: 167, y: -397, name: "") property(Bool) _bdddcd
+            in(x: -105, y: -111, name: "x") property(Number) x_f46e8f
 
-            instance(x: -24, y: -415) equal_00c8d8 root.Std_k98ojb.Logic.Equal {}
-            
-            elem_f3e405 -> equal_00c8d8.right
-            not_equal_7f2a1c.right -> equal_00c8d8.left
-            
-            equal_00c8d8.result -> _bdddcd
-        } -> findlast_index_eeb2d0.predicate
-        
-        execute_076885 -> findlast_index_eeb2d0.execute
-        
-        findlast_index_eeb2d0.item -> index_fc05e7
-        findlast_index_eeb2d0.done -> continue_9f5f84
+            out(x: 349, y: -117, name: "") property(Bool) _2cddce
 
+            instance(x: -23, y: -105) equal_2a5b6d root.Std_k98ojb.Logic.Equal {}
+            x_f46e8f -> equal_2a5b6d.left
+            elem_94ca57 -> equal_2a5b6d.right
+            equal_2a5b6d.result -> _2cddce
+        } -> filter_7a3bce.handler
+
+        instance(x: 108, y: -18) lastitem_2e9f4b root.Std_k98ojb.List.LastItem {}
+        filter_7a3bce.output_list -> lastitem_2e9f4b.list
+        lastitem_2e9f4b.item -> index_fc05e7
+
+        instance(x: -16, y: 22) length_cdd85c root.Std_k98ojb.List.Length {}
+        list_2bbadf -> length_cdd85c.list
+
+        instance(x: 373, y: -24) sub_a0eacf root.Std_k98ojb.Math.Sub {}
+        length_cdd85c.length -> sub_a0eacf.first
+        1 -> sub_a0eacf.second
+        index_fc05e7 -> if_6a7dcd.value
+
+        instance(x: -24, y: -34) if_6a7dcd root.Std_k98ojb.Std.If {}
+        execute_076885 -> if_6a7dcd.predicate
+        sub_a0eacf.result -> index_fc05e7
+        continue_9f5f84 -> if_6a7dcd.else
     }
 
     
 
-    instance(x: -136, y: 13) last_a4a2c8 root.main.last {}
+    instance(x: -231, y: 27) last_0bddd0 root.main.last {}
 }
-module(doc: "Contains three different tests for the 'last' function node") tests {
-        instance(x: -359, y: 161) test_e0e516 root.Std_k98ojb.Testing.Test {
-            name: "Test last"
-        }
-        instance(x: -108, y: 266) assertequal_e535d3 root.Std_k98ojb.Testing.AssertEqual {}
-        instance(x: -359, y: 269) last_ec893e root.main.last {}
-        instance(x: 362, y: 266) assertequal_83e73c root.Std_k98ojb.Testing.AssertEqual {}
-        instance(x: 111, y: 269) last_2e9081 root.main.last {}
-        instance(x: 829, y: 279) assertequal_96a0a1 root.Std_k98ojb.Testing.AssertEqual {}
-        instance(x: 578, y: 282) last_f37b3f root.main.last {}
-        data_instance(x: -562, y: 304) data_99c885  = [1, 2, 3]
-        data_instance(x: 93, y: 460) data_3e9e23  = [1, 1, 1, 2, 3, 4]
-        data_instance(x: 596, y: 464) data_09ea6a  = [2, 3, 2, 3, 6, 8, 9]
-        test_e0e516.onRun -> last_ec893e.execute_076885
-        last_ec893e.continue_9f5f84 -> assertequal_e535d3.execute
-        last_ec893e.index_fc05e7 -> assertequal_e535d3.actual
-        last_2e9081.continue_9f5f84 -> assertequal_83e73c.execute
-        last_2e9081.index_fc05e7 -> assertequal_83e73c.actual
-        last_f37b3f.continue_9f5f84 -> assertequal_96a0a1.execute
-        last_f37b3f.index_fc05e7 -> assertequal_96a0a1.actual
-        assertequal_e535d3.continue -> last_2e9081.execute_076885
-        assertequal_83e73c.continue -> last_f37b3f.execute_076885
-        1 -> last_ec893e.elem_94ca57
-        data_99c885 -> last_ec893e.list_2bbadf
-        data_3e9e23 -> last_2e9081.list_2bbadf
-        0 -> assertequal_e535d3.expect
-        2 -> assertequal_83e73c.expect
-        3 -> assertequal_96a0a1.expect
-        data_09ea6a -> last_f37b3f.list_2bbadf
-        3 -> last_f37b3f.elem_94ca57
-        1 -> last_2e9081.elem_94ca57
-
-
-    }

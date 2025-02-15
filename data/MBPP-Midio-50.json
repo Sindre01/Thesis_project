@@ -1951,7 +1951,7 @@
         ],
         "task_id": 25,
         "specification": {
-            "function_signature": "func(doc: \"Takes two lists of the same length and performs the element wise modulo.\") list_modulo {\n\tin(x: -173, y: -154, name: \"list1\") property(List) list1_1f846b\n\tin(x: -181, y: -13, name: \"list2\") property(List) list2_c62075\n\tout(x: 784, y: -110, name: \"newList\") property(List) list_0d40f1\n\tin(x: -231, y: -69, name: \"item1\") property(Number) list1_42bc6f\n\tin(x: -223, y: 18, name: \"item2\") property(Number) list2_1d86d4\n\tout(x: 245, y: -54, name: \"result\") property(Number) result_e245cb\n}",
+            "function_signature": "func(doc: \"Takes two lists of the same length and performs the element wise modulo.\") list_modulo {\n\tin(x: -173, y: -154, name: \"list1\") property(List) list1_1f846b\n\tin(x: -181, y: -13, name: \"list2\") property(List) list2_c62075\n\tout(x: 784, y: -110, name: \"newList\") property(List) list_0d40f1\n}",
             "preconditions": "- Both arrays should be non-null\n- Both arrays should have the same length\n- All elements in the second array (b) should be non-zero",
             "postconditions": "- The length of the result array should be the same as the length of the input arrays\n- Each element in the result array should be the modulo of the corresponding elements in the input arrays"
         },
@@ -2972,7 +2972,7 @@
         ],
         "task_id": 37,
         "specification": {
-            "function_signature": "func(doc: \"Counts number of digits in a given string.\") number_ctr {\n\tin(x: -240, y: 69, name: \"string\") property(String) string_668bd2\n\tout(x: 929, y: 58, name: \"count\") property(Number) count_1f468d\n\tin(x: -272, y: -48, name: \"current\") property(Number) current_86a8fb\n\tout(x: 405, y: -52, name: \"output\") property(Bool) output_8ba733\n}",
+            "function_signature": "func(doc: \"Counts number of digits in a given string.\") number_ctr {\n\tin(x: -240, y: 69, name: \"string\") property(String) string_668bd2\n\tout(x: 929, y: 58, name: \"count\") property(Number) count_1f468d\n}",
             "preconditions": "- There are no preconditions, the method will always work. Strings and sequences are always not null.",
             "postconditions": "- The count should be non-negative\n- The count should be equal to the number of digits in the input string"
         },
@@ -3043,7 +3043,7 @@
         ],
         "task_id": 38,
         "specification": {
-            "function_signature": "func(doc: \"Finds the sum of fourth power of first n odd natural numbers.\") odd_num_sum {\n\tin(x: -243, y: 86, name: \"n\") property(Number) n_0c0609\n\tout(x: 1090, y: 53, name: \"sum\") property(Number) sum_2ad0d5\n\tin(x: -185, y: -84, name: \"accumulated\") property(Number) current_c750f1\n\tin(x: -177, y: 22, name: \"current\") property(Number) current_3f11cd\n\tout(x: 1072, y: -77, name: \"sum\") property(Number) sum_72dd2a\n}",
+            "function_signature": "func(doc: \"Finds the sum of fourth power of first n odd natural numbers.\") odd_num_sum {\n\tin(x: -243, y: 86, name: \"n\") property(Number) n_0c0609\n\tout(x: 1090, y: 53, name: \"sum\") property(Number) sum_2ad0d5\n}",
             "preconditions": "- n should be a non-negative integer",
             "postconditions": "- The sum should be the sum of the fourth power of the first n odd natural numbers"
         },
@@ -3109,7 +3109,7 @@
         ],
         "task_id": 39,
         "specification": {
-            "function_signature": "func(doc: \"Checks whether every odd index contains odd numbers of a given list.\") odd_position {\n\tin(x: -527, y: -214, name: \"list\") property(List) list_07cae4\n\tout(x: 1269, y: -209, name: \"output\") property(Bool) output_8d07dc\n\tin(x: -30, y: -25, name: \"current\") property(Number) _index_170471\n\tin(x: -23, y: 79, name: \"_index\") property(Number) _index_769593\n\tout(x: 705, y: 49, name: \"output\") property(Bool) output_efbc78\n\tin(x: -192, y: -16, name: \"current\") property(Number) current_81298e\n\tout(x: 521, y: -28, name: \"bool\") property(Bool) bool_4524be\n}",
+            "function_signature": "func(doc: \"Checks whether every odd index contains odd numbers of a given list.\") odd_position {\n\tin(x: -527, y: -214, name: \"list\") property(List) list_07cae4\n\tout(x: 1269, y: -209, name: \"output\") property(Bool) output_8d07dc\n}",
             "preconditions": "- There are no preconditions, the method will always work.",
             "postconditions": "- The result is true if every odd index contains an odd number\n- The result is false otherwise"
         },
@@ -3195,7 +3195,7 @@
         ],
         "task_id": 40,
         "specification": {
-            "function_signature": "func(doc: \"Finds the product of first even and odd number of a given list.\") mul_even_odd {\n\tin(x: -277, y: 166, name: \"list\") property(List) list_09fcba\n\tout(x: 800, y: 145, name: \"output\") property(Number) output_edc2e3\n\tin(x: -192, y: 84, name: \"current\") property(Number) current_afd5b1\n\tout(x: 698, y: 85, name: \"bool\") property(Bool) bool_1eb6e9\n\tin(x: -192, y: 84, name: \"current\") property(Number) current_afd5b1\n\tout(x: 698, y: 85, name: \"bool\") property(Bool) bool_1eb6e9\n}",
+            "function_signature": "func(doc: \"Finds the product of first even and odd number of a given list.\") mul_even_odd {\n\tin(x: -277, y: 166, name: \"list\") property(List) list_09fcba\n\tout(x: 800, y: 145, name: \"output\") property(Number) output_edc2e3\n}",
             "preconditions": "- The list must have at least one even and one odd number",
             "postconditions": "- The product is the multiplication of the first even and first odd number found in the list"
         },
@@ -3384,7 +3384,7 @@
         ],
         "task_id": 42,
         "specification": {
-            "function_signature": "func(doc: \"Finds the sum of an array.\") _sum {\n\tin(x: -213, y: 28, name: \"list\") property(List) list_2c62ab\n\tout(x: 567, y: 3, name: \"sum\") property(Number) sum_2a848f\n\tin(x: 100, y: -47, name: \"sum\") property(Number) sum_bc0898\n\tin(x: 98, y: 76, name: \"elem\") property(Number) elem_63eafb\n\tout(x: 598, y: 25, name: \"newSum\") property(Number) newSum_431ae0\n}",
+            "function_signature": "func(doc: \"Finds the sum of an array.\") _sum {\n\tin(x: -213, y: 28, name: \"list\") property(List) list_2c62ab\n\tout(x: 567, y: 3, name: \"sum\") property(Number) sum_2a848f\n}",
             "preconditions": "- The input array should not be null",
             "postconditions": "- The sum of all elements in the input array is returned"
         },
@@ -3461,7 +3461,7 @@
         ],
         "task_id": 43,
         "specification": {
-            "function_signature": "func(doc: \"Finds the first odd number in a given list of numbers.\") first_odd {\n\tin(x: -284, y: -0, name: \"list\") property(List) list_abed4a\n\tout(x: 593, y: -1, name: \"number\") property(Number) number_3bc2ae\n\tin(x: -113, y: 34, name: \"elem\") property(Number) elem_9f6850\n\tout(x: 515, y: 44, name: \"bool\") property(Bool) bool_af09a7\n}",
+            "function_signature": "func(doc: \"Finds the first odd number in a given list of numbers.\") first_odd {\n\tin(x: -284, y: -0, name: \"list\") property(List) list_abed4a\n\tout(x: 593, y: -1, name: \"number\") property(Number) number_3bc2ae\n}",
             "preconditions": "- The input array should not be null",
             "postconditions": "- If found is true, then the value at index is odd\n- If found is false, then there are no odd numbers in the array\n- If there are multiple odd numbers, the index should be the smallest index with an odd number"
         },
@@ -3726,7 +3726,7 @@
         ],
         "task_id": 47,
         "specification": {
-            "function_signature": "func(doc: \"find cubes of individual elements in a list.\") cube_nums {\n\tin(x: -122, y: -81, name: \"list\") property(List) list_63c248\n\tout(x: 656, y: -68, name: \"result\") property(List) result_cbb7bd\n\tin(x: -121, y: -37, name: \"x\") property(Number) x_8ee839\n\tout(x: 333, y: -50, name: \"\") property(Number) _7dd980\n}",
+            "function_signature": "func(doc: \"find cubes of individual elements in a list.\") cube_nums {\n\tin(x: -122, y: -81, name: \"list\") property(List) list_63c248\n\tout(x: 656, y: -68, name: \"result\") property(List) result_cbb7bd\n}",
             "preconditions": "- There are no preconditions, the method will always work. Arrays can be empty or non-empty.",
             "postconditions": "- The length of the output array must be the same as the length of the input array\n- Each element in the output array is the cube of the corresponding element in the input array"
         },
@@ -3977,7 +3977,7 @@
         ],
         "task_id": 50,
         "specification": {
-            "function_signature": "func(doc: \"checks whether the given number is a perfect square or not.\") is_perfect_square {\n\tin(x: 354, y: -53, name: \"input\") property(Number) input_f5c03d\n\tin(x: 161, y: -211, name: \"execute\") trigger() execute_27b8c3\n\tout(x: 1748, y: -10, name: \"out\") property(Bool) out_f3db9f\n\tout(x: 1894, y: 120, name: \"continue\") trigger() continue_8ba06b\n\tin(x: -76, y: 46, name: \"element\") property(Number) element_5f51f7\n\tout(x: 382, y: 19, name: \"out\") property(Number) out_d0fd24\n}",
+            "function_signature": "func(doc: \"checks whether the given number is a perfect square or not.\") is_perfect_square {\n\tin(x: 354, y: -53, name: \"input\") property(Number) input_f5c03d\n\tin(x: 161, y: -211, name: \"execute\") trigger() execute_27b8c3\n\tout(x: 1748, y: -10, name: \"out\") property(Bool) out_f3db9f\n\tout(x: 1894, y: 120, name: \"continue\") trigger() continue_8ba06b\n}",
             "preconditions": "- n should be non-negative",
             "postconditions": "- If the result is true, there exists an integer i such that i * i == n\n- If the result is false, there is no integer i such that i * i == n"
         },

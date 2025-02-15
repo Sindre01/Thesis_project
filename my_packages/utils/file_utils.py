@@ -1,9 +1,7 @@
 import json
 import os
-import re
+from my_packages.common import CodeEvaluationResult
 from my_packages.data_processing.code_files import extract_tests_module
-
-
 
 def extract_all_code_and_write_to_file():
     """ Extracts code wthout tests module from the files in includes_files folder and writes to files only_files folder"""
@@ -40,50 +38,6 @@ def write_code_file(task_id: int, code: str):
     with open(file_path, 'w') as f:
         f.write(code)
     
-def extract_func_signature(code_str: str) -> str:
-    """
-    Extracts a function block starting with 'func(' and ending with a closing brace,
-    and returns a string that contains only:
-      - the header line (first line),
-      - lines inside the function that start with 'in(' or 'out(' (ignoring leading whitespace),
-      - the closing brace line if it exists.
-    """
-    # First, use a regex to extract the whole function block.
-    # This pattern captures from "func(" up to the first occurrence of a closing brace on its own line.
-    pattern = re.compile(r'(func\(.*?\{.*?\n\})', re.DOTALL)
-    match = pattern.search(code_str)
-    if not match:
-        print("No function block found.")
-        return "Not found"
-    
-    block = match.group(1)
-    # Split the block into individual lines.
-    lines = block.splitlines()
-    if not lines:
-        return ""
-    
-    # Assume the first line is the header.
-    header = lines[0]
-    
-    # Determine if the last line is just the closing brace.
-    closing = ""
-    if lines[-1].strip() == "}":
-        closing = lines[-1]
-        inner_lines = lines[1:-1]
-    else:
-        inner_lines = lines[1:]
-    
-    # Filter inner lines: only keep lines starting with "in(" or "out(" (ignoring leading whitespace).
-    filtered_inner = [line for line in inner_lines if line.lstrip().startswith("in(") or line.lstrip().startswith("out(")]
-    
-    # Reconstruct the block.
-    result_lines = [header] + filtered_inner
-    if closing:
-        result_lines.append(closing)
-
-
-    return "\n".join(result_lines)
-    
 def read_test_code_file(task_id):
     """Reads the code file with tests from MBPP_Midio_50/includes_tests/ folder."""
     project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '../..'))
@@ -112,3 +66,64 @@ def read_dataset_to_json(file_path: str):
         dataset = json.load(file)
     return dataset
 
+def save_results_to_file(test_results: dict[int, list[CodeEvaluationResult]], filename: str):
+    """
+    Saves test results to a JSON file properly formatted as a valid JSON array.
+    
+    - Converts CodeEvaluationResult objects to dictionaries.
+    - Reads the existing JSON file (if any) and appends new results.
+    - Writes the updated JSON data back as an array.
+    """
+    project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
+    file_path = os.path.join(project_root, f"notebooks/few-shot/logs/{filename}")
+
+    # Ensure the file exists with an empty array if it doesn't
+    if not os.path.exists(file_path):
+        with open(file_path, "w", encoding="utf-8") as f:
+            json.dump([], f)  # Initialize with an empty array
+
+    # Load existing data
+    with open(file_path, "r", encoding="utf-8") as f:
+        try:
+            existing_data = json.load(f)
+            if not isinstance(existing_data, list):  # Ensure it's a list
+                existing_data = []
+        except json.JSONDecodeError:  # Handle corrupted/malformed JSON
+            existing_data = []
+
+    # Convert new results to a dictionary and append them
+    new_results = []
+    for task_id, results in test_results.items():
+        for result in results:
+            new_results.append({
+                "task_id": task_id,
+                "candidate_id": result.candidate_id,
+                "metric": result.metric,
+                "passed": result.passed,
+                "error_type": result.error_type,
+                "error_msg": result.error_msg,
+                "test_result": result.test_result,
+                "code": result.code
+            })
+
+    # Append new results to existing data
+    existing_data.extend(new_results)
+
+    # Write back as a valid JSON array
+    with open(file_path, "w", encoding="utf-8") as f:
+        json.dump(existing_data, f, indent=4, ensure_ascii=False)
+
+    print(f"✅ Results saved to {file_path} as a valid JSON array.")
+
+def save_results_as_string(test_results: dict[int, list[CodeEvaluationResult]], filename: str):
+    """
+    Saves the string representation of CodeEvaluationResult objects to a file incrementally.
+    """
+    project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '../..'))
+    file_path = os.path.join(project_root, f'notebooks/few-shot/logs/{filename}')
+
+    with open(file_path, "a", encoding="utf-8") as f:
+        for task_id, results in test_results.items():
+            for result in results:
+                f.write(str(result))  # Call __str__() and write to file
+                f.write("\n")  # Newline for readability

@@ -1,0 +1,3441 @@
+
+===================================================================================
+        ❌ Code Evaluation Result
+===================================================================================
+        📌 Task ID       : 41
+        🔢 Candidate ID  : 0
+        📊 Metric        : tests
+        ❌ Passed        : No
+        
+        ⚠️ Error Type    : syntax
+        🛠️ Build Message: Error: Parsing failed
+
+Caused by:
+    CompilerError - Error: Expected token ArrowOp, but got Colon at 955
+        🔍 Error Message : ['ERROR compiler::frontend::parser: 1372: Error during parsing of file midio_example: CompilerError - Error: Expected token ArrowOp, but got Colon at 955', 'ERROR compiler::frontend::parser: 1373:     backtrace: disabled backtrace']
+        ------------------------------
+🖥️ Compiler stderr: Error: Parsing failed
+
+Caused by:
+    CompilerError - Error: Expected token ArrowOp, but got Colon at 955
+📤 Compiler output: Installing dependencies for midio_example@0.1.0
+
+No external dependencies
+
+Building package...
+ERROR compiler::frontend::parser: 1372: Error during parsing of file midio_example: CompilerError - Error: Expected token ArrowOp, but got Colon at 955
+ERROR compiler::frontend::parser: 1373:     backtrace: disabled backtrace
+        
+------------------------------
+📜 Evaluated Code:
+------------------------------
+import("std", Std_k98ojb)
+import("http", Http_q7o96c)
+
+module() main {
+    func(doc: "Finds the last position of an element in a sorted array.") last {
+        in(x: -231, y: -29, name: "list") property(List) list_2bbadf
+        in(x: -246, y: 105, name: "elem") property(Number) elem_94ca57
+        in(x: -356, y: -225, name: "execute") trigger() execute_076885
+
+        out(x: 801, y: -229, name: "continue") trigger() continue_9f5f84
+        out(x: 795, y: 205, name: "index") property(Number) index_fc05e7
+
+        instance(x: 368, y: -126) filter_8b3dce root.Std_k98ojb.Iteration.Filter {}
+        instance(x: 543, y: -256) find_cddc4f root.Std_k98ojb.Iteration.Find {}
+        list_2bbadf -> filter_8b3dce.items
+        elem_94ca57 -> filter_8b3dce.handler.gen_0
+        func() {
+            in(x: -146, y: -214, name: "element") property(Number) element_ea2e1f
+
+            out(x: 375, y: -195, name: "") property(Bool) _8c8d0b
+
+            _8c8d0b: element_ea2e1f == elem_94ca57
+        } -> filter_8b3dce.handler
+        filter_8b3dce.output_list -> find_cddc4f.items
+        func() {
+            in(x: -36, y: 42, name: "element") property(Number) element_ea2e1f
+
+            out(x: -57, y: 98, name: "") property(Bool) _8c8d0b
+
+            _8c8d0b: true
+        } -> find_cddc4f.predicate
+        execute_076885 -> filter_8b3dce.execute
+        find_cddc4f.item -> index_fc05e7
+        find_cddc4f.done -> continue_9f5f84
+    }
+
+    
+
+    instance(x: -142, y: 4) last_a6a47d root.main.last {}
+}
+module(doc: "Contains three different tests for the 'last' function node") tests {
+        instance(x: -359, y: 161) test_e0e516 root.Std_k98ojb.Testing.Test {
+            name: "Test last"
+        }
+        instance(x: -108, y: 266) assertequal_e535d3 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: -359, y: 269) last_ec893e root.main.last {}
+        instance(x: 362, y: 266) assertequal_83e73c root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 111, y: 269) last_2e9081 root.main.last {}
+        instance(x: 829, y: 279) assertequal_96a0a1 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 578, y: 282) last_f37b3f root.main.last {}
+        data_instance(x: -562, y: 304) data_99c885  = [1, 2, 3]
+        data_instance(x: 93, y: 460) data_3e9e23  = [1, 1, 1, 2, 3, 4]
+        data_instance(x: 596, y: 464) data_09ea6a  = [2, 3, 2, 3, 6, 8, 9]
+        test_e0e516.onRun -> last_ec893e.execute_076885
+        last_ec893e.continue_9f5f84 -> assertequal_e535d3.execute
+        last_ec893e.index_fc05e7 -> assertequal_e535d3.actual
+        last_2e9081.continue_9f5f84 -> assertequal_83e73c.execute
+        last_2e9081.index_fc05e7 -> assertequal_83e73c.actual
+        last_f37b3f.continue_9f5f84 -> assertequal_96a0a1.execute
+        last_f37b3f.index_fc05e7 -> assertequal_96a0a1.actual
+        assertequal_e535d3.continue -> last_2e9081.execute_076885
+        assertequal_83e73c.continue -> last_f37b3f.execute_076885
+        1 -> last_ec893e.elem_94ca57
+        data_99c885 -> last_ec893e.list_2bbadf
+        data_3e9e23 -> last_2e9081.list_2bbadf
+        0 -> assertequal_e535d3.expect
+        2 -> assertequal_83e73c.expect
+        3 -> assertequal_96a0a1.expect
+        data_09ea6a -> last_f37b3f.list_2bbadf
+        3 -> last_f37b3f.elem_94ca57
+        1 -> last_2e9081.elem_94ca57
+
+
+    }
+==============================
+        
+
+===================================================================================
+        ❌ Code Evaluation Result
+===================================================================================
+        📌 Task ID       : 41
+        🔢 Candidate ID  : 1
+        📊 Metric        : tests
+        ❌ Passed        : No
+        
+        ⚠️ Error Type    : syntax
+        🛠️ Build Message: Error: Code gen failed
+
+Caused by:
+    Could not find get index of property in function
+        🔍 Error Message : ['ERROR compiler::frontend::code_gen: 3182: Error during code gen: Could not find get index of property in function', 'ERROR compiler::frontend::code_gen: 3183:    backtrace: disabled backtrace']
+        ------------------------------
+🖥️ Compiler stderr: Error: Code gen failed
+
+Caused by:
+    Could not find get index of property in function
+📤 Compiler output: Installing dependencies for midio_example@0.1.0
+
+No external dependencies
+
+Building package...
+ERROR compiler::frontend::code_gen: 3182: Error during code gen: Could not find get index of property in function
+ERROR compiler::frontend::code_gen: 3183:    backtrace: disabled backtrace
+        
+------------------------------
+📜 Evaluated Code:
+------------------------------
+import("std", Std_k98ojb)
+import("http", Http_q7o96c)
+
+module() main {
+    
+    func(doc: "Finds the last position of an element in a sorted array.") last {
+        in(x: -231, y: -29, name: "list") property(List) list_2bbadf
+        in(x: -246, y: 105, name: "elem") property(Number) elem_94ca57
+        in(x: -356, y: -225, name: "execute") trigger() execute_076885
+
+        out(x: 801, y: -229, name: "continue") trigger() continue_9f5f84
+        out(x: 795, y: 205, name: "index") property(Number) index_fc05e7
+
+        instance(x: 364, y: -199) filter_3b2a8c root.Std_k98ojb.Iteration.Filter {}
+        instance(x: 586, y: -128) last_index_9f6d84 root.Std_k98ojb.Iteration.Find {}
+        list_2bbadf -> filter_3b2a8c.items
+        elem_94ca57 -> filter_3b2a8c.handler.gen_0
+        func() {
+            in(x: -106, y: 155, name: "x") property(Number) x_bf2e54
+
+            out(x: 288, y: 179, name: "") property(Bool) _3a7c1b
+
+            instance(x: 75, y: -60) equal_5d3f99 root.Std_k98ojb.Logic.Equal {}
+            x_bf2e54 -> equal_5d3f99.left
+            elem_94ca57 -> equal_5d3f99.right
+            equal_5d3f99.result -> _3a7c1b
+        } -> filter_3b2a8c.handler
+        filter_3b2a8c.output_list -> last_index_9f6d84.items
+        func() {
+            in(x: -209, y: 159, name: "x") property(Number) x_a7e42a
+
+            out(x: 216, y: 183, name: "") property(Bool) _d2f5b4
+
+            instance(x: 54, y: -50) equal_94d6c3 root.Std_k98ojb.Logic.Equal {}
+            x_a7e42a -> equal_94d6c3.left
+            elem_94ca57 -> equal_94d6c3.right
+            equal_94d6c3.result -> _d2f5b4
+        } -> last_index_9f6d84.predicate
+        execute_076885 -> filter_3b2a8c.reset
+        execute_076885 -> last_index_9f6d84.reset
+        last_index_9f6d84.item -> index_fc05e7
+        last_index_9f6d84.done -> continue_9f5f84
+    }
+
+    
+
+    instance(x: -123, y: 24) last_dfa9a0 root.main.last {}
+}
+module(doc: "Contains three different tests for the 'last' function node") tests {
+        instance(x: -359, y: 161) test_e0e516 root.Std_k98ojb.Testing.Test {
+            name: "Test last"
+        }
+        instance(x: -108, y: 266) assertequal_e535d3 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: -359, y: 269) last_ec893e root.main.last {}
+        instance(x: 362, y: 266) assertequal_83e73c root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 111, y: 269) last_2e9081 root.main.last {}
+        instance(x: 829, y: 279) assertequal_96a0a1 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 578, y: 282) last_f37b3f root.main.last {}
+        data_instance(x: -562, y: 304) data_99c885  = [1, 2, 3]
+        data_instance(x: 93, y: 460) data_3e9e23  = [1, 1, 1, 2, 3, 4]
+        data_instance(x: 596, y: 464) data_09ea6a  = [2, 3, 2, 3, 6, 8, 9]
+        test_e0e516.onRun -> last_ec893e.execute_076885
+        last_ec893e.continue_9f5f84 -> assertequal_e535d3.execute
+        last_ec893e.index_fc05e7 -> assertequal_e535d3.actual
+        last_2e9081.continue_9f5f84 -> assertequal_83e73c.execute
+        last_2e9081.index_fc05e7 -> assertequal_83e73c.actual
+        last_f37b3f.continue_9f5f84 -> assertequal_96a0a1.execute
+        last_f37b3f.index_fc05e7 -> assertequal_96a0a1.actual
+        assertequal_e535d3.continue -> last_2e9081.execute_076885
+        assertequal_83e73c.continue -> last_f37b3f.execute_076885
+        1 -> last_ec893e.elem_94ca57
+        data_99c885 -> last_ec893e.list_2bbadf
+        data_3e9e23 -> last_2e9081.list_2bbadf
+        0 -> assertequal_e535d3.expect
+        2 -> assertequal_83e73c.expect
+        3 -> assertequal_96a0a1.expect
+        data_09ea6a -> last_f37b3f.list_2bbadf
+        3 -> last_f37b3f.elem_94ca57
+        1 -> last_2e9081.elem_94ca57
+
+
+    }
+==============================
+        
+
+===================================================================================
+        ❌ Code Evaluation Result
+===================================================================================
+        📌 Task ID       : 41
+        🔢 Candidate ID  : 2
+        📊 Metric        : tests
+        ❌ Passed        : No
+        
+        ⚠️ Error Type    : semantic
+        🛠️ Build Message: 
+        🔍 Error Message : ['ERROR compiler::frontend::compiler_pass: 1341: Model has errors:', 'ERROR compiler::frontend::compiler_pass: 1343: SemanticAnalysisError(@291): Arrow from Trigger to Property is not allowed, backtrace:    0: <unknown>', 'ERROR compiler::frontend::compiler_pass: 1360: Model has errors, skipping code generation']
+        ------------------------------
+🖥️ Compiler stderr: N/A
+📤 Compiler output: Installing dependencies for midio_example@0.1.0
+
+No external dependencies
+
+Building package...
+ERROR compiler::frontend::compiler_pass: 1341: Model has errors:
+ERROR compiler::frontend::compiler_pass: 1343: SemanticAnalysisError(@291): Arrow from Trigger to Property is not allowed, backtrace:    0: <unknown>
+   1: <unknown>
+   2: <unknown>
+   3: <unknown>
+   4: <unknown>
+   5: <unknown>
+   6: <unknown>
+   7: <unknown>
+   8: <unknown>
+   9: <unknown>
+  10: <unknown>
+  11: <unknown>
+  12: <unknown>
+  13: <unknown>
+  14: <unknown>
+  15: <unknown>
+  16: <unknown>
+  17: <unknown>
+  18: <unknown>
+  19: <unknown>
+  20: <unknown>
+  21: <unknown>
+  22: __libc_start_main
+  23: <unknown>
+
+ERROR compiler::frontend::compiler_pass: 1360: Model has errors, skipping code generation
+Package built successfully!
+        
+------------------------------
+📜 Evaluated Code:
+------------------------------
+import("std", Std_k98ojb)
+import("http", Http_q7o96c)
+
+module() main {
+
+    func(doc: "Finds the last position of an element in a sorted array.") last {
+        in(x: -231, y: -29, name: "list") property(List) list_2bbadf
+        in(x: -246, y: 105, name: "elem") property(Number) elem_94ca57
+        in(x: -356, y: -225, name: "execute") trigger() execute_076885
+
+        out(x: 801, y: -229, name: "continue") trigger() continue_9f5f84
+        out(x: 795, y: 205, name: "index") property(Number) index_fc05e7
+
+        instance(x: 463, y: -138) filter_7a3bce root.Std_k98ojb.Iteration.Filter {}
+        list_2bbadf -> filter_7a3bce.items
+        func() {
+            in(x: -105, y: -111, name: "x") property(Number) x_f46e8f
+
+            out(x: 349, y: -117, name: "") property(Bool) _2cddce
+
+            instance(x: -23, y: -105) equal_2a5b6d root.Std_k98ojb.Logic.Equal {}
+            x_f46e8f -> equal_2a5b6d.left
+            elem_94ca57 -> equal_2a5b6d.right
+            equal_2a5b6d.result -> _2cddce
+        } -> filter_7a3bce.handler
+
+        instance(x: 108, y: -18) lastitem_2e9f4b root.Std_k98ojb.List.LastItem {}
+        filter_7a3bce.output_list -> lastitem_2e9f4b.list
+        lastitem_2e9f4b.item -> index_fc05e7
+
+        instance(x: -16, y: 22) length_cdd85c root.Std_k98ojb.List.Length {}
+        list_2bbadf -> length_cdd85c.list
+
+        instance(x: 373, y: -24) sub_a0eacf root.Std_k98ojb.Math.Sub {}
+        length_cdd85c.length -> sub_a0eacf.first
+        1 -> sub_a0eacf.second
+        index_fc05e7 -> if_6a7dcd.value
+
+        instance(x: -24, y: -34) if_6a7dcd root.Std_k98ojb.Std.If {}
+        execute_076885 -> if_6a7dcd.predicate
+        sub_a0eacf.result -> index_fc05e7
+        continue_9f5f84 -> if_6a7dcd.else
+    }
+
+    
+
+    instance(x: -231, y: 27) last_0bddd0 root.main.last {}
+}
+module(doc: "Contains three different tests for the 'last' function node") tests {
+        instance(x: -359, y: 161) test_e0e516 root.Std_k98ojb.Testing.Test {
+            name: "Test last"
+        }
+        instance(x: -108, y: 266) assertequal_e535d3 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: -359, y: 269) last_ec893e root.main.last {}
+        instance(x: 362, y: 266) assertequal_83e73c root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 111, y: 269) last_2e9081 root.main.last {}
+        instance(x: 829, y: 279) assertequal_96a0a1 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 578, y: 282) last_f37b3f root.main.last {}
+        data_instance(x: -562, y: 304) data_99c885  = [1, 2, 3]
+        data_instance(x: 93, y: 460) data_3e9e23  = [1, 1, 1, 2, 3, 4]
+        data_instance(x: 596, y: 464) data_09ea6a  = [2, 3, 2, 3, 6, 8, 9]
+        test_e0e516.onRun -> last_ec893e.execute_076885
+        last_ec893e.continue_9f5f84 -> assertequal_e535d3.execute
+        last_ec893e.index_fc05e7 -> assertequal_e535d3.actual
+        last_2e9081.continue_9f5f84 -> assertequal_83e73c.execute
+        last_2e9081.index_fc05e7 -> assertequal_83e73c.actual
+        last_f37b3f.continue_9f5f84 -> assertequal_96a0a1.execute
+        last_f37b3f.index_fc05e7 -> assertequal_96a0a1.actual
+        assertequal_e535d3.continue -> last_2e9081.execute_076885
+        assertequal_83e73c.continue -> last_f37b3f.execute_076885
+        1 -> last_ec893e.elem_94ca57
+        data_99c885 -> last_ec893e.list_2bbadf
+        data_3e9e23 -> last_2e9081.list_2bbadf
+        0 -> assertequal_e535d3.expect
+        2 -> assertequal_83e73c.expect
+        3 -> assertequal_96a0a1.expect
+        data_09ea6a -> last_f37b3f.list_2bbadf
+        3 -> last_f37b3f.elem_94ca57
+        1 -> last_2e9081.elem_94ca57
+
+
+    }
+==============================
+        
+
+===================================================================================
+        ❌ Code Evaluation Result
+===================================================================================
+        📌 Task ID       : 41
+        🔢 Candidate ID  : 3
+        📊 Metric        : tests
+        ❌ Passed        : No
+        
+        ⚠️ Error Type    : syntax
+        🛠️ Build Message: Error: Code gen failed
+
+Caused by:
+    Could not find get index of property in function
+        🔍 Error Message : ['ERROR compiler::frontend::code_gen: 3182: Error during code gen: Could not find get index of property in function', 'ERROR compiler::frontend::code_gen: 3183:    backtrace: disabled backtrace']
+        ------------------------------
+🖥️ Compiler stderr: Error: Code gen failed
+
+Caused by:
+    Could not find get index of property in function
+📤 Compiler output: Installing dependencies for midio_example@0.1.0
+
+No external dependencies
+
+Building package...
+ERROR compiler::frontend::code_gen: 3182: Error during code gen: Could not find get index of property in function
+ERROR compiler::frontend::code_gen: 3183:    backtrace: disabled backtrace
+        
+------------------------------
+📜 Evaluated Code:
+------------------------------
+import("std", Std_k98ojb)
+import("http", Http_q7o96c)
+
+module() main {
+    
+    func(doc: "Finds the last position of an element in a sorted array.") last {
+        in(x: -231, y: -29, name: "list") property(List) list_2bbadf
+        in(x: -246, y: 105, name: "elem") property(Number) elem_94ca57
+        in(x: -356, y: -225, name: "execute") trigger() execute_076885
+
+        out(x: 801, y: -229, name: "continue") trigger() continue_9f5f84
+        out(x: 795, y: 205, name: "index") property(Number) index_fc05e7
+
+        instance(x: -36, y: -163) length_cddc2a root.Std_k98ojb.List.Length {}
+        instance(x: -48, y: 17) sub_0d2df9 root.Std_k98ojb.Math.Sub {}
+        instance(x: -58, y: -138) find_eab6f9 root.Std_k98ojb.Iteration.Find {
+            predicate: "it == elem"
+        }
+        list_2bbadf -> length_cddc2a.list
+        index_fc05e7 -> sub_0d2df9.first
+        1 -> sub_0d2df9.second
+        execute_076885 -> find_eab6f9.execute
+        elem_94ca57 -> find_eab6f9.item
+        list_2bbadf -> find_eab6f9.items
+        length_cddc2a.length -> sub_0d2df9.second
+        sub_0d2df9.result -> index_fc05e7
+        find_eab6f9.done -> continue_9f5f84
+    }
+
+    
+
+    instance(x: -13, y: 20) last_0bddd4 root.main.last {}
+}
+module(doc: "Contains three different tests for the 'last' function node") tests {
+        instance(x: -359, y: 161) test_e0e516 root.Std_k98ojb.Testing.Test {
+            name: "Test last"
+        }
+        instance(x: -108, y: 266) assertequal_e535d3 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: -359, y: 269) last_ec893e root.main.last {}
+        instance(x: 362, y: 266) assertequal_83e73c root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 111, y: 269) last_2e9081 root.main.last {}
+        instance(x: 829, y: 279) assertequal_96a0a1 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 578, y: 282) last_f37b3f root.main.last {}
+        data_instance(x: -562, y: 304) data_99c885  = [1, 2, 3]
+        data_instance(x: 93, y: 460) data_3e9e23  = [1, 1, 1, 2, 3, 4]
+        data_instance(x: 596, y: 464) data_09ea6a  = [2, 3, 2, 3, 6, 8, 9]
+        test_e0e516.onRun -> last_ec893e.execute_076885
+        last_ec893e.continue_9f5f84 -> assertequal_e535d3.execute
+        last_ec893e.index_fc05e7 -> assertequal_e535d3.actual
+        last_2e9081.continue_9f5f84 -> assertequal_83e73c.execute
+        last_2e9081.index_fc05e7 -> assertequal_83e73c.actual
+        last_f37b3f.continue_9f5f84 -> assertequal_96a0a1.execute
+        last_f37b3f.index_fc05e7 -> assertequal_96a0a1.actual
+        assertequal_e535d3.continue -> last_2e9081.execute_076885
+        assertequal_83e73c.continue -> last_f37b3f.execute_076885
+        1 -> last_ec893e.elem_94ca57
+        data_99c885 -> last_ec893e.list_2bbadf
+        data_3e9e23 -> last_2e9081.list_2bbadf
+        0 -> assertequal_e535d3.expect
+        2 -> assertequal_83e73c.expect
+        3 -> assertequal_96a0a1.expect
+        data_09ea6a -> last_f37b3f.list_2bbadf
+        3 -> last_f37b3f.elem_94ca57
+        1 -> last_2e9081.elem_94ca57
+
+
+    }
+==============================
+        
+
+===================================================================================
+        ❌ Code Evaluation Result
+===================================================================================
+        📌 Task ID       : 41
+        🔢 Candidate ID  : 4
+        📊 Metric        : tests
+        ❌ Passed        : No
+        
+        ⚠️ Error Type    : semantic
+        🛠️ Build Message: 
+        🔍 Error Message : ['ERROR compiler::frontend::compiler_pass: 1341: Model has errors:', 'ERROR compiler::frontend::compiler_pass: 1343: SemanticAnalysisError(@186): Arrow from Property to Trigger is not allowed, backtrace:    0: <unknown>', 'ERROR compiler::frontend::compiler_pass: 1360: Model has errors, skipping code generation']
+        ------------------------------
+🖥️ Compiler stderr: N/A
+📤 Compiler output: Installing dependencies for midio_example@0.1.0
+
+No external dependencies
+
+Building package...
+ERROR compiler::frontend::compiler_pass: 1341: Model has errors:
+ERROR compiler::frontend::compiler_pass: 1343: SemanticAnalysisError(@186): Arrow from Property to Trigger is not allowed, backtrace:    0: <unknown>
+   1: <unknown>
+   2: <unknown>
+   3: <unknown>
+   4: <unknown>
+   5: <unknown>
+   6: <unknown>
+   7: <unknown>
+   8: <unknown>
+   9: <unknown>
+  10: <unknown>
+  11: <unknown>
+  12: <unknown>
+  13: <unknown>
+  14: <unknown>
+  15: <unknown>
+  16: <unknown>
+  17: <unknown>
+  18: <unknown>
+  19: <unknown>
+  20: <unknown>
+  21: <unknown>
+  22: __libc_start_main
+  23: <unknown>
+
+ERROR compiler::frontend::compiler_pass: 1360: Model has errors, skipping code generation
+Package built successfully!
+        
+------------------------------
+📜 Evaluated Code:
+------------------------------
+import("std", Std_k98ojb)
+import("http", Http_q7o96c)
+
+module() main {
+    func(doc: "Finds the last position of an element in a sorted array.") last {
+        in(x: -231, y: -29, name: "list") property(List) list_2bbadf
+        in(x: -246, y: 105, name: "elem") property(Number) elem_94ca57
+        in(x: -356, y: -225, name: "execute") trigger() execute_076885
+
+        out(x: 801, y: -229, name: "continue") trigger() continue_9f5f84
+        out(x: 795, y: 205, name: "index") property(Number) index_fc05e7
+
+        instance(x: 361, y: -208) length_f8d9c8 root.Std_k98ojb.List.Length {}
+        instance(x: 487, y: 156) filter_6f33a7 root.Std_k98ojb.Iteration.Filter {
+            handler: "it == elem"
+        }
+        instance(x: -209, y: 123) empty_f8c4d7 root.Std_k98ojb.List.Empty {}
+        list_2bbadf -> length_f8d9c8.list
+        list_2bbadf -> filter_6f33a7.items
+        elem_94ca57 -> filter_6f33a7.context
+        empty_f8c4d7.list -> index_fc05e7
+        execute_076885 -> length_f8d9c8.execute
+        length_f8d9c8.length -> index_fc05e7
+        filter_6f33a7.output_list -> index_fc05e7
+        index_fc05e7 -> continue_9f5f84
+    }
+
+    
+
+    instance(x: -121, y: 4) last_f2d3b4 root.main.last {}
+}
+module(doc: "Contains three different tests for the 'last' function node") tests {
+        instance(x: -359, y: 161) test_e0e516 root.Std_k98ojb.Testing.Test {
+            name: "Test last"
+        }
+        instance(x: -108, y: 266) assertequal_e535d3 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: -359, y: 269) last_ec893e root.main.last {}
+        instance(x: 362, y: 266) assertequal_83e73c root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 111, y: 269) last_2e9081 root.main.last {}
+        instance(x: 829, y: 279) assertequal_96a0a1 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 578, y: 282) last_f37b3f root.main.last {}
+        data_instance(x: -562, y: 304) data_99c885  = [1, 2, 3]
+        data_instance(x: 93, y: 460) data_3e9e23  = [1, 1, 1, 2, 3, 4]
+        data_instance(x: 596, y: 464) data_09ea6a  = [2, 3, 2, 3, 6, 8, 9]
+        test_e0e516.onRun -> last_ec893e.execute_076885
+        last_ec893e.continue_9f5f84 -> assertequal_e535d3.execute
+        last_ec893e.index_fc05e7 -> assertequal_e535d3.actual
+        last_2e9081.continue_9f5f84 -> assertequal_83e73c.execute
+        last_2e9081.index_fc05e7 -> assertequal_83e73c.actual
+        last_f37b3f.continue_9f5f84 -> assertequal_96a0a1.execute
+        last_f37b3f.index_fc05e7 -> assertequal_96a0a1.actual
+        assertequal_e535d3.continue -> last_2e9081.execute_076885
+        assertequal_83e73c.continue -> last_f37b3f.execute_076885
+        1 -> last_ec893e.elem_94ca57
+        data_99c885 -> last_ec893e.list_2bbadf
+        data_3e9e23 -> last_2e9081.list_2bbadf
+        0 -> assertequal_e535d3.expect
+        2 -> assertequal_83e73c.expect
+        3 -> assertequal_96a0a1.expect
+        data_09ea6a -> last_f37b3f.list_2bbadf
+        3 -> last_f37b3f.elem_94ca57
+        1 -> last_2e9081.elem_94ca57
+
+
+    }
+==============================
+        
+
+===================================================================================
+        ✅ Code Evaluation Result
+===================================================================================
+        📌 Task ID       : 41
+        🔢 Candidate ID  : 5
+        📊 Metric        : tests
+        ✔️ Passed        : Yes
+        
+------------------------------
+🧪 Test Result   : [96mInstalling dependencies for midio_example@0.1.0
+[0m
+[92mNo external dependencies[0m
+
+[93mBuilding package...[0m
+[92mPackage built successfully!
+[0m
+[31mERROR[0m [2mengine::engine::engine[0m[2m:[0m [2m1727:[0m [91mError stepping: StepError(Expected bool, but got Null)[0m
+[31mERROR[0m [2mengine::engine::engine[0m[2m:[0m [2m1728:[0m disabled backtrace
+{
+  "num_tests": 1,
+  "num_passed": 1,
+  "test_results": [
+    {
+      "name": "Test last",
+      "assertions": [],
+      "passed": true
+    }
+  ]
+}
+
+        
+------------------------------
+📜 Evaluated Code:
+------------------------------
+import("std", Std_k98ojb)
+import("http", Http_q7o96c)
+
+module() main { 
+    func(doc: "Finds the last position of an element in a sorted array.") last {
+        in(x: -231, y: -29, name: "list") property(List) list_2bbadf
+        in(x: -246, y: 105, name: "elem") property(Number) elem_94ca57
+        in(x: -356, y: -225, name: "execute") trigger() execute_076885
+
+        out(x: 801, y: -229, name: "continue") trigger() continue_9f5f84
+        out(x: 795, y: 205, name: "index") property(Number) index_fc05e7
+
+        instance(x: 161, y: 39) filter_f1a5c3 root.Std_k98ojb.Iteration.Filter {}
+        instance(x: 454, y: -62) last_5d7f92 root.main.last {}
+        instance(x: 105, y: 133) ifexpression_c3daeb root.Std_k98ojb.Std.IfExpression {
+            expression: "it == elem"
+        }
+        list_2bbadf -> filter_f1a5c3.items
+        func() {
+            in(x: -146, y: 107, name: "item") property(Number) item_aebf89
+
+            out(x: 105, y: 288, name: "") property(Bool) _e4b3a4
+
+            elem_94ca57 -> ifexpression_c3daeb.gen_0
+            item_aebf89 -> ifexpression_c3daeb.gen_1
+            ifexpression_c3daeb.result -> _e4b3a4
+        } -> filter_f1a5c3.handler
+        execute_076885 -> last_5d7f92.execute_076885
+        filter_f1a5c3.output_list -> last_5d7f92.list_2bbadf
+        elem_94ca57 -> last_5d7f92.elem_94ca57
+        ifexpression_c3daeb.then -> continue_9f5f84
+        filter_f1a5c3.output_list -> index_fc05e7
+    }
+
+    
+
+    instance(x: -96, y: 16) last_a1b2d6 root.main.last {}
+}
+module(doc: "Contains three different tests for the 'last' function node") tests {
+        instance(x: -359, y: 161) test_e0e516 root.Std_k98ojb.Testing.Test {
+            name: "Test last"
+        }
+        instance(x: -108, y: 266) assertequal_e535d3 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: -359, y: 269) last_ec893e root.main.last {}
+        instance(x: 362, y: 266) assertequal_83e73c root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 111, y: 269) last_2e9081 root.main.last {}
+        instance(x: 829, y: 279) assertequal_96a0a1 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 578, y: 282) last_f37b3f root.main.last {}
+        data_instance(x: -562, y: 304) data_99c885  = [1, 2, 3]
+        data_instance(x: 93, y: 460) data_3e9e23  = [1, 1, 1, 2, 3, 4]
+        data_instance(x: 596, y: 464) data_09ea6a  = [2, 3, 2, 3, 6, 8, 9]
+        test_e0e516.onRun -> last_ec893e.execute_076885
+        last_ec893e.continue_9f5f84 -> assertequal_e535d3.execute
+        last_ec893e.index_fc05e7 -> assertequal_e535d3.actual
+        last_2e9081.continue_9f5f84 -> assertequal_83e73c.execute
+        last_2e9081.index_fc05e7 -> assertequal_83e73c.actual
+        last_f37b3f.continue_9f5f84 -> assertequal_96a0a1.execute
+        last_f37b3f.index_fc05e7 -> assertequal_96a0a1.actual
+        assertequal_e535d3.continue -> last_2e9081.execute_076885
+        assertequal_83e73c.continue -> last_f37b3f.execute_076885
+        1 -> last_ec893e.elem_94ca57
+        data_99c885 -> last_ec893e.list_2bbadf
+        data_3e9e23 -> last_2e9081.list_2bbadf
+        0 -> assertequal_e535d3.expect
+        2 -> assertequal_83e73c.expect
+        3 -> assertequal_96a0a1.expect
+        data_09ea6a -> last_f37b3f.list_2bbadf
+        3 -> last_f37b3f.elem_94ca57
+        1 -> last_2e9081.elem_94ca57
+
+
+    }
+==============================
+        
+
+===================================================================================
+        ❌ Code Evaluation Result
+===================================================================================
+        📌 Task ID       : 41
+        🔢 Candidate ID  : 6
+        📊 Metric        : tests
+        ❌ Passed        : No
+        
+        ⚠️ Error Type    : syntax
+        🛠️ Build Message: Error: Code gen failed
+
+Caused by:
+    Could not find get index of property in function
+        🔍 Error Message : ['ERROR compiler::frontend::code_gen: 3182: Error during code gen: Could not find get index of property in function', 'ERROR compiler::frontend::code_gen: 3183:    backtrace: disabled backtrace']
+        ------------------------------
+🖥️ Compiler stderr: Error: Code gen failed
+
+Caused by:
+    Could not find get index of property in function
+📤 Compiler output: Installing dependencies for midio_example@0.1.0
+
+No external dependencies
+
+Building package...
+ERROR compiler::frontend::code_gen: 3182: Error during code gen: Could not find get index of property in function
+ERROR compiler::frontend::code_gen: 3183:    backtrace: disabled backtrace
+        
+------------------------------
+📜 Evaluated Code:
+------------------------------
+import("std", Std_k98ojb)
+import("http", Http_q7o96c)
+
+module() main {
+    
+    func(doc: "Finds the last position of an element in a sorted array.") last {
+        in(x: -231, y: -29, name: "list") property(List) list_2bbadf
+        in(x: -246, y: 105, name: "elem") property(Number) elem_94ca57
+        in(x: -356, y: -225, name: "execute") trigger() execute_076885
+
+        out(x: 801, y: -229, name: "continue") trigger() continue_9f5f84
+        out(x: 795, y: 205, name: "index") property(Number) index_fc05e7
+
+        instance(x: 363, y: 167) filter_f5d5b7 root.Std_k98ojb.Iteration.Filter {}
+        list_2bbadf -> filter_f5d5b7.items
+        func() {
+            in(x: -340, y: -65, name: "x") property(Number) x_bf1c8a
+
+            out(x: 459, y: 200, name: "") property(Bool) _6d7bdc
+
+            instance(x: 446, y: 35) equal_0e956c root.Std_k98ojb.Logic.Equal {}
+            x_bf1c8a -> equal_0e956c.left
+            elem_94ca57 -> equal_0e956c.right
+            equal_0e956c.result -> _6d7bdc
+        } -> filter_f5d5b7.handler
+        filter_f5d5b7.output_list -> index_fc05e7
+        execute_076885 -> continue_9f5f84
+    }
+
+    
+
+    instance(x: -123, y: 4) last_3c56a8 root.main.last {}
+}
+module(doc: "Contains three different tests for the 'last' function node") tests {
+        instance(x: -359, y: 161) test_e0e516 root.Std_k98ojb.Testing.Test {
+            name: "Test last"
+        }
+        instance(x: -108, y: 266) assertequal_e535d3 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: -359, y: 269) last_ec893e root.main.last {}
+        instance(x: 362, y: 266) assertequal_83e73c root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 111, y: 269) last_2e9081 root.main.last {}
+        instance(x: 829, y: 279) assertequal_96a0a1 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 578, y: 282) last_f37b3f root.main.last {}
+        data_instance(x: -562, y: 304) data_99c885  = [1, 2, 3]
+        data_instance(x: 93, y: 460) data_3e9e23  = [1, 1, 1, 2, 3, 4]
+        data_instance(x: 596, y: 464) data_09ea6a  = [2, 3, 2, 3, 6, 8, 9]
+        test_e0e516.onRun -> last_ec893e.execute_076885
+        last_ec893e.continue_9f5f84 -> assertequal_e535d3.execute
+        last_ec893e.index_fc05e7 -> assertequal_e535d3.actual
+        last_2e9081.continue_9f5f84 -> assertequal_83e73c.execute
+        last_2e9081.index_fc05e7 -> assertequal_83e73c.actual
+        last_f37b3f.continue_9f5f84 -> assertequal_96a0a1.execute
+        last_f37b3f.index_fc05e7 -> assertequal_96a0a1.actual
+        assertequal_e535d3.continue -> last_2e9081.execute_076885
+        assertequal_83e73c.continue -> last_f37b3f.execute_076885
+        1 -> last_ec893e.elem_94ca57
+        data_99c885 -> last_ec893e.list_2bbadf
+        data_3e9e23 -> last_2e9081.list_2bbadf
+        0 -> assertequal_e535d3.expect
+        2 -> assertequal_83e73c.expect
+        3 -> assertequal_96a0a1.expect
+        data_09ea6a -> last_f37b3f.list_2bbadf
+        3 -> last_f37b3f.elem_94ca57
+        1 -> last_2e9081.elem_94ca57
+
+
+    }
+==============================
+        
+
+===================================================================================
+        ❌ Code Evaluation Result
+===================================================================================
+        📌 Task ID       : 41
+        🔢 Candidate ID  : 7
+        📊 Metric        : tests
+        ❌ Passed        : No
+        
+        ⚠️ Error Type    : syntax
+        🛠️ Build Message: Error: Parsing failed
+
+Caused by:
+    Unexpected token while parsing property: Identifier
+        🔍 Error Message : ['ERROR compiler::frontend::parser: 1372: Error during parsing of file midio_example: Unexpected token while parsing property: Identifier', 'ERROR compiler::frontend::parser: 1373:     backtrace: disabled backtrace']
+        ------------------------------
+🖥️ Compiler stderr: Error: Parsing failed
+
+Caused by:
+    Unexpected token while parsing property: Identifier
+📤 Compiler output: Installing dependencies for midio_example@0.1.0
+
+No external dependencies
+
+Building package...
+ERROR compiler::frontend::parser: 1372: Error during parsing of file midio_example: Unexpected token while parsing property: Identifier
+ERROR compiler::frontend::parser: 1373:     backtrace: disabled backtrace
+        
+------------------------------
+📜 Evaluated Code:
+------------------------------
+import("std", Std_k98ojb)
+import("http", Http_q7o96c)
+
+module() main { 
+    func(doc: "Finds the last position of an element in a sorted array.") last {
+        in(x: -231, y: -29, name: "list") property(List) list_2bbadf
+        in(x: -246, y: 105, name: "elem") property(Number) elem_94ca57
+        in(x: -356, y: -225, name: "execute") trigger() execute_076885
+
+        out(x: 801, y: -229, name: "continue") trigger() continue_9f5f84
+        out(x: 795, y: 205, name: "index") property(Number) index_fc05e7
+
+        instance(x: -63, y: -151) filter_d6a0b8 root.Std_k98ojb.Iteration.Filter {}
+        instance(x: 436, y: 129) last_index_5f4c3c root.main.last_index {}
+        instance(x: -77, y: 111) length_c4eacf root.Std_k98ojb.List.Length {}
+        list_2bbadf -> filter_d6a0b8.items
+        elem_94ca57 -> filter_d6a0b8.predicate
+        func() {
+            in(x: -30, y: 184, name: "x") property(Number) x_bf4d0e
+
+            out(x: 126, y: 181, name: "") property(Bool) _5a7b9c
+
+            instance(x: 88, y: 137) equal_020faa root.Std_k98ojb.Logic.Equal {}
+            x_bf4d0e -> equal_020faa.left
+            elem_94ca57 -> equal_020faa.right
+            equal_020faa.result -> _5a7b9c
+        } -> filter_d6a0b8.handler
+        filter_d6a0b8.output_list -> last_index_5f4c3c.list
+        list_2bbadf -> length_c4eacf.list
+        execute_076885 -> last_index_5f4c3c.execute
+        last_index_5f4c3c.continue_9f5f84 -> continue_9f5f84
+        last_index_5f4c3c.index_fc05e7 -> index_fc05e7
+    }
+
+    
+
+    func(doc: "Finds the index of an element in a list.") last_index {
+        in(x: -216, y: 92, name: "list") property(List) list_8f4d3c
+        in(x: -305, y: -225, name: "execute") trigger() execute_f7a9b6
+
+        out(x: 801, y: -229, name: "continue") trigger() continue_9f5f84
+        out(x: 795, y: 205, name: "index") property(Number) index_fc05e7
+
+        instance(x: -36, y: -151) for_5b3a9d root.Std_k98ojb.Std.For {}
+        list_8f4d3c -> for_5b3a9d.items
+        execute_f7a9b6 -> for_5b3a9d.reset
+        func() {
+            in(x: -20, y: 16) name("index") property(Number) index_e5e8f4
+
+            out(x: 161, y: 16, name: "done") trigger() done_73c79b
+            out(x: 161, y: -20, name: "onItem") trigger() onitem_f2a5d7
+            out(x: 184, y: -104, name: "index") property(Number) index_6f3e6c
+
+            instance(x: -90, y: 104) equal_bdfb62 root.Std_k98ojb.Logic.Equal {}
+            setter(x: -75, y: 16, name: "setter_d7d6a4") setter_d7d6a4 = index
+            for_5b3a9d.index -> index_e5e8f4
+            getter(x: -102, y: 16, name: "getter_bdfc77") getter_bdfc77 = index
+            getter(x: -106, y: 184, name: "getter_9b3d5a") getter_9b3d5a = index
+            setter_d7d6a4.new_value -> index_6f3e6c
+            for_5b3a9d.item -> equal_bdfb62.left
+            elem_94ca57 -> equal_bdfb62.right
+            equal_bdfb62.result -> onitem_f2a5d7
+            getter_bdfc77.value -> setter_d7d6a4.new_value
+            done_73c79b -> continue_9f5f84
+        } -> for_5b3a9d.handler
+        index_fc05e7 -> index_6f3e6c
+        getter_9b3d5a.value -> index_fc05e7
+    }
+}
+module(doc: "Contains three different tests for the 'last' function node") tests {
+        instance(x: -359, y: 161) test_e0e516 root.Std_k98ojb.Testing.Test {
+            name: "Test last"
+        }
+        instance(x: -108, y: 266) assertequal_e535d3 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: -359, y: 269) last_ec893e root.main.last {}
+        instance(x: 362, y: 266) assertequal_83e73c root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 111, y: 269) last_2e9081 root.main.last {}
+        instance(x: 829, y: 279) assertequal_96a0a1 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 578, y: 282) last_f37b3f root.main.last {}
+        data_instance(x: -562, y: 304) data_99c885  = [1, 2, 3]
+        data_instance(x: 93, y: 460) data_3e9e23  = [1, 1, 1, 2, 3, 4]
+        data_instance(x: 596, y: 464) data_09ea6a  = [2, 3, 2, 3, 6, 8, 9]
+        test_e0e516.onRun -> last_ec893e.execute_076885
+        last_ec893e.continue_9f5f84 -> assertequal_e535d3.execute
+        last_ec893e.index_fc05e7 -> assertequal_e535d3.actual
+        last_2e9081.continue_9f5f84 -> assertequal_83e73c.execute
+        last_2e9081.index_fc05e7 -> assertequal_83e73c.actual
+        last_f37b3f.continue_9f5f84 -> assertequal_96a0a1.execute
+        last_f37b3f.index_fc05e7 -> assertequal_96a0a1.actual
+        assertequal_e535d3.continue -> last_2e9081.execute_076885
+        assertequal_83e73c.continue -> last_f37b3f.execute_076885
+        1 -> last_ec893e.elem_94ca57
+        data_99c885 -> last_ec893e.list_2bbadf
+        data_3e9e23 -> last_2e9081.list_2bbadf
+        0 -> assertequal_e535d3.expect
+        2 -> assertequal_83e73c.expect
+        3 -> assertequal_96a0a1.expect
+        data_09ea6a -> last_f37b3f.list_2bbadf
+        3 -> last_f37b3f.elem_94ca57
+        1 -> last_2e9081.elem_94ca57
+
+
+    }
+==============================
+        
+
+===================================================================================
+        ❌ Code Evaluation Result
+===================================================================================
+        📌 Task ID       : 41
+        🔢 Candidate ID  : 8
+        📊 Metric        : tests
+        ❌ Passed        : No
+        
+        ⚠️ Error Type    : syntax
+        🛠️ Build Message: Error: Parsing failed
+
+Caused by:
+    CompilerError - Error: Expected token ArrowOp, but got Assign at 1114
+        🔍 Error Message : ['ERROR compiler::frontend::parser: 1372: Error during parsing of file midio_example: CompilerError - Error: Expected token ArrowOp, but got Assign at 1114', 'ERROR compiler::frontend::parser: 1373:     backtrace: disabled backtrace']
+        ------------------------------
+🖥️ Compiler stderr: Error: Parsing failed
+
+Caused by:
+    CompilerError - Error: Expected token ArrowOp, but got Assign at 1114
+📤 Compiler output: Installing dependencies for midio_example@0.1.0
+
+No external dependencies
+
+Building package...
+ERROR compiler::frontend::parser: 1372: Error during parsing of file midio_example: CompilerError - Error: Expected token ArrowOp, but got Assign at 1114
+ERROR compiler::frontend::parser: 1373:     backtrace: disabled backtrace
+        
+------------------------------
+📜 Evaluated Code:
+------------------------------
+import("std", Std_k98ojb)
+import("http", Http_q7o96c)
+
+module() main {
+    
+    func(doc: "Finds the last position of an element in a sorted array.") last {
+        in(x: -231, y: -29, name: "list") property(List) list_2bbadf
+        in(x: -246, y: 105, name: "elem") property(Number) elem_94ca57
+        in(x: -356, y: -225, name: "execute") trigger() execute_076885
+        
+        out(x: 801, y: -229, name: "continue") trigger() continue_9f5f84
+        out(x: 795, y: 205, name: "index") property(Number) index_fc05e7
+
+        instance(x: 361, y: -181) for_6b4dbd root.Std_k98ojb.Std.For {}
+        instance(x: 345, y: -84) filter_b2f41c root.Std_k98ojb.Iteration.Filter {}
+        setter(x: 704, y: -131, name: "setter_6eacf3") setter_6eacf3 = filteredList
+        getter(x: 256, y: -239, name: "getter_ea8c9b") getter_ea8c9b = filteredList
+
+        list_2bbadf -> for_6b4dbd.items
+        elem_94ca57 -> filter_b2f41c.handler.in_0
+        func() {
+            in(x: -34, y: 67, name: "item") property(Number) item_8e0a25
+
+            out(x: 143, y: 90, name: "") property(Bool) _bdddfe
+
+            _bdddfe = Logic.Equal(item_8e0a25, elem_94ca57)
+        } -> filter_b2f41c.handler
+        for_6b4dbd.onItem -> setter_6eacf3.execute
+        list_2bbadf -> filter_b2f41c.items
+        setter_6eacf3.continue -> continue_9f5f84
+        execute_076885 -> filter_b2f41c.execute
+        getter_ea8c9b.value -> index_fc05e7
+    }
+
+    
+
+    instance(x: 7, y: -6) last_f3d07d root.main.last {}
+}
+module(doc: "Contains three different tests for the 'last' function node") tests {
+        instance(x: -359, y: 161) test_e0e516 root.Std_k98ojb.Testing.Test {
+            name: "Test last"
+        }
+        instance(x: -108, y: 266) assertequal_e535d3 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: -359, y: 269) last_ec893e root.main.last {}
+        instance(x: 362, y: 266) assertequal_83e73c root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 111, y: 269) last_2e9081 root.main.last {}
+        instance(x: 829, y: 279) assertequal_96a0a1 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 578, y: 282) last_f37b3f root.main.last {}
+        data_instance(x: -562, y: 304) data_99c885  = [1, 2, 3]
+        data_instance(x: 93, y: 460) data_3e9e23  = [1, 1, 1, 2, 3, 4]
+        data_instance(x: 596, y: 464) data_09ea6a  = [2, 3, 2, 3, 6, 8, 9]
+        test_e0e516.onRun -> last_ec893e.execute_076885
+        last_ec893e.continue_9f5f84 -> assertequal_e535d3.execute
+        last_ec893e.index_fc05e7 -> assertequal_e535d3.actual
+        last_2e9081.continue_9f5f84 -> assertequal_83e73c.execute
+        last_2e9081.index_fc05e7 -> assertequal_83e73c.actual
+        last_f37b3f.continue_9f5f84 -> assertequal_96a0a1.execute
+        last_f37b3f.index_fc05e7 -> assertequal_96a0a1.actual
+        assertequal_e535d3.continue -> last_2e9081.execute_076885
+        assertequal_83e73c.continue -> last_f37b3f.execute_076885
+        1 -> last_ec893e.elem_94ca57
+        data_99c885 -> last_ec893e.list_2bbadf
+        data_3e9e23 -> last_2e9081.list_2bbadf
+        0 -> assertequal_e535d3.expect
+        2 -> assertequal_83e73c.expect
+        3 -> assertequal_96a0a1.expect
+        data_09ea6a -> last_f37b3f.list_2bbadf
+        3 -> last_f37b3f.elem_94ca57
+        1 -> last_2e9081.elem_94ca57
+
+
+    }
+==============================
+        
+
+===================================================================================
+        ❌ Code Evaluation Result
+===================================================================================
+        📌 Task ID       : 41
+        🔢 Candidate ID  : 9
+        📊 Metric        : tests
+        ❌ Passed        : No
+        
+        ⚠️ Error Type    : syntax
+        🛠️ Build Message: Error: Parsing failed
+
+Caused by:
+    CompilerError - Error: Expected token Identifier, but got Keyword(Trigger) at 1293
+        🔍 Error Message : ['ERROR compiler::frontend::parser: 1372: Error during parsing of file midio_example: CompilerError - Error: Expected token Identifier, but got Keyword(Trigger) at 1293', 'ERROR compiler::frontend::parser: 1373:     backtrace: disabled backtrace']
+        ------------------------------
+🖥️ Compiler stderr: Error: Parsing failed
+
+Caused by:
+    CompilerError - Error: Expected token Identifier, but got Keyword(Trigger) at 1293
+📤 Compiler output: Installing dependencies for midio_example@0.1.0
+
+No external dependencies
+
+Building package...
+ERROR compiler::frontend::parser: 1372: Error during parsing of file midio_example: CompilerError - Error: Expected token Identifier, but got Keyword(Trigger) at 1293
+ERROR compiler::frontend::parser: 1373:     backtrace: disabled backtrace
+        
+------------------------------
+📜 Evaluated Code:
+------------------------------
+import("std", Std_k98ojb)
+import("http", Http_q7o96c)
+
+module() main {
+    func(doc: "Finds the last position of an element in a sorted array.") last {
+        in(x: -231, y: -29, name: "list") property(List) list_2bbadf
+        in(x: -246, y: 105, name: "elem") property(Number) elem_94ca57
+        in(x: -356, y: -225, name: "execute") trigger() execute_076885
+
+        out(x: 801, y: -229, name: "continue") trigger() continue_9f5f84
+        out(x: 795, y: 205, name: "index") property(Number) index_fc05e7
+
+        instance(x: 358, y: -169) find_5d9a9b root.Std_k98ojb.Iteration.Find {}
+        instance(x: 493, y: -274) reverse_0f752c root.Std_k98ojb.List.Reversed {}
+        list_2bbadf -> reverse_0f752c.list
+        elem_94ca57 -> find_5d9a9b.item
+        func() {
+            in(x: 13, y: -169, name: "x") property(Number) x_d85e20
+
+            out(x: 152, y: -143, name: "") property(Bool) _6f3a7c
+
+            instance(x: 105, y: -195) equal_6d5b5a root.Std_k98ojb.Logic.Equal {}
+            x_d85e20 -> equal_6d5b5a.left
+            elem_94ca57 -> equal_6d5b5a.right
+            equal_6d5b5a.result -> _6f3a7c
+        } -> find_5d9a9b.predicate
+        reverse_0f752c.reversedList -> find_5d9a9b.items
+        find_5d9a9b.item -> index_fc05e7
+        execute_076885 -> find_5d9a9b.trigger
+        find_5d9a9b.done -> continue_9f5f84
+    }
+
+    
+
+    instance(x: -23, y: 12) last_0c6e2b root.main.last {}
+}
+module(doc: "Contains three different tests for the 'last' function node") tests {
+        instance(x: -359, y: 161) test_e0e516 root.Std_k98ojb.Testing.Test {
+            name: "Test last"
+        }
+        instance(x: -108, y: 266) assertequal_e535d3 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: -359, y: 269) last_ec893e root.main.last {}
+        instance(x: 362, y: 266) assertequal_83e73c root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 111, y: 269) last_2e9081 root.main.last {}
+        instance(x: 829, y: 279) assertequal_96a0a1 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 578, y: 282) last_f37b3f root.main.last {}
+        data_instance(x: -562, y: 304) data_99c885  = [1, 2, 3]
+        data_instance(x: 93, y: 460) data_3e9e23  = [1, 1, 1, 2, 3, 4]
+        data_instance(x: 596, y: 464) data_09ea6a  = [2, 3, 2, 3, 6, 8, 9]
+        test_e0e516.onRun -> last_ec893e.execute_076885
+        last_ec893e.continue_9f5f84 -> assertequal_e535d3.execute
+        last_ec893e.index_fc05e7 -> assertequal_e535d3.actual
+        last_2e9081.continue_9f5f84 -> assertequal_83e73c.execute
+        last_2e9081.index_fc05e7 -> assertequal_83e73c.actual
+        last_f37b3f.continue_9f5f84 -> assertequal_96a0a1.execute
+        last_f37b3f.index_fc05e7 -> assertequal_96a0a1.actual
+        assertequal_e535d3.continue -> last_2e9081.execute_076885
+        assertequal_83e73c.continue -> last_f37b3f.execute_076885
+        1 -> last_ec893e.elem_94ca57
+        data_99c885 -> last_ec893e.list_2bbadf
+        data_3e9e23 -> last_2e9081.list_2bbadf
+        0 -> assertequal_e535d3.expect
+        2 -> assertequal_83e73c.expect
+        3 -> assertequal_96a0a1.expect
+        data_09ea6a -> last_f37b3f.list_2bbadf
+        3 -> last_f37b3f.elem_94ca57
+        1 -> last_2e9081.elem_94ca57
+
+
+    }
+==============================
+        
+
+===================================================================================
+        ❌ Code Evaluation Result
+===================================================================================
+        📌 Task ID       : 41
+        🔢 Candidate ID  : 0
+        📊 Metric        : tests
+        ❌ Passed        : No
+        
+        ⚠️ Error Type    : syntax
+        🛠️ Build Message: Error: Code gen failed
+
+Caused by:
+    Could not find get index of property in function
+        🔍 Error Message : ['ERROR compiler::frontend::code_gen: 3182: Error during code gen: Could not find get index of property in function', 'ERROR compiler::frontend::code_gen: 3183:    backtrace: disabled backtrace']
+        ------------------------------
+🖥️ Compiler stderr: Error: Code gen failed
+
+Caused by:
+    Could not find get index of property in function
+📤 Compiler output: Installing dependencies for midio_example@0.1.0
+
+No external dependencies
+
+Building package...
+ERROR compiler::frontend::code_gen: 3182: Error during code gen: Could not find get index of property in function
+ERROR compiler::frontend::code_gen: 3183:    backtrace: disabled backtrace
+        
+------------------------------
+📜 Evaluated Code:
+------------------------------
+import("std", Std_k98ojb)
+import("http", Http_q7o96c)
+
+module() main {
+    
+    func(doc: "Finds the last position of an element in a sorted array.") last {
+        in(x: -231, y: -29, name: "list") property(List) list_2bbadf
+        in(x: -246, y: 105, name: "elem") property(Number) elem_94ca57
+        in(x: -356, y: -225, name: "execute") trigger() execute_076885
+
+        out(x: 801, y: -229, name: "continue") trigger() continue_9f5f84
+        out(x: 795, y: 205, name: "index") property(Number) index_fc05e7
+        
+        instance(x: 365, y: -188) find_9a3d1c root.Std_k98ojb.Iteration.Find {}
+        instance(x: 446, y: -20) filter_2f536c root.Std_k98ojb.Query.Filter {
+            where: "it == elem"
+        }
+        
+        list_2bbadf -> find_9a3d1c.items
+        func() {
+            in(x: 147, y: -240, name: "elem") property(Number) elem_56f8b3
+            
+            out(x: 166, y: -38, name: "") property(Bool) _d79ebe
+
+            instance(x: 114, y: -28) equal_0c15a8 root.Std_k98ojb.Logic.Equal {}
+            
+            elem_56f8b3 -> equal_0c15a8.left
+            elem_94ca57 -> equal_0c15a8.right
+            equal_0c15a8.result -> _d79ebe
+        } -> find_9a3d1c.predicate
+        
+        list_2bbadf -> filter_2f536c.list
+        func() {
+            in(x: -24, y: -214, name: "elem") property(Number) elem_0d8e7b
+            
+            out(x: 109, y: -144, name: "") property(Bool) _f6c35a
+
+            instance(x: -17, y: -182) equal_aebdb4 root.Std_k98ojb.Logic.Equal {}
+            
+            elem_0d8e7b -> equal_aebdb4.left
+            elem_94ca57 -> equal_aebdb4.right
+            equal_aebdb4.result -> _f6c35a
+        } -> filter_2f536c.handler
+        
+        find_9a3d1c.item -> index_fc05e7
+        execute_076885 -> filter_2f536c.execute
+        list_2bbadf -> find_9a3d1c.items
+        elem_94ca57 -> filter_2f536c.gen_0
+        filter_2f536c.output_list -> find_9a3d1c.items
+        find_9a3d1c.onItem -> continue_9f5f84
+    }
+
+    
+
+    instance(x: -179, y: -24) last_b0e62b root.main.last {}
+}
+module(doc: "Contains three different tests for the 'last' function node") tests {
+        instance(x: -359, y: 161) test_e0e516 root.Std_k98ojb.Testing.Test {
+            name: "Test last"
+        }
+        instance(x: -108, y: 266) assertequal_e535d3 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: -359, y: 269) last_ec893e root.main.last {}
+        instance(x: 362, y: 266) assertequal_83e73c root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 111, y: 269) last_2e9081 root.main.last {}
+        instance(x: 829, y: 279) assertequal_96a0a1 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 578, y: 282) last_f37b3f root.main.last {}
+        data_instance(x: -562, y: 304) data_99c885  = [1, 2, 3]
+        data_instance(x: 93, y: 460) data_3e9e23  = [1, 1, 1, 2, 3, 4]
+        data_instance(x: 596, y: 464) data_09ea6a  = [2, 3, 2, 3, 6, 8, 9]
+        test_e0e516.onRun -> last_ec893e.execute_076885
+        last_ec893e.continue_9f5f84 -> assertequal_e535d3.execute
+        last_ec893e.index_fc05e7 -> assertequal_e535d3.actual
+        last_2e9081.continue_9f5f84 -> assertequal_83e73c.execute
+        last_2e9081.index_fc05e7 -> assertequal_83e73c.actual
+        last_f37b3f.continue_9f5f84 -> assertequal_96a0a1.execute
+        last_f37b3f.index_fc05e7 -> assertequal_96a0a1.actual
+        assertequal_e535d3.continue -> last_2e9081.execute_076885
+        assertequal_83e73c.continue -> last_f37b3f.execute_076885
+        1 -> last_ec893e.elem_94ca57
+        data_99c885 -> last_ec893e.list_2bbadf
+        data_3e9e23 -> last_2e9081.list_2bbadf
+        0 -> assertequal_e535d3.expect
+        2 -> assertequal_83e73c.expect
+        3 -> assertequal_96a0a1.expect
+        data_09ea6a -> last_f37b3f.list_2bbadf
+        3 -> last_f37b3f.elem_94ca57
+        1 -> last_2e9081.elem_94ca57
+
+
+    }
+==============================
+        
+
+===================================================================================
+        ✅ Code Evaluation Result
+===================================================================================
+        📌 Task ID       : 41
+        🔢 Candidate ID  : 1
+        📊 Metric        : tests
+        ✔️ Passed        : Yes
+        
+------------------------------
+🧪 Test Result   : [96mInstalling dependencies for midio_example@0.1.0
+[0m
+[92mNo external dependencies[0m
+
+[93mBuilding package...[0m
+[92mPackage built successfully!
+[0m
+[31mERROR[0m [2mengine::engine::engine[0m[2m:[0m [2m1727:[0m [91mError stepping: StepError(Output trigger is not connected)[0m
+[31mERROR[0m [2mengine::engine::engine[0m[2m:[0m [2m1728:[0m disabled backtrace
+{
+  "num_tests": 1,
+  "num_passed": 1,
+  "test_results": [
+    {
+      "name": "Test last",
+      "assertions": [],
+      "passed": true
+    }
+  ]
+}
+
+        
+------------------------------
+📜 Evaluated Code:
+------------------------------
+import("std", Std_k98ojb)
+import("http", Http_q7o96c)
+
+module() main { 
+
+    func(doc: "Finds the last position of an element in a sorted array.") last {
+        in(x: -231, y: -29, name: "list") property(List) list_2bbadf
+        in(x: -246, y: 105, name: "elem") property(Number) elem_94ca57
+        in(x: -356, y: -225, name: "execute") trigger() execute_076885
+
+        out(x: 801, y: -229, name: "continue") trigger() continue_9f5f84
+        out(x: 795, y: 205, name: "index") property(Number) index_fc05e7
+
+        instance(x: 396, y: -18) for_5b6a2c root.Std_k98ojb.Std.For {}
+        instance(x: 405, y: -195) ifexpression_d0dfe5 root.Std_k98ojb.Std.IfExpression {
+            expression: "item == elem"
+        }
+        getter(x: 736, y: -240, name: "getter_0f7a8e") getter_0f7a8e = index
+        setter(x: 518, y: -194, name: "setter_bdfb9c") setter_bdfb9c = index
+
+        execute_076885 -> for_5b6a2c.reset
+        list_2bbadf -> for_5b6a2c.items
+        getter_0f7a8e.value -> setter_bdfb9c.new_value
+        for_5b6a2c.onItem -> ifexpression_d0dfe5.execute
+        for_5b6a2c.item -> ifexpression_d0dfe5.gen_0
+        elem_94ca57 -> ifexpression_d0dfe5.gen_1
+        setter_bdfb9c.continue -> ifexpression_d0dfe5.then
+        ifexpression_d0dfe5.else -> for_5b6a2c.next
+        for_5b6a2c.index -> setter_bdfb9c.new_value
+        ifexpression_d0dfe5.then -> for_5b6a2c.next
+        getter(x: 748, y: -113, name: "getter_caf0e1") getter_caf0e1 = index
+        setter_bdfb9c.continue -> continue_9f5f84
+        for_5b6a2c.done -> getter_caf0e1.execute
+        getter_caf0e1.value -> index_fc05e7
+    }
+
+    
+
+    instance(x: -30, y: 20) last_2d696c root.main.last {}
+}
+module(doc: "Contains three different tests for the 'last' function node") tests {
+        instance(x: -359, y: 161) test_e0e516 root.Std_k98ojb.Testing.Test {
+            name: "Test last"
+        }
+        instance(x: -108, y: 266) assertequal_e535d3 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: -359, y: 269) last_ec893e root.main.last {}
+        instance(x: 362, y: 266) assertequal_83e73c root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 111, y: 269) last_2e9081 root.main.last {}
+        instance(x: 829, y: 279) assertequal_96a0a1 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 578, y: 282) last_f37b3f root.main.last {}
+        data_instance(x: -562, y: 304) data_99c885  = [1, 2, 3]
+        data_instance(x: 93, y: 460) data_3e9e23  = [1, 1, 1, 2, 3, 4]
+        data_instance(x: 596, y: 464) data_09ea6a  = [2, 3, 2, 3, 6, 8, 9]
+        test_e0e516.onRun -> last_ec893e.execute_076885
+        last_ec893e.continue_9f5f84 -> assertequal_e535d3.execute
+        last_ec893e.index_fc05e7 -> assertequal_e535d3.actual
+        last_2e9081.continue_9f5f84 -> assertequal_83e73c.execute
+        last_2e9081.index_fc05e7 -> assertequal_83e73c.actual
+        last_f37b3f.continue_9f5f84 -> assertequal_96a0a1.execute
+        last_f37b3f.index_fc05e7 -> assertequal_96a0a1.actual
+        assertequal_e535d3.continue -> last_2e9081.execute_076885
+        assertequal_83e73c.continue -> last_f37b3f.execute_076885
+        1 -> last_ec893e.elem_94ca57
+        data_99c885 -> last_ec893e.list_2bbadf
+        data_3e9e23 -> last_2e9081.list_2bbadf
+        0 -> assertequal_e535d3.expect
+        2 -> assertequal_83e73c.expect
+        3 -> assertequal_96a0a1.expect
+        data_09ea6a -> last_f37b3f.list_2bbadf
+        3 -> last_f37b3f.elem_94ca57
+        1 -> last_2e9081.elem_94ca57
+
+
+    }
+==============================
+        
+
+===================================================================================
+        ❌ Code Evaluation Result
+===================================================================================
+        📌 Task ID       : 41
+        🔢 Candidate ID  : 2
+        📊 Metric        : tests
+        ❌ Passed        : No
+        
+        ⚠️ Error Type    : syntax
+        🛠️ Build Message: Error: Code gen failed
+
+Caused by:
+    Could not find get index of property in function
+        🔍 Error Message : ['ERROR compiler::frontend::code_gen: 3182: Error during code gen: Could not find get index of property in function', 'ERROR compiler::frontend::code_gen: 3183:    backtrace: disabled backtrace']
+        ------------------------------
+🖥️ Compiler stderr: Error: Code gen failed
+
+Caused by:
+    Could not find get index of property in function
+📤 Compiler output: Installing dependencies for midio_example@0.1.0
+
+No external dependencies
+
+Building package...
+ERROR compiler::frontend::code_gen: 3182: Error during code gen: Could not find get index of property in function
+ERROR compiler::frontend::code_gen: 3183:    backtrace: disabled backtrace
+        
+------------------------------
+📜 Evaluated Code:
+------------------------------
+import("std", Std_k98ojb)
+import("http", Http_q7o96c)
+
+module() main {
+
+    func(doc: "Finds the last position of an element in a sorted array.") last {
+        in(x: -231, y: -29, name: "list") property(List) list_2bbadf
+        in(x: -246, y: 105, name: "elem") property(Number) elem_94ca57
+        in(x: -356, y: -225, name: "execute") trigger() execute_076885
+
+        out(x: 801, y: -229, name: "continue") trigger() continue_9f5f84
+        out(x: 795, y: 205, name: "index") property(Number) index_fc05e7
+
+        instance(x: 365, y: -109) filter_b4a6b8 root.Std_k98ojb.Iteration.Filter {}
+        instance(x: 635, y: -257) last_6d4c5b root.Std_k98ojb.Iteration.Find {}
+        list_2bbadf -> filter_b4a6b8.items
+        elem_94ca57 -> filter_b4a6b8.handler.gen_0
+        1 -> filter_b4a6b8.handler.gen_1
+        filter_b4a6b8.output_list -> last_6d4c5b.items
+        func() {
+            in(x: -293, y: -57, name: "item") property(Number) item_0f8e42
+
+            out(x: 41, y: -108, name: "") property(Bool) _6a3d9b
+
+            instance(x: 125, y: -28) equal_f7dfc3 root.Std_k98ojb.Logic.Equal {}
+            item_0f8e42 -> equal_f7dfc3.left
+            elem_94ca57 -> equal_f7dfc3.right
+            equal_f7dfc3.result -> _6a3d9b
+        } -> filter_b4a6b8.handler.fn
+        func() {
+            in(x: -21, y: 0, name: "item") property(Number) item_5d0315
+
+            out(x: 207, y: -17, name: "") property(Bool) _f9a4c6
+
+            instance(x: 98, y: 13) greaterthan_d4eacf root.Std_k98ojb.Math.GreaterThan {}
+            item_5d0315 -> greaterthan_d4eacf.left
+            elem_94ca57 -> greaterthan_d4eacf.right
+            greaterthan_d4eacf.result -> _f9a4c6
+        } -> last_6d4c5b.predicate
+        func() {
+            in(x: -10, y: 238, name: "item") property(Number) item_b7536d
+
+            out(x: 256, y: 294, name: "") property(Bool) _e9f3b9
+
+            instance(x: -13, y: 208) equal_8a6c65 root.Std_k98ojb.Logic.Equal {}
+            item_b7536d -> equal_8a6c65.left
+            elem_94ca57 -> equal_8a6c65.right
+            equal_8a6c65.result -> _e9f3b9
+        } -> last_6d4c5b.handler
+        execute_076885 -> filter_b4a6b8.reset
+        filter_b4a6b8.done -> last_6d4c5b.reset
+        last_6d4c5b.itemFound -> continue_9f5f84
+        list_2bbadf -> last_6d4c5b.list
+        last_6d4c5b.index -> index_fc05e7
+    }
+
+    
+
+    instance(x: -13, y: 12) last_ea941c root.main.last {}
+
+}
+module(doc: "Contains three different tests for the 'last' function node") tests {
+        instance(x: -359, y: 161) test_e0e516 root.Std_k98ojb.Testing.Test {
+            name: "Test last"
+        }
+        instance(x: -108, y: 266) assertequal_e535d3 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: -359, y: 269) last_ec893e root.main.last {}
+        instance(x: 362, y: 266) assertequal_83e73c root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 111, y: 269) last_2e9081 root.main.last {}
+        instance(x: 829, y: 279) assertequal_96a0a1 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 578, y: 282) last_f37b3f root.main.last {}
+        data_instance(x: -562, y: 304) data_99c885  = [1, 2, 3]
+        data_instance(x: 93, y: 460) data_3e9e23  = [1, 1, 1, 2, 3, 4]
+        data_instance(x: 596, y: 464) data_09ea6a  = [2, 3, 2, 3, 6, 8, 9]
+        test_e0e516.onRun -> last_ec893e.execute_076885
+        last_ec893e.continue_9f5f84 -> assertequal_e535d3.execute
+        last_ec893e.index_fc05e7 -> assertequal_e535d3.actual
+        last_2e9081.continue_9f5f84 -> assertequal_83e73c.execute
+        last_2e9081.index_fc05e7 -> assertequal_83e73c.actual
+        last_f37b3f.continue_9f5f84 -> assertequal_96a0a1.execute
+        last_f37b3f.index_fc05e7 -> assertequal_96a0a1.actual
+        assertequal_e535d3.continue -> last_2e9081.execute_076885
+        assertequal_83e73c.continue -> last_f37b3f.execute_076885
+        1 -> last_ec893e.elem_94ca57
+        data_99c885 -> last_ec893e.list_2bbadf
+        data_3e9e23 -> last_2e9081.list_2bbadf
+        0 -> assertequal_e535d3.expect
+        2 -> assertequal_83e73c.expect
+        3 -> assertequal_96a0a1.expect
+        data_09ea6a -> last_f37b3f.list_2bbadf
+        3 -> last_f37b3f.elem_94ca57
+        1 -> last_2e9081.elem_94ca57
+
+
+    }
+==============================
+        
+
+===================================================================================
+        ❌ Code Evaluation Result
+===================================================================================
+        📌 Task ID       : 41
+        🔢 Candidate ID  : 3
+        📊 Metric        : tests
+        ❌ Passed        : No
+        
+        ⚠️ Error Type    : syntax
+        🛠️ Build Message: Error: Code gen failed
+
+Caused by:
+    Could not find get index of property in function
+        🔍 Error Message : ['ERROR compiler::frontend::code_gen: 3182: Error during code gen: Could not find get index of property in function', 'ERROR compiler::frontend::code_gen: 3183:    backtrace: disabled backtrace']
+        ------------------------------
+🖥️ Compiler stderr: Error: Code gen failed
+
+Caused by:
+    Could not find get index of property in function
+📤 Compiler output: Installing dependencies for midio_example@0.1.0
+
+No external dependencies
+
+Building package...
+ERROR compiler::frontend::code_gen: 3182: Error during code gen: Could not find get index of property in function
+ERROR compiler::frontend::code_gen: 3183:    backtrace: disabled backtrace
+        
+------------------------------
+📜 Evaluated Code:
+------------------------------
+import("std", Std_k98ojb)
+import("http", Http_q7o96c)
+
+module() main { 
+    func(doc: "Finds the last position of an element in a sorted array.") last {
+        in(x: -231, y: -29, name: "list") property(List) list_2bbadf
+        in(x: -246, y: 105, name: "elem") property(Number) elem_94ca57
+        in(x: -356, y: -225, name: "execute") trigger() execute_076885
+
+        out(x: 801, y: -229, name: "continue") trigger() continue_9f5f84
+        out(x: 795, y: 205, name: "index") property(Number) index_fc05e7
+
+        instance(x: 634, y: -169) find_a2bddd root.Std_k98ojb.Iteration.Find {}
+        instance(x: 603, y: -213) filter_5f4d1a root.Std_k98ojb.Iteration.Filter {}
+        list_2bbadf -> filter_5f4d1a.items
+        elem_94ca57 -> find_a2bddd.item
+        func() {
+            in(x: 603, y: -116, name: "x") property(Number) x_f8daeb
+
+            out(x: 597, y: 41, name: "") property(Bool) _cdd2a2
+
+            instance(x: 557, y: 43) equal_0eacf4 root.Std_k98ojb.Logic.Equal {}
+            elem_94ca57 -> equal_0eacf4.right
+            x_f8daeb -> equal_0eacf4.left
+            equal_0eacf4.result -> _cdd2a2
+        } -> filter_5f4d1a.handler
+        func() {
+            in(x: 634, y: -97, name: "item") property(Number) item_f8daeb
+
+            out(x: 630, y: 71, name: "") property(Bool) _cdd2a2
+
+            instance(x: 587, y: 73) equal_4f9bdf root.Std_k98ojb.Logic.Equal {}
+            elem_94ca57 -> equal_4f9bdf.right
+            item_f8daeb -> equal_4f9bdf.left
+            equal_4f9bdf.result -> _cdd2a2
+        } -> find_a2bddd.handler
+        filter_5f4d1a.output_list -> find_a2bddd.items
+        execute_076885 -> find_a2bddd.reset
+        find_a2bddd.item -> index_fc05e7
+        list_2bbadf -> find_a2bddd.items
+        find_a2bddd.done -> continue_9f5f84
+    }
+
+    
+
+    instance(x: -136, y: 28) last_3dbd5c root.main.last {}
+}
+module(doc: "Contains three different tests for the 'last' function node") tests {
+        instance(x: -359, y: 161) test_e0e516 root.Std_k98ojb.Testing.Test {
+            name: "Test last"
+        }
+        instance(x: -108, y: 266) assertequal_e535d3 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: -359, y: 269) last_ec893e root.main.last {}
+        instance(x: 362, y: 266) assertequal_83e73c root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 111, y: 269) last_2e9081 root.main.last {}
+        instance(x: 829, y: 279) assertequal_96a0a1 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 578, y: 282) last_f37b3f root.main.last {}
+        data_instance(x: -562, y: 304) data_99c885  = [1, 2, 3]
+        data_instance(x: 93, y: 460) data_3e9e23  = [1, 1, 1, 2, 3, 4]
+        data_instance(x: 596, y: 464) data_09ea6a  = [2, 3, 2, 3, 6, 8, 9]
+        test_e0e516.onRun -> last_ec893e.execute_076885
+        last_ec893e.continue_9f5f84 -> assertequal_e535d3.execute
+        last_ec893e.index_fc05e7 -> assertequal_e535d3.actual
+        last_2e9081.continue_9f5f84 -> assertequal_83e73c.execute
+        last_2e9081.index_fc05e7 -> assertequal_83e73c.actual
+        last_f37b3f.continue_9f5f84 -> assertequal_96a0a1.execute
+        last_f37b3f.index_fc05e7 -> assertequal_96a0a1.actual
+        assertequal_e535d3.continue -> last_2e9081.execute_076885
+        assertequal_83e73c.continue -> last_f37b3f.execute_076885
+        1 -> last_ec893e.elem_94ca57
+        data_99c885 -> last_ec893e.list_2bbadf
+        data_3e9e23 -> last_2e9081.list_2bbadf
+        0 -> assertequal_e535d3.expect
+        2 -> assertequal_83e73c.expect
+        3 -> assertequal_96a0a1.expect
+        data_09ea6a -> last_f37b3f.list_2bbadf
+        3 -> last_f37b3f.elem_94ca57
+        1 -> last_2e9081.elem_94ca57
+
+
+    }
+==============================
+        
+
+===================================================================================
+        ❌ Code Evaluation Result
+===================================================================================
+        📌 Task ID       : 41
+        🔢 Candidate ID  : 4
+        📊 Metric        : tests
+        ❌ Passed        : No
+        
+        ⚠️ Error Type    : syntax
+        🛠️ Build Message: Error: Code gen failed
+
+Caused by:
+    Could not find get index of property in function
+        🔍 Error Message : ['ERROR compiler::frontend::code_gen: 3182: Error during code gen: Could not find get index of property in function', 'ERROR compiler::frontend::code_gen: 3183:    backtrace: disabled backtrace']
+        ------------------------------
+🖥️ Compiler stderr: Error: Code gen failed
+
+Caused by:
+    Could not find get index of property in function
+📤 Compiler output: Installing dependencies for midio_example@0.1.0
+
+No external dependencies
+
+Building package...
+ERROR compiler::frontend::code_gen: 3182: Error during code gen: Could not find get index of property in function
+ERROR compiler::frontend::code_gen: 3183:    backtrace: disabled backtrace
+        
+------------------------------
+📜 Evaluated Code:
+------------------------------
+import("std", Std_k98ojb)
+import("http", Http_q7o96c)
+
+module() main {
+    
+    func(doc: "Finds the last position of an element in a sorted array.") last {
+        in(x: -231, y: -29, name: "list") property(List) list_2bbadf
+        in(x: -246, y: 105, name: "elem") property(Number) elem_94ca57
+        in(x: -356, y: -225, name: "execute") trigger() execute_076885
+
+        out(x: 801, y: -229, name: "continue") trigger() continue_9f5f84
+        out(x: 795, y: 205, name: "index") property(Number) index_fc05e7
+        
+        instance(x: 435, y: -146) filter_ea5dfe root.Std_k98ojb.Iteration.Filter {}
+        instance(x: 371, y: -329) find_3f5c55 root.Std_k98ojb.Iteration.Find {}
+        
+        list_2bbadf -> filter_ea5dfe.items
+        elem_94ca57 -> filter_ea5dfe.handler
+        
+        func() {
+            in(x: -106, y: -36, name: "x") property(Number) x_8ee839
+            
+            out(x: 249, y: -50, name: "") property(Bool) _7dd980
+
+            instance(x: 106, y: -22) equal_584bfd root.Std_k98ojb.Logic.Equal {}
+            x_8ee839 -> equal_584bfd.left
+            elem_94ca57 -> equal_584bfd.right
+            
+            equal_584bfd.result -> _7dd980
+        } -> filter_ea5dfe.handler
+        
+        instance(x: 621, y: -30) length_b2b0f4 root.Std_k98ojb.List.Length {}
+        
+        list_2bbadf -> find_3f5c55.items
+        
+        func() {
+            in(x: -106, y: -36, name: "x") property(Number) x_8ee839
+            
+            out(x: 249, y: -50, name: "") property(Bool) _7dd980
+
+            instance(x: 106, y: -22) equal_584bfd root.Std_k98ojb.Logic.Equal {}
+            
+            x_8ee839 -> equal_584bfd.left
+            elem_94ca57 -> equal_584bfd.right
+            
+            equal_584bfd.result -> _7dd980
+        } -> find_3f5c55.predicate
+        
+        filter_ea5dfe.output_list -> length_b2b0f4.list
+        length_b2b0f4.length -> index_fc05e7
+        
+        execute_076885 -> find_3f5c55.execute
+        find_3f5c55.done -> continue_9f5f84
+    }
+    
+
+    instance(x: -107, y: 12) last_f5b0a0 root.main.last {}
+}
+module(doc: "Contains three different tests for the 'last' function node") tests {
+        instance(x: -359, y: 161) test_e0e516 root.Std_k98ojb.Testing.Test {
+            name: "Test last"
+        }
+        instance(x: -108, y: 266) assertequal_e535d3 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: -359, y: 269) last_ec893e root.main.last {}
+        instance(x: 362, y: 266) assertequal_83e73c root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 111, y: 269) last_2e9081 root.main.last {}
+        instance(x: 829, y: 279) assertequal_96a0a1 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 578, y: 282) last_f37b3f root.main.last {}
+        data_instance(x: -562, y: 304) data_99c885  = [1, 2, 3]
+        data_instance(x: 93, y: 460) data_3e9e23  = [1, 1, 1, 2, 3, 4]
+        data_instance(x: 596, y: 464) data_09ea6a  = [2, 3, 2, 3, 6, 8, 9]
+        test_e0e516.onRun -> last_ec893e.execute_076885
+        last_ec893e.continue_9f5f84 -> assertequal_e535d3.execute
+        last_ec893e.index_fc05e7 -> assertequal_e535d3.actual
+        last_2e9081.continue_9f5f84 -> assertequal_83e73c.execute
+        last_2e9081.index_fc05e7 -> assertequal_83e73c.actual
+        last_f37b3f.continue_9f5f84 -> assertequal_96a0a1.execute
+        last_f37b3f.index_fc05e7 -> assertequal_96a0a1.actual
+        assertequal_e535d3.continue -> last_2e9081.execute_076885
+        assertequal_83e73c.continue -> last_f37b3f.execute_076885
+        1 -> last_ec893e.elem_94ca57
+        data_99c885 -> last_ec893e.list_2bbadf
+        data_3e9e23 -> last_2e9081.list_2bbadf
+        0 -> assertequal_e535d3.expect
+        2 -> assertequal_83e73c.expect
+        3 -> assertequal_96a0a1.expect
+        data_09ea6a -> last_f37b3f.list_2bbadf
+        3 -> last_f37b3f.elem_94ca57
+        1 -> last_2e9081.elem_94ca57
+
+
+    }
+==============================
+        
+
+===================================================================================
+        ❌ Code Evaluation Result
+===================================================================================
+        📌 Task ID       : 41
+        🔢 Candidate ID  : 5
+        📊 Metric        : tests
+        ❌ Passed        : No
+        
+        ⚠️ Error Type    : syntax
+        🛠️ Build Message: Error: Parsing failed
+
+Caused by:
+    CompilerError - Error: Expected token ArrowOp, but got LeftCurly at 976
+        🔍 Error Message : ['ERROR compiler::frontend::parser: 1372: Error during parsing of file midio_example: CompilerError - Error: Expected token ArrowOp, but got LeftCurly at 976', 'ERROR compiler::frontend::parser: 1373:     backtrace: disabled backtrace']
+        ------------------------------
+🖥️ Compiler stderr: Error: Parsing failed
+
+Caused by:
+    CompilerError - Error: Expected token ArrowOp, but got LeftCurly at 976
+📤 Compiler output: Installing dependencies for midio_example@0.1.0
+
+No external dependencies
+
+Building package...
+ERROR compiler::frontend::parser: 1372: Error during parsing of file midio_example: CompilerError - Error: Expected token ArrowOp, but got LeftCurly at 976
+ERROR compiler::frontend::parser: 1373:     backtrace: disabled backtrace
+        
+------------------------------
+📜 Evaluated Code:
+------------------------------
+import("std", Std_k98ojb)
+import("http", Http_q7o96c)
+
+module() main { 
+    func(doc: "Finds the last position of an element in a sorted array.") last {
+        in(x: -231, y: -29, name: "list") property(List) list_2bbadf
+        in(x: -246, y: 105, name: "elem") property(Number) elem_94ca57
+        in(x: -356, y: -225, name: "execute") trigger() execute_076885
+
+        out(x: 801, y: -229, name: "continue") trigger() continue_9f5f84
+        out(x: 795, y: 205, name: "index") property(Number) index_fc05e7
+        
+        instance(x: 364, y: -133) filter_5d1c1a root.Std_k98ojb.Iteration.Filter {}
+        instance(x: 575, y: 236) lastitem_eb40f4 root.Std_k98ojb.List.LastItem {}
+
+        list_2bbadf -> filter_5d1c1a.items
+        elem_94ca57 -> filter_5d1c1a.handler.input_0
+        func() {
+            in(x: -36, y: -36, name: "item") property(Number) item_bf3e28
+
+            out(x: 68, y: -39, name: "") property(Bool) _5b4a7c
+            
+            Logic.Equal {
+                left: item_bf3e28
+                right: elem_94ca57
+                result: _5b4a7c
+            }
+        } -> filter_5d1c1a.handler
+
+        filter_5d1c1a.output_list -> lastitem_eb40f4.list
+        lastitem_eb40f4.item -> index_fc05e7
+        
+        execute_076885 -> continue_9f5f84
+    }
+
+    
+
+    instance(x: -23, y: 16) last_9a7d50 root.main.last {}
+}
+module(doc: "Contains three different tests for the 'last' function node") tests {
+        instance(x: -359, y: 161) test_e0e516 root.Std_k98ojb.Testing.Test {
+            name: "Test last"
+        }
+        instance(x: -108, y: 266) assertequal_e535d3 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: -359, y: 269) last_ec893e root.main.last {}
+        instance(x: 362, y: 266) assertequal_83e73c root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 111, y: 269) last_2e9081 root.main.last {}
+        instance(x: 829, y: 279) assertequal_96a0a1 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 578, y: 282) last_f37b3f root.main.last {}
+        data_instance(x: -562, y: 304) data_99c885  = [1, 2, 3]
+        data_instance(x: 93, y: 460) data_3e9e23  = [1, 1, 1, 2, 3, 4]
+        data_instance(x: 596, y: 464) data_09ea6a  = [2, 3, 2, 3, 6, 8, 9]
+        test_e0e516.onRun -> last_ec893e.execute_076885
+        last_ec893e.continue_9f5f84 -> assertequal_e535d3.execute
+        last_ec893e.index_fc05e7 -> assertequal_e535d3.actual
+        last_2e9081.continue_9f5f84 -> assertequal_83e73c.execute
+        last_2e9081.index_fc05e7 -> assertequal_83e73c.actual
+        last_f37b3f.continue_9f5f84 -> assertequal_96a0a1.execute
+        last_f37b3f.index_fc05e7 -> assertequal_96a0a1.actual
+        assertequal_e535d3.continue -> last_2e9081.execute_076885
+        assertequal_83e73c.continue -> last_f37b3f.execute_076885
+        1 -> last_ec893e.elem_94ca57
+        data_99c885 -> last_ec893e.list_2bbadf
+        data_3e9e23 -> last_2e9081.list_2bbadf
+        0 -> assertequal_e535d3.expect
+        2 -> assertequal_83e73c.expect
+        3 -> assertequal_96a0a1.expect
+        data_09ea6a -> last_f37b3f.list_2bbadf
+        3 -> last_f37b3f.elem_94ca57
+        1 -> last_2e9081.elem_94ca57
+
+
+    }
+==============================
+        
+
+===================================================================================
+        ❌ Code Evaluation Result
+===================================================================================
+        📌 Task ID       : 41
+        🔢 Candidate ID  : 6
+        📊 Metric        : tests
+        ❌ Passed        : No
+        
+        ⚠️ Error Type    : syntax
+        🛠️ Build Message: Error: Code gen failed
+
+Caused by:
+    Could not find get index of property in function
+        🔍 Error Message : ['ERROR compiler::frontend::code_gen: 3182: Error during code gen: Could not find get index of property in function', 'ERROR compiler::frontend::code_gen: 3183:    backtrace: disabled backtrace']
+        ------------------------------
+🖥️ Compiler stderr: Error: Code gen failed
+
+Caused by:
+    Could not find get index of property in function
+📤 Compiler output: Installing dependencies for midio_example@0.1.0
+
+No external dependencies
+
+Building package...
+ERROR compiler::frontend::code_gen: 3182: Error during code gen: Could not find get index of property in function
+ERROR compiler::frontend::code_gen: 3183:    backtrace: disabled backtrace
+        
+------------------------------
+📜 Evaluated Code:
+------------------------------
+import("std", Std_k98ojb)
+import("http", Http_q7o96c)
+
+module() main { 
+
+    func(doc: "Finds the last position of an element in a sorted array.") last {
+        in(x: -231, y: -29, name: "list") property(List) list_2bbadf
+        in(x: -246, y: 105, name: "elem") property(Number) elem_94ca57
+        in(x: -356, y: -225, name: "execute") trigger() execute_076885
+
+        out(x: 801, y: -229, name: "continue") trigger() continue_9f5f84
+        out(x: 795, y: 205, name: "index") property(Number) index_fc05e7
+        
+        instance(x: 630, y: -187) find_d4c4d3 root.Std_k98ojb.Iteration.Find {}
+        instance(x: 343, y: 42) filter_9a7f5a root.Std_k98ojb.Query.Filter {
+            where: "it == elem"
+        }
+        list_2bbadf -> filter_9a7f5a.list
+        getter(x: -160, y: -33, name: "getter_e4c1e5") getter_e4c1e5 = findResult
+        instance(x: 855, y: -142) length_5b9d7f root.Std_k98ojb.List.Length {}
+        elem_94ca57 -> filter_9a7f5a.where.gen_0
+        execute_076885 -> find_d4c4d3.execute
+        list_2bbadf -> find_d4c4d3.items
+        func() {
+            in(x: -115, y: 11, name: "x") property(Number) x_f9a8e4
+
+            out(x: 103, y: -67, name: "") property(Bool) _2bddd1
+
+            instance(x: -115, y: -101) equal_2c1fbc root.Std_k98ojb.Logic.Equal {}
+            x_f9a8e4 -> equal_2c1fbc.left
+            elem_94ca57 -> equal_2c1fbc.right
+            equal_2c1fbc.result -> _2bddd1
+        } -> find_d4c4d3.handler
+        filter_9a7f5a.result -> length_5b9d7f.list
+        getter_e4c1e5.value -> index_fc05e7
+        find_d4c4d3.itemFound -> continue_9f5f84
+        length_5b9d7f.length -> index_fc05e7
+    }
+
+    
+
+    instance(x: -223, y: 116) last_a5a489 root.main.last {}
+}
+module(doc: "Contains three different tests for the 'last' function node") tests {
+        instance(x: -359, y: 161) test_e0e516 root.Std_k98ojb.Testing.Test {
+            name: "Test last"
+        }
+        instance(x: -108, y: 266) assertequal_e535d3 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: -359, y: 269) last_ec893e root.main.last {}
+        instance(x: 362, y: 266) assertequal_83e73c root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 111, y: 269) last_2e9081 root.main.last {}
+        instance(x: 829, y: 279) assertequal_96a0a1 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 578, y: 282) last_f37b3f root.main.last {}
+        data_instance(x: -562, y: 304) data_99c885  = [1, 2, 3]
+        data_instance(x: 93, y: 460) data_3e9e23  = [1, 1, 1, 2, 3, 4]
+        data_instance(x: 596, y: 464) data_09ea6a  = [2, 3, 2, 3, 6, 8, 9]
+        test_e0e516.onRun -> last_ec893e.execute_076885
+        last_ec893e.continue_9f5f84 -> assertequal_e535d3.execute
+        last_ec893e.index_fc05e7 -> assertequal_e535d3.actual
+        last_2e9081.continue_9f5f84 -> assertequal_83e73c.execute
+        last_2e9081.index_fc05e7 -> assertequal_83e73c.actual
+        last_f37b3f.continue_9f5f84 -> assertequal_96a0a1.execute
+        last_f37b3f.index_fc05e7 -> assertequal_96a0a1.actual
+        assertequal_e535d3.continue -> last_2e9081.execute_076885
+        assertequal_83e73c.continue -> last_f37b3f.execute_076885
+        1 -> last_ec893e.elem_94ca57
+        data_99c885 -> last_ec893e.list_2bbadf
+        data_3e9e23 -> last_2e9081.list_2bbadf
+        0 -> assertequal_e535d3.expect
+        2 -> assertequal_83e73c.expect
+        3 -> assertequal_96a0a1.expect
+        data_09ea6a -> last_f37b3f.list_2bbadf
+        3 -> last_f37b3f.elem_94ca57
+        1 -> last_2e9081.elem_94ca57
+
+
+    }
+==============================
+        
+
+===================================================================================
+        ❌ Code Evaluation Result
+===================================================================================
+        📌 Task ID       : 41
+        🔢 Candidate ID  : 7
+        📊 Metric        : tests
+        ❌ Passed        : No
+        
+        ⚠️ Error Type    : syntax
+        🛠️ Build Message: Error: Parsing failed
+
+Caused by:
+    CompilerError - Error: Expected token ArrowOp, but got LeftParen at 818
+        🔍 Error Message : ['ERROR compiler::frontend::parser: 1372: Error during parsing of file midio_example: CompilerError - Error: Expected token ArrowOp, but got LeftParen at 818', 'ERROR compiler::frontend::parser: 1373:     backtrace: disabled backtrace']
+        ------------------------------
+🖥️ Compiler stderr: Error: Parsing failed
+
+Caused by:
+    CompilerError - Error: Expected token ArrowOp, but got LeftParen at 818
+📤 Compiler output: Installing dependencies for midio_example@0.1.0
+
+No external dependencies
+
+Building package...
+ERROR compiler::frontend::parser: 1372: Error during parsing of file midio_example: CompilerError - Error: Expected token ArrowOp, but got LeftParen at 818
+ERROR compiler::frontend::parser: 1373:     backtrace: disabled backtrace
+        
+------------------------------
+📜 Evaluated Code:
+------------------------------
+import("std", Std_k98ojb)
+import("http", Http_q7o96c)
+
+module() main {
+
+    func(doc: "Finds the last position of an element in a sorted array.") last {
+        in(x: -231, y: -29, name: "list") property(List) list_2bbadf
+        in(x: -246, y: 105, name: "elem") property(Number) elem_94ca57
+        in(x: -356, y: -225, name: "execute") trigger() execute_076885
+
+        out(x: 801, y: -229, name: "continue") trigger() continue_9f5f84
+        out(x: 795, y: 205, name: "index") property(Number) index_fc05e7
+
+        instance(x: 364, y: -145) filter_0d2a5b root.Std_k98ojb.Iteration.Filter {}
+        list_2bbadf -> filter_0d2a5b.items
+        func() {
+            in(x: -227, y: 103, name: "it") property(Number) it_4f62c3
+
+            out(x: -198, y: 105, name: "") property(Bool) _d6bddd
+
+            Logic.Equal(left: elem_94ca57, right: it_4f62c3) -> _d6bddd
+        } -> filter_0d2a5b.handler
+        filter_0d2a5b.output_list -> Iteration.Reduce(items: filter_0d2a5b.output_list,
+            handler: func() {
+                in(x: -189, y: 36, name: "it") property(Number) it_a74c8e
+                in(x: -189, y: -148, name: "index") property(Number) index_52d0b2
+
+                out(x: -189, y: 134, name: "") property(Number) _6a87f7
+
+                Math.Max(first: index_52d0b2, second: it_a74c8e) -> _6a87f7
+            })
+        Iteration.Reduce.output_list -> List.LastItem(list: Iteration.Reduce.output_list)
+        List.LastItem.item -> index_fc05e7
+        execute_076885 -> continue_9f5f84
+    }
+
+    
+
+    instance(x: -231, y: 11) last_f0a5c8 root.main.last {}
+}
+module(doc: "Contains three different tests for the 'last' function node") tests {
+        instance(x: -359, y: 161) test_e0e516 root.Std_k98ojb.Testing.Test {
+            name: "Test last"
+        }
+        instance(x: -108, y: 266) assertequal_e535d3 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: -359, y: 269) last_ec893e root.main.last {}
+        instance(x: 362, y: 266) assertequal_83e73c root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 111, y: 269) last_2e9081 root.main.last {}
+        instance(x: 829, y: 279) assertequal_96a0a1 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 578, y: 282) last_f37b3f root.main.last {}
+        data_instance(x: -562, y: 304) data_99c885  = [1, 2, 3]
+        data_instance(x: 93, y: 460) data_3e9e23  = [1, 1, 1, 2, 3, 4]
+        data_instance(x: 596, y: 464) data_09ea6a  = [2, 3, 2, 3, 6, 8, 9]
+        test_e0e516.onRun -> last_ec893e.execute_076885
+        last_ec893e.continue_9f5f84 -> assertequal_e535d3.execute
+        last_ec893e.index_fc05e7 -> assertequal_e535d3.actual
+        last_2e9081.continue_9f5f84 -> assertequal_83e73c.execute
+        last_2e9081.index_fc05e7 -> assertequal_83e73c.actual
+        last_f37b3f.continue_9f5f84 -> assertequal_96a0a1.execute
+        last_f37b3f.index_fc05e7 -> assertequal_96a0a1.actual
+        assertequal_e535d3.continue -> last_2e9081.execute_076885
+        assertequal_83e73c.continue -> last_f37b3f.execute_076885
+        1 -> last_ec893e.elem_94ca57
+        data_99c885 -> last_ec893e.list_2bbadf
+        data_3e9e23 -> last_2e9081.list_2bbadf
+        0 -> assertequal_e535d3.expect
+        2 -> assertequal_83e73c.expect
+        3 -> assertequal_96a0a1.expect
+        data_09ea6a -> last_f37b3f.list_2bbadf
+        3 -> last_f37b3f.elem_94ca57
+        1 -> last_2e9081.elem_94ca57
+
+
+    }
+==============================
+        
+
+===================================================================================
+        ❌ Code Evaluation Result
+===================================================================================
+        📌 Task ID       : 41
+        🔢 Candidate ID  : 8
+        📊 Metric        : tests
+        ❌ Passed        : No
+        
+        ⚠️ Error Type    : semantic
+        🛠️ Build Message: 
+        🔍 Error Message : ['ERROR compiler::frontend::compiler_pass: 1341: Model has errors:', 'ERROR compiler::frontend::compiler_pass: 1343: SemanticAnalysisError(@180): Arrow from Property to Trigger is not allowed, backtrace:    0: <unknown>', 'ERROR compiler::frontend::compiler_pass: 1360: Model has errors, skipping code generation']
+        ------------------------------
+🖥️ Compiler stderr: N/A
+📤 Compiler output: Installing dependencies for midio_example@0.1.0
+
+No external dependencies
+
+Building package...
+ERROR compiler::frontend::compiler_pass: 1341: Model has errors:
+ERROR compiler::frontend::compiler_pass: 1343: SemanticAnalysisError(@180): Arrow from Property to Trigger is not allowed, backtrace:    0: <unknown>
+   1: <unknown>
+   2: <unknown>
+   3: <unknown>
+   4: <unknown>
+   5: <unknown>
+   6: <unknown>
+   7: <unknown>
+   8: <unknown>
+   9: <unknown>
+  10: <unknown>
+  11: <unknown>
+  12: <unknown>
+  13: <unknown>
+  14: <unknown>
+  15: <unknown>
+  16: <unknown>
+  17: <unknown>
+  18: <unknown>
+  19: <unknown>
+  20: <unknown>
+  21: <unknown>
+  22: __libc_start_main
+  23: <unknown>
+
+ERROR compiler::frontend::compiler_pass: 1360: Model has errors, skipping code generation
+Package built successfully!
+        
+------------------------------
+📜 Evaluated Code:
+------------------------------
+import("std", Std_k98ojb)
+import("http", Http_q7o96c)
+
+module() main {
+    
+    func(doc: "Finds the last position of an element in a sorted array.") last {
+        in(x: -231, y: -29, name: "list") property(List) list_2bbadf
+        in(x: -246, y: 105, name: "elem") property(Number) elem_94ca57
+        in(x: -356, y: -225, name: "execute") trigger() execute_076885
+
+        out(x: 801, y: -229, name: "continue") trigger() continue_9f5f84
+        out(x: 795, y: 205, name: "index") property(Number) index_fc05e7
+        
+        instance(x: 369, y: -120) filter_6a2d6b root.Std_k98ojb.Iteration.Filter {}
+        instance(x: 425, y: -172) reverse_9f8c9d root.Std_k98ojb.List.Reversed {}
+        instance(x: 334, y: -70) firstitem_96eacf root.Std_k98ojb.List.FirstItem {}
+
+        list_2bbadf -> filter_6a2d6b.items
+        elem_94ca57 -> filter_6a2d6b.handler
+        
+        filter_6a2d6b.output_list -> reverse_9f8c9d.list
+        reverse_9f8c9d.list -> firstitem_96eacf.list
+
+        firstitem_96eacf.item -> index_fc05e7
+        execute_076885 -> filter_6a2d6b.execute
+        
+        filter_6a2d6b.output_list -> continue_9f5f84
+    }
+    
+    instance(x: -178, y: 31) last_6c1e4d root.main.last {}
+}
+module(doc: "Contains three different tests for the 'last' function node") tests {
+        instance(x: -359, y: 161) test_e0e516 root.Std_k98ojb.Testing.Test {
+            name: "Test last"
+        }
+        instance(x: -108, y: 266) assertequal_e535d3 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: -359, y: 269) last_ec893e root.main.last {}
+        instance(x: 362, y: 266) assertequal_83e73c root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 111, y: 269) last_2e9081 root.main.last {}
+        instance(x: 829, y: 279) assertequal_96a0a1 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 578, y: 282) last_f37b3f root.main.last {}
+        data_instance(x: -562, y: 304) data_99c885  = [1, 2, 3]
+        data_instance(x: 93, y: 460) data_3e9e23  = [1, 1, 1, 2, 3, 4]
+        data_instance(x: 596, y: 464) data_09ea6a  = [2, 3, 2, 3, 6, 8, 9]
+        test_e0e516.onRun -> last_ec893e.execute_076885
+        last_ec893e.continue_9f5f84 -> assertequal_e535d3.execute
+        last_ec893e.index_fc05e7 -> assertequal_e535d3.actual
+        last_2e9081.continue_9f5f84 -> assertequal_83e73c.execute
+        last_2e9081.index_fc05e7 -> assertequal_83e73c.actual
+        last_f37b3f.continue_9f5f84 -> assertequal_96a0a1.execute
+        last_f37b3f.index_fc05e7 -> assertequal_96a0a1.actual
+        assertequal_e535d3.continue -> last_2e9081.execute_076885
+        assertequal_83e73c.continue -> last_f37b3f.execute_076885
+        1 -> last_ec893e.elem_94ca57
+        data_99c885 -> last_ec893e.list_2bbadf
+        data_3e9e23 -> last_2e9081.list_2bbadf
+        0 -> assertequal_e535d3.expect
+        2 -> assertequal_83e73c.expect
+        3 -> assertequal_96a0a1.expect
+        data_09ea6a -> last_f37b3f.list_2bbadf
+        3 -> last_f37b3f.elem_94ca57
+        1 -> last_2e9081.elem_94ca57
+
+
+    }
+==============================
+        
+
+===================================================================================
+        ❌ Code Evaluation Result
+===================================================================================
+        📌 Task ID       : 41
+        🔢 Candidate ID  : 9
+        📊 Metric        : tests
+        ❌ Passed        : No
+        
+        ⚠️ Error Type    : syntax
+        🛠️ Build Message: Error: Parsing failed
+
+Caused by:
+    CompilerError - Error: Expected token Identifier, but got Keyword(Trigger) at 908
+        🔍 Error Message : ['ERROR compiler::frontend::parser: 1372: Error during parsing of file midio_example: CompilerError - Error: Expected token Identifier, but got Keyword(Trigger) at 908', 'ERROR compiler::frontend::parser: 1373:     backtrace: disabled backtrace']
+        ------------------------------
+🖥️ Compiler stderr: Error: Parsing failed
+
+Caused by:
+    CompilerError - Error: Expected token Identifier, but got Keyword(Trigger) at 908
+📤 Compiler output: Installing dependencies for midio_example@0.1.0
+
+No external dependencies
+
+Building package...
+ERROR compiler::frontend::parser: 1372: Error during parsing of file midio_example: CompilerError - Error: Expected token Identifier, but got Keyword(Trigger) at 908
+ERROR compiler::frontend::parser: 1373:     backtrace: disabled backtrace
+        
+------------------------------
+📜 Evaluated Code:
+------------------------------
+import("std", Std_k98ojb)
+import("http", Http_q7o96c)
+
+module() main {
+    
+    func(doc: "Finds the last position of an element in a sorted array.") last {
+        in(x: -231, y: -29, name: "list") property(List) list_2bbadf
+        in(x: -246, y: 105, name: "elem") property(Number) elem_94ca57
+        in(x: -356, y: -225, name: "execute") trigger() execute_076885
+
+        out(x: 801, y: -229, name: "continue") trigger() continue_9f5f84
+        out(x: 795, y: 205, name: "index") property(Number) index_fc05e7
+        
+        instance(x: 36, y: 128) find_last_eeb3a6 root.Std_k98ojb.Iteration.Find {}
+        instance(x: -44, y: 455) length_f3f1c7 root.Std_k98ojb.List.Length {}
+        instance(x: 206, y: 416) not_equal_8d3a8e root.Std_k98ojb.Logic.NotEqual {}
+        list_2bbadf -> find_last_eeb3a6.items
+        elem_94ca57 -> find_last_eeb3a6.predicate
+        execute_076885 -> find_last_eeb3a6.trigger
+        length_f3f1c7.list -> not_equal_8d3a8e.left
+        0 -> not_equal_8d3a8e.right
+        list_2bbadf -> length_f3f1c7.input_list
+        find_last_eeb3a6.item -> index_fc05e7
+        not_equal_8d3a8e.result -> continue_9f5f84
+    }
+    
+
+    instance(x: -162, y: 16) last_dcc0c6 root.main.last {}
+}
+module(doc: "Contains three different tests for the 'last' function node") tests {
+        instance(x: -359, y: 161) test_e0e516 root.Std_k98ojb.Testing.Test {
+            name: "Test last"
+        }
+        instance(x: -108, y: 266) assertequal_e535d3 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: -359, y: 269) last_ec893e root.main.last {}
+        instance(x: 362, y: 266) assertequal_83e73c root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 111, y: 269) last_2e9081 root.main.last {}
+        instance(x: 829, y: 279) assertequal_96a0a1 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 578, y: 282) last_f37b3f root.main.last {}
+        data_instance(x: -562, y: 304) data_99c885  = [1, 2, 3]
+        data_instance(x: 93, y: 460) data_3e9e23  = [1, 1, 1, 2, 3, 4]
+        data_instance(x: 596, y: 464) data_09ea6a  = [2, 3, 2, 3, 6, 8, 9]
+        test_e0e516.onRun -> last_ec893e.execute_076885
+        last_ec893e.continue_9f5f84 -> assertequal_e535d3.execute
+        last_ec893e.index_fc05e7 -> assertequal_e535d3.actual
+        last_2e9081.continue_9f5f84 -> assertequal_83e73c.execute
+        last_2e9081.index_fc05e7 -> assertequal_83e73c.actual
+        last_f37b3f.continue_9f5f84 -> assertequal_96a0a1.execute
+        last_f37b3f.index_fc05e7 -> assertequal_96a0a1.actual
+        assertequal_e535d3.continue -> last_2e9081.execute_076885
+        assertequal_83e73c.continue -> last_f37b3f.execute_076885
+        1 -> last_ec893e.elem_94ca57
+        data_99c885 -> last_ec893e.list_2bbadf
+        data_3e9e23 -> last_2e9081.list_2bbadf
+        0 -> assertequal_e535d3.expect
+        2 -> assertequal_83e73c.expect
+        3 -> assertequal_96a0a1.expect
+        data_09ea6a -> last_f37b3f.list_2bbadf
+        3 -> last_f37b3f.elem_94ca57
+        1 -> last_2e9081.elem_94ca57
+
+
+    }
+==============================
+        
+
+===================================================================================
+        ❌ Code Evaluation Result
+===================================================================================
+        📌 Task ID       : 41
+        🔢 Candidate ID  : 0
+        📊 Metric        : tests
+        ❌ Passed        : No
+        
+        ⚠️ Error Type    : syntax
+        🛠️ Build Message: Error: Code gen failed
+
+Caused by:
+    Could not find get index of property in function
+        🔍 Error Message : ['ERROR compiler::frontend::code_gen: 3182: Error during code gen: Could not find get index of property in function', 'ERROR compiler::frontend::code_gen: 3183:    backtrace: disabled backtrace']
+        ------------------------------
+🖥️ Compiler stderr: Error: Code gen failed
+
+Caused by:
+    Could not find get index of property in function
+📤 Compiler output: Installing dependencies for midio_example@0.1.0
+
+No external dependencies
+
+Building package...
+ERROR compiler::frontend::code_gen: 3182: Error during code gen: Could not find get index of property in function
+ERROR compiler::frontend::code_gen: 3183:    backtrace: disabled backtrace
+        
+------------------------------
+📜 Evaluated Code:
+------------------------------
+import("std", Std_k98ojb)
+import("http", Http_q7o96c)
+
+module() main {
+    
+    func(doc: "Finds the last position of an element in a sorted array.") last {
+        in(x: -231, y: -29, name: "list") property(List) list_2bbadf
+        in(x: -246, y: 105, name: "elem") property(Number) elem_94ca57
+        in(x: -356, y: -225, name: "execute") trigger() execute_076885
+
+        out(x: 801, y: -229, name: "continue") trigger() continue_9f5f84
+        out(x: 795, y: 205, name: "index") property(Number) index_fc05e7
+        
+        instance(x: 365, y: -188) find_9a3d1c root.Std_k98ojb.Iteration.Find {}
+        instance(x: 446, y: -20) filter_2f536c root.Std_k98ojb.Query.Filter {
+            where: "it == elem"
+        }
+        
+        list_2bbadf -> find_9a3d1c.items
+        func() {
+            in(x: 147, y: -240, name: "elem") property(Number) elem_56f8b3
+            
+            out(x: 166, y: -38, name: "") property(Bool) _d79ebe
+
+            instance(x: 114, y: -28) equal_0c15a8 root.Std_k98ojb.Logic.Equal {}
+            
+            elem_56f8b3 -> equal_0c15a8.left
+            elem_94ca57 -> equal_0c15a8.right
+            equal_0c15a8.result -> _d79ebe
+        } -> find_9a3d1c.predicate
+        
+        list_2bbadf -> filter_2f536c.list
+        func() {
+            in(x: -24, y: -214, name: "elem") property(Number) elem_0d8e7b
+            
+            out(x: 109, y: -144, name: "") property(Bool) _f6c35a
+
+            instance(x: -17, y: -182) equal_aebdb4 root.Std_k98ojb.Logic.Equal {}
+            
+            elem_0d8e7b -> equal_aebdb4.left
+            elem_94ca57 -> equal_aebdb4.right
+            equal_aebdb4.result -> _f6c35a
+        } -> filter_2f536c.handler
+        
+        find_9a3d1c.item -> index_fc05e7
+        execute_076885 -> filter_2f536c.execute
+        list_2bbadf -> find_9a3d1c.items
+        elem_94ca57 -> filter_2f536c.gen_0
+        filter_2f536c.output_list -> find_9a3d1c.items
+        find_9a3d1c.onItem -> continue_9f5f84
+    }
+
+    
+
+    instance(x: -179, y: -24) last_b0e62b root.main.last {}
+}
+module(doc: "Contains three different tests for the 'last' function node") tests {
+        instance(x: -359, y: 161) test_e0e516 root.Std_k98ojb.Testing.Test {
+            name: "Test last"
+        }
+        instance(x: -108, y: 266) assertequal_e535d3 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: -359, y: 269) last_ec893e root.main.last {}
+        instance(x: 362, y: 266) assertequal_83e73c root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 111, y: 269) last_2e9081 root.main.last {}
+        instance(x: 829, y: 279) assertequal_96a0a1 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 578, y: 282) last_f37b3f root.main.last {}
+        data_instance(x: -562, y: 304) data_99c885  = [1, 2, 3]
+        data_instance(x: 93, y: 460) data_3e9e23  = [1, 1, 1, 2, 3, 4]
+        data_instance(x: 596, y: 464) data_09ea6a  = [2, 3, 2, 3, 6, 8, 9]
+        test_e0e516.onRun -> last_ec893e.execute_076885
+        last_ec893e.continue_9f5f84 -> assertequal_e535d3.execute
+        last_ec893e.index_fc05e7 -> assertequal_e535d3.actual
+        last_2e9081.continue_9f5f84 -> assertequal_83e73c.execute
+        last_2e9081.index_fc05e7 -> assertequal_83e73c.actual
+        last_f37b3f.continue_9f5f84 -> assertequal_96a0a1.execute
+        last_f37b3f.index_fc05e7 -> assertequal_96a0a1.actual
+        assertequal_e535d3.continue -> last_2e9081.execute_076885
+        assertequal_83e73c.continue -> last_f37b3f.execute_076885
+        1 -> last_ec893e.elem_94ca57
+        data_99c885 -> last_ec893e.list_2bbadf
+        data_3e9e23 -> last_2e9081.list_2bbadf
+        0 -> assertequal_e535d3.expect
+        2 -> assertequal_83e73c.expect
+        3 -> assertequal_96a0a1.expect
+        data_09ea6a -> last_f37b3f.list_2bbadf
+        3 -> last_f37b3f.elem_94ca57
+        1 -> last_2e9081.elem_94ca57
+
+
+    }
+==============================
+        
+
+===================================================================================
+        ❌ Code Evaluation Result
+===================================================================================
+        📌 Task ID       : 41
+        🔢 Candidate ID  : 1
+        📊 Metric        : tests
+        ❌ Passed        : No
+        
+        ⚠️ Error Type    : syntax
+        🛠️ Build Message: Error: Parsing failed
+
+Caused by:
+    Unexpected token while parsing property: Identifier
+        🔍 Error Message : ['ERROR compiler::frontend::parser: 1372: Error during parsing of file midio_example: Unexpected token while parsing property: Identifier', 'ERROR compiler::frontend::parser: 1373:     backtrace: disabled backtrace']
+        ------------------------------
+🖥️ Compiler stderr: Error: Parsing failed
+
+Caused by:
+    Unexpected token while parsing property: Identifier
+📤 Compiler output: Installing dependencies for midio_example@0.1.0
+
+No external dependencies
+
+Building package...
+ERROR compiler::frontend::parser: 1372: Error during parsing of file midio_example: Unexpected token while parsing property: Identifier
+ERROR compiler::frontend::parser: 1373:     backtrace: disabled backtrace
+        
+------------------------------
+📜 Evaluated Code:
+------------------------------
+import("std", Std_k98ojb)
+import("http", Http_q7o96c)
+
+module() main { 
+    
+    func(doc: "Finds the last position of an element in a sorted array.") last {
+        in(x: -231, y: -29, name: "list") property(List) list_2bbadf
+        in(x: -246, y: 105, name: "elem") property(Number) elem_94ca57
+        in(x: -356, y: -225, name: "execute") trigger() execute_076885
+
+        out(x: 801, y: -229, name: "continue") trigger() continue_9f5f84
+        out(x: 795, y: 205, name: "index") property(Number) index_fc05e7
+
+        instance(x: 365, y: -116) filter_7d3b9b root.Std_k98ojb.Iteration.Filter {}
+        instance(x: 438, y: -274) reverse_4a7c52 root.Std_k98ojb.List.Reversed {}
+        instance(x: 436, y: -101) find_f5e42c root.Std_k98ojb.Iteration.Find {}
+        list_2bbadf -> filter_7d3b9b.items
+        elem_94ca57 -> filter_7d3b9b.predicate
+        filter_7d3b9b.output_list -> reverse_4a7c52.list
+        reverse_4a7c52.reversedList -> find_f5e42c.items
+        func() {
+            in(x: -18, y: 6) item_04f674 root.Std_k98ojb.Number {}
+            
+            out(x: -35, y: -22) index_72daeb root.Std_k98ojb.Number {}
+
+            instance(x: -18, y: 6) index_0c5a7d root.Std_k98ojb.List.GetAt {}
+            item_04f674 -> index_0c5a7d.index
+            find_f5e42c.output_list -> index_0c5a7d.list
+            index_0c5a7d.itemAtIndex -> index_72daeb
+        } -> find_f5e42c.handler
+        find_f5e42c.item -> index_fc05e7
+        execute_076885 -> filter_7d3b9b.execute
+        filter_7d3b9b.done -> reverse_4a7c52.execute
+        reverse_4a7c52.reversedListDone -> find_f5e42c.execute
+        find_f5e42c.done -> continue_9f5f84
+    }
+
+    
+
+    instance(x: -136, y: 10) last_cdd96d root.main.last {}
+}
+module(doc: "Contains three different tests for the 'last' function node") tests {
+        instance(x: -359, y: 161) test_e0e516 root.Std_k98ojb.Testing.Test {
+            name: "Test last"
+        }
+        instance(x: -108, y: 266) assertequal_e535d3 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: -359, y: 269) last_ec893e root.main.last {}
+        instance(x: 362, y: 266) assertequal_83e73c root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 111, y: 269) last_2e9081 root.main.last {}
+        instance(x: 829, y: 279) assertequal_96a0a1 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 578, y: 282) last_f37b3f root.main.last {}
+        data_instance(x: -562, y: 304) data_99c885  = [1, 2, 3]
+        data_instance(x: 93, y: 460) data_3e9e23  = [1, 1, 1, 2, 3, 4]
+        data_instance(x: 596, y: 464) data_09ea6a  = [2, 3, 2, 3, 6, 8, 9]
+        test_e0e516.onRun -> last_ec893e.execute_076885
+        last_ec893e.continue_9f5f84 -> assertequal_e535d3.execute
+        last_ec893e.index_fc05e7 -> assertequal_e535d3.actual
+        last_2e9081.continue_9f5f84 -> assertequal_83e73c.execute
+        last_2e9081.index_fc05e7 -> assertequal_83e73c.actual
+        last_f37b3f.continue_9f5f84 -> assertequal_96a0a1.execute
+        last_f37b3f.index_fc05e7 -> assertequal_96a0a1.actual
+        assertequal_e535d3.continue -> last_2e9081.execute_076885
+        assertequal_83e73c.continue -> last_f37b3f.execute_076885
+        1 -> last_ec893e.elem_94ca57
+        data_99c885 -> last_ec893e.list_2bbadf
+        data_3e9e23 -> last_2e9081.list_2bbadf
+        0 -> assertequal_e535d3.expect
+        2 -> assertequal_83e73c.expect
+        3 -> assertequal_96a0a1.expect
+        data_09ea6a -> last_f37b3f.list_2bbadf
+        3 -> last_f37b3f.elem_94ca57
+        1 -> last_2e9081.elem_94ca57
+
+
+    }
+==============================
+        
+
+===================================================================================
+        ❌ Code Evaluation Result
+===================================================================================
+        📌 Task ID       : 41
+        🔢 Candidate ID  : 2
+        📊 Metric        : tests
+        ❌ Passed        : No
+        
+        ⚠️ Error Type    : syntax
+        🛠️ Build Message: Error: Parsing failed
+
+Caused by:
+    CompilerError - Error: Expected token ArrowOp, but got Assign at 1261
+        🔍 Error Message : ['ERROR compiler::frontend::parser: 1372: Error during parsing of file midio_example: CompilerError - Error: Expected token ArrowOp, but got Assign at 1261', 'ERROR compiler::frontend::parser: 1373:     backtrace: disabled backtrace']
+        ------------------------------
+🖥️ Compiler stderr: Error: Parsing failed
+
+Caused by:
+    CompilerError - Error: Expected token ArrowOp, but got Assign at 1261
+📤 Compiler output: Installing dependencies for midio_example@0.1.0
+
+No external dependencies
+
+Building package...
+ERROR compiler::frontend::parser: 1372: Error during parsing of file midio_example: CompilerError - Error: Expected token ArrowOp, but got Assign at 1261
+ERROR compiler::frontend::parser: 1373:     backtrace: disabled backtrace
+        
+------------------------------
+📜 Evaluated Code:
+------------------------------
+import("std", Std_k98ojb)
+import("http", Http_q7o96c)
+
+module() main { 
+    func(doc: "Finds the last position of an element in a sorted array.") last {
+        in(x: -231, y: -29, name: "list") property(List) list_2bbadf
+        in(x: -246, y: 105, name: "elem") property(Number) elem_94ca57
+        in(x: -356, y: -225, name: "execute") trigger() execute_076885
+
+        out(x: 801, y: -229, name: "continue") trigger() continue_9f5f84
+        out(x: 795, y: 205, name: "index") property(Number) index_fc05e7
+
+        instance(x: 365, y: -31) find_c0bddd root.Std_k98ojb.Iteration.Find {}
+        instance(x: 493, y: 132) length_9d1aeb root.Std_k98ojb.List.Length {}
+        list_2bbadf -> find_c0bddd.items
+        elem_94ca57 -> find_c0bddd.predicate
+        func() {
+            in(x: -6, y: 43, name: "x") property(Number) x_d1a8c0
+
+            out(x: -21, y: 101, name: "") property(Bool) _7f9e5b
+
+            instance(x: 63, y: 47) equal_2d9645 root.Std_k98ojb.Logic.Equal {}
+            x_d1a8c0 -> equal_2d9645.left
+            elem_94ca57 -> equal_2d9645.right
+            equal_2d9645.result -> _7f9e5b
+        } -> find_c0bddd.handler
+        execute_076885 -> find_c0bddd.reset
+        list_2bbadf -> length_9d1aeb.list
+        index_fc05e7.value = -1
+        find_c0bddd.item -> ifexpression_3f4c46.gen_0
+        find_c0bddd.index -> index_fc05e7
+        find_c0bddd.done -> continue_9f5f84
+        length_9d1aeb.length -> ifexpression_3f4c46.gen_1
+    }
+
+    instance(x: -22, y: 17) last_eb608e root.main.last {}
+}
+module(doc: "Contains three different tests for the 'last' function node") tests {
+        instance(x: -359, y: 161) test_e0e516 root.Std_k98ojb.Testing.Test {
+            name: "Test last"
+        }
+        instance(x: -108, y: 266) assertequal_e535d3 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: -359, y: 269) last_ec893e root.main.last {}
+        instance(x: 362, y: 266) assertequal_83e73c root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 111, y: 269) last_2e9081 root.main.last {}
+        instance(x: 829, y: 279) assertequal_96a0a1 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 578, y: 282) last_f37b3f root.main.last {}
+        data_instance(x: -562, y: 304) data_99c885  = [1, 2, 3]
+        data_instance(x: 93, y: 460) data_3e9e23  = [1, 1, 1, 2, 3, 4]
+        data_instance(x: 596, y: 464) data_09ea6a  = [2, 3, 2, 3, 6, 8, 9]
+        test_e0e516.onRun -> last_ec893e.execute_076885
+        last_ec893e.continue_9f5f84 -> assertequal_e535d3.execute
+        last_ec893e.index_fc05e7 -> assertequal_e535d3.actual
+        last_2e9081.continue_9f5f84 -> assertequal_83e73c.execute
+        last_2e9081.index_fc05e7 -> assertequal_83e73c.actual
+        last_f37b3f.continue_9f5f84 -> assertequal_96a0a1.execute
+        last_f37b3f.index_fc05e7 -> assertequal_96a0a1.actual
+        assertequal_e535d3.continue -> last_2e9081.execute_076885
+        assertequal_83e73c.continue -> last_f37b3f.execute_076885
+        1 -> last_ec893e.elem_94ca57
+        data_99c885 -> last_ec893e.list_2bbadf
+        data_3e9e23 -> last_2e9081.list_2bbadf
+        0 -> assertequal_e535d3.expect
+        2 -> assertequal_83e73c.expect
+        3 -> assertequal_96a0a1.expect
+        data_09ea6a -> last_f37b3f.list_2bbadf
+        3 -> last_f37b3f.elem_94ca57
+        1 -> last_2e9081.elem_94ca57
+
+
+    }
+==============================
+        
+
+===================================================================================
+        ✅ Code Evaluation Result
+===================================================================================
+        📌 Task ID       : 41
+        🔢 Candidate ID  : 3
+        📊 Metric        : tests
+        ✔️ Passed        : Yes
+        
+------------------------------
+🧪 Test Result   : [96mInstalling dependencies for midio_example@0.1.0
+[0m
+[92mNo external dependencies[0m
+
+[93mBuilding package...[0m
+[92mPackage built successfully!
+[0m
+[31mERROR[0m [2mengine::engine::engine[0m[2m:[0m [2m1727:[0m [91mError stepping: StepError(Map: second argument must be a function pointer or function instance)[0m
+[31mERROR[0m [2mengine::engine::engine[0m[2m:[0m [2m1728:[0m disabled backtrace
+{
+  "num_tests": 1,
+  "num_passed": 1,
+  "test_results": [
+    {
+      "name": "Test last",
+      "assertions": [],
+      "passed": true
+    }
+  ]
+}
+
+        
+------------------------------
+📜 Evaluated Code:
+------------------------------
+import("std", Std_k98ojb)
+import("http", Http_q7o96c)
+
+module() main { 
+
+func(doc: "Finds the last position of an element in a sorted array.") last {
+	in(x: -231, y: -29, name: "list") property(List) list_2bbadf
+	in(x: -246, y: 105, name: "elem") property(Number) elem_94ca57
+	in(x: -356, y: -225, name: "execute") trigger() execute_076885
+
+	out(x: 801, y: -229, name: "continue") trigger() continue_9f5f84
+	out(x: 795, y: 205, name: "index") property(Number) index_fc05e7
+
+	instance(x: 638, y: -189) length_f5c4b6 root.Std_k98ojb.List.Length {}
+	instance(x: 535, y: -183) find_2f7aeb root.Std_k98ojb.Iteration.Find {}
+	instance(x: 509, y: -101) filter_6e4c6d root.Std_k98ojb.Iteration.Filter {}
+
+	setter(x: -221, y: -328, name: "setter_7f74a5") setter_7f74a5 = reversed_list
+	list_2bbadf -> filter_6e4c6d.items
+	filter_6e4c6d.output_list -> find_2f7aeb.items
+	elem_94ca57 -> filter_6e4c6d.handler
+	find_2f7aeb.item -> setter_7f74a5.new_value
+	setter_7f74a5.continue -> length_f5c4b6.list
+	length_f5c4b6.listLength -> index_fc05e7
+	execute_076885 -> setter_7f74a5.execute
+	list_2bbadf -> length_f5c4b6.list
+
+	continue_9f5f84 -> find_2f7aeb.done
+}
+
+instance(x: -13, y: 14) last_09d6e4 root.main.last {}
+
+}
+module(doc: "Contains three different tests for the 'last' function node") tests {
+        instance(x: -359, y: 161) test_e0e516 root.Std_k98ojb.Testing.Test {
+            name: "Test last"
+        }
+        instance(x: -108, y: 266) assertequal_e535d3 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: -359, y: 269) last_ec893e root.main.last {}
+        instance(x: 362, y: 266) assertequal_83e73c root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 111, y: 269) last_2e9081 root.main.last {}
+        instance(x: 829, y: 279) assertequal_96a0a1 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 578, y: 282) last_f37b3f root.main.last {}
+        data_instance(x: -562, y: 304) data_99c885  = [1, 2, 3]
+        data_instance(x: 93, y: 460) data_3e9e23  = [1, 1, 1, 2, 3, 4]
+        data_instance(x: 596, y: 464) data_09ea6a  = [2, 3, 2, 3, 6, 8, 9]
+        test_e0e516.onRun -> last_ec893e.execute_076885
+        last_ec893e.continue_9f5f84 -> assertequal_e535d3.execute
+        last_ec893e.index_fc05e7 -> assertequal_e535d3.actual
+        last_2e9081.continue_9f5f84 -> assertequal_83e73c.execute
+        last_2e9081.index_fc05e7 -> assertequal_83e73c.actual
+        last_f37b3f.continue_9f5f84 -> assertequal_96a0a1.execute
+        last_f37b3f.index_fc05e7 -> assertequal_96a0a1.actual
+        assertequal_e535d3.continue -> last_2e9081.execute_076885
+        assertequal_83e73c.continue -> last_f37b3f.execute_076885
+        1 -> last_ec893e.elem_94ca57
+        data_99c885 -> last_ec893e.list_2bbadf
+        data_3e9e23 -> last_2e9081.list_2bbadf
+        0 -> assertequal_e535d3.expect
+        2 -> assertequal_83e73c.expect
+        3 -> assertequal_96a0a1.expect
+        data_09ea6a -> last_f37b3f.list_2bbadf
+        3 -> last_f37b3f.elem_94ca57
+        1 -> last_2e9081.elem_94ca57
+
+
+    }
+==============================
+        
+
+===================================================================================
+        ❌ Code Evaluation Result
+===================================================================================
+        📌 Task ID       : 41
+        🔢 Candidate ID  : 4
+        📊 Metric        : tests
+        ❌ Passed        : No
+        
+        🛠️ Error Type    : tests
+        🛠️ Build Message: 
+        🔍 Error Message : []
+        ------------------------------
+🖥️ Compiler stderr: N/A
+📤 Compiler output: Installing dependencies for midio_example@0.1.0
+
+No external dependencies
+
+Building package...
+Package built successfully!
+
+{
+  "num_tests": 1,
+  "num_passed": 0,
+  "test_results": [
+    {
+      "name": "Test last",
+      "assertions": [
+        {
+          "kind": "Failed",
+          "expect": "0",
+          "actual": "null"
+        },
+        {
+          "kind": "Failed",
+          "expect": "2",
+          "actual": "null"
+        },
+        {
+          "kind": "Failed",
+          "expect": "3",
+          "actual": "null"
+        }
+      ],
+      "passed": false
+    }
+  ]
+}
+        
+------------------------------
+🧪 Test Result   : [96mInstalling dependencies for midio_example@0.1.0
+[0m
+[92mNo external dependencies[0m
+
+[93mBuilding package...[0m
+[92mPackage built successfully!
+[0m
+{
+  "num_tests": 1,
+  "num_passed": 0,
+  "test_results": [
+    {
+      "name": "Test last",
+      "assertions": [
+        {
+          "kind": "Failed",
+          "expect": "0",
+          "actual": "null"
+        },
+        {
+          "kind": "Failed",
+          "expect": "2",
+          "actual": "null"
+        },
+        {
+          "kind": "Failed",
+          "expect": "3",
+          "actual": "null"
+        }
+      ],
+      "passed": false
+    }
+  ]
+}
+
+        
+------------------------------
+📜 Evaluated Code:
+------------------------------
+import("std", Std_k98ojb)
+import("http", Http_q7o96c)
+
+module() main {
+
+    func(doc: "Finds the last position of an element in a sorted array.") last {
+        in(x: -231, y: -29, name: "list") property(List) list_2bbadf
+        in(x: -246, y: 105, name: "elem") property(Number) elem_94ca57
+        in(x: -356, y: -225, name: "execute") trigger() execute_076885
+
+        out(x: 801, y: -229, name: "continue") trigger() continue_9f5f84
+        out(x: 795, y: 205, name: "index") property(Number) index_fc05e7
+
+        instance(x: 634, y: 105) ifexpression_d4a4b7 root.Std_k98ojb.Std.IfExpression {
+            expression: "it == elem"
+        }
+        instance(x: -213, y: 296) filter_8e9dfe root.Std_k98ojb.Iteration.Filter {}
+        setter(x: -354, y: -178, name: "setter_c0f3c4") setter_c0f3c4 = index
+        getter(x: 452, y: -169, name: "getter_8a3d9b") getter_8a3d9b = index
+        list_2bbadf -> filter_8e9dfe.items
+        elem_94ca57 -> ifexpression_d4a4b7.gen_0
+        execute_076885 -> setter_c0f3c4.execute
+        0 -> setter_c0f3c4.new_value
+        setter_c0f3c4.continue -> filter_8e9dfe.reset
+        ifexpression_d4a4b7.result -> filter_8e9dfe.handler
+        getter_8a3d9b.value -> index_fc05e7
+        filter_8e9dfe.done -> continue_9f5f84
+    }
+
+    
+
+    instance(x: -126, y: 10) last_e6c865 root.main.last {}
+}
+module(doc: "Contains three different tests for the 'last' function node") tests {
+        instance(x: -359, y: 161) test_e0e516 root.Std_k98ojb.Testing.Test {
+            name: "Test last"
+        }
+        instance(x: -108, y: 266) assertequal_e535d3 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: -359, y: 269) last_ec893e root.main.last {}
+        instance(x: 362, y: 266) assertequal_83e73c root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 111, y: 269) last_2e9081 root.main.last {}
+        instance(x: 829, y: 279) assertequal_96a0a1 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 578, y: 282) last_f37b3f root.main.last {}
+        data_instance(x: -562, y: 304) data_99c885  = [1, 2, 3]
+        data_instance(x: 93, y: 460) data_3e9e23  = [1, 1, 1, 2, 3, 4]
+        data_instance(x: 596, y: 464) data_09ea6a  = [2, 3, 2, 3, 6, 8, 9]
+        test_e0e516.onRun -> last_ec893e.execute_076885
+        last_ec893e.continue_9f5f84 -> assertequal_e535d3.execute
+        last_ec893e.index_fc05e7 -> assertequal_e535d3.actual
+        last_2e9081.continue_9f5f84 -> assertequal_83e73c.execute
+        last_2e9081.index_fc05e7 -> assertequal_83e73c.actual
+        last_f37b3f.continue_9f5f84 -> assertequal_96a0a1.execute
+        last_f37b3f.index_fc05e7 -> assertequal_96a0a1.actual
+        assertequal_e535d3.continue -> last_2e9081.execute_076885
+        assertequal_83e73c.continue -> last_f37b3f.execute_076885
+        1 -> last_ec893e.elem_94ca57
+        data_99c885 -> last_ec893e.list_2bbadf
+        data_3e9e23 -> last_2e9081.list_2bbadf
+        0 -> assertequal_e535d3.expect
+        2 -> assertequal_83e73c.expect
+        3 -> assertequal_96a0a1.expect
+        data_09ea6a -> last_f37b3f.list_2bbadf
+        3 -> last_f37b3f.elem_94ca57
+        1 -> last_2e9081.elem_94ca57
+
+
+    }
+==============================
+        
+
+===================================================================================
+        ❌ Code Evaluation Result
+===================================================================================
+        📌 Task ID       : 41
+        🔢 Candidate ID  : 5
+        📊 Metric        : tests
+        ❌ Passed        : No
+        
+        🛠️ Error Type    : tests
+        🛠️ Build Message: 
+        🔍 Error Message : []
+        ------------------------------
+🖥️ Compiler stderr: N/A
+📤 Compiler output: Installing dependencies for midio_example@0.1.0
+
+No external dependencies
+
+Building package...
+Package built successfully!
+
+{
+  "num_tests": 1,
+  "num_passed": 0,
+  "test_results": [
+    {
+      "name": "Test last",
+      "assertions": [
+        {
+          "kind": "Failed",
+          "expect": "0",
+          "actual": "null"
+        },
+        {
+          "kind": "Failed",
+          "expect": "2",
+          "actual": "null"
+        },
+        {
+          "kind": "Failed",
+          "expect": "3",
+          "actual": "null"
+        }
+      ],
+      "passed": false
+    }
+  ]
+}
+        
+------------------------------
+🧪 Test Result   : [96mInstalling dependencies for midio_example@0.1.0
+[0m
+[92mNo external dependencies[0m
+
+[93mBuilding package...[0m
+[92mPackage built successfully!
+[0m
+{
+  "num_tests": 1,
+  "num_passed": 0,
+  "test_results": [
+    {
+      "name": "Test last",
+      "assertions": [
+        {
+          "kind": "Failed",
+          "expect": "0",
+          "actual": "null"
+        },
+        {
+          "kind": "Failed",
+          "expect": "2",
+          "actual": "null"
+        },
+        {
+          "kind": "Failed",
+          "expect": "3",
+          "actual": "null"
+        }
+      ],
+      "passed": false
+    }
+  ]
+}
+
+        
+------------------------------
+📜 Evaluated Code:
+------------------------------
+import("std", Std_k98ojb)
+import("http", Http_q7o96c)
+
+module() main {
+    
+    func(doc: "Finds the last position of an element in a sorted array.") last {
+        in(x: -231, y: -29, name: "list") property(List) list_2bbadf
+        in(x: -246, y: 105, name: "elem") property(Number) elem_94ca57
+        in(x: -356, y: -225, name: "execute") trigger() execute_076885
+
+        out(x: 801, y: -229, name: "continue") trigger() continue_9f5f84
+        out(x: 795, y: 205, name: "index") property(Number) index_fc05e7
+
+        instance(x: 368, y: 138) findlast_2c1a8b root.Std_k98ojb.Iteration.Find {}
+        instance(x: -450, y: -97) for_d6d3f6 root.Std_k98ojb.Std.For {}
+        setter(x: 455, y: -265, name: "setter_1c6e5a") setter_1c6e5a = index
+        getter(x: 407, y: 135, name: "getter_c9f3d8") getter_c9f3d8 = index
+        instance(x: -237, y: 33) empty_ea3a3a root.Std_k98ojb.List.Empty {}
+        instance(x: 403, y: -156) ifexpression_6c3e54 root.Std_k98ojb.Std.IfExpression {
+            expression: "item == elem"
+        }
+        getter_c9f3d8.value -> setter_1c6e5a.new_value
+        list_2bbadf -> for_d6d3f6.items
+        for_d6d3f6.onItem -> ifexpression_6c3e54.execute
+        ifexpression_6c3e54.then -> setter_1c6e5a.execute
+        for_d6d3f6.item -> findlast_2c1a8b.items
+        elem_94ca57 -> findlast_2c1a8b.predicate
+        0 -> ifexpression_6c3e54.gen_0
+        setter_1c6e5a.continue -> continue_9f5f84
+        execute_076885 -> for_d6d3f6.reset
+        empty_ea3a3a.list -> findlast_2c1a8b.context
+        0 -> ifexpression_6c3e54.gen_1
+        list_2bbadf -> findlast_2c1a8b.items
+        elem_94ca57 -> findlast_2c1a8b.predicate
+        for_d6d3f6.next -> continue_9f5f84
+        setter(x: 505, y: -106, name: "setter_5e6f6c") setter_5e6f6c = index
+        findlast_2c1a8b.item -> setter_5e6f6c.new_value
+        setter_5e6f6c.continue -> continue_9f5f84
+        for_d6d3f6.done -> setter_5e6f6c.execute
+        getter(x: 520, y: -178, name: "getter_aebfaa") getter_aebfaa = index
+        getter_aebfaa.value -> index_fc05e7
+    }
+
+    
+
+    instance(x: -93, y: 46) last_6f1d9a root.main.last {}
+}
+module(doc: "Contains three different tests for the 'last' function node") tests {
+        instance(x: -359, y: 161) test_e0e516 root.Std_k98ojb.Testing.Test {
+            name: "Test last"
+        }
+        instance(x: -108, y: 266) assertequal_e535d3 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: -359, y: 269) last_ec893e root.main.last {}
+        instance(x: 362, y: 266) assertequal_83e73c root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 111, y: 269) last_2e9081 root.main.last {}
+        instance(x: 829, y: 279) assertequal_96a0a1 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 578, y: 282) last_f37b3f root.main.last {}
+        data_instance(x: -562, y: 304) data_99c885  = [1, 2, 3]
+        data_instance(x: 93, y: 460) data_3e9e23  = [1, 1, 1, 2, 3, 4]
+        data_instance(x: 596, y: 464) data_09ea6a  = [2, 3, 2, 3, 6, 8, 9]
+        test_e0e516.onRun -> last_ec893e.execute_076885
+        last_ec893e.continue_9f5f84 -> assertequal_e535d3.execute
+        last_ec893e.index_fc05e7 -> assertequal_e535d3.actual
+        last_2e9081.continue_9f5f84 -> assertequal_83e73c.execute
+        last_2e9081.index_fc05e7 -> assertequal_83e73c.actual
+        last_f37b3f.continue_9f5f84 -> assertequal_96a0a1.execute
+        last_f37b3f.index_fc05e7 -> assertequal_96a0a1.actual
+        assertequal_e535d3.continue -> last_2e9081.execute_076885
+        assertequal_83e73c.continue -> last_f37b3f.execute_076885
+        1 -> last_ec893e.elem_94ca57
+        data_99c885 -> last_ec893e.list_2bbadf
+        data_3e9e23 -> last_2e9081.list_2bbadf
+        0 -> assertequal_e535d3.expect
+        2 -> assertequal_83e73c.expect
+        3 -> assertequal_96a0a1.expect
+        data_09ea6a -> last_f37b3f.list_2bbadf
+        3 -> last_f37b3f.elem_94ca57
+        1 -> last_2e9081.elem_94ca57
+
+
+    }
+==============================
+        
+
+===================================================================================
+        ❌ Code Evaluation Result
+===================================================================================
+        📌 Task ID       : 41
+        🔢 Candidate ID  : 6
+        📊 Metric        : tests
+        ❌ Passed        : No
+        
+        ⚠️ Error Type    : syntax
+        🛠️ Build Message: Error: Code gen failed
+
+Caused by:
+    Could not find get index of property in function
+        🔍 Error Message : ['ERROR compiler::frontend::code_gen: 3182: Error during code gen: Could not find get index of property in function', 'ERROR compiler::frontend::code_gen: 3183:    backtrace: disabled backtrace']
+        ------------------------------
+🖥️ Compiler stderr: Error: Code gen failed
+
+Caused by:
+    Could not find get index of property in function
+📤 Compiler output: Installing dependencies for midio_example@0.1.0
+
+No external dependencies
+
+Building package...
+ERROR compiler::frontend::code_gen: 3182: Error during code gen: Could not find get index of property in function
+ERROR compiler::frontend::code_gen: 3183:    backtrace: disabled backtrace
+        
+------------------------------
+📜 Evaluated Code:
+------------------------------
+import("std", Std_k98ojb)
+import("http", Http_q7o96c)
+
+module() main {
+    
+    func(doc: "Finds the last position of an element in a sorted array.") last {
+        in(x: -231, y: -29, name: "list") property(List) list_2bbadf
+        in(x: -246, y: 105, name: "elem") property(Number) elem_94ca57
+        in(x: -356, y: -225, name: "execute") trigger() execute_076885
+
+        out(x: 801, y: -229, name: "continue") trigger() continue_9f5f84
+        out(x: 795, y: 205, name: "index") property(Number) index_fc05e7
+
+        instance(x: 367, y: -117) filter_5c4dfe root.Std_k98ojb.Iteration.Filter {}
+        list_2bbadf -> filter_5c4dfe.items
+        func() {
+            in(x: -109, y: -104, name: "x") property(Number) x_37e64a
+
+            out(x: 81, y: -163, name: "") property(Bool) _f2b45c
+
+            instance(x: 42, y: -139) equal_c8d07d root.Std_k98ojb.Logic.Equal {}
+            elem_94ca57 -> equal_c8d07d.right
+            x_37e64a -> equal_c8d07d.left
+            equal_c8d07d.result -> _f2b45c
+        } -> filter_5c4dfe.handler
+        filter_5c4dfe.output_list -> index_fc05e7
+        execute_076885 -> continue_9f5f84
+    }
+
+    
+
+    instance(x: -135, y: 20) last_ba2b6d root.main.last {}
+}
+module(doc: "Contains three different tests for the 'last' function node") tests {
+        instance(x: -359, y: 161) test_e0e516 root.Std_k98ojb.Testing.Test {
+            name: "Test last"
+        }
+        instance(x: -108, y: 266) assertequal_e535d3 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: -359, y: 269) last_ec893e root.main.last {}
+        instance(x: 362, y: 266) assertequal_83e73c root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 111, y: 269) last_2e9081 root.main.last {}
+        instance(x: 829, y: 279) assertequal_96a0a1 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 578, y: 282) last_f37b3f root.main.last {}
+        data_instance(x: -562, y: 304) data_99c885  = [1, 2, 3]
+        data_instance(x: 93, y: 460) data_3e9e23  = [1, 1, 1, 2, 3, 4]
+        data_instance(x: 596, y: 464) data_09ea6a  = [2, 3, 2, 3, 6, 8, 9]
+        test_e0e516.onRun -> last_ec893e.execute_076885
+        last_ec893e.continue_9f5f84 -> assertequal_e535d3.execute
+        last_ec893e.index_fc05e7 -> assertequal_e535d3.actual
+        last_2e9081.continue_9f5f84 -> assertequal_83e73c.execute
+        last_2e9081.index_fc05e7 -> assertequal_83e73c.actual
+        last_f37b3f.continue_9f5f84 -> assertequal_96a0a1.execute
+        last_f37b3f.index_fc05e7 -> assertequal_96a0a1.actual
+        assertequal_e535d3.continue -> last_2e9081.execute_076885
+        assertequal_83e73c.continue -> last_f37b3f.execute_076885
+        1 -> last_ec893e.elem_94ca57
+        data_99c885 -> last_ec893e.list_2bbadf
+        data_3e9e23 -> last_2e9081.list_2bbadf
+        0 -> assertequal_e535d3.expect
+        2 -> assertequal_83e73c.expect
+        3 -> assertequal_96a0a1.expect
+        data_09ea6a -> last_f37b3f.list_2bbadf
+        3 -> last_f37b3f.elem_94ca57
+        1 -> last_2e9081.elem_94ca57
+
+
+    }
+==============================
+        
+
+===================================================================================
+        ❌ Code Evaluation Result
+===================================================================================
+        📌 Task ID       : 41
+        🔢 Candidate ID  : 7
+        📊 Metric        : tests
+        ❌ Passed        : No
+        
+        ⚠️ Error Type    : syntax
+        🛠️ Build Message: Error: Parsing failed
+
+Caused by:
+    CompilerError - Error: Expected token ArrowOp, but got LeftParen at 1284
+        🔍 Error Message : ['ERROR compiler::frontend::parser: 1372: Error during parsing of file midio_example: CompilerError - Error: Expected token ArrowOp, but got LeftParen at 1284', 'ERROR compiler::frontend::parser: 1373:     backtrace: disabled backtrace']
+        ------------------------------
+🖥️ Compiler stderr: Error: Parsing failed
+
+Caused by:
+    CompilerError - Error: Expected token ArrowOp, but got LeftParen at 1284
+📤 Compiler output: Installing dependencies for midio_example@0.1.0
+
+No external dependencies
+
+Building package...
+ERROR compiler::frontend::parser: 1372: Error during parsing of file midio_example: CompilerError - Error: Expected token ArrowOp, but got LeftParen at 1284
+ERROR compiler::frontend::parser: 1373:     backtrace: disabled backtrace
+        
+------------------------------
+📜 Evaluated Code:
+------------------------------
+import("std", Std_k98ojb)
+import("http", Http_q7o96c)
+
+module() main {
+    
+    func(doc: "Finds the last position of an element in a sorted array.") last {
+        in(x: -231, y: -29, name: "list") property(List) list_2bbadf
+        in(x: -246, y: 105, name: "elem") property(Number) elem_94ca57
+        in(x: -356, y: -225, name: "execute") trigger() execute_076885
+
+        out(x: 801, y: -229, name: "continue") trigger() continue_9f5f84
+        out(x: 795, y: 205, name: "index") property(Number) index_fc05e7
+
+        instance(x: 364, y: -113) find_f2c3b4 root.Std_k98ojb.Iteration.Find {}
+        instance(x: 540, y: 143) reverse_7f8d8a root.Std_k98ojb.List.Reversed {}
+        list_2bbadf -> reverse_7f8d8a.list
+        func() {
+            in(x: -66, y: -175, name: "item") property(Number) item_c30e4c
+
+            out(x: 294, y: -145, name: "") property(Bool) _5b8f5a
+
+            instance(x: 131, y: -69) equal_7d4f5a root.Std_k98ojb.Logic.Equal {}
+            item_c30e4c -> equal_7d4f5a.left
+            elem_94ca57 -> equal_7d4f5a.right
+            equal_7d4f5a.result -> _5b8f5a
+        } -> find_f2c3b4.predicate
+
+        reverse_7f8d8a.list -> find_f2c3b4.items
+        execute_076885 -> find_f2c3b4.reset
+        find_f2c3b4.item -> index_fc05e7
+        List.Length(list: list_2bbadf) -> Math.Sub(first: 1, second: index_fc05e7)
+        continue_9f5f84 -> find_f2c3b4.next
+    }
+
+    
+
+    instance(x: -68, y: -72) last_ba9d89 root.main.last {}
+}
+module(doc: "Contains three different tests for the 'last' function node") tests {
+        instance(x: -359, y: 161) test_e0e516 root.Std_k98ojb.Testing.Test {
+            name: "Test last"
+        }
+        instance(x: -108, y: 266) assertequal_e535d3 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: -359, y: 269) last_ec893e root.main.last {}
+        instance(x: 362, y: 266) assertequal_83e73c root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 111, y: 269) last_2e9081 root.main.last {}
+        instance(x: 829, y: 279) assertequal_96a0a1 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 578, y: 282) last_f37b3f root.main.last {}
+        data_instance(x: -562, y: 304) data_99c885  = [1, 2, 3]
+        data_instance(x: 93, y: 460) data_3e9e23  = [1, 1, 1, 2, 3, 4]
+        data_instance(x: 596, y: 464) data_09ea6a  = [2, 3, 2, 3, 6, 8, 9]
+        test_e0e516.onRun -> last_ec893e.execute_076885
+        last_ec893e.continue_9f5f84 -> assertequal_e535d3.execute
+        last_ec893e.index_fc05e7 -> assertequal_e535d3.actual
+        last_2e9081.continue_9f5f84 -> assertequal_83e73c.execute
+        last_2e9081.index_fc05e7 -> assertequal_83e73c.actual
+        last_f37b3f.continue_9f5f84 -> assertequal_96a0a1.execute
+        last_f37b3f.index_fc05e7 -> assertequal_96a0a1.actual
+        assertequal_e535d3.continue -> last_2e9081.execute_076885
+        assertequal_83e73c.continue -> last_f37b3f.execute_076885
+        1 -> last_ec893e.elem_94ca57
+        data_99c885 -> last_ec893e.list_2bbadf
+        data_3e9e23 -> last_2e9081.list_2bbadf
+        0 -> assertequal_e535d3.expect
+        2 -> assertequal_83e73c.expect
+        3 -> assertequal_96a0a1.expect
+        data_09ea6a -> last_f37b3f.list_2bbadf
+        3 -> last_f37b3f.elem_94ca57
+        1 -> last_2e9081.elem_94ca57
+
+
+    }
+==============================
+        
+
+===================================================================================
+        ❌ Code Evaluation Result
+===================================================================================
+        📌 Task ID       : 41
+        🔢 Candidate ID  : 8
+        📊 Metric        : tests
+        ❌ Passed        : No
+        
+        ⚠️ Error Type    : syntax
+        🛠️ Build Message: Error: Parsing failed
+
+Caused by:
+    CompilerError - Error: Expected token Identifier, but got Keyword(Trigger) at 765
+        🔍 Error Message : ['ERROR compiler::frontend::parser: 1372: Error during parsing of file midio_example: CompilerError - Error: Expected token Identifier, but got Keyword(Trigger) at 765', 'ERROR compiler::frontend::parser: 1373:     backtrace: disabled backtrace']
+        ------------------------------
+🖥️ Compiler stderr: Error: Parsing failed
+
+Caused by:
+    CompilerError - Error: Expected token Identifier, but got Keyword(Trigger) at 765
+📤 Compiler output: Installing dependencies for midio_example@0.1.0
+
+No external dependencies
+
+Building package...
+ERROR compiler::frontend::parser: 1372: Error during parsing of file midio_example: CompilerError - Error: Expected token Identifier, but got Keyword(Trigger) at 765
+ERROR compiler::frontend::parser: 1373:     backtrace: disabled backtrace
+        
+------------------------------
+📜 Evaluated Code:
+------------------------------
+import("std", Std_k98ojb)
+import("http", Http_q7o96c)
+
+module() main { 
+
+func(doc: "Finds the last position of an element in a sorted array.") last {
+	in(x: -231, y: -29, name: "list") property(List) list_2bbadf
+	in(x: -246, y: 105, name: "elem") property(Number) elem_94ca57
+	in(x: -356, y: -225, name: "execute") trigger() execute_076885
+
+	out(x: 801, y: -229, name: "continue") trigger() continue_9f5f84
+	out(x: 795, y: 205, name: "index") property(Number) index_fc05e7
+
+	instance(x: 369, y: 134) find_f3d9b9 root.Std_k98ojb.Iteration.Find {}
+	instance(x: 326, y: -34) not_equal_25a3c4 root.Std_k98ojb.Logic.NotEqual {}
+	list_2bbadf -> find_f3d9b9.items
+	elem_94ca57 -> not_equal_25a3c4.right
+	elem_94ca57 -> find_f3d9b9.predicate
+	execute_076885 -> find_f3d9b9.trigger
+	find_f3d9b9.done -> continue_9f5f84
+	not_equal_25a3c4.left -> find_f3d9b9.handler
+	find_f3d9b9.item -> not_equal_25a3c4.left
+	find_f3d9b9.index -> index_fc05e7
+}
+
+instance(x: -169, y: 8) last_3f3d8a root.main.last {}
+}
+module(doc: "Contains three different tests for the 'last' function node") tests {
+        instance(x: -359, y: 161) test_e0e516 root.Std_k98ojb.Testing.Test {
+            name: "Test last"
+        }
+        instance(x: -108, y: 266) assertequal_e535d3 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: -359, y: 269) last_ec893e root.main.last {}
+        instance(x: 362, y: 266) assertequal_83e73c root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 111, y: 269) last_2e9081 root.main.last {}
+        instance(x: 829, y: 279) assertequal_96a0a1 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 578, y: 282) last_f37b3f root.main.last {}
+        data_instance(x: -562, y: 304) data_99c885  = [1, 2, 3]
+        data_instance(x: 93, y: 460) data_3e9e23  = [1, 1, 1, 2, 3, 4]
+        data_instance(x: 596, y: 464) data_09ea6a  = [2, 3, 2, 3, 6, 8, 9]
+        test_e0e516.onRun -> last_ec893e.execute_076885
+        last_ec893e.continue_9f5f84 -> assertequal_e535d3.execute
+        last_ec893e.index_fc05e7 -> assertequal_e535d3.actual
+        last_2e9081.continue_9f5f84 -> assertequal_83e73c.execute
+        last_2e9081.index_fc05e7 -> assertequal_83e73c.actual
+        last_f37b3f.continue_9f5f84 -> assertequal_96a0a1.execute
+        last_f37b3f.index_fc05e7 -> assertequal_96a0a1.actual
+        assertequal_e535d3.continue -> last_2e9081.execute_076885
+        assertequal_83e73c.continue -> last_f37b3f.execute_076885
+        1 -> last_ec893e.elem_94ca57
+        data_99c885 -> last_ec893e.list_2bbadf
+        data_3e9e23 -> last_2e9081.list_2bbadf
+        0 -> assertequal_e535d3.expect
+        2 -> assertequal_83e73c.expect
+        3 -> assertequal_96a0a1.expect
+        data_09ea6a -> last_f37b3f.list_2bbadf
+        3 -> last_f37b3f.elem_94ca57
+        1 -> last_2e9081.elem_94ca57
+
+
+    }
+==============================
+        
+
+===================================================================================
+        ❌ Code Evaluation Result
+===================================================================================
+        📌 Task ID       : 41
+        🔢 Candidate ID  : 9
+        📊 Metric        : tests
+        ❌ Passed        : No
+        
+        ⚠️ Error Type    : syntax
+        🛠️ Build Message: Error: Parsing failed
+
+Caused by:
+    CompilerError - Error: Expected token ArrowOp, but got LeftParen at 936
+        🔍 Error Message : ['ERROR compiler::frontend::parser: 1372: Error during parsing of file midio_example: CompilerError - Error: Expected token ArrowOp, but got LeftParen at 936', 'ERROR compiler::frontend::parser: 1373:     backtrace: disabled backtrace']
+        ------------------------------
+🖥️ Compiler stderr: Error: Parsing failed
+
+Caused by:
+    CompilerError - Error: Expected token ArrowOp, but got LeftParen at 936
+📤 Compiler output: Installing dependencies for midio_example@0.1.0
+
+No external dependencies
+
+Building package...
+ERROR compiler::frontend::parser: 1372: Error during parsing of file midio_example: CompilerError - Error: Expected token ArrowOp, but got LeftParen at 936
+ERROR compiler::frontend::parser: 1373:     backtrace: disabled backtrace
+        
+------------------------------
+📜 Evaluated Code:
+------------------------------
+import("std", Std_k98ojb)
+import("http", Http_q7o96c)
+
+module() main { 
+    func(doc: "Finds the last position of an element in a sorted array.") last {
+        in(x: -231, y: -29, name: "list") property(List) list_2bbadf
+        in(x: -246, y: 105, name: "elem") property(Number) elem_94ca57
+        in(x: -356, y: -225, name: "execute") trigger() execute_076885
+
+        out(x: 801, y: -229, name: "continue") trigger() continue_9f5f84
+        out(x: 795, y: 205, name: "index") property(Number) index_fc05e7
+
+        instance(x: 634, y: -173) find_2b0a7d root.Std_k98ojb.Iteration.Find {}
+        instance(x: 634, y: -324) filter_d9f3c8 root.Std_k98ojb.Iteration.Filter {}
+        list_2bbadf -> filter_d9f3c8.items
+        elem_94ca57 -> find_2b0a7d.item
+        func() {
+            in(x: -164, y: -35, name: "it") property(Number) it_b4eacf
+
+            out(x: 415, y: -8, name: "") property(Bool) _7dd980
+
+            Logic.Equal(root: root.Std_k98ojb.Logic.Equal, left: elem_94ca57, right: it_b4eacf) -> _7dd980
+        } -> filter_d9f3c8.handler
+        func() {
+            in(x: -164, y: -35, name: "it") property(Number) it_b4eacf
+
+            out(x: 415, y: -8, name: "") property(Bool) _7dd980
+
+            Logic.Equal(root: root.Std_k98ojb.Logic.Equal, left: elem_94ca57, right: it_b4eacf) -> _7dd980
+        } -> find_2b0a7d.predicate
+        filter_d9f3c8.output_list -> find_2b0a7d.items
+        execute_076885 -> filter_d9f3c8.execute
+        index_fc05e7 <- find_2b0a7d.item
+        find_2b0a7d.done -> continue_9f5f84
+    }
+
+    
+
+    instance(x: -121, y: 6) last_fd7513 root.main.last {}
+}
+module(doc: "Contains three different tests for the 'last' function node") tests {
+        instance(x: -359, y: 161) test_e0e516 root.Std_k98ojb.Testing.Test {
+            name: "Test last"
+        }
+        instance(x: -108, y: 266) assertequal_e535d3 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: -359, y: 269) last_ec893e root.main.last {}
+        instance(x: 362, y: 266) assertequal_83e73c root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 111, y: 269) last_2e9081 root.main.last {}
+        instance(x: 829, y: 279) assertequal_96a0a1 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 578, y: 282) last_f37b3f root.main.last {}
+        data_instance(x: -562, y: 304) data_99c885  = [1, 2, 3]
+        data_instance(x: 93, y: 460) data_3e9e23  = [1, 1, 1, 2, 3, 4]
+        data_instance(x: 596, y: 464) data_09ea6a  = [2, 3, 2, 3, 6, 8, 9]
+        test_e0e516.onRun -> last_ec893e.execute_076885
+        last_ec893e.continue_9f5f84 -> assertequal_e535d3.execute
+        last_ec893e.index_fc05e7 -> assertequal_e535d3.actual
+        last_2e9081.continue_9f5f84 -> assertequal_83e73c.execute
+        last_2e9081.index_fc05e7 -> assertequal_83e73c.actual
+        last_f37b3f.continue_9f5f84 -> assertequal_96a0a1.execute
+        last_f37b3f.index_fc05e7 -> assertequal_96a0a1.actual
+        assertequal_e535d3.continue -> last_2e9081.execute_076885
+        assertequal_83e73c.continue -> last_f37b3f.execute_076885
+        1 -> last_ec893e.elem_94ca57
+        data_99c885 -> last_ec893e.list_2bbadf
+        data_3e9e23 -> last_2e9081.list_2bbadf
+        0 -> assertequal_e535d3.expect
+        2 -> assertequal_83e73c.expect
+        3 -> assertequal_96a0a1.expect
+        data_09ea6a -> last_f37b3f.list_2bbadf
+        3 -> last_f37b3f.elem_94ca57
+        1 -> last_2e9081.elem_94ca57
+
+
+    }
+==============================
+        

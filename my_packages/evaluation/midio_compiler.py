@@ -1,8 +1,10 @@
 import json
+import logging
 import subprocess
 import os
 import tempfile
 import re
+import json
 
 # Function to load code from a file
 def load_code_from_file(file_path: str) -> str:
@@ -54,7 +56,6 @@ def compile_code(code: str, type: str = "build", flag: str = "") -> subprocess.C
                     stderr=subprocess.PIPE,
                     text=True
                 )
-
             return result
         except FileNotFoundError:
             print("Error: package-manager not found in PATH.")
@@ -70,7 +71,7 @@ def get_output(result: subprocess.CompletedProcess[str]) -> str:
     return result.stdout
 
 def get_json_test_result(result: subprocess.CompletedProcess[str]) -> dict:
-    output = result.stdout.strip()
+    output = clean_output(result.stdout)
     
     # Find the first occurrence of '{' (start of JSON)
     json_start = output.find('{')
@@ -94,10 +95,17 @@ def clean_output(text: str) -> str:
     ansi_escape = re.compile(r'\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])')
     return ansi_escape.sub('', text).strip()
 
+
 def extract_errors(text: str) -> str:
-    """Extract only lines that contain 'ERROR'."""
+    """Extracts lines that contain 'error' and returns a JSON list for structured storage."""
+    if not text:
+        return json.dumps([])  # Return empty list as JSON
+
     clean_text = clean_output(text)
-    return "\n".join(line for line in clean_text.split("\n") if "ERROR" in line)
+    errors = [line.strip() for line in clean_text.split("\n") if "error" in line.lower()]
+    
+    return errors # Store as JSON string for structured retrieval
+
 
 def get_test_result(json_result: dict) -> str:
     num_passed = json_result['num_passed']
@@ -114,8 +122,24 @@ def is_code_syntax_valid(result: subprocess.CompletedProcess[str]) -> bool:
     return result.returncode == 0
 
 def is_code_semantically_valid(result: subprocess.CompletedProcess[str]) -> bool:
-    print(result.stdout.lower())
-    return "error" not in result.stdout.lower()
+    """
+    Checks if the code is semantically valid.
+
+    - Ensures the code compiles (`returncode == 0`).
+    - If `stdout` contains "error", it's a semantic issue.
+    - Logs unexpected cases for debugging.
+    """
+    if not is_code_syntax_valid(result):  
+        # The code must be compilable for semantic validation
+        if "error" not in result.stdout.lower() and "error" not in result.stderr.lower():
+            logging.error(f"Code does not compile, but no 'error' found in output:\nSTDOUT: {result.stdout}\nSTDERR: {result.stderr}")
+        return False
+
+    # If it compiles, check for semantic errors
+    if "error" in result.stdout.lower() or "error" in result.stderr.lower():
+        return False  # Semantic error detected
+
+    return True  # No errors found
 
 def print_compiled_output(result: subprocess.CompletedProcess[str]):
         print(f"\n\n\n\n New Output from Midio compilation of code:")

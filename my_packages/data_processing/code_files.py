@@ -1,6 +1,73 @@
 import re
 
-from my_packages.utils.file_utils import extract_func_signature
+def extract_func_signature(code_str: str) -> str:
+    """
+    Extracts the top-level function signature block (header, and only the 'in(' or 'out(' lines
+    at the top-level, ignoring nested blocks) from a given code string.
+    
+    For example, given:
+    
+    func(doc: "Finds the product of first even and odd number of a given list.") mul_even_odd {
+        in(x: -277, y: 166, name: "list") property(List) list_09fcba
+
+        out(x: 800, y: 145, name: "output") property(Number) output_edc2e3
+
+        instance(x: 532, y: 147) mul_7e1ce0 root.Std_k98ojb.Math.Mul {}
+        ... (nested code) ...
+    }
+    
+    It returns only:
+    
+    func(doc: "Finds the product of first even and odd number of a given list.") mul_even_odd {
+        in(x: -277, y: 166, name: "list") property(List) list_09fcba
+        out(x: 800, y: 145, name: "output") property(Number) output_edc2e3
+    }
+    """
+    # Use a regex to extract a function block starting at 'func(' and ending at the corresponding closing brace.
+    # This pattern assumes the block is balanced.
+    pattern = re.compile(r'(func\(.*?\{.*?\})', re.DOTALL)
+    match = pattern.search(code_str)
+    if not match:
+        print("No function block found.")
+        return "Not found"
+    
+    block = match.group(1)
+    lines = block.splitlines()
+    if not lines:
+        return ""
+    
+    # We'll build the output while tracking the nesting level.
+    # Assume the header (first line) is always at level 0.
+    result_lines = []
+    nesting = 0
+    for idx, line in enumerate(lines):
+        stripped = line.strip()
+        # Count braces in this line (assumes braces don't occur inside strings)
+        opens = line.count("{")
+        closes = line.count("}")
+        
+        # Before processing the line, if it's the header, include it.
+        if idx == 0:
+            result_lines.append(line)
+            # Increase nesting level if header contains '{'
+            nesting += opens - closes
+            continue
+
+        # Update nesting AFTER checking if this line is a candidate.
+        # We want to include only lines that are at the top level (nesting == 1).
+        # That is, after the header, the first level of content.
+        if nesting == 1 and (line.lstrip().startswith("in(") or line.lstrip().startswith("out(")):
+            result_lines.append(line)
+        nesting += opens - closes
+
+    # Optionally, append the closing brace for the top-level function.
+    # We assume that when the block ends, the nesting should be 0.
+    # Here, we add a closing brace if the last non-empty line isn't one.
+    if result_lines and result_lines[-1].strip() != "}":
+        result_lines.append("}")
+    
+    return "\n".join(result_lines)
+
 
 def format_func_string(code: str) -> str:
     """Convert string to an inline string with escaped quotes and tabs after newlines."""
