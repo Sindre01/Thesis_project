@@ -40,18 +40,34 @@ jobs:
           echo "🔗 [View Commit](${{ github.event.head_commit.url }})" >> changes.txt
           echo "" >> changes.txt
           
+          # Extract added files
           echo "📂 **Files Added:**" >> changes.txt
-          echo "${{ toJson(github.event.commits) }}" | jq -r '.[].added[]? | "- \(.))"' >> changes.txt
+          ADDED_FILES=$(echo '${{ toJson(github.event.commits) }}' | jq -r '.[].added[]?')
+          if [[ -z "$ADDED_FILES" ]]; then
+            echo "- None" >> changes.txt
+          else
+            echo "$ADDED_FILES" | sed 's/^/- /' >> changes.txt
+          fi
           echo "" >> changes.txt
 
+          # Extract modified files
           echo "📝 **Files Modified:**" >> changes.txt
-          echo "${{ toJson(github.event.commits) }}" | jq -r '.[].modified[]? | "- \(.))"' >> changes.txt
-          echo "" >> changes.txt
-          
-          echo "❌ Files Removed:" >> changes.txt
-          echo "${{ toJson(github.event.commits) }}" | jq -r '.[].removed[]? | "- \(.))"' >> changes.txt
+          MODIFIED_FILES=$(echo '${{ toJson(github.event.commits) }}' | jq -r '.[].modified[]?')
+          if [[ -z "$MODIFIED_FILES" ]]; then
+            echo "- None" >> changes.txt
+          else
+            echo "$MODIFIED_FILES" | sed 's/^/- /' >> changes.txt
+          fi
           echo "" >> changes.txt
 
+          # Extract removed files
+          echo "❌ **Files Removed:**" >> changes.txt
+          REMOVED_FILES=$(echo '${{ toJson(github.event.commits) }}' | jq -r '.[].removed[]?')
+          if [[ -z "$REMOVED_FILES" ]]; then
+            echo "- None" >> changes.txt
+          else
+            echo "$REMOVED_FILES" | sed 's/^/- /' >> changes.txt
+          fi
       - name: Read Changes File
         if: env.match == 'true'
         id: read_changes
