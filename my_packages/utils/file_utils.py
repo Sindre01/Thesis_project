@@ -3,6 +3,8 @@ import os
 from my_packages.common import CodeEvaluationResult
 from my_packages.data_processing.code_files import extract_tests_module
 
+project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '../..'))
+
 def extract_all_code_and_write_to_file():
     """ Extracts code wthout tests module from the files in includes_files folder and writes to files only_files folder"""
     for i in range(50):
@@ -13,15 +15,27 @@ def extract_all_code_and_write_to_file():
         print(f"Removed module: {removed_module}")
         write_code_file(i+1, removed_module)
         
-
 def read_file(_file: str) -> str:
     with open(_file) as reader:
         return reader.read()
+    
+def write_json_file(root_file_path: str, content: list[dict]):
+    file_path = os.path.join(project_root, root_file_path)
+    with open(file_path, 'w') as writer:
+        json.dump(content, writer, indent=4)
 
+# def append_file(root_file_path: str, obj: dict):
+#     file_path = os.path.join(project_root, root_file_path)
+#     with open(file_path, 'a') as writer:
+#         json.dump(obj, writer, indent=4)
+
+def append_to_ndjson(result_obj, filename="results.ndjson"):
+    """Efficiently appends result objects to a newline-delimited JSON file."""
+    with open(filename, "a") as f:
+        f.write(json.dumps(result_obj) + "\n")
 
 def read_code_file(task_id: int) -> str:
     """Reads the code file from MBPP_Midio_50/only_files/ folder."""
-    project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '../..'))
     file_path = os.path.join(project_root, f'data/MBPP_Midio_50/only_files/task_id_{task_id}.midio')
 
     try:
@@ -33,14 +47,12 @@ def read_code_file(task_id: int) -> str:
         return f"Error: {e}"
 
 def write_code_file(task_id: int, code: str):
-    project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '../..'))
     file_path = os.path.join(project_root, f'data/MBPP_Midio_50/only_files/task_id_{task_id}.midio')
     with open(file_path, 'w') as f:
         f.write(code)
     
 def read_test_code_file(task_id):
     """Reads the code file with tests from MBPP_Midio_50/includes_tests/ folder."""
-    project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '../..'))
     file_path = os.path.join(project_root, f'data/MBPP_Midio_50/includes_tests/task_id_{task_id}_tests.midio')
 
     try:
@@ -60,7 +72,7 @@ def get_test_module_from_file(task_id: int) -> str:
     return module_tests
 
 
-def read_dataset_to_json(file_path: str):
+def read_dataset_to_json(file_path: str) -> dict:
     """Reads the dataset from the file and returns it as a json object."""
     with open(file_path, 'r') as file:
         dataset = json.load(file)
@@ -119,7 +131,6 @@ def save_results_as_string(test_results: dict[int, list[CodeEvaluationResult]], 
     """
     Saves the string representation of CodeEvaluationResult objects to a file incrementally.
     """
-    project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '../..'))
     file_path = os.path.join(project_root, f'notebooks/few-shot/logs/{filename}')
 
     with open(file_path, "a", encoding="utf-8") as f:

@@ -1,10 +1,11 @@
 import json
+import os
 from my_packages.data_processing.midio_libraries_processing import extract_midio_functions
 import re
 import json
 import ast
 
-def used_functions_from_dataset(data: list[dict]):
+def used_functions_from_dataset(data: list[dict], write_to_file: bool = False):
     """Extracts the used external functions from a dataset of sanitized MBPP-midio samples."""
     # Collect all used external functions from sanitized-MBPP-midio.json
     used_external_functions = set()
@@ -32,6 +33,13 @@ def used_functions_from_dataset(data: list[dict]):
     if missing_functions:
         print(f"These functions could not be found in libraries: {missing_functions}")
 
+    project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
+    file_path = os.path.join(project_root, f"data/MBPP_Midio_50/metadata/used_external_functions.json")
+    # Write back as a valid JSON array
+    with open(file_path, "w", encoding="utf-8") as f:
+        json.dump(filtered_functions, f, indent=4, ensure_ascii=False)
+
+    print(f"✅ External functions used saved to {file_path} as a valid JSON array.")
     return filtered_functions
 
 def used_functions_to_string(data: list[dict]):

@@ -114,6 +114,8 @@ def get_test_result(json_result: dict) -> str:
     return f"{num_passed}/{num_tests} test passed. All tests: {assertions}"
 
 def is_all_tests_passed(json_result: dict) -> bool:
+    if not json_result:
+        return False
     num_passed = json_result['num_passed']
     num_tests = json_result['num_tests']
     return num_passed == num_tests

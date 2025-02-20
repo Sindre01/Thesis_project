@@ -69,7 +69,8 @@ class CoverageExampleSelector(BaseExampleSelector):
         rng.shuffle(candidates)
         
         # Greedy selection: add the candidate that brings in the largest number of new outputs.
-        while len(selected) < k and candidates:
+  
+        while len(selected) < k and len(candidates) > 0:
             best_new_coverage = -1
             best_candidates = []
             for ex in candidates:
@@ -119,7 +120,7 @@ class CoverageExampleSelector(BaseExampleSelector):
             return self._selected_cache
         
         # Compute and cache the selection.
-        print("Computes selection")
+        # print("Computes selection")
         self._selected_cache = self._compute_selection(k)
         self._dirty = False  # Reset the dirty flag after recomputation.
         return self._selected_cache

@@ -1,8 +1,10 @@
 import json
 import os
 from subprocess import CompletedProcess
+from typing import Dict, List
 from colorama import Fore, Style
-from my_packages.evaluation.midio_compiler import clean_output, extract_errors, get_errors, get_json_test_result, get_output, is_all_tests_passed
+from pydantic import BaseModel, Field
+from my_packages.evaluation.midio_compiler import clean_output, extract_errors, get_json_test_result, is_all_tests_passed
 
 
 class CodeEvaluationResult:
@@ -28,14 +30,14 @@ class CodeEvaluationResult:
         self.test_result = None
 
     def add_syntax_error(self, compiled: CompletedProcess[str]):
-        print("Syntax error found")
+        print("     Syntax error found")
         self.passed = False
         self.error_type = "syntax"
         self.error_msg = extract_errors(compiled.stdout) 
         self.compiler_msg = compiled
 
     def add_semantic_error(self, compiled: CompletedProcess[str]):
-        print("Semantics error found")
+        print("     Semantics error found")
         self.passed = False
         self.error_type = "semantic"
         self.error_msg = extract_errors(compiled.stdout)
@@ -43,10 +45,11 @@ class CodeEvaluationResult:
 
     def add_tests_result(self, compiled_tests: CompletedProcess[str]):
         json_result = get_json_test_result(compiled_tests)
-
+    
         if is_all_tests_passed(json_result):
             self.passed = True
         else:
+            print("     Tests error found")
             self.passed = False
             self.error_type = "tests"
             self.error_msg = extract_errors(compiled_tests.stdout)
@@ -162,3 +165,29 @@ class Run:
                 f"{Style.RESET_ALL}"
             )
 
+
+# class CodeDataSchema(BaseModel):
+#     task_id: str
+#     task: str
+#     response: str
+#     MBPP_task_id: str
+#     external_functions: str
+#     tests: List[str] = Field(default_factory=str)
+#     signature: str
+
+from enum import Enum
+
+class ModelProvider(Enum):
+    OLLAMA = "ollama"
+    OPENAI = "openai"
+    ANTHROPIC = "anthropic"
+
+class PromptType(Enum):
+    REGULAR = "regular"
+    SIGNATURE = "signature"
+
+def get_prompt_type(file_name: str) -> PromptType | None:
+    for prompt in PromptType:
+        if prompt.value in file_name:
+            return prompt
+    return None 

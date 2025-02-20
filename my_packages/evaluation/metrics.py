@@ -4,8 +4,6 @@ from my_packages.common import CodeEvaluationResult
 from my_packages.evaluation.midio_compiler import compile_code, is_code_semantically_valid, is_code_syntax_valid
 from my_packages.utils.file_utils import get_test_module_from_file
 
-                
-
 def estimate_pass_at_k(num_samples, num_correct, k):
     """Estimates pass@k of each problem and returns them in an array."""
     """pass@k [6] estimating the probability that, if asked k times,the LLM will at least once give a correct answer"""
@@ -47,17 +45,17 @@ def check_correctness(
     results: dict[int, list[CodeEvaluationResult]] = {}
 
     for task_id, candidates in candidates_dict.items():
-        print(f"Checking correctness for task {task_id}...")
+        print(f"\n> Checking correctness for task {task_id}...")
         test_code = get_test_module_from_file(task_id)
         checked_canidates = []
 
         for i, candidate in enumerate(candidates):
-            print(f"> Compiling code with tests for candidate {i+1}...")
+            print(f"    Compiling code with tests for candidate {i+1}...")
             # Add the testing code to the candidate code
             test_candidate = candidate + "\n" + test_code
             compiled = compile_code(test_candidate)
             
-            evaluation_result = CodeEvaluationResult("tests", test_candidate, task_id, i, compiled)
+            evaluation_result = CodeEvaluationResult("tests", test_candidate, task_id, (i+1), compiled)
 
             #check if the code syntax and semantics are valid for new test_candidate
             if not is_code_syntax_valid(compiled):
@@ -95,18 +93,17 @@ def check_syntax(
     """
     results: dict = {}
     for task_id, candidates in candidates_dict.items():
-        print(f"Checking syntax for task {task_id}...")
+        print(f"\n> Checking syntax for task {task_id}...")
         checked_canidates = []
         for i, candidate in enumerate(candidates):
-            print(f"> Compiling code for candidate {i+1}...")
+            print(f"    Compiling code for candidate {i+1}...")
             compiled = compile_code(candidate)
-            evaluation_result = CodeEvaluationResult("syntax", candidate, task_id, i, compiled)
+            evaluation_result = CodeEvaluationResult("syntax", candidate, task_id, (i+1), compiled)
 
             if not is_code_syntax_valid(compiled):
                 evaluation_result.add_syntax_error(compiled)
 
             checked_canidates.append(evaluation_result)
-            print(evaluation_result)
         results[task_id] = checked_canidates
     
     return results
@@ -128,12 +125,12 @@ def check_semantics(
     """
     results = {}
     for task_id, candidates in candidates_dict.items():
-        print(f"> Checking semantics for task {task_id}...")
+        print(f"\n> Checking semantics for task {task_id}...")
         checked_canidates = []
         for i, candidate in enumerate(candidates):
             print(f"    Compiling code for candidate {i+1}...")
             compiled = compile_code(candidate)
-            evaluation_result = CodeEvaluationResult("semantic", candidate, task_id, i, compiled)
+            evaluation_result = CodeEvaluationResult("semantic", candidate, task_id, (i+1), compiled)
 
             if not is_code_syntax_valid(compiled):
                 evaluation_result.add_syntax_error(compiled)

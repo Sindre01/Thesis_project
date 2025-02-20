@@ -1,3 +1,4 @@
+import os
 import time
 from subprocess import call
 import requests
@@ -5,6 +6,8 @@ import requests
 def is_remote_server_reachable(url="http://localhost:11434/api/tags", timeout=5):
     try:
         response = requests.get(url, timeout=timeout)
+        print(f"Url: {url}")
+        print(f"Response: {response}")
         if response.status_code == 200:
             return True
         else:
@@ -17,7 +20,9 @@ def server_diagnostics(host="http://localhost:11434"):
     if is_remote_server_reachable(host + "/api/tags"):
         print("Server is reachable.")
     else:
-        rc = call("../../SSH_FORWARDING.sh")
+        project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '../..'))
+        file_path = os.path.join(project_root, f'scripts/SSH_FORWARDING.sh')
+        rc = call(file_path)
         # Check the result
         if rc == 0:
             print("Executed ssh forwarding successfully! Check job status on the server if failure continues.")

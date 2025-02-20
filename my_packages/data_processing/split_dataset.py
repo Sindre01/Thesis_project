@@ -300,7 +300,7 @@ def multi_stratified_split(dataset, write_to_file, eval_size, seed=58):
 
     #Write to file:
     if write_to_file:
-        full_path = os.path.join('../../data')
+        full_path = os.path.join('../../data/MBPP_Midio_50/splits')
 
         with open(f'{full_path}/train_dataset.json', 'w') as train_file:
             json.dump(train.tolist(), train_file, indent=4)
@@ -334,7 +334,7 @@ def random_split(dataset, write_to_file, eval_size, seed=42):
     print("test:", test.shape)
 
     if write_to_file:
-        full_path = os.path.join('../../data')
+        full_path = os.path.join('../../data/MBPP_Midio_50/splits')
 
         with open(f'{full_path}/train_dataset.json', 'w') as train_file:
             json.dump(train.tolist(), train_file, indent=4)

@@ -5,6 +5,8 @@
 ###############################################################################
 
 # Configuration
+NAME="validation"                           # Phase ('testing' or 'validation')
+EXPERIMENT="few_shot"                      # Experiment ('few_shot' or 'zero_shot')
 USER="ec-sindrre"                        # Your Educloud username
 HOST="fox.educloud.no"                   # Fox login address (matches SSH config)
 SSH_CONFIG_NAME="fox"                # Name of the SSH config entry
@@ -17,7 +19,7 @@ MEM_PER_GPU="20GB"                       # Memory per GPU.
 OLLAMA_MODELS_DIR="/cluster/work/projects/ec12/ec-sindrre/ollama-models"  # Path to where the Ollama models are stored and loaded                      
 LOCAL_PORT="11434"                        # Local port for forwarding
 OLLAMA_PORT="11434"                       # Remote port where Ollama listens
-SBATCH_SCRIPT="start_ollama_api.slurm"           # Slurm batch script name
+SBATCH_SCRIPT="${PHASE}_${EXPERIMENT}_ollama.slurm"           # Slurm batch script name
 REMOTE_DIR="/fp/homes01/u01/ec-sindrre/slurm_jobs" # Directory on Fox to store scripts and output
 
 ###############################################################################
@@ -60,8 +62,8 @@ set -o nounset
 
 # Reset modules to system default
 module purge
+module load Python/3.11.5-GCCcore-13.2.0
 # module load CUDA/12.4.0
-# module list
 
 source ~/.bashrc # may ovewrite previous modules
 
@@ -82,22 +84,43 @@ export OLLAMA_KV_CACHE_TYPE="f16" # f16 (default), q8_0 (half of the memory of f
 # export AMD_LOG_LEVEL=3
 
 
-# Setup monitoring
+####################### Setup monitoring ######################################
 nvidia-smi --query-gpu=timestamp,utilization.gpu,utilization.memory \
 	--format=csv --loop=1 > "gpu_util-$SLURM_JOB_ID.csv" &
 NVIDIA_MONITOR_PID=$!  # Capture PID of monitoring process
 
 
 ###############################################################################
-# Start Ollama Server
+# Start Ollama Server in Background with Log Redirection
 ###############################################################################
 
 echo "Starting Ollama server..."
+ollama serve > ollama_output_${SLURM_JOB_ID}.out 2> ollama_error_${SLURM_JOB_ID}.err &  
+OLLAMA_PID=$!  # Capture the process ID of Ollama
 
-ollama serve
+# Wait a few seconds to ensure the server starts before running the Python script
+sleep 10  
 
-# After computation stop monitoring
+
+###############################################################################
+# Run Python Script with Separate Log Redirection
+###############################################################################
+cd ~/Thesis_project/notebooks/few-shot/fox
+
+echo "Running ${PHASE} ${EXPERIMENT} Python script..."
+python run_${PHASE}.py > ${PHASE}_${EXPERIMENT}_output_${SLURM_JOB_ID}.out 2> ${PHASE}_${EXPERIMENT}_error_${SLURM_JOB_ID}.err
+
+###############################################################################
+# Cleanup and End Script
+###############################################################################
+
+echo "Stopping Ollama server..."
+kill -SIGINT "$OLLAMA_PID"  # Gracefully stop Ollama
+
+# Stop GPU monitoring
 kill -SIGINT "$NVIDIA_MONITOR_PID"
+
+echo "Job completed!"
 
 ###############################################################################
 # End of Script

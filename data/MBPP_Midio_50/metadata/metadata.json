@@ -1,0 +1,36 @@
+{
+    "name": "MBPP-Midio-50",
+    "description": "A dataset containing user transaction records.",
+    "version": "1.0",
+    "author": "Your Name",
+    "date_created": "2025-02-19",
+    "source": "",
+    "format": "JSON",
+    "record_count": 50,
+    "schema": {
+      "prompts": "list[string]",
+      "task_id": "integer",
+      "MBPP_task_id": "integer",
+      "external_functions": "list[string",
+      "visual_node_types": "list[string]",
+      "textual_instance_types": "list[string]",
+      "testing": {
+        "external_functions": "list[string",
+        "visual_node_types": "list[string]",
+        "textual_instance_types": "list[string]",
+        "python_tests": "list[string]",
+        "tests": {
+            "test_cases": "list[dict]"
+        }
+      }
+    },
+    "preprocessing_steps": [
+      "",
+      "",
+      "'"
+    ],
+    "missing_values": {
+      "category": "filled with 'N/A'"
+    }
+  }
+  

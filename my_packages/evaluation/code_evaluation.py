@@ -1,9 +1,12 @@
 from collections import defaultdict
 import numpy as np
-from my_packages.common import CodeEvaluationResult, Run
+from my_packages.common import CodeEvaluationResult, PromptType, Run
+from my_packages.db_service.best_params_service import save_best_params_to_db
+from my_packages.db_service.error_service import save_errors_to_db
+from my_packages.db_service.results_service import save_results_to_db
 from my_packages.evaluation.metrics import check_correctness, check_semantics, check_syntax, estimate_pass_at_k
 from my_packages.prompting.few_shot import create_few_shot_prompt, create_final_prompt
-from my_packages.few_shot_db_service import bar_chart_errors_by_type, save_errors_to_db, save_results_to_db, visualize_results
+
 from my_packages.utils.file_utils import save_results_as_string, save_results_to_file
 from my_packages.utils.server_utils import server_diagnostics
 import re
@@ -11,7 +14,7 @@ from colorama import Fore, Back, Style
 from langchain_ollama import OllamaEmbeddings, ChatOllama
 from langchain_anthropic import ChatAnthropic
 from langchain_openai import OpenAIEmbeddings, ChatOpenAI
-from langsmith.schemas import Example
+from langchain_core.example_selectors.base import BaseExampleSelector
 
 def extract_code(response_text: str) -> str:
     """
@@ -112,35 +115,36 @@ def run_model(
     client: ChatOllama | ChatOpenAI | ChatAnthropic,
     model,
     available_nodes,
-    data : list[Example],
-    example_pool,
-    max_new_tokens,
+    data: list[dict[str, str]],
+    example_pool: BaseExampleSelector,
+    max_new_tokens: int,
     temperature,
     top_p,
     top_k,
-    ks=[1], 
+    n=1, # Number of generations per task
     seed=None,                              
     debug=False,
-    metrics=None
+    prompt_type=PromptType.REGULAR
 )-> tuple[dict[int, list[str]], int]:
     
     results: dict[int, list[str]] = {}
     largest_prompt_ctx_size = 0
     for index, sample in enumerate(data):
         generated_candidates: list[str] = []
-        true_response = sample.outputs["response"]
+        true_response = sample["response"]
         true_response_code = extract_code(true_response)
-        task = sample.inputs["task"]
-        task_id = int(sample.metadata["task_id"])
+        task = sample["task"]
+        task_id = int(sample["task_id"])
         
-        few_shot_examples = example_pool.select_examples(sample.inputs)
-        if "tests" in metrics: # Uses signature prompt
+        few_shot_examples = example_pool.select_examples(sample)
+        
+        if prompt_type == PromptType.SIGNATURE: # Uses signature prompt
             few_shot = create_few_shot_prompt(few_shot_examples, 'CODE_SIGNATURE_TEMPLATE')
             final_prompt_template = create_final_prompt(few_shot, "CODE_GENERATOR_TEMPLATE", "CODE_SIGNATURE_TEMPLATE")
 
             prompt_variables_dict ={
                 "task": task, 
-                "function_signature": sample.inputs["function_signature"],
+                "function_signature": sample["function_signature"],
                 "external_functions": available_nodes
             }
         else: # Uses regular prompt
@@ -153,19 +157,19 @@ def run_model(
 
         prompt = final_prompt_template.format(**prompt_variables_dict)
         prompt_size = client(model=model).get_num_tokens(prompt) # Will print warning if prompt is too big for model
-        print(f"Tokens in the final prompt: {prompt_size}")
+
         
         if prompt_size > largest_prompt_ctx_size:
             largest_prompt_ctx_size = prompt_size
         
-        for attempt_i in range(max(ks)):
+        for attempt_i in range(n):
             max_retries = 3
             retries = 0
             new_seed = seed * attempt_i if seed else None # different seed for each attempt if not None
             generated = ""
             while retries < max_retries:
                 try:
-                    print(f"Generating response for sample {index + 1}..", end="\r")
+                    print(f"Generating response..  ({index + 1}/{len(data)})", end="\r")
                     
                     if "claude" in model:
                         llm = client(
@@ -214,8 +218,6 @@ def run_model(
             # Extract code from the generated response
             generated_code = extract_code(generated)
             generated_candidates.append(generated_code)
-
-            generated_example: Example = sample.copy(update={"outputs": {"response": generated_code}})
         # --- Now we have up to k responses for this prompt. ---
 
         results[task_id] = generated_candidates
@@ -231,11 +233,13 @@ def run_model(
 
 def evaluate_code(
     candidate_dict: dict[int, list[str]],
-    ks,                               
-    evaluation_metric = ["syntax", "semantic", "tests"],
-    experiment_name="",
-    model_name="",
-    env="dev"
+    ks: list[int],                               
+    evaluation_metric:list[str],
+    experiment_name: str,
+    model_name: str,
+    env: str,
+    hyperparams: dict,
+    phase: str
 )-> list[dict[str, dict[int, float]]]:
     """
     Evaluate the code quality of the generated candidates.
@@ -256,19 +260,18 @@ def evaluate_code(
             pass_at_k_dict = calculate_pass_at_k_scores(test_results, ks)
 
             # Save errors
-            if experiment_name:
-                if env == "dev":
-                    save_results_as_string(test_results, f"{metric}_{experiment_name}.txt")
-                    save_results_to_file(test_results, f"{metric}_{experiment_name}.json")
-                elif env == "prod":
-                    save_errors_to_db(
-                        experiment_name,
-                        model_name,
-                        test_results
-                    )
-                    print(f"✅ Errors saved to database for {metric} in {experiment_name}")
-                    print("📊 Generating error bar chart...")
-                    bar_chart_errors_by_type(experiment_name)
+            if env == "dev":
+                save_results_as_string(test_results, f"{metric}_{experiment_name}.txt")
+                save_results_to_file(test_results, f"{metric}_{experiment_name}.json")
+            elif env == "prod":
+                save_errors_to_db(
+                    experiment_name,
+                    model_name,
+                    test_results,
+                    hyperparams,
+                    phase
+                )
+                print(f"✅ Errors saved to database for {metric} in {experiment_name}")
 
             metric_results.append(pass_at_k_dict)
 
@@ -278,15 +281,18 @@ def run_validation(
         client: ChatOllama | ChatOpenAI | ChatAnthropic,
         model, 
         available_nodes, 
-        val_data: list[Example],
-        example_pool: list[Example],
-        temperatures, 
-        top_ps,
-        top_ks, 
-        ks=[1], #optimizing for pass@k, for the first k in the list
-        seed=None, 
-        debug=False,
-        optimizer_metric="semantic" #tests, syntax, semantic
+        val_data: list[dict],
+        example_pool: BaseExampleSelector,
+        temperatures: list[float], 
+        top_ps: list[float],
+        top_ks: list[int], 
+        ks: list[int], #optimizing for pass@k, for the first k in the list
+        seed: int, 
+        debug: bool,
+        optimizer_metric: str, #tests, syntax, semantic
+        experiment_name: str,
+        env: str,
+        prompt_type: PromptType
     ) -> Run:
 
     """
@@ -296,10 +302,10 @@ def run_validation(
     Returns: 
         A Run object containing the best hyperparameters and pass@k for the optimizer
     """
-    val_best_pass_ks = {}
+    print(f"Starting validation phase..")
     val_best_metric = 0.0
-    best_params = {"temperature": 0.5, "top_p": 0.5, "top_k": 50}
-
+    best_run = Run(phase="temp", temperature=0.0, top_p=0.0, top_k=0.0, metric_results={}, seed=0)
+    n = max(ks) # Number of generations per task
     print(f"{Fore.CYAN}{Style.BRIGHT}Validation Phase:{Style.RESET_ALL}")
     print(f"Optimizing for metric: {optimizer_metric}")
 
@@ -318,18 +324,21 @@ def run_validation(
                     temp,
                     top_p,
                     top_k,
-                    ks,
+                    n,
                     seed,
                     debug, 
-                    [optimizer_metric]
+                    prompt_type
                 )
 
                 metric_results_lists = evaluate_code (
                     model_result,
                     ks=ks,
                     evaluation_metric=[optimizer_metric],
-                    
-
+                    experiment_name=experiment_name,
+                    model_name=model["name"],
+                    env=env,
+                    hyperparams={"seed": seed, "temperature": temp, "top_p": top_p, "top_k": top_k},
+                    phase="validation"
                 )
                 ## Optimizing for the first k in the ks list
                 pass_at_k_dict = metric_results_lists[0]
@@ -339,49 +348,56 @@ def run_validation(
                 #Optimize for the best pass@ks[0] for the provided metric
                 if val_metric > val_best_metric:
                     val_best_metric = val_metric
-                    val_best_pass_ks = pass_at_k_dict
-                    best_params = {"temperature": temp, "top_p": top_p, "top_k": top_k}
+                    best_run = Run(
+                        phase="validation",
+                        temperature=temp,
+                        top_p=top_p,
+                        top_k=top_k,
+                        metric_results={f"pass@k_{optimizer_metric}": pass_at_k_dict},
+                        seed=seed,
+                        metadata={"largest_prompt_size": largest_context}
+                    )
 
-    result = Run(
-        phase="validation",
-        temperature=best_params["temperature"],
-        top_p=best_params["top_p"],
-        top_k=best_params["top_k"],
-        metric_results={f"pass@k_{optimizer_metric}": val_best_pass_ks},
-        seed=seed,
-        metadata={"largest_prompt_size": largest_context}
-    )
+    # Save to MongoDB
+    if env == "prod":
+        save_best_params_to_db(
+            experiment_name, 
+            model["name"], 
+            optimizer_metric, 
+            best_run
+        )
 
     if debug:
-        result.print()
+        best_run.print()
 
-    return result
+    return best_run
 
 def run_testing(
     client: ChatOllama | ChatOpenAI | ChatAnthropic,
-    model, 
+    model: dict[str,str], 
     available_nodes, 
-    test_data: list[Example],
-    example_pool: list[Example],
-    temperature, 
-    top_p, 
-    top_k,
-    ks, 
-    seeds, 
-    debug=False,
-    metrics=["syntax", "semantic", "tests"],
-    experiment_name="",
-    env="dev"
-) -> list[Run]:
+    test_data: list[dict],
+    example_pool: BaseExampleSelector,
+    temperature:float, 
+    top_p:float, 
+    top_k:int,
+    ks:list[int], 
+    seeds:list[int], 
+    debug: bool,
+    metrics:list[str],
+    experiment_name: str,
+    env: str,
+    prompt_type: PromptType
+) -> tuple[list[Run], Run]:
     """
     Run the model on the test set with different seeds and the best hyperparameters.
     Calculate the pass@k for each metric and ks provided.
 
     Returns: a list of Run objects containing the test results for each seed.
     """
-
+    print(f"Starting testing phase..")
     results = []
- 
+    n = max(ks) # Number of generations per task
     #Test the model on the test set with different seeds and the best hyperparameters.
     print(f"{Fore.CYAN}{Style.BRIGHT}Testing Phase:{Style.RESET_ALL}")
 
@@ -398,10 +414,10 @@ def run_testing(
             temperature,
             top_p,
             top_k,
-            ks,
+            n,
             seed,
             debug, 
-            metrics
+            prompt_type
         )
 
         metric_results_lists = evaluate_code (
@@ -410,27 +426,10 @@ def run_testing(
             evaluation_metric=metrics,
             experiment_name=experiment_name,
             model_name=model["name"],
-            env=env
-
+            env=env,
+            hyperparams={"seed": seed, "temperature": temperature, "top_p": top_p, "top_k": top_k},
+            phase="testing"
         )
-        if env == "prod":
-            save_results_to_db(
-                experiment_name,
-                model["name"],
-                seed,
-                temperature,
-                top_p,
-                top_k,
-                ks,
-                metrics,
-                metric_results_lists
-            )
-            print(f"✅ Results saved to database for seed {seed} in {experiment_name}")
-            visualize_results(experiment_name)
-
-
-        elif env == "dev":
-            pass
 
         new_run = Run(
             phase="testing",
@@ -451,10 +450,19 @@ def run_testing(
         if debug:
             new_run.print()
 
-    return results
 
-from collections import defaultdict
-import numpy as np
+    final_result = calculate_final_result(results)
+
+    save_results_to_db(
+        experiment_name,
+        model["name"],
+        seeds,
+        ks,
+        metrics,
+        final_result
+    )
+    print(f"✅ Final results saved to database for '{model['name']}' in {experiment_name}")
+    return results, final_result
 
 def calculate_final_result(testing_runs: list[Run]) -> Run:
     """

@@ -1,17 +1,11 @@
-import json
 import os
-import random
 import re
-
-import numpy as np
 from langchain_core.prompts import (
     FewShotChatMessagePromptTemplate,
     ChatPromptTemplate
 )
-
-from my_packages.prompting.example_selectors import CoverageExampleSelector
 from my_packages.utils.file_utils import read_code_file, read_file
-
+project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '../..'))
 
 def replace_third_word(text, new_word):
     words = text.split()
@@ -29,8 +23,8 @@ def remove_first_three_words(text: str) -> str:
     return " ".join(words[4:])
 
 def get_system_template(context_template_name):
-    script_path = os.path.dirname(os.getcwd())
-    context_template_path = os.path.join(script_path, f'../templates/contexts/{context_template_name}.file')
+
+    context_template_path = os.path.join(project_root, f'templates/contexts/{context_template_name}.file')
     
     if not (os.path.exists(context_template_path)):
         print(f"{context_template_name}.file not found!!")
@@ -39,8 +33,8 @@ def get_system_template(context_template_name):
 
 
 def get_response_template(template_name):
-    script_path = os.path.dirname(os.getcwd())
-    template_path = os.path.join(script_path, f'../templates/responses/{template_name}.file')
+
+    template_path = os.path.join(project_root, f'templates/responses/{template_name}.file')
     
     if not (os.path.exists(template_path)):
         print(f"{template_name}.file not found!!")
@@ -49,8 +43,7 @@ def get_response_template(template_name):
 
 ##############LANGCHAIN################
 def get_prompt_template(template_name):
-    script_path = os.path.dirname(os.getcwd())
-    template_path = os.path.join(script_path, f'../templates/prompts/{template_name}.file')
+    template_path = os.path.join(project_root, f'templates/prompts/{template_name}.file')
     
     if not (os.path.exists(template_path)):
         print(f"{template_name}.file not found!!")
@@ -125,7 +118,9 @@ def transform_node_data(data):
         new_data_format.append(new_obj)
     return new_data_format
 
-def transform_code_data(data):
+
+
+def transform_code_data(data: dict)-> list[dict]:
     """[{
         'task_id': str, 
         'task': str, 
@@ -147,4 +142,5 @@ def transform_code_data(data):
         new_obj['function_signature'] = sample['specification']['function_signature']
         new_data_format.append(new_obj)
     return new_data_format
+
 
