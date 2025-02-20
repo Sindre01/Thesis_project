@@ -132,6 +132,7 @@ def run_testing_experiment(
 ):
     results = []
     for seed in seeds:
+        print(f"Running with seed: {seed}")
         model_result, largest_context = run_model(
             client,
             model["name"],

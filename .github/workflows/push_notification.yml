@@ -1,0 +1,28 @@
+name: Push Notification
+on: push  # Trigger this workflow on every push
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Load Environment Variables
+        run: |
+          if [ -f .env ]; then
+            export $(grep -v '^#' .env | xargs)
+          fi
+        shell: bash
+
+      - name: Send Email Notification
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: $EMAIL_USER
+          password: $EMAIL_PASS
+          subject: "GitHub Push Notification"
+          body: "A new push has been made to main by ${{ github.actor }}."
+          to: "sindreerichsen@gmail.com"
+          from: "GitHub Actions"
