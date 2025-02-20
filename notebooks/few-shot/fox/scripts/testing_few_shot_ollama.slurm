@@ -1,0 +1,100 @@
+#!/bin/bash
+
+
+###############################################################################
+# Slurm Batch Script to Run Ollama Serve for Hosting an API
+###############################################################################
+
+# Job Configuration
+#SBATCH --job-name=testing_few_shot_ollama                     # Job name
+#SBATCH --account=ec30                      # Project account
+#SBATCH --partition=ifi_accel                  # Partition ('accel' or 'accel_long')
+#SBATCH --nodes=1                  # Amount of nodes. Ollama one support single node inference
+#SBATCH --gpus=rtx30:1                             # Number of GPUs
+#SBATCH --time=1:00:00                             # Walltime (D-HH:MM:SS)
+#SBATCH --mem-per-gpu=20GB              # Memory per CPU
+#SBATCH --output=testing_few_shot_ollama_%j.out                 # Standard output and error log
+
+
+###############################################################################
+# Environment Setup
+###############################################################################
+
+source /etc/profile.d/z00_lmod.sh
+
+# Fail on errors and treat unset variables as errors
+set -o errexit
+set -o nounset
+
+# Reset modules to system default
+module purge
+module load Python/3.11.5-GCCcore-13.2.0
+# module load CUDA/12.4.0
+
+source ~/.bashrc # may ovewrite previous modules
+
+
+export OLLAMA_MODELS=/cluster/work/projects/ec12/ec-sindrre/ollama-models    # Path to where the Ollama models are stored and loaded
+export OLLAMA_HOST=0.0.0.0:11434      # Host and port where Ollama listens
+export OLLAMA_ORIGINS=”*”
+export OLLAMA_LLM_LIBRARY="cuda_v12_avx" 
+export OLLAMA_FLASH_ATTENTION=1
+export OLLAMA_KV_CACHE_TYPE="f16" # f16 (default), q8_0 (half of the memory of f16, try this), q4_0 different quantization types to find the best balance between memory usage and quality.
+
+# export OLLAMA_DEBUG=1
+# export OLLAMA_NUM_PARALLEL=2 # Number of parallel models to run. 
+# export OLLAMA_MAX_LOADED_MODELS
+# export OLLAMA_MAX_QUEUE
+
+# export CUDA_ERROR_LEVEL=50
+# export CUDA_VISIBLE_DEVICES=0,1
+# export AMD_LOG_LEVEL=3
+
+
+####################### Setup monitoring ######################################
+nvidia-smi --query-gpu=timestamp,utilization.gpu,utilization.memory 	--format=csv --loop=1 > "gpu_util-.csv" &
+NVIDIA_MONITOR_PID=  # Capture PID of monitoring process
+
+
+###############################################################################
+# Start Ollama Server in Background with Log Redirection
+###############################################################################
+
+echo "Starting Ollama server..."
+ollama serve > ollama_output_.out 2> ollama_error_.err &  
+OLLAMA_PID=  # Capture the process ID of Ollama
+
+# Wait a few seconds to ensure the server starts before running the Python script
+sleep 10  
+
+
+###############################################################################
+# Run Python Script with Separate Log Redirection
+###############################################################################
+cd ~/Thesis_project
+echo "Pulling latest changes from git..."
+git fetch
+git pull
+source thesis_venv/bin/activate  # Activate it to ensure the correct Python environment
+cd ~/Thesis_project/notebooks/few-shot/fox
+
+echo "Running testing few_shot Python script..."
+echo "PHASE is: testing"
+
+python run_testing.py > /fp/homes01/u01/ec-sindrre/slurm_jobs/few_shot/testing_few_shot_output_.log 2>&1
+
+###############################################################################
+# Cleanup and End Script
+###############################################################################
+
+echo "Stopping Ollama server..."
+kill -SIGINT ""  # Gracefully stop Ollama
+
+# Stop GPU monitoring
+kill -SIGINT ""
+
+echo "Job completed!"
+
+###############################################################################
+# End of Script
+###############################################################################

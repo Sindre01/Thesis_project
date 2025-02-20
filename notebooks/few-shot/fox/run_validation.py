@@ -3,6 +3,7 @@ import os
 import subprocess
 import sys
 root_dir = os.getcwd()
+print("root_dir: " + root_dir)
 results_dir = f"{root_dir}/notebooks/few-shot/fox/validation_runs"
 sys.path.append(root_dir)
 from my_packages.common import PromptType

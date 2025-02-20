@@ -51,7 +51,7 @@ jobs:
           fi
 
           # Extract Added, Modified, and Removed Files using git diff
-          echo "📂 **Files Added:**" >> changes.txt
+          echo "📂 Files Added:" >> changes.txt
           ADDED_FILES=$(git diff --diff-filter=A --name-only $PREV_COMMIT HEAD)
           if [[ -z "$ADDED_FILES" ]]; then
             echo "- None" >> changes.txt
@@ -60,7 +60,7 @@ jobs:
           fi
           echo "" >> changes.txt
 
-          echo "📝 **Files Modified:**" >> changes.txt
+          echo "📝 Files Modified:" >> changes.txt
           MODIFIED_FILES=$(git diff --diff-filter=M --name-only $PREV_COMMIT HEAD)
           if [[ -z "$MODIFIED_FILES" ]]; then
             echo "- None" >> changes.txt
@@ -69,7 +69,7 @@ jobs:
           fi
           echo "" >> changes.txt
 
-          echo "❌ **Files Removed:**" >> changes.txt
+          echo "❌ Files Removed:" >> changes.txt
           REMOVED_FILES=$(git diff --diff-filter=D --name-only $PREV_COMMIT HEAD)
           if [[ -z "$REMOVED_FILES" ]]; then
             echo "- None" >> changes.txt

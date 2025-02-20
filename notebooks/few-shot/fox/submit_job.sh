@@ -5,22 +5,22 @@
 ###############################################################################
 
 # Configuration
-NAME="validation"                           # Phase ('testing' or 'validation')
+PHASE="testing"                           # Phase ('testing' or 'validation')
 EXPERIMENT="few_shot"                      # Experiment ('few_shot' or 'zero_shot')
 USER="ec-sindrre"                        # Your Educloud username
 HOST="fox.educloud.no"                   # Fox login address (matches SSH config)
 SSH_CONFIG_NAME="fox"                # Name of the SSH config entry
 ACCOUNT="ec30"                           # Fox project account
 PARTITION="ifi_accel"                   # 'accel' or 'accel_long' (or 'ifi_accel' if access to ec11,ec29,ec30,ec34,ec35 or ec232)
-GPUS=rtx30:2                               # a100 have 40GB or 80GB VRAM, while rtx30 have 24GB VRAM.
+GPUS=rtx30:1                               # a100 have 40GB or 80GB VRAM, while rtx30 have 24GB VRAM.
 NODES=1                                 # Number of nodes. OLLAMA does currently only support single node inference
-TIME="10:00:00"                         # Slurm walltime (D-HH:MM:SS)
+TIME="1:00:00"                         # Slurm walltime (D-HH:MM:SS)
 MEM_PER_GPU="20GB"                       # Memory per GPU. 
 OLLAMA_MODELS_DIR="/cluster/work/projects/ec12/ec-sindrre/ollama-models"  # Path to where the Ollama models are stored and loaded                      
 LOCAL_PORT="11434"                        # Local port for forwarding
 OLLAMA_PORT="11434"                       # Remote port where Ollama listens
 SBATCH_SCRIPT="${PHASE}_${EXPERIMENT}_ollama.slurm"           # Slurm batch script name
-REMOTE_DIR="/fp/homes01/u01/ec-sindrre/slurm_jobs" # Directory on Fox to store scripts and output
+REMOTE_DIR="/fp/homes01/u01/ec-sindrre/slurm_jobs/${EXPERIMENT}" # Directory on Fox to store scripts and output
 
 ###############################################################################
 # Step 1: Create the Slurm Batch Script Locally
@@ -40,14 +40,14 @@ cat <<EOT > "./scripts/${SBATCH_SCRIPT}"
 ###############################################################################
 
 # Job Configuration
-#SBATCH --job-name=ollama_api                     # Job name
+#SBATCH --job-name=${PHASE}_${EXPERIMENT}_ollama                     # Job name
 #SBATCH --account=${ACCOUNT}                      # Project account
 #SBATCH --partition=${PARTITION}                  # Partition ('accel' or 'accel_long')
 #SBATCH --nodes=${NODES}                  # Amount of nodes. Ollama one support single node inference
 #SBATCH --gpus=${GPUS}                             # Number of GPUs
 #SBATCH --time=${TIME}                             # Walltime (D-HH:MM:SS)
 #SBATCH --mem-per-gpu=${MEM_PER_GPU}              # Memory per CPU
-#SBATCH --output=ollama_api_%j.out                 # Standard output and error log
+#SBATCH --output=${PHASE}_${EXPERIMENT}_ollama_%j.out                 # Standard output and error log
 
 
 ###############################################################################
@@ -107,11 +107,16 @@ sleep 10
 # Run Python Script with Separate Log Redirection
 ###############################################################################
 cd ~/Thesis_project
+echo "Pulling latest changes from git..."
+git fetch
+git pull
 source thesis_venv/bin/activate  # Activate it to ensure the correct Python environment
 cd ~/Thesis_project/notebooks/few-shot/fox
 
 echo "Running ${PHASE} ${EXPERIMENT} Python script..."
-python run_${PHASE}.py > ${PHASE}_${EXPERIMENT}_output_${SLURM_JOB_ID}.out 2> ${PHASE}_${EXPERIMENT}_error_${SLURM_JOB_ID}.err
+echo "PHASE is: ${PHASE}"
+
+python run_${PHASE}.py > ${REMOTE_DIR}/${PHASE}_${EXPERIMENT}_output_${SLURM_JOB_ID}.log 2>&1
 
 ###############################################################################
 # Cleanup and End Script
@@ -229,75 +234,29 @@ fi
 echo "Allocated node: ${NODE_NAME}"
 
 ###############################################################################
-# Step 5: Set Up SSH Port Forwarding
+# Step 5: Retrieve Ollama API url
 ###############################################################################
-echo $'\n==== Setting up SSH port forwarding ===='
-echo "Command about to run:"
-echo "ssh -O forward -L ${LOCAL_PORT}:${NODE_NAME}:${OLLAMA_PORT} ${SSH_CONFIG_NAME}"
-# echo "autossh -N -M 0 -L ${LOCAL_PORT}:${NODE_NAME}:${OLLAMA_PORT} ${SSH_CONFIG_NAME}"
-
-# Establish SSH port forwarding in the background
-ssh -O forward -L "${LOCAL_PORT}:${NODE_NAME}:${OLLAMA_PORT}" "${SSH_CONFIG_NAME}" &
-# ssh -O -N -L "${LOCAL_PORT}:${NODE_NAME}:${OLLAMA_PORT}" "${SSH_CONFIG_NAME}" &
-# autossh -N -M 0 -L "${LOCAL_PORT}:${NODE_NAME}:${OLLAMA_PORT}" "${SSH_CONFIG_NAME}" &
-# PARENT_SSH_PID=$!  # Capture the PID of the initial SSH process
-
-# Wait briefly to ensure the port forwarding process is established
-sleep 2
-
-# Retrieve the PID of the actual SSH port forwarding process
-PORT_FORWARD_PID=$(lsof -i TCP:"${LOCAL_PORT}" -s TCP:LISTEN -t)
-# PORT_FORWARD_PID=$(pgrep -f "autossh -N -L ${LOCAL_PORT}:${NODE_NAME}:${OLLAMA_PORT}")
-
-# Step 4: Check if port forwarding was established
-if [[ -z "${PORT_FORWARD_PID}" ]]; then
-    echo "Error: Failed to establish SSH port forwarding."
-    exit 1
-fi
-echo "SSH port forwarding established (PID: ${PORT_FORWARD_PID})."
-echo "You can now access the API at http://localhost:${LOCAL_PORT}"
+echo $'\n==== Retrieve Ollama API url on Fox ===='
+echo "Ollama now exists at fox on url: ${NODE_NAME}:${OLLAMA_PORT} ${SSH_CONFIG_NAME}"
 
 #Write to file, to later setup ssh connection dynamically if lost.
-cat <<EOT > "./scripts/SSH_FORWARDING.sh"
+cat <<EOT > "./scripts/Ollama_url.sh"
 #!/bin/bash
-ssh -O forward -L ${LOCAL_PORT}:${NODE_NAME}:${OLLAMA_PORT} ${SSH_CONFIG_NAME}
+${NODE_NAME}:${OLLAMA_PORT} ${SSH_CONFIG_NAME}
 EOT
 
 # Make the script executable
-chmod +x ./scripts/SSH_FORWARDING.sh
-
-# open-webui serve
-# gnome-terminal -- bash -c "open-webui serve; exec bash"
-# echo "You can now access open webui http://localhost:8080"
-
-
-###############################################################################
-# Step 6 : Start MongoDB
-###############################################################################
-
-./scripts/start_mongo.sh
+chmod +x ./scripts/Ollama_url.sh
 
 ###############################################################################
 # LAST: Handle Script Termination and Cleanup
 ###############################################################################
 
 cleanup() {
-    echo $'\n==== Terminating SSH port forwarding (PID: '"$PORT_FORWARD_PID"') ===='
-    ssh -O cancel -L "${LOCAL_PORT}:${NODE_NAME}:${OLLAMA_PORT}" "${SSH_CONFIG_NAME}" &
-    # kill "${PORT_FORWARD_PID}" 2>/dev/null
-
-    if [[ $? -eq 0 ]]; then
-        echo "Port forwarding terminated."
-    else
-        echo "Warning: Failed to terminate port forwarding. Process may already be stopped."
-    fi
-    # ssh -O exit fox # (optional) Close the master SSH control socket
 
     echo $'\n==== Cancelling Slurm job '"$JOB_ID"'===='
     ssh "${SSH_CONFIG_NAME}" "scancel $JOB_ID"
     echo "Slurm job $JOB_ID cancelled."
-
-    ./scripts/stop_mongo.sh
 
     echo "Cleanup complete."
     exit
@@ -307,7 +266,7 @@ cleanup() {
 trap cleanup SIGINT SIGTERM
 
 # Keep the script running to maintain port forwarding
-echo $'\nPress Ctrl+C to terminate port forwarding, cancel slurm job and exit.'
+echo $'\nPress Ctrl+C to cancel slurm job for '$PHASE'_'$EXPERIMENT'.'
 while true; do
     sleep 60
 done

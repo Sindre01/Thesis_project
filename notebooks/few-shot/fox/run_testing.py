@@ -3,6 +3,7 @@ import subprocess
 import os
 import sys
 root_dir = os.getcwd()
+print(f"Root directory: {root_dir}")
 results_dir = f"{root_dir}/notebooks/few-shot/fox/testing_runs"
 sys.path.append(root_dir)
 from my_packages.common import PromptType, get_prompt_type
@@ -154,7 +155,7 @@ def run_testing_experiment(
             "temperature": temperature,
             "top_p": top_p,
             "top_k": top_k,
-            "seedTEST": seed,
+            "seedFOX": seed,
             "n_generations_per_task": n,
             "model": model["name"],
             "largest_context": largest_context,
