@@ -39,10 +39,10 @@ jobs:
           echo "" >> changes.txt
           echo "🔗 [View Commit](${{ github.event.head_commit.url }})" >> changes.txt
           echo "" >> changes.txt
-          
-          # Extract added files
+                  
+          # Extract added files from head_commit
           echo "📂 **Files Added:**" >> changes.txt
-          ADDED_FILES=$(echo '${{ toJson(github.event.commits) }}' | jq -r '.[].added[]?')
+          ADDED_FILES=$(echo '${{ toJson(github.event.head_commit.added) }}' | jq -r '.[]?')
           if [[ -z "$ADDED_FILES" ]]; then
             echo "- None" >> changes.txt
           else
@@ -50,9 +50,9 @@ jobs:
           fi
           echo "" >> changes.txt
 
-          # Extract modified files
+          # Extract modified files from head_commit
           echo "📝 **Files Modified:**" >> changes.txt
-          MODIFIED_FILES=$(echo '${{ toJson(github.event.commits) }}' | jq -r '.[].modified[]?')
+          MODIFIED_FILES=$(echo '${{ toJson(github.event.head_commit.modified) }}' | jq -r '.[]?')
           if [[ -z "$MODIFIED_FILES" ]]; then
             echo "- None" >> changes.txt
           else
@@ -60,9 +60,9 @@ jobs:
           fi
           echo "" >> changes.txt
 
-          # Extract removed files
+          # Extract removed files from head_commit
           echo "❌ **Files Removed:**" >> changes.txt
-          REMOVED_FILES=$(echo '${{ toJson(github.event.commits) }}' | jq -r '.[].removed[]?')
+          REMOVED_FILES=$(echo '${{ toJson(github.event.head_commit.removed) }}' | jq -r '.[]?')
           if [[ -z "$REMOVED_FILES" ]]; then
             echo "- None" >> changes.txt
           else

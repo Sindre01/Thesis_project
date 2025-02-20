@@ -154,7 +154,7 @@ def run_testing_experiment(
             "temperature": temperature,
             "top_p": top_p,
             "top_k": top_k,
-            "seed": seed,
+            "seedTESTS": seed,
             "n_generations_per_task": n,
             "model": model["name"],
             "largest_context": largest_context,
@@ -236,7 +236,7 @@ if __name__ == "__main__":
     hours, remainder = divmod(int(elapsed_time), 3600)
     minutes, seconds = divmod(remainder, 60)
     print(f"\n⏱️ Total execution time: {hours}h {minutes}m {seconds}s")
-    subprocess.run(["bash", f"{root_dir}/notebooks/few-shot/fox/scripts/push_runs.sh", "testing", hours, minutes, seconds], check=True)
+    subprocess.run(["bash", f"{root_dir}/notebooks/few-shot/fox/scripts/push_runs.sh", "testing", str(hours), str(minutes), str(seconds)], check=True)
     print("✅ push_runs.sh script executed successfully!")
 
 
