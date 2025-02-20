@@ -47,7 +47,7 @@ cat <<EOT > "./scripts/${SBATCH_SCRIPT}"
 #SBATCH --gpus=${GPUS}                             # Number of GPUs
 #SBATCH --time=${TIME}                             # Walltime (D-HH:MM:SS)
 #SBATCH --mem-per-gpu=${MEM_PER_GPU}              # Memory per CPU
-#SBATCH --output=${PHASE}_%j.out                 # Standard output and error log
+#SBATCH --output=Job_${PHASE}.out                 # Standard output and error log
 
 
 ###############################################################################
@@ -94,14 +94,9 @@ NVIDIA_MONITOR_PID=$!  # Capture PID of monitoring process
 ###############################################################################
 # Start Ollama Server in Background with Log Redirection
 ###############################################################################
-
-echo "============= Starting Ollama server... ============="
 ollama serve > ollama_API.out 2>&1 &  
-OLLAMA_PID=$!  # Capture the process ID of Ollama
 
-# Wait a few seconds to ensure the server starts before running the Python script
-sleep 10  
-
+sleep 5
 
 ###############################################################################
 # Run Python Script
@@ -114,19 +109,7 @@ source thesis_venv/bin/activate  # Activate it to ensure the correct Python envi
 cd ~/Thesis_project/notebooks/few-shot/fox
 
 echo "============= Running ${PHASE} ${EXPERIMENT} Python script... ============="
-python run_${PHASE}.py > ${REMOTE_DIR}/${PHASE}.out 2>&1
-
-###############################################################################
-# Cleanup and End Script
-###############################################################################
-
-echo "============= Stopping Ollama server... ============="
-kill -SIGINT "$OLLAMA_PID"  # Gracefully stop Ollama
-
-# Stop GPU monitoring
-kill -SIGINT "$NVIDIA_MONITOR_PID"
-
-echo "Job completed!"
+python -u run_${PHASE}.py > ${REMOTE_DIR}/${PHASE}.out 2>&1
 
 ###############################################################################
 # End of Script
@@ -247,24 +230,10 @@ EOT
 chmod +x ./scripts/Ollama_url.sh
 
 ###############################################################################
-# LAST: Handle Script Termination and Cleanup
+# LAST: Handle Script Termination
 ###############################################################################
-
-cleanup() {
-
-    echo $'\n==== Cancelling Slurm job '"$JOB_ID"'===='
-    ssh "${SSH_CONFIG_NAME}" "scancel $JOB_ID"
-    echo "Slurm job $JOB_ID cancelled."
-
-    echo "Cleanup complete."
-    exit
-}
-
-# Trap SIGINT and SIGTERM to perform cleanup
-trap cleanup SIGINT SIGTERM
-
 # Keep the script running to maintain port forwarding
-echo $'\nPress Ctrl+C to cancel slurm job for '$PHASE'_'$EXPERIMENT'.'
-while true; do
-    sleep 60
-done
+echo $'\n Experiment '$PHASE'_'$EXPERIMENT' is now running on Fox 🎉'
+echo $"Run command 'ssh $SSH_CONFIG_NAME scancel $JOB_ID' to cancel slurm job."
+
+

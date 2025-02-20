@@ -13,7 +13,7 @@
 #SBATCH --gpus=rtx30:2                             # Number of GPUs
 #SBATCH --time=1:00:00                             # Walltime (D-HH:MM:SS)
 #SBATCH --mem-per-gpu=20GB              # Memory per CPU
-#SBATCH --output=testing_%j.out                 # Standard output and error log
+#SBATCH --output=Job_testing.out                 # Standard output and error log
 
 
 ###############################################################################
@@ -59,14 +59,9 @@ NVIDIA_MONITOR_PID=  # Capture PID of monitoring process
 ###############################################################################
 # Start Ollama Server in Background with Log Redirection
 ###############################################################################
-
-echo "============= Starting Ollama server... ============="
 ollama serve > ollama_API.out 2>&1 &  
-OLLAMA_PID=  # Capture the process ID of Ollama
 
-# Wait a few seconds to ensure the server starts before running the Python script
-sleep 10  
-
+sleep 5
 
 ###############################################################################
 # Run Python Script
@@ -79,19 +74,7 @@ source thesis_venv/bin/activate  # Activate it to ensure the correct Python envi
 cd ~/Thesis_project/notebooks/few-shot/fox
 
 echo "============= Running testing few_shot Python script... ============="
-python run_testing.py > /fp/homes01/u01/ec-sindrre/slurm_jobs/few_shot/testing.out 2>&1
-
-###############################################################################
-# Cleanup and End Script
-###############################################################################
-
-echo "============= Stopping Ollama server... ============="
-kill -SIGINT ""  # Gracefully stop Ollama
-
-# Stop GPU monitoring
-kill -SIGINT ""
-
-echo "Job completed!"
+python -u run_testing.py > /fp/homes01/u01/ec-sindrre/slurm_jobs/few_shot/testing.out 2>&1
 
 ###############################################################################
 # End of Script

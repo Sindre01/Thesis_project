@@ -1,5 +1,6 @@
 config.env
 .env
+.thesis_venv/
 package-manager
 .venv_Master/
 **/__pycache__/

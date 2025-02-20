@@ -158,7 +158,7 @@ def run_testing_experiment(
             "temperature": temperature,
             "top_p": top_p,
             "top_k": top_k,
-            "seedFOX": seed,
+            "seed": seed,
             "n_generations_per_task": n,
             "model": model["name"],
             "largest_context": largest_context,
