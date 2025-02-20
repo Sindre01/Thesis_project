@@ -23,9 +23,9 @@ jobs:
         run: |
           COMMIT_MESSAGE="${{ github.event.head_commit.message }}"
           if echo "$COMMIT_MESSAGE" | grep -iq "validation"; then
-            echo "commit_type=validation" >> $GITHUB_ENV
+            echo "commit_type=Validation" >> $GITHUB_ENV
           elif echo "$COMMIT_MESSAGE" | grep -iq "testing"; then
-            echo "commit_type=testing" >> $GITHUB_ENV
+            echo "commit_type=Testing" >> $GITHUB_ENV
           else
             echo "commit_type=none" >> $GITHUB_ENV
           fi
@@ -41,19 +41,19 @@ jobs:
           echo "🔗 [View Commit](${{ github.event.head_commit.url }})" >> changes.txt
           echo "" >> changes.txt
           
-          echo "📂 **Files Added:**" >> changes.txt
+          echo "📂 Files Added:" >> changes.txt
           for file in ${{ toJson(github.event.commits[*].added) }}; do
             echo "- $file" >> changes.txt
           done
           echo "" >> changes.txt
           
-          echo "📝 **Files Modified:**" >> changes.txt
+          echo "📝 Files Modified:" >> changes.txt
           for file in ${{ toJson(github.event.commits[*].modified) }}; do
             echo "- $file" >> changes.txt
           done
           echo "" >> changes.txt
-          
-          echo "❌ **Files Removed:**" >> changes.txt
+        
+          echo "❌ Files Removed:" >> changes.txt
           for file in ${{ toJson(github.event.commits[*].removed) }}; do
             echo "- $file" >> changes.txt
           done
@@ -71,7 +71,7 @@ jobs:
           server_port: 465
           username: ${{ secrets.EMAIL_USER }}
           password: ${{ secrets.EMAIL_PASS }}
-          subject: "🔔 GitHub Push Notification - ${{ env.commit_type }} runs finished, stored and pushed"
+          subject: "🔔 GitHub Push Notification - ${{ env.commit_type }} runs pushed from FOX"
           body: ${{ env.EMAIL_BODY }}
           to: ${{ secrets.EMAIL_TO }}
           from: "GitHub Actions"
