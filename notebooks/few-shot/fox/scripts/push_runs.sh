@@ -30,6 +30,3 @@ if ! git diff --cached --exit-code >/dev/null; then
 else
     echo "⚠️ No changes detected. Skipping commit."
 fi
-
-git commit -m "🔄 New ${PHASE} runs from HPC Fox." -m "⏱️ Total execution time: ${H}h ${M}m ${S}s"
-git push origin main

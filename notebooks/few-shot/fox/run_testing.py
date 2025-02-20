@@ -199,8 +199,8 @@ if __name__ == "__main__":
     all_responses = [sample["response"] for sample in train_data] + [sample["response"] for sample in val_data] + [sample["response"] for sample in test_data]
     print(f"Number of all responses: {len(all_responses)}")
     used_functions_json = read_dataset_to_json(main_dataset_folder + "metadata/used_external_functions.json")
+    print(f"Number of used nodes: {len(used_functions_json)}")
     available_nodes = used_functions_to_string(used_functions_json)
-    print(f"Number of available nodes: {len(available_nodes)}")
 
     print("\n==== Configures models ====")
     client, models = model_configs(all_responses, 'ollama')
@@ -221,7 +221,7 @@ if __name__ == "__main__":
             example_selector = init_example_selector(experiment_info["shots"], train_data, experiment_info["semantic_selector"])
             run_testing_experiment(
                 client,
-                test_data[:1],
+                test_data,
                 available_nodes,
                 experiment_name,
                 file_path,
