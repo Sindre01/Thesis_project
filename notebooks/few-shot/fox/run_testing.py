@@ -1,3 +1,4 @@
+import time
 import subprocess
 import os
 import sys
@@ -153,7 +154,7 @@ def run_testing_experiment(
             "temperature": temperature,
             "top_p": top_p,
             "top_k": top_k,
-            "seed": seed,
+            "seedTEST": seed,
             "n_generations_per_task": n,
             "model": model["name"],
             "largest_context": largest_context,
@@ -181,7 +182,7 @@ def get_info_from_filename(file_name: str):
     
 
 if __name__ == "__main__":
-
+    start_time = time.time()
     main_dataset_folder = f'{root_dir}/data/MBPP_Midio_50/'
     best_params_folder = f"{root_dir}/notebooks/few-shot/fox/best_params/"
     runs_folder = f"{root_dir}/notebooks/few-shot/fox/testing_runs"
@@ -231,8 +232,11 @@ if __name__ == "__main__":
             print(f"Testing finished for experiment: {experiment_name}")
             print(f"See run results in: {results_dir}/{experiment_name}.json")
     print("Testing finished!")
-
-    subprocess.run(["bash", f"{root_dir}/notebooks/few-shot/fox/scripts/push_runs.sh", "testing"], check=True)
+    elapsed_time = time.time() - start_time
+    hours, remainder = divmod(int(elapsed_time), 3600)
+    minutes, seconds = divmod(remainder, 60)
+    print(f"\n⏱️ Total execution time: {hours}h {minutes}m {seconds}s")
+    subprocess.run(["bash", f"{root_dir}/notebooks/few-shot/fox/scripts/push_runs.sh", "testing", "hour", "minutes"], check=True)
     print("✅ push_runs.sh script executed successfully!")
 
 

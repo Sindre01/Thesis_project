@@ -33,30 +33,24 @@ jobs:
       - name: Generate File List
         if: env.match == 'true'
         run: |
-          echo "📢 A new push has been made by HPC FOX." > changes.txt
           echo "" >> changes.txt
-          echo "🔹 **Commit Message:**" >> changes.txt
+          echo "🔹 Commit Message:" >> changes.txt
           echo "\"${{ github.event.head_commit.message }}\"" >> changes.txt
           echo "" >> changes.txt
           echo "🔗 [View Commit](${{ github.event.head_commit.url }})" >> changes.txt
           echo "" >> changes.txt
           
-          echo "📂 Files Added:" >> changes.txt
-          for file in ${{ toJson(github.event.commits[*].added) }}; do
-            echo "- $file" >> changes.txt
-          done
+          echo "📂 **Files Added:**" >> changes.txt
+          echo "${{ toJson(github.event.commits) }}" | jq -r '.[].added[]? | "- \(.))"' >> changes.txt
+          echo "" >> changes.txt
+
+          echo "📝 **Files Modified:**" >> changes.txt
+          echo "${{ toJson(github.event.commits) }}" | jq -r '.[].modified[]? | "- \(.))"' >> changes.txt
           echo "" >> changes.txt
           
-          echo "📝 Files Modified:" >> changes.txt
-          for file in ${{ toJson(github.event.commits[*].modified) }}; do
-            echo "- $file" >> changes.txt
-          done
-          echo "" >> changes.txt
-        
           echo "❌ Files Removed:" >> changes.txt
-          for file in ${{ toJson(github.event.commits[*].removed) }}; do
-            echo "- $file" >> changes.txt
-          done
+          echo "${{ toJson(github.event.commits) }}" | jq -r '.[].removed[]? | "- \(.))"' >> changes.txt
+          echo "" >> changes.txt
 
       - name: Read Changes File
         if: env.match == 'true'

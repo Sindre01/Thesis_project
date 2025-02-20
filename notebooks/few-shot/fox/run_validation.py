@@ -1,3 +1,4 @@
+import time
 import os
 import subprocess
 import sys
@@ -170,7 +171,7 @@ def run_val_experiment(
      
 
 if __name__ == "__main__":
-
+    start_time = time.time()
     main_dataset_folder = f'{root_dir}/data/MBPP_Midio_50/'
 
     print("\n==== Splits data ====")
@@ -242,7 +243,11 @@ if __name__ == "__main__":
                 print(f"See run results in: {results_dir}/{experiment_name}.json")
 
     print("Validation finished!")
-    subprocess.run(["bash", f"{root_dir}/notebooks/few-shot/fox/scripts/push_runs.sh", "validation"], check=True)
+    elapsed_time = time.time() - start_time
+    hours, remainder = divmod(int(elapsed_time), 3600)
+    minutes, seconds = divmod(remainder, 60)
+    print(f"\n⏱️ Total execution time: {hours}h {minutes}m {seconds}s")
+    subprocess.run(["bash", f"{root_dir}/notebooks/few-shot/fox/scripts/push_runs.sh", "validation", "hour", "minutes"], check=True)
     print("✅ push_runs.sh script executed successfully!")
 
 
