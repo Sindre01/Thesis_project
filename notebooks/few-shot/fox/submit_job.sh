@@ -67,6 +67,7 @@ module load Python/3.11.5-GCCcore-13.2.0
 
 source ~/.bashrc # may ovewrite previous modules
 
+
 export OLLAMA_MODELS=${OLLAMA_MODELS_DIR}    # Path to where the Ollama models are stored and loaded
 export OLLAMA_HOST=0.0.0.0:${OLLAMA_PORT}      # Host and port where Ollama listens
 export OLLAMA_ORIGINS=”*”
@@ -105,6 +106,8 @@ sleep 10
 ###############################################################################
 # Run Python Script with Separate Log Redirection
 ###############################################################################
+cd ~/Thesis_project
+source thesis_venv/bin/activate  # Activate it to ensure the correct Python environment
 cd ~/Thesis_project/notebooks/few-shot/fox
 
 echo "Running ${PHASE} ${EXPERIMENT} Python script..."

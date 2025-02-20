@@ -1,4 +1,4 @@
-from itertools import product
+import subprocess
 import os
 import sys
 root_dir = os.getcwd()
@@ -181,10 +181,9 @@ def get_info_from_filename(file_name: str):
 
 if __name__ == "__main__":
 
-    phase = "testing"
     main_dataset_folder = f'{root_dir}/data/MBPP_Midio_50/'
     best_params_folder = f"{root_dir}/notebooks/few-shot/fox/best_params/"
-    runs_folder = f"{root_dir}/notebooks/few-shot/fox/{phase}_runs"
+    runs_folder = f"{root_dir}/notebooks/few-shot/fox/testing_runs"
     metrics = ["syntax", "semantic"]
     env = ""
     n_generations_per_task = 1
@@ -231,6 +230,9 @@ if __name__ == "__main__":
             print(f"Testing finished for experiment: {experiment_name}")
             print(f"See run results in: {results_dir}/{experiment_name}.json")
     print("Testing finished!")
+
+    subprocess.run(["bash", f"{root_dir}/notebooks/few-shot/fox/scripts/push_runs.sh", "testing"], check=True)
+    print("✅ push_runs.sh script executed successfully!")
 
 
 

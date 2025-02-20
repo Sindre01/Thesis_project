@@ -3,10 +3,10 @@ import os
 import sys
 from zoneinfo import ZoneInfo
 
-from my_packages.db_service.data_processing import flatten_metric_results
 root_dir = os.getcwd()
 results_dir = f"{root_dir}/notebooks/few-shot/fox/validation_runs"
 sys.path.append(root_dir)
+from my_packages.db_service.data_processing import flatten_metric_results
 
 from my_packages.common import Run
 from my_packages.db_service.best_params_service import save_best_params_to_db
@@ -20,7 +20,7 @@ def evaluate_valiation_runs(
         ks: list[int],
 ):
     val_best_metric = 0.0
-    best_run = Run(phase="temp", temperature=0.0, top_p=0.0, top_k=0.0, metric_results={}, seed=0)
+    best_run = None
 
     runs_json = read_dataset_to_json(file_path)
     for run in runs_json:
@@ -45,9 +45,10 @@ def evaluate_valiation_runs(
         pass_at_k_dict = metric_results_lists[0]
         val_metric = pass_at_k_dict[f"pass@{ks[0]}"]
         print(f"Validation with temp={run['temperature']}, top_k={run['top_k']} and top_p={run['top_p']}. Gave pass@{ks[0]}={val_metric} and pass@ks={pass_at_k_dict}")
-        
+
         #Optimize for the best pass@ks[0] for the provided metric
-        if val_metric > val_best_metric:
+        if val_metric > val_best_metric or best_run is None:
+            print(f"New best pass@{ks[0]} found, {val_metric}")
             val_best_metric = val_metric
             best_run = Run(
                 phase="validation",

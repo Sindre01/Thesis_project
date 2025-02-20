@@ -1,14 +1,12 @@
-from itertools import product
 import os
+import subprocess
 import sys
 root_dir = os.getcwd()
 results_dir = f"{root_dir}/notebooks/few-shot/fox/validation_runs"
 sys.path.append(root_dir)
 from my_packages.common import PromptType
 from my_packages.evaluation.code_evaluation import run_model
-# from my_packages.experiments.few_shot import get_dataset_splits, init_example_selector, model_configs
 from dotenv import load_dotenv
-from pathlib import Path
 from my_packages.data_processing.attributes_processing import used_functions_to_string
 from my_packages.prompting.few_shot import transform_code_data
 from my_packages.utils.file_utils import write_json_file, read_dataset_to_json
@@ -117,6 +115,7 @@ def init_example_selector(
 
 def run_val_experiment(
         client,
+        val_data,
         available_nodes,
         experiment_name,
         file_path,
@@ -231,6 +230,7 @@ if __name__ == "__main__":
                 model = get_model_code_tokens_from_file(model_name, f'{root_dir}/notebooks/few-shot/code_max_tokens.json')
                 run_val_experiment(
                     client,
+                    val_data[:1],
                     available_nodes,
                     experiment_name,
                     file_path,
@@ -242,6 +242,8 @@ if __name__ == "__main__":
                 print(f"See run results in: {results_dir}/{experiment_name}.json")
 
     print("Validation finished!")
+    subprocess.run(["bash", f"{root_dir}/notebooks/few-shot/fox/scripts/push_runs.sh", "validation"], check=True)
+    print("✅ push_runs.sh script executed successfully!")
 
 
 

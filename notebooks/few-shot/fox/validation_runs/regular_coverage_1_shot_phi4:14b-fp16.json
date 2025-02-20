@@ -1,0 +1,17 @@
+[
+    {
+        "experiment_name": "regular_coverage_1_shot",
+        "temperature": 0.2,
+        "top_p": 0.2,
+        "top_k": 10,
+        "seed": 9,
+        "n_generations_per_task": 1,
+        "model": "phi4:14b-fp16",
+        "largest_context": 3927,
+        "task_candidates": {
+            "1": [
+                "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main {\n    func(doc: \"checks whether the given two integers have opposite sign or not.\") has_opposite_sign {\n        in(x: 354, y: -53, name: \"input\") property(Number) input_f5c03d\n        in(x: 161, y: -211, name: \"execute\") trigger() execute_27b8c3\n\n        out(x: 1748, y: -10, name: \"out\") property(Bool) out_f3db9f\n        out(x: 1894, y: 120, name: \"continue\") trigger() continue_8ba06b\n\n        instance(x: 1081, y: -54) if_07b8c7 root.Std_k98ojb.Std.If {}\n        instance(x: 1504, y: -400) expression_b720d7 root.Std_k98ojb.Math.Expression {\n            expression: \"(a < 0 && b > 0)\"\n        }\n        instance(x: 1496, y: -187) expression_9fba8c root.Std_k98ojb.Math.Expression {\n            expression: \"(a > 0 && b < 0)\"\n        }\n        instance(x: 2136, y: -356) if_e19a62 root.Std_k98ojb.Std.If {}\n        instance(x: 1088, y: -256) or_80a119 root.Std_k98ojb.Logic.Or {}\n\n        input_f5c03d -> expression_b720d7.gen_0\n        input_f5c03d -> expression_b720d7.gen_1\n        input_f5c03d -> expression_9fba8c.gen_0\n        input_f5c03d -> expression_9fba8c.gen_1\n\n        expression_b720d7.result -> if_07b8c7.predicate\n        expression_9fba8c.result -> if_e19a62.predicate\n\n        if_07b8c7.then -> or_80a119.left\n        if_e19a62.then -> or_80a119.right\n\n        or_80a119.result -> out_f3db9f\n\n        execute_27b8c3 -> if_07b8c7.execute\n        if_07b8c7.value -> continue_8ba06b\n        if_e19a62.then -> continue_8ba06b\n    }\n\n    \n\n    instance(x: -189, y: 222) has_opposite_sign_f0be66 root.main.has_opposite_sign {}\n}"
+            ]
+        }
+    }
+]

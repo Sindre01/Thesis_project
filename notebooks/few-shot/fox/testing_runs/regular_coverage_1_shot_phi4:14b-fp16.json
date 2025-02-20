@@ -1,0 +1,47 @@
+[
+    {
+        "experiment_name": "regular_coverage_1_shot",
+        "temperature": 0.2,
+        "top_p": 0.2,
+        "top_k": 10,
+        "seed": 3,
+        "n_generations_per_task": 1,
+        "model": "phi4:14b-fp16",
+        "largest_context": 3919,
+        "task_candidates": {
+            "5": [
+                "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main {\n    func(doc: \"multiplies two numbers.\") multiply {\n        in(x: 354, y: -53, name: \"first\") property(Number) first_1a8f3d\n        in(x: 161, y: -211, name: \"second\") property(Number) second_2b9c4e\n        in(x: 300, y: -350, name: \"execute\") trigger() execute_27b8c3\n\n        out(x: 1748, y: -10, name: \"result\") property(Number) result_f3db9f\n        out(x: 1894, y: 120, name: \"continue\") trigger() continue_8ba06b\n\n        instance(x: 1088, y: -54) mul_b4554f root.Std_k98ojb.Math.Mul {}\n        first_1a8f3d -> mul_b4554f.first\n        second_2b9c4e -> mul_b4554f.second\n        execute_27b8c3 -> mul_b4554f.execute\n        mul_b4554f.result -> result_f3db9f\n        mul_b4554f.done -> continue_8ba06b\n    }\n\n    \n\n    instance(x: -189, y: 222) multiply_0a1e66 root.main.multiply {}\n}"
+            ]
+        }
+    },
+    {
+        "experiment_name": "regular_coverage_1_shot",
+        "temperature": 0.2,
+        "top_p": 0.2,
+        "top_k": 10,
+        "seed": 75,
+        "n_generations_per_task": 1,
+        "model": "phi4:14b-fp16",
+        "largest_context": 3919,
+        "task_candidates": {
+            "5": [
+                "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main {\n    func(doc: \"multiplies two numbers.\") multiply {\n        in(x: 354, y: -53, name: \"first\") property(Number) first_1a8f3d\n        in(x: 161, y: -211, name: \"second\") property(Number) second_2b9c4e\n        in(x: 300, y: -350, name: \"execute\") trigger() execute_27b8c3\n\n        out(x: 1748, y: -10, name: \"result\") property(Number) result_f3db9f\n        out(x: 1894, y: 120, name: \"continue\") trigger() continue_8ba06b\n\n        instance(x: 1088, y: -54) mul_b4554f root.Std_k98ojb.Math.Mul {}\n        first_1a8f3d -> mul_b4554f.first\n        second_2b9c4e -> mul_b4554f.second\n        execute_27b8c3 -> mul_b4554f.execute\n        mul_b4554f.result -> result_f3db9f\n        mul_b4554f.done -> continue_8ba06b\n    }\n\n    \n\n    instance(x: -189, y: 222) multiply_0a1e66 root.main.multiply {}\n}"
+            ]
+        }
+    },
+    {
+        "experiment_name": "regular_coverage_1_shot",
+        "temperature": 0.2,
+        "top_p": 0.2,
+        "top_k": 10,
+        "seed": 346,
+        "n_generations_per_task": 1,
+        "model": "phi4:14b-fp16",
+        "largest_context": 3919,
+        "task_candidates": {
+            "5": [
+                "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main {\n    func(doc: \"multiplies two numbers.\") multiply {\n        in(x: 354, y: -53, name: \"first\") property(Number) first_1a8f3d\n        in(x: 161, y: -211, name: \"second\") property(Number) second_2b9c4e\n        in(x: 300, y: -350, name: \"execute\") trigger() execute_27b8c3\n\n        out(x: 1748, y: -10, name: \"result\") property(Number) result_f3db9f\n        out(x: 1894, y: 120, name: \"continue\") trigger() continue_8ba06b\n\n        instance(x: 1088, y: -54) mul_b4554f root.Std_k98ojb.Math.Mul {}\n        first_1a8f3d -> mul_b4554f.first\n        second_2b9c4e -> mul_b4554f.second\n        execute_27b8c3 -> mul_b4554f.execute\n        mul_b4554f.result -> result_f3db9f\n        mul_b4554f.done -> continue_8ba06b\n    }\n\n    \n\n    instance(x: -189, y: 222) multiply_0a1e66 root.main.multiply {}\n}"
+            ]
+        }
+    }
+]

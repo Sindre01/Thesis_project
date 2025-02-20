@@ -1,0 +1,12 @@
+[
+    {
+        "model_name": "phi4:14b-fp16",
+        "optimizer_metric": "semantic",
+        "temperature": 0.2,
+        "top_p": 0.2,
+        "top_k": 10,
+        "seed": 9,
+        "created_at": "2025-02-20T12:17:25.379045+01:00",
+        "semantic@1": 0.0
+    }
+]
