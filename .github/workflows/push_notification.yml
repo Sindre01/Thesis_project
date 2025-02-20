@@ -64,7 +64,7 @@ jobs:
           server_port: 465
           username: ${{ secrets.EMAIL_USER }}
           password: ${{ secrets.EMAIL_PASS }}
-          subject: "🔔 GitHub Push Notification - ${{ env.commit_type }} Commit"
+          subject: "🔔 GitHub Push Notification - ${{ env.commit_type }} runs finished, stored and pushed"
           body: changes.txt
           to: ${{ secrets.EMAIL_TO }}
           from: "GitHub Actions"
