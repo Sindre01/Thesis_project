@@ -8,14 +8,63 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
+      - name: Check if Commit Message Contains "HPC"
+        id: check_commit_for_HPC
+        run: |
+          COMMIT_MESSAGE="${{ github.event.head_commit.message }}"
+          if echo "$COMMIT_MESSAGE" | grep -iq "HPC"; then
+            echo "match=true" >> $GITHUB_ENV
+          else
+            echo "match=false" >> $GITHUB_ENV
+          fi
+      - name: Check Commit Message for "validation" or "testing"
+        id: check_commit_for_phase
+        run: |
+          COMMIT_MESSAGE="${{ github.event.head_commit.message }}"
+          if echo "$COMMIT_MESSAGE" | grep -iq "validation"; then
+            echo "commit_type=validation" >> $GITHUB_ENV
+          elif echo "$COMMIT_MESSAGE" | grep -iq "testing"; then
+            echo "commit_type=testing" >> $GITHUB_ENV
+          else
+            echo "commit_type=none" >> $GITHUB_ENV
+          fi
+      - name: Generate File List
+        if: env.match == 'true'
+        run: |
+          echo "📢 A new push has been made by HPC FOX." > changes.txt
+          echo "" >> changes.txt
+          echo "🔹 **Commit Message:**" >> changes.txt
+          echo "\"${{ github.event.head_commit.message }}\"" >> changes.txt
+          echo "" >> changes.txt
+          echo "🔗 [View Commit](${{ github.event.head_commit.url }})" >> changes.txt
+          echo "" >> changes.txt
+          
+          echo "📂 **Files Added:**" >> changes.txt
+          for file in ${{ toJson(github.event.commits[*].added) }}; do
+            echo "- $file" >> changes.txt
+          done
+          echo "" >> changes.txt
+          
+          echo "📝 **Files Modified:**" >> changes.txt
+          for file in ${{ toJson(github.event.commits[*].modified) }}; do
+            echo "- $file" >> changes.txt
+          done
+          echo "" >> changes.txt
+          
+          echo "❌ **Files Removed:**" >> changes.txt
+          for file in ${{ toJson(github.event.commits[*].removed) }}; do
+            echo "- $file" >> changes.txt
+          done
+
       - name: Send Email Notification
+        if: env.match == 'true'
         uses: dawidd6/action-send-mail@v3
         with:
           server_address: smtp.gmail.com
           server_port: 465
           username: ${{ secrets.EMAIL_USER }}
           password: ${{ secrets.EMAIL_PASS }}
-          subject: "GitHub Push Notification"
-          body: "A new push has been made to main by ${{ github.actor }}."
+          subject: "🔔 GitHub Push Notification - ${{ env.commit_type }} Commit"
+          body: changes.txt
           to: ${{ secrets.EMAIL_TO }}
           from: "GitHub Actions"
