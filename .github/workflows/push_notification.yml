@@ -34,15 +34,17 @@ jobs:
         if: env.match == 'true'
         run: |
           echo "" >> changes.txt
-          echo "🔹 Commit Message:" >> changes.txt
-          echo "\"${{ github.event.head_commit.message }}\"" >> changes.txt
+          echo "${{ github.event.head_commit.message }}\"" >> changes.txt
           echo "" >> changes.txt
           echo "🔗 [View Commit](${{ github.event.head_commit.url }})" >> changes.txt
           echo "" >> changes.txt
                   
-          # Extract added files from head_commit
+          # Ensure we have the latest history
+          git fetch --all
+
+          # Extract Added, Modified, and Removed Files using git diff
           echo "📂 **Files Added:**" >> changes.txt
-          ADDED_FILES=$(echo '${{ toJson(github.event.head_commit.added) }}' | jq -r '.[]?')
+          ADDED_FILES=$(git diff --diff-filter=A --name-only HEAD^ HEAD)
           if [[ -z "$ADDED_FILES" ]]; then
             echo "- None" >> changes.txt
           else
@@ -50,9 +52,8 @@ jobs:
           fi
           echo "" >> changes.txt
 
-          # Extract modified files from head_commit
           echo "📝 **Files Modified:**" >> changes.txt
-          MODIFIED_FILES=$(echo '${{ toJson(github.event.head_commit.modified) }}' | jq -r '.[]?')
+          MODIFIED_FILES=$(git diff --diff-filter=M --name-only HEAD^ HEAD)
           if [[ -z "$MODIFIED_FILES" ]]; then
             echo "- None" >> changes.txt
           else
@@ -60,9 +61,8 @@ jobs:
           fi
           echo "" >> changes.txt
 
-          # Extract removed files from head_commit
           echo "❌ **Files Removed:**" >> changes.txt
-          REMOVED_FILES=$(echo '${{ toJson(github.event.head_commit.removed) }}' | jq -r '.[]?')
+          REMOVED_FILES=$(git diff --diff-filter=D --name-only HEAD^ HEAD)
           if [[ -z "$REMOVED_FILES" ]]; then
             echo "- None" >> changes.txt
           else
