@@ -55,11 +55,11 @@ def model_configs(all_responses, model_provider):
     
             models = [
                 # 14b models:
-                "phi4:14b-fp16", #16k context length
-                "qwen2.5:14b-instruct-fp16", #128 k
+                # "phi4:14b-fp16", #16k context length
+                # "qwen2.5:14b-instruct-fp16", #128 k
 
                 #32b models:
-                "qwq:32b-preview-fp16", #ctx: 32,768 tokens
+                # "qwq:32b-preview-fp16", #ctx: 32,768 tokens
                 "qwen2.5-coder:32b-instruct-fp16", #32,768 tokens
     
                 # #70b models:
@@ -144,7 +144,7 @@ def run_val_experiment(
     for temp in temperatures:
         for top_k in top_ks:
             for top_p in top_ps:
-                # print(f"Validating with temperature: {temp}, top_k: {top_k} and top_p: {top_p}")
+                print(f"Validating with temperature: {temp}, top_k: {top_k} and top_p: {top_p}")
                 
                 model_result, largest_context = run_model(
                     client,
