@@ -39,12 +39,20 @@ jobs:
           echo "🔗 [View Commit](${{ github.event.head_commit.url }})" >> changes.txt
           echo "" >> changes.txt
                   
-          # Ensure we have the latest history
+          # Ensure full commit history is available
+          git fetch --unshallow || true
           git fetch --all
+
+          # Check if there's a previous commit
+          if git rev-parse HEAD^ >/dev/null 2>&1; then
+            PREV_COMMIT="HEAD^"
+          else
+            PREV_COMMIT=$(git rev-list --max-parents=0 HEAD)  # First commit in repo
+          fi
 
           # Extract Added, Modified, and Removed Files using git diff
           echo "📂 **Files Added:**" >> changes.txt
-          ADDED_FILES=$(git diff --diff-filter=A --name-only HEAD^ HEAD)
+          ADDED_FILES=$(git diff --diff-filter=A --name-only $PREV_COMMIT HEAD)
           if [[ -z "$ADDED_FILES" ]]; then
             echo "- None" >> changes.txt
           else
@@ -53,7 +61,7 @@ jobs:
           echo "" >> changes.txt
 
           echo "📝 **Files Modified:**" >> changes.txt
-          MODIFIED_FILES=$(git diff --diff-filter=M --name-only HEAD^ HEAD)
+          MODIFIED_FILES=$(git diff --diff-filter=M --name-only $PREV_COMMIT HEAD)
           if [[ -z "$MODIFIED_FILES" ]]; then
             echo "- None" >> changes.txt
           else
@@ -62,7 +70,7 @@ jobs:
           echo "" >> changes.txt
 
           echo "❌ **Files Removed:**" >> changes.txt
-          REMOVED_FILES=$(git diff --diff-filter=D --name-only HEAD^ HEAD)
+          REMOVED_FILES=$(git diff --diff-filter=D --name-only $PREV_COMMIT HEAD)
           if [[ -z "$REMOVED_FILES" ]]; then
             echo "- None" >> changes.txt
           else
