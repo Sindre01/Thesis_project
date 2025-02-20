@@ -61,7 +61,7 @@ jobs:
       - name: Read Changes File
         if: env.match == 'true'
         id: read_changes
-        run: echo "EMAIL_BODY=$(cat changes.txt | base64 -w 0)" >> $GITHUB_ENV
+        run: echo "EMAIL_BODY<<EOF" >> $GITHUB_ENV && cat changes.txt >> $GITHUB_ENV && echo "EOF" >> $GITHUB_ENV
 
       - name: Send Email Notification
         if: env.match == 'true'
