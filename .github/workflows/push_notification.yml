@@ -17,6 +17,7 @@ jobs:
           else
             echo "match=false" >> $GITHUB_ENV
           fi
+
       - name: Check Commit Message for "validation" or "testing"
         id: check_commit_for_phase
         run: |
@@ -28,6 +29,7 @@ jobs:
           else
             echo "commit_type=none" >> $GITHUB_ENV
           fi
+
       - name: Generate File List
         if: env.match == 'true'
         run: |
@@ -56,6 +58,11 @@ jobs:
             echo "- $file" >> changes.txt
           done
 
+      - name: Read Changes File
+        if: env.match == 'true'
+        id: read_changes
+        run: echo "EMAIL_BODY=$(cat changes.txt | base64 -w 0)" >> $GITHUB_ENV
+
       - name: Send Email Notification
         if: env.match == 'true'
         uses: dawidd6/action-send-mail@v3
@@ -65,6 +72,6 @@ jobs:
           username: ${{ secrets.EMAIL_USER }}
           password: ${{ secrets.EMAIL_PASS }}
           subject: "🔔 GitHub Push Notification - ${{ env.commit_type }} runs finished, stored and pushed"
-          body_file: changes.txt
+          body: ${{ env.EMAIL_BODY }}
           to: ${{ secrets.EMAIL_TO }}
           from: "GitHub Actions"
