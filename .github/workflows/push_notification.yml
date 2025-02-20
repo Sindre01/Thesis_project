@@ -65,6 +65,6 @@ jobs:
           username: ${{ secrets.EMAIL_USER }}
           password: ${{ secrets.EMAIL_PASS }}
           subject: "🔔 GitHub Push Notification - ${{ env.commit_type }} runs finished, stored and pushed"
-          body: changes.txt
+          body_file: changes.txt
           to: ${{ secrets.EMAIL_TO }}
           from: "GitHub Actions"
