@@ -2,10 +2,18 @@ import time
 import os
 import subprocess
 import sys
-root_dir = os.getcwd()
-print("root_dir: " + root_dir)
-results_dir = f"{root_dir}/notebooks/few-shot/fox/validation_runs"
-sys.path.append(root_dir)
+
+script_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(f"{script_dir}/../../..")
+experiment_dir = os.path.abspath(f"{script_dir}/..")
+
+print("Script is located in:", script_dir)
+print("Project is located in:", project_dir)
+print("Experiments are located in:", experiment_dir)
+
+results_dir = f"{project_dir}/notebooks/few-shot/fox/validation_runs"
+
+sys.path.append(project_dir)
 from my_packages.common import PromptType
 from my_packages.evaluation.code_evaluation import run_model
 from dotenv import load_dotenv
@@ -58,8 +66,8 @@ def model_configs(all_responses, model_provider):
                 # "llama3.3:70b-instruct-fp16", #ctx: 130k
                 # "qwen2.5:72b-instruct-fp16", #ctx: 139k
             ]
-            models_not_tokenized = models_not_in_file(models, f'{root_dir}/notebooks/few-shot/code_max_tokens.json')
-            write_models_tokens_to_file(client, models_not_tokenized, all_responses, f'{root_dir}/notebooks/few-shot/code_max_tokens.json')
+            models_not_tokenized = models_not_in_file(models, f'{project_dir}/notebooks/few-shot/code_max_tokens.json')
+            write_models_tokens_to_file(client, models_not_tokenized, all_responses, f'{project_dir}/notebooks/few-shot/code_max_tokens.json')
 
         case 'openai':
             openai_token = os.getenv('OPENAI_API_KEY')
@@ -71,8 +79,8 @@ def model_configs(all_responses, model_provider):
                 # "o1-preview", 
             ]
             # few_shot_messages = create_few_shot_messages(explained_used_libraries, train_prompts, train_responses, "NODE_GENERATOR_TEMPLATE", "developer")
-            models_not_tokenized = models_not_in_file(models, f'{root_dir}/notebooks/few-shot/code_max_tokens.json')
-            write_models_tokens_to_file(client, models_not_tokenized, all_responses, f'{root_dir}/notebooks/few-shot/code_max_tokens.json')
+            models_not_tokenized = models_not_in_file(models, f'{project_dir}/notebooks/few-shot/code_max_tokens.json')
+            write_models_tokens_to_file(client, models_not_tokenized, all_responses, f'{project_dir}/notebooks/few-shot/code_max_tokens.json')
 
         case 'anthropic':
             anthropic_token = os.getenv('ANTHROPIC_API_KEY')
@@ -83,8 +91,8 @@ def model_configs(all_responses, model_provider):
             models = [
                 "claude-3-5-sonnet-latest"
             ]
-            models_not_tokenized = models_not_in_file(models, f'{root_dir}/notebooks/few-shot/code_max_tokens.json')
-            write_models_tokens_to_file(client, models_not_tokenized, all_responses, f'{root_dir}/notebooks/few-shot/code_max_tokens.json')
+            models_not_tokenized = models_not_in_file(models, f'{project_dir}/notebooks/few-shot/code_max_tokens.json')
+            write_models_tokens_to_file(client, models_not_tokenized, all_responses, f'{project_dir}/notebooks/few-shot/code_max_tokens.json')
         case _:
             raise Exception("Model provider not supported")
     return client, models
@@ -173,7 +181,7 @@ def run_val_experiment(
 
 if __name__ == "__main__":
     start_time = time.time()
-    main_dataset_folder = f'{root_dir}/data/MBPP_Midio_50/'
+    main_dataset_folder = f'{project_dir}/data/MBPP_Midio_50/'
 
     print("\n==== Splits data ====")
     train_data, val_data, test_data = get_dataset_splits(main_dataset_folder)
@@ -229,7 +237,7 @@ if __name__ == "__main__":
                 experiment_name = f"{ex['name']}_{shots}_shot"
                 file_path = f"{results_dir}/{experiment_name}_{model_name}.json"
                 print(f"\n==== Running few-shot validation for {experiment_name} on '{model_name}' ====")  
-                model = get_model_code_tokens_from_file(model_name, f'{root_dir}/notebooks/few-shot/code_max_tokens.json')
+                model = get_model_code_tokens_from_file(model_name, f'{project_dir}/notebooks/few-shot/code_max_tokens.json')
                 run_val_experiment(
                     client,
                     val_data[:1],
@@ -248,7 +256,7 @@ if __name__ == "__main__":
     hours, remainder = divmod(int(elapsed_time), 3600)
     minutes, seconds = divmod(remainder, 60)
     print(f"\n⏱️ Total execution time: {hours}h {minutes}m {seconds}s")
-    subprocess.run(["bash", f"{root_dir}/notebooks/few-shot/fox/scripts/push_runs.sh", "validation", str(hours), str(minutes), str(seconds)], check=True)
+    subprocess.run(["bash", f"{project_dir}/notebooks/few-shot/fox/scripts/push_runs.sh", "validation", str(hours), str(minutes), str(seconds)], check=True)
     print("✅ push_runs.sh script executed successfully!")
 
 

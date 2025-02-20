@@ -2,9 +2,11 @@ from datetime import datetime
 import os
 import sys
 from zoneinfo import ZoneInfo
-root_dir = os.getcwd()
-results_dir = f"{root_dir}/notebooks/few-shot/fox/testing_runs"
-sys.path.append(root_dir)
+script_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(f"{script_dir}/../../..")
+experiment_dir = os.path.abspath(f"{script_dir}/..")
+results_dir = f"{project_dir}/notebooks/few-shot/fox/testing_runs"
+sys.path.append(project_dir)
 
 from my_packages.db_service.data_processing import flatten_metric_results
 from my_packages.db_service.results_service import save_results_to_db
@@ -63,7 +65,7 @@ if __name__ == "__main__":
     phase = "testing"
     metrics = ["syntax", "semantic", "tests"]
     env = ""
-    runs_folder = f"{root_dir}/notebooks/few-shot/fox/{phase}_runs"
+    runs_folder = f"{project_dir}/notebooks/few-shot/fox/{phase}_runs"
     
     all_results = {}
     for file_name in os.listdir(runs_folder):
@@ -107,6 +109,6 @@ if __name__ == "__main__":
 
     ##Write results for model on each experiement to files
     for experiment_name, results in all_results.items():
-        write_json_file(f"{root_dir}/notebooks/few-shot/fox/results/{experiment_name}.json", results)     
+        write_json_file(f"{project_dir}/notebooks/few-shot/fox/results/{experiment_name}.json", results)     
     
     

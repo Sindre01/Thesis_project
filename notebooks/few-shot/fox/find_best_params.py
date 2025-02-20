@@ -3,9 +3,11 @@ import os
 import sys
 from zoneinfo import ZoneInfo
 
-root_dir = os.getcwd()
-results_dir = f"{root_dir}/notebooks/few-shot/fox/validation_runs"
-sys.path.append(root_dir)
+script_dir = os.path.dirname(os.path.abspath(__file__))
+project_dir = os.path.abspath(f"{script_dir}/../../..")
+experiment_dir = os.path.abspath(f"{script_dir}/..")
+results_dir = f"{project_dir}/notebooks/few-shot/fox/validation_runs"
+sys.path.append(project_dir)
 from my_packages.db_service.data_processing import flatten_metric_results
 
 from my_packages.common import Run
@@ -66,7 +68,7 @@ if __name__ == "__main__":
     phase = "validation"
     optimizer_metric = "semantic"
     env = ""
-    runs_folder = f"{root_dir}/notebooks/few-shot/fox/{phase}_runs"
+    runs_folder = f"{project_dir}/notebooks/few-shot/fox/{phase}_runs"
     
     all_best_params = {}
     for file_name in os.listdir(runs_folder):
@@ -104,6 +106,6 @@ if __name__ == "__main__":
         
     ##Write best params for model on each experiment to files
     for experiment_name, best_params in all_best_params.items():
-        write_json_file(f"{root_dir}/notebooks/few-shot/fox/best_params/{experiment_name}.json", best_params)     
+        write_json_file(f"{project_dir}/notebooks/few-shot/fox/best_params/{experiment_name}.json", best_params)     
         
         

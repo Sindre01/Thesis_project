@@ -40,14 +40,14 @@ cat <<EOT > "./scripts/${SBATCH_SCRIPT}"
 ###############################################################################
 
 # Job Configuration
-#SBATCH --job-name=${PHASE}_${EXPERIMENT}_ollama                     # Job name
+#SBATCH --job-name=JOB_${PHASE}_${EXPERIMENT}                     # Job name
 #SBATCH --account=${ACCOUNT}                      # Project account
 #SBATCH --partition=${PARTITION}                  # Partition ('accel' or 'accel_long')
 #SBATCH --nodes=${NODES}                  # Amount of nodes. Ollama one support single node inference
 #SBATCH --gpus=${GPUS}                             # Number of GPUs
 #SBATCH --time=${TIME}                             # Walltime (D-HH:MM:SS)
 #SBATCH --mem-per-gpu=${MEM_PER_GPU}              # Memory per CPU
-#SBATCH --output=${PHASE}_${EXPERIMENT}_ollama_%j.out                 # Standard output and error log
+#SBATCH --output=JOB_%j_${PHASE}_${EXPERIMENT}.out                 # Standard output and error log
 
 
 ###############################################################################
