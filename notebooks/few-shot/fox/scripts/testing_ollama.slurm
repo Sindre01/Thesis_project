@@ -6,14 +6,14 @@
 ###############################################################################
 
 # Job Configuration
-#SBATCH --job-name=JOB_testing_few_shot                     # Job name
+#SBATCH --job-name=Job_testing_few_shot                     # Job name
 #SBATCH --account=ec30                      # Project account
 #SBATCH --partition=ifi_accel                  # Partition ('accel' or 'accel_long')
 #SBATCH --nodes=1                  # Amount of nodes. Ollama one support single node inference
-#SBATCH --gpus=rtx30:1                             # Number of GPUs
+#SBATCH --gpus=rtx30:2                             # Number of GPUs
 #SBATCH --time=1:00:00                             # Walltime (D-HH:MM:SS)
 #SBATCH --mem-per-gpu=20GB              # Memory per CPU
-#SBATCH --output=JOB_%j_testing_few_shot.out                 # Standard output and error log
+#SBATCH --output=testing_%j.out                 # Standard output and error log
 
 
 ###############################################################################
@@ -60,8 +60,8 @@ NVIDIA_MONITOR_PID=  # Capture PID of monitoring process
 # Start Ollama Server in Background with Log Redirection
 ###############################################################################
 
-echo "Starting Ollama server..."
-ollama serve > ollama_output_.out 2> ollama_error_.err &  
+echo "============= Starting Ollama server... ============="
+ollama serve > ollama_API.out 2>&1 &  
 OLLAMA_PID=  # Capture the process ID of Ollama
 
 # Wait a few seconds to ensure the server starts before running the Python script
@@ -69,25 +69,23 @@ sleep 10
 
 
 ###############################################################################
-# Run Python Script with Separate Log Redirection
+# Run Python Script
 ###############################################################################
+echo "============= Pulling latest changes from git... ============="
 cd ~/Thesis_project
-echo "Pulling latest changes from git..."
 git fetch
 git pull
 source thesis_venv/bin/activate  # Activate it to ensure the correct Python environment
 cd ~/Thesis_project/notebooks/few-shot/fox
 
-echo "Running testing few_shot Python script..."
-echo "PHASE is: testing"
-
-python run_testing.py > /fp/homes01/u01/ec-sindrre/slurm_jobs/few_shot/testing_few_shot_output_.log 2>&1
+echo "============= Running testing few_shot Python script... ============="
+python run_testing.py > /fp/homes01/u01/ec-sindrre/slurm_jobs/few_shot/testing.out 2>&1
 
 ###############################################################################
 # Cleanup and End Script
 ###############################################################################
 
-echo "Stopping Ollama server..."
+echo "============= Stopping Ollama server... ============="
 kill -SIGINT ""  # Gracefully stop Ollama
 
 # Stop GPU monitoring

@@ -12,14 +12,14 @@ HOST="fox.educloud.no"                   # Fox login address (matches SSH config
 SSH_CONFIG_NAME="fox"                # Name of the SSH config entry
 ACCOUNT="ec30"                           # Fox project account
 PARTITION="ifi_accel"                   # 'accel' or 'accel_long' (or 'ifi_accel' if access to ec11,ec29,ec30,ec34,ec35 or ec232)
-GPUS=rtx30:1                               # a100 have 40GB or 80GB VRAM, while rtx30 have 24GB VRAM.
+GPUS=rtx30:2                               # a100 have 40GB or 80GB VRAM, while rtx30 have 24GB VRAM.
 NODES=1                                 # Number of nodes. OLLAMA does currently only support single node inference
 TIME="1:00:00"                         # Slurm walltime (D-HH:MM:SS)
 MEM_PER_GPU="20GB"                       # Memory per GPU. 
 OLLAMA_MODELS_DIR="/cluster/work/projects/ec12/ec-sindrre/ollama-models"  # Path to where the Ollama models are stored and loaded                      
 LOCAL_PORT="11434"                        # Local port for forwarding
 OLLAMA_PORT="11434"                       # Remote port where Ollama listens
-SBATCH_SCRIPT="${PHASE}_${EXPERIMENT}_ollama.slurm"           # Slurm batch script name
+SBATCH_SCRIPT="${PHASE}_ollama.slurm"           # Slurm batch script name
 REMOTE_DIR="/fp/homes01/u01/ec-sindrre/slurm_jobs/${EXPERIMENT}" # Directory on Fox to store scripts and output
 
 ###############################################################################
@@ -40,14 +40,14 @@ cat <<EOT > "./scripts/${SBATCH_SCRIPT}"
 ###############################################################################
 
 # Job Configuration
-#SBATCH --job-name=JOB_${PHASE}_${EXPERIMENT}                     # Job name
+#SBATCH --job-name=Job_${PHASE}_${EXPERIMENT}                     # Job name
 #SBATCH --account=${ACCOUNT}                      # Project account
 #SBATCH --partition=${PARTITION}                  # Partition ('accel' or 'accel_long')
 #SBATCH --nodes=${NODES}                  # Amount of nodes. Ollama one support single node inference
 #SBATCH --gpus=${GPUS}                             # Number of GPUs
 #SBATCH --time=${TIME}                             # Walltime (D-HH:MM:SS)
 #SBATCH --mem-per-gpu=${MEM_PER_GPU}              # Memory per CPU
-#SBATCH --output=JOB_%j_${PHASE}_${EXPERIMENT}.out                 # Standard output and error log
+#SBATCH --output=${PHASE}_%j.out                 # Standard output and error log
 
 
 ###############################################################################
@@ -95,8 +95,8 @@ NVIDIA_MONITOR_PID=$!  # Capture PID of monitoring process
 # Start Ollama Server in Background with Log Redirection
 ###############################################################################
 
-echo "Starting Ollama server..."
-ollama serve > ollama_output_${SLURM_JOB_ID}.out 2> ollama_error_${SLURM_JOB_ID}.err &  
+echo "============= Starting Ollama server... ============="
+ollama serve > ollama_API.out 2>&1 &  
 OLLAMA_PID=$!  # Capture the process ID of Ollama
 
 # Wait a few seconds to ensure the server starts before running the Python script
@@ -104,25 +104,23 @@ sleep 10
 
 
 ###############################################################################
-# Run Python Script with Separate Log Redirection
+# Run Python Script
 ###############################################################################
+echo "============= Pulling latest changes from git... ============="
 cd ~/Thesis_project
-echo "Pulling latest changes from git..."
 git fetch
 git pull
 source thesis_venv/bin/activate  # Activate it to ensure the correct Python environment
 cd ~/Thesis_project/notebooks/few-shot/fox
 
-echo "Running ${PHASE} ${EXPERIMENT} Python script..."
-echo "PHASE is: ${PHASE}"
-
-python run_${PHASE}.py > ${REMOTE_DIR}/${PHASE}_${EXPERIMENT}_output_${SLURM_JOB_ID}.log 2>&1
+echo "============= Running ${PHASE} ${EXPERIMENT} Python script... ============="
+python run_${PHASE}.py > ${REMOTE_DIR}/${PHASE}.out 2>&1
 
 ###############################################################################
 # Cleanup and End Script
 ###############################################################################
 
-echo "Stopping Ollama server..."
+echo "============= Stopping Ollama server... ============="
 kill -SIGINT "$OLLAMA_PID"  # Gracefully stop Ollama
 
 # Stop GPU monitoring
