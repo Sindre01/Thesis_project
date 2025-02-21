@@ -214,20 +214,20 @@ if __name__ == "__main__":
             "prompt_type": PromptType.SIGNATURE,
             "semantic_selector": False,
         },
-        # {
-        #     "name": "regular_similarity",
-        #     "prompt_prefix": "Create a function",
-        #     "num_shots": [1, 5, 10],
-        #     "prompt_type": PromptType.REGULAR,
-        #     "semantic_selector": True,
-        # },
-        # {
-        #     "name": "signature_similarity",
-        #     "prompt_prefix": "Create a function",
-        #     "num_shots": [1, 5, 10],
-        #     "prompt_type": PromptType.SIGNATURE,
-        #     "semantic_selector": True,
-        # },
+        {
+            "name": "regular_similarity",
+            "prompt_prefix": "Create a function",
+            "num_shots": [1, 5, 10],
+            "prompt_type": PromptType.REGULAR,
+            "semantic_selector": True,
+        },
+        {
+            "name": "signature_similarity",
+            "prompt_prefix": "Create a function",
+            "num_shots": [1, 5, 10],
+            "prompt_type": PromptType.SIGNATURE,
+            "semantic_selector": True,
+        },
        
     ]
 
