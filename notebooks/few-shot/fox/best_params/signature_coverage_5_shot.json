@@ -1,0 +1,12 @@
+[
+    {
+        "model_name": "qwen2",
+        "optimizer_metric": "syntax",
+        "temperature": 0.2,
+        "top_p": 0.2,
+        "top_k": 10,
+        "seed": 9,
+        "created_at": "2025-02-21T11:49:53.085539+01:00",
+        "syntax@1": 1.0
+    }
+]

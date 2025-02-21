@@ -77,7 +77,7 @@ def get_json_test_result(result: subprocess.CompletedProcess[str]) -> dict:
     json_start = output.find('{')
     
     if json_start == -1:
-        print("Error: No JSON found in stdout")
+        # print("Error: No JSON found in stdout")
         return {}
 
     json_text = output[json_start:]  # Extract only the JSON part
@@ -86,8 +86,8 @@ def get_json_test_result(result: subprocess.CompletedProcess[str]) -> dict:
         json_result = json.loads(json_text)
         return json_result
     except json.JSONDecodeError as e:
-        print("Failed to parse JSON:", e)
-        print("Extracted JSON part:", json_text)
+        # print("Failed to parse JSON:", e)
+        # print("Extracted JSON part:", json_text)
         return {}
     
 def clean_output(text: str) -> str:

@@ -2,11 +2,11 @@
     {
         "model_name": "qwen2",
         "optimizer_metric": "syntax",
-        "temperature": 0.6,
+        "temperature": 0.2,
         "top_p": 0.9,
         "top_k": 10,
         "seed": 9,
-        "created_at": "2025-02-21T11:50:28.096865+01:00",
-        "syntax@1": 0.6666666666666666
+        "created_at": "2025-02-21T11:52:15.026388+01:00",
+        "syntax@1": 0.8888888888888888
     }
 ]

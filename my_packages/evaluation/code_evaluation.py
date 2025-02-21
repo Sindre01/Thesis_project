@@ -94,7 +94,7 @@ def calculate_pass_at_k_scores(
 
     total = np.array(total)
     correct = np.array(correct)
-    print(f"Total: {total}, Correct: {correct}")
+    # print(f"Total: {total}, Correct: {correct}")
 
     pass_at_k = {}
 
@@ -106,7 +106,7 @@ def calculate_pass_at_k_scores(
             pass_at_k[f"pass@{k}"] = estimate_pass_at_k(total, correct, k).mean()
 
     # Now pass_at_k contains the pass rates for each valid k
-    print(f"Pass@K: {pass_at_k}")
+    # print(f"Pass@K: {pass_at_k}")
 
     return pass_at_k
 

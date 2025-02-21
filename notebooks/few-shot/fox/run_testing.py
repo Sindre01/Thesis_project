@@ -133,11 +133,15 @@ def run_testing_experiment(
         top_p,
         top_k,
         n,
+        best_params_optimization = None,
         seeds = [3, 75, 346],
 ):
+    total_count = len(seeds)
+    count = 0
     results = []
     for seed in seeds:
         print(f"Running with seed: {seed}")
+        print(f"seeds runned: {count}/{total_count}")
         model_result, largest_context = run_model(
             client,
             model["name"],
@@ -155,6 +159,7 @@ def run_testing_experiment(
         )
         result_obj = {
             "experiment_name": experiment_name,
+            "best_params_optimization": best_params_optimization,
             "temperature": temperature,
             "top_p": top_p,
             "top_k": top_k,
@@ -164,9 +169,11 @@ def run_testing_experiment(
             "largest_context": largest_context,
             "task_candidates": model_result,
         }
+
         results.append(result_obj)
         ## Write to file
         write_json_file(file_path, results) #Temporary viewing
+        count+=1
     
     write_json_file(file_path, results)
 
@@ -190,9 +197,9 @@ if __name__ == "__main__":
     main_dataset_folder = f'{project_dir}/data/MBPP_Midio_50/'
     best_params_folder = f"{project_dir}/notebooks/few-shot/fox/best_params/"
     runs_folder = f"{project_dir}/notebooks/few-shot/fox/testing_runs"
-    metrics = ["syntax", "semantic"]
+    metrics = ["syntax", "semantic"] # ["syntax", "semantic"] or ["syntax", "semantic", "tests"]
     env = ""
-    n_generations_per_task = 1
+    n_generations_per_task = 10
 
     print("\n==== Splits data ====")
     train_data, val_data, test_data = get_dataset_splits(main_dataset_folder)
@@ -211,13 +218,20 @@ if __name__ == "__main__":
         print(f"Processing file: {best_params_path}")
         experiment_info = get_info_from_filename(file_name)
         experiment_name = experiment_info["experiment_name"]
+        selector_type= "similarity" if experiment_info["semantic_selector"] else "coverage"
 
         best_params = read_dataset_to_json(best_params_path)
         for params in best_params:
+            
+            if params['optimizer_metric'] != metrics[-1]: # Only use the best parameters for last metric in list, e.g: 'semantic' or 'tests' metric
+                print(f"Skipping {params['optimizer_metric']} metric best_params, ONLY testing with best parameters for {metrics[-1]} metric")
+                continue
+
             model_name = params["model_name"]
-            print(f"Processing experiment: '{experiment_name}' with model: '{model_name}'")
-            file_path = f"{runs_folder}/{experiment_name}_{model_name}.json"
+            print(f"Processing experiment: '{experiment_name}' with model: '{model_name}', optimized on {params['optimizer_metric']} metric")
+            file_path = f"{runs_folder}/{selector_type}/{experiment_name}_{model_name}.json"
             model = get_model_code_tokens_from_file(model_name, f'{project_dir}/notebooks/few-shot/code_max_tokens.json')
+
             example_selector = init_example_selector(experiment_info["shots"], train_data, experiment_info["semantic_selector"])
             run_testing_experiment(
                 client,
@@ -232,9 +246,11 @@ if __name__ == "__main__":
                 params["top_p"],
                 params["top_k"],
                 n_generations_per_task,
+                best_params_optimization = best_params["optimizer_metric"],
             )
             print(f"Testing finished for experiment: {experiment_name}")
-            print(f"See run results in: {results_dir}/{experiment_name}.json")
+            print(f"See run results in: {file_path}")
+
     print("Testing finished!")
     elapsed_time = time.time() - start_time
     hours, remainder = divmod(int(elapsed_time), 3600)

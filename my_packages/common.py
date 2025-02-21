@@ -30,14 +30,14 @@ class CodeEvaluationResult:
         self.test_result = None
 
     def add_syntax_error(self, compiled: CompletedProcess[str]):
-        print("     Syntax error found")
+        # print("     Syntax error found")
         self.passed = False
         self.error_type = "syntax"
         self.error_msg = extract_errors(compiled.stdout) 
         self.compiler_msg = compiled
 
     def add_semantic_error(self, compiled: CompletedProcess[str]):
-        print("     Semantics error found")
+        # print("     Semantics error found")
         self.passed = False
         self.error_type = "semantic"
         self.error_msg = extract_errors(compiled.stdout)
@@ -49,7 +49,7 @@ class CodeEvaluationResult:
         if is_all_tests_passed(json_result):
             self.passed = True
         else:
-            print("     Tests error found")
+            # print("     Tests error found")
             self.passed = False
             self.error_type = "tests"
             self.error_msg = extract_errors(compiled_tests.stdout)

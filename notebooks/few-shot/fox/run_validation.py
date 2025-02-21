@@ -59,12 +59,12 @@ def model_configs(all_responses, model_provider):
                 # "qwen2.5:14b-instruct-fp16", #128 k
 
                 #32b models:
-                # "qwq:32b-preview-fp16", #ctx: 32,768 tokens
-                "qwen2.5-coder:32b-instruct-fp16", #32,768 tokens
+                "qwq:32b-preview-fp16", #ctx: 32,768 tokens
+                # "qwen2.5-coder:32b-instruct-fp16", #32,768 tokens
     
                 # #70b models:
-                # "llama3.3:70b-instruct-fp16", #ctx: 130k
-                # "qwen2.5:72b-instruct-fp16", #ctx: 139k
+                "llama3.3:70b-instruct-fp16", #ctx: 130k
+                "qwen2.5:72b-instruct-fp16", #ctx: 139k
             ]
             models_not_tokenized = models_not_in_file(models, f'{project_dir}/notebooks/few-shot/code_max_tokens.json')
             write_models_tokens_to_file(client, models_not_tokenized, all_responses, f'{project_dir}/notebooks/few-shot/code_max_tokens.json')
@@ -140,6 +140,8 @@ def run_val_experiment(
         debug = False,
 
 ):
+    combinatios = len(temperatures) * len(top_ps) * len(top_ks)
+    current_combination = 0
     results = []
     for temp in temperatures:
         for top_k in top_ks:
@@ -172,14 +174,13 @@ def run_val_experiment(
                     "largest_context": largest_context,
                     "task_candidates": model_result,
                 }
+                current_combination += 1
+                print(f"Hyperparameter combination {current_combination}/{combinatios} finished.\n")
                 results.append(result_obj)
-                ## Write to file
                 write_json_file(file_path, results) #Temporary viewing
     
     write_json_file(file_path, results)
 
-def main():
-    pass
 
 if __name__ == "__main__":
     start_time = time.time()
@@ -190,8 +191,8 @@ if __name__ == "__main__":
     all_responses = [sample["response"] for sample in train_data] + [sample["response"] for sample in val_data] + [sample["response"] for sample in test_data]
     print(f"Number of all responses: {len(all_responses)}")
     used_functions_json = read_dataset_to_json(main_dataset_folder + "metadata/used_external_functions.json")
+    print(f"Number of external functions used: {len(used_functions_json)}")
     available_nodes = used_functions_to_string(used_functions_json)
-    print(f"Number of available nodes: {len(available_nodes)}")
 
     print("\n==== Configures models ====")
     client, models = model_configs(all_responses, 'ollama')
@@ -199,7 +200,7 @@ if __name__ == "__main__":
     print("\n==== Running validation ====")
     dataset = read_dataset_to_json(main_dataset_folder + "MBPP-Midio-50.json")
     experiments = [
-        {
+        { #8 hours on 32b model
             "name": "regular_coverage",
             "prompt_prefix": "Create a function",
             "num_shots": [1, 5, 10],
@@ -207,37 +208,40 @@ if __name__ == "__main__":
             "semantic_selector": False,
         },
         {
-            "name": "signatur_coverage",
+            "name": "signature_coverage",
             "prompt_prefix": "Create a function",
             "num_shots": [1, 5, 10],
             "prompt_type": PromptType.SIGNATURE,
             "semantic_selector": False,
         },
-        {
-            "name": "regular_similarity",
-            "prompt_prefix": "Create a function",
-            "num_shots": [1, 5, 10],
-            "prompt_type": PromptType.REGULAR,
-            "semantic_selector": True,
-        },
-        {
-            "name": "signature_similarity",
-            "prompt_prefix": "Create a function",
-            "num_shots": [1, 5, 10],
-            "prompt_type": PromptType.SIGNATURE,
-            "semantic_selector": True,
-        },
+        # {
+        #     "name": "regular_similarity",
+        #     "prompt_prefix": "Create a function",
+        #     "num_shots": [1, 5, 10],
+        #     "prompt_type": PromptType.REGULAR,
+        #     "semantic_selector": True,
+        # },
+        # {
+        #     "name": "signature_similarity",
+        #     "prompt_prefix": "Create a function",
+        #     "num_shots": [1, 5, 10],
+        #     "prompt_type": PromptType.SIGNATURE,
+        #     "semantic_selector": True,
+        # },
        
     ]
 
     print(f"Total experiments variations to run: {len(experiments) * len(models)* len([1, 5, 10])}")
 
     for ex in experiments:
+
+        selector_type= "similarity" if ex["semantic_selector"] else "coverage"
         for shots in ex["num_shots"]:
             selector=init_example_selector(shots, train_data, semantic_selector=ex["semantic_selector"])
+
             for model_name in models:
                 experiment_name = f"{ex['name']}_{shots}_shot"
-                file_path = f"{results_dir}/{experiment_name}_{model_name}.json"
+                file_path = f"{results_dir}/{selector_type}/{experiment_name}_{model_name}.json"
                 print(f"\n==== Running few-shot validation for {experiment_name} on '{model_name}' ====")  
                 model = get_model_code_tokens_from_file(model_name, f'{project_dir}/notebooks/few-shot/code_max_tokens.json')
                 run_val_experiment(
@@ -251,7 +255,7 @@ if __name__ == "__main__":
                     ex["prompt_type"],
                 )
                 print(f"Validation finished for experiment: {experiment_name}")
-                print(f"See run results in: {results_dir}/{experiment_name}.json")
+                print(f"See run results in: {file_path}")
 
     print("Validation finished!")
     elapsed_time = time.time() - start_time
