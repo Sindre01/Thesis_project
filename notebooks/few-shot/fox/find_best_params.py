@@ -23,7 +23,7 @@ def evaluate_valiation_runs(
 ):
     print(f"🔍 Evaluating validation runs with metric {optimizer_metric}")
     val_best_metric = 0.0
-    best_run = Run("validation", -1, -1, -1, {f"pass@k_{optimizer_metric}": {"pass@1": 0.0}}, -1, {})
+    best_run = Run("validation", 0.2, 0.6, 10, {f"pass@k_{optimizer_metric}": {"pass@1": 0.0}}, 9, {})
 
     runs_json = read_dataset_to_json(file_path)
     for run in runs_json:
@@ -78,7 +78,7 @@ if __name__ == "__main__":
             file_path = os.path.join(runs_folder, file_name)
             print(f"Processing file: {file_path}")
             experiment_name = "_".join(file_name.split("_")[:-1])
-            model_name = file_name.split("_")[-1].split(".")[0]
+            model_name = ".".join(file_name.split("_")[-1].split(".")[:-1]) # remove .json
             print(f"Processing experiment: '{experiment_name}' with model: '{model_name}'")  
 
             if experiment_exists(experiment_name):

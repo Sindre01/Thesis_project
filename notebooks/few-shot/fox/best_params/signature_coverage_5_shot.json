@@ -1,12 +1,32 @@
 [
     {
-        "model_name": "qwen2",
+        "model_name": "qwen2.5-coder:32b-instruct-fp16",
         "optimizer_metric": "syntax",
         "temperature": 0.2,
         "top_p": 0.2,
         "top_k": 10,
         "seed": 9,
-        "created_at": "2025-02-21T11:49:53.085539+01:00",
+        "created_at": "2025-02-21T12:45:22.951363+01:00",
         "syntax@1": 1.0
+    },
+    {
+        "model_name": "qwen2.5-coder:32b-instruct-fp16",
+        "optimizer_metric": "semantic",
+        "temperature": 0.9,
+        "top_p": 0.9,
+        "top_k": 50,
+        "seed": 9,
+        "created_at": "2025-02-21T12:45:54.017729+01:00",
+        "semantic@1": 1.0
+    },
+    {
+        "model_name": "qwen2.5-coder:32b-instruct-fp16",
+        "optimizer_metric": "tests",
+        "temperature": 0.9,
+        "top_p": 0.9,
+        "top_k": 50,
+        "seed": 9,
+        "created_at": "2025-02-21T12:46:45.270797+01:00",
+        "tests@1": 0.3333333333333333
     }
 ]
