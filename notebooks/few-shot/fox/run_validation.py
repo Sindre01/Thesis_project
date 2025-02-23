@@ -64,7 +64,7 @@ def model_configs(all_responses, model_provider):
     
                 # #70b models:
                 "llama3.3:70b-instruct-fp16", #ctx: 130k
-                "qwen2.5:72b-instruct-fp16", #ctx: 139k
+                # "qwen2.5:72b-instruct-fp16", #ctx: 139k
             ]
             models_not_tokenized = models_not_in_file(models, f'{project_dir}/notebooks/few-shot/code_max_tokens.json')
             write_models_tokens_to_file(client, models_not_tokenized, all_responses, f'{project_dir}/notebooks/few-shot/code_max_tokens.json')

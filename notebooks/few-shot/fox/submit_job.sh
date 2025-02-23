@@ -19,7 +19,7 @@ MEM_PER_GPU="80GB"                       # Memory per GPU.
 OLLAMA_MODELS_DIR="/cluster/work/projects/ec12/ec-sindrre/ollama-models"  # Path to where the Ollama models are stored and loaded                      
 LOCAL_PORT="11434"                        # Local port for forwarding
 OLLAMA_PORT="11434"                       # Remote port where Ollama listens
-SBATCH_SCRIPT="${PHASE}_ollama.slurm"           # Slurm batch script name
+SBATCH_SCRIPT="${PHASE}_ollama_%j.slurm"           # Slurm batch script name
 REMOTE_DIR="/fp/homes01/u01/ec-sindrre/slurm_jobs/${EXPERIMENT}" # Directory on Fox to store scripts and output
 
 ###############################################################################
@@ -103,6 +103,7 @@ sleep 5
 ###############################################################################
 echo "============= Pulling latest changes from git... ============="
 cd ~/Thesis_project
+git checkout main
 git fetch
 git pull
 source thesis_venv/bin/activate  # Activate it to ensure the correct Python environment
