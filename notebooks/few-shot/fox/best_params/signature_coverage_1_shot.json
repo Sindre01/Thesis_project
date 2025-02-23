@@ -2,31 +2,31 @@
     {
         "model_name": "qwen2.5-coder:32b-instruct-fp16",
         "optimizer_metric": "syntax",
-        "temperature": -1,
-        "top_p": -1,
-        "top_k": -1,
-        "seed": -1,
-        "created_at": "2025-02-21T12:48:45.254658+01:00",
+        "temperature": 0.2,
+        "top_p": 0.6,
+        "top_k": 10,
+        "seed": 9,
+        "created_at": "2025-02-21T14:21:18.274199+01:00",
         "syntax@1": 0.0
     },
     {
         "model_name": "qwen2.5-coder:32b-instruct-fp16",
         "optimizer_metric": "semantic",
-        "temperature": -1,
-        "top_p": -1,
-        "top_k": -1,
-        "seed": -1,
-        "created_at": "2025-02-21T12:49:14.041985+01:00",
+        "temperature": 0.2,
+        "top_p": 0.6,
+        "top_k": 10,
+        "seed": 9,
+        "created_at": "2025-02-21T14:21:47.666305+01:00",
         "semantic@1": 0.0
     },
     {
         "model_name": "qwen2.5-coder:32b-instruct-fp16",
         "optimizer_metric": "tests",
-        "temperature": -1,
-        "top_p": -1,
-        "top_k": -1,
-        "seed": -1,
-        "created_at": "2025-02-21T12:49:41.288767+01:00",
+        "temperature": 0.2,
+        "top_p": 0.6,
+        "top_k": 10,
+        "seed": 9,
+        "created_at": "2025-02-21T14:22:16.971606+01:00",
         "tests@1": 0.0
     }
 ]
