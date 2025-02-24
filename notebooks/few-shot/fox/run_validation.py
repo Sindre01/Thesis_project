@@ -55,8 +55,8 @@ def model_configs(all_responses, model_provider):
     
             models = [
                 # 14b models:
-                "phi4:14b-fp16", #16k context length
-                "qwen2.5:14b-instruct-fp16", #128 k
+                # "phi4:14b-fp16", #16k context length
+                # "qwen2.5:14b-instruct-fp16", #128 k
 
                 #32b models:
                 "qwq:32b-preview-fp16", #ctx: 32,768 tokens
