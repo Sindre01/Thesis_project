@@ -7,12 +7,12 @@
 
 # Job Configuration
 #SBATCH --job-name=validation_few_shot         # Job name
-#SBATCH --account=ec30                      # Project account
-#SBATCH --partition=ifi_accel                  # Partition ('accel' or 'accel_long')
+#SBATCH --account=ec12                      # Project account
+#SBATCH --partition=accel_long                  # Partition ('accel' or 'accel_long')
 #SBATCH --nodes=1                           # Amount of nodes. Ollama one support single node inference
-#SBATCH --gpus=rtx30:4                             # Number of GPUs
+#SBATCH --gpus=a100:2                             # Number of GPUs
 #SBATCH --time=05-00:00:00                             # Walltime (D-HH:MM:SS)
-#SBATCH --mem-per-gpu=20GB              # Memory per CPU
+#SBATCH --mem-per-gpu=40G              # Memory per CPU
 #SBATCH --output=Job_validation.out                 # Standard output and error log
 
 
