@@ -200,34 +200,34 @@ if __name__ == "__main__":
     print("\n==== Running validation ====")
     dataset = read_dataset_to_json(main_dataset_folder + "MBPP-Midio-50.json")
     experiments = [
-        { 
-            "name": "regular_coverage",
-            "prompt_prefix": "Create a function",
-            "num_shots": [1, 5, 10],
-            "prompt_type": PromptType.REGULAR,
-            "semantic_selector": False,
-        },
-        {
-            "name": "signature_coverage",
-            "prompt_prefix": "Create a function",
-            "num_shots": [1, 5, 10],
-            "prompt_type": PromptType.SIGNATURE,
-            "semantic_selector": False,
-        },
-        # {
-        #     "name": "regular_similarity",
+        # { 
+        #     "name": "regular_coverage",
         #     "prompt_prefix": "Create a function",
         #     "num_shots": [1, 5, 10],
         #     "prompt_type": PromptType.REGULAR,
-        #     "semantic_selector": True,
+        #     "semantic_selector": False,
         # },
         # {
-        #     "name": "signature_similarity",
+        #     "name": "signature_coverage",
         #     "prompt_prefix": "Create a function",
         #     "num_shots": [1, 5, 10],
         #     "prompt_type": PromptType.SIGNATURE,
-        #     "semantic_selector": True,
+        #     "semantic_selector": False,
         # },
+        {
+            "name": "regular_similarity",
+            "prompt_prefix": "Create a function",
+            "num_shots": [1, 5, 10],
+            "prompt_type": PromptType.REGULAR,
+            "semantic_selector": True,
+        },
+        {
+            "name": "signature_similarity",
+            "prompt_prefix": "Create a function",
+            "num_shots": [1, 5, 10],
+            "prompt_type": PromptType.SIGNATURE,
+            "semantic_selector": True,
+        },
        
     ]
 
