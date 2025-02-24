@@ -38,10 +38,10 @@ cat <<EOT > "./scripts/${SBATCH_SCRIPT}"
 ###############################################################################
 
 # Job Configuration
-#SBATCH --job-name=${PHASE}_${EXPERIMENT}                     # Job name
+#SBATCH --job-name=${PHASE}_${EXPERIMENT}         # Job name
 #SBATCH --account=${ACCOUNT}                      # Project account
 #SBATCH --partition=${PARTITION}                  # Partition ('accel' or 'accel_long')
-#SBATCH --nodes=${NODES}                  # Amount of nodes. Ollama one support single node inference
+#SBATCH --nodes=${NODES}                           # Amount of nodes. Ollama one support single node inference
 #SBATCH --gpus=${GPUS}                             # Number of GPUs
 #SBATCH --time=${TIME}                             # Walltime (D-HH:MM:SS)
 #SBATCH --mem-per-gpu=${MEM_PER_GPU}              # Memory per CPU
@@ -101,7 +101,7 @@ sleep 5
 echo "============= Pulling latest changes from git... ============="
 cd ~/Thesis_project
 git fetch
-git checkout main
+git checkout ${PHASE}/${EXAMPLES_TYPE}
 git fetch
 git pull
 source thesis_venv/bin/activate  # Activate it to ensure the correct Python environment
