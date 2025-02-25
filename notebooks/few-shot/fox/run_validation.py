@@ -208,13 +208,13 @@ if __name__ == "__main__":
         #     "prompt_type": PromptType.REGULAR,
         #     "semantic_selector": False,
         # },
-        {
-            "name": "signature_coverage",
-            "prompt_prefix": "Create a function",
-            "num_shots": [1, 5],
-            "prompt_type": PromptType.SIGNATURE,
-            "semantic_selector": False,
-        },
+        # {
+        #     "name": "signature_coverage",
+        #     "prompt_prefix": "Create a function",
+        #     "num_shots": [1, 5, 10],
+        #     "prompt_type": PromptType.SIGNATURE,
+        #     "semantic_selector": False,
+        # },
         # {
         #     "name": "regular_similarity",
         #     "prompt_prefix": "Create a function",
