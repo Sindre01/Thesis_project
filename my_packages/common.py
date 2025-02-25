@@ -185,6 +185,7 @@ class ModelProvider(Enum):
 class PromptType(Enum):
     REGULAR = "regular"
     SIGNATURE = "signature"
+    COT = "cot"
 
 def get_prompt_type(file_name: str) -> PromptType | None:
     for prompt in PromptType:

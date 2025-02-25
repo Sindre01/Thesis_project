@@ -7,8 +7,8 @@
 
 # Job Configuration
 #SBATCH --job-name=ollama_api                     # Job name
-#SBATCH --account=ec30                      # Project account
-#SBATCH --partition=ifi_accel                  # Partition ('accel' or 'accel_long')
+#SBATCH --account=ec12                      # Project account
+#SBATCH --partition=accel                  # Partition ('accel' or 'accel_long')
 #SBATCH --nodes=1                  # Amount of nodes. Ollama one support single node inference
 #SBATCH --gpus=rtx30:2                             # Number of GPUs
 #SBATCH --time=10:00:00                             # Walltime (D-HH:MM:SS)
@@ -31,18 +31,23 @@ module purge
 # module load CUDA/12.4.0
 # module list
 
+source ~/.bashrc # may ovewrite previous modules
+
 export OLLAMA_MODELS=/cluster/work/projects/ec12/ec-sindrre/ollama-models    # Path to where the Ollama models are stored and loaded
 export OLLAMA_HOST=0.0.0.0:11434      # Host and port where Ollama listens
 export OLLAMA_ORIGINS=”*”
-# export OLLAMA_DEBUG=1
 export OLLAMA_LLM_LIBRARY="cuda_v12_avx" 
 export OLLAMA_FLASH_ATTENTION=1
-# export OLLAMA_KV_CACHE_TYPE="f16" # f16 (default), q8_0 (half of the memory of f16, try this), q4_0 different quantization types to find the best balance between memory usage and quality.
-# export OLLAMA_NUM_PARALLEL=2 # Number of parallel models to run. 
-# export CUDA_ERROR_LEVEL=50
-# export AMD_LOG_LEVEL=3
+export OLLAMA_KV_CACHE_TYPE="f16" # f16 (default), q8_0 (half of the memory of f16, try this), q4_0 different quantization types to find the best balance between memory usage and quality.
 
+# export OLLAMA_DEBUG=1
+# export OLLAMA_NUM_PARALLEL=2 # Number of parallel models to run. 
+# export OLLAMA_MAX_LOADED_MODELS
+# export OLLAMA_MAX_QUEUE
+
+# export CUDA_ERROR_LEVEL=50
 # export CUDA_VISIBLE_DEVICES=0,1
+# export AMD_LOG_LEVEL=3
 
 
 # Setup monitoring

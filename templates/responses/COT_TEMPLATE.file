@@ -1,22 +1,25 @@
+Let us break down the task into steps:
+
 Step 1: Determine the preconditions for the task.
 In this case:
-    {{preconditions}}
+    {preconditions}
 
 Step 2: Determine the postconditions for the task.
 In this case:
-    {{postconditions}}
+    {postconditions}
 
-Step 3: Pick the most relevant stdLibrary and httpPackage external functions that can be used for this task. If several functions can do the same task.
+Step 3: Pick the most relevant stdLibrary and httpPackage external functions that can be used for this task.
 In this case:
-    {{external_functions}}
+    {external_functions}
 
-step 4: Decide if it is needed to create an user-defined function, with input and/or output properties and/or triggers, OR if its enough to use the external functions identified in the previous step. An user-defined function should usually be created if none or several functions have been identified in the previous step, to encapsulate the functionality with a meaningful task name.
+Step 4: Explain the flow:
+    {flow_description}
 
 Step 5: Write the code.
 In this case:
 
 ```midio
 
-    {{code}}
+    {response}
 
 ```
