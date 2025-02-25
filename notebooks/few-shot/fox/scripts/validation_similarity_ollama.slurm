@@ -12,8 +12,8 @@
 #SBATCH --nodes=1                           # Amount of nodes. Ollama one support single node inference
 #SBATCH --gpus=a100:2                             # Number of GPUs
 #SBATCH --time=00-24:00:00                             # Walltime (D-HH:MM:SS)
-#SBATCH --mem-per-gpu=40G              # Memory per CPU
-#SBATCH --output=Job_validation.out                 # Standard output and error log
+#SBATCH --mem-per-gpu=80G              # Memory per CPU
+#SBATCH --output=Job_validation_%j.out                 # Standard output and error log
 
 
 ###############################################################################
@@ -58,6 +58,7 @@ NVIDIA_MONITOR_PID=  # Capture PID of monitoring process
 ###############################################################################
 # Start Ollama Server in Background with Log Redirection
 ###############################################################################
+rm -rf ~/.ollama
 ollama serve > ollama_API.out 2>&1 &  
 
 sleep 5
@@ -69,7 +70,6 @@ echo "============= Pulling latest changes from git... ============="
 cd ~/Thesis_project
 git fetch
 git checkout validation/similarity
-git fetch
 git pull
 source thesis_venv/bin/activate  # Activate it to ensure the correct Python environment
 

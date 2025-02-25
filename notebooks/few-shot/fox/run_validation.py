@@ -54,16 +54,16 @@ def model_configs(all_responses, model_provider):
             client = ChatOllama
     
             models = [
-                # 14b models:
-                # "phi4:14b-fp16", #16k context length
-                # "qwen2.5:14b-instruct-fp16", #128 k
+                #14b models:
+                "phi4:14b-fp16", #16k context length
+                "qwen2.5:14b-instruct-fp16", #128 k
 
                 #32b models:
-                # "qwq:32b-preview-fp16", #ctx: 32,768 tokens
-                # "qwen2.5-coder:32b-instruct-fp16", #32,768 tokens
+                "qwq:32b-preview-fp16", #ctx: 32,768 tokens
+                "qwen2.5-coder:32b-instruct-fp16", #32,768 tokens
     
                 # #70b models:
-                "llama3.3:70b-instruct-fp16", #ctx: 130k
+                # "llama3.3:70b-instruct-fp16", #ctx: 130k
                 # "qwen2.5:72b-instruct-fp16", #ctx: 139k
             ]
             models_not_tokenized = models_not_in_file(models, f'{project_dir}/notebooks/few-shot/code_max_tokens.json')
@@ -203,20 +203,6 @@ if __name__ == "__main__":
     experiments = [
         # { #8 hours on 32b model
         #     "name": "regular_coverage",
-        #     "prompt_prefix": "Create a function",
-        #     "num_shots": [1, 5, 10],
-        #     "prompt_type": PromptType.REGULAR,
-        #     "semantic_selector": False,
-        # },
-        # {
-        #     "name": "signature_coverage",
-        #     "prompt_prefix": "Create a function",
-        #     "num_shots": [1, 5, 10],
-        #     "prompt_type": PromptType.SIGNATURE,
-        #     "semantic_selector": False,
-        # },
-        # {
-        #     "name": "regular_similarity",
         #     "prompt_prefix": "Create a function",
         #     "num_shots": [1, 5, 10],
         #     "prompt_type": PromptType.REGULAR,
