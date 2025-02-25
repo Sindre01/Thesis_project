@@ -59,7 +59,7 @@ def model_configs(all_responses, model_provider):
                 # "qwen2.5:14b-instruct-fp16", #128 k
 
                 #32b models:
-                "qwq:32b-preview-fp16", #ctx: 32,768 tokens
+                # "qwq:32b-preview-fp16", #ctx: 32,768 tokens
                 "qwen2.5-coder:32b-instruct-fp16", #32,768 tokens
     
                 # #70b models:
