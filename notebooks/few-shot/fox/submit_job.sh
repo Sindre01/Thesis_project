@@ -16,7 +16,7 @@ PARTITION="accel"                        # 'accel' or 'accel_long' (or 'ifi_acce
 GPUS=a100:2                              # a100 have 40GB or 80GB VRAM, while rtx30 have 24GB VRAM.
 NODES=1                                  # Number of nodes. OLLAMA does currently only support single node inference
 TIME="00-24:00:00"                       # Slurm walltime (D-HH:MM:SS)
-MEM_PER_GPU="40G"                       # Memory per GPU. 
+MEM_PER_GPU="80G"                       # Memory per GPU. 
 OLLAMA_MODELS_DIR="/cluster/work/projects/ec12/ec-sindrre/ollama-models"  # Path to where the Ollama models are stored and loaded                      
 LOCAL_PORT="11434"                        # Local port for forwarding
 OLLAMA_PORT="11434"                       # Remote port where Ollama listens. If different parallell runs, change ollama_port to avoid conflicts if same node is allocated.
@@ -91,6 +91,7 @@ NVIDIA_MONITOR_PID=$!  # Capture PID of monitoring process
 ###############################################################################
 # Start Ollama Server in Background with Log Redirection
 ###############################################################################
+rm -rf ~/.ollama
 ollama serve > ollama_API.out 2>&1 &  
 
 sleep 5
