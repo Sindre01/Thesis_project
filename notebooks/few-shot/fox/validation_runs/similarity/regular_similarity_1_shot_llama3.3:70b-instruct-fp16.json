@@ -1,0 +1,80 @@
+[
+    {
+        "experiment_name": "regular_similarity_1_shot",
+        "temperature": 0.2,
+        "top_p": 0.2,
+        "top_k": 10,
+        "seed": 9,
+        "n_generations_per_task": 1,
+        "model": "llama3.3:70b-instruct-fp16",
+        "largest_context": 3925,
+        "task_candidates": {
+            "1": [
+                "instance(x: 100, y: 100) Std_IfExpression_6c95e7 root.Std.IfExpression {\n    expression: \"a * b < 0 ? true : false\"\n}\nin(a: 0, name: \"num1\") property(Int) num1_9f4c2b -> Std_IfExpression_6c95e7.a\nin(b: 0, name: \"num2\") property(Int) num2_68a321 -> Std_IfExpression_6c95e7.b\nout(name: \"result\") property(Bool) result_ecc442 <- Std_IfExpression_6c95e7.value"
+            ],
+            "3": [
+                ""
+            ],
+            "12": [
+                ""
+            ],
+            "13": [
+                ""
+            ],
+            "16": [
+                ""
+            ],
+            "18": [
+                "instance(x: 100, y: 100) list1_016b2e root.Std_k98ojb.List.Empty {}\ninstance(x: 100, y: 200) list2_c8f404 root.Std_k98ojb.List.Empty {}\ninstance(x: 300, y: 100) difference_78d487 root.Std_k98ojb.Sets.Difference {}\ninstance(x: 500, y: 100) difference2_78d488 root.Std_k98ojb.Sets.Difference {}\ninstance(x: 700, y: 100) concat_e4f9a3 root.Std_k98ojb.List.Concat {}\n\nlist1_016b2e -> difference_78d487.left\nlist2_c8f404 -> difference_78d487.right\nlist2_c8f404 -> difference2_78d488.left\nlist1_016b2e -> difference2_78d488.right\ndifference_78d487.difference -> concat_e4f9a3.left\ndifference2_78d488.difference -> concat_e4f9a3.right"
+            ],
+            "34": [
+                "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main { \n    func(doc: \"Rotates a given list by specified number of items to the right direction.\") rotate_list {\n        in(x: -199, y: -152, name: \"execute\") trigger() execute_1ddb9f\n        in(x: -174, y: 160, name: \"list\") property(List) list_0c1a77\n        in(x: -145, y: 160, name: \"steps\") property(Number) steps_eb8e2d\n\n        out(x: 838, y: 168, name: \"output\") property(List) data_0_0\n        out(x: 817, y: 39, name: \"continue\") trigger() continue_a7f942\n\n        instance(x: 294, y: -19) for_9ab286 root.Std_k98ojb.Std.For {}\n        instance(x: 557, y: 167) concat_9b38cc root.Std_k98ojb.List.Concat {}\n        instance(x: 300, y: 168) slice_1c0e6a root.Std_k98ojb.List.Slice {}\n        instance(x: 400, y: 168) slice_5d8f3c root.Std_k98ojb.List.Slice {}\n\n        execute_1ddb9f -> for_9ab286.reset\n        list_0c1a77 -> for_9ab286.items\n        for_9ab286.done -> continue_a7f942\n        list_0c1a77 -> slice_1c0e6a.list\n        steps_eb8e2d -> slice_1c0e6a.start\n        List.Length(list_0c1a77) -> slice_1c0e6a.end\n        list_0c1a77 -> slice_5d8f3c.list\n        0 -> slice_5d8f3c.start\n        steps_eb8e2d -> slice_5d8f3c.end\n        slice_5d8f3c.result -> concat_9b38cc.left\n        slice_1c0e6a.result -> concat_9b38cc.right\n        concat_9b38cc.result -> data_0_0\n    }\n}"
+            ],
+            "42": [
+                "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main { \n    func(doc: \"gets the sum of an array.\") sum_array {\n        in(x: -450, y: -421, name: \"execute\") trigger() execute_cdac2a\n        in(x: -436, y: -213, name: \"array\") property(List) array_6b655b\n\n        out(x: 1146, y: -647, name: \"continue\") trigger() continue_d9efd7\n        out(x: 1169, y: -269, name: \"output\") property(Number) output_732a8a\n\n        instance(x: 80, y: -417) iteration_reduce_f4e2d5 root.Std_k98ojb.Iteration.Reduce {\n            handler: lambda((acc, current) => acc + current)\n        }\n        iteration_reduce_f4e2d5.output_list -> output_732a8a\n        array_6b655b -> iteration_reduce_f4e2d5.items\n        execute_cdac2a -> iteration_reduce_f4e2d5.execute\n        iteration_reduce_f4e2d5.done -> continue_d9efd7\n    }\n}"
+            ],
+            "48": [
+                "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main {\n    func(doc: \"checks whether the given number is a prime or not.\") is_prime {\n        in(x: 354, y: -53, name: \"input\") property(Number) input_f5c03d\n        in(x: 161, y: -211, name: \"execute\") trigger() execute_27b8c3\n\n        out(x: 1748, y: -10, name: \"out\") property(Bool) out_f3db9f\n        out(x: 1894, y: 120, name: \"continue\") trigger() continue_8ba06b\n\n        instance(x: 352, y: -493) generaterange_038fce root.Std_k98ojb.List.GenerateRange {}\n        instance(x: 591, y: 74) lessthanorequal_f11fda root.Std_k98ojb.Math.LessThanOrEqual {}\n        instance(x: 714, y: -155) for_8cb3f6 root.Std_k98ojb.Std.For {}\n        instance(x: 1812, y: -319) and_80a119 root.Std_k98ojb.Logic.And {}\n        instance(x: 1121, y: -54) if_07b8c7 root.Std_k98ojb.Std.If {}\n        instance(x: 1504, y: -400) expression_b720d7 root.Std_k98ojb.Math.Expression {\n            expression: \"(n % i == 0)\"\n        }\n        instance(x: 1496, y: -187) if_e19a62 root.Std_k98ojb.Std.If {}\n        instance(x: 1088, y: -256) add_b4554f root.Std_k98ojb.Math.Add {}\n        2 -> generaterange_038fce.from\n        input_f5c03d -> generaterange_038fce.to\n        generaterange_038fce.list -> for_8cb3f6.items\n        for_8cb3f6.item -> expression_b720d7.gen_1\n        input_f5c03d -> expression_b720d7.gen_0\n        expression_b720d7.result -> if_e19a62.predicate\n        for_8cb3f6.onItem -> if_e19a62.execute\n        if_e19a62.then -> continue_8ba06b\n        if_e19a62.else -> for_8cb3f6.next\n        for_8cb3f6.done -> continue_8ba06b\n        execute_27b8c3 -> for_8cb3f6.reset\n        instance(x: 2011, y: -103) not_f5e7a2 root.Std_k98ojb.Logic.Not {}\n        instance(x: 2174, y: -54) if_68d9f0 root.Std_k98ojb.Std.If {}\n        input_f5c03d -> if_68d9f0.input\n        if_68d9f0.value -> not_f5e7a2.input\n        not_f5e7a2.result -> out_f3db9f\n        if_68d9f0.then -> continue_8ba06b\n        instance(x: 2456, y: -211) lessthanorequal_dfafe4 root.Std_k98ojb.Math.LessThanOrEqual {}\n        input_f5c03d -> lessthanorequal_dfafe4.left\n        1 -> lessthanorequal_dfafe4.right\n        lessthanorequal_dfafe4.result -> if_68d9f0.predicate\n    }\n}"
+            ]
+        }
+    },
+    {
+        "experiment_name": "regular_similarity_1_shot",
+        "temperature": 0.2,
+        "top_p": 0.6,
+        "top_k": 10,
+        "seed": 9,
+        "n_generations_per_task": 1,
+        "model": "llama3.3:70b-instruct-fp16",
+        "largest_context": 3925,
+        "task_candidates": {
+            "1": [
+                "instance(x: 100, y: 100) Math_Mul_1 Std.Math.Mul {\n    first: input1\n    second: -1\n}\ninstance(x: 200, y: 100) Logic_Equal_2 Std.Logic.Equal {\n    left: input2\n    right: result_0\n}\ninput1 -> Math_Mul_1.first\ninput2 -> Logic_Equal_2.left\nMath_Mul_1.result -> Logic_Equal_2.right"
+            ],
+            "3": [
+                ""
+            ],
+            "12": [
+                ""
+            ],
+            "13": [
+                ""
+            ],
+            "16": [
+                "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main { \n\n    func(doc:\"calculate the product of the unique numbers in a given list.\") CalculateProduct {\n        in(x: -531, y: 2, name: \"list\") property(List) list_ai\n        out(x: 340, y: 77, name: \"output\") property(Number) output_ai\n        instance(x: 772, y: 76) unique_7b3b7b root.Std_k98ojb.List.Flatten {\n            input: list_ai\n        }\n        instance(x: 772, y: 176) reduce_7b3b7b root.Std_k98ojb.Iteration.Reduce {\n            handler: \"acc * it\"\n            initial_value: 1\n        }\n        unique_7b3b7b.output -> reduce_7b3b7b.items\n        instance(x: 772, y: 276) filter_7b3b7b root.Std_k98ojb.Iteration.Filter {\n            handler: \"list_ai.indexOf(it) == list_ai.lastIndexOf(it)\"\n        }\n        list_ai -> filter_7b3b7b.items\n        filter_7b3b7b.output_list -> reduce_7b3b7b.items\n        reduce_7b3b7b.result -> output_ai\n    }\n    \n\n    instance(x: -34, y: 127) calculate_product_node root.main.CalculateProduct {}\n\n}"
+            ],
+            "18": [
+                "instance(x: 100, y: 100) list1_016b2e root.Std_k98ojb.List.Empty {}\ninstance(x: 100, y: 200) list2_c8f404 root.Std_k98ojb.List.Empty {}\ninstance(x: 300, y: 100) difference_78d487 root.Std_k98ojb.Sets.Difference {}\ninstance(x: 500, y: 100) difference2_78d488 root.Std_k98ojb.Sets.Difference {}\ninstance(x: 700, y: 100) concat_78d489 root.Std_k98ojb.List.Concat {}\nlist1_016b2e -> difference_78d487.left\nlist2_c8f404 -> difference_78d487.right\nlist2_c8f404 -> difference2_78d488.left\nlist1_016b2e -> difference2_78d488.right\ndifference_78d487.difference -> concat_78d489.left\ndifference2_78d488.difference -> concat_78d489.right"
+            ],
+            "34": [
+                "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main { \n    func(doc: \"Rotates a given list by specified number of items to the right direction.\") rotate_list {\n        in(x: -199, y: -152, name: \"execute\") trigger() execute_1ddb9f\n        in(x: -174, y: 160, name: \"list\") property(List) list_0c1a77\n        in(x: -145, y: 160, name: \"steps\") property(Number) steps_0c1a77\n\n        out(x: 838, y: 168, name: \"output\") property(List) data_0_0\n        out(x: 817, y: 39, name: \"continue\") trigger() continue_a7f942\n\n        instance(x: 294, y: -19) for_9ab286 root.Std_k98ojb.Std.For {}\n        instance(x: 557, y: 167) concat_9b38cc root.Std_k98ojb.List.Concat {}\n        instance(x: 300, y: 168) slice_1a2b3c root.Std_k98ojb.List.Slice {}\n        instance(x: 400, y: 168) slice_4d5e6f root.Std_k98ojb.List.Slice {}\n\n        execute_1ddb9f -> for_9ab286.reset\n        list_0c1a77 -> for_9ab286.items\n        for_9ab286.done -> continue_a7f942\n        list_0c1a77 -> slice_1a2b3c.list\n        steps_0c1a77 -> slice_1a2b3c.start\n        list_0c1a77 -> slice_4d5e6f.list\n        0 -> slice_4d5e6f.start\n        steps_0c1a77 -> slice_4d5e6f.end\n        slice_4d5e6f.result -> concat_9b38cc.left\n        slice_1a2b3c.result -> concat_9b38cc.right\n        concat_9b38cc.result -> data_0_0\n    }\n}"
+            ],
+            "42": [
+                "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main { \n    func(doc: \"gets the sum of an array.\") sum_array {\n        in(x: -450, y: -421, name: \"execute\") trigger() execute_cdac2a\n        in(x: -436, y: -213, name: \"array\") property(List) array_6b655b\n\n        out(x: 1146, y: -647, name: \"continue\") trigger() continue_d9efd7\n        out(x: 1169, y: -269, name: \"output\") property(Number) output_732a8a\n\n        instance(x: 80, y: -417) iteration_reduce_f5c2e6 root.Std_k98ojb.Iteration.Reduce {\n            handler: lambda((acc, current) => acc + current)\n        }\n        iteration_reduce_f5c2e6.input_list -> array_6b655b\n        execute_cdac2a -> iteration_reduce_f5c2e6.execute\n        iteration_reduce_f5c2e6.output_value -> output_732a8a\n        iteration_reduce_f5c2e6.done -> continue_d9efd7\n    }\n}"
+            ],
+            "48": [
+                "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main {\n    func(doc: \"checks whether the given number is a prime or not.\") is_prime {\n        in(x: 354, y: -53, name: \"input\") property(Number) input_f5c03d\n        in(x: 161, y: -211, name: \"execute\") trigger() execute_27b8c3\n\n        out(x: 1748, y: -10, name: \"out\") property(Bool) out_f3db9f\n        out(x: 1894, y: 120, name: \"continue\") trigger() continue_8ba06b\n\n        instance(x: 352, y: -493) generaterange_038fce root.Std_k98ojb.List.GenerateRange {}\n        instance(x: 591, y: 74) lessthanorequal_f11fda root.Std_k98ojb.Math.LessThanOrEqual {}\n        instance(x: 714, y: -155) for_8cb3f6 root.Std_k98ojb.Std.For {}\n        instance(x: 1812, y: -319) and_80a119 root.Std_k98ojb.Logic.And {}\n        instance(x: 1121, y: -54) if_07b8c7 root.Std_k98ojb.Std.If {}\n        instance(x: 1504, y: -400) expression_b720d7 root.Std_k98ojb.Math.Expression {\n            expression: \"(n % i == 0)\"\n        }\n        instance(x: 1496, y: -187) if_e19a62 root.Std_k98ojb.Std.If {}\n        instance(x: 1088, y: -256) add_b4554f root.Std_k98ojb.Math.Add {}\n        2 -> generaterange_038fce.from\n        input_f5c03d -> generaterange_038fce.to\n        generaterange_038fce.list -> for_8cb3f6.items\n        for_8cb3f6.item -> expression_b720d7.gen_1\n        input_f5c03d -> expression_b720d7.gen_0\n        expression_b720d7.result -> if_e19a62.predicate\n        for_8cb3f6.onItem -> if_e19a62.execute\n        if_e19a62.then -> continue_8ba06b\n        if_e19a62.else -> for_8cb3f6.next\n        for_8cb3f6.done -> continue_8ba06b\n        execute_27b8c3 -> for_8cb3f6.reset\n        instance(x: 200, y: -100) not_f9d09 root.Std_k98ojb.Logic.Not {}\n        instance(x: 300, y: -50) lessthan_f11fda root.Std_k98ojb.Math.GreaterThan {}\n        input_f5c03d -> lessthan_f11fda.left\n        1 -> lessthan_f11fda.right\n        lessthan_f11fda.result -> not_f9d09.input\n        not_f9d09.result -> if_07b8c7.predicate\n        execute_27b8c3 -> if_07b8c7.execute\n        if_07b8c7.then -> for_8cb3f6.trigger\n        if_07b8c7.else -> continue_8ba06b\n        if_07b8c7.value -> out_f3db9f\n    }\n}"
+            ]
+        }
+    }
+]
