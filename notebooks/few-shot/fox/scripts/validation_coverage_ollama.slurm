@@ -10,9 +10,9 @@
 #SBATCH --account=ec12                      # Project account
 #SBATCH --partition=accel                  # Partition ('accel' or 'accel_long')
 #SBATCH --nodes=1                           # Amount of nodes. Ollama one support single node inference
-#SBATCH --gpus=a100:2                             # Number of GPUs
+#SBATCH --gpus=a100:4                             # Number of GPUs
 #SBATCH --time=00-24:00:00                             # Walltime (D-HH:MM:SS)
-#SBATCH --mem-per-gpu=80G              # Memory per CPU
+#SBATCH --mem-per-gpu=40G              # Memory per CPU
 #SBATCH --output=Job_validation.out                 # Standard output and error log
 
 
