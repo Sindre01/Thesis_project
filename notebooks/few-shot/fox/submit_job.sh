@@ -16,12 +16,13 @@ PARTITION="accel"                        # 'accel' or 'accel_long' (or 'ifi_acce
 GPUS=a100:2                              # a100 have 40GB or 80GB VRAM, while rtx30 have 24GB VRAM.
 NODES=1                                  # Number of nodes. OLLAMA does currently only support single node inference
 TIME="00-24:00:00"                       # Slurm walltime (D-HH:MM:SS)
-MEM_PER_GPU="40G"                       # Memory per GPU. 
+MEM_PER_GPU="80G"                       # Memory per GPU. 
 OLLAMA_MODELS_DIR="/cluster/work/projects/ec12/ec-sindrre/ollama-models"  # Path to where the Ollama models are stored and loaded                      
 LOCAL_PORT="11434"                        # Local port for forwarding
 OLLAMA_PORT="11434"                       # Remote port where Ollama listens. If different parallell runs, change ollama_port to avoid conflicts if same node is allocated.
 SBATCH_SCRIPT="${PHASE}_${EXAMPLES_TYPE}_ollama.slurm"           # Slurm batch script name
 REMOTE_DIR="/fp/homes01/u01/ec-sindrre/slurm_jobs/${EXPERIMENT}/${PHASE}/${EXAMPLES_TYPE}" # Directory on Fox to store scripts and output
+#--exclusive #Job will not share nodes with other jobs. 
 
 ###############################################################################
 # Step 1: Create the Slurm Batch Script Locally
@@ -45,7 +46,7 @@ cat <<EOT > "./scripts/${SBATCH_SCRIPT}"
 #SBATCH --gpus=${GPUS}                             # Number of GPUs
 #SBATCH --time=${TIME}                             # Walltime (D-HH:MM:SS)
 #SBATCH --mem-per-gpu=${MEM_PER_GPU}              # Memory per CPU
-#SBATCH --output=Job_${PHASE}.out                 # Standard output and error log
+#SBATCH --output=Job_${PHASE}_%j.out                 # Standard output and error log
 
 
 ###############################################################################
@@ -91,6 +92,7 @@ NVIDIA_MONITOR_PID=$!  # Capture PID of monitoring process
 ###############################################################################
 # Start Ollama Server in Background with Log Redirection
 ###############################################################################
+rm -rf ~/.ollama
 ollama serve > ollama_API.out 2>&1 &  
 
 sleep 5
@@ -102,7 +104,6 @@ echo "============= Pulling latest changes from git... ============="
 cd ~/Thesis_project
 git fetch
 git checkout ${PHASE}/${EXAMPLES_TYPE}
-git fetch
 git pull
 source thesis_venv/bin/activate  # Activate it to ensure the correct Python environment
 

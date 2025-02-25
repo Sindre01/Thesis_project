@@ -64,7 +64,7 @@ def model_configs(all_responses, model_provider):
     
                 # #70b models:
                 "llama3.3:70b-instruct-fp16", #ctx: 130k
-                "qwen2.5:72b-instruct-fp16", #ctx: 139k
+                # "qwen2.5:72b-instruct-fp16", #ctx: 139k
             ]
             models_not_tokenized = models_not_in_file(models, f'{project_dir}/notebooks/few-shot/code_max_tokens.json')
             write_models_tokens_to_file(client, models_not_tokenized, all_responses, f'{project_dir}/notebooks/few-shot/code_max_tokens.json')
@@ -199,9 +199,24 @@ if __name__ == "__main__":
 
     print("\n==== Running validation ====")
     dataset = read_dataset_to_json(main_dataset_folder + "MBPP-Midio-50.json")
+    experiment_type = "coverage" # "similarity"
     experiments = [
-        # { 
+        # { #8 hours on 32b model
         #     "name": "regular_coverage",
+        #     "prompt_prefix": "Create a function",
+        #     "num_shots": [1, 5, 10],
+        #     "prompt_type": PromptType.REGULAR,
+        #     "semantic_selector": False,
+        # },
+        # {
+        #     "name": "signature_coverage",
+        #     "prompt_prefix": "Create a function",
+        #     "num_shots": [1, 5, 10],
+        #     "prompt_type": PromptType.SIGNATURE,
+        #     "semantic_selector": False,
+        # },
+        # {
+        #     "name": "regular_similarity",
         #     "prompt_prefix": "Create a function",
         #     "num_shots": [1, 5, 10],
         #     "prompt_type": PromptType.REGULAR,
@@ -228,6 +243,20 @@ if __name__ == "__main__":
             "prompt_type": PromptType.SIGNATURE,
             "semantic_selector": True,
         },
+        # {
+        #     "name": "cot_similarity",
+        #     "prompt_prefix": "Create a function",
+        #     "num_shots": [1, 5, 10],
+        #     "prompt_type": PromptType.COT,
+        #     "semantic_selector": True,
+        # },
+        # {
+        #     "name": "cot_coverage",
+        #     "prompt_prefix": "Create a function",
+        #     "num_shots": [1, 5, 10],
+        #     "prompt_type": PromptType.COT,
+        #     "semantic_selector": False,
+        # },
        
     ]
 
@@ -262,7 +291,7 @@ if __name__ == "__main__":
     hours, remainder = divmod(int(elapsed_time), 3600)
     minutes, seconds = divmod(remainder, 60)
     print(f"\n⏱️ Total execution time: {hours}h {minutes}m {seconds}s")
-    subprocess.run(["bash", f"{project_dir}/notebooks/few-shot/fox/scripts/push_runs.sh", "validation", str(hours), str(minutes), str(seconds)], check=True)
+    subprocess.run(["bash", f"{project_dir}/notebooks/few-shot/fox/scripts/push_runs.sh", "validation", str(hours), str(minutes), str(seconds), experiment_type ], check=True)
     print("✅ push_runs.sh script executed successfully!")
 
 

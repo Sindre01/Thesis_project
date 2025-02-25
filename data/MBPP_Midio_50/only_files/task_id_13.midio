@@ -14,5 +14,5 @@ module() main {
     
     
 
-    instance(x: -49, y: -62) tolower_3985fd root.Std_k98ojb.Strings.ToLower {}
+    instance(x: -49, y: -62) tolower_3985fd root.main.is_lower {}
 }
