@@ -8,8 +8,8 @@
 USER="ec-sindrre"                        # Your Educloud username
 HOST="fox.educloud.no"                   # Fox login address (matches SSH config)
 SSH_CONFIG_NAME="fox"                # Name of the SSH config entry
-ACCOUNT="ec30"                           # Fox project account
-PARTITION="ifi_accel"                   # 'accel' or 'accel_long' (or 'ifi_accel' if access to ec11,ec29,ec30,ec34,ec35 or ec232)
+ACCOUNT="ec12"                           # Fox project account
+PARTITION="accel"                   # 'accel' or 'accel_long' (or 'ifi_accel' if access to ec11,ec29,ec30,ec34,ec35 or ec232)
 GPUS=rtx30:2                               # a100 have 40GB or 80GB VRAM, while rtx30 have 24GB VRAM.
 NODES=1                                 # Number of nodes. OLLAMA does currently only support single node inference
 TIME="10:00:00"                         # Slurm walltime (D-HH:MM:SS)
@@ -73,9 +73,9 @@ export OLLAMA_FLASH_ATTENTION=1
 export OLLAMA_KV_CACHE_TYPE="f16" # f16 (default), q8_0 (half of the memory of f16, try this), q4_0 different quantization types to find the best balance between memory usage and quality.
 
 # export OLLAMA_DEBUG=1
-# export OLLAMA_NUM_PARALLEL=2 # Number of parallel models to run. 
-# export OLLAMA_MAX_LOADED_MODELS
-# export OLLAMA_MAX_QUEUE
+export OLLAMA_NUM_PARALLEL=2 # Number of parallel models to run. 
+export OLLAMA_MAX_LOADED_MODELS=2
+export OLLAMA_MAX_QUEUE=4
 
 # export CUDA_ERROR_LEVEL=50
 # export CUDA_VISIBLE_DEVICES=0,1

@@ -143,16 +143,24 @@ def run_model(
             final_prompt_template = create_final_prompt(few_shot, "CODE_GENERATOR_TEMPLATE", "CODE_SIGNATURE_TEMPLATE")
 
             prompt_variables_dict ={
+                "external_functions": available_nodes,
                 "task": task, 
                 "function_signature": sample["function_signature"],
-                "external_functions": available_nodes
             }
-        else: # Uses regular prompt
+        elif prompt_type == PromptType.REGULAR: # Uses regular prompt
             few_shot = create_few_shot_prompt(few_shot_examples, 'CODE_TEMPLATE')
             final_prompt_template = create_final_prompt(few_shot, "CODE_GENERATOR_TEMPLATE", "CODE_TEMPLATE")
             prompt_variables_dict ={
+                "external_functions": available_nodes,
                 "task": task, 
-                "external_functions": available_nodes
+            }
+        elif prompt_type == PromptType.COT: # Uses COT prompt
+            few_shot = create_few_shot_prompt(few_shot_examples, 'COT_TEMPLATE')
+            final_prompt_template = create_final_prompt(few_shot, "CODE_GENERATOR_TEMPLATE", "COT_TEMPLATE")
+            prompt_variables_dict = {
+                "external_functions": available_nodes,
+                "task": task, 
+                "function_signature": sample["function_signature"],
             }
 
         prompt = final_prompt_template.format(**prompt_variables_dict)
@@ -225,6 +233,7 @@ def run_model(
         if debug:
             print(f"\n\n{Style.BRIGHT}=== Sample: {index+1} ===")
             print(f"{Fore.CYAN}{Style.BRIGHT} User prompt: {Style.RESET_ALL}\n{prompt}\n")
+            print(f"{Fore.YELLOW}{Style.BRIGHT} Full Assistant response: #{1}:\n{generated}\n")
             for i, cand in enumerate(generated_candidates):
                 print(f"{Fore.YELLOW}{Style.BRIGHT} Assistant response: #{i+1}:\n{cand}\n")
             print(f"{Fore.GREEN}{Style.BRIGHT} True response:{Style.RESET_ALL}\n {true_response_code}\n")
