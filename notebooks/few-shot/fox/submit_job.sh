@@ -46,7 +46,7 @@ cat <<EOT > "./scripts/${SBATCH_SCRIPT}"
 #SBATCH --gpus=${GPUS}                             # Number of GPUs
 #SBATCH --time=${TIME}                             # Walltime (D-HH:MM:SS)
 #SBATCH --mem-per-gpu=${MEM_PER_GPU}              # Memory per CPU
-#SBATCH --output=Job_${PHASE}.out                 # Standard output and error log
+#SBATCH --output=Job_${PHASE}_%j.out                 # Standard output and error log
 
 
 ###############################################################################
