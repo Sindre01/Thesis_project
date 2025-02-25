@@ -103,7 +103,6 @@ echo "============= Pulling latest changes from git... ============="
 cd ~/Thesis_project
 git fetch
 git checkout ${PHASE}/${EXAMPLES_TYPE}
-git fetch
 git pull
 source thesis_venv/bin/activate  # Activate it to ensure the correct Python environment
 
