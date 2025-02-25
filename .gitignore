@@ -12,3 +12,4 @@ config.env
 
 # Ignore WebUI cache
 .webui_secret_key__pycache__/
+notebooks/few-shot/fox/scripts/
