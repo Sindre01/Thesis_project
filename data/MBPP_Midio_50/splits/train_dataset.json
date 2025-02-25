@@ -2,7 +2,6 @@
     {
         "prompts": [
             "Create a function to find the smallest number in a list.",
-            "The flow should create the built-in function node from the std library, called 'List.Min' node, should be used. The node should be created inside a function, with proper name.",
             "The built-in function 'List Min' should then be tested within a seperate module called tests, within the main module. Since the function does not contain input and ouput triggers, the flow of execution is sent between the assert nodes, using their input and output triggers. "
         ],
         "task_id": 2,
@@ -69,12 +68,12 @@
                     }
                 ]
             }
-        }
+        },
+        "flow_description": "The flow should create the built-in function node from the std library, called 'List.Min' node, should be used. The node should be created inside a function, with proper name."
     },
     {
         "prompts": [
             "Create a function to find the kth element in the given array using 1-based indexing.",
-            "The flow should create a user-defined function called 'kth_element' with three inputs: an 'execute' trigger, 'list' of type List, and 'k' of type Number. The function should have two outputs: a 'continue' trigger and 'element' of type Number, which is the kth element in the provided list. Inside the function, a local variable is used to store the state of the input property 'k'. This variable is called 'local_k' and is set at the beginning of the flow using the setter node to the value of the input property of 'k'. Then an 'IfExpression' node is used to check if 'k' is equal to 0. If 'k' is 0, trigger the 'continue' output immediately. Otherwise, it gets the 'local_k' variable using a getter node and adjusts for zero-based indexing by using 'Math Sub' to subract 1, and assign this result back to 'local_k', using the setter node. Then, use a 'List GetAt' node to retrieve the element at the updated index from 'list'. The getter node is used for getting the value of the local variable 'local_k'. The retrieved element should be output through the 'element' property. Connect the nodes appropriately: the 'execute' trigger starts the flow and sends the flow of execution to the setter node. The setter node uses input property 'k' and therefore an arrow is created between them. The setter node then sends the flow of execution to the 'Std IfExpression' node, which also takes in the input property 'k'. The node's output trigger 'then' is connected with the output trigger 'continue' of the flow, and the output trigger 'else' is connected to another setter node. The setter node's input property 'new value' is connected to the output property 'result' of the 'Math Sub' node. Lastly, the input propery 'list' and the getter node is connected to the input properties 'list' and 'index' of the 'List GetAt' node. The outpur property 'itemAtIndex' of this node is then connected to the output property 'element' of the user-defined function, which returns the number.",
             "This created user-defined function should then be tested in a seperate module called tests, within the main module. Since the user-defined function uses input and ouput triggers, the flow of execution is sent between the created function and assert nodes, using their input and output triggers.  "
         ],
         "task_id": 4,
@@ -168,12 +167,12 @@
                     }
                 ]
             }
-        }
+        },
+        "flow_description": "The flow should create a user-defined function called 'kth_element' with three inputs: an 'execute' trigger, 'list' of type List, and 'k' of type Number. The function should have two outputs: a 'continue' trigger and 'element' of type Number, which is the kth element in the provided list. Inside the function, a local variable is used to store the state of the input property 'k'. This variable is called 'local_k' and is set at the beginning of the flow using the setter node to the value of the input property of 'k'. Then an 'IfExpression' node is used to check if 'k' is equal to 0. If 'k' is 0, trigger the 'continue' output immediately. Otherwise, it gets the 'local_k' variable using a getter node and adjusts for zero-based indexing by using 'Math Sub' to subract 1, and assign this result back to 'local_k', using the setter node. Then, use a 'List GetAt' node to retrieve the element at the updated index from 'list'. The getter node is used for getting the value of the local variable 'local_k'. The retrieved element should be output through the 'element' property. Connect the nodes appropriately: the 'execute' trigger starts the flow and sends the flow of execution to the setter node. The setter node uses input property 'k' and therefore an arrow is created between them. The setter node then sends the flow of execution to the 'Std IfExpression' node, which also takes in the input property 'k'. The node's output trigger 'then' is connected with the output trigger 'continue' of the flow, and the output trigger 'else' is connected to another setter node. The setter node's input property 'new value' is connected to the output property 'result' of the 'Math Sub' node. Lastly, the input propery 'list' and the getter node is connected to the input properties 'list' and 'index' of the 'List GetAt' node. The outpur property 'itemAtIndex' of this node is then connected to the output property 'element' of the user-defined function, which returns the number."
     },
     {
         "prompts": [
             "Create a function to find the minimum of three numbers.",
-            "The flow should create a user-defined function. The function should contain three input properties of type Number, one Data Object list of the input properties, one 'Math Min' node and one output property of type Number.\n The arrows are connected as follows: The input properties are connected with arrows to the Data Obejct to create list and this list is further conencted to the property of the 'Math Min' node. The result of the 'Math Min' node is connected with arrows to the output property, that return the Number from the function. The user-defined function is then created within the main module.",
             "The created user-defined function should then be tested inside a seperate module called tests, within the main module. Since the function does not contain input and ouput triggers, the flow of execution is sent between the assert nodes, using their input and output triggers."
         ],
         "task_id": 6,
@@ -235,12 +234,12 @@
                     }
                 ]
             }
-        }
+        },
+        "flow_description": "The flow should create a user-defined function. The function should contain three input properties of type Number, one Data Object list of the input properties, one 'Math Min' node and one output property of type Number.\n The arrows are connected as follows: The input properties are connected with arrows to the Data Obejct to create list and this list is further conencted to the property of the 'Math Min' node. The result of the 'Math Min' node is connected with arrows to the output property, that return the Number from the function. The user-defined function is then created within the main module."
     },
     {
         "prompts": [
             "Create a function that takes two lists and returns true if they have at least one common element.",
-            "The flow should create a user-defined function. The function should contain two input properties of type List, one 'List Intersection' node, one 'List Not Empty' node and one output property of type Bool.\n The arrows are connected as follows: The input properties are connected with arrows to the 'List Intersection' node. The result of the 'List Intersection' node is connected with arrows to the 'List not empty' node property, which is then connected with arrows to the output property, that return the Bool from the function. The user-defined function is then created within the main module.",
             "The created user-defined function should then be tested inside a seperate module called tests, within the main module. Since the function does not contain input and ouput triggers, the flow of execution is sent between the assert nodes, using their input and output triggers."
         ],
         "task_id": 7,
@@ -340,12 +339,12 @@
                     }
                 ]
             }
-        }
+        },
+        "flow_description": "The flow should create a user-defined function. The function should contain two input properties of type List, one 'List Intersection' node, one 'List Not Empty' node and one output property of type Bool.\n The arrows are connected as follows: The input properties are connected with arrows to the 'List Intersection' node. The result of the 'List Intersection' node is connected with arrows to the 'List not empty' node property, which is then connected with arrows to the output property, that return the Bool from the function. The user-defined function is then created within the main module."
     },
     {
         "prompts": [
             "Create a function to check whether the entered number is greater than the elements of the given array.",
-            "The flow should create a user-defined function. The body of the function contains two input properties of type Number and List, one 'List Object' node with number 11, one 'Math GreaterThan' and one output property of type Bool.\n The arrows are connected as follows: The input property, called list, is connected with arrows to the list property of the 'List Lenght' node. The output property of 'List Lenght' node, named lenght, is connected with arrows to the input property, named right, of the 'Math GreaterThan' node. The other input property to the user-defnied function is named n and is conencted to the other input property, named left, of the 'Math GreaterThan' node. The output property of the 'Math GreaterThan' node is returned to the output property of the user-defined function, that return this Bool value from the function. The user-defined function is then created within the main module.",
             "The created user-defined function should then be tested inside a seperate module called tests, within the main module. Since the function does not contain input and ouput triggers, the flow of execution is sent between the assert nodes, using their input and output triggers."
         ],
         "task_id": 8,
@@ -433,12 +432,12 @@
                     }
                 ]
             }
-        }
+        },
+        "flow_description": "The flow should create a user-defined function. The body of the function contains two input properties of type Number and List, one 'List Object' node with number 11, one 'Math GreaterThan' and one output property of type Bool.\n The arrows are connected as follows: The input property, called list, is connected with arrows to the list property of the 'List Lenght' node. The output property of 'List Lenght' node, named lenght, is connected with arrows to the input property, named right, of the 'Math GreaterThan' node. The other input property to the user-defnied function is named n and is conencted to the other input property, named left, of the 'Math GreaterThan' node. The output property of the 'Math GreaterThan' node is returned to the output property of the user-defined function, that return this Bool value from the function. The user-defined function is then created within the main module."
     },
     {
         "prompts": [
             "Create a function to find the last digit of a given number.",
-            "",
             "The 'Math Modulo' node should then be tested inside a seperate module called tests, within the main module. Since the function does not contain input and ouput triggers, the flow of execution is sent between the assert nodes, using their input and output triggers."
         ],
         "task_id": 9,
@@ -492,12 +491,12 @@
                     }
                 ]
             }
-        }
+        },
+        "flow_description": ""
     },
     {
         "prompts": [
             "Create a function that matches a word containing 'z'.",
-            "The flow should create a user-defined function. The body of the function contains one input property of type String, one 'Strings ToLower' node, one 'Strings Contains' node with the input property, named 'contains', set to z in lower case and one output property of type Bool.\n The arrows are connected as follows: The input property, called string, is connected with arrows to the input propery of the 'String ToLower' node. The output property, called output, of the 'Strings ToLower' node is then connected with arrows to the input property, named input, of the 'Strings Contains' node. The output property, named result, of the 'Strings contains' node is then connected with arrows to the output property, named result, of the user-defined function. The user-defined function is then created within the main module.",
             "The created user-defined function should then be tested inside a seperate module called tests, within the main module. Since the function does not contain input and ouput triggers, the flow of execution is sent between the assert nodes, using their input and output triggers."
         ],
         "task_id": 10,
@@ -557,12 +556,12 @@
                     }
                 ]
             }
-        }
+        },
+        "flow_description": "The flow should create a user-defined function. The body of the function contains one input property of type String, one 'Strings ToLower' node, one 'Strings Contains' node with the input property, named 'contains', set to z in lower case and one output property of type Bool.\n The arrows are connected as follows: The input property, called string, is connected with arrows to the input propery of the 'String ToLower' node. The output property, called output, of the 'Strings ToLower' node is then connected with arrows to the input property, named input, of the 'Strings Contains' node. The output property, named result, of the 'Strings contains' node is then connected with arrows to the output property, named result, of the user-defined function. The user-defined function is then created within the main module."
     },
     {
         "prompts": [
             "Create a function to check whether the given list contains consecutive numbers or not.",
-            "The flow should create a user-defined function. The body of the function contains one input property of type any, one 'List Sort' node, one 'List Min' node, one 'List Max' node, one 'List GenerateRange' node, one 'Math Expression' node with the expression 'list1 == list2', and in this case one output property 'result' of type Bool. \n The arrows are connected as follows: The input property, called list, is connected with arrows to the 'List Sort', 'List Min', and 'List Max' nodes. The sorted list output of the 'List Sort' node is connected with arrows to the first input (list1) of the 'Math Expression' node. The outputs of the 'List.Min' and 'List.Max' nodes are connected with arrows to the from and to inputs of the 'List GenerateRange' node, respectively. The generated range output of the 'List GenerateRange' node is connected with arrows to the second input (list2) of the 'Math Expression' node. The result output of the 'Math Expression' node is then connected with arrows to the output property, called output, of the user-defined function. The user-defined function is then created within the main module",
             "The created user-defined function should then be tested inside a seperate module called tests, within the main module. Since the function does not contain input and ouput triggers, the flow of execution is sent between the assert nodes, using their input and output triggers."
         ],
         "task_id": 11,
@@ -641,12 +640,12 @@
                     }
                 ]
             }
-        }
+        },
+        "flow_description": "The flow should create a user-defined function. The body of the function contains one input property of type any, one 'List Sort' node, one 'List Min' node, one 'List Max' node, one 'List GenerateRange' node, one 'Math Expression' node with the expression 'list1 == list2', and in this case one output property 'result' of type Bool. \n The arrows are connected as follows: The input property, called list, is connected with arrows to the 'List Sort', 'List Min', and 'List Max' nodes. The sorted list output of the 'List Sort' node is connected with arrows to the first input (list1) of the 'Math Expression' node. The outputs of the 'List.Min' and 'List.Max' nodes are connected with arrows to the from and to inputs of the 'List GenerateRange' node, respectively. The generated range output of the 'List GenerateRange' node is connected with arrows to the second input (list2) of the 'Math Expression' node. The result output of the 'Math Expression' node is then connected with arrows to the output property, called output, of the user-defined function. The user-defined function is then created within the main module"
     },
     {
         "prompts": [
             "Create a function to get the sum of the digits of a non-negative integer.",
-            "The flow should create a user-defined function, called sum_digits. The body of the function contains one input property of type Number, called 'n', and one input trigger, called 'execute'. It also includes the following node: one 'Math Floor' node, one 'Math Modulo' node with the divisor set to 10, one 'Math Division' node with the divisor set to 10, one 'Math Addition' node, one 'Std IfExpression' node, local variable creation with the getter and setter nodes, and the current sum_digits function node to be able to do recursive calls. Lastly, it includes an output property of type number and an output trigger, called 'continue'.\n The arrows are connected as follows:  The input property, called n, is connected with arrows to the input property of the 'Math Floor' node. The output property of the 'Math Floor' node, called 'output', is connected with three arrows to the input properties of 'Std IfExpression', 'Math Div' and 'Math Modulo'. The input trigger, called 'execute' is conencted with an arrow to the setter node, which sets the value of a variable sum to the number 0. Then, the flow of execution is futher sent to the 'Std IfExpression' node, which evaluates if 'n <= 0'. If true, then the flow of execution is sent to the output trigger, called 'continue'. If false, the the flow of execution is sent to the current sum_digits node which starts a recursive call, with the input property 'n' set to the result of the 'Math Div' node, which divides n (after going through 'Math Floor') with 10. After the recursive calls, the flow of execution is sent to a setter node, which sets the variable 'sum' to the value of 'Math Add', which add the output of 'sum_digits' and the 'Math Modulo' node with divisor 10. After the varible 'sum' have been set by the setter node, the flow of execution is sent to the ouput trigger 'continue'. At the end of the main flow and all the recursive calls, the output property is returned by connecting it to a 'getter' node, which gets the value of the variable 'sum'. The user-defined function is then created within the main module.",
             "The created user-defined function should then be tested inside a seperate module called tests, within the main module. Since the user-defined function uses input and ouput triggers, the flow of execution is sent between the created function and assert nodes, using their input and output triggers. "
         ],
         "task_id": 14,
@@ -712,12 +711,12 @@
                     }
                 ]
             }
-        }
+        },
+        "flow_description": "The flow should create a user-defined function, called sum_digits. The body of the function contains one input property of type Number, called 'n', and one input trigger, called 'execute'. It also includes the following node: one 'Math Floor' node, one 'Math Modulo' node with the divisor set to 10, one 'Math Division' node with the divisor set to 10, one 'Math Addition' node, one 'Std IfExpression' node, local variable creation with the getter and setter nodes, and the current sum_digits function node to be able to do recursive calls. Lastly, it includes an output property of type number and an output trigger, called 'continue'.\n The arrows are connected as follows:  The input property, called n, is connected with arrows to the input property of the 'Math Floor' node. The output property of the 'Math Floor' node, called 'output', is connected with three arrows to the input properties of 'Std IfExpression', 'Math Div' and 'Math Modulo'. The input trigger, called 'execute' is conencted with an arrow to the setter node, which sets the value of a variable sum to the number 0. Then, the flow of execution is futher sent to the 'Std IfExpression' node, which evaluates if 'n <= 0'. If true, then the flow of execution is sent to the output trigger, called 'continue'. If false, the the flow of execution is sent to the current sum_digits node which starts a recursive call, with the input property 'n' set to the result of the 'Math Div' node, which divides n (after going through 'Math Floor') with 10. After the recursive calls, the flow of execution is sent to a setter node, which sets the variable 'sum' to the value of 'Math Add', which add the output of 'sum_digits' and the 'Math Modulo' node with divisor 10. After the varible 'sum' have been set by the setter node, the flow of execution is sent to the ouput trigger 'continue'. At the end of the main flow and all the recursive calls, the output property is returned by connecting it to a 'getter' node, which gets the value of the variable 'sum'. The user-defined function is then created within the main module."
     },
     {
         "prompts": [
             "Create a function to check whether a specified list is sorted or not.",
-            "The flow should create a user-defined function, called 'issort_list'. The body of the function contains one input property of type List, named 'list' and one input trigger, named 'execute'. It also includes the following nodes: one 'List GetAt' node, one 'Std For' node, one 'Std IfExpression' node, and getter and setter nodes for storing a local varibale named 'previous'. Lastly, it includes an output variable named 'output' and an output trigger named 'continue'.\n Arrows are connected as follows: The input trigger, named 'list', is conencted to the input property 'list' of the 'List GetAt' and the input property 'items' of the 'Std For' node. The 'List GetAt' node gets the items at index zero and the output property, named 'itemAtIndex' is connected to a setter node, which sets the a variable named 'previous'. The input trigger named 'execute' of this user-defined function is connected to the setter node, so that the node is set at the start of the execution flow. After this, the flow of execution is sent to the 'Std For' node, which loops through the 'items' property, which is set to the input property 'list' of this user-defined function. In each iteration, the flow of execution is sent through an 'Std IfExpression' node. This node takes in 'index', 'current' item in the loop and the 'previous' variable, which is stored in the local variable 'previous' and provided by a getter node. The 'Std IfExpression' node checks if index is zero or previous is lower or equal to the previous item, by using this expression 'index == 0 || previous <= current'. If it evaluates to true, the flow of execution is first sent through a setter node, which sets the variable 'previous' to the 'item' provided by 'Std For'. Then the flow of execution is sent back to the input trigger 'next' of the 'Std For' node, which triggers usage of the next item in the list. However, if the 'Std IfExpression' in the for loop evalutes to true, the flow of execution is sent to the output trigger, named 'continue', which exits the for loops. Regardless of outcome, the output property of the user-defined function, is set value of the 'Std IfExpression'.  Then the 'Std For' node loops through the provided  The user-defined function is then created within the main module.",
             "The created user-defined function 'issort_list' should then be tested inside a seperate module called tests, within the main module. Since the user-defined function uses input and ouput triggers, the flow of execution is sent between the created function and assert nodes, using their input and output triggers. "
         ],
         "task_id": 15,
@@ -816,12 +815,12 @@
                     }
                 ]
             }
-        }
+        },
+        "flow_description": "The flow should create a user-defined function, called 'issort_list'. The body of the function contains one input property of type List, named 'list' and one input trigger, named 'execute'. It also includes the following nodes: one 'List GetAt' node, one 'Std For' node, one 'Std IfExpression' node, and getter and setter nodes for storing a local varibale named 'previous'. Lastly, it includes an output variable named 'output' and an output trigger named 'continue'.\n Arrows are connected as follows: The input trigger, named 'list', is conencted to the input property 'list' of the 'List GetAt' and the input property 'items' of the 'Std For' node. The 'List GetAt' node gets the items at index zero and the output property, named 'itemAtIndex' is connected to a setter node, which sets the a variable named 'previous'. The input trigger named 'execute' of this user-defined function is connected to the setter node, so that the node is set at the start of the execution flow. After this, the flow of execution is sent to the 'Std For' node, which loops through the 'items' property, which is set to the input property 'list' of this user-defined function. In each iteration, the flow of execution is sent through an 'Std IfExpression' node. This node takes in 'index', 'current' item in the loop and the 'previous' variable, which is stored in the local variable 'previous' and provided by a getter node. The 'Std IfExpression' node checks if index is zero or previous is lower or equal to the previous item, by using this expression 'index == 0 || previous <= current'. If it evaluates to true, the flow of execution is first sent through a setter node, which sets the variable 'previous' to the 'item' provided by 'Std For'. Then the flow of execution is sent back to the input trigger 'next' of the 'Std For' node, which triggers usage of the next item in the list. However, if the 'Std IfExpression' in the for loop evalutes to true, the flow of execution is sent to the output trigger, named 'continue', which exits the for loops. Regardless of outcome, the output property of the user-defined function, is set value of the 'Std IfExpression'.  Then the 'Std For' node loops through the provided  The user-defined function is then created within the main module."
     },
     {
         "prompts": [
             "Create a function to check whether a list is a sublist of another list.",
-            "The flow should create a user-defined function, called 'is_Sub_Array'. The body of the function contains three input properties: an input trigger named 'execute', and two input properties of type 'List', named 'main_list' and 'sub_list'. It also includes the following nodes: two 'List Length' nodes to obtain the lengths of 'main_list' and 'sub_list', respectively; one 'Math Expression' node to calculate the number of iterations using the expression 'n - m + 1', where 'n' is the length of 'main_list' and 'm' is the length of 'sub_list'; one 'Std Count' node to iterate over the possible starting indices in 'main_list'; one 'List Slice' node to extract a sublist from 'main_list', starting at the current index and ending at 'current_index + m'; one 'Logic Equal' node to compare the sliced sublist with 'sub_list'; and one 'Std If' node to control the flow based on whether a match is found. Lastly, it includes an output property named 'output' of type 'Bool' and an output trigger named 'continue'.\n\nArrows are connected as follows: The input trigger 'execute' is connected to the 'Std Count' node's 'reset' input. The 'Std Count' node's 'iterations' property is set using the result from the 'Math Expression' node, which calculates 'n - m + 1' using the lengths obtained from the two 'List Length' nodes. Inside the loop, the 'Std Count' node's 'iteration' output is connected to the 'start' input of the 'List Slice' node, and also to a 'Math Add' node along with 'm' to calculate the 'end' index for slicing. The 'List Slice' node extracts a sublist from 'main_list' using the 'start' and 'end' indices. The sliced sublist is then connected to the 'left' input of the 'Logic Equal' node, while 'sub_list' is connected to the 'right' input. The result from the 'Logic Equal' node is connected to the predicate of the 'Std If' node.\n\nIf the predicate evaluates to 'true' (the sublists are equal), the flow proceeds to set the output property 'output' to 'True' and triggers the output trigger 'continue', effectively ending the function execution. If the predicate evaluates to 'false', the flow proceeds to the 'count' input of the 'Std Count' node to continue with the next iteration. If the 'Std Count' node completes all iterations without finding a match (indicated by the 'done' output), the function sets the output property 'output' to 'False' and triggers the output trigger 'continue'.\n\nThe user-defined function is then created within the main module.",
             "The created user-defined function 'is_Sub_Array' should then be tested inside a seperate module called tests, within the main module. Since the user-defined function uses input and ouput triggers, the flow of execution is sent between the created function and assert nodes, using their input and output triggers."
         ],
         "task_id": 17,
@@ -921,12 +920,12 @@
                     }
                 ]
             }
-        }
+        },
+        "flow_description": "The flow should create a user-defined function, called 'is_Sub_Array'. The body of the function contains three input properties: an input trigger named 'execute', and two input properties of type 'List', named 'main_list' and 'sub_list'. It also includes the following nodes: two 'List Length' nodes to obtain the lengths of 'main_list' and 'sub_list', respectively; one 'Math Expression' node to calculate the number of iterations using the expression 'n - m + 1', where 'n' is the length of 'main_list' and 'm' is the length of 'sub_list'; one 'Std Count' node to iterate over the possible starting indices in 'main_list'; one 'List Slice' node to extract a sublist from 'main_list', starting at the current index and ending at 'current_index + m'; one 'Logic Equal' node to compare the sliced sublist with 'sub_list'; and one 'Std If' node to control the flow based on whether a match is found. Lastly, it includes an output property named 'output' of type 'Bool' and an output trigger named 'continue'.\n\nArrows are connected as follows: The input trigger 'execute' is connected to the 'Std Count' node's 'reset' input. The 'Std Count' node's 'iterations' property is set using the result from the 'Math Expression' node, which calculates 'n - m + 1' using the lengths obtained from the two 'List Length' nodes. Inside the loop, the 'Std Count' node's 'iteration' output is connected to the 'start' input of the 'List Slice' node, and also to a 'Math Add' node along with 'm' to calculate the 'end' index for slicing. The 'List Slice' node extracts a sublist from 'main_list' using the 'start' and 'end' indices. The sliced sublist is then connected to the 'left' input of the 'Logic Equal' node, while 'sub_list' is connected to the 'right' input. The result from the 'Logic Equal' node is connected to the predicate of the 'Std If' node.\n\nIf the predicate evaluates to 'true' (the sublists are equal), the flow proceeds to set the output property 'output' to 'True' and triggers the output trigger 'continue', effectively ending the function execution. If the predicate evaluates to 'false', the flow proceeds to the 'count' input of the 'Std Count' node to continue with the next iteration. If the 'Std Count' node completes all iterations without finding a match (indicated by the 'done' output), the function sets the output property 'output' to 'False' and triggers the output trigger 'continue'.\n\nThe user-defined function is then created within the main module."
     },
     {
         "prompts": [
             "Create a function which takes a list and returns a list with the same elements, but the k'th element removed.",
-            "The flow should create a user-defined function called 'remove_kth_element'. The body of the function contains two input properties: an input property of type Number, named 'k', and an input property of type List, named 'list'. It also includes one output property of type List, named 'newList'. The function should have the following nodes: a 'List Remove' node to remove the k'th element from the list, and a 'Math Sub' node to calculate the index of the k'th element.\n Connect the nodes as follows: the input property 'k' is connected to the 'List Remove' node's 'index' input. The input property 'list' is connected to the 'List Remove' node's 'list' input. The result of the 'List Remove' node is connected to the 'newList' output property. The user-defined function is then created within the main module.",
             "The created user-defined functions should then be tested inside a seperate module called tests, within the main module.  Since the function does not contain input and ouput triggers, the flow of execution is sent between the assert nodes, using their input and output triggers."
         ],
         "task_id": 24,
@@ -1069,12 +1068,12 @@
                     }
                 ]
             }
-        }
+        },
+        "flow_description": "The flow should create a user-defined function called 'remove_kth_element'. The body of the function contains two input properties: an input property of type Number, named 'k', and an input property of type List, named 'list'. It also includes one output property of type List, named 'newList'. The function should have the following nodes: a 'List Remove' node to remove the k'th element from the list, and a 'Math Sub' node to calculate the index of the k'th element.\n Connect the nodes as follows: the input property 'k' is connected to the 'List Remove' node's 'index' input. The input property 'list' is connected to the 'List Remove' node's 'list' input. The result of the 'List Remove' node is connected to the 'newList' output property. The user-defined function is then created within the main module."
     },
     {
         "prompts": [
             "Create a function which takes two lists of the same length and performs the element wise modulo.",
-            "The flow should create a user-defined function called 'list_modulo'. The body of the function contains two input properties of type List, named 'list1' and 'list2', and one output property of type List, named 'newList'. The function should have the following nodes: a 'Iteration Zip' node to iterate over the two lists simultaneously and merge each element together with a provided handler anonymous function, that contains a 'Math Modulo' node to calculate the modulo of each pair of elements.\n Connect the nodes as follows: the input property 'list1' is connected to the 'Iteration Zip' node's 'left' input data. The input property 'list2' is connected to the 'Iteration Zip' node's 'right' input data. The zipped result of the 'Iteration Zip' node is connected to output data property 'newList'. The anonymous function inside 'iteration zip' have two input elements and one output elements, which takes the modulo of each element in the list. The user-defined function is then created within the main module.",
             "The created user-defined functions should then be tested inside a seperate module called tests, within the main module.  Since the function does not contain input and ouput triggers, the flow of execution is sent between the assert nodes, using their input and output triggers."
         ],
         "task_id": 25,
@@ -1120,12 +1119,12 @@
             "tests": {
                 "test_cases": []
             }
-        }
+        },
+        "flow_description": "The flow should create a user-defined function called 'list_modulo'. The body of the function contains two input properties of type List, named 'list1' and 'list2', and one output property of type List, named 'newList'. The function should have the following nodes: a 'Iteration Zip' node to iterate over the two lists simultaneously and merge each element together with a provided handler anonymous function, that contains a 'Math Modulo' node to calculate the modulo of each pair of elements.\n Connect the nodes as follows: the input property 'list1' is connected to the 'Iteration Zip' node's 'left' input data. The input property 'list2' is connected to the 'Iteration Zip' node's 'right' input data. The zipped result of the 'Iteration Zip' node is connected to output data property 'newList'. The anonymous function inside 'iteration zip' have two input elements and one output elements, which takes the modulo of each element in the list. The user-defined function is then created within the main module."
     },
     {
         "prompts": [
             "Create a function to convert a given string to uppercase.",
-            "The flow should create the built-in function node from the std library, called 'Strings.ToUpper' node, should be used. The node should be created in a function with proper name.",
             "The created user-defined function should then be tested inside a separate module called 'tests', within the main module. Since the function does not contain input and ouput triggers, the flow of execution is sent between the assert nodes, using their input and output triggers."
         ],
         "task_id": 26,
@@ -1177,12 +1176,12 @@
                     }
                 ]
             }
-        }
+        },
+        "flow_description": "The flow should create the built-in function node from the std library, called 'Strings.ToUpper' node, should be used. The node should be created in a function with proper name."
     },
     {
         "prompts": [
             "Create a function to find the smallest missing number from a sorted list of natural numbers.",
-            "N/A",
             "N/A"
         ],
         "task_id": 27,
@@ -1269,12 +1268,12 @@
                     }
                 ]
             }
-        }
+        },
+        "flow_description": "N/A"
     },
     {
         "prompts": [
             "Create a function to find even numbers from a list of numbers.",
-            "N/A",
             "N/A"
         ],
         "task_id": 28,
@@ -1346,12 +1345,12 @@
                     }
                 ]
             }
-        }
+        },
+        "flow_description": "N/A"
     },
     {
         "prompts": [
             "Create a function to move all zeroes to the end of the given list.",
-            "N/A",
             "N/A"
         ],
         "task_id": 29,
@@ -1466,12 +1465,12 @@
                     }
                 ]
             }
-        }
+        },
+        "flow_description": "N/A"
     },
     {
         "prompts": [
             "Create a function to reverse an array upto a given position.",
-            "N/A",
             "N/A"
         ],
         "task_id": 30,
@@ -1576,12 +1575,12 @@
                     }
                 ]
             }
-        }
+        },
+        "flow_description": "N/A"
     },
     {
         "prompts": [
             "Create a function to replace all occurrences of spaces, commas, or dots with a colon.",
-            "N/A",
             "N/A"
         ],
         "task_id": 31,
@@ -1626,12 +1625,12 @@
             "tests": {
                 "test_cases": []
             }
-        }
+        },
+        "flow_description": "N/A"
     },
     {
         "prompts": [
             "Write a function to find the index of the first occurrence of a given number in a sorted array.",
-            "N/A",
             "N/A"
         ],
         "task_id": 32,
@@ -1737,12 +1736,12 @@
                     }
                 ]
             }
-        }
+        },
+        "flow_description": "N/A"
     },
     {
         "prompts": [
             "Create a function to check whether all the characters are same or not.",
-            "N/A",
             "N/A"
         ],
         "task_id": 33,
@@ -1808,12 +1807,12 @@
                     }
                 ]
             }
-        }
+        },
+        "flow_description": "N/A"
     },
     {
         "prompts": [
             "Write a python function to check whether a list of numbers contains only one distinct element or not.",
-            "N/A",
             "N/A"
         ],
         "task_id": 36,
@@ -1889,12 +1888,12 @@
                     }
                 ]
             }
-        }
+        },
+        "flow_description": "N/A"
     },
     {
         "prompts": [
             "Create a function to count number of digits in a given string.",
-            "N/A",
             "N/A"
         ],
         "task_id": 37,
@@ -1960,12 +1959,12 @@
                     }
                 ]
             }
-        }
+        },
+        "flow_description": "N/A"
     },
     {
         "prompts": [
             "Create a function to find the sum of fourth power of first n odd natural numbers.",
-            "N/A",
             "N/A"
         ],
         "task_id": 38,
@@ -2026,12 +2025,12 @@
                     }
                 ]
             }
-        }
+        },
+        "flow_description": "N/A"
     },
     {
         "prompts": [
             "Create a function to check whether every odd index contains odd numbers of a given list.",
-            "N/A",
             "N/A"
         ],
         "task_id": 39,
@@ -2112,12 +2111,12 @@
                     }
                 ]
             }
-        }
+        },
+        "flow_description": "N/A"
     },
     {
         "prompts": [
             "Create a function to find the first odd number in a given list of numbers.",
-            "N/A",
             "N/A"
         ],
         "task_id": 43,
@@ -2182,12 +2181,12 @@
                     }
                 ]
             }
-        }
+        },
+        "flow_description": "N/A"
     },
     {
         "prompts": [
             "Create a function that takes in an integer n and returns the sum of the squares of the first n odd natural numbers.",
-            "N/A",
             "N/A"
         ],
         "task_id": 44,
@@ -2247,12 +2246,12 @@
                     }
                 ]
             }
-        }
+        },
+        "flow_description": "N/A"
     },
     {
         "prompts": [
             "Create a function that finds the minimum of two numbers.",
-            "N/A",
             "N/A"
         ],
         "task_id": 45,
@@ -2316,12 +2315,12 @@
                     }
                 ]
             }
-        }
+        },
+        "flow_description": "N/A"
     },
     {
         "prompts": [
             "Create a function to find the surface area of a cube of a given size.",
-            "N/A",
             "N/A"
         ],
         "task_id": 46,
@@ -2377,12 +2376,12 @@
                     }
                 ]
             }
-        }
+        },
+        "flow_description": "N/A"
     },
     {
         "prompts": [
             "Create a function to find cubes of individual elements in a list.",
-            "N/A",
             "N/A"
         ],
         "task_id": 47,
@@ -2455,12 +2454,12 @@
                     }
                 ]
             }
-        }
+        },
+        "flow_description": "N/A"
     },
     {
         "prompts": [
             "Create a function to interchange the first and last element in a given list.",
-            "N/A",
             "N/A"
         ],
         "task_id": 49,
@@ -2553,12 +2552,12 @@
                     }
                 ]
             }
-        }
+        },
+        "flow_description": "N/A"
     },
     {
         "prompts": [
             "Create a function to check whether the given number is a perfect square or not.",
-            "N/A",
             "N/A"
         ],
         "task_id": 50,
@@ -2625,6 +2624,7 @@
                     }
                 ]
             }
-        }
+        },
+        "flow_description": "N/A"
     }
 ]

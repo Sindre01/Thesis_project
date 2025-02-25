@@ -128,7 +128,10 @@ def transform_code_data(data: dict)-> list[dict]:
         'MBPP_task_id': str,
         'external_functions': list,
         'tests': list,
-        'signature': str
+        'signature': str,
+        'preconditions': str,
+        'postconditions': str,
+        'flow_description': str
         }]"""
     new_data_format = []
     for sample in data:
@@ -140,6 +143,9 @@ def transform_code_data(data: dict)-> list[dict]:
         new_obj['external_functions'] = ', '.join([func.replace("root.std.", "") for func in sample['external_functions']])
         new_obj['tests'] = sample['testing']['tests']
         new_obj['function_signature'] = sample['specification']['function_signature']
+        new_obj['preconditions'] = sample['specification']['preconditions']
+        new_obj['postconditions'] = sample['specification']['postconditions']
+        new_obj['flow_description'] = sample['flow_description']
         new_data_format.append(new_obj)
     return new_data_format
 
