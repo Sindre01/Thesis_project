@@ -1,3 +1,17 @@
-*
-!notebooks/
-!notebooks/**
+
+# Ignore environment files
+config.env
+.env
+
+# Ignore virtual environments
+.thesis_venv/
+.venv_Master/
+
+# Ignore Python cache files
+**/__pycache__/
+*.pyc
+
+# Ignore WebUI cache
+.webui_secret_key__pycache__/
+notebooks/few-shot/fox/scripts/
+
