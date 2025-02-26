@@ -6,7 +6,7 @@
 ###############################################################################
 
 # Job Configuration
-#SBATCH --job-name=validation_few_shot         # Job name
+#SBATCH --job-name=validation_few_shot_coverage         # Job name
 #SBATCH --account=ec12                      # Project account
 #SBATCH --partition=accel                  # Partition ('accel' or 'accel_long')
 #SBATCH --nodes=1                           # Amount of nodes. Ollama one support single node inference
@@ -69,14 +69,13 @@ echo "============= Pulling latest changes from git... ============="
 cd ~/Thesis_project
 git fetch
 git checkout validation/coverage
-git fetch
 git pull
 source thesis_venv/bin/activate  # Activate it to ensure the correct Python environment
 
 cd ~/Thesis_project/notebooks/few-shot/fox
 
 echo "============= Running validation few_shot Python script... ============="
-python -u run_validation.py > /fp/homes01/u01/ec-sindrre/slurm_jobs/few_shot/validation/coverage/validation.out 2>&1
+python -u run_validation.py > /fp/homes01/u01/ec-sindrre/slurm_jobs/few_shot/validation/coverage/validation_%j.out 2>&1
 
 ###############################################################################
 # End of Script

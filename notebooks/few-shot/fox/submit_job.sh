@@ -39,7 +39,7 @@ cat <<EOT > "./scripts/${SBATCH_SCRIPT}"
 ###############################################################################
 
 # Job Configuration
-#SBATCH --job-name=${PHASE}_${EXPERIMENT}         # Job name
+#SBATCH --job-name=${PHASE}_${EXPERIMENT}_${EXAMPLES_TYPE}         # Job name
 #SBATCH --account=${ACCOUNT}                      # Project account
 #SBATCH --partition=${PARTITION}                  # Partition ('accel' or 'accel_long')
 #SBATCH --nodes=${NODES}                           # Amount of nodes. Ollama one support single node inference
@@ -92,6 +92,7 @@ NVIDIA_MONITOR_PID=$!  # Capture PID of monitoring process
 ###############################################################################
 # Start Ollama Server in Background with Log Redirection
 ###############################################################################
+rm -rf ~/.ollama
 ollama serve > ollama_API.out 2>&1 &  
 
 sleep 5
@@ -109,7 +110,7 @@ source thesis_venv/bin/activate  # Activate it to ensure the correct Python envi
 cd ~/Thesis_project/notebooks/few-shot/fox
 
 echo "============= Running ${PHASE} ${EXPERIMENT} Python script... ============="
-python -u run_${PHASE}.py > ${REMOTE_DIR}/${PHASE}.out 2>&1
+python -u run_${PHASE}.py > ${REMOTE_DIR}/${PHASE}_%j.out 2>&1
 
 ###############################################################################
 # End of Script
