@@ -1,6 +1,6 @@
 [
     {
-        "experiment_name": "regular_coverage_1_shot",TEST
+        "experiment_name": "regular_coverage_1_shot",
         "temperature": 0.2,
         "top_p": 0.2,
         "top_k": 10,
