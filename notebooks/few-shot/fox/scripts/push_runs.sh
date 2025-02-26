@@ -9,7 +9,7 @@ EXAMPLES_TYPE=${5:-"N/A"}
 SCRIPT_DIR="$(realpath "$(dirname "${BASH_SOURCE[0]}")")"
 
 # Define the target directory using an absolute path
-TARGET_DIR="$(realpath "${SCRIPT_DIR}/../${PHASE}_runs/")" # ${EXAMPLES_TYPE}/")"
+TARGET_DIR="$(realpath "${SCRIPT_DIR}/../${PHASE}_runs/${EXAMPLES_TYPE}/")"
 
 BRANCH="${PHASE}/${EXAMPLES_TYPE}"
 
