@@ -292,7 +292,7 @@ if __name__ == "__main__":
     hours, remainder = divmod(int(elapsed_time), 3600)
     minutes, seconds = divmod(remainder, 60)
     print(f"\n⏱️ Total execution time: {hours}h {minutes}m {seconds}s")
-    subprocess.run(["bash", f"{project_dir}/notebooks/few-shot/fox/scripts/push_runs.sh", "validation", str(hours), str(minutes), str(seconds), experiment_type ], check=True)
+    subprocess.run(["bash", f"{project_dir}/notebooks/few-shot/fox/scripts/push_runs.sh", "validation", str(hours), str(minutes), str(seconds), experiment_type], check=True)
     print("✅ push_runs.sh script executed successfully!")
 
 
