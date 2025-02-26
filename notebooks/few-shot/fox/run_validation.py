@@ -237,13 +237,13 @@ if __name__ == "__main__":
             "prompt_type": PromptType.REGULAR,
             "semantic_selector": True,
         },
-        {
-            "name": "signature_similarity",
-            "prompt_prefix": "Create a function",
-            "num_shots": [1, 5, 10],
-            "prompt_type": PromptType.SIGNATURE,
-            "semantic_selector": True,
-        },
+        # {
+        #     "name": "signature_similarity",
+        #     "prompt_prefix": "Create a function",
+        #     "num_shots": [1, 5, 10],
+        #     "prompt_type": PromptType.SIGNATURE,
+        #     "semantic_selector": True,
+        # },
         # {
         #     "name": "cot_similarity",
         #     "prompt_prefix": "Create a function",
@@ -294,11 +294,3 @@ if __name__ == "__main__":
     print(f"\n⏱️ Total execution time: {hours}h {minutes}m {seconds}s")
     subprocess.run(["bash", f"{project_dir}/notebooks/few-shot/fox/scripts/push_runs.sh", "validation", str(hours), str(minutes), str(seconds), experiment_type ], check=True)
     print("✅ push_runs.sh script executed successfully!")
-
-
-
-
-
-        
-
-
