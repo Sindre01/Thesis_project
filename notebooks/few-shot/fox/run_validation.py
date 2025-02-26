@@ -201,13 +201,13 @@ if __name__ == "__main__":
     dataset = read_dataset_to_json(main_dataset_folder + "MBPP-Midio-50.json")
     experiment_type = "coverage" # "similarity"
     experiments = [
-        # { #8 hours on 32b model
-        #     "name": "regular_coverage",
-        #     "prompt_prefix": "Create a function",
-        #     "num_shots": [1, 5, 10],
-        #     "prompt_type": PromptType.REGULAR,
-        #     "semantic_selector": False,
-        # },
+        {
+            "name": "regular_coverage",
+            "prompt_prefix": "Create a function",
+            "num_shots": [1, 5, 10],
+            "prompt_type": PromptType.REGULAR,
+            "semantic_selector": False,
+        },
 
         # {
         #     "name": "signature_coverage",
@@ -230,13 +230,13 @@ if __name__ == "__main__":
         #     "prompt_type": PromptType.SIGNATURE,
         #     "semantic_selector": False,
         # },
-        {
-            "name": "regular_similarity",
-            "prompt_prefix": "Create a function",
-            "num_shots": [1, 5, 10],
-            "prompt_type": PromptType.REGULAR,
-            "semantic_selector": True,
-        },
+        # {
+        #     "name": "regular_similarity",
+        #     "prompt_prefix": "Create a function",
+        #     "num_shots": [1, 5, 10],
+        #     "prompt_type": PromptType.REGULAR,
+        #     "semantic_selector": True,
+        # },
         # {
         #     "name": "signature_similarity",
         #     "prompt_prefix": "Create a function",
