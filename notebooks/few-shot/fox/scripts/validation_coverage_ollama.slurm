@@ -71,9 +71,10 @@ echo "============= Pulling latest changes from git... ============="
 cd ~/Thesis_project
 
 git status
+git fetch
 
 # Ensure we switch to the correct branch
-if [ "(git rev-parse --abbrev-ref HEAD 2>/dev/null)" != "validation/coverage" ]; then
+if [ (git rev-parse --abbrev-ref HEAD 2>/dev/null) != "validation/coverage" ]; then
     echo "❌ Not on validation/coverage. Committing changes before checkout..."
     git add ~/Thesis_project/notebooks/few-shot/fox/validation_runs/
     git commit -m "WIP: Saving work before switching to validation/coverage branch."
