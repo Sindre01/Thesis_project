@@ -5,7 +5,7 @@
 ###############################################################################
 
 # Configuration
-EXPERIMENT="few_shot"                    # Experiment ('few_shot' or 'COT')
+EXPERIMENT="few-shot"                    # Experiment ('few-shot' or 'COT')
 PHASE="validation"                       # Phase ('testing' or 'validation')
 EXAMPLES_TYPE="coverage"                 #'coverage' or 'similarity'
 USER="ec-sindrre"                        # Your Educloud username
@@ -13,10 +13,10 @@ HOST="fox.educloud.no"                   # Fox login address (matches SSH config
 SSH_CONFIG_NAME="fox"                    # Name of the SSH config entry
 ACCOUNT="ec12"                           # Fox project account
 PARTITION="accel"                        # 'accel' or 'accel_long' (or 'ifi_accel' if access to ec11,ec29,ec30,ec34,ec35 or ec232)
-GPUS=a100:2                              # a100 have 40GB or 80GB VRAM, while rtx30 have 24GB VRAM.
+GPUS=1                              # a100 have 40GB or 80GB VRAM, while rtx30 have 24GB VRAM.
 NODES=1                                  # Number of nodes. OLLAMA does currently only support single node inference
 TIME="00-24:00:00"                       # Slurm walltime (D-HH:MM:SS)
-MEM_PER_GPU="80G"                       # Memory per GPU. 
+MEM_PER_GPU="40G"                       # Memory per GPU. 
 OLLAMA_MODELS_DIR="/cluster/work/projects/ec12/ec-sindrre/ollama-models"  # Path to where the Ollama models are stored and loaded                      
 LOCAL_PORT="11434"                        # Local port for forwarding
 OLLAMA_PORT="11434"                       # Remote port where Ollama listens. If different parallell runs, change ollama_port to avoid conflicts if same node is allocated.
@@ -101,29 +101,28 @@ sleep 5
 # Run Python Script
 ###############################################################################
 echo "============= Pulling latest changes from git... ============="
-cd ~/Thesis_project/notebooks/${EXPERIMENT}/fox/${PHASE}_runs/
 
-# Get the current branch
-CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
-TARGET_BRANCH="${PHASE}/${EXAMPLES_TYPE}"
+cd ~/Thesis_project
 
-if [ "$CURRENT_BRANCH" != "$TARGET_BRANCH" ]; then
-    
-    echo "❌ Not on $TARGET_BRANCH. Committing changes before checkout..."
-    git add .
-    git commit -m "WIP: Saving work before possible switching to $TARGET_BRANCH branch."
-    git checkout $TARGET_BRANCH
+git status
+
+# Ensure we switch to the correct branch
+if [ "(git rev-parse --abbrev-ref HEAD 2>/dev/null)" != "${PHASE}/${EXAMPLES_TYPE}" ]; then
+    echo "❌ Not on ${PHASE}/${EXAMPLES_TYPE}. Committing changes before checkout..."
+    git add ~/Thesis_project/notebooks/${EXPERIMENT}/fox/${PHASE}_runs/
+    git commit -m "WIP: Saving work before switching to ${PHASE}/${EXAMPLES_TYPE} branch."
+    git checkout "${PHASE}/${EXAMPLES_TYPE}"
 else
-    echo "✅ You are on desired branch $CURRENT_BRANCH. Skipping commit."
+    echo "✅ You are on the desired branch:  '(git rev-parse --abbrev-ref HEAD 2>/dev/null)'. Skipping commit."
 fi
 
 git pull
 
-source thesis_venv/bin/activate  # Activate it to ensure the correct Python environment
+source ~/Thesis_project/thesis_venv/bin/activate  # Activate it to ensure the correct Python environment
 
 
 echo "============= Running ${PHASE} ${EXPERIMENT} Python script... ============="
-python -u run_${PHASE}.py > ${REMOTE_DIR}/${PHASE}_%j.out 2>&1
+python -u ~/Thesis_project/notebooks/${EXPERIMENT}/fox/run_${PHASE}.py > ${REMOTE_DIR}/${PHASE}_%j.out 2>&1
 
 ###############################################################################
 # End of Script

@@ -6,6 +6,8 @@ import sys
 script_dir = os.path.dirname(os.path.abspath(__file__))
 project_dir = os.path.abspath(f"{script_dir}/../../..")
 experiment_dir = os.path.abspath(f"{script_dir}/..")
+load_dotenv(".env")
+
 
 print("Script is located in:", script_dir)
 print("Project is located in:", project_dir)
@@ -19,7 +21,7 @@ from my_packages.evaluation.code_evaluation import run_model
 from dotenv import load_dotenv
 from my_packages.data_processing.attributes_processing import used_functions_to_string
 from my_packages.prompting.few_shot import transform_code_data
-from my_packages.utils.file_utils import write_json_file, read_dataset_to_json
+from my_packages.utils.file_utils import write_directly_json_file, write_json_file, read_dataset_to_json
 from my_packages.utils.tokens_utils import get_model_code_tokens_from_file, models_not_in_file, write_models_tokens_to_file
 from my_packages.utils.server_utils import server_diagnostics, is_remote_server_reachable
 from langchain_ollama import OllamaEmbeddings, ChatOllama
@@ -55,7 +57,7 @@ def model_configs(all_responses, model_provider):
     
             models = [
                 # 14b models:
-                # "phi4:14b-fp16", #16k context length
+                "phi4:14b-fp16", #16k context length
                 # "qwen2.5:14b-instruct-fp16", #128 k
 
                 # #32b models:
@@ -64,7 +66,7 @@ def model_configs(all_responses, model_provider):
     
                 # #70b models:
                 # "llama3.3:70b-instruct-fp16", #ctx: 130k
-                "qwen2.5:72b-instruct-fp16", #ctx: 139k
+                # "qwen2.5:72b-instruct-fp16", #ctx: 139k
             ]
             models_not_tokenized = models_not_in_file(models, f'{project_dir}/notebooks/few-shot/code_max_tokens.json')
             write_models_tokens_to_file(client, models_not_tokenized, all_responses, f'{project_dir}/notebooks/few-shot/code_max_tokens.json')
@@ -177,9 +179,9 @@ def run_val_experiment(
                 current_combination += 1
                 print(f"Hyperparameter combination {current_combination}/{combinatios} finished.\n")
                 results.append(result_obj)
-                write_json_file(file_path, results) #Temporary viewing
+                write_directly_json_file(file_path, results) #Temporary viewing
     
-    write_json_file(file_path, results)
+    write_directly_json_file(file_path, results)
 
 
 if __name__ == "__main__":
@@ -204,7 +206,7 @@ if __name__ == "__main__":
         {
             "name": "regular_coverage",
             "prompt_prefix": "Create a function",
-            "num_shots": [1, 5, 10],
+            "num_shots": [1],
             "prompt_type": PromptType.REGULAR,
             "semantic_selector": False,
         },
@@ -266,31 +268,42 @@ if __name__ == "__main__":
     for ex in experiments:
 
         selector_type= "similarity" if ex["semantic_selector"] else "coverage"
+        prompt_type = ex["prompt_type"].value
+        experiments_dir = os.path.join(os.getenv("RUNS_DIR"), f"few-shot/validation/{selector_type}/{prompt_type}/runs/")
+
         for shots in ex["num_shots"]:
             selector=init_example_selector(shots, train_data, semantic_selector=ex["semantic_selector"])
+            experiment_name = f"{ex['name']}_{shots}_shot"
 
             for model_name in models:
-                experiment_name = f"{ex['name']}_{shots}_shot"
-                file_path = f"{results_dir}/{selector_type}/{experiment_name}_{model_name}.json"
+                file_name = f"{experiment_name}_{model_name}.json"
+                result_runs_path = experiment_dir + file_name
+
                 print(f"\n==== Running few-shot validation for {experiment_name} on '{model_name}' ====")  
                 model = get_model_code_tokens_from_file(model_name, f'{project_dir}/notebooks/few-shot/code_max_tokens.json')
                 run_val_experiment(
                     client,
-                    val_data,
+                    val_data[:1],
                     available_nodes,
                     experiment_name,
-                    file_path,
+                    result_runs_path,
                     model,
                     selector,
                     ex["prompt_type"],
                 )
                 print(f"Validation finished for experiment: {experiment_name}")
-                print(f"See run results in: {file_path}")
+                print(f"See run results in: {result_runs_path}")
 
-    print("Validation finished!")
-    elapsed_time = time.time() - start_time
-    hours, remainder = divmod(int(elapsed_time), 3600)
-    minutes, seconds = divmod(remainder, 60)
-    print(f"\n⏱️ Total execution time: {hours}h {minutes}m {seconds}s")
-    subprocess.run(["bash", f"{project_dir}/notebooks/few-shot/fox/scripts/push_runs.sh", "validation", str(hours), str(minutes), str(seconds), experiment_type], check=True)
-    print("✅ push_runs.sh script executed successfully!")
+            print(f"Validation finished for {experiment_name} on {len(models)} models: {models}")
+            print(f"See run results in: {experiments_dir}")
+            elapsed_time = time.time() - start_time
+            hours, remainder = divmod(int(elapsed_time), 3600)
+            minutes, seconds = divmod(remainder, 60)
+            print(f"\n⏱️ Total execution time: {hours}h {minutes}m {seconds}s")
+            subprocess.run(["bash", f"{project_dir}/notebooks/few-shot/fox/scripts/push_runs.sh", 
+                            "few-shot", 
+                            "validation", 
+                            selector_type, 
+                            prompt_type,
+                            str(hours), str(minutes), str(seconds)], check=True)
+            print("✅ push_runs.sh script executed successfully!")

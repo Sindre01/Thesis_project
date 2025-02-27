@@ -6,14 +6,14 @@
 ###############################################################################
 
 # Job Configuration
-#SBATCH --job-name=validation_few_shot_coverage         # Job name
+#SBATCH --job-name=validation_few-shot_coverage         # Job name
 #SBATCH --account=ec12                      # Project account
 #SBATCH --partition=accel                  # Partition ('accel' or 'accel_long')
 #SBATCH --nodes=1                           # Amount of nodes. Ollama one support single node inference
-#SBATCH --gpus=a100:2                             # Number of GPUs
+#SBATCH --gpus=1                             # Number of GPUs
 #SBATCH --time=00-24:00:00                             # Walltime (D-HH:MM:SS)
-#SBATCH --mem-per-gpu=80G              # Memory per CPU
-#SBATCH --output=Job_validation.out                 # Standard output and error log
+#SBATCH --mem-per-gpu=40G              # Memory per CPU
+#SBATCH --output=Job_validation_%j.out                 # Standard output and error log
 
 
 ###############################################################################
@@ -58,6 +58,7 @@ NVIDIA_MONITOR_PID=  # Capture PID of monitoring process
 ###############################################################################
 # Start Ollama Server in Background with Log Redirection
 ###############################################################################
+rm -rf ~/.ollama
 ollama serve > ollama_API.out 2>&1 &  
 
 sleep 5
@@ -66,16 +67,34 @@ sleep 5
 # Run Python Script
 ###############################################################################
 echo "============= Pulling latest changes from git... ============="
+
 cd ~/Thesis_project
-git fetch
-git checkout validation/coverage
+echo "🔍 Debug: PHASE='validation'"
+echo "🔍 Debug: EXAMPLES_TYPE='coverage'"
+echo "🔍 Debug: TARGET_BRANCH='validation/coverage'"
+echo "🔍 Debug: CURRENT_BRANCH=(git rev-parse --abbrev-ref HEAD 2>/dev/null)"
+
+git status
+ps aux | grep git
+
+# Ensure we switch to the correct branch
+if [ "(git rev-parse --abbrev-ref HEAD 2>/dev/null)" != "validation/coverage" ]; then
+    echo "❌ Not on validation/coverage. Committing changes before checkout..."
+    git add ~/Thesis_project/notebooks/few-shot/fox/validation_runs/
+    git commit -m "WIP: Saving work before switching to validation/coverage branch."
+    git checkout "validation/coverage"
+else
+    echo "✅ You are on the desired branch:  (git rev-parse --abbrev-ref HEAD 2>/dev/null). Skipping commit."
+fi
+
 git pull
-source thesis_venv/bin/activate  # Activate it to ensure the correct Python environment
 
-cd ~/Thesis_project/notebooks/few-shot/fox
 
-echo "============= Running validation few_shot Python script... ============="
-python -u run_validation.py > /fp/homes01/u01/ec-sindrre/slurm_jobs/few_shot/validation/coverage/validation_%j.out 2>&1
+source ~/Thesis_project/thesis_venv/bin/activate  # Activate it to ensure the correct Python environment
+
+
+echo "============= Running validation few-shot Python script... ============="
+python -u ~/Thesis_project/notebooks/few-shot/fox/run_validation.py > /fp/homes01/u01/ec-sindrre/slurm_jobs/few-shot/validation/coverage/validation_%j.out 2>&1
 
 ###############################################################################
 # End of Script
