@@ -10,7 +10,7 @@
 #SBATCH --account=ec12                      # Project account
 #SBATCH --partition=accel                  # Partition ('accel' or 'accel_long')
 #SBATCH --nodes=1                           # Amount of nodes. Ollama one support single node inference
-#SBATCH --gpus=1                             # Number of GPUs
+#SBATCH --gpus=2                             # Number of GPUs
 #SBATCH --time=00-24:00:00                             # Walltime (D-HH:MM:SS)
 #SBATCH --mem-per-gpu=40G              # Memory per CPU
 #SBATCH --output=Job_validation_%j.out                 # Standard output and error log
@@ -69,26 +69,21 @@ sleep 5
 echo "============= Pulling latest changes from git... ============="
 
 cd ~/Thesis_project
-echo "🔍 Debug: PHASE='validation'"
-echo "🔍 Debug: EXAMPLES_TYPE='coverage'"
-echo "🔍 Debug: TARGET_BRANCH='validation/coverage'"
-echo "🔍 Debug: CURRENT_BRANCH=(git rev-parse --abbrev-ref HEAD 2>/dev/null)"
 
 git status
-ps aux | grep git
+git fetch
 
 # Ensure we switch to the correct branch
-if [ "(git rev-parse --abbrev-ref HEAD 2>/dev/null)" != "validation/coverage" ]; then
+if [ (git rev-parse --abbrev-ref HEAD 2>/dev/null) != "validation/coverage" ]; then
     echo "❌ Not on validation/coverage. Committing changes before checkout..."
     git add ~/Thesis_project/notebooks/few-shot/fox/validation_runs/
     git commit -m "WIP: Saving work before switching to validation/coverage branch."
     git checkout "validation/coverage"
 else
-    echo "✅ You are on the desired branch:  (git rev-parse --abbrev-ref HEAD 2>/dev/null). Skipping commit."
+    echo "✅ You are on the desired branch:  '(git rev-parse --abbrev-ref HEAD 2>/dev/null)'. Skipping commit."
 fi
 
 git pull
-
 
 source ~/Thesis_project/thesis_venv/bin/activate  # Activate it to ensure the correct Python environment
 
