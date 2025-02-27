@@ -101,13 +101,26 @@ sleep 5
 # Run Python Script
 ###############################################################################
 echo "============= Pulling latest changes from git... ============="
-cd ~/Thesis_project
-git fetch
-git checkout ${PHASE}/${EXAMPLES_TYPE}
+cd ~/Thesis_project/notebooks/${EXPERIMENT}/fox/${PHASE}_runs/
+
+# Get the current branch
+CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+TARGET_BRANCH="${PHASE}/${EXAMPLES_TYPE}"
+
+if [ "$CURRENT_BRANCH" != "$TARGET_BRANCH" ]; then
+    
+    echo "❌ Not on $TARGET_BRANCH. Committing changes before checkout..."
+    git add .
+    git commit -m "WIP: Saving work before possible switching to $TARGET_BRANCH branch."
+    git checkout $TARGET_BRANCH
+else
+    echo "✅ You are on desired branch $CURRENT_BRANCH. Skipping commit."
+fi
+
 git pull
+
 source thesis_venv/bin/activate  # Activate it to ensure the correct Python environment
 
-cd ~/Thesis_project/notebooks/few-shot/fox
 
 echo "============= Running ${PHASE} ${EXPERIMENT} Python script... ============="
 python -u run_${PHASE}.py > ${REMOTE_DIR}/${PHASE}_%j.out 2>&1
