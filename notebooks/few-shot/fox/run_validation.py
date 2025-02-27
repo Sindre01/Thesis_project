@@ -6,7 +6,6 @@ import sys
 script_dir = os.path.dirname(os.path.abspath(__file__))
 project_dir = os.path.abspath(f"{script_dir}/../../..")
 experiment_dir = os.path.abspath(f"{script_dir}/..")
-load_dotenv(".env")
 
 
 print("Script is located in:", script_dir)
@@ -29,6 +28,7 @@ from langchain_anthropic import ChatAnthropic
 from langchain_openai import OpenAIEmbeddings, ChatOpenAI
 from my_packages.prompting.example_selectors import get_coverage_example_selector, get_semantic_similarity_example_selector
 from langchain_core.example_selectors.base import BaseExampleSelector
+load_dotenv(".env")
 
 def get_dataset_splits(main_dataset_folder):
     train_data = transform_code_data(read_dataset_to_json(main_dataset_folder + 'splits/train_dataset.json'))
