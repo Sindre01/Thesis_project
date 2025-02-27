@@ -10,7 +10,7 @@
 #SBATCH --account=ec12                      # Project account
 #SBATCH --partition=accel                  # Partition ('accel' or 'accel_long')
 #SBATCH --nodes=1                           # Amount of nodes. Ollama one support single node inference
-#SBATCH --gpus=4                             # Number of GPUs
+#SBATCH --gpus=3                             # Number of GPUs
 #SBATCH --time=00-02:00:00                             # Walltime (D-HH:MM:SS)
 #SBATCH --mem-per-gpu=40G              # Memory per CPU
 #SBATCH --output=Job_validation_%j.out                 # Standard output and error log
@@ -71,10 +71,11 @@ cd ~/Thesis_project
 
 git status
 
+git pull
 git add ~/Thesis_project/notebooks/few-shot/fox/validation_runs/
 git commit -m "WIP: Saving work before switching to validation/coverage branch."
+gut push
 git checkout "validation/coverage"
-
 git pull
 
 source ~/Thesis_project/thesis_venv/bin/activate  # Activate it to ensure the correct Python environment
