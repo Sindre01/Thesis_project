@@ -92,7 +92,6 @@ NVIDIA_MONITOR_PID=$!  # Capture PID of monitoring process
 ###############################################################################
 # Start Ollama Server in Background with Log Redirection
 ###############################################################################
-rm -rf ~/.ollama
 ollama serve > ollama_API.out 2>&1 &  
 
 sleep 5
@@ -116,7 +115,7 @@ source ~/Thesis_project/thesis_venv/bin/activate  # Activate it to ensure the co
 
 
 echo "============= Running ${PHASE} ${EXPERIMENT} Python script... ============="
-python -u ~/Thesis_project/notebooks/${EXPERIMENT}/fox/run_${PHASE}.py > ${REMOTE_DIR}/${PHASE}_%j.out 2>&1
+python -u ~/Thesis_project/notebooks/${EXPERIMENT}/fox/run_${PHASE}.py > ${REMOTE_DIR}/${PHASE}.out 2>&1
 
 ###############################################################################
 # End of Script
