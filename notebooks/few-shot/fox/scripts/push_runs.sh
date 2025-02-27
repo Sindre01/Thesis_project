@@ -9,7 +9,7 @@ S=${7:-"0"}
 
 source ../.env
 EXPERIMENT_DIR="${EXAMPLES_TYPE}/${PROMPT_TYPE}"
-REMOTE_DIR="${RUNS_DIR}/${EXPERIMENT}/${PHASE}/${EXPERIMENT_DIR}/runs/"
+REMOTE_DIR="/fp/homes01/u01/ec-sindrre/slurm_jobs/${EXPERIMENT}/${PHASE}/${EXPERIMENT_DIR}/runs/"
 SCRIPT_DIR="$(realpath "$(dirname "${BASH_SOURCE[0]}")")"
 TARGET_DIR="$(realpath "${SCRIPT_DIR}/../${PHASE}_runs/${EXPERIMENT_DIR}/")"
 BRANCH="${PHASE}/${EXAMPLES_TYPE}"

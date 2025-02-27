@@ -28,7 +28,6 @@ from langchain_anthropic import ChatAnthropic
 from langchain_openai import OpenAIEmbeddings, ChatOpenAI
 from my_packages.prompting.example_selectors import get_coverage_example_selector, get_semantic_similarity_example_selector
 from langchain_core.example_selectors.base import BaseExampleSelector
-load_dotenv(".env")
 
 def get_dataset_splits(main_dataset_folder):
     train_data = transform_code_data(read_dataset_to_json(main_dataset_folder + 'splits/train_dataset.json'))
@@ -269,7 +268,7 @@ if __name__ == "__main__":
 
         selector_type= "similarity" if ex["semantic_selector"] else "coverage"
         prompt_type = ex["prompt_type"].value
-        experiments_dir = os.path.join(os.getenv("RUNS_DIR"), f"few-shot/validation/{selector_type}/{prompt_type}/runs/")
+        experiments_dir = os.path.join("/fp/homes01/u01/ec-sindrre/slurm_jobs", f"few-shot/validation/{selector_type}/{prompt_type}/runs/")
 
         for shots in ex["num_shots"]:
             selector=init_example_selector(shots, train_data, semantic_selector=ex["semantic_selector"])

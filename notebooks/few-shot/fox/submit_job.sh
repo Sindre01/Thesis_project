@@ -92,7 +92,6 @@ NVIDIA_MONITOR_PID=$!  # Capture PID of monitoring process
 ###############################################################################
 # Start Ollama Server in Background with Log Redirection
 ###############################################################################
-rm -rf ~/.ollama
 ollama serve > ollama_API.out 2>&1 &  
 
 sleep 5
@@ -105,16 +104,10 @@ echo "============= Pulling latest changes from git... ============="
 cd ~/Thesis_project
 
 git status
-echo "DEBUG branch: (git rev-parse --abbrev-ref HEAD 2>/dev/null)"
-# Ensure we switch to the correct branch
-if [ "(git rev-parse --abbrev-ref HEAD 2>/dev/null)" != "${PHASE}/${EXAMPLES_TYPE}" ]; then
-    echo "❌ Not on ${PHASE}/${EXAMPLES_TYPE}. Committing changes before checkout..."
-    git add ~/Thesis_project/notebooks/${EXPERIMENT}/fox/${PHASE}_runs/
-    git commit -m "WIP: Saving work before switching to ${PHASE}/${EXAMPLES_TYPE} branch."
-    git checkout "${PHASE}/${EXAMPLES_TYPE}"
-else
-    echo "✅ You are on the desired branch:  '(git rev-parse --abbrev-ref HEAD 2>/dev/null)'. Skipping commit."
-fi
+
+git add ~/Thesis_project/notebooks/${EXPERIMENT}/fox/${PHASE}_runs/
+git commit -m "WIP: Saving work before switching to ${PHASE}/${EXAMPLES_TYPE} branch."
+git checkout "${PHASE}/${EXAMPLES_TYPE}"
 
 git pull
 
@@ -122,7 +115,7 @@ source ~/Thesis_project/thesis_venv/bin/activate  # Activate it to ensure the co
 
 
 echo "============= Running ${PHASE} ${EXPERIMENT} Python script... ============="
-python -u ~/Thesis_project/notebooks/${EXPERIMENT}/fox/run_${PHASE}.py > ${REMOTE_DIR}/${PHASE}_%j.out 2>&1
+python -u ~/Thesis_project/notebooks/${EXPERIMENT}/fox/run_${PHASE}.py > ${REMOTE_DIR}/${PHASE}.out 2>&1
 
 ###############################################################################
 # End of Script
