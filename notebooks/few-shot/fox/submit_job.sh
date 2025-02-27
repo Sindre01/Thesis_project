@@ -105,16 +105,10 @@ echo "============= Pulling latest changes from git... ============="
 cd ~/Thesis_project
 
 git status
-echo "DEBUG branch: (git rev-parse --abbrev-ref HEAD 2>/dev/null)"
-# Ensure we switch to the correct branch
-if [ "(git rev-parse --abbrev-ref HEAD 2>/dev/null)" != "${PHASE}/${EXAMPLES_TYPE}" ]; then
-    echo "❌ Not on ${PHASE}/${EXAMPLES_TYPE}. Committing changes before checkout..."
-    git add ~/Thesis_project/notebooks/${EXPERIMENT}/fox/${PHASE}_runs/
-    git commit -m "WIP: Saving work before switching to ${PHASE}/${EXAMPLES_TYPE} branch."
-    git checkout "${PHASE}/${EXAMPLES_TYPE}"
-else
-    echo "✅ You are on the desired branch:  '(git rev-parse --abbrev-ref HEAD 2>/dev/null)'. Skipping commit."
-fi
+
+git add ~/Thesis_project/notebooks/${EXPERIMENT}/fox/${PHASE}_runs/
+git commit -m "WIP: Saving work before switching to ${PHASE}/${EXAMPLES_TYPE} branch."
+git checkout "${PHASE}/${EXAMPLES_TYPE}"
 
 git pull
 

@@ -269,7 +269,7 @@ if __name__ == "__main__":
 
         selector_type= "similarity" if ex["semantic_selector"] else "coverage"
         prompt_type = ex["prompt_type"].value
-        experiments_dir = os.path.join(os.getenv("RUNS_DIR"), f"few-shot/validation/{selector_type}/{prompt_type}/runs/")
+        experiments_dir = os.path.join("/fp/homes01/u01/ec-sindrre/slurm_jobs", f"few-shot/validation/{selector_type}/{prompt_type}/runs/")
 
         for shots in ex["num_shots"]:
             selector=init_example_selector(shots, train_data, semantic_selector=ex["semantic_selector"])
