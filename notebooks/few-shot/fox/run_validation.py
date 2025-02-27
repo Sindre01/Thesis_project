@@ -263,7 +263,8 @@ if __name__ == "__main__":
     ]
 
     print(f"Total experiments variations to run: {len(experiments) * len(models)* len([1, 5, 10])}")
-
+    
+    print("\n==== Running validation ====")
     for ex in experiments:
 
         selector_type= "similarity" if ex["semantic_selector"] else "coverage"
