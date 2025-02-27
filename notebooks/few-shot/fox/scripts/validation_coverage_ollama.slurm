@@ -10,8 +10,8 @@
 #SBATCH --account=ec12                      # Project account
 #SBATCH --partition=accel                  # Partition ('accel' or 'accel_long')
 #SBATCH --nodes=1                           # Amount of nodes. Ollama one support single node inference
-#SBATCH --gpus=2                             # Number of GPUs
-#SBATCH --time=00-24:00:00                             # Walltime (D-HH:MM:SS)
+#SBATCH --gpus=4                             # Number of GPUs
+#SBATCH --time=00-02:00:00                             # Walltime (D-HH:MM:SS)
 #SBATCH --mem-per-gpu=40G              # Memory per CPU
 #SBATCH --output=Job_validation_%j.out                 # Standard output and error log
 
@@ -81,7 +81,7 @@ source ~/Thesis_project/thesis_venv/bin/activate  # Activate it to ensure the co
 
 
 echo "============= Running validation few-shot Python script... ============="
-python -u ~/Thesis_project/notebooks/few-shot/fox/run_validation.py > /fp/homes01/u01/ec-sindrre/slurm_jobs/few-shot/validation/coverage/validation_%j.out 2>&1
+python -u ~/Thesis_project/notebooks/few-shot/fox/run_validation.py > /fp/homes01/u01/ec-sindrre/slurm_jobs/few-shot/validation/coverage/validation.out 2>&1
 
 ###############################################################################
 # End of Script

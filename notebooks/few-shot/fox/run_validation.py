@@ -5,12 +5,12 @@ import sys
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
 project_dir = os.path.abspath(f"{script_dir}/../../..")
-experiment_dir = os.path.abspath(f"{script_dir}/..")
+# experiment_dir = os.path.abspath(f"{script_dir}/..")
 
 
 print("Script is located in:", script_dir)
 print("Project is located in:", project_dir)
-print("Experiments are located in:", experiment_dir)
+# print("Experiments are located in:", experiment_dir)
 
 results_dir = f"{project_dir}/notebooks/few-shot/fox/validation_runs"
 
@@ -133,8 +133,8 @@ def run_val_experiment(
         model,
         example_pool,
         prompt_type: PromptType,
-        temperatures = [0.2, 0.6, 0.9],
-        top_ps = [0.2, 0.6, 0.9],
+        temperatures = [],#[0.2, 0.6, 0.9],
+        top_ps = [],#[0.2, 0.6, 0.9],
         top_ks = [10, 50, 100],
         n = 1, # Max value of array is generations per task
         seed = 9,
@@ -276,7 +276,8 @@ if __name__ == "__main__":
 
             for model_name in models:
                 file_name = f"{experiment_name}_{model_name}.json"
-                result_runs_path = experiment_dir + file_name
+                result_runs_path = os.path.join(experiments_dir, file_name)
+    
 
                 print(f"\n==== Running few-shot validation for {experiment_name} on '{model_name}' ====")  
                 model = get_model_code_tokens_from_file(model_name, f'{project_dir}/notebooks/few-shot/code_max_tokens.json')
