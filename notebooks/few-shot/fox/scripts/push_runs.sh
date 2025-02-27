@@ -25,7 +25,7 @@ fi
 
 # Checkout the branch (create if missing)
 if git rev-parse --verify "${BRANCH}" >/dev/null 2>&1; then
-    git checkout -f "${BRANCH}"
+    git checkout "${BRANCH}"
     git pull
     # Apply stash only if one exists
     if git stash list | grep -q "Saving changes"; then
