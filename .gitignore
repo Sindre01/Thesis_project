@@ -8,8 +8,8 @@ config.env
 .venv_Master/
 
 # Ignore Python cache files
-**/__pycache__/
-*.pyc
+# **/__pycache__/
+# *.pyc
 
 # Ignore WebUI cache
 .webui_secret_key__pycache__/
