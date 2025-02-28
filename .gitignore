@@ -1,6 +1,5 @@
 
 # Ignore environment files
-config.env
 .env
 
 # Ignore virtual environments
