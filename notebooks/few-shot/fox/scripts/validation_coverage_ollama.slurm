@@ -65,15 +65,10 @@ sleep 5
 ###############################################################################
 # Run Python Script
 ###############################################################################
-echo "============= Pulling latest changes from git... ============="
-
-#!/bin/bash
-#SBATCH --job-name=my_job
-#SBATCH --output=job_%j.out
-#SBATCH --time=01:00:00
-#SBATCH --partition=standard
 
 echo "============= Pulling latest changes from Git... ============="
+
+export PYTHONPATH="~/Thesis_project:~/Thesis_project::~/Thesis_project/my_packages"
 
 # Check if the repository already exists
 if [ -d "/fp/homes01/u01/ec-sindrre/tmp/Thesis_project_coverage_$SLURM_JOB_ID/.git" ]; then

@@ -7,7 +7,6 @@ H=${5:-"0"}
 M=${6:-"0"}
 S=${7:-"0"}
 
-source ../.env
 EXPERIMENT_DIR="${EXAMPLES_TYPE}/${PROMPT_TYPE}"
 REMOTE_DIR="/fp/homes01/u01/ec-sindrre/slurm_jobs/${EXPERIMENT}/${PHASE}/${EXPERIMENT_DIR}/runs/"
 SCRIPT_DIR="$(realpath "$(dirname "${BASH_SOURCE[0]}")")"
