@@ -104,7 +104,6 @@ sleep 5
 
 echo "============= Pulling latest changes from Git... ============="
 
-export PYTHONPATH="${PYTHONPATH}:~/Thesis_project/my_packages"
 
 # Check if the repository already exists
 if [ -d "$CLONE_DIR/.git" ]; then
@@ -121,14 +120,22 @@ else
     echo "✅ Repository cloned to $CLONE_DIR"
     cd "$CLONE_DIR" || { echo "❌ Failed to enter $CLONE_DIR"; exit 1; }
 fi
+echo "🔍 Debug: Current Git repository is:"
+git rev-parse --show-toplevel
+
+export GIT_DIR="$CLONE_DIR/.git"
+export GIT_WORK_TREE="$CLONE_DIR"
+
 
 git checkout "$PHASE/$EXAMPLES_TYPE"
 git reset --hard HEAD  # Ensure a clean state
 git pull --rebase --autostash || { echo "❌ Git pull failed!"; exit 1; }
 
+
 source ~/Thesis_project/thesis_venv/bin/activate  # Activate it to ensure the correct Python environment
 
 echo "============= Running ${PHASE} ${EXPERIMENT} Python script... ============="
+export PYTHONPATH="${CLONE_DIR}:$PYTHONPATH"
 python -u ${CLONE_DIR}/notebooks/${EXPERIMENT}/fox/run_${PHASE}.py > ${REMOTE_DIR}/${PHASE}.out 2>&1
 
 # Cleanup after job completion
