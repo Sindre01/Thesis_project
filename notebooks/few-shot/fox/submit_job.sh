@@ -15,7 +15,7 @@ SSH_CONFIG_NAME="fox"                    # Name of the SSH config entry
 ACCOUNT="ec12"                           # Fox project account
 PARTITION="accel"                        # 'accel' or 'accel_long' (or 'ifi_accel' if access to ec11,ec29,ec30,ec34,ec35 or ec232)
 GPUS=a100:2                              # a100 have 40GB or 80GB VRAM, while rtx30 have 24GB VRAM.
-NODES=1                                  # Number of nodes. OLLAMA does currently only support single node inference
+NODES=2                                  # Number of nodes. OLLAMA does currently only support single node inference
 TIME="00-24:00:00"                       # Slurm walltime (D-HH:MM:SS)
 MEM_PER_GPU="80G"                       # Memory per GPU. 
 OLLAMA_MODELS_DIR="/cluster/work/projects/ec12/ec-sindrre/ollama-models"  # Path to where the Ollama models are stored and loaded                      
@@ -26,6 +26,21 @@ REMOTE_DIR="/fp/homes01/u01/ec-sindrre/slurm_jobs/${EXPERIMENT}/${PHASE}/${EXAMP
 #--exclusive #Job will not share nodes with other jobs. 
 # Define unique folder name
 CLONE_DIR="/fp/homes01/u01/ec-sindrre/tmp/Thesis_project_${EXAMPLES_TYPE}_\$SLURM_JOB_ID"
+
+# normal* c1-[5-28]
+# accel gpu-[1-2,4-5,7-9,11-13]
+# accel_long gpu-[1-2,7-8]
+# mig gpu-10
+# bigmem bigmem-[1-2],c1-29
+# ifi_accel gpu-[4-6,11]
+# ifi_dj_accel gpu-12
+# ifi_bigmem c1-29
+# pods c1-[6-7]
+# fhi_bigmem bigmem-[1-2]
+# hf_accel gpu-9
+
+#80GB a100: gpu-9, gpu-7, gpu-8?
+
 ###############################################################################
 # Step 1: Create the Slurm Batch Script Locally
 ###############################################################################
