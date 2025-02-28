@@ -10,6 +10,7 @@ config.env
 # Ignore Python cache files
 # **/__pycache__/
 # *.pyc
+# *.pyo
 
 # Ignore WebUI cache
 .webui_secret_key__pycache__/

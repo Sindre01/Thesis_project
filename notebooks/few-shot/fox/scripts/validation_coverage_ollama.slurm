@@ -6,14 +6,14 @@
 ###############################################################################
 
 # Job Configuration
-#SBATCH --job-name=validation_few_shot_coverage         # Job name
+#SBATCH --job-name=validation_few-shot_coverage         # Job name
 #SBATCH --account=ec12                      # Project account
 #SBATCH --partition=accel                  # Partition ('accel' or 'accel_long')
 #SBATCH --nodes=1                           # Amount of nodes. Ollama one support single node inference
-#SBATCH --gpus=a100:2                             # Number of GPUs
-#SBATCH --time=00-24:00:00                             # Walltime (D-HH:MM:SS)
-#SBATCH --mem-per-gpu=80G              # Memory per CPU
-#SBATCH --output=Job_validation.out                 # Standard output and error log
+#SBATCH --gpus=2                             # Number of GPUs
+#SBATCH --time=00-02:00:00                             # Walltime (D-HH:MM:SS)
+#SBATCH --mem-per-gpu=20G              # Memory per CPU
+#SBATCH --output=Job_validation_%j.out                 # Standard output and error log
 
 
 ###############################################################################
@@ -65,17 +65,40 @@ sleep 5
 ###############################################################################
 # Run Python Script
 ###############################################################################
-echo "============= Pulling latest changes from git... ============="
-cd ~/Thesis_project
-git fetch
-git checkout validation/coverage
-git pull
-source thesis_venv/bin/activate  # Activate it to ensure the correct Python environment
 
-cd ~/Thesis_project/notebooks/few-shot/fox
+echo "============= Pulling latest changes from Git... ============="
 
-echo "============= Running validation few_shot Python script... ============="
-python -u run_validation.py > /fp/homes01/u01/ec-sindrre/slurm_jobs/few_shot/validation/coverage/validation_%j.out 2>&1
+export PYTHONPATH="~/Thesis_project:~/Thesis_project::~/Thesis_project/my_packages"
+
+# Check if the repository already exists
+if [ -d "/fp/homes01/u01/ec-sindrre/tmp/Thesis_project_coverage_$SLURM_JOB_ID/.git" ]; then
+    echo "✅ Repository already exists: /fp/homes01/u01/ec-sindrre/tmp/Thesis_project_coverage_$SLURM_JOB_ID"
+    cd "/fp/homes01/u01/ec-sindrre/tmp/Thesis_project_coverage_$SLURM_JOB_ID" || { echo "❌ Failed to enter /fp/homes01/u01/ec-sindrre/tmp/Thesis_project_coverage_$SLURM_JOB_ID"; exit 1; }
+    
+    # Pull latest changes
+    echo "🔄 Pulling latest changes..."
+
+else
+    echo "🚀 Cloning repository..."
+    git clone https://github.com/Sindre01/Thesis_project.git "/fp/homes01/u01/ec-sindrre/tmp/Thesis_project_coverage_$SLURM_JOB_ID" || { echo "❌ Clone failed!"; exit 1; }
+    
+    echo "✅ Repository cloned to /fp/homes01/u01/ec-sindrre/tmp/Thesis_project_coverage_$SLURM_JOB_ID"
+    cd "/fp/homes01/u01/ec-sindrre/tmp/Thesis_project_coverage_$SLURM_JOB_ID" || { echo "❌ Failed to enter /fp/homes01/u01/ec-sindrre/tmp/Thesis_project_coverage_$SLURM_JOB_ID"; exit 1; }
+fi
+
+git checkout "validation/coverage"
+git reset --hard HEAD  # Ensure a clean state
+git pull --rebase --autostash || { echo "❌ Git pull failed!"; exit 1; }
+
+source ~/Thesis_project/thesis_venv/bin/activate  # Activate it to ensure the correct Python environment
+
+echo "============= Running validation few-shot Python script... ============="
+python -u /fp/homes01/u01/ec-sindrre/tmp/Thesis_project_coverage_$SLURM_JOB_ID/notebooks/few-shot/fox/run_validation.py > /fp/homes01/u01/ec-sindrre/slurm_jobs/few-shot/validation/coverage/validation.out 2>&1
+
+# Cleanup after job completion
+echo "🚀 Cleaning up cloned repository..."
+rm -rf "/fp/homes01/u01/ec-sindrre/tmp/Thesis_project_coverage_$SLURM_JOB_ID"
+echo "✅ Repository removed: /fp/homes01/u01/ec-sindrre/tmp/Thesis_project_coverage_$SLURM_JOB_ID"
 
 ###############################################################################
 # End of Script
