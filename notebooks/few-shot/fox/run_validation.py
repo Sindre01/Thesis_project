@@ -20,7 +20,7 @@ from my_packages.evaluation.code_evaluation import run_model
 from dotenv import load_dotenv
 from my_packages.data_processing.attributes_processing import used_functions_to_string
 from my_packages.prompting.few_shot import transform_code_data
-from my_packages.utils.file_utils import write_directly_json_file, write_json_file, read_dataset_to_json
+from my_packages.utils.file_utils import write_directly_json_file, read_dataset_to_json
 from my_packages.utils.tokens_utils import get_model_code_tokens_from_file, models_not_in_file, write_models_tokens_to_file
 from my_packages.utils.server_utils import server_diagnostics, is_remote_server_reachable
 from langchain_ollama import OllamaEmbeddings, ChatOllama

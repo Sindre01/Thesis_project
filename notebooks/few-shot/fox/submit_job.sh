@@ -14,17 +14,18 @@ HOST="fox.educloud.no"                   # Fox login address (matches SSH config
 SSH_CONFIG_NAME="fox"                    # Name of the SSH config entry
 ACCOUNT="ec12"                           # Fox project account
 PARTITION="accel"                        # 'accel' or 'accel_long' (or 'ifi_accel' if access to ec11,ec29,ec30,ec34,ec35 or ec232)
-GPUS=3                              # a100 have 40GB or 80GB VRAM, while rtx30 have 24GB VRAM.
+GPUS=2                              # a100 have 40GB or 80GB VRAM, while rtx30 have 24GB VRAM.
 NODES=1                                  # Number of nodes. OLLAMA does currently only support single node inference
 TIME="00-02:00:00"                       # Slurm walltime (D-HH:MM:SS)
-MEM_PER_GPU="40G"                       # Memory per GPU. 
+MEM_PER_GPU="20G"                       # Memory per GPU. 
 OLLAMA_MODELS_DIR="/cluster/work/projects/ec12/ec-sindrre/ollama-models"  # Path to where the Ollama models are stored and loaded                      
 LOCAL_PORT="11434"                        # Local port for forwarding
 OLLAMA_PORT="11434"                       # Remote port where Ollama listens. If different parallell runs, change ollama_port to avoid conflicts if same node is allocated.
 SBATCH_SCRIPT="${PHASE}_${EXAMPLES_TYPE}_ollama.slurm"           # Slurm batch script name
 REMOTE_DIR="/fp/homes01/u01/ec-sindrre/slurm_jobs/${EXPERIMENT}/${PHASE}/${EXAMPLES_TYPE}" # Directory on Fox to store scripts and output
 #--exclusive #Job will not share nodes with other jobs. 
-
+# Define unique folder name
+CLONE_DIR="/fp/homes01/u01/ec-sindrre/tmp/Thesis_project_${EXAMPLES_TYPE}_\$SLURM_JOB_ID"
 ###############################################################################
 # Step 1: Create the Slurm Batch Script Locally
 ###############################################################################
@@ -100,24 +101,40 @@ sleep 5
 ###############################################################################
 # Run Python Script
 ###############################################################################
-echo "============= Pulling latest changes from git... ============="
 
-cd ~/Thesis_project
+echo "============= Pulling latest changes from Git... ============="
 
-git status
+export PYTHONPATH="${PYTHONPATH}:~/Thesis_project/my_packages"
 
-git pull
-git add ~/Thesis_project/notebooks/${EXPERIMENT}/fox/${PHASE}_runs/
-git commit -m "WIP: Saving work before switching to ${PHASE}/${EXAMPLES_TYPE} branch."
-gut push
-git checkout "${PHASE}/${EXAMPLES_TYPE}"
-git pull
+# Check if the repository already exists
+if [ -d "$CLONE_DIR/.git" ]; then
+    echo "✅ Repository already exists: $CLONE_DIR"
+    cd "$CLONE_DIR" || { echo "❌ Failed to enter $CLONE_DIR"; exit 1; }
+    
+    # Pull latest changes
+    echo "🔄 Pulling latest changes..."
+
+else
+    echo "🚀 Cloning repository..."
+    git clone https://github.com/Sindre01/Thesis_project.git "$CLONE_DIR" || { echo "❌ Clone failed!"; exit 1; }
+    
+    echo "✅ Repository cloned to $CLONE_DIR"
+    cd "$CLONE_DIR" || { echo "❌ Failed to enter $CLONE_DIR"; exit 1; }
+fi
+
+git checkout "$PHASE/$EXAMPLES_TYPE"
+git reset --hard HEAD  # Ensure a clean state
+git pull --rebase --autostash || { echo "❌ Git pull failed!"; exit 1; }
 
 source ~/Thesis_project/thesis_venv/bin/activate  # Activate it to ensure the correct Python environment
 
-
 echo "============= Running ${PHASE} ${EXPERIMENT} Python script... ============="
-python -u ~/Thesis_project/notebooks/${EXPERIMENT}/fox/run_${PHASE}.py > ${REMOTE_DIR}/${PHASE}.out 2>&1
+python -u ${CLONE_DIR}/notebooks/${EXPERIMENT}/fox/run_${PHASE}.py > ${REMOTE_DIR}/${PHASE}.out 2>&1
+
+# Cleanup after job completion
+echo "🚀 Cleaning up cloned repository..."
+rm -rf "$CLONE_DIR"
+echo "✅ Repository removed: $CLONE_DIR"
 
 ###############################################################################
 # End of Script

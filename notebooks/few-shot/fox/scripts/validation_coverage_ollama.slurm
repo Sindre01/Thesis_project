@@ -10,9 +10,9 @@
 #SBATCH --account=ec12                      # Project account
 #SBATCH --partition=accel                  # Partition ('accel' or 'accel_long')
 #SBATCH --nodes=1                           # Amount of nodes. Ollama one support single node inference
-#SBATCH --gpus=3                             # Number of GPUs
+#SBATCH --gpus=2                             # Number of GPUs
 #SBATCH --time=00-02:00:00                             # Walltime (D-HH:MM:SS)
-#SBATCH --mem-per-gpu=40G              # Memory per CPU
+#SBATCH --mem-per-gpu=20G              # Memory per CPU
 #SBATCH --output=Job_validation_%j.out                 # Standard output and error log
 
 
@@ -67,22 +67,43 @@ sleep 5
 ###############################################################################
 echo "============= Pulling latest changes from git... ============="
 
-cd ~/Thesis_project
+#!/bin/bash
+#SBATCH --job-name=my_job
+#SBATCH --output=job_%j.out
+#SBATCH --time=01:00:00
+#SBATCH --partition=standard
 
-git status
+echo "============= Pulling latest changes from Git... ============="
 
-git pull
-git add ~/Thesis_project/notebooks/few-shot/fox/validation_runs/
-git commit -m "WIP: Saving work before switching to validation/coverage branch."
-gut push
+# Check if the repository already exists
+if [ -d "/fp/homes01/u01/ec-sindrre/tmp/Thesis_project_coverage_$SLURM_JOB_ID/.git" ]; then
+    echo "✅ Repository already exists: /fp/homes01/u01/ec-sindrre/tmp/Thesis_project_coverage_$SLURM_JOB_ID"
+    cd "/fp/homes01/u01/ec-sindrre/tmp/Thesis_project_coverage_$SLURM_JOB_ID" || { echo "❌ Failed to enter /fp/homes01/u01/ec-sindrre/tmp/Thesis_project_coverage_$SLURM_JOB_ID"; exit 1; }
+    
+    # Pull latest changes
+    echo "🔄 Pulling latest changes..."
+
+else
+    echo "🚀 Cloning repository..."
+    git clone https://github.com/Sindre01/Thesis_project.git "/fp/homes01/u01/ec-sindrre/tmp/Thesis_project_coverage_$SLURM_JOB_ID" || { echo "❌ Clone failed!"; exit 1; }
+    
+    echo "✅ Repository cloned to /fp/homes01/u01/ec-sindrre/tmp/Thesis_project_coverage_$SLURM_JOB_ID"
+    cd "/fp/homes01/u01/ec-sindrre/tmp/Thesis_project_coverage_$SLURM_JOB_ID" || { echo "❌ Failed to enter /fp/homes01/u01/ec-sindrre/tmp/Thesis_project_coverage_$SLURM_JOB_ID"; exit 1; }
+fi
+
 git checkout "validation/coverage"
-git pull
+git reset --hard HEAD  # Ensure a clean state
+git pull --rebase --autostash || { echo "❌ Git pull failed!"; exit 1; }
 
 source ~/Thesis_project/thesis_venv/bin/activate  # Activate it to ensure the correct Python environment
 
-
 echo "============= Running validation few-shot Python script... ============="
-python -u ~/Thesis_project/notebooks/few-shot/fox/run_validation.py > /fp/homes01/u01/ec-sindrre/slurm_jobs/few-shot/validation/coverage/validation.out 2>&1
+python -u /fp/homes01/u01/ec-sindrre/tmp/Thesis_project_coverage_$SLURM_JOB_ID/notebooks/few-shot/fox/run_validation.py > /fp/homes01/u01/ec-sindrre/slurm_jobs/few-shot/validation/coverage/validation.out 2>&1
+
+# Cleanup after job completion
+echo "🚀 Cleaning up cloned repository..."
+rm -rf "/fp/homes01/u01/ec-sindrre/tmp/Thesis_project_coverage_$SLURM_JOB_ID"
+echo "✅ Repository removed: /fp/homes01/u01/ec-sindrre/tmp/Thesis_project_coverage_$SLURM_JOB_ID"
 
 ###############################################################################
 # End of Script
