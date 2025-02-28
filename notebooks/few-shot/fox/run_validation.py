@@ -133,7 +133,7 @@ def run_val_experiment(
         model,
         example_pool,
         prompt_type: PromptType,
-        temperatures = [0.2],
+        temperatures = [0.9],
         top_ps = [0.2],
         top_ks = [10],
         n = 1, # Max value of array is generations per task
