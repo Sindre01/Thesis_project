@@ -209,7 +209,14 @@ if __name__ == "__main__":
             "prompt_type": PromptType.REGULAR,
             "semantic_selector": False,
         },
-
+        ############# Coverage examples prompt #################
+        # {
+        #     "name": "regular_coverage",
+        #     "prompt_prefix": "Create a function",
+        #     "num_shots": [1, 5, 10],
+        #     "prompt_type": PromptType.REGULAR,
+        #     "semantic_selector": False,
+        # },
         # {
         #     "name": "signature_coverage",
         #     "prompt_prefix": "Create a function",
@@ -218,19 +225,14 @@ if __name__ == "__main__":
         #     "semantic_selector": False,
         # },
         # {
-        #     "name": "regular_similarity",
+        #     "name": "cot_coverage",
         #     "prompt_prefix": "Create a function",
         #     "num_shots": [1, 5, 10],
-        #     "prompt_type": PromptType.REGULAR,
-        #     "semantic_selector": True,
-        # },
-        # {
-        #     "name": "signature_similarity",
-        #     "prompt_prefix": "Create a function",
-        #     "num_shots": [1, 5, 10],
-        #     "prompt_type": PromptType.SIGNATURE,
+        #     "prompt_type": PromptType.COT,
         #     "semantic_selector": False,
         # },
+
+        ############# RAG similarity examples prompt #################
         # {
         #     "name": "regular_similarity",
         #     "prompt_prefix": "Create a function",
@@ -238,12 +240,12 @@ if __name__ == "__main__":
         #     "prompt_type": PromptType.REGULAR,
         #     "semantic_selector": True,
         # },
-        # {
+        # { # Denne har blir kjørt feil! DOBBELTSJEKK
         #     "name": "signature_similarity",
         #     "prompt_prefix": "Create a function",
         #     "num_shots": [1, 5, 10],
         #     "prompt_type": PromptType.SIGNATURE,
-        #     "semantic_selector": True,
+        #     "semantic_selector": False, "SKAL VÆRE FALSE"
         # },
         # {
         #     "name": "cot_similarity",
@@ -252,14 +254,7 @@ if __name__ == "__main__":
         #     "prompt_type": PromptType.COT,
         #     "semantic_selector": True,
         # },
-        # {
-        #     "name": "cot_coverage",
-        #     "prompt_prefix": "Create a function",
-        #     "num_shots": [1, 5, 10],
-        #     "prompt_type": PromptType.COT,
-        #     "semantic_selector": False,
-        # },
-       
+  
     ]
 
     print(f"Total experiments variations to run: {len(experiments) * len(models)* len([1, 5, 10])}")
