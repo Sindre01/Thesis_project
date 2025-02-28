@@ -1,14 +1,23 @@
 ### 📌 SAVE ERRORS TO MONGODB ###
-import datetime
+from datetime import datetime
 from zoneinfo import ZoneInfo
 
 import pandas as pd
 from my_packages.common import CodeEvaluationResult
 from my_packages.db_service import db
 
-def save_errors_to_db(experiment: str, model_name: str, test_results: dict[int, list[CodeEvaluationResult]], hyperparams: dict, phase: str):
+def save_errors_to_db(
+        experiment: str,
+        model_name: str, 
+        test_results: dict[int, list[CodeEvaluationResult]], 
+        hyperparams: dict, 
+        phase: str,
+        db_connection=None
+    ):
+    if db_connection is None:
+        db_connection = db
     """Saves errors to MongoDB in the '{experiment}_errors' collection."""
-    collection = db[f"{experiment}_errors"]
+    collection = db_connection[f"{experiment}_errors"]
 
     errors = []
     for task_id, results in test_results.items():
@@ -36,7 +45,7 @@ def save_errors_to_db(experiment: str, model_name: str, test_results: dict[int, 
 
     if errors:
         collection.insert_many(errors)
-        print(f"⚠️ Errors logged in MongoDB for model '{model_name}' under experiment '{experiment}'.")
+        # print(f"✅ Errors saved in MongoDB for model '{model_name}' under experiment '{experiment}'.")
 
 def delete_errors_collection(experiment: str):
     """

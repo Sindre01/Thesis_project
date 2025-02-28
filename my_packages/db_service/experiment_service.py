@@ -27,24 +27,25 @@ def confirm_testing_rerun(experiment: str, model_name: str) -> bool:
         user_input = input("❓ Do you want to re-run the experiment and delete results and testing errors for this model? (yes/no):  ").strip().lower()
 
         if user_input == "yes":
-            print(f"✅ Re-running experiment for model '{model_name}'...")
+            print(f"==== Cleaning experiment for model '{model_name}'======")
             
             # Delete existing entries in results and errors
             results_deleted = results_collection.delete_many({"model_name": model_name}).deleted_count
             errors_deleted = errors_collection.delete_many({"model_name": model_name, "phase": "testing"}).deleted_count
 
             print(f"🗑️ Deleted {results_deleted} previous results & {errors_deleted} testing errors for '{model_name}'.")
+            print("Ready to re-run the experiment.\n")
             return True
         else:
-            print(f"❌ Skipping testing for model '{model_name}'.")
+            print(f"❌ Skipping testing for model '{model_name}'.\n")
             return False
     
     # If model does not exist, proceed with the experiment
-    print(f"⚠️ No results found for model '{model_name}' in experiment '{experiment}_best_params'.")
+    print(f"⚠️ No results found for model '{model_name}' in experiment '{experiment}_best_params'.\n")
 
     cleanup_errors = errors_collection.delete_many({"model_name": model_name, "phase": "testing"}).deleted_count # Cleanup previous saved testing errors, due to interuptions
     if cleanup_errors:
-        print(f"🗑️ Deleted {cleanup_errors} previous testing errors for '{model_name}'.")
+        print(f"🗑️ Deleted {cleanup_errors} previous testing errors for '{model_name}'.\n")
     return True
 
 def confirm_validation_rerun(experiment: str, model_name: str) -> bool:
@@ -72,24 +73,25 @@ def confirm_validation_rerun(experiment: str, model_name: str) -> bool:
         user_input = input("❓ Do you want to re-run the experiment and delete best params and validation errors for this model? (yes/no): ").strip().lower()
 
         if user_input == "yes":
-            print(f"✅ Re-running experiment for model '{model_name}'...")
+            print(f"==== Cleaning experiment for model '{model_name}'======")
             
             # Delete existing entries in results and errors
             params_deleted = params_collection.delete_many({"model_name": model_name}).deleted_count
             errors_deleted = errors_collection.delete_many({"model_name": model_name, "phase": "validation"}).deleted_count
 
             print(f"🗑️ Deleted {params_deleted} previous best params & {errors_deleted} validation errors for '{model_name}'.")
+            print("Ready to re-run the experiment.\n")
             return True
         else:
-            print(f"❌ Skipping validation for model '{model_name}'.")
+            print(f"❌ Skipping validation for model '{model_name}'.\n")
             return False
     
     # If model does not exist, proceed with the experiment
-    print(f"⚠️ No best params found for model '{model_name}' in experiment '{experiment}_best_params'.")
+    print(f"⚠️ No best params found for model '{model_name}' in experiment '{experiment}_best_params'.\n")
 
     cleanup_errors = errors_collection.delete_many({"model_name": model_name, "phase": "validation"}).deleted_count  # Cleanup previous saved validation errors, due to interuptions
     if cleanup_errors:
-        print(f"🗑️ Deleted {cleanup_errors} previous validation errors for '{model_name}'.")
+        print(f"🗑️ Deleted {cleanup_errors} previous validation errors for '{model_name}'. \n")
     return True
 
 
@@ -113,8 +115,7 @@ def setup_experiment_collection(experiment: str):
     print(f"✅ MongoDB Collections 'errors', 'results', 'best_params' was created for experiment '{experiment}' ")
 
 
-### 📌 CHECK IF EXPERIMENT EXISTS ###
-def experiment_exists(experiment: str) -> bool:
+def experiment_exists(experiment: str, db_connection = None) -> bool:
     """
     Checks if an experiment exists in MongoDB by verifying at least one collection.
 
@@ -124,6 +125,9 @@ def experiment_exists(experiment: str) -> bool:
     Returns:
     - `True` if at least one collection exists, otherwise `False`.
     """
+    if db_connection is None:
+        db_connection = db
+
     experiment_collections = [
         f"{experiment}_errors",
         f"{experiment}_results",
@@ -131,7 +135,7 @@ def experiment_exists(experiment: str) -> bool:
     ]
 
     # Check if any of the expected collections exist
-    existing_collections = db.list_collection_names()
+    existing_collections = db_connection.list_collection_names()
     
     return any(col in existing_collections for col in experiment_collections)
 
@@ -225,7 +229,7 @@ def run_experiment_quality_checks(experiment: str) -> bool:
     models = list_models_for_experiment(experiment)
     print(f"\n=== Running quality checks for experiment: {experiment} ===")
     if models:
-        print("Models found:", models)
+        print("Models found in DB for experiment::", models)
     else:
         print(f"No models found for experiment '{experiment}'.")
     print_msgs = []
@@ -280,6 +284,7 @@ def run_experiment_quality_checks(experiment: str) -> bool:
         print("\n".join(print_msgs))
     else:
         print("✅ All models passed quality checks successfully.")
+    print("=== End of quality checks ===\n")
     return not errors_found
 
 
@@ -341,7 +346,12 @@ def list_models_for_experiment(experiment: str) -> list[str]:
     return list(models)
 
 
-def pretty_print_experiment_collections(experiment: str, limit=5, exclude_columns=["stderr", "stdout", "code_candidate"]):
+def pretty_print_experiment_collections(
+        experiment: str, 
+        limit=5, 
+        exclude_columns=["stderr", "stdout", "code_candidate"],
+        db_connection=None
+    ):
     """
     Prints all collections related to an experiment in a readable format.
 
@@ -350,11 +360,14 @@ def pretty_print_experiment_collections(experiment: str, limit=5, exclude_column
     - limit (int): Number of documents to show per collection (default: 5).
     - exclude_columns (list): List of column names to exclude from output.
     """
+    if db_connection is None:
+        db_connection = db
+
     print(f"\n🔍 Existing collections for {experiment}: ")
     print("=" * 50)
 
     # List all collections for the experiment
-    collections = db.list_collection_names()
+    collections = db_connection.list_collection_names()
     filtered_collections = [col for col in collections if col.startswith(f"{experiment}_")]
 
     if not filtered_collections:

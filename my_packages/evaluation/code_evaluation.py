@@ -248,7 +248,8 @@ def evaluate_code(
     model_name: str,
     env: str,
     hyperparams: dict,
-    phase: str
+    phase: str,
+    db_connection=None
 )-> list[dict[str, dict[int, float]]]:
     """
     Evaluate the code quality of the generated candidates.
@@ -278,9 +279,10 @@ def evaluate_code(
                     model_name,
                     test_results,
                     hyperparams,
-                    phase
+                    phase,
+                    db_connection
                 )
-                print(f"✅ Errors saved to database for {metric} in {experiment_name}")
+                # print(f"✅ Errors saved to database for {metric} in {experiment_name}")
 
             metric_results.append(pass_at_k_dict)
 

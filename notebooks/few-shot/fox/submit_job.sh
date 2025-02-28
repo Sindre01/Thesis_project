@@ -21,7 +21,7 @@ MEM_PER_GPU="80G"                       # Memory per GPU.
 OLLAMA_MODELS_DIR="/cluster/work/projects/ec12/ec-sindrre/ollama-models"  # Path to where the Ollama models are stored and loaded                      
 LOCAL_PORT="11434"                        # Local port for forwarding
 OLLAMA_PORT="11434"                       # Remote port where Ollama listens. If different parallell runs, change ollama_port to avoid conflicts if same node is allocated.
-SBATCH_SCRIPT="${PHASE}_${EXAMPLES_TYPE}_ollama.slurm"           # Slurm batch script name
+SBATCH_SCRIPT="${PHASE}_${EXAMPLES_TYPE}_ollama_\$SLURM_JOB_ID.slurm"           # Slurm batch script name
 REMOTE_DIR="/fp/homes01/u01/ec-sindrre/slurm_jobs/${EXPERIMENT}/${PHASE}/${EXAMPLES_TYPE}" # Directory on Fox to store scripts and output
 #--exclusive #Job will not share nodes with other jobs. 
 # Define unique folder name
@@ -102,14 +102,14 @@ export OLLAMA_KV_CACHE_TYPE="f16" # f16 (default), q8_0 (half of the memory of f
 
 ####################### Setup monitoring ######################################
 nvidia-smi --query-gpu=timestamp,utilization.gpu,utilization.memory \
-	--format=csv --loop=1 > "gpu_util-$SLURM_JOB_ID.csv" &
+	--format=csv --loop=1 > "gpu_util-\$SLURM_JOB_ID.csv" &
 NVIDIA_MONITOR_PID=$!  # Capture PID of monitoring process
 
 
 ###############################################################################
 # Start Ollama Server in Background with Log Redirection
 ###############################################################################
-ollama serve > ollama_API.out 2>&1 &  
+ollama serve > ollama_API_\$SLURM_JOB_ID.out 2>&1 &  
 
 sleep 5
 
@@ -151,7 +151,7 @@ source ~/Thesis_project/thesis_venv/bin/activate  # Activate it to ensure the co
 
 echo "============= Running ${PHASE} ${EXPERIMENT} Python script... ============="
 export PYTHONPATH="${CLONE_DIR}:$PYTHONPATH"
-python -u ${CLONE_DIR}/notebooks/${EXPERIMENT}/fox/run_${PHASE}.py > ${REMOTE_DIR}/${PHASE}.out 2>&1
+python -u ${CLONE_DIR}/notebooks/${EXPERIMENT}/fox/run_${PHASE}.py > ${REMOTE_DIR}/AI_\$SLURM_JOB_ID.out 2>&1
 
 # Cleanup after job completion
 echo "🚀 Cleaning up cloned repository..."
