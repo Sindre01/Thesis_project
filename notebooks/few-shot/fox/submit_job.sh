@@ -22,7 +22,12 @@ OLLAMA_MODELS_DIR="/cluster/work/projects/ec12/ec-sindrre/ollama-models"  # Path
 LOCAL_PORT="11434"                        # Local port for forwarding
 OLLAMA_PORT="11434"                       # Remote port where Ollama listens. If different parallell runs, change ollama_port to avoid conflicts if same node is allocated.
 SBATCH_SCRIPT="${PHASE}_${EXAMPLES_TYPE}_ollama_\$SLURM_JOB_ID.slurm"           # Slurm batch script name
-REMOTE_DIR="/fp/homes01/u01/ec-sindrre/slurm_jobs/${EXPERIMENT}/${PHASE}/${EXAMPLES_TYPE}" # Directory on Fox to store scripts and output
+# Directory on Fox to store scripts and output
+if [ -n "$PROMPT_TYPE" ]; then
+    REMOTE_DIR="/fp/homes01/u01/ec-sindrre/slurm_jobs/${EXPERIMENT}/${PHASE}/${EXAMPLES_TYPE}/${PROMPT_TYPE}"
+else
+    REMOTE_DIR="/fp/homes01/u01/ec-sindrre/slurm_jobs/${EXPERIMENT}/${PHASE}/${EXAMPLES_TYPE}"
+fi
 #--exclusive #Job will not share nodes with other jobs. 
 # Define unique folder name
 CLONE_DIR="/fp/homes01/u01/ec-sindrre/tmp/Thesis_project_${EXAMPLES_TYPE}_\$SLURM_JOB_ID"
@@ -141,8 +146,17 @@ git rev-parse --show-toplevel
 export GIT_DIR="$CLONE_DIR/.git"
 export GIT_WORK_TREE="$CLONE_DIR"
 
+branch_name="$PHASE/$EXAMPLES_TYPE"
+if [ -n "$PROMPT_TYPE" ]; then
+    branch_name="$PHASE/$EXAMPLES_TYPE/$PROMPT_TYPE"
+fi
 
-git checkout "$PHASE/$EXAMPLES_TYPE"
+if git rev-parse --verify --quiet "refs/heads/\${branch_name}"; then
+    git checkout "\${branch_name}"
+else
+    git checkout -b "\${branch_name}"
+fi
+
 git reset --hard HEAD  # Ensure a clean state
 git pull --rebase --autostash || { echo "❌ Git pull failed!"; exit 1; }
 

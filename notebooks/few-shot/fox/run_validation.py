@@ -7,7 +7,6 @@ script_dir = os.path.dirname(os.path.abspath(__file__))
 project_dir = os.path.abspath(f"{script_dir}/../../..")
 # experiment_dir = os.path.abspath(f"{script_dir}/..")
 
-
 print("Script is located in:", script_dir)
 print("Project is located in:", project_dir)
 # print("Experiments are located in:", experiment_dir)
@@ -64,7 +63,7 @@ def model_configs(all_responses, model_provider):
                 # "qwen2.5-coder:32b-instruct-fp16", #32,768 tokens
     
                 # #70b models:
-                # "llama3.3:70b-instruct-fp16", #ctx: 130k
+                "llama3.3:70b-instruct-fp16", #ctx: 130k
                 "qwen2.5:72b-instruct-fp16", #ctx: 139k
             ]
             models_not_tokenized = models_not_in_file(models, f'{project_dir}/notebooks/few-shot/code_max_tokens.json')
@@ -204,13 +203,13 @@ if __name__ == "__main__":
     experiments = [
 
         ############# Coverage examples prompt #################
-        {
-            "name": "regular_coverage",
-            "prompt_prefix": "Create a function",
-            "num_shots": [1, 5, 10],
-            "prompt_type": PromptType.REGULAR,
-            "semantic_selector": False,
-        },
+        # {
+        #     "name": "regular_coverage",
+        #     "prompt_prefix": "Create a function",
+        #     "num_shots": [1, 5, 10],
+        #     "prompt_type": PromptType.REGULAR,
+        #     "semantic_selector": False,
+        # },
         # {
         #     "name": "signature_coverage",
         #     "prompt_prefix": "Create a function",
@@ -227,14 +226,14 @@ if __name__ == "__main__":
         # },
 
         ############# RAG similarity examples prompt #################
+        {
+            "name": "regular_similarity",
+            "prompt_prefix": "Create a function",
+            "num_shots": [1, 5, 10],
+            "prompt_type": PromptType.REGULAR,
+            "semantic_selector": True,
+        },
         # {
-        #     "name": "regular_similarity",
-        #     "prompt_prefix": "Create a function",
-        #     "num_shots": [1, 5, 10],
-        #     "prompt_type": PromptType.REGULAR,
-        #     "semantic_selector": True,
-        # },
-        # { # Denne har blir kjørt feil! DOBBELTSJEKK
         #     "name": "signature_similarity",
         #     "prompt_prefix": "Create a function",
         #     "num_shots": [1, 5, 10],
