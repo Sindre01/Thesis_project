@@ -94,21 +94,20 @@ jobs:
           to: ${{ secrets.EMAIL_TO }}
           from: "GitHub Actions"
       
-      - name: Create Pull Request
+      - name: Create Pull Request on Existing Branch
         if: env.match == 'true' 
         uses: peter-evans/create-pull-request@v5
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          branch: "hpc-auto-pr-${{ github.run_id }}"
-          base: "main"
-          title: "🚀 Auto PR: HPC Validation/Testing Updates"
+          branch: "${{ github.ref_name }}"  # Use the current branch instead of creating a new one
+          base: "main"  # Change if needed
+          title: "🚀 Auto PR: Updates from Existing Branch"
           body: |
             ## Summary
             This PR was auto-generated from an HPC push.
-            
-            - Commit Type: ${{ env.commit_type }}
-            - Commit Message: ${{ github.event.head_commit.message }}
-            
+
+            - **Commit Type:** ${{ env.commit_type }}
+            - **Commit Message:** ${{ github.event.head_commit.message }}
+
             ### 🔗 [View Commit](${{ github.event.head_commit.url }})
 
             ### Changes:
@@ -116,4 +115,5 @@ jobs:
 
           labels: "automated, hpc"
           draft: false  # Set to true if you want it as a draft PR
+
 
