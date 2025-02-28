@@ -45,7 +45,7 @@ fi
 
 # Load files from REMOTE_DIR into TARGET_DIR
 echo "📥 Loading files from ${REMOTE_DIR} into '${TARGET_DIR}'..."
-rsync -avv --ignore-existing "${REMOTE_DIR}/" "${TARGET_DIR}/" # --ignore-existing: skips existing files in TARGET_DIR
+rsync -av --ignore-existing "${REMOTE_DIR}/" "${TARGET_DIR}/" # --ignore-existing: skips existing files in TARGET_DIR
 
 # Stage changes only in TARGET_DIR
 git add --intent-to-add "$TARGET_DIR" && git reset  # Ensures only TARGET_DIR is tracked
