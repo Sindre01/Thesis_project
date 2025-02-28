@@ -1,6 +1,5 @@
 
 # Ignore environment files
-config.env
 .env
 
 # Ignore virtual environments
@@ -8,9 +7,10 @@ config.env
 .venv_Master/
 
 # Ignore Python cache files
+__pycache__/
 **/__pycache__/
-*.pyc
-*.pyo
+*.py[cod]
+
 
 # Ignore WebUI cache
 .webui_secret_key__pycache__/
