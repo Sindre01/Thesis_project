@@ -14,8 +14,8 @@ HOST="fox.educloud.no"                   # Fox login address (matches SSH config
 SSH_CONFIG_NAME="fox"                    # Name of the SSH config entry
 ACCOUNT="ec12"                           # Fox project account
 PARTITION="accel"                        # 'accel' or 'accel_long' (or 'ifi_accel' if access to ec11,ec29,ec30,ec34,ec35 or ec232)
-GPUS=a100:2                              # a100 have 40GB or 80GB VRAM, while rtx30 have 24GB VRAM.
-NODES=2                                  # Number of nodes. OLLAMA does currently only support single node inference
+GPUS=2                              # a100 have 40GB or 80GB VRAM, while rtx30 have 24GB VRAM.
+NODES=1                                  # Number of nodes. OLLAMA does currently only support single node inference
 TIME="00-24:00:00"                       # Slurm walltime (D-HH:MM:SS)
 MEM_PER_GPU="80G"                       # Memory per GPU. 
 OLLAMA_MODELS_DIR="/cluster/work/projects/ec12/ec-sindrre/ollama-models"  # Path to where the Ollama models are stored and loaded                      
@@ -103,7 +103,19 @@ export OLLAMA_KV_CACHE_TYPE="f16" # f16 (default), q8_0 (half of the memory of f
 # export CUDA_ERROR_LEVEL=50
 # export CUDA_VISIBLE_DEVICES=0,1
 # export AMD_LOG_LEVEL=3
+#############CLEANUP OLD JOBS################
+# Set the target directory (default: current directory)
 
+
+# Set the age threshold (1 hours)
+AGE_THRESHOLD=$((1 * 3600)) # 1 hours in seconds
+
+echo "🧹 Cleaning up files older than 1 hours in: $REMOTE_DIR"
+
+# Find and delete .out, .slurm, and .csv files older than 1 hours
+find "$REMOTE_DIR" -type f \( -name "*.out" -o -name "*.slurm" -o -name "*.csv" \) -mmin +1800 -exec rm -v {} \;
+
+echo "✅ Cleanup completed!"
 
 ####################### Setup monitoring ######################################
 nvidia-smi --query-gpu=timestamp,utilization.gpu,utilization.memory \
@@ -124,7 +136,6 @@ sleep 5
 
 echo "============= Pulling latest changes from Git... ============="
 
-
 # Check if the repository already exists
 if [ -d "$CLONE_DIR/.git" ]; then
     echo "✅ Repository already exists: $CLONE_DIR"
@@ -140,21 +151,23 @@ else
     echo "✅ Repository cloned to $CLONE_DIR"
     cd "$CLONE_DIR" || { echo "❌ Failed to enter $CLONE_DIR"; exit 1; }
 fi
+
 echo "🔍 Debug: Current Git repository is:"
 git rev-parse --show-toplevel
 
 export GIT_DIR="$CLONE_DIR/.git"
 export GIT_WORK_TREE="$CLONE_DIR"
 
-branch_name="$PHASE/$EXAMPLES_TYPE"
+branch_name="$PHASE-$EXAMPLES_TYPE"
 if [ -n "$PROMPT_TYPE" ]; then
-    branch_name="$PHASE/$EXAMPLES_TYPE/$PROMPT_TYPE"
+    branch_name="$PHASE-$EXAMPLES_TYPE-$PROMPT_TYPE"
 fi
 
 if git rev-parse --verify --quiet "refs/heads/\${branch_name}"; then
     git checkout "\${branch_name}"
 else
     git checkout -b "\${branch_name}"
+    git push --set-upstream origin "\${branch_name}"  # Set remote tracking
 fi
 
 git reset --hard HEAD  # Ensure a clean state
