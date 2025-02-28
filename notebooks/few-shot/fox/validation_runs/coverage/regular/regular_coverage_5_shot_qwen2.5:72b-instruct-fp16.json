@@ -1,0 +1,407 @@
+[
+    {
+        "experiment_name": "regular_coverage_5_shot",
+        "temperature": 0.2,
+        "top_p": 0.2,
+        "top_k": 10,
+        "seed": 9,
+        "n_generations_per_task": 1,
+        "model": "qwen2.5:72b-instruct-fp16",
+        "largest_context": 7939,
+        "task_candidates": {
+            "1": [
+                "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main { \n    func(doc: \"checks whether the given two integers have opposite sign or not.\") opposite_sign {\n        in(x: -254, y: -103, name: \"execute\") trigger() execute_8b5f0a\n        in(x: -267, y: 19, name: \"x\") property(Number) x_4d6c0e\n        in(x: -267, y: 141, name: \"y\") property(Number) y_3b58f5\n\n        out(x: 595, y: -103, name: \"continue\") trigger() continue_4d6c0e\n        out(x: 595, y: 19, name: \"result\") property(Bool) result_2b7a8f\n\n        instance(x: 106, y: -103) expression_1b1b0a root.Std_k98ojb.Math.Expression {\n            expression: \"(x * y < 0)\"\n        }\n        x_4d6c0e -> expression_1b1b0a.gen_0\n        y_3b58f5 -> expression_1b1b0a.gen_1\n        execute_8b5f0a -> expression_1b1b0a.execute\n        expression_1b1b0a.result -> result_2b7a8f\n        expression_1b1b0a.continue -> continue_4d6c0e\n    }\n\n    \n\n    instance(x: -95, y: 3) opposite_sign_2b7a8f root.main.opposite_sign {}\n}"
+            ]
+        }
+    },
+    {
+        "experiment_name": "regular_coverage_5_shot",
+        "temperature": 0.2,
+        "top_p": 0.6,
+        "top_k": 10,
+        "seed": 9,
+        "n_generations_per_task": 1,
+        "model": "qwen2.5:72b-instruct-fp16",
+        "largest_context": 7939,
+        "task_candidates": {
+            "1": [
+                "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main { \n    func(doc: \"checks whether the given two integers have opposite sign or not.\") check_opposite_sign {\n        in(x: -135, y: -204, name: \"execute\") trigger() execute_8b5a1f\n        in(x: -176, y: 9, name: \"x\") property(Number) x_0d0c5e\n        in(x: -176, y: 132, name: \"y\") property(Number) y_48b4a2\n\n        out(x: 567, y: -199, name: \"continue\") trigger() continue_4f0d6c\n        out(x: 567, y: 73, name: \"result\") property(Bool) result_48b4a2\n\n        instance(x: 165, y: -109) expression_3e251c root.Std_k98ojb.Math.Expression {\n            expression: \"(x * y < 0)\"\n        }\n        x_0d0c5e -> expression_3e251c.gen_0\n        y_48b4a2 -> expression_3e251c.gen_1\n        execute_8b5a1f -> expression_3e251c.execute\n        expression_3e251c.result -> result_48b4a2\n        expression_3e251c.continue -> continue_4f0d6c\n    }\n\n    \n\n    instance(x: -97, y: 21) check_opposite_sign_49c6ac root.main.check_opposite_sign {}\n}"
+            ]
+        }
+    },
+    {
+        "experiment_name": "regular_coverage_5_shot",
+        "temperature": 0.2,
+        "top_p": 0.9,
+        "top_k": 10,
+        "seed": 9,
+        "n_generations_per_task": 1,
+        "model": "qwen2.5:72b-instruct-fp16",
+        "largest_context": 7939,
+        "task_candidates": {
+            "1": [
+                "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main { \n    func(doc: \"checks if the given two integers have opposite signs.\") check_opposite_sign {\n        in(x: -251, y: -403, name: \"execute\") trigger() execute_8d1b5e\n        in(x: -269, y: -272, name: \"a\") property(Number) a_5c5f57\n        in(x: -251, y: 40, name: \"b\") property(Number) b_38d08e\n\n        out(x: 679, y: -301, name: \"continue\") trigger() continue_2a4b2c\n        out(x: 675, y: -122, name: \"result\") property(Bool) result_0d1f8e\n\n        instance(x: 196, y: -319) expression_4b554e root.Std_k98ojb.Math.Expression {\n            expression: \"(a * b < 0)\"\n        }\n        a_5c5f57 -> expression_4b554e.gen_0\n        b_38d08e -> expression_4b554e.gen_1\n        execute_8d1b5e -> expression_4b554e.execute\n        expression_4b554e.result -> result_0d1f8e\n        expression_4b554e.continue -> continue_2a4b2c\n    }\n\n    \n\n    instance(x: -93, y: -76) check_opposite_sign_0b0465 root.main.check_opposite_sign {}\n}"
+            ]
+        }
+    },
+    {
+        "experiment_name": "regular_coverage_5_shot",
+        "temperature": 0.2,
+        "top_p": 0.2,
+        "top_k": 50,
+        "seed": 9,
+        "n_generations_per_task": 1,
+        "model": "qwen2.5:72b-instruct-fp16",
+        "largest_context": 7939,
+        "task_candidates": {
+            "1": [
+                "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main { \n    func(doc: \"checks whether the given two integers have opposite sign or not.\") opposite_sign {\n        in(x: -254, y: -103, name: \"execute\") trigger() execute_8d5b9a\n        in(x: -267, y: 11, name: \"x\") property(Number) x_2c3f5e\n        in(x: -267, y: 140, name: \"y\") property(Number) y_8d5b9a\n\n        out(x: 665, y: -103, name: \"continue\") trigger() continue_8d5b9a\n        out(x: 665, y: 74, name: \"result\") property(Bool) result_2c3f5e\n\n        instance(x: 112, y: -103) expression_2c3f5e root.Std_k98ojb.Math.Expression {\n            expression: \"(x * y < 0)\"\n        }\n        x_2c3f5e -> expression_2c3f5e.gen_0\n        y_8d5b9a -> expression_2c3f5e.gen_1\n        execute_8d5b9a -> expression_2c3f5e.execute\n        expression_2c3f5e.result -> result_2c3f5e\n        expression_2c3f5e.continue -> continue_8d5b9a\n    }\n\n    \n\n    instance(x: -104, y: 74) opposite_sign_8d5b9a root.main.opposite_sign {}\n}"
+            ]
+        }
+    },
+    {
+        "experiment_name": "regular_coverage_5_shot",
+        "temperature": 0.2,
+        "top_p": 0.6,
+        "top_k": 50,
+        "seed": 9,
+        "n_generations_per_task": 1,
+        "model": "qwen2.5:72b-instruct-fp16",
+        "largest_context": 7939,
+        "task_candidates": {
+            "1": [
+                "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main { \n    func(doc: \"checks whether the given two integers have opposite sign or not.\") check_opposite_sign {\n        in(x: -135, y: -204, name: \"execute\") trigger() execute_8b9a1f\n        in(x: -167, y: 13, name: \"x\") property(Number) x_7c7d4e\n        in(x: -167, y: 152, name: \"y\") property(Number) y_0b9a8f\n\n        out(x: 592, y: -136, name: \"continue\") trigger() continue_3c4d3e\n        out(x: 587, y: 129, name: \"result\") property(Bool) result_0b9a8f\n\n        instance(x: 22, y: -116) mul_2f9d09 root.Std_k98ojb.Math.Mul {}\n        x_7c7d4e -> mul_2f9d09.first\n        y_0b9a8f -> mul_2f9d09.second\n        instance(x: 315, y: -116) lessthanorequal_f11fda root.Std_k98ojb.Math.LessThanOrEqual {}\n        0 -> lessthanorequal_f11fda.right\n        mul_2f9d09.result -> lessthanorequal_f11fda.left\n        execute_8b9a1f -> mul_2f9d09.execute\n        lessthanorequal_f11fda.result -> result_0b9a8f\n        lessthanorequal_f11fda.result -> continue_3c4d3e\n    }\n\n    \n\n    instance(x: -167, y: 25) check_opposite_sign_49c6ac root.main.check_opposite_sign {}\n}"
+            ]
+        }
+    },
+    {
+        "experiment_name": "regular_coverage_5_shot",
+        "temperature": 0.2,
+        "top_p": 0.9,
+        "top_k": 50,
+        "seed": 9,
+        "n_generations_per_task": 1,
+        "model": "qwen2.5:72b-instruct-fp16",
+        "largest_context": 7939,
+        "task_candidates": {
+            "1": [
+                "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main { \n    func(doc: \"checks if the given two integers have opposite signs.\") check_opposite_sign {\n        in(x: -251, y: -403, name: \"execute\") trigger() execute_8d4b1e\n        in(x: -269, y: -272, name: \"a\") property(Number) a_5c5b0f\n        in(x: -251, y: 103, name: \"b\") property(Number) b_8d4b1e\n\n        out(x: 699, y: -375, name: \"continue\") trigger() continue_6a2c7f\n        out(x: 719, y: -100, name: \"result\") property(Bool) result_8d4b1e\n\n        instance(x: 123, y: -252) mul_8d4b1e root.Std_k98ojb.Math.Mul {}\n        a_5c5b0f -> mul_8d4b1e.first\n        b_8d4b1e -> mul_8d4b1e.second\n        instance(x: 372, y: -165) lessthanorequal_8d4b1e root.Std_k98ojb.Math.LessThanOrEqual {}\n        mul_8d4b1e.result -> lessthanorequal_8d4b1e.left\n        0 -> lessthanorequal_8d4b1e.right\n        lessthanorequal_8d4b1e.result -> result_8d4b1e\n        execute_8d4b1e -> continue_6a2c7f\n    }\n\n    \n\n    instance(x: -93, y: -50) check_opposite_sign_8d4b1e root.main.check_opposite_sign {}\n}"
+            ]
+        }
+    },
+    {
+        "experiment_name": "regular_coverage_5_shot",
+        "temperature": 0.2,
+        "top_p": 0.2,
+        "top_k": 100,
+        "seed": 9,
+        "n_generations_per_task": 1,
+        "model": "qwen2.5:72b-instruct-fp16",
+        "largest_context": 7939,
+        "task_candidates": {
+            "1": [
+                "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main { \n    func(doc: \"checks whether the given two integers have opposite sign or not.\") opposite_sign {\n        in(x: -254, y: -103, name: \"execute\") trigger() execute_8d5b9a\n        in(x: -267, y: 11, name: \"x\") property(Number) x_2c3f5e\n        in(x: -267, y: 140, name: \"y\") property(Number) y_8d5b9a\n\n        out(x: 665, y: -103, name: \"continue\") trigger() continue_8d5b9a\n        out(x: 665, y: 74, name: \"result\") property(Bool) result_2c3f5e\n\n        instance(x: 112, y: -103) expression_2c3f5e root.Std_k98ojb.Math.Expression {\n            expression: \"(x * y < 0)\"\n        }\n        x_2c3f5e -> expression_2c3f5e.gen_0\n        y_8d5b9a -> expression_2c3f5e.gen_1\n        execute_8d5b9a -> expression_2c3f5e.execute\n        expression_2c3f5e.result -> result_2c3f5e\n        expression_2c3f5e.continue -> continue_8d5b9a\n    }\n\n    \n\n    instance(x: -104, y: 74) opposite_sign_8d5b9a root.main.opposite_sign {}\n}"
+            ]
+        }
+    },
+    {
+        "experiment_name": "regular_coverage_5_shot",
+        "temperature": 0.2,
+        "top_p": 0.6,
+        "top_k": 100,
+        "seed": 9,
+        "n_generations_per_task": 1,
+        "model": "qwen2.5:72b-instruct-fp16",
+        "largest_context": 7939,
+        "task_candidates": {
+            "1": [
+                "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main { \n    func(doc: \"checks whether the given two integers have opposite sign or not.\") check_opposite_sign {\n        in(x: -135, y: -204, name: \"execute\") trigger() execute_8b9a1f\n        in(x: -167, y: 13, name: \"x\") property(Number) x_7c7d4e\n        in(x: -167, y: 152, name: \"y\") property(Number) y_0b9a8f\n\n        out(x: 592, y: -136, name: \"continue\") trigger() continue_3c4d3e\n        out(x: 587, y: 129, name: \"result\") property(Bool) result_0b9a8f\n\n        instance(x: 22, y: -116) mul_2f9d09 root.Std_k98ojb.Math.Mul {}\n        x_7c7d4e -> mul_2f9d09.first\n        y_0b9a8f -> mul_2f9d09.second\n        instance(x: 315, y: -116) lessthanorequal_f11fda root.Std_k98ojb.Math.LessThanOrEqual {}\n        0 -> lessthanorequal_f11fda.right\n        mul_2f9d09.result -> lessthanorequal_f11fda.left\n        execute_8b9a1f -> mul_2f9d09.execute\n        lessthanorequal_f11fda.result -> result_0b9a8f\n        lessthanorequal_f11fda.result -> continue_3c4d3e\n    }\n\n    \n\n    instance(x: -167, y: 25) check_opposite_sign_49c6ac root.main.check_opposite_sign {}\n}"
+            ]
+        }
+    },
+    {
+        "experiment_name": "regular_coverage_5_shot",
+        "temperature": 0.2,
+        "top_p": 0.9,
+        "top_k": 100,
+        "seed": 9,
+        "n_generations_per_task": 1,
+        "model": "qwen2.5:72b-instruct-fp16",
+        "largest_context": 7939,
+        "task_candidates": {
+            "1": [
+                "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main { \n    func(doc: \"checks if the given two integers have opposite signs.\") check_opposite_sign {\n        in(x: -251, y: -403, name: \"execute\") trigger() execute_8d4b1e\n        in(x: -269, y: -272, name: \"a\") property(Number) a_5c5b0f\n        in(x: -251, y: 103, name: \"b\") property(Number) b_8d4b1e\n\n        out(x: 699, y: -375, name: \"continue\") trigger() continue_6a2c7f\n        out(x: 719, y: -100, name: \"result\") property(Bool) result_8d4b1e\n\n        instance(x: 123, y: -252) mul_8d4b1e root.Std_k98ojb.Math.Mul {}\n        a_5c5b0f -> mul_8d4b1e.first\n        b_8d4b1e -> mul_8d4b1e.second\n        instance(x: 372, y: -165) lessthanorequal_8d4b1e root.Std_k98ojb.Math.LessThanOrEqual {}\n        mul_8d4b1e.result -> lessthanorequal_8d4b1e.left\n        0 -> lessthanorequal_8d4b1e.right\n        lessthanorequal_8d4b1e.result -> result_8d4b1e\n        execute_8d4b1e -> continue_6a2c7f\n    }\n\n    \n\n    instance(x: -93, y: -50) check_opposite_sign_8d4b1e root.main.check_opposite_sign {}\n}"
+            ]
+        }
+    },
+    {
+        "experiment_name": "regular_coverage_5_shot",
+        "temperature": 0.6,
+        "top_p": 0.2,
+        "top_k": 10,
+        "seed": 9,
+        "n_generations_per_task": 1,
+        "model": "qwen2.5:72b-instruct-fp16",
+        "largest_context": 7939,
+        "task_candidates": {
+            "1": [
+                "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main { \n    func(doc: \"checks whether the given two integers have opposite sign or not.\") opposite_sign {\n        in(x: -254, y: -103, name: \"execute\") trigger() execute_8b5f0a\n        in(x: -267, y: 19, name: \"x\") property(Number) x_4d6c0e\n        in(x: -267, y: 141, name: \"y\") property(Number) y_3b58f5\n\n        out(x: 595, y: -103, name: \"continue\") trigger() continue_4d6c0e\n        out(x: 595, y: 19, name: \"result\") property(Bool) result_2b7a8f\n\n        instance(x: 106, y: -103) expression_1b1b0b root.Std_k98ojb.Math.Expression {\n            expression: \"(x * y < 0)\"\n        }\n        x_4d6c0e -> expression_1b1b0b.gen_0\n        y_3b58f5 -> expression_1b1b0b.gen_1\n        execute_8b5f0a -> expression_1b1b0b.execute\n        expression_1b1b0b.result -> result_2b7a8f\n        expression_1b1b0b.continue -> continue_4d6c0e\n    }\n\n    \n\n    instance(x: -95, y: 3) opposite_sign_2b7a8f root.main.opposite_sign {}\n}"
+            ]
+        }
+    },
+    {
+        "experiment_name": "regular_coverage_5_shot",
+        "temperature": 0.6,
+        "top_p": 0.6,
+        "top_k": 10,
+        "seed": 9,
+        "n_generations_per_task": 1,
+        "model": "qwen2.5:72b-instruct-fp16",
+        "largest_context": 7939,
+        "task_candidates": {
+            "1": [
+                "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main { \n    func(doc: \"checks if two numbers have opposite signs.\") opposite_sign {\n        in(x: -245, y: -103, name: \"execute\") trigger() execute_1a7f8e\n        in(x: -242, y: 69, name: \"x\") property(Number) x_eb9c6d\n        in(x: -242, y: 252, name: \"y\") property(Number) y_3017f8\n\n        out(x: 739, y: 252, name: \"result\") property(Bool) result_eb9c6d\n        out(x: 741, y: -104, name: \"continue\") trigger() continue_1a7f8e\n\n        instance(x: 103, y: 152) mul_c6422b root.Std_k98ojb.Math.Mul {}\n        x_eb9c6d -> mul_c6422b.first\n        y_3017f8 -> mul_c6422b.second\n        instance(x: 348, y: -5) lessthanorequal_2a3e2a root.Std_k98ojb.Math.LessThanOrEqual {}\n        0 -> lessthanorequal_2a3e2a.right\n        mul_c6422b.result -> lessthanorequal_2a3e2a.left\n        instance(x: 571, y: 138) not_9c5f4d root.Std_k98ojb.Logic.Not {}\n        lessthanorequal_2a3e2a.result -> not_9c5f4d.input\n        not_9c5f4d.output -> result_eb9c6d\n        execute_1a7f8e -> continue_1a7f8e\n    }\n\n    \n\n    instance(x: -102, y: 3) opposite_sign_c72405 root.main.opposite_sign {}\n}"
+            ]
+        }
+    },
+    {
+        "experiment_name": "regular_coverage_5_shot",
+        "temperature": 0.6,
+        "top_p": 0.9,
+        "top_k": 10,
+        "seed": 9,
+        "n_generations_per_task": 1,
+        "model": "qwen2.5:72b-instruct-fp16",
+        "largest_context": 7939,
+        "task_candidates": {
+            "1": [
+                "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main { \n    func(doc: \"checks if two numbers have opposite signs.\") check_opposite_signs {\n        in(x: -253, y: -108, name: \"execute\") trigger() execute_4e7a6d\n        in(x: -259, y: 15, name: \"x\") property(Number) x_4b92c0\n        in(x: -239, y: 177, name: \"y\") property(Number) y_82b56e\n\n        out(x: 357, y: 225, name: \"result\") property(Bool) result_4f93d0\n        out(x: 441, y: -79, name: \"continue\") trigger() continue_8c796a\n\n        instance(x: 73, y: 182) mul_d5b56c root.Std_k98ojb.Math.Mul {}\n        x_4b92c0 -> mul_d5b56c.first\n        y_82b56e -> mul_d5b56c.second\n        instance(x: 173, y: -1) lessthanorequal_f3b91f root.Std_k98ojb.Math.LessThanOrEqual {}\n        mul_d5b56c.result -> lessthanorequal_f3b91f.left\n        0 -> lessthanorequal_f3b91f.right\n        lessthanorequal_f3b91f.result -> result_4f93d0\n        execute_4e7a6d -> continue_8c796a\n    }\n\n    \n\n    instance(x: -256, y: 45) check_opposite_signs_d7045a root.main.check_opposite_signs {}\n}"
+            ]
+        }
+    },
+    {
+        "experiment_name": "regular_coverage_5_shot",
+        "temperature": 0.6,
+        "top_p": 0.2,
+        "top_k": 50,
+        "seed": 9,
+        "n_generations_per_task": 1,
+        "model": "qwen2.5:72b-instruct-fp16",
+        "largest_context": 7939,
+        "task_candidates": {
+            "1": [
+                "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main { \n    func(doc: \"checks whether the given two integers have opposite sign or not.\") opposite_sign {\n        in(x: -254, y: -103, name: \"execute\") trigger() execute_8d5f0b\n        in(x: -267, y: 19, name: \"a\") property(Number) a_2c4e4c\n        in(x: -267, y: 141, name: \"b\") property(Number) b_385f0d\n\n        out(x: 569, y: -103, name: \"continue\") trigger() continue_4a2e5c\n        out(x: 569, y: 141, name: \"result\") property(Bool) result_78b7f5\n\n        instance(x: 106, y: -103) expression_1d6b1b root.Std_k98ojb.Math.Expression {\n            expression: \"(a * b < 0)\"\n        }\n        a_2c4e4c -> expression_1d6b1b.gen_0\n        b_385f0d -> expression_1d6b1b.gen_1\n        execute_8d5f0b -> expression_1d6b1b.execute\n        expression_1d6b1b.result -> result_78b7f5\n        expression_1d6b1b.continue -> continue_4a2e5c\n    }\n\n    \n\n    instance(x: -93, y: 10) opposite_sign_42431d root.main.opposite_sign {}\n}"
+            ]
+        }
+    },
+    {
+        "experiment_name": "regular_coverage_5_shot",
+        "temperature": 0.6,
+        "top_p": 0.6,
+        "top_k": 50,
+        "seed": 9,
+        "n_generations_per_task": 1,
+        "model": "qwen2.5:72b-instruct-fp16",
+        "largest_context": 7939,
+        "task_candidates": {
+            "1": [
+                "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main { \n    func(doc: \"checks if two numbers have opposite signs.\") opposite_sign {\n        in(x: -245, y: -103, name: \"execute\") trigger() execute_1f2e8d\n        in(x: -273, y: 196, name: \"a\") property(Number) a_e2c56b\n        in(x: -264, y: 103, name: \"b\") property(Number) b_4f5b9e\n\n        out(x: 807, y: 101, name: \"continue\") trigger() continue_b8d6a2\n        out(x: 826, y: -101, name: \"result\") property(Bool) result_4f5b9e\n\n        instance(x: 237, y: 198) mul_4c1f65 root.Std_k98ojb.Math.Mul {}\n        a_e2c56b -> mul_4c1f65.first\n        b_4f5b9e -> mul_4c1f65.second\n        instance(x: 305, y: -103) lessthanorequal_82d7a8 root.Std_k98ojb.Math.LessThanOrEqual {}\n        0 -> lessthanorequal_82d7a8.right\n        mul_4c1f65.result -> lessthanorequal_82d7a8.left\n        lessthanorequal_82d7a8.result -> result_4f5b9e\n        execute_1f2e8d -> continue_b8d6a2\n    }\n\n    \n\n    instance(x: -30, y: 4) opposite_sign_49c6ac root.main.opposite_sign {}\n}"
+            ]
+        }
+    },
+    {
+        "experiment_name": "regular_coverage_5_shot",
+        "temperature": 0.6,
+        "top_p": 0.9,
+        "top_k": 50,
+        "seed": 9,
+        "n_generations_per_task": 1,
+        "model": "qwen2.5:72b-instruct-fp16",
+        "largest_context": 7939,
+        "task_candidates": {
+            "1": [
+                "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main { \n    func(doc: \"checks if two numbers have opposite signs.\") check_opposite_signs {\n        in(x: -253, y: -108, name: \"execute\") trigger() execute_47e9f8\n        in(x: -264, y: 14, name: \"a\") property(Number) a_4b9e1d\n        in(x: -235, y: 170, name: \"b\") property(Number) b_7d4b08\n\n        out(x: 906, y: 100, name: \"continue\") trigger() continue_bf8ab3\n        out(x: 926, y: -7, name: \"result\") property(Bool) result_5c5aae\n\n        instance(x: 490, y: 136) and_c5b4f3 root.Std_k98ojb.Logic.And {}\n        instance(x: 250, y: 174) lessthanorequal_f9a638 root.Std_k98ojb.Math.LessThanOrEqual {}\n        instance(x: 194, y: -121) greaterthan_eb3e6d root.Std_k98ojb.Math.GreaterThan {}\n        a_4b9e1d -> lessthanorequal_f9a638.left\n        b_7d4b08 -> lessthanorequal_f9a638.right\n        a_4b9e1d -> greaterthan_eb3e6d.left\n        b_7d4b08 -> greaterthan_eb3e6d.right\n        lessthanorequal_f9a638.result -> and_c5b4f3.left\n        greaterthan_eb3e6d.result -> and_c5b4f3.right\n        execute_47e9f8 -> continue_bf8ab3\n        and_c5b4f3.result -> result_5c5aae\n    }\n\n    \n\n    instance(x: -201, y: 6) check_opposite_signs_a7d6a0 root.main.check_opposite_signs {}\n}"
+            ]
+        }
+    },
+    {
+        "experiment_name": "regular_coverage_5_shot",
+        "temperature": 0.6,
+        "top_p": 0.2,
+        "top_k": 100,
+        "seed": 9,
+        "n_generations_per_task": 1,
+        "model": "qwen2.5:72b-instruct-fp16",
+        "largest_context": 7939,
+        "task_candidates": {
+            "1": [
+                "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main { \n    func(doc: \"checks whether the given two integers have opposite sign or not.\") opposite_sign {\n        in(x: -254, y: -103, name: \"execute\") trigger() execute_8d5f0b\n        in(x: -267, y: 19, name: \"a\") property(Number) a_2c4e4c\n        in(x: -267, y: 141, name: \"b\") property(Number) b_385f0d\n\n        out(x: 569, y: -103, name: \"continue\") trigger() continue_4a2e5c\n        out(x: 569, y: 141, name: \"result\") property(Bool) result_78b7f5\n\n        instance(x: 106, y: -103) expression_1d6b1b root.Std_k98ojb.Math.Expression {\n            expression: \"(a * b < 0)\"\n        }\n        a_2c4e4c -> expression_1d6b1b.gen_0\n        b_385f0d -> expression_1d6b1b.gen_1\n        execute_8d5f0b -> expression_1d6b1b.execute\n        expression_1d6b1b.result -> result_78b7f5\n        expression_1d6b1b.continue -> continue_4a2e5c\n    }\n\n    \n\n    instance(x: -93, y: 10) opposite_sign_42441d root.main.opposite_sign {}\n}"
+            ]
+        }
+    },
+    {
+        "experiment_name": "regular_coverage_5_shot",
+        "temperature": 0.6,
+        "top_p": 0.6,
+        "top_k": 100,
+        "seed": 9,
+        "n_generations_per_task": 1,
+        "model": "qwen2.5:72b-instruct-fp16",
+        "largest_context": 7939,
+        "task_candidates": {
+            "1": [
+                "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main { \n    func(doc: \"checks if two numbers have opposite signs.\") opposite_sign {\n        in(x: -245, y: -103, name: \"execute\") trigger() execute_1f2e8d\n        in(x: -273, y: 196, name: \"a\") property(Number) a_e2c56b\n        in(x: -264, y: 103, name: \"b\") property(Number) b_4f557e\n\n        out(x: 856, y: -39, name: \"continue\") trigger() continue_735c0d\n        out(x: 629, y: 216, name: \"result\") property(Bool) result_4b3f3d\n\n        instance(x: 284, y: -25) ifexpression_2e20af root.Std_k98ojb.Std.IfExpression {\n            expression: \"(a < 0 && b > 0) || (a > 0 && b < 0)\"\n        }\n        a_e2c56b -> ifexpression_2e20af.gen_0\n        b_4f557e -> ifexpression_2e20af.gen_1\n        execute_1f2e8d -> ifexpression_2e20af.execute\n        ifexpression_2e20af.then -> result_4b3f3d\n        ifexpression_2e20af.else -> continue_735c0d\n    }\n\n    \n\n    instance(x: -196, y: 48) opposite_sign_e427cb root.main.opposite_sign {}\n}"
+            ]
+        }
+    },
+    {
+        "experiment_name": "regular_coverage_5_shot",
+        "temperature": 0.6,
+        "top_p": 0.9,
+        "top_k": 100,
+        "seed": 9,
+        "n_generations_per_task": 1,
+        "model": "qwen2.5:72b-instruct-fp16",
+        "largest_context": 7939,
+        "task_candidates": {
+            "1": [
+                "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main { \n    func(doc: \"checks if two numbers have opposite signs.\") check_opposite_signs {\n        in(x: -253, y: -108, name: \"execute\") trigger() execute_47e9f8\n        in(x: -264, y: 14, name: \"a\") property(Number) a_4b9e1d\n        in(x: -235, y: 170, name: \"b\") property(Number) b_796b08\n\n        out(x: 950, y: 165, name: \"continue\") trigger() continue_4f8ca2\n        out(x: 963, y: -92, name: \"result\") property(Bool) result_7d1ae4\n\n        instance(x: 353, y: -104) expression_d6c28e root.Std_k98ojb.Math.Expression {\n            expression: \"(a * b < 0)\"\n        }\n        a_4b9e1d -> expression_d6c28e.gen_0\n        b_796b08 -> expression_d6c28e.gen_1\n        execute_47e9f8 -> expression_d6c28e.execute\n        expression_d6c28e.result -> result_7d1ae4\n        expression_d6c28e.execute -> continue_4f8ca2\n    }\n\n    \n\n    instance(x: -305, y: 39) check_opposite_signs_b8f1a0 root.main.check_opposite_signs {}\n}"
+            ]
+        }
+    },
+    {
+        "experiment_name": "regular_coverage_5_shot",
+        "temperature": 0.9,
+        "top_p": 0.2,
+        "top_k": 10,
+        "seed": 9,
+        "n_generations_per_task": 1,
+        "model": "qwen2.5:72b-instruct-fp16",
+        "largest_context": 7939,
+        "task_candidates": {
+            "1": [
+                "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main { \n    func(doc: \"checks whether the given two integers have opposite sign or not.\") opposite_sign {\n        in(x: -254, y: -103, name: \"execute\") trigger() execute_8b5f0a\n        in(x: -267, y: 19, name: \"x\") property(Number) x_4d6c0e\n        in(x: -267, y: 141, name: \"y\") property(Number) y_3b58f5\n\n        out(x: 595, y: -103, name: \"continue\") trigger() continue_4d6c0e\n        out(x: 595, y: 19, name: \"result\") property(Bool) result_2b7a8f\n\n        instance(x: 106, y: -103) expression_1b1b0b root.Std_k98ojb.Math.Expression {\n            expression: \"(x * y < 0)\"\n        }\n        x_4d6c0e -> expression_1b1b0b.gen_0\n        y_3b58f5 -> expression_1b1b0b.gen_1\n        execute_8b5f0a -> expression_1b1b0b.execute\n        expression_1b1b0b.result -> result_2b7a8f\n        expression_1b1b0b.continue -> continue_4d6c0e\n    }\n\n    \n\n    instance(x: -95, y: 3) opposite_sign_2b7a8f root.main.opposite_sign {}\n}"
+            ]
+        }
+    },
+    {
+        "experiment_name": "regular_coverage_5_shot",
+        "temperature": 0.9,
+        "top_p": 0.6,
+        "top_k": 10,
+        "seed": 9,
+        "n_generations_per_task": 1,
+        "model": "qwen2.5:72b-instruct-fp16",
+        "largest_context": 7939,
+        "task_candidates": {
+            "1": [
+                "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main { \n    func(doc: \"checks if two numbers have opposite signs.\") opposite_sign {\n        in(x: -245, y: -103, name: \"execute\") trigger() execute_1f5e8d\n        in(x: -273, y: 196, name: \"a\") property(Number) a_e5c31b\n        in(x: -264, y: 290, name: \"b\") property(Number) b_4f5b5e\n\n        out(x: 857, y: -96, name: \"continue\") trigger() continue_4b2d3a\n        out(x: 1046, y: 186, name: \"result\") property(Bool) result_e5f71b\n\n        instance(x: 304, y: -97) mul_2e2c2d root.Std_k98ojb.Math.Mul {}\n        a_e5c31b -> mul_2e2c2d.first\n        b_4f5b5e -> mul_2e2c2d.second\n        instance(x: 607, y: -104) lessthanorequal_c8a294 root.Std_k98ojb.Math.LessThanOrEqual {}\n        0 -> lessthanorequal_c8a294.right\n        mul_2e2c2d.result -> lessthanorequal_c8a294.left\n        lessthanorequal_c8a294.result -> result_e5f71b\n        execute_1f5e8d -> continue_4b2d3a\n    }\n\n    \n\n    instance(x: -106, y: -34) opposite_sign_0b4c1a root.main.opposite_sign {}\n}"
+            ]
+        }
+    },
+    {
+        "experiment_name": "regular_coverage_5_shot",
+        "temperature": 0.9,
+        "top_p": 0.9,
+        "top_k": 10,
+        "seed": 9,
+        "n_generations_per_task": 1,
+        "model": "qwen2.5:72b-instruct-fp16",
+        "largest_context": 7939,
+        "task_candidates": {
+            "1": [
+                "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main { \n    func(doc: \"checks if two numbers have opposite signs.\") check_opposite_signs {\n        in(x: -140, y: -136, name: \"a\") property(Number) a_5e8fcb\n        in(x: -172, y: 92, name: \"b\") property(Number) b_c7d0c7\n\n        out(x: 526, y: -64, name: \"opposite_signs\") property(Bool) opposite_signs_3b4f8b\n\n        instance(x: 157, y: -129) mul_ea362d root.Std_k98ojb.Math.Mul {}\n        a_5e8fcb -> mul_ea362d.first\n        b_c7d0c7 -> mul_ea362d.second\n        instance(x: 356, y: -142) lessthanorequal_f6b927 root.Std_k98ojb.Math.LessThanOrEqual {}\n        mul_ea362d.result -> lessthanorequal_f6b927.left\n        0 -> lessthanorequal_f6b927.right\n        lessthanorequal_f6b927.result -> opposite_signs_3b4f8b\n    }\n\n    \n\n    instance(x: -145, y: 7) check_opposite_signs_22a90d root.main.check_opposite_signs {}\n}"
+            ]
+        }
+    },
+    {
+        "experiment_name": "regular_coverage_5_shot",
+        "temperature": 0.9,
+        "top_p": 0.2,
+        "top_k": 50,
+        "seed": 9,
+        "n_generations_per_task": 1,
+        "model": "qwen2.5:72b-instruct-fp16",
+        "largest_context": 7939,
+        "task_candidates": {
+            "1": [
+                "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main { \n    func(doc: \"checks whether the given two integers have opposite sign or not.\") opposite_sign {\n        in(x: -254, y: -103, name: \"execute\") trigger() execute_8d5f0b\n        in(x: -267, y: 19, name: \"a\") property(Number) a_2c4e4c\n        in(x: -267, y: 141, name: \"b\") property(Number) b_385f0d\n\n        out(x: 569, y: -103, name: \"continue\") trigger() continue_4a2e4c\n        out(x: 569, y: 141, name: \"result\") property(Bool) result_78b7f5\n\n        instance(x: 106, y: -103) expression_1d651b root.Std_k98ojb.Math.Expression {\n            expression: \"(a * b < 0)\"\n        }\n        a_2c4e4c -> expression_1d651b.gen_0\n        b_385f0d -> expression_1d651b.gen_1\n        execute_8d5f0b -> expression_1d651b.execute\n        expression_1d651b.result -> result_78b7f5\n        expression_1d651b.continue -> continue_4a2e4c\n    }\n\n    \n\n    instance(x: -93, y: 10) opposite_sign_42431d root.main.opposite_sign {}\n}"
+            ]
+        }
+    },
+    {
+        "experiment_name": "regular_coverage_5_shot",
+        "temperature": 0.9,
+        "top_p": 0.6,
+        "top_k": 50,
+        "seed": 9,
+        "n_generations_per_task": 1,
+        "model": "qwen2.5:72b-instruct-fp16",
+        "largest_context": 7939,
+        "task_candidates": {
+            "1": [
+                "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main { \n    func(doc: \"checks if two numbers have opposite signs.\") opposite_sign {\n        in(x: -245, y: -103, name: \"execute\") trigger() execute_1b2e8c\n        in(x: -273, y: 196, name: \"a\") property(Number) a_f8208d\n        in(x: -264, y: 356, name: \"b\") property(Number) b_4f53bb\n\n        out(x: 748, y: -91, name: \"continue\") trigger() continue_705a4e\n        out(x: 679, y: 259, name: \"result\") property(Bool) result_1c35d0\n\n        instance(x: 348, y: -95) ifexpression_c2b5f6 root.Std_k98ojb.Std.IfExpression {\n            expression: \"(a * b < 0)\"\n        }\n        a_f8208d -> ifexpression_c2b5f6.gen_0\n        b_4f53bb -> ifexpression_c2b5f6.gen_1\n        execute_1b2e8c -> ifexpression_c2b5f6.execute\n        ifexpression_c2b5f6.then -> result_1c35d0\n        ifexpression_c2b5f6.else -> continue_705a4e\n    }\n\n    \n\n    instance(x: -115, y: 8) opposite_sign_f7c79a root.main.opposite_sign {}\n}"
+            ]
+        }
+    },
+    {
+        "experiment_name": "regular_coverage_5_shot",
+        "temperature": 0.9,
+        "top_p": 0.9,
+        "top_k": 50,
+        "seed": 9,
+        "n_generations_per_task": 1,
+        "model": "qwen2.5:72b-instruct-fp16",
+        "largest_context": 7939,
+        "task_candidates": {
+            "1": [
+                "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main { \n    func(doc: \"checks if two numbers have opposite signs.\") check_opposite_signs {\n        in(x: -140, y: -136, name: \"a\") property(Number) a_f89e2c\n        in(x: -175, y: 212, name: \"b\") property(Number) b_4b7f7f\n\n        out(x: 542, y: -93, name: \"continue\") trigger() continue_c7d666\n        out(x: 813, y: 20, name: \"result\") property(Bool) result_d29dc2\n\n        instance(x: 157, y: 54) expression_2a0f35 root.Std_k98ojb.Math.Expression {\n            expression: \"((a > 0 && b < 0) || (a < 0 && b > 0))\"\n        }\n        a_f89e2c -> expression_2a0f35.gen_1\n        b_4b7f7f -> expression_2a0f35.gen_0\n        expression_2a0f35.result -> result_d29dc2\n    }\n\n    \n\n    instance(x: -92, y: 68) check_opposite_signs_f8a1e2 root.main.check_opposite_signs {}\n}"
+            ]
+        }
+    },
+    {
+        "experiment_name": "regular_coverage_5_shot",
+        "temperature": 0.9,
+        "top_p": 0.2,
+        "top_k": 100,
+        "seed": 9,
+        "n_generations_per_task": 1,
+        "model": "qwen2.5:72b-instruct-fp16",
+        "largest_context": 7939,
+        "task_candidates": {
+            "1": [
+                "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main { \n    func(doc: \"checks whether the given two integers have opposite sign or not.\") opposite_sign {\n        in(x: -254, y: -103, name: \"execute\") trigger() execute_8d5f0b\n        in(x: -267, y: 19, name: \"a\") property(Number) a_2c4e4c\n        in(x: -267, y: 141, name: \"b\") property(Number) b_385f0d\n\n        out(x: 569, y: -103, name: \"continue\") trigger() continue_4a2b5c\n        out(x: 569, y: 141, name: \"result\") property(Bool) result_7e8b5d\n\n        instance(x: 116, y: -103) expression_2f4b1b root.Std_k98ojb.Math.Expression {\n            expression: \"(a * b < 0)\"\n        }\n        a_2c4e4c -> expression_2f4b1b.gen_0\n        b_385f0d -> expression_2f4b1b.gen_1\n        execute_8d5f0b -> expression_2f4b1b.execute\n        expression_2f4b1b.result -> result_7e8b5d\n        expression_2f4b1b.continue -> continue_4a2b5c\n    }\n\n    \n\n    instance(x: -96, y: 30) opposite_sign_25524c root.main.opposite_sign {}\n}"
+            ]
+        }
+    },
+    {
+        "experiment_name": "regular_coverage_5_shot",
+        "temperature": 0.9,
+        "top_p": 0.6,
+        "top_k": 100,
+        "seed": 9,
+        "n_generations_per_task": 1,
+        "model": "qwen2.5:72b-instruct-fp16",
+        "largest_context": 7939,
+        "task_candidates": {
+            "1": [
+                "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main { \n    func(doc: \"checks if two numbers have opposite signs.\") opposite_sign {\n        in(x: -245, y: -103, name: \"execute\") trigger() execute_15f7d4\n        in(x: -246, y: 89, name: \"a\") property(Number) a_e435e0\n        in(x: -245, y: 283, name: \"b\") property(Number) b_21c2f8\n\n        out(x: 747, y: -65, name: \"continue\") trigger() continue_960a4e\n        out(x: 753, y: 164, name: \"result\") property(Bool) result_eb93c7\n\n        instance(x: 286, y: -59) expression_78b4f5 root.Std_k98ojb.Math.Expression {\n            expression: \"(a * b < 0)\"\n        }\n        a_e435e0 -> expression_78b4f5.gen_0\n        b_21c2f8 -> expression_78b4f5.gen_1\n        execute_15f7d4 -> expression_78b4f5.execute\n        expression_78b4f5.result -> result_eb93c7\n        expression_78b4f5.continue -> continue_960a4e\n    }\n\n    \n\n    instance(x: -129, y: -22) opposite_sign_1938c7 root.main.opposite_sign {}\n}"
+            ]
+        }
+    },
+    {
+        "experiment_name": "regular_coverage_5_shot",
+        "temperature": 0.9,
+        "top_p": 0.9,
+        "top_k": 100,
+        "seed": 9,
+        "n_generations_per_task": 1,
+        "model": "qwen2.5:72b-instruct-fp16",
+        "largest_context": 7939,
+        "task_candidates": {
+            "1": [
+                "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main { \n    func(doc: \"checks if two numbers have opposite signs.\") check_opposite_signs {\n        in(x: -140, y: -136, name: \"a\") property(Number) a_f88e2c\n        in(x: -175, y: 94, name: \"b\") property(Number) b_4d0b4a\n\n        out(x: 934, y: 193, name: \"continue\") trigger() continue_77b636\n        out(x: 880, y: -52, name: \"result\") property(Bool) result_d76fcb\n\n        instance(x: 91, y: -43) multi_a3d0c1 root.Std_k98ojb.Math.Mul {}\n        instance(x: 466, y: -6) if_5da92a root.Std_k98ojb.Std.If {}\n        a_f88e2c -> multi_a3d0c1.first\n        b_4d0b4a -> multi_a3d0c1.second\n        multi_a3d0c1.result -> if_5da92a.input\n        0 -> if_5da92a.then\n        1 -> if_5da92a.else\n        if_5da92a.value -> result_d76fcb\n        if_5da92a.then -> continue_77b636\n    }\n\n    \n\n    instance(x: -80, y: 43) check_opposite_signs_feb0d8 root.main.check_opposite_signs {}\n}"
+            ]
+        }
+    }
+]
