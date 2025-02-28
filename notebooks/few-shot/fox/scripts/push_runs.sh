@@ -15,8 +15,9 @@ BRANCH="${PHASE}/${EXAMPLES_TYPE}"
 
 echo "==== Pushing runs to GitHub ====="
 echo "Pushing changes from ${TARGET_DIR} to ${BRANCH} on GitHub..."
-cd ~/Thesis_project
 git fetch
+echo "🔍 Debug: Current Git repository is:"
+git rev-parse --show-toplevel
 
 #  Get the current branch
 CURRENT_BRANCH="$(git rev-parse --abbrev-ref HEAD 2>/dev/null)"
@@ -44,11 +45,12 @@ fi
 
 # Load files from REMOTE_DIR into TARGET_DIR
 echo "📥 Loading files from ${REMOTE_DIR} into '${TARGET_DIR}'..."
-rsync -av --ignore-existing "${REMOTE_DIR}/" "${TARGET_DIR}/" # --ignore-existing: skips existing files in TARGET_DIR
+rsync -av "${REMOTE_DIR}/" "${TARGET_DIR}/" # --ignore-existing: skips existing files in TARGET_DIR
 
 # Stage changes only in TARGET_DIR
 git add --intent-to-add "$TARGET_DIR" && git reset  # Ensures only TARGET_DIR is tracked
 git add "$TARGET_DIR"
+
 
 # Check if there are actual changes before committing
 if ! git diff --cached --exit-code >/dev/null; then

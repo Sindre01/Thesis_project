@@ -56,7 +56,7 @@ def model_configs(all_responses, model_provider):
     
             models = [
                 # 14b models:
-                "phi4:14b-fp16", #16k context length
+                # "phi4:14b-fp16", #16k context length
                 # "qwen2.5:14b-instruct-fp16", #128 k
 
                 # #32b models:
@@ -65,7 +65,7 @@ def model_configs(all_responses, model_provider):
     
                 # #70b models:
                 # "llama3.3:70b-instruct-fp16", #ctx: 130k
-                # "qwen2.5:72b-instruct-fp16", #ctx: 139k
+                "qwen2.5:72b-instruct-fp16", #ctx: 139k
             ]
             models_not_tokenized = models_not_in_file(models, f'{project_dir}/notebooks/few-shot/code_max_tokens.json')
             write_models_tokens_to_file(client, models_not_tokenized, all_responses, f'{project_dir}/notebooks/few-shot/code_max_tokens.json')
@@ -133,8 +133,8 @@ def run_val_experiment(
         model,
         example_pool,
         prompt_type: PromptType,
-        temperatures = [],#[0.2, 0.6, 0.9],
-        top_ps = [],#[0.2, 0.6, 0.9],
+        temperatures = [0.2, 0.6, 0.9],
+        top_ps = [0.2, 0.6, 0.9],
         top_ks = [10, 50, 100],
         n = 1, # Max value of array is generations per task
         seed = 9,
@@ -202,14 +202,15 @@ if __name__ == "__main__":
     dataset = read_dataset_to_json(main_dataset_folder + "MBPP-Midio-50.json")
     experiment_type = "coverage" # "similarity"
     experiments = [
+
+        ############# Coverage examples prompt #################
         {
             "name": "regular_coverage",
             "prompt_prefix": "Create a function",
-            "num_shots": [1],
+            "num_shots": [1, 5, 10],
             "prompt_type": PromptType.REGULAR,
             "semantic_selector": False,
         },
-
         # {
         #     "name": "signature_coverage",
         #     "prompt_prefix": "Create a function",
@@ -218,19 +219,14 @@ if __name__ == "__main__":
         #     "semantic_selector": False,
         # },
         # {
-        #     "name": "regular_similarity",
+        #     "name": "cot_coverage",
         #     "prompt_prefix": "Create a function",
         #     "num_shots": [1, 5, 10],
-        #     "prompt_type": PromptType.REGULAR,
-        #     "semantic_selector": True,
-        # },
-        # {
-        #     "name": "signature_similarity",
-        #     "prompt_prefix": "Create a function",
-        #     "num_shots": [1, 5, 10],
-        #     "prompt_type": PromptType.SIGNATURE,
+        #     "prompt_type": PromptType.COT,
         #     "semantic_selector": False,
         # },
+
+        ############# RAG similarity examples prompt #################
         # {
         #     "name": "regular_similarity",
         #     "prompt_prefix": "Create a function",
@@ -238,7 +234,7 @@ if __name__ == "__main__":
         #     "prompt_type": PromptType.REGULAR,
         #     "semantic_selector": True,
         # },
-        # {
+        # { # Denne har blir kjørt feil! DOBBELTSJEKK
         #     "name": "signature_similarity",
         #     "prompt_prefix": "Create a function",
         #     "num_shots": [1, 5, 10],
@@ -252,14 +248,7 @@ if __name__ == "__main__":
         #     "prompt_type": PromptType.COT,
         #     "semantic_selector": True,
         # },
-        # {
-        #     "name": "cot_coverage",
-        #     "prompt_prefix": "Create a function",
-        #     "num_shots": [1, 5, 10],
-        #     "prompt_type": PromptType.COT,
-        #     "semantic_selector": False,
-        # },
-       
+  
     ]
 
     print(f"Total experiments variations to run: {len(experiments) * len(models)* len([1, 5, 10])}")
