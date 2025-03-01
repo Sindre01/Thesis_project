@@ -304,7 +304,7 @@ if __name__ == "__main__":
                 model = get_model_code_tokens_from_file(model_name, f'{project_dir}/notebooks/few-shot/code_max_tokens.json')
                 run_val_experiment(
                     client,
-                    val_data[:1],
+                    val_data,
                     available_nodes,
                     experiment_name,
                     result_runs_path,
