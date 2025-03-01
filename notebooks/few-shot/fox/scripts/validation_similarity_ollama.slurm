@@ -6,12 +6,13 @@
 ###############################################################################
 
 # Job Configuration
-#SBATCH --job-name=validation_few_shot_similarity          # Job name
+#SBATCH --job-name=validation_few-shot_similarity         # Job name
 #SBATCH --account=ec12                      # Project account
 #SBATCH --partition=accel                  # Partition ('accel' or 'accel_long')
 #SBATCH --nodes=1                           # Amount of nodes. Ollama one support single node inference
-#SBATCH --gpus=a100:2                             # Number of GPUs
-#SBATCH --time=00-24:00:00                             # Walltime (D-HH:MM:SS)
+#SBATCH --nodelist=gpu-9,gpu-7,gpu-8                   # List of nodes that the job can run on
+#SBATCH --gpus=a100:1                             # Number of GPUs
+#SBATCH --time=0-24:00:00                             # Walltime (D-HH:MM:SS)
 #SBATCH --mem-per-gpu=80G              # Memory per CPU
 #SBATCH --output=Job_validation_%j.out                 # Standard output and error log
 
@@ -48,35 +49,99 @@ export OLLAMA_KV_CACHE_TYPE="f16" # f16 (default), q8_0 (half of the memory of f
 # export CUDA_ERROR_LEVEL=50
 # export CUDA_VISIBLE_DEVICES=0,1
 # export AMD_LOG_LEVEL=3
+#############CLEANUP OLD JOBS################
+# Set the target directory (default: current directory)
 
+
+# Set the age threshold (1 hours)
+AGE_THRESHOLD=3600 # 1 hours in seconds
+
+echo "🧹 Cleaning up files older than 1 hours in: /fp/homes01/u01/ec-sindrre/slurm_jobs/few-shot/validation/similarity/regular"
+
+# Find and delete .out, .slurm, and .csv files older than 1 hours
+find "/fp/homes01/u01/ec-sindrre/slurm_jobs/few-shot/validation/similarity/regular" -type f \( -name "*.out" -o -name "*.slurm" -o -name "*.csv" \) -mmin +1800 -exec rm -v {} \;
+
+echo "✅ Cleanup completed!"
 
 ####################### Setup monitoring ######################################
-nvidia-smi --query-gpu=timestamp,utilization.gpu,utilization.memory 	--format=csv --loop=1 > "gpu_util-.csv" &
+nvidia-smi --query-gpu=timestamp,utilization.gpu,utilization.memory 	--format=csv --loop=1 > "gpu_util-$SLURM_JOB_ID.csv" &
 NVIDIA_MONITOR_PID=  # Capture PID of monitoring process
 
 
 ###############################################################################
 # Start Ollama Server in Background with Log Redirection
 ###############################################################################
-rm -rf ~/.ollama
-ollama serve > ollama_API.out 2>&1 &  
+ollama serve > ollama_API_$SLURM_JOB_ID.out 2>&1 &  
 
 sleep 5
 
 ###############################################################################
 # Run Python Script
 ###############################################################################
-echo "============= Pulling latest changes from git... ============="
-cd ~/Thesis_project
-git fetch
-git checkout validation/similarity
-git pull
-source thesis_venv/bin/activate  # Activate it to ensure the correct Python environment
 
-cd ~/Thesis_project/notebooks/few-shot/fox
+echo "============= Pulling latest changes from Git... ============="
 
-echo "============= Running validation few_shot Python script... ============="
-python -u run_validation.py > /fp/homes01/u01/ec-sindrre/slurm_jobs/few_shot/validation/similarity/validation.out 2>&1
+# Check if the repository already exists
+if [ -d "/fp/homes01/u01/ec-sindrre/tmp/Thesis_project_similarity_$SLURM_JOB_ID/.git" ]; then
+    echo "✅ Repository already exists: /fp/homes01/u01/ec-sindrre/tmp/Thesis_project_similarity_$SLURM_JOB_ID"
+    cd "/fp/homes01/u01/ec-sindrre/tmp/Thesis_project_similarity_$SLURM_JOB_ID" || { echo "❌ Failed to enter /fp/homes01/u01/ec-sindrre/tmp/Thesis_project_similarity_$SLURM_JOB_ID"; exit 1; }
+    
+    # Pull latest changes
+    echo "🔄 Pulling latest changes..."
+
+else
+    echo "🚀 Cloning repository..."
+    git clone https://github.com/Sindre01/Thesis_project.git "/fp/homes01/u01/ec-sindrre/tmp/Thesis_project_similarity_$SLURM_JOB_ID" || { echo "❌ Clone failed!"; exit 1; }
+    
+    echo "✅ Repository cloned to /fp/homes01/u01/ec-sindrre/tmp/Thesis_project_similarity_$SLURM_JOB_ID"
+    cd "/fp/homes01/u01/ec-sindrre/tmp/Thesis_project_similarity_$SLURM_JOB_ID" || { echo "❌ Failed to enter /fp/homes01/u01/ec-sindrre/tmp/Thesis_project_similarity_$SLURM_JOB_ID"; exit 1; }
+fi
+
+echo "🔍 Debug: Current Git repository is:"
+git rev-parse --show-toplevel
+
+export GIT_DIR="/fp/homes01/u01/ec-sindrre/tmp/Thesis_project_similarity_$SLURM_JOB_ID/.git"
+export GIT_WORK_TREE="/fp/homes01/u01/ec-sindrre/tmp/Thesis_project_similarity_$SLURM_JOB_ID"
+
+branch_name="validation/similarity"
+if [ -n "regular" ]; then
+    branch_name="${branch_name}-regular"
+fi
+
+if git rev-parse --verify --quiet "refs/heads/${branch_name}"; then
+    git checkout "${branch_name}"
+else
+    git checkout -b "${branch_name}"
+    git push --set-upstream origin "${branch_name}"  # Set remote tracking
+fi
+
+git reset --hard HEAD  # Ensure a clean state
+git pull --rebase --autostash || { echo "❌ Git pull failed!"; exit 1; }
+
+#PULL changes to Main git repo as well
+# git --git-dir=~/Thesis_project/.git --work-tree=~/Thesis_project/ pull origin main
+source ~/Thesis_project/thesis_venv/bin/activate  # Activate it to ensure the correct Python environment
+
+echo "============= Running validation few-shot Python script... ============="
+export PYTHONPATH="/fp/homes01/u01/ec-sindrre/tmp/Thesis_project_similarity_$SLURM_JOB_ID:~/Thesis_project:~/Thesis_project:"
+python -u /fp/homes01/u01/ec-sindrre/tmp/Thesis_project_similarity_$SLURM_JOB_ID/notebooks/few-shot/fox/run_validation.py     --model_provider 'ollama'     --models '[
+    "llama3.3:70b-instruct-fp16",
+    "qwen2.5:72b-instruct-fp16",
+]'     --experiments '[
+        {
+            "name": "regular_similarity",
+            "prompt_prefix": "Create a function",
+            "num_shots": [1, 5, 10],
+            "prompt_type": "regular",
+            "semantic_selector": true,
+        },
+        
+]'     > /fp/homes01/u01/ec-sindrre/slurm_jobs/few-shot/validation/similarity/regular/AI_$SLURM_JOB_ID.out 2>&1
+
+# Cleanup after job completion
+echo "🚀 Cleaning up cloned repository..."
+rm -rf "/fp/homes01/u01/ec-sindrre/tmp/Thesis_project_similarity_$SLURM_JOB_ID"
+echo "✅ Repository removed: /fp/homes01/u01/ec-sindrre/tmp/Thesis_project_similarity_$SLURM_JOB_ID"
 
 ###############################################################################
 # End of Script

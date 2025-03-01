@@ -200,7 +200,7 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    model_provider = json.loads(args.model_provider)
+    model_provider = args.model_provider
     models = json.loads(args.models)
     experiments = json.loads(args.experiments)
 

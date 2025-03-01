@@ -14,7 +14,7 @@ HOST="fox.educloud.no"                   # Fox login address (matches SSH config
 SSH_CONFIG_NAME="fox"                    # Name of the SSH config entry
 ACCOUNT="ec12"                           # Fox project account
 PARTITION="accel"                        # 'accel' or 'accel_long' (or 'ifi_accel' if access to ec11,ec29,ec30,ec34,ec35 or ec232)
-GPUS=a100:2                              # a100 have 40GB or 80GB VRAM, while rtx30 have 24GB VRAM.
+GPUS=a100:1                              # a100 have 40GB or 80GB VRAM, while rtx30 have 24GB VRAM.
 NODES=1                                  # Number of nodes. OLLAMA does currently only support single node inference
 NODE_LIST=gpu-9,gpu-7,gpu-8              # List of nodes that the job can run on
 TIME="0-24:00:00"                       # Slurm walltime (D-HH:MM:SS)
@@ -39,8 +39,8 @@ experiments='[
             "name": "regular_similarity",
             "prompt_prefix": "Create a function",
             "num_shots": [1, 5, 10],
-            "prompt_type": regular,
-            "semantic_selector": True,
+            "prompt_type": "regular",
+            "semantic_selector": true,
         },
         
 ]'
@@ -192,12 +192,16 @@ git reset --hard HEAD  # Ensure a clean state
 git pull --rebase --autostash || { echo "❌ Git pull failed!"; exit 1; }
 
 #PULL changes to Main git repo as well
-git --git-dir=~/Thesis_project/.git --work-tree=~/Thesis_project/ pull origin main
+# git --git-dir=~/Thesis_project/.git --work-tree=~/Thesis_project/ pull origin main
 source ~/Thesis_project/thesis_venv/bin/activate  # Activate it to ensure the correct Python environment
 
 echo "============= Running ${PHASE} ${EXPERIMENT} Python script... ============="
 export PYTHONPATH="${CLONE_DIR}:$PYTHONPATH"
-python -u ${CLONE_DIR}/notebooks/${EXPERIMENT}/fox/run_${PHASE}.py --model_provider ${model_provider} --models ${models} --experiments ${experiments} > ${REMOTE_DIR}/AI_\$SLURM_JOB_ID.out 2>&1
+python -u ${CLONE_DIR}/notebooks/${EXPERIMENT}/fox/run_${PHASE}.py \
+    --model_provider '${model_provider}' \
+    --models '${models}' \
+    --experiments '${experiments}' \
+    > ${REMOTE_DIR}/AI_\$SLURM_JOB_ID.out 2>&1
 
 # Cleanup after job completion
 echo "🚀 Cleaning up cloned repository..."
