@@ -226,7 +226,7 @@ if __name__ == "__main__":
     available_nodes = used_functions_to_string(used_functions_json)
 
     print("\n==== Configures models ====")
-    client, models = model_configs(all_responses, model_provider)
+    client, models = model_configs(all_responses, model_provider, models)
 
     print("\n==== Running validation ====")
     dataset = read_dataset_to_json(main_dataset_folder + "MBPP-Midio-50.json")
@@ -258,13 +258,13 @@ if __name__ == "__main__":
             # },
 
             ############# RAG similarity examples prompt #################
-            {
-                "name": "regular_similarity",
-                "prompt_prefix": "Create a function",
-                "num_shots": [1, 5, 10],
-                "prompt_type": PromptType.REGULAR,
-                "semantic_selector": True,
-            },
+            # {
+            #     "name": "regular_similarity",
+            #     "prompt_prefix": "Create a function",
+            #     "num_shots": [1, 5, 10],
+            #     "prompt_type": PromptType.REGULAR,
+            #     "semantic_selector": True,
+            # },
             # {
             #     "name": "signature_similarity",
             #     "prompt_prefix": "Create a function",
