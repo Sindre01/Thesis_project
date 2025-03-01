@@ -32,6 +32,7 @@ fi
 #--exclusive #Job will not share nodes with other jobs. 
 # Define unique folder name
 CLONE_DIR="/fp/homes01/u01/ec-sindrre/tmp/Thesis_project_${EXAMPLES_TYPE}_\$SLURM_JOB_ID"
+
 ##############Experiment config################
 model_provider='ollama'
 experiments='[
