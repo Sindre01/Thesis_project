@@ -1,7 +1,9 @@
+import json
 import time
 import os
 import subprocess
 import sys
+import argparse
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
 project_dir = os.path.abspath(f"{script_dir}/../../..")
@@ -38,7 +40,7 @@ def get_dataset_splits(main_dataset_folder):
     print(f"Test data: {len(test_data)}")
     return train_data, val_data, test_data
 
-def model_configs(all_responses, model_provider):  
+def model_configs(all_responses, model_provider, models = None):  
     load_dotenv("../../.env")
 
     match model_provider:
@@ -52,20 +54,20 @@ def model_configs(all_responses, model_provider):
                     print("Ollama server is not reachable. Batch job might have finished. Try running bash script again.")
 
             client = ChatOllama
-    
-            models = [
-                #14b models:
-                "phi4:14b-fp16", #16k context length
-                "qwen2.5:14b-instruct-fp16", #128 k
+            if not models:
+                models = [
+                    # #14b models:
+                    # "phi4:14b-fp16", #16k context length
+                    # "qwen2.5:14b-instruct-fp16", #128 k
 
-                #32b models:
-                "qwq:32b-preview-fp16", #ctx: 32,768 tokens
-                "qwen2.5-coder:32b-instruct-fp16", #32,768 tokens
-    
-                # #70b models:
-                "llama3.3:70b-instruct-fp16", #ctx: 130k
-                "qwen2.5:72b-instruct-fp16", #ctx: 139k
-            ]
+                    # #32b models:
+                    # "qwq:32b-preview-fp16", #ctx: 32,768 tokens
+                    # "qwen2.5-coder:32b-instruct-fp16", #32,768 tokens
+        
+                    # #70b models:
+                    "llama3.3:70b-instruct-fp16", #ctx: 130k
+                    "qwen2.5:72b-instruct-fp16", #ctx: 139k
+                ]
             models_not_tokenized = models_not_in_file(models, f'{project_dir}/notebooks/few-shot/code_max_tokens.json')
             write_models_tokens_to_file(client, models_not_tokenized, all_responses, f'{project_dir}/notebooks/few-shot/code_max_tokens.json')
 
@@ -181,8 +183,34 @@ def run_val_experiment(
     
     write_directly_json_file(file_path, results)
 
+def parse_experiments(experiment_list):
+    """Convert dictionary input to proper PromptType Enum where needed."""
+    for exp in experiment_list:
+        if "prompt_type" in exp and isinstance(exp["prompt_type"], str):
+            exp["prompt_type"] = PromptType(exp["prompt_type"])  # Convert to Enum
+    return experiment_list
 
 if __name__ == "__main__":
+    # Parse arguments:
+    parser = argparse.ArgumentParser(description="Process input.")
+
+    parser.add_argument("--model_provider", type=str, required=True, help="Model provider")
+    parser.add_argument("--models", type=str, required=True, help="JSON string for models")
+    parser.add_argument("--experiments", type=str, required=True, help="JSON string for experiments")
+
+    args = parser.parse_args()
+
+    model_provider = json.loads(args.model_provider)
+    models = json.loads(args.models)
+    experiments = json.loads(args.experiments)
+
+    experiments = parse_experiments(experiments)
+    print("########### Parsed arguments ###########")
+    print(f"Model provider: {model_provider}") 
+    print(f"Models: {models}")
+    print(f"Experiments: {experiments}")
+    print("########################################")
+
     start_time = time.time()
     main_dataset_folder = f'{project_dir}/data/MBPP_Midio_50/'
 
@@ -195,60 +223,61 @@ if __name__ == "__main__":
     available_nodes = used_functions_to_string(used_functions_json)
 
     print("\n==== Configures models ====")
-    client, models = model_configs(all_responses, 'ollama')
+    client, models = model_configs(all_responses, model_provider)
 
     print("\n==== Running validation ====")
     dataset = read_dataset_to_json(main_dataset_folder + "MBPP-Midio-50.json")
-    experiment_type = "coverage" # "similarity"
-    experiments = [
 
-        ############# Coverage examples prompt #################
-        # {
-        #     "name": "regular_coverage",
-        #     "prompt_prefix": "Create a function",
-        #     "num_shots": [1, 5, 10],
-        #     "prompt_type": PromptType.REGULAR,
-        #     "semantic_selector": False,
-        # },
-        # {
-        #     "name": "signature_coverage",
-        #     "prompt_prefix": "Create a function",
-        #     "num_shots": [1, 5, 10],
-        #     "prompt_type": PromptType.SIGNATURE,
-        #     "semantic_selector": False,
-        # },
-        # {
-        #     "name": "cot_coverage",
-        #     "prompt_prefix": "Create a function",
-        #     "num_shots": [1, 5, 10],
-        #     "prompt_type": PromptType.COT,
-        #     "semantic_selector": False,
-        # },
+    if not experiments:
+        experiments = [
 
-        ############# RAG similarity examples prompt #################
-        {
-            "name": "regular_similarity",
-            "prompt_prefix": "Create a function",
-            "num_shots": [1, 5, 10],
-            "prompt_type": PromptType.REGULAR,
-            "semantic_selector": True,
-        },
-        # {
-        #     "name": "signature_similarity",
-        #     "prompt_prefix": "Create a function",
-        #     "num_shots": [1, 5, 10],
-        #     "prompt_type": PromptType.SIGNATURE,
-        #     "semantic_selector": True,
-        # },
-        # {
-        #     "name": "cot_similarity",
-        #     "prompt_prefix": "Create a function",
-        #     "num_shots": [1, 5, 10],
-        #     "prompt_type": PromptType.COT,
-        #     "semantic_selector": True,
-        # },
-  
-    ]
+            ############# Coverage examples prompt #################
+            # {
+            #     "name": "regular_coverage",
+            #     "prompt_prefix": "Create a function",
+            #     "num_shots": [1, 5, 10],
+            #     "prompt_type": PromptType.REGULAR,
+            #     "semantic_selector": False,
+            # },
+            # {
+            #     "name": "signature_coverage",
+            #     "prompt_prefix": "Create a function",
+            #     "num_shots": [1, 5, 10],
+            #     "prompt_type": PromptType.SIGNATURE,
+            #     "semantic_selector": False,
+            # },
+            # {
+            #     "name": "cot_coverage",
+            #     "prompt_prefix": "Create a function",
+            #     "num_shots": [1, 5, 10],
+            #     "prompt_type": PromptType.COT,
+            #     "semantic_selector": False,
+            # },
+
+            ############# RAG similarity examples prompt #################
+            {
+                "name": "regular_similarity",
+                "prompt_prefix": "Create a function",
+                "num_shots": [1, 5, 10],
+                "prompt_type": PromptType.REGULAR,
+                "semantic_selector": True,
+            },
+            # {
+            #     "name": "signature_similarity",
+            #     "prompt_prefix": "Create a function",
+            #     "num_shots": [1, 5, 10],
+            #     "prompt_type": PromptType.SIGNATURE,
+            #     "semantic_selector": True,
+            # },
+            # {
+            #     "name": "cot_similarity",
+            #     "prompt_prefix": "Create a function",
+            #     "num_shots": [1, 5, 10],
+            #     "prompt_type": PromptType.COT,
+            #     "semantic_selector": True,
+            # },
+    
+        ]
 
     print(f"Total experiments variations to run: {len(experiments) * len(models)* len([1, 5, 10])}")
     

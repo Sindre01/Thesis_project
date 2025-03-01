@@ -7,17 +7,18 @@
 # Configuration
 EXPERIMENT="few-shot"                    # Experiment ('few-shot' or 'COT')
 PHASE="validation"                       # Phase ('testing' or 'validation')
-EXAMPLES_TYPE="coverage"                 #'coverage' or 'similarity'
+EXAMPLES_TYPE="similarity"                 #'coverage' or 'similarity'
 PROMPT_TYPE="regular"                 # 'regular' or 'cot' or 'signature'   
 USER="ec-sindrre"                        # Your Educloud username
 HOST="fox.educloud.no"                   # Fox login address (matches SSH config)
 SSH_CONFIG_NAME="fox"                    # Name of the SSH config entry
 ACCOUNT="ec12"                           # Fox project account
 PARTITION="accel"                        # 'accel' or 'accel_long' (or 'ifi_accel' if access to ec11,ec29,ec30,ec34,ec35 or ec232)
-GPUS=2                              # a100 have 40GB or 80GB VRAM, while rtx30 have 24GB VRAM.
+GPUS=a100:2                              # a100 have 40GB or 80GB VRAM, while rtx30 have 24GB VRAM.
 NODES=1                                  # Number of nodes. OLLAMA does currently only support single node inference
-TIME="5-00:00:00"                       # Slurm walltime (D-HH:MM:SS)
-MEM_PER_GPU="24G"                       # Memory per GPU. 
+NODE_LIST=gpu-9,gpu-7,gpu-8              # List of nodes that the job can run on
+TIME="0-24:00:00"                       # Slurm walltime (D-HH:MM:SS)
+MEM_PER_GPU="80G"                       # Memory per GPU. 
 OLLAMA_MODELS_DIR="/cluster/work/projects/ec12/ec-sindrre/ollama-models"  # Path to where the Ollama models are stored and loaded                      
 LOCAL_PORT="11434"                        # Local port for forwarding
 OLLAMA_PORT="11434"                       # Remote port where Ollama listens. If different parallell runs, change ollama_port to avoid conflicts if same node is allocated.
@@ -31,6 +32,22 @@ fi
 #--exclusive #Job will not share nodes with other jobs. 
 # Define unique folder name
 CLONE_DIR="/fp/homes01/u01/ec-sindrre/tmp/Thesis_project_${EXAMPLES_TYPE}_\$SLURM_JOB_ID"
+##############Experiment config################
+model_provider='ollama'
+experiments='[
+        {
+            "name": "regular_similarity",
+            "prompt_prefix": "Create a function",
+            "num_shots": [1, 5, 10],
+            "prompt_type": regular,
+            "semantic_selector": True,
+        },
+        
+]'
+models='[
+    "llama3.3:70b-instruct-fp16",
+    "qwen2.5:72b-instruct-fp16",
+]'
 
 # normal* c1-[5-28]
 # accel gpu-[1-2,4-5,7-9,11-13]
@@ -65,6 +82,7 @@ cat <<EOT > "./scripts/${SBATCH_SCRIPT}"
 #SBATCH --account=${ACCOUNT}                      # Project account
 #SBATCH --partition=${PARTITION}                  # Partition ('accel' or 'accel_long')
 #SBATCH --nodes=${NODES}                           # Amount of nodes. Ollama one support single node inference
+#SBATCH --nodelist=${NODE_LIST}                   # List of nodes that the job can run on
 #SBATCH --gpus=${GPUS}                             # Number of GPUs
 #SBATCH --time=${TIME}                             # Walltime (D-HH:MM:SS)
 #SBATCH --mem-per-gpu=${MEM_PER_GPU}              # Memory per CPU
@@ -158,9 +176,9 @@ git rev-parse --show-toplevel
 export GIT_DIR="$CLONE_DIR/.git"
 export GIT_WORK_TREE="$CLONE_DIR"
 
-branch_name="$PHASE-$EXAMPLES_TYPE"
+branch_name="$PHASE/$EXAMPLES_TYPE"
 if [ -n "$PROMPT_TYPE" ]; then
-    branch_name="$PHASE-$EXAMPLES_TYPE-$PROMPT_TYPE"
+    branch_name="\${branch_name}-$PROMPT_TYPE"
 fi
 
 if git rev-parse --verify --quiet "refs/heads/\${branch_name}"; then
@@ -173,12 +191,13 @@ fi
 git reset --hard HEAD  # Ensure a clean state
 git pull --rebase --autostash || { echo "❌ Git pull failed!"; exit 1; }
 
-
+#PULL changes to Main git repo as well
+git --git-dir=~/Thesis_project/.git --work-tree=~/Thesis_project/ pull origin main
 source ~/Thesis_project/thesis_venv/bin/activate  # Activate it to ensure the correct Python environment
 
 echo "============= Running ${PHASE} ${EXPERIMENT} Python script... ============="
 export PYTHONPATH="${CLONE_DIR}:$PYTHONPATH"
-python -u ${CLONE_DIR}/notebooks/${EXPERIMENT}/fox/run_${PHASE}.py > ${REMOTE_DIR}/AI_\$SLURM_JOB_ID.out 2>&1
+python -u ${CLONE_DIR}/notebooks/${EXPERIMENT}/fox/run_${PHASE}.py --model_provider ${model_provider} --models ${models} --experiments ${experiments} > ${REMOTE_DIR}/AI_\$SLURM_JOB_ID.out 2>&1
 
 # Cleanup after job completion
 echo "🚀 Cleaning up cloned repository..."
