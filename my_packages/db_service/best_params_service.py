@@ -1,14 +1,22 @@
-import datetime
+from datetime import datetime
 from zoneinfo import ZoneInfo
 
 import pandas as pd
 from my_packages.db_service import db
 from my_packages.common import Run
 
-### 📌 SAVE BEST PARAMS TO MONGODB ###
-def save_best_params_to_db(experiment: str, model_name: str, optimizer_metric: str, best_params: Run):
+def save_best_params_to_db(
+    experiment: str, 
+    model_name: str, 
+    optimizer_metric: str, 
+    best_params: Run, 
+    db_connection=None
+):
     """Saves the best hyperparameters for a given model in MongoDB."""
-    collection = db[f"{experiment}_best_params"]
+    # Use the provided connection or fall back to the global one
+    if db_connection is None:
+        db_connection = db
+    collection = db_connection[f"{experiment}_best_params"]
 
     # Remove old best params if they exist
     collection.delete_many({"model_name": model_name, "optimizer_metric": optimizer_metric})
@@ -21,7 +29,7 @@ def save_best_params_to_db(experiment: str, model_name: str, optimizer_metric: s
         "top_p": best_params.top_p,
         "top_k": best_params.top_k,
         "seed": best_params.seed,
-        "created_at": datetime.datetime.now(ZoneInfo("Europe/Oslo"))
+        "created_at": datetime.now(ZoneInfo("Europe/Oslo"))
     })
 
     print(f"✅ Best parameters saved in MongoDB for model '{model_name}' under experiment '{experiment}'.")  

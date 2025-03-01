@@ -5,7 +5,7 @@ import sys
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
 project_dir = os.path.abspath(f"{script_dir}/../../..")
-experiment_dir = os.path.abspath(f"{script_dir}/..")
+# experiment_dir = os.path.abspath(f"{script_dir}/..")
 results_dir = f"{project_dir}/notebooks/few-shot/fox/testing_runs"
 sys.path.append(project_dir)
 
@@ -16,7 +16,7 @@ from dotenv import load_dotenv
 from pathlib import Path
 from my_packages.data_processing.attributes_processing import used_functions_to_string
 from my_packages.prompting.few_shot import transform_code_data
-from my_packages.utils.file_utils import write_json_file, read_dataset_to_json
+from my_packages.utils.file_utils import write_directly_json_file, write_json_file, read_dataset_to_json
 from my_packages.utils.tokens_utils import get_model_code_tokens_from_file, models_not_in_file, write_models_tokens_to_file
 from my_packages.utils.server_utils import server_diagnostics, is_remote_server_reachable
 from langchain_ollama import OllamaEmbeddings, ChatOllama
@@ -172,10 +172,10 @@ def run_testing_experiment(
 
         results.append(result_obj)
         ## Write to file
-        write_json_file(file_path, results) #Temporary viewing
+        write_directly_json_file(file_path, results)#Temporary viewing
         count+=1
     
-    write_json_file(file_path, results)
+    write_directly_json_file(file_path, results)
 
 def get_info_from_filename(file_name: str):
     experiment_name = file_name.split(".")[0]
@@ -210,18 +210,24 @@ if __name__ == "__main__":
     available_nodes = used_functions_to_string(used_functions_json)
 
     print("\n==== Configures models ====")
-    client, models = model_configs(all_responses, 'ollama')
+    client, _ = model_configs(all_responses, 'ollama')
+
 
     print("\n==== Running testing ====")
-    for file_name in os.listdir(best_params_folder):
-        best_params_path = os.path.join(best_params_folder, file_name)
+    for experiment in os.listdir(best_params_folder): # each experiment
+        best_params_path = os.path.join(best_params_folder, experiment)
         print(f"Processing file: {best_params_path}")
-        experiment_info = get_info_from_filename(file_name)
-        experiment_name = experiment_info["experiment_name"]
+        
+        experiment_info = get_info_from_filename(experiment)
+        
         selector_type= "similarity" if experiment_info["semantic_selector"] else "coverage"
+        experiment_name = experiment_info["experiment_name"]
+        prompt_type = experiment_info["prompt_type"].value
+
+        experiments_dir = os.path.join("/fp/homes01/u01/ec-sindrre/slurm_jobs", f"few-shot/validation/{selector_type}/{prompt_type}/runs/")
 
         best_params = read_dataset_to_json(best_params_path)
-        for params in best_params:
+        for params in best_params: #Best param for each model on each metric. E.g. 3 metrics x total models
             
             if params['optimizer_metric'] != metrics[-1]: # Only use the best parameters for last metric in list, e.g: 'semantic' or 'tests' metric
                 print(f"Skipping {params['optimizer_metric']} metric best_params, ONLY testing with best parameters for {metrics[-1]} metric")
@@ -229,7 +235,9 @@ if __name__ == "__main__":
 
             model_name = params["model_name"]
             print(f"Processing experiment: '{experiment_name}' with model: '{model_name}', optimized on {params['optimizer_metric']} metric")
-            file_path = f"{runs_folder}/{selector_type}/{experiment_name}_{model_name}.json"
+            result_filename = f"{experiment_name}_{model_name}.json"
+            result_runs_path = os.path.join(experiments_dir, result_filename)
+
             model = get_model_code_tokens_from_file(model_name, f'{project_dir}/notebooks/few-shot/code_max_tokens.json')
 
             example_selector = init_example_selector(experiment_info["shots"], train_data, experiment_info["semantic_selector"])
@@ -238,7 +246,7 @@ if __name__ == "__main__":
                 test_data,
                 available_nodes,
                 experiment_name,
-                file_path,
+                result_runs_path,
                 model,
                 example_selector,
                 experiment_info["prompt_type"],
@@ -248,16 +256,21 @@ if __name__ == "__main__":
                 n_generations_per_task,
                 best_params_optimization = best_params["optimizer_metric"],
             )
-            print(f"Testing finished for experiment: {experiment_name}")
-            print(f"See run results in: {file_path}")
+            print(f"Testing finished for {result_filename} with metric {params['optimizer_metric']}")
+            print(f"See run results in: {result_runs_path}")
 
-    print("Testing finished!")
-    elapsed_time = time.time() - start_time
-    hours, remainder = divmod(int(elapsed_time), 3600)
-    minutes, seconds = divmod(remainder, 60)
-    print(f"\n⏱️ Total execution time: {hours}h {minutes}m {seconds}s")
-    subprocess.run(["bash", f"{project_dir}/notebooks/few-shot/fox/scripts/push_runs.sh", "testing", str(hours), str(minutes), str(seconds)], check=True)
-    print("✅ push_runs.sh script executed successfully!")
+        print(f"Testing finished for all models on {experiment_name}")
+        elapsed_time = time.time() - start_time
+        hours, remainder = divmod(int(elapsed_time), 3600)
+        minutes, seconds = divmod(remainder, 60)
+        print(f"\n⏱️ Total execution time: {hours}h {minutes}m {seconds}s")
+        subprocess.run(["bash", f"{project_dir}/notebooks/few-shot/fox/scripts/push_runs.sh", 
+                        "few-shot", 
+                        "testing", 
+                        selector_type, 
+                        prompt_type,
+                        str(hours), str(minutes), str(seconds)], check=True)
+        print("✅ push_runs.sh script executed successfully!")
 
 
 

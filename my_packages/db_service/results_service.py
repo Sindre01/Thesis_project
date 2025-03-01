@@ -1,4 +1,4 @@
-import datetime
+from datetime import datetime
 from zoneinfo import ZoneInfo
 from my_packages.common import Run
 from my_packages.db_service.data_processing import flatten_metric_results
@@ -10,10 +10,14 @@ def save_results_to_db(
         seeds: list[int], 
         ks: list[int],
         metrics: list[str],
-        result: Run
+        result: Run,
+        db_connection=None
     ):
     """Saves results to MongoDB in the '{experiment}_results' collection."""
-    collection = db[f"{experiment}_results"]
+    # Use the provided connection or fall back to the global one
+    if db_connection is None:
+        db_connection = db
+    collection = db_connection[f"{experiment}_results"]
     # Dynamically flatten the nested metric results.
     flattened_metrics = flatten_metric_results(result.metric_results)
     

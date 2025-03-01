@@ -5,15 +5,16 @@
 ###############################################################################
 
 # Configuration
-EXPERIMENT="few_shot"                    # Experiment ('few_shot' or 'COT')
+EXPERIMENT="few-shot"                    # Experiment ('few-shot' or 'COT')
 PHASE="validation"                       # Phase ('testing' or 'validation')
-EXAMPLES_TYPE="similarity"                 #'coverage' or 'similarity'
+EXAMPLES_TYPE="coverage"                 #'coverage' or 'similarity'
+PROMPT_TYPE="regular"                 # 'regular' or 'cot' or 'signature'   
 USER="ec-sindrre"                        # Your Educloud username
 HOST="fox.educloud.no"                   # Fox login address (matches SSH config)
 SSH_CONFIG_NAME="fox"                    # Name of the SSH config entry
-ACCOUNT="ec30"                           # Fox project account
-PARTITION="ifi_accel"                        # 'accel' or 'accel_long' (or 'ifi_accel' if access to ec11,ec29,ec30,ec34,ec35 or ec232)
-GPUS=rtx30:4                              # a100 have 40GB or 80GB VRAM, while rtx30 have 24GB VRAM.
+ACCOUNT="ec12"                           # Fox project account
+PARTITION="accel"                        # 'accel' or 'accel_long' (or 'ifi_accel' if access to ec11,ec29,ec30,ec34,ec35 or ec232)
+GPUS=2                              # a100 have 40GB or 80GB VRAM, while rtx30 have 24GB VRAM.
 NODES=1                                  # Number of nodes. OLLAMA does currently only support single node inference
 TIME="5-00:00:00"                       # Slurm walltime (D-HH:MM:SS)
 MEM_PER_GPU="24G"                       # Memory per GPU. 
@@ -21,8 +22,29 @@ OLLAMA_MODELS_DIR="/cluster/work/projects/ec12/ec-sindrre/ollama-models"  # Path
 LOCAL_PORT="11434"                        # Local port for forwarding
 OLLAMA_PORT="11434"                       # Remote port where Ollama listens. If different parallell runs, change ollama_port to avoid conflicts if same node is allocated.
 SBATCH_SCRIPT="${PHASE}_${EXAMPLES_TYPE}_ollama.slurm"           # Slurm batch script name
-REMOTE_DIR="/fp/homes01/u01/ec-sindrre/slurm_jobs/${EXPERIMENT}/${PHASE}/${EXAMPLES_TYPE}" # Directory on Fox to store scripts and output
+# Directory on Fox to store scripts and output
+if [ -n "$PROMPT_TYPE" ]; then
+    REMOTE_DIR="/fp/homes01/u01/ec-sindrre/slurm_jobs/${EXPERIMENT}/${PHASE}/${EXAMPLES_TYPE}/${PROMPT_TYPE}"
+else
+    REMOTE_DIR="/fp/homes01/u01/ec-sindrre/slurm_jobs/${EXPERIMENT}/${PHASE}/${EXAMPLES_TYPE}"
+fi
 #--exclusive #Job will not share nodes with other jobs. 
+# Define unique folder name
+CLONE_DIR="/fp/homes01/u01/ec-sindrre/tmp/Thesis_project_${EXAMPLES_TYPE}_\$SLURM_JOB_ID"
+
+# normal* c1-[5-28]
+# accel gpu-[1-2,4-5,7-9,11-13]
+# accel_long gpu-[1-2,7-8]
+# mig gpu-10
+# bigmem bigmem-[1-2],c1-29
+# ifi_accel gpu-[4-6,11]
+# ifi_dj_accel gpu-12
+# ifi_bigmem c1-29
+# pods c1-[6-7]
+# fhi_bigmem bigmem-[1-2]
+# hf_accel gpu-9
+
+#80GB a100: gpu-9, gpu-7, gpu-8?
 
 ###############################################################################
 # Step 1: Create the Slurm Batch Script Locally
@@ -39,7 +61,7 @@ cat <<EOT > "./scripts/${SBATCH_SCRIPT}"
 ###############################################################################
 
 # Job Configuration
-#SBATCH --job-name=${PHASE}_${EXPERIMENT}_${EXAMPLES_TYPE}          # Job name
+#SBATCH --job-name=${PHASE}_${EXPERIMENT}_${EXAMPLES_TYPE}         # Job name
 #SBATCH --account=${ACCOUNT}                      # Project account
 #SBATCH --partition=${PARTITION}                  # Partition ('accel' or 'accel_long')
 #SBATCH --nodes=${NODES}                           # Amount of nodes. Ollama one support single node inference
@@ -81,49 +103,87 @@ export OLLAMA_KV_CACHE_TYPE="f16" # f16 (default), q8_0 (half of the memory of f
 # export CUDA_ERROR_LEVEL=50
 # export CUDA_VISIBLE_DEVICES=0,1
 # export AMD_LOG_LEVEL=3
+#############CLEANUP OLD JOBS################
+# Set the target directory (default: current directory)
 
+
+# Set the age threshold (1 hours)
+AGE_THRESHOLD=$((1 * 3600)) # 1 hours in seconds
+
+echo "🧹 Cleaning up files older than 1 hours in: $REMOTE_DIR"
+
+# Find and delete .out, .slurm, and .csv files older than 1 hours
+find "$REMOTE_DIR" -type f \( -name "*.out" -o -name "*.slurm" -o -name "*.csv" \) -mmin +1800 -exec rm -v {} \;
+
+echo "✅ Cleanup completed!"
 
 ####################### Setup monitoring ######################################
 nvidia-smi --query-gpu=timestamp,utilization.gpu,utilization.memory \
-	--format=csv --loop=1 > "gpu_util-$SLURM_JOB_ID.csv" &
+	--format=csv --loop=1 > "gpu_util-\$SLURM_JOB_ID.csv" &
 NVIDIA_MONITOR_PID=$!  # Capture PID of monitoring process
 
 
 ###############################################################################
 # Start Ollama Server in Background with Log Redirection
 ###############################################################################
-rm -rf ~/.ollama
-ollama serve > ollama_API.out 2>&1 &  
+ollama serve > ollama_API_\$SLURM_JOB_ID.out 2>&1 &  
 
 sleep 5
 
 ###############################################################################
 # Run Python Script
 ###############################################################################
-echo "============= Pulling latest changes from git... ============="
-cd ~/Thesis_project/notebooks/${EXPERIMENT}/fox/${PHASE}_runs/
 
-# Get the current branch
-CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
-TARGET_BRANCH="${PHASE}/${EXAMPLES_TYPE}"
+echo "============= Pulling latest changes from Git... ============="
 
-if [ "$CURRENT_BRANCH" != "$TARGET_BRANCH" ]; then
+# Check if the repository already exists
+if [ -d "$CLONE_DIR/.git" ]; then
+    echo "✅ Repository already exists: $CLONE_DIR"
+    cd "$CLONE_DIR" || { echo "❌ Failed to enter $CLONE_DIR"; exit 1; }
     
-    echo "❌ Not on $TARGET_BRANCH. Committing changes before checkout..."
-    git add .
-    git commit -m "WIP: Saving work before possible switching to $TARGET_BRANCH branch."
-    git checkout $TARGET_BRANCH
+    # Pull latest changes
+    echo "🔄 Pulling latest changes..."
+
 else
-    echo "✅ You are on desired branch $CURRENT_BRANCH. Skipping commit."
+    echo "🚀 Cloning repository..."
+    git clone https://github.com/Sindre01/Thesis_project.git "$CLONE_DIR" || { echo "❌ Clone failed!"; exit 1; }
+    
+    echo "✅ Repository cloned to $CLONE_DIR"
+    cd "$CLONE_DIR" || { echo "❌ Failed to enter $CLONE_DIR"; exit 1; }
 fi
 
-git pull
-source thesis_venv/bin/activate  # Activate it to ensure the correct Python environment
+echo "🔍 Debug: Current Git repository is:"
+git rev-parse --show-toplevel
 
-cd ~/Thesis_project/notebooks/few-shot/fox
+export GIT_DIR="$CLONE_DIR/.git"
+export GIT_WORK_TREE="$CLONE_DIR"
+
+branch_name="$PHASE-$EXAMPLES_TYPE"
+if [ -n "$PROMPT_TYPE" ]; then
+    branch_name="$PHASE-$EXAMPLES_TYPE-$PROMPT_TYPE"
+fi
+
+if git rev-parse --verify --quiet "refs/heads/\${branch_name}"; then
+    git checkout "\${branch_name}"
+else
+    git checkout -b "\${branch_name}"
+    git push --set-upstream origin "\${branch_name}"  # Set remote tracking
+fi
+
+git reset --hard HEAD  # Ensure a clean state
+git pull --rebase --autostash || { echo "❌ Git pull failed!"; exit 1; }
+
+
+source ~/Thesis_project/thesis_venv/bin/activate  # Activate it to ensure the correct Python environment
 
 echo "============= Running ${PHASE} ${EXPERIMENT} Python script... ============="
-python -u run_${PHASE}.py > ${REMOTE_DIR}/${PHASE}.out 2>&1
+export PYTHONPATH="${CLONE_DIR}:$PYTHONPATH"
+python -u ${CLONE_DIR}/notebooks/${EXPERIMENT}/fox/run_${PHASE}.py > ${REMOTE_DIR}/AI_\$SLURM_JOB_ID.out 2>&1
+
+# Cleanup after job completion
+echo "🚀 Cleaning up cloned repository..."
+rm -rf "$CLONE_DIR"
+echo "✅ Repository removed: $CLONE_DIR"
 
 ###############################################################################
 # End of Script

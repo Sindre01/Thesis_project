@@ -24,6 +24,16 @@ def write_json_file(root_file_path: str, content: list[dict]):
     with open(file_path, 'w') as writer:
         json.dump(content, writer, indent=4)
 
+def write_directly_json_file(file_path: str, content: list[dict]):
+    
+    # Ensure the directory exists
+    os.makedirs(os.path.dirname(file_path), exist_ok=True)
+
+    with open(file_path, 'w') as writer:
+        json.dump(content, writer, indent=4)
+
+    print(f"✅ File written successfully: {file_path}")
+
 # def append_file(root_file_path: str, obj: dict):
 #     file_path = os.path.join(project_root, root_file_path)
 #     with open(file_path, 'a') as writer:

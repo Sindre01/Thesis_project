@@ -1,5 +1,5 @@
+
 # Ignore environment files
-config.env
 .env
 
 # Ignore virtual environments
@@ -7,8 +7,21 @@ config.env
 .venv_Master/
 
 # Ignore Python cache files
+__pycache__/
 **/__pycache__/
-*.pyc
+*.py[cod]
 
-# Ignore WebUI cache
-.webui_secret_key__pycache__/
+# Ignore Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+**/.ipynb_checkpoints/
+
+.pytest_cache/
+
+# Ignore VSCode settings folder
+.vscode/
+
+notebooks/few-shot/fox/scripts/*.slurm
+notebooks/few-shot/fox/scripts/SSH_FORWARDING.sh
+
+scripts/SSH_FORWARDING.sh
+scripts/*.slurm

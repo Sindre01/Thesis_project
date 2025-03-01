@@ -12,3 +12,7 @@ db = client[DB_NAME]
 
 # Define project root directory
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../.."))
+
+def get_db_connection():
+    client = MongoClient(MONGO_URI)
+    return client[DB_NAME]
