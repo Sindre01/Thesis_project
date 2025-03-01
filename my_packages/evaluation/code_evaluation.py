@@ -162,6 +162,8 @@ def run_model(
                 "task": task, 
                 "function_signature": sample["function_signature"],
             }
+        else:
+            raise ValueError("Invalid prompt type. Choose from 'signature', 'regular' or 'cot'")
 
         prompt = final_prompt_template.format(**prompt_variables_dict)
         prompt_size = client(model=model).get_num_tokens(prompt) # Will print warning if prompt is too big for model
