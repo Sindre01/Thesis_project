@@ -14,7 +14,7 @@ HOST="fox.educloud.no"                   # Fox login address (matches SSH config
 SSH_CONFIG_NAME="fox"                    # Name of the SSH config entry
 ACCOUNT="ec12"                           # Fox project account
 PARTITION="accel"                        # 'accel' or 'accel_long' (or 'ifi_accel' if access to ec11,ec29,ec30,ec34,ec35 or ec232)
-GPUS=a100:1                              # a100 have 40GB or 80GB VRAM, while rtx30 have 24GB VRAM.
+GPUS=a100:2                              # a100 have 40GB or 80GB VRAM, while rtx30 have 24GB VRAM.
 NODES=1                                  # Number of nodes. OLLAMA does currently only support single node inference
 NODE_LIST=gpu-9,gpu-7,gpu-8              # List of nodes that the job can run on
 TIME="0-24:00:00"                       # Slurm walltime (D-HH:MM:SS)
@@ -40,13 +40,12 @@ experiments='[
             "prompt_prefix": "Create a function",
             "num_shots": [1, 5, 10],
             "prompt_type": "regular",
-            "semantic_selector": true,
-        },
-        
+            "semantic_selector": true
+        }
 ]'
 models='[
     "llama3.3:70b-instruct-fp16",
-    "qwen2.5:72b-instruct-fp16",
+    "qwen2.5:72b-instruct-fp16"
 ]'
 
 # normal* c1-[5-28]

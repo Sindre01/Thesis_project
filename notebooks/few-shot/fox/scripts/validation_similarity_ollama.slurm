@@ -11,7 +11,7 @@
 #SBATCH --partition=accel                  # Partition ('accel' or 'accel_long')
 #SBATCH --nodes=1                           # Amount of nodes. Ollama one support single node inference
 #SBATCH --nodelist=gpu-9,gpu-7,gpu-8                   # List of nodes that the job can run on
-#SBATCH --gpus=a100:1                             # Number of GPUs
+#SBATCH --gpus=a100:2                             # Number of GPUs
 #SBATCH --time=0-24:00:00                             # Walltime (D-HH:MM:SS)
 #SBATCH --mem-per-gpu=80G              # Memory per CPU
 #SBATCH --output=Job_validation_%j.out                 # Standard output and error log
@@ -126,16 +126,15 @@ echo "============= Running validation few-shot Python script... ============="
 export PYTHONPATH="/fp/homes01/u01/ec-sindrre/tmp/Thesis_project_similarity_$SLURM_JOB_ID:~/Thesis_project:~/Thesis_project:"
 python -u /fp/homes01/u01/ec-sindrre/tmp/Thesis_project_similarity_$SLURM_JOB_ID/notebooks/few-shot/fox/run_validation.py     --model_provider 'ollama'     --models '[
     "llama3.3:70b-instruct-fp16",
-    "qwen2.5:72b-instruct-fp16",
+    "qwen2.5:72b-instruct-fp16"
 ]'     --experiments '[
         {
             "name": "regular_similarity",
             "prompt_prefix": "Create a function",
             "num_shots": [1, 5, 10],
             "prompt_type": "regular",
-            "semantic_selector": true,
-        },
-        
+            "semantic_selector": true
+        }
 ]'     > /fp/homes01/u01/ec-sindrre/slurm_jobs/few-shot/validation/similarity/regular/AI_$SLURM_JOB_ID.out 2>&1
 
 # Cleanup after job completion
