@@ -199,7 +199,10 @@ if __name__ == "__main__":
     parser.add_argument("--experiments", type=str, required=True, help="JSON string for experiments")
 
     args = parser.parse_args()
-
+    # DEBUG: Print arguments before decoding JSON
+    print("🛠️ Debug: Received --models =", repr(args.models))
+    print("🛠️ Debug: Received --experiments =", repr(args.experiments))
+    
     model_provider = args.model_provider
     models = json.loads(args.models)
     experiments = json.loads(args.experiments)
