@@ -7,7 +7,7 @@
 # Configuration
 EXPERIMENT="few-shot"                    # Experiment ('few-shot' or 'COT')
 PHASE="validation"                       # Phase ('testing' or 'validation')
-EXAMPLES_TYPE="similarity"                 #'coverage' or 'similarity'
+EXAMPLES_TYPE="coverage"                 #'coverage' or 'similarity'
 PROMPT_TYPE="regular"                 # 'regular' or 'cot' or 'signature'   
 USER="ec-sindrre"                        # Your Educloud username
 HOST="fox.educloud.no"                   # Fox login address (matches SSH config)
@@ -36,15 +36,14 @@ CLONE_DIR="/fp/homes01/u01/ec-sindrre/tmp/Thesis_project_${EXAMPLES_TYPE}_\$SLUR
 model_provider='ollama'
 experiments='[
         {
-            "name": "regular_similarity",
+            "name": "regular_coverage",
             "prompt_prefix": "Create a function",
             "num_shots": [1, 5, 10],
             "prompt_type": "regular",
-            "semantic_selector": true
+            "semantic_selector": false
         }
 ]'
 models='[
-    "llama3.3:70b-instruct-fp16",
     "qwen2.5:72b-instruct-fp16"
 ]'
 
