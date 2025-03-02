@@ -321,12 +321,12 @@ def run_validation(
     print(f"{Fore.CYAN}{Style.BRIGHT}Validation Phase:{Style.RESET_ALL}")
     print(f"Optimizing for metric: {optimizer_metric}")
 
-    if isinstance(client, ChatOpenAI):
+    if model["name"] in "gpt-4o":
         print("RESETTING TOP_K TO NONE FOR OPENAI MODELS")
         top_ks = []
         
     for temp in temperatures:
-        for top_k in top_ks or [None]: #Ensures loop runs once, when top_ks is empty
+        for top_k in top_ks or [-1]: #Ensures loop runs once, when top_ks is empty
             for top_p in top_ps:
                 # print(f"Validating with temperature: {temp}, top_k: {top_k} and top_p: {top_p}")
                 
