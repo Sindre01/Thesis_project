@@ -182,7 +182,6 @@ def run_model(
                     print(f"Generating response..  ({index + 1}/{len(data)})", end="\r")
                     
                     if "gpt" in model:
-                        print("Using GPT model")
                         llm = client(
                             model=model,
                             temperature=temperature,
@@ -323,6 +322,7 @@ def run_validation(
     print(f"Optimizing for metric: {optimizer_metric}")
 
     if isinstance(client, ChatOpenAI):
+        print("RESETTING TOP_K TO NONE FOR OPENAI MODELS")
         top_ks = []
         
     for temp in temperatures:
