@@ -148,12 +148,13 @@ def run_val_experiment(
     if model["name"] in "gpt-4o":
         print(f"Not using top_k for {model['name']} model")
         top_ks = []
+        combinatios = len(temperatures) * len(top_ks)
+    else:
+        combinatios = len(temperatures) * len(top_ps) * len(top_ks)
 
-    combinatios = len(temperatures) * len(top_ps) * len(top_ks)
     current_combination = 0
     results = []
 
-        
     for temp in temperatures:
         for top_k in top_ks or [-1]: #Ensures loop runs once, when top_ks is empty
             for top_p in top_ps:
@@ -237,9 +238,6 @@ if __name__ == "__main__":
     print("\n==== Configures models ====")
     client, models = model_configs(all_responses, model_provider, models)
 
-    print("\n==== Running validation ====")
-    dataset = read_dataset_to_json(main_dataset_folder + "MBPP-Midio-50.json")
-
     if not experiments:
         experiments = [
 
@@ -291,6 +289,7 @@ if __name__ == "__main__":
     
         ]
 
+    
     print(f"Total experiments variations to run: {len(experiments) * len(models)* len([1, 5, 10])}")
     
     print("\n==== Running validation ====")

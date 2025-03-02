@@ -1,3 +1,5 @@
+import argparse
+import json
 import time
 import subprocess
 import os
@@ -191,15 +193,42 @@ def get_info_from_filename(file_name: str):
         "shots": shots
     }
     
+def parse_experiments(experiment_list):
+    """Convert dictionary input to proper PromptType Enum where needed."""
+    for exp in experiment_list:
+        if "prompt_type" in exp and isinstance(exp["prompt_type"], str):
+            exp["prompt_type"] = PromptType(exp["prompt_type"])  # Convert to Enum
+    return experiment_list
 
 if __name__ == "__main__":
+    # Parse arguments:
+    parser = argparse.ArgumentParser(description="Process input.")
+
+    parser.add_argument("--model_provider", type=str, required=True, help="Model provider")
+    parser.add_argument("--models", type=str, required=True, help="JSON string for models")
+    parser.add_argument("--experiments", type=str, required=True, help="JSON string for experiments")
+
+    args = parser.parse_args()
+    # DEBUG: Print arguments before decoding JSON
+    print("🛠️ Debug: Received --models =", repr(args.models))
+    print("🛠️ Debug: Received --experiments =", repr(args.experiments))
+    
+    model_provider = args.model_provider
+    models = json.loads(args.models)
+    experiments = json.loads(args.experiments)
+    experiments = parse_experiments(experiments)
+
+    print("########### Parsed arguments ###########")
+    print(f"Model provider: {model_provider}") 
+    print(f"Models: {models}")
+    print(f"Experiments: {experiments}")
+    print("########################################")
+
+    n_generations_per_task = 10
+    metrics = ["syntax", "semantic"] # ["syntax", "semantic"] or ["syntax", "semantic", "tests"]
+
     start_time = time.time()
     main_dataset_folder = f'{project_dir}/data/MBPP_Midio_50/'
-    best_params_folder = f"{project_dir}/notebooks/few-shot/fox/best_params/"
-    runs_folder = f"{project_dir}/notebooks/few-shot/fox/testing_runs"
-    metrics = ["syntax", "semantic"] # ["syntax", "semantic"] or ["syntax", "semantic", "tests"]
-    env = ""
-    n_generations_per_task = 10
 
     print("\n==== Splits data ====")
     train_data, val_data, test_data = get_dataset_splits(main_dataset_folder)
@@ -210,67 +239,128 @@ if __name__ == "__main__":
     available_nodes = used_functions_to_string(used_functions_json)
 
     print("\n==== Configures models ====")
-    client, _ = model_configs(all_responses, 'ollama')
+    client, models = model_configs(all_responses, model_provider, models)
 
+    if not experiments:
+        experiments = [
 
+            ############# Coverage examples prompt #################
+            # {
+            #     "name": "regular_coverage",
+            #     "prompt_prefix": "Create a function",
+            #     "num_shots": [1, 5, 10],
+            #     "prompt_type": PromptType.REGULAR,
+            #     "semantic_selector": False,
+            # },
+            # {
+            #     "name": "signature_coverage",
+            #     "prompt_prefix": "Create a function",
+            #     "num_shots": [1, 5, 10],
+            #     "prompt_type": PromptType.SIGNATURE,
+            #     "semantic_selector": False,
+            # },
+            # {
+            #     "name": "cot_coverage",
+            #     "prompt_prefix": "Create a function",
+            #     "num_shots": [1, 5, 10],
+            #     "prompt_type": PromptType.COT,
+            #     "semantic_selector": False,
+            # },
+
+            ############# RAG similarity examples prompt #################
+            # {
+            #     "name": "regular_similarity",
+            #     "prompt_prefix": "Create a function",
+            #     "num_shots": [1, 5, 10],
+            #     "prompt_type": PromptType.REGULAR,
+            #     "semantic_selector": True,
+            # },
+            # {
+            #     "name": "signature_similarity",
+            #     "prompt_prefix": "Create a function",
+            #     "num_shots": [1, 5, 10],
+            #     "prompt_type": PromptType.SIGNATURE,
+            #     "semantic_selector": True,
+            # },
+            # {
+            #     "name": "cot_similarity",
+            #     "prompt_prefix": "Create a function",
+            #     "num_shots": [1, 5, 10],
+            #     "prompt_type": PromptType.COT,
+            #     "semantic_selector": True,
+            # },
+    
+        ]
+
+    
+    start_time = time.time()
     print("\n==== Running testing ====")
-    for experiment in os.listdir(best_params_folder): # each experiment
-        best_params_path = os.path.join(best_params_folder, experiment)
-        print(f"Processing file: {best_params_path}")
-        
-        experiment_info = get_info_from_filename(experiment)
-        
-        selector_type= "similarity" if experiment_info["semantic_selector"] else "coverage"
-        experiment_name = experiment_info["experiment_name"]
-        prompt_type = experiment_info["prompt_type"].value
+    for ex in experiments:
+        selector_type= "similarity" if ex["semantic_selector"] else "coverage"
+        prompt_type = ex["prompt_type"].value
+        results_dir = os.path.join("/fp/homes01/u01/ec-sindrre/slurm_jobs", f"few-shot/testing/{selector_type}/{prompt_type}/runs/")
+        best_params_folder = f"{project_dir}/notebooks/few-shot/fox/best_params/{selector_type}/{prompt_type}"
 
-        experiments_dir = os.path.join("/fp/homes01/u01/ec-sindrre/slurm_jobs", f"few-shot/validation/{selector_type}/{prompt_type}/runs/")
+        for shots in ex["num_shots"]:
+            selector=init_example_selector(shots, train_data, semantic_selector=ex["semantic_selector"])
+            experiment_name = f"{ex['name']}_{shots}_shot"
 
-        best_params = read_dataset_to_json(best_params_path)
-        for params in best_params: #Best param for each model on each metric. E.g. 3 metrics x total models
-            
-            if params['optimizer_metric'] != metrics[-1]: # Only use the best parameters for last metric in list, e.g: 'semantic' or 'tests' metric
-                print(f"Skipping {params['optimizer_metric']} metric best_params, ONLY testing with best parameters for {metrics[-1]} metric")
-                continue
+            for model_name in models:
+                file_name = f"{experiment_name}_{model_name}.json"
+                result_runs_path = os.path.join(results_dir, file_name)
+                best_params_path = os.path.join(best_params_folder, experiment_name)
 
-            model_name = params["model_name"]
-            print(f"Processing experiment: '{experiment_name}' with model: '{model_name}', optimized on {params['optimizer_metric']} metric")
-            result_filename = f"{experiment_name}_{model_name}.json"
-            result_runs_path = os.path.join(experiments_dir, result_filename)
+                print(f"\n==== Running few-shot testing for {experiment_name} on '{model_name}' ====")  
+                model = get_model_code_tokens_from_file(model_name, f'{project_dir}/notebooks/few-shot/code_max_tokens.json')
+                best_params = read_dataset_to_json(best_params_path)
+                if not best_params:
+                    print(f"Skipping {model_name} since no best parameters found")
+                    continue
 
-            model = get_model_code_tokens_from_file(model_name, f'{project_dir}/notebooks/few-shot/code_max_tokens.json')
+                # Find best params for model on each metric
+                best_params_for_metrics = {}
+                for metric in metrics:
+                    best_params_for_metrics[metric] = next(
+                        (params for params in best_params 
+                        if params["model_name"] == model_name and params["optimizer_metric"] == metric),
+                        None 
+                    )
 
-            example_selector = init_example_selector(experiment_info["shots"], train_data, experiment_info["semantic_selector"])
-            run_testing_experiment(
-                client,
-                test_data,
-                available_nodes,
-                experiment_name,
-                result_runs_path,
-                model,
-                example_selector,
-                experiment_info["prompt_type"],
-                params["temperature"],
-                params["top_p"],
-                params["top_k"],
-                n_generations_per_task,
-                best_params_optimization = best_params["optimizer_metric"],
-            )
-            print(f"Testing finished for {result_filename} with metric {params['optimizer_metric']}")
-            print(f"See run results in: {result_runs_path}")
+                print(f"Best parameters for {model_name} on each metric: {best_params_for_metrics}")
 
-        print(f"Testing finished for all models on {experiment_name}")
-        elapsed_time = time.time() - start_time
-        hours, remainder = divmod(int(elapsed_time), 3600)
-        minutes, seconds = divmod(remainder, 60)
-        print(f"\n⏱️ Total execution time: {hours}h {minutes}m {seconds}s")
-        subprocess.run(["bash", f"{project_dir}/notebooks/few-shot/fox/scripts/push_runs.sh", 
-                        "few-shot", 
-                        "testing", 
-                        selector_type, 
-                        prompt_type,
-                        str(hours), str(minutes), str(seconds)], check=True)
-        print("✅ push_runs.sh script executed successfully!")
+                best_params_model = best_params_for_metrics[metrics[-1]] # Best params for last metric in list, e.g: 'semantic' or 'tests' metric
+                print(f"Best parameters for {model_name} on {metrics[-1]} metric: {best_params_model}")
+                run_testing_experiment(
+                        client,
+                        test_data,
+                        available_nodes,
+                        experiment_name,
+                        result_runs_path,
+                        model,
+                        selector,
+                        ex["prompt_type"],
+                        best_params_model["temperature"],
+                        best_params_model["top_p"],
+                        best_params_model["top_k"],
+                        n_generations_per_task,
+                        best_params_optimization = best_params_model["optimizer_metric"],
+                    )
+
+                print(f"Testing finished for {experiment_name} on model: {model_name}")
+                print(f"See run results in: {result_runs_path}")
+
+            print(f"Testing finished for {experiment_name} on models {models}")
+            elapsed_time = time.time() - start_time
+            hours, remainder = divmod(int(elapsed_time), 3600)
+            minutes, seconds = divmod(remainder, 60)
+            print(f"\n⏱️ Total execution time: {hours}h {minutes}m {seconds}s")
+            subprocess.run(["bash", f"{project_dir}/notebooks/few-shot/fox/scripts/push_runs.sh", 
+                            "few-shot", 
+                            "testing", 
+                            selector_type, 
+                            prompt_type,
+                            str(hours), str(minutes), str(seconds)], check=True)
+            print("✅ push_runs.sh script executed successfully!")
 
 
 
