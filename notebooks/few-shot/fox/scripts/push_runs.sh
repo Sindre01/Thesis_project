@@ -32,6 +32,7 @@ if [[ "$CURRENT_BRANCH" != "$BRANCH" ]]; then
     else
         echo "⚠️ Branch ${BRANCH} does not exist. Creating it..."
         git checkout -b "${BRANCH}"
+        git push --set-upstream origin "${BRANCH}"
     fi
 else
     echo "✅ Already on branch ${CURRENT_BRANCH}."

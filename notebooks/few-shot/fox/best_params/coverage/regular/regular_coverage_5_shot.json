@@ -1,182 +1,32 @@
 [
     {
-        "model_name": "llama3.3:70b-instruct-fp16",
+        "model_name": "gpt-4o",
         "optimizer_metric": "syntax",
-        "seed": 9,
-        "temperature": 0.9,
-        "top_p": 0.9,
-        "top_k": 50,
-        "created_at": "2025-03-02T15:44:22.021041+01:00",
-        "syntax@1": 0.8888888888888888
-    },
-    {
-        "model_name": "llama3.3:70b-instruct-fp16",
-        "optimizer_metric": "semantic",
-        "seed": 9,
-        "temperature": 0.2,
-        "top_p": 0.6,
-        "top_k": 10,
-        "created_at": "2025-03-02T15:46:02.506563+01:00",
-        "semantic@1": 0.7777777777777778
-    },
-    {
-        "model_name": "llama3.3:70b-instruct-fp16",
-        "optimizer_metric": "tests",
-        "seed": 9,
-        "temperature": 0.2,
-        "top_p": 0.6,
-        "top_k": 10,
-        "created_at": "2025-03-02T15:47:32.270717+01:00",
-        "tests@1": 0.0
-    },
-    {
-        "model_name": "qwq:32b-preview-fp16",
-        "optimizer_metric": "syntax",
-        "seed": 9,
-        "temperature": 0.2,
-        "top_p": 0.6,
-        "top_k": 10,
-        "created_at": "2025-03-02T15:44:22.940117+01:00",
-        "syntax@1": 1.0
-    },
-    {
-        "model_name": "qwq:32b-preview-fp16",
-        "optimizer_metric": "semantic",
         "seed": 9,
         "temperature": 0.2,
         "top_p": 0.2,
-        "top_k": 10,
-        "created_at": "2025-03-02T15:46:04.331220+01:00",
-        "semantic@1": 0.7777777777777778
+        "top_k": -1,
+        "created_at": "2025-03-02T21:01:46.915504+01:00",
+        "syntax@1": 1.0
     },
     {
-        "model_name": "qwq:32b-preview-fp16",
-        "optimizer_metric": "tests",
-        "seed": 9,
-        "temperature": 0.2,
-        "top_p": 0.6,
-        "top_k": 10,
-        "created_at": "2025-03-02T15:47:36.023991+01:00",
-        "tests@1": 0.0
-    },
-    {
-        "model_name": "qwen2.5-coder:32b-instruct-fp16",
-        "optimizer_metric": "syntax",
-        "seed": 9,
-        "temperature": 0.2,
-        "top_p": 0.9,
-        "top_k": 10,
-        "created_at": "2025-03-02T15:44:20.994211+01:00",
-        "syntax@1": 0.8888888888888888
-    },
-    {
-        "model_name": "qwen2.5-coder:32b-instruct-fp16",
+        "model_name": "gpt-4o",
         "optimizer_metric": "semantic",
         "seed": 9,
         "temperature": 0.2,
-        "top_p": 0.9,
-        "top_k": 10,
-        "created_at": "2025-03-02T15:46:05.221288+01:00",
+        "top_p": 0.6,
+        "top_k": -1,
+        "created_at": "2025-03-02T21:02:28.228969+01:00",
         "semantic@1": 0.8888888888888888
     },
     {
-        "model_name": "qwen2.5-coder:32b-instruct-fp16",
+        "model_name": "gpt-4o",
         "optimizer_metric": "tests",
         "seed": 9,
         "temperature": 0.2,
         "top_p": 0.6,
         "top_k": 10,
-        "created_at": "2025-03-02T15:47:36.309036+01:00",
-        "tests@1": 0.0
-    },
-    {
-        "model_name": "qwen2.5:14b-instruct-fp16",
-        "optimizer_metric": "syntax",
-        "seed": 9,
-        "temperature": 0.2,
-        "top_p": 0.2,
-        "top_k": 10,
-        "created_at": "2025-03-02T15:44:21.448353+01:00",
-        "syntax@1": 1.0
-    },
-    {
-        "model_name": "qwen2.5:14b-instruct-fp16",
-        "optimizer_metric": "semantic",
-        "seed": 9,
-        "temperature": 0.6,
-        "top_p": 0.2,
-        "top_k": 50,
-        "created_at": "2025-03-02T15:46:06.249154+01:00",
-        "semantic@1": 1.0
-    },
-    {
-        "model_name": "qwen2.5:14b-instruct-fp16",
-        "optimizer_metric": "tests",
-        "seed": 9,
-        "temperature": 0.2,
-        "top_p": 0.6,
-        "top_k": 10,
-        "created_at": "2025-03-02T15:47:37.553062+01:00",
-        "tests@1": 0.0
-    },
-    {
-        "model_name": "phi4:14b-fp16",
-        "optimizer_metric": "syntax",
-        "seed": 9,
-        "temperature": 0.9,
-        "top_p": 0.6,
-        "top_k": 10,
-        "created_at": "2025-03-02T15:44:20.914813+01:00",
-        "syntax@1": 1.0
-    },
-    {
-        "model_name": "phi4:14b-fp16",
-        "optimizer_metric": "semantic",
-        "seed": 9,
-        "temperature": 0.2,
-        "top_p": 0.2,
-        "top_k": 10,
-        "created_at": "2025-03-02T15:46:05.883889+01:00",
-        "semantic@1": 0.8888888888888888
-    },
-    {
-        "model_name": "phi4:14b-fp16",
-        "optimizer_metric": "tests",
-        "seed": 9,
-        "temperature": 0.2,
-        "top_p": 0.6,
-        "top_k": 10,
-        "created_at": "2025-03-02T15:47:37.768326+01:00",
-        "tests@1": 0.0
-    },
-    {
-        "model_name": "qwen2.5:72b-instruct-fp16",
-        "optimizer_metric": "syntax",
-        "seed": 9,
-        "temperature": 0.2,
-        "top_p": 0.2,
-        "top_k": 10,
-        "created_at": "2025-03-02T15:44:21.100825+01:00",
-        "syntax@1": 1.0
-    },
-    {
-        "model_name": "qwen2.5:72b-instruct-fp16",
-        "optimizer_metric": "semantic",
-        "seed": 9,
-        "temperature": 0.2,
-        "top_p": 0.2,
-        "top_k": 10,
-        "created_at": "2025-03-02T15:46:06.414616+01:00",
-        "semantic@1": 1.0
-    },
-    {
-        "model_name": "qwen2.5:72b-instruct-fp16",
-        "optimizer_metric": "tests",
-        "seed": 9,
-        "temperature": 0.2,
-        "top_p": 0.6,
-        "top_k": 10,
-        "created_at": "2025-03-02T15:47:38.707009+01:00",
+        "created_at": "2025-03-02T21:03:13.052265+01:00",
         "tests@1": 0.0
     }
 ]

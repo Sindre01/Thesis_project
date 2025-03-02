@@ -178,7 +178,7 @@ def run_testing_experiment(
 
         results.append(result_obj)
         ## Write to file
-        write_directly_json_file(file_path, results)#Temporary viewing
+        # write_directly_json_file(file_path, results)#Temporary viewing
         count+=1
     
     write_directly_json_file(file_path, results)
