@@ -171,16 +171,19 @@ def run_model(
         
         if prompt_size > largest_prompt_ctx_size:
             largest_prompt_ctx_size = prompt_size
-        
+
+        print(f"Generating response..  ({index + 1}/{len(data)})", end="\r")
+
         for attempt_i in range(n):
+            current_n = 0
             max_retries = 3
             retries = 0
             new_seed = seed * attempt_i if seed else None # different seed for each attempt if not None
             generated = ""
             while retries < max_retries:
                 try:
-                    print(f"Generating response..  ({index + 1}/{len(data)})", end="\r")
-                    
+
+                    print(f"    > Generating k response..  ({current_n + 1}/{n})", end="\r")
                     if "gpt" in model:
                         llm = client(
                             model=model,
@@ -223,7 +226,7 @@ def run_model(
                 print("Failed to get a response from the server after "
                       + str(retries) + " attempts.")
                 generated = ""
-                
+            current_n += 1
             # Extract code from the generated response
             generated_code = extract_code(generated)
             generated_candidates.append(generated_code)
