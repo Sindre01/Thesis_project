@@ -35,13 +35,13 @@ def save_best_params_to_db(
     print(f"✅ Best parameters saved in MongoDB for model '{model_name}' under experiment '{experiment}'.")  
 
     ### 📌 CHECK IF BEST PARAMS EXIST ###
-def get_best_params(experiment: str, model, optimizer_metric: str, k: int):
+def get_best_params(experiment: str, model:str, optimizer_metric: str, k: int):
     """Checks if best parameters from validation exist in MongoDB."""
     collection = db[f"{experiment}_best_params"]
-    best_params = collection.find_one({"model_name": model["name"], "optimizer_metric": optimizer_metric})
+    best_params = collection.find_one({"model_name": model, "optimizer_metric": optimizer_metric})
 
     if best_params:
-        print(f"✅ Using existing best parameters for model '{model['name']}' optimized on metric '{optimizer_metric}@{k}': temperature={best_params['temperature']}, top_p={best_params['top_p']}, top_k={best_params['top_k']}, seed={best_params['seed']}")
+        print(f"✅ Using existing best parameters for model '{model}' optimized on metric '{optimizer_metric}@{k}': temperature={best_params['temperature']}, top_p={best_params['top_p']}, top_k={best_params['top_k']}, seed={best_params['seed']}")
         return Run(
             temperature=best_params["temperature"],
             top_p=best_params["top_p"],
@@ -51,7 +51,7 @@ def get_best_params(experiment: str, model, optimizer_metric: str, k: int):
             metric_results={}
         )
     
-    print(f"⚠️ No best parameters found for model '{model['name']}' under experiment '{experiment}'. Starting validation...")
+    print(f"⚠️ No best parameters found for model '{model}' under experiment '{experiment}'. Starting validation...")
     return None
 
 def delete_best_params_collection(experiment: str):

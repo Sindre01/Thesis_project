@@ -15,7 +15,7 @@ BRANCH="${PHASE}/${EXAMPLES_TYPE}-${PROMPT_TYPE}"
 
 echo "==== Pushing runs to GitHub ====="
 echo "Pushing changes from ${TARGET_DIR} to ${BRANCH} on GitHub..."
-git fetch
+git pull
 echo "🔍 Debug: Current Git repository is:"
 git rev-parse --show-toplevel
 

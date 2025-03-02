@@ -19,7 +19,7 @@ from my_packages.db_service.experiment_service import (
 )
 from my_packages.db_service.data_processing import flatten_metric_results
 from my_packages.common import Run
-from my_packages.db_service.best_params_service import save_best_params_to_db
+from my_packages.db_service.best_params_service import get_best_params, save_best_params_to_db
 from my_packages.evaluation.code_evaluation import evaluate_code
 from my_packages.utils.file_utils import read_dataset_to_json, write_json_file
 from my_packages.db_service import get_db_connection
@@ -76,6 +76,28 @@ def evaluate_valiation_runs(
                 metadata={"largest_prompt_size": run["largest_context"]},
             )
     return best_run
+
+def get_db_best_params(experiment_name, model_name, optimizer_metrics):
+    """Get best parameters for a given experiment and model from the database."""
+    best_params = []
+    for optimizer_metric in optimizer_metrics:
+        best_param = get_best_params(experiment_name, model_name, optimizer_metric, 1)
+        if best_param is not None:
+            flattened_metrics = flatten_metric_results(best_param.metric_results)
+            params = {
+                "model_name": model_name,
+                "optimizer_metric": optimizer_metric,
+                "seed": best_param.seed,
+                "temperature": best_param.temperature,
+                "top_p": best_param.top_p,
+                "top_k": best_param.top_k,
+                "created_at": datetime.now(ZoneInfo("Europe/Oslo")).isoformat(),
+                **flattened_metrics,
+            }
+            best_params.append(params)
+        else:
+            raise Exception(f"Best parameters not found in DB for {experiment_name} and {model_name}")
+    return best_params
 
 def extract_experiment_and_model_name(file_name: str):
     experiment_name = "_".join(file_name.split("_")[:-1])
@@ -156,6 +178,8 @@ def main(
                 skip_models = []
                 for model_name in models:
                     if not confirm_validation_rerun(experiment_name, model_name):
+                        best_params = get_db_best_params(experiment_name, model_name, optimizer_metrics)
+                        all_best_params.setdefault(experiment_name, []).extend(best_params)
                         skip_models.append(model_name)
                 
                 # Remove files for models that are skipped
@@ -189,18 +213,19 @@ def main(
                 end_time = datetime.now()
                 print(f"🕒 Time taken for {shot}-shot {example_selector_type} on {experiment_type}: {end_time - start_time}")
 
-            # Write best parameters for each experiment to file
-            output_dir = f"{project_dir}/notebooks/few-shot/fox/best_params/{example_selector_type}/{experiment_type}"
-            os.makedirs(output_dir, exist_ok=True)
-            for experiment_name, best_params in all_best_params.items():
-                write_json_file(f"{output_dir}/{experiment_name}.json", best_params)
+                # Write best parameters for each experiment to file
+                output_dir = f"{project_dir}/notebooks/few-shot/fox/best_params/{example_selector_type}/{experiment_type}"
+                os.makedirs(output_dir, exist_ok=True)
+                
+                for experiment_name, best_params in all_best_params.items():
+                    write_json_file(f"{output_dir}/{experiment_name}.json", best_params)
 
 
 if __name__ == "__main__":
     env = "prod"
     example_selector_types = ["coverage"]  # ["coverage", "similarity"]
-    experiment_types = ["regular"]  # ["regular", "signature", "cot"]
-    shots = [1, 5, 10]
+    experiment_types = ["signature"]  # ["regular", "signature", "cot"]
+    shots = [5, 10]
     optimizer_metrics = ["syntax", "semantic", "tests"]  # Separate metric evaluations
     use_threads = True
     main(
