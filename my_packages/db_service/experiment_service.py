@@ -87,7 +87,7 @@ def confirm_validation_rerun(experiment: str, model_name: str) -> bool:
             return False
     
     # If model does not exist, proceed with the experiment
-    print(f"⚠️ No best params found for model '{model_name}' in experiment '{experiment}_best_params'.\n")
+    print(f"⚠️ No best params found for model '{model_name}' in experiment '{experiment}_best_params'. Ready to rerun! \n")
 
     cleanup_errors = errors_collection.delete_many({"model_name": model_name, "phase": "validation"}).deleted_count  # Cleanup previous saved validation errors, due to interuptions
     if cleanup_errors:

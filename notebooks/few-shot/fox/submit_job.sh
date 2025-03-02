@@ -177,17 +177,19 @@ git rev-parse --show-toplevel
 export GIT_DIR="$CLONE_DIR/.git"
 export GIT_WORK_TREE="$CLONE_DIR"
 
-branch_name="$PHASE/$EXAMPLES_TYPE"
-if [ -n "$PROMPT_TYPE" ]; then
-    branch_name="\${branch_name}-$PROMPT_TYPE"
-fi
+# branch_name="$PHASE/$EXAMPLES_TYPE"
+# if [ -n "$PROMPT_TYPE" ]; then
+#     branch_name="\${branch_name}-$PROMPT_TYPE"
+# fi
 
-if git rev-parse --verify --quiet "refs/heads/\${branch_name}"; then
-    git checkout "\${branch_name}"
-else
-    git checkout -b "\${branch_name}"
-    git push --set-upstream origin "\${branch_name}"  # Set remote tracking
-fi
+# if git rev-parse --verify --quiet "refs/heads/\${branch_name}"; then
+#     git checkout "\${branch_name}"
+# else
+#     git checkout -b "\${branch_name}"
+#     git push --set-upstream origin "\${branch_name}"  # Set remote tracking
+# fi
+
+git checkout main
 
 git reset --hard HEAD  # Ensure a clean state
 git pull --rebase --autostash || { echo "❌ Git pull failed!"; exit 1; }
