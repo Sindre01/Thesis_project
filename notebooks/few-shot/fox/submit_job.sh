@@ -7,8 +7,9 @@
 # Configuration
 EXPERIMENT="few-shot"                    # Experiment ('few-shot' or 'COT')
 PHASE="validation"                       # Phase ('testing' or 'validation')
-EXAMPLES_TYPE="coverage"                 #'coverage' or 'similarity'
-PROMPT_TYPE="regular"                 # 'regular' or 'cot' or 'signature'   
+EXAMPLES_TYPE="similarity"                 #'coverage' or 'similarity'
+PROMPT_TYPE="signature"                 # 'regular' or 'cot' or 'signature'   
+# SEMANTIC_SELECTOR=true                   # Use semantic selector
 USER="ec-sindrre"                        # Your Educloud username
 HOST="fox.educloud.no"                   # Fox login address (matches SSH config)
 SSH_CONFIG_NAME="fox"                    # Name of the SSH config entry
@@ -16,7 +17,7 @@ ACCOUNT="ec12"                           # Fox project account
 PARTITION="accel"                        # 'accel' or 'accel_long' (or 'ifi_accel' if access to ec11,ec29,ec30,ec34,ec35 or ec232)
 GPUS=a100:2                              # a100 have 40GB or 80GB VRAM, while rtx30 have 24GB VRAM.
 NODES=1                                  # Number of nodes. OLLAMA does currently only support single node inference
-NODE_LIST=gpu-9,gpu-7,gpu-8              # List of nodes that the job can run on
+NODE_LIST=gpu-7,gpu-9           # List of nodes that the job can run on gpu-9,gpu-7,gpu-8
 TIME="0-24:00:00"                       # Slurm walltime (D-HH:MM:SS)
 MEM_PER_GPU="80G"                       # Memory per GPU. 
 OLLAMA_MODELS_DIR="/cluster/work/projects/ec12/ec-sindrre/ollama-models"  # Path to where the Ollama models are stored and loaded                      
@@ -32,19 +33,19 @@ fi
 #--exclusive #Job will not share nodes with other jobs. 
 # Define unique folder name
 CLONE_DIR="/fp/homes01/u01/ec-sindrre/tmp/Thesis_project_${EXAMPLES_TYPE}_\$SLURM_JOB_ID"
-
 ##############Experiment config################
 model_provider='ollama'
 experiments='[
         {
-            "name": "regular_coverage",
+            "name": "signature_similarity",
             "prompt_prefix": "Create a function",
             "num_shots": [1, 5, 10],
-            "prompt_type": "regular",
-            "semantic_selector": false
+            "prompt_type": "signature",
+            "semantic_selector": true
         }
 ]'
 models='[
+    "llama3.3:70b-instruct-fp16",
     "qwen2.5:72b-instruct-fp16"
 ]'
 
@@ -114,7 +115,7 @@ export OLLAMA_KV_CACHE_TYPE="f16" # f16 (default), q8_0 (half of the memory of f
 
 # export OLLAMA_DEBUG=1
 # export OLLAMA_NUM_PARALLEL=2 # Number of parallel models to run. 
-# export OLLAMA_MAX_LOADED_MODELS
+# export OLLAMA_MAX_LOADED_MODELS=2
 # export OLLAMA_MAX_QUEUE
 
 # export CUDA_ERROR_LEVEL=50
