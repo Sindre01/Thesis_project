@@ -312,7 +312,7 @@ if __name__ == "__main__":
             for model_name in models:
                 file_name = f"{experiment_name}_{model_name}.json"
                 result_runs_path = os.path.join(results_dir, file_name)
-                best_params_path = os.path.join(best_params_folder, experiment_name)
+                best_params_path = os.path.join(best_params_folder, experiment_name + ".json")
 
                 print(f"\n==== Running few-shot testing for {experiment_name} on '{model_name}' ====")  
                 model = get_model_code_tokens_from_file(model_name, f'{project_dir}/notebooks/few-shot/code_max_tokens.json')
