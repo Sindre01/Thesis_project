@@ -7,23 +7,19 @@
 # Configuration
 EXPERIMENT="few-shot"                    # Experiment ('few-shot' or 'COT')
 PHASE="validation"                       # Phase ('testing' or 'validation')
-EXAMPLES_TYPE="similarity"                 #'coverage' or 'similarity'
-PROMPT_TYPE="signature"                 # 'regular' or 'cot' or 'signature'   
+EXAMPLES_TYPE="coverage"                 #'coverage' or 'similarity'
+PROMPT_TYPE="regular"                 # 'regular' or 'cot' or 'signature'   
 # SEMANTIC_SELECTOR=true                   # Use semantic selector
 USER="ec-sindrre"                        # Your Educloud username
 HOST="fox.educloud.no"                   # Fox login address (matches SSH config)
 SSH_CONFIG_NAME="fox"                    # Name of the SSH config entry
 ACCOUNT="ec12"                           # Fox project account
-PARTITION="accel"                        # 'accel' or 'accel_long' (or 'ifi_accel' if access to ec11,ec29,ec30,ec34,ec35 or ec232)
-GPUS=a100:2                              # a100 have 40GB or 80GB VRAM, while rtx30 have 24GB VRAM.
+PARTITION="normal"                        # 'accel' or 'accel_long' (or 'ifi_accel' if access to ec11,ec29,ec30,ec34,ec35 or ec232)
+CPUS_PER_TASK=2                             # a100 have 40GB or 80GB VRAM, while rtx30 have 24GB VRAM.
 NODES=1                                  # Number of nodes. OLLAMA does currently only support single node inference
-NODE_LIST=gpu-7,gpu-9           # List of nodes that the job can run on gpu-9,gpu-7,gpu-8
 TIME="0-24:00:00"                       # Slurm walltime (D-HH:MM:SS)
-MEM_PER_GPU="80G"                       # Memory per GPU. 
-OLLAMA_MODELS_DIR="/cluster/work/projects/ec12/ec-sindrre/ollama-models"  # Path to where the Ollama models are stored and loaded                      
-LOCAL_PORT="11434"                        # Local port for forwarding
-OLLAMA_PORT="11434"                       # Remote port where Ollama listens. If different parallell runs, change ollama_port to avoid conflicts if same node is allocated.
-SBATCH_SCRIPT="${PHASE}_${EXAMPLES_TYPE}_ollama.slurm"           # Slurm batch script name
+MEM="4G"                                 # Memory 
+SBATCH_SCRIPT="${PHASE}_${EXAMPLES_TYPE}_openai.slurm"           # Slurm batch script name
 # Directory on Fox to store scripts and output
 if [ -n "$PROMPT_TYPE" ]; then
     REMOTE_DIR="/fp/homes01/u01/ec-sindrre/slurm_jobs/${EXPERIMENT}/${PHASE}/${EXAMPLES_TYPE}/${PROMPT_TYPE}"
@@ -34,19 +30,18 @@ fi
 # Define unique folder name
 CLONE_DIR="/fp/homes01/u01/ec-sindrre/tmp/Thesis_project_${EXAMPLES_TYPE}_\$SLURM_JOB_ID"
 ##############Experiment config################
-model_provider='ollama'
+model_provider='openai'
 experiments='[
         {
-            "name": "signature_similarity",
+            "name": "regular_coverage",
             "prompt_prefix": "Create a function",
             "num_shots": [1, 5, 10],
-            "prompt_type": "signature",
-            "semantic_selector": true
+            "prompt_type": "regular",
+            "semantic_selector": false
         }
 ]'
 models='[
-    "llama3.3:70b-instruct-fp16",
-    "qwen2.5:72b-instruct-fp16"
+    "gpt40"
 ]'
 
 # normal* c1-[5-28]
@@ -82,10 +77,9 @@ cat <<EOT > "./scripts/${SBATCH_SCRIPT}"
 #SBATCH --account=${ACCOUNT}                      # Project account
 #SBATCH --partition=${PARTITION}                  # Partition ('accel' or 'accel_long')
 #SBATCH --nodes=${NODES}                           # Amount of nodes. Ollama one support single node inference
-#SBATCH --nodelist=${NODE_LIST}                   # List of nodes that the job can run on
-#SBATCH --gpus=${GPUS}                             # Number of GPUs
+#SBATCH --cpus_per_task=${CPUS_PER_TASK}                             # Number of CPUS_PER_TASK
 #SBATCH --time=${TIME}                             # Walltime (D-HH:MM:SS)
-#SBATCH --mem-per-gpu=${MEM_PER_GPU}              # Memory per CPU
+#SBATCH --mem=${MEM}              # Memory per CPU
 #SBATCH --output=Job_${PHASE}_%j.out                 # Standard output and error log
 
 
@@ -106,23 +100,7 @@ module load Python/3.11.5-GCCcore-13.2.0
 
 source ~/.bashrc # may ovewrite previous modules
 
-export OLLAMA_MODELS=${OLLAMA_MODELS_DIR}    # Path to where the Ollama models are stored and loaded
-export OLLAMA_HOST=0.0.0.0:${OLLAMA_PORT}      # Host and port where Ollama listens
-export OLLAMA_ORIGINS=”*”
-export OLLAMA_LLM_LIBRARY="cuda_v12_avx" 
-export OLLAMA_FLASH_ATTENTION=1
-export OLLAMA_KV_CACHE_TYPE="f16" # f16 (default), q8_0 (half of the memory of f16, try this), q4_0 different quantization types to find the best balance between memory usage and quality.
-
-# export OLLAMA_DEBUG=1
-# export OLLAMA_NUM_PARALLEL=2 # Number of parallel models to run. 
-# export OLLAMA_MAX_LOADED_MODELS=2
-# export OLLAMA_MAX_QUEUE
-
-# export CUDA_ERROR_LEVEL=50
-# export CUDA_VISIBLE_DEVICES=0,1
-# export AMD_LOG_LEVEL=3
-
-#############CLEANUP OLD JOBS################
+############# CLEANUP OLD JOBS ################
 # Set the target directory (default: current directory)
 
 
@@ -135,19 +113,6 @@ echo "🧹 Cleaning up files older than 1 hours in: $REMOTE_DIR"
 find "$REMOTE_DIR" -type f \( -name "*.out" -o -name "*.slurm" -o -name "*.csv" \) -mmin +1800 -exec rm -v {} \;
 
 echo "✅ Cleanup completed!"
-
-####################### Setup monitoring ######################################
-nvidia-smi --query-gpu=timestamp,utilization.gpu,utilization.memory \
-	--format=csv --loop=1 > "gpu_util-\$SLURM_JOB_ID.csv" &
-NVIDIA_MONITOR_PID=$!  # Capture PID of monitoring process
-
-
-###############################################################################
-# Start Ollama Server in Background with Log Redirection
-###############################################################################
-ollama serve > ollama_API_\$SLURM_JOB_ID.out 2>&1 &  
-
-sleep 5
 
 ###############################################################################
 # Run Python Script
@@ -244,7 +209,7 @@ echo "Slurm batch script transferred to '${REMOTE_DIR}/' on Fox."
 # Step 2: Submit the Slurm Batch Job via SSH
 ###############################################################################
 
-echo $'\n==== Submitting Slurm batch job for Ollama API ===='
+echo $'\n==== Submitting Slurm batch job ===='
 
 JOB_SUBMISSION_OUTPUT=$(ssh "${SSH_CONFIG_NAME}" "cd '${REMOTE_DIR}' && sbatch '${SBATCH_SCRIPT}'")
 
@@ -313,20 +278,6 @@ fi
 
 echo "Allocated node: ${NODE_NAME}"
 
-###############################################################################
-# Step 5: Retrieve Ollama API url
-###############################################################################
-echo $'\n==== Retrieve Ollama API url on Fox ===='
-echo "Ollama now exists at fox on url: ${NODE_NAME}:${OLLAMA_PORT} ${SSH_CONFIG_NAME}"
-
-#Write to file, to later setup ssh connection dynamically if lost.
-cat <<EOT > "./scripts/Ollama_url.sh"
-#!/bin/bash
-${NODE_NAME}:${OLLAMA_PORT} ${SSH_CONFIG_NAME}
-EOT
-
-# Make the script executable
-chmod +x ./scripts/Ollama_url.sh
 
 ###############################################################################
 # LAST: Handle Script Termination

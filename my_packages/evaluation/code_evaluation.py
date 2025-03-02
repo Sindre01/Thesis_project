@@ -181,17 +181,17 @@ def run_model(
                 try:
                     print(f"Generating response..  ({index + 1}/{len(data)})", end="\r")
                     
-                    if "claude" in model:
+                    if "gpt" in model:
+                        print("Using GPT model")
                         llm = client(
                             model=model,
                             temperature=temperature,
-                            num_predict=max_new_tokens,
-                            top_p=top_p,
-                            top_k=top_k,
-                            stream=False,
-                            num_ctx=largest_prompt_ctx_size,
+                            seed=new_seed,
+                            max_tokens=max_new_tokens,
                             stop=["```<|eot_id|>"],
-                            seed=new_seed
+                            top_p=top_p,
+                            # top_k=top_k, #NOT AVAILABLE IN GPT
+                            streaming=False,
                         )
                     else:
                         llm = client(
@@ -322,8 +322,11 @@ def run_validation(
     print(f"{Fore.CYAN}{Style.BRIGHT}Validation Phase:{Style.RESET_ALL}")
     print(f"Optimizing for metric: {optimizer_metric}")
 
+    if isinstance(client, ChatOpenAI):
+        top_ks = []
+        
     for temp in temperatures:
-        for top_k in top_ks:
+        for top_k in top_ks or [None]: #Ensures loop runs once, when top_ks is empty
             for top_p in top_ps:
                 # print(f"Validating with temperature: {temp}, top_k: {top_k} and top_p: {top_p}")
                 

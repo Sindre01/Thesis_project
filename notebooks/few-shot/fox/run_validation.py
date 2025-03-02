@@ -41,7 +41,7 @@ def get_dataset_splits(main_dataset_folder):
     return train_data, val_data, test_data
 
 def model_configs(all_responses, model_provider, models = None):  
-    load_dotenv("../../.env")
+    load_dotenv("../../../.env")
 
     match model_provider:
         case 'ollama':
@@ -143,10 +143,13 @@ def run_val_experiment(
 
 ):
     combinatios = len(temperatures) * len(top_ps) * len(top_ks)
+    if isinstance(client, ChatOpenAI):
+        top_ks = []
+
     current_combination = 0
     results = []
     for temp in temperatures:
-        for top_k in top_ks:
+        for top_k in top_ks or [None]: #Ensures loop runs once, when top_ks is empty
             for top_p in top_ps:
                 print(f"Validating with temperature: {temp}, top_k: {top_k} and top_p: {top_p}")
                 
