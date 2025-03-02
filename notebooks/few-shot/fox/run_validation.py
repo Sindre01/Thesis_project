@@ -8,9 +8,11 @@ import argparse
 script_dir = os.path.dirname(os.path.abspath(__file__))
 project_dir = os.path.abspath(f"{script_dir}/../../..")
 # experiment_dir = os.path.abspath(f"{script_dir}/..")
+env_path = os.path.abspath(f"{project_dir}/../../.env")
 
 print("Script is located in:", script_dir)
 print("Project is located in:", project_dir)
+print("Env is located in:", env_path)
 # print("Experiments are located in:", experiment_dir)
 
 results_dir = f"{project_dir}/notebooks/few-shot/fox/validation_runs"
@@ -41,7 +43,7 @@ def get_dataset_splits(main_dataset_folder):
     return train_data, val_data, test_data
 
 def model_configs(all_responses, model_provider, models = None):  
-    load_dotenv("../../../.env")
+    load_dotenv(env_path)
 
     match model_provider:
         case 'ollama':

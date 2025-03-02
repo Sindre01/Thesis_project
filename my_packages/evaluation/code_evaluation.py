@@ -316,7 +316,7 @@ def run_validation(
     """
     print(f"Starting validation phase..")
     val_best_metric = 0.0
-    best_run = Run(phase="temp", temperature=0.0, top_p=0.0, top_k=0.0, metric_results={}, seed=0)
+    best_run = Run("validation", 0.2, 0.6, 10, {f"pass@k_{optimizer_metric}": {"pass@1": 0.0}}, 9, {})
     n = max(ks) # Number of generations per task
     print(f"{Fore.CYAN}{Style.BRIGHT}Validation Phase:{Style.RESET_ALL}")
     print(f"Optimizing for metric: {optimizer_metric}")

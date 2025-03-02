@@ -61,10 +61,10 @@ def evaluate_valiation_runs(
         pass_at_k_dict = metric_results_lists[0]
         val_metric = pass_at_k_dict[f"pass@{ks[0]}"]
         # (Optional: remove or lower verbosity of print statements)
-        print(f"Validation with temp={run['temperature']}, top_k={run['top_k']}, top_p={run['top_p']} -> {optimizer_metric}@{ks[0]}={val_metric}")
+        # print(f"Validation with temp={run['temperature']}, top_k={run['top_k']}, top_p={run['top_p']} -> {optimizer_metric}@{ks[0]}={val_metric}")
 
         if val_metric > val_best_metric:
-            print(f"New best pass@{ks[0]} found: {val_metric}")
+            # print(f"New best pass@{ks[0]} found: {val_metric}")
             val_best_metric = val_metric
             best_run = Run(
                 phase="validation",
@@ -200,7 +200,7 @@ if __name__ == "__main__":
     env = "prod"
     example_selector_types = ["coverage"]  # ["coverage", "similarity"]
     experiment_types = ["regular"]  # ["regular", "signature", "cot"]
-    shots = [1]  # [1, 5, 10]
+    shots = [1, 5, 10]
     optimizer_metrics = ["syntax", "semantic", "tests"]  # Separate metric evaluations
     use_threads = True
     main(
