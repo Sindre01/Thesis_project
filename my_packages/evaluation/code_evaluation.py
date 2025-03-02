@@ -174,8 +174,8 @@ def run_model(
 
         print(f"Generating response..  ({index + 1}/{len(data)})", end="\r")
 
+        current_n = 0
         for attempt_i in range(n):
-            current_n = 0
             max_retries = 3
             retries = 0
             new_seed = seed * attempt_i if seed else None # different seed for each attempt if not None
