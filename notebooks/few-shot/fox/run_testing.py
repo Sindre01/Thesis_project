@@ -8,8 +8,12 @@ import sys
 script_dir = os.path.dirname(os.path.abspath(__file__))
 project_dir = os.path.abspath(f"{script_dir}/../../..")
 # experiment_dir = os.path.abspath(f"{script_dir}/..")
+env_path = os.path.abspath(f"{project_dir}/../../.env")
 results_dir = f"{project_dir}/notebooks/few-shot/fox/testing_runs"
 sys.path.append(project_dir)
+print("Script is located in:", script_dir)
+print("Project is located in:", project_dir)
+print("Env is located in:", env_path)
 
 from my_packages.common import PromptType, get_prompt_type
 from my_packages.evaluation.code_evaluation import run_model
@@ -37,8 +41,8 @@ def get_dataset_splits(main_dataset_folder):
     print(f"Test data: {len(test_data)}")
     return train_data, val_data, test_data
 
-def model_configs(all_responses, model_provider):  
-    load_dotenv("../../.env")
+def model_configs(all_responses, model_provider, models = None):  
+    load_dotenv(env_path)
 
     match model_provider:
         case 'ollama':
@@ -51,20 +55,20 @@ def model_configs(all_responses, model_provider):
                     print("Ollama server is not reachable. Batch job might have finished. Try running bash script again.")
 
             client = ChatOllama
-    
-            models = [
-                # 14b models:
-                "phi4:14b-fp16", #16k context length
-                # "qwen2.5:14b-instruct-fp16", #128 k
+            if not models:
+                models = [
+                    #14b models:
+                    "phi4:14b-fp16", #16k context length
+                    "qwen2.5:14b-instruct-fp16", #128 k
 
-                #32b models:
-                # "qwq:32b-preview-fp16", #ctx: 32,768 tokens
-                # "qwen2.5-coder:32b-instruct-fp16", #32,768 tokens
-    
-                # #70b models:
-                # "llama3.3:70b-instruct-fp16", #ctx: 130k
-                # "qwen2.5:72b-instruct-fp16", #ctx: 139k
-            ]
+                    #32b models:
+                    "qwq:32b-preview-fp16", #ctx: 32,768 tokens
+                    "qwen2.5-coder:32b-instruct-fp16", #32,768 tokens
+        
+                    #70b models:
+                    "llama3.3:70b-instruct-fp16", #ctx: 130k
+                    "qwen2.5:72b-instruct-fp16", #ctx: 139k
+                ]
             models_not_tokenized = models_not_in_file(models, f'{project_dir}/notebooks/few-shot/code_max_tokens.json')
             write_models_tokens_to_file(client, models_not_tokenized, all_responses, f'{project_dir}/notebooks/few-shot/code_max_tokens.json')
 
