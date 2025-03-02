@@ -10,7 +10,7 @@
 #SBATCH --account=ec12                      # Project account
 #SBATCH --partition=accel                  # Partition ('accel' or 'accel_long')
 #SBATCH --nodes=1                           # Amount of nodes. Ollama one support single node inference
-#SBATCH --nodelist=gpu-9,gpu-7,gpu-8                   # List of nodes that the job can run on
+#SBATCH --nodelist=gpu-7,gpu-9                   # List of nodes that the job can run on
 #SBATCH --gpus=a100:2                             # Number of GPUs
 #SBATCH --time=0-24:00:00                             # Walltime (D-HH:MM:SS)
 #SBATCH --mem-per-gpu=80G              # Memory per CPU
@@ -43,7 +43,7 @@ export OLLAMA_KV_CACHE_TYPE="f16" # f16 (default), q8_0 (half of the memory of f
 
 # export OLLAMA_DEBUG=1
 # export OLLAMA_NUM_PARALLEL=2 # Number of parallel models to run. 
-# export OLLAMA_MAX_LOADED_MODELS
+# export OLLAMA_MAX_LOADED_MODELS=2
 # export OLLAMA_MAX_QUEUE
 
 # export CUDA_ERROR_LEVEL=50
@@ -56,10 +56,10 @@ export OLLAMA_KV_CACHE_TYPE="f16" # f16 (default), q8_0 (half of the memory of f
 # Set the age threshold (1 hours)
 AGE_THRESHOLD=3600 # 1 hours in seconds
 
-echo "🧹 Cleaning up files older than 1 hours in: /fp/homes01/u01/ec-sindrre/slurm_jobs/few-shot/validation/similarity/regular"
+echo "🧹 Cleaning up files older than 1 hours in: /fp/homes01/u01/ec-sindrre/slurm_jobs/few-shot/validation/similarity/signature"
 
 # Find and delete .out, .slurm, and .csv files older than 1 hours
-find "/fp/homes01/u01/ec-sindrre/slurm_jobs/few-shot/validation/similarity/regular" -type f \( -name "*.out" -o -name "*.slurm" -o -name "*.csv" \) -mmin +1800 -exec rm -v {} \;
+find "/fp/homes01/u01/ec-sindrre/slurm_jobs/few-shot/validation/similarity/signature" -type f \( -name "*.out" -o -name "*.slurm" -o -name "*.csv" \) -mmin +1800 -exec rm -v {} \;
 
 echo "✅ Cleanup completed!"
 
@@ -104,8 +104,8 @@ export GIT_DIR="/fp/homes01/u01/ec-sindrre/tmp/Thesis_project_similarity_$SLURM_
 export GIT_WORK_TREE="/fp/homes01/u01/ec-sindrre/tmp/Thesis_project_similarity_$SLURM_JOB_ID"
 
 branch_name="validation/similarity"
-if [ -n "regular" ]; then
-    branch_name="${branch_name}-regular"
+if [ -n "signature" ]; then
+    branch_name="${branch_name}-signature"
 fi
 
 if git rev-parse --verify --quiet "refs/heads/${branch_name}"; then
@@ -129,13 +129,13 @@ python -u /fp/homes01/u01/ec-sindrre/tmp/Thesis_project_similarity_$SLURM_JOB_ID
     "qwen2.5:72b-instruct-fp16"
 ]'     --experiments '[
         {
-            "name": "regular_similarity",
+            "name": "signature_similarity",
             "prompt_prefix": "Create a function",
             "num_shots": [1, 5, 10],
-            "prompt_type": "regular",
+            "prompt_type": "signature",
             "semantic_selector": true
         }
-]'     > /fp/homes01/u01/ec-sindrre/slurm_jobs/few-shot/validation/similarity/regular/AI_$SLURM_JOB_ID.out 2>&1
+]'     > /fp/homes01/u01/ec-sindrre/slurm_jobs/few-shot/validation/similarity/signature/AI_$SLURM_JOB_ID.out 2>&1
 
 # Cleanup after job completion
 echo "🚀 Cleaning up cloned repository..."
