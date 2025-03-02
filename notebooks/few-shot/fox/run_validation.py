@@ -144,14 +144,18 @@ def run_val_experiment(
         debug = False,
 
 ):
-    combinatios = len(temperatures) * len(top_ps) * len(top_ks)
-    if isinstance(client, ChatOpenAI):
+    
+    if model["name"] in "gpt-4o":
+        print(f"Not using top_k for {model['name']} model")
         top_ks = []
 
+    combinatios = len(temperatures) * len(top_ps) * len(top_ks)
     current_combination = 0
     results = []
+
+        
     for temp in temperatures:
-        for top_k in top_ks or [None]: #Ensures loop runs once, when top_ks is empty
+        for top_k in top_ks or [-1]: #Ensures loop runs once, when top_ks is empty
             for top_p in top_ps:
                 print(f"Validating with temperature: {temp}, top_k: {top_k} and top_p: {top_p}")
                 
