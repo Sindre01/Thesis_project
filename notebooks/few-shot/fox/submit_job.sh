@@ -18,7 +18,7 @@ PARTITION="ifi_accel"                        # 'accel' or 'accel_long' (or 'ifi_
 GPUS=4                             # a100 have 40GB or 80GB VRAM, while rtx30 have 24GB VRAM.
 NODES=1                                  # Number of nodes. OLLAMA does currently only support single node inference
 NODE_LIST=          # List of nodes that the job can run on gpu-9,gpu-7,gpu-8
-TIME="5-00:00:00"                       # Slurm walltime (D-HH:MM:SS)
+TIME="2-00:00:00"                       # Slurm walltime (D-HH:MM:SS)
 MEM_PER_GPU="20G"                       # Memory per GPU. 
 OLLAMA_MODELS_DIR="/cluster/work/projects/ec12/ec-sindrre/ollama-models"  # Path to where the Ollama models are stored and loaded                      
 LOCAL_PORT="11434"                        # Local port for forwarding
@@ -48,7 +48,7 @@ experiments='[
         {
             "name": "signature_coverage",
             "prompt_prefix": "Create a function",
-            "num_shots": [1, 5, 10],
+            "num_shots": [1],
             "prompt_type": "signature",
             "semantic_selector": false
         }
