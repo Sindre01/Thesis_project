@@ -4,6 +4,7 @@ from zoneinfo import ZoneInfo
 import pandas as pd
 from my_packages.db_service import db
 from my_packages.common import Run
+from my_packages.db_service.data_processing import flatten_metric_results
 
 def save_best_params_to_db(
     experiment: str, 
@@ -20,7 +21,7 @@ def save_best_params_to_db(
 
     # Remove old best params if they exist
     collection.delete_many({"model_name": model_name, "optimizer_metric": optimizer_metric})
-
+    flattened_metrics = flatten_metric_results(best_params.metric_results)
     # Insert new best params
     collection.insert_one({
         "model_name": model_name,
@@ -29,7 +30,8 @@ def save_best_params_to_db(
         "top_p": best_params.top_p,
         "top_k": best_params.top_k,
         "seed": best_params.seed,
-        "created_at": datetime.now(ZoneInfo("Europe/Oslo"))
+        "created_at": datetime.now(ZoneInfo("Europe/Oslo")),
+        **flattened_metrics
     })
 
     print(f"✅ Best parameters saved in MongoDB for model '{model_name}' under experiment '{experiment}'.")  
