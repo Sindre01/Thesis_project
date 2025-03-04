@@ -97,9 +97,16 @@ def errors_to_df(experiment: str, model: str = None) -> pd.DataFrame:
 
     return pd.DataFrame(data)
 
-# def make_error_dataset(pha: str, model: str = None) -> pd.DataFrame:
-#     """Creates a dataset of errors for all models in all experiemnts"""
+def make_error_dataset(phase: str, experiment: str = None, output_file: str = None) -> pd.DataFrame:
+    """Creates a dataset of errors for all models in all experiemnts"""
+    errors = []
+    if experiment:
+        errors.append(errors_to_df(experiment))
+    else:
+        for collection in list_errors_collections():
+            errors.append(errors_to_df(collection))
 
+    return pd.concat(errors)
 #     df_errors = errors_to_df(experiment, model)
 #     if df_errors.empty:
 #         print(f"⚠️ No errors found for experiment '{experiment}'.")

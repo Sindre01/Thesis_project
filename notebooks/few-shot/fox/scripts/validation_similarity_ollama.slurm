@@ -10,7 +10,7 @@
 #SBATCH --account=ec12                      # Project account
 #SBATCH --partition=accel                  # Partition ('accel' or 'accel_long')
 #SBATCH --nodes=1                           # Amount of nodes. Ollama one support single node inference
-#SBATCH --nodelist=gpu-7,gpu-9                   # List of nodes that the job can run on
+#SBATCH --nodelist=gpu-9,gpu-7,gpu-8                   # List of nodes that the job can run on
 #SBATCH --gpus=a100:2                             # Number of GPUs
 #SBATCH --time=0-24:00:00                             # Walltime (D-HH:MM:SS)
 #SBATCH --mem-per-gpu=80G              # Memory per CPU
@@ -49,6 +49,7 @@ export OLLAMA_KV_CACHE_TYPE="f16" # f16 (default), q8_0 (half of the memory of f
 # export CUDA_ERROR_LEVEL=50
 # export CUDA_VISIBLE_DEVICES=0,1
 # export AMD_LOG_LEVEL=3
+
 #############CLEANUP OLD JOBS################
 # Set the target directory (default: current directory)
 
@@ -103,17 +104,19 @@ git rev-parse --show-toplevel
 export GIT_DIR="/fp/homes01/u01/ec-sindrre/tmp/Thesis_project_similarity_$SLURM_JOB_ID/.git"
 export GIT_WORK_TREE="/fp/homes01/u01/ec-sindrre/tmp/Thesis_project_similarity_$SLURM_JOB_ID"
 
-branch_name="validation/similarity"
-if [ -n "signature" ]; then
-    branch_name="${branch_name}-signature"
-fi
+# branch_name="validation/similarity"
+# if [ -n "signature" ]; then
+#     branch_name="${branch_name}-signature"
+# fi
 
-if git rev-parse --verify --quiet "refs/heads/${branch_name}"; then
-    git checkout "${branch_name}"
-else
-    git checkout -b "${branch_name}"
-    git push --set-upstream origin "${branch_name}"  # Set remote tracking
-fi
+# if git rev-parse --verify --quiet "refs/heads/${branch_name}"; then
+#     git checkout "${branch_name}"
+# else
+#     git checkout -b "${branch_name}"
+#     git push --set-upstream origin "${branch_name}"  # Set remote tracking
+# fi
+
+git checkout main
 
 git reset --hard HEAD  # Ensure a clean state
 git pull --rebase --autostash || { echo "❌ Git pull failed!"; exit 1; }
@@ -125,13 +128,12 @@ source ~/Thesis_project/thesis_venv/bin/activate  # Activate it to ensure the co
 echo "============= Running validation few-shot Python script... ============="
 export PYTHONPATH="/fp/homes01/u01/ec-sindrre/tmp/Thesis_project_similarity_$SLURM_JOB_ID:~/Thesis_project:~/Thesis_project:"
 python -u /fp/homes01/u01/ec-sindrre/tmp/Thesis_project_similarity_$SLURM_JOB_ID/notebooks/few-shot/fox/run_validation.py     --model_provider 'ollama'     --models '[
-    "llama3.3:70b-instruct-fp16",
     "qwen2.5:72b-instruct-fp16"
 ]'     --experiments '[
         {
             "name": "signature_similarity",
             "prompt_prefix": "Create a function",
-            "num_shots": [1, 5, 10],
+            "num_shots": [10],
             "prompt_type": "signature",
             "semantic_selector": true
         }

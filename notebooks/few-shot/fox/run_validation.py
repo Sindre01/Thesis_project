@@ -148,7 +148,7 @@ def run_val_experiment(
     if model["name"] in "gpt-4o":
         print(f"Not using top_k for {model['name']} model")
         top_ks = []
-        combinatios = len(temperatures) * len(top_ks)
+        combinatios = len(temperatures) * len(top_ps)
     else:
         combinatios = len(temperatures) * len(top_ps) * len(top_ks)
 
@@ -290,7 +290,7 @@ if __name__ == "__main__":
         ]
 
     
-    print(f"Total experiments variations to run: {len(experiments) * len(models)* len([1, 5, 10])}")
+    print(f"Total experiments variations to run: {len(experiments) * len(models)* len(experiments[0]["num_shots"])}")
     
     print("\n==== Running validation ====")
     for ex in experiments:

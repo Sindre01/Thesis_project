@@ -236,7 +236,3 @@ if __name__ == "__main__":
         optimizer_metrics=optimizer_metrics,
         use_threads=use_threads
     )
-
-   #2388
-   #1435
-   
