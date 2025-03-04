@@ -1,3 +1,4 @@
+from datetime import datetime
 import json
 import os
 from subprocess import CompletedProcess
@@ -117,7 +118,8 @@ class Run:
         top_k: int,
         metric_results: dict,
         seed = None,
-        metadata: dict | None = None
+        metadata: dict | None = None,
+        created_at: datetime = None
     ):
         self.phase = phase
         self.temperature = temperature
@@ -126,6 +128,7 @@ class Run:
         self.metric_results = metric_results
         self.seed = seed
         self.metadata = metadata
+        self.created_at = created_at
     
     def print(self):
 

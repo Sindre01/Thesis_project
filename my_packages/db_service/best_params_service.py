@@ -48,6 +48,7 @@ def get_best_params(experiment: str, model:str, optimizer_metric: str, k: int):
             top_k=best_params["top_k"],
             seed=best_params["seed"],
             phase="validation",
+            created_at=best_params["created_at"],
             metric_results={}
         )
     

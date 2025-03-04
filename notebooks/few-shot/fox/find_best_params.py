@@ -91,7 +91,7 @@ def get_db_best_params(experiment_name, model_name, optimizer_metrics):
                 "temperature": best_param.temperature,
                 "top_p": best_param.top_p,
                 "top_k": best_param.top_k,
-                "created_at": datetime.now(ZoneInfo("Europe/Oslo")).isoformat(),
+                "created_at": best_param.created_at.isoformat(),
                 **flattened_metrics,
             }
             best_params.append(params)
@@ -153,7 +153,7 @@ def main(
             for shot in shots:
                 start_time = datetime.now()
                 experiment_name = f"{experiment_type}_{example_selector_type}_{shot}_shot"
-                print(f"\n🔍 Finding best hyperparameters experiment: {experiment_name}")
+                print(f"\n🔍 Finding best hyperparameters for experiment: {experiment_name}")
                 runs_folder = f"{project_dir}/notebooks/few-shot/fox/validation_runs/{example_selector_type}/{experiment_type}"
 
                 # Only files for current shot
@@ -225,9 +225,9 @@ if __name__ == "__main__":
     env = "prod"
     example_selector_types = ["coverage"]  # ["coverage", "similarity"]
     experiment_types = ["signature"]  # ["regular", "signature", "cot"]
-    shots = [5, 10]
+    shots = [1, 5, 10]
     optimizer_metrics = ["syntax", "semantic", "tests"]  # Separate metric evaluations
-    use_threads = True
+    use_threads = False
     main(
         env=env,
         example_selector_types=example_selector_types,

@@ -22,7 +22,7 @@ def extract_code(response_text: str) -> str:
     Also removes any comments—whether they are on lines by themselves or inline.
     """
     # Match content between ```midio and ```
-    match = re.search(r"```midio(.*?)```", response_text, re.DOTALL)
+    match = re.search(r"```midio(.*?)(```|$)", response_text, re.DOTALL)
     if match:
         code_block = match.group(1)
     else:
@@ -272,6 +272,7 @@ def evaluate_code(
         else:
             test_results = evaluate_code_metric(candidate_dict, metric)
             pass_at_k_dict = calculate_pass_at_k_scores(test_results, ks)
+            print(f"Pass@k for {metric}: {pass_at_k_dict}")
 
             # Save errors
             if env == "dev":
