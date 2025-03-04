@@ -1,9 +1,6 @@
 import os
 from pymongo import MongoClient
 
-# Read experiment name from environment variable or use a default
-DB_NAME = os.getenv('EXPERIMENT_DB_NAME', 'default_experiment')
-
 # MongoDB Connection
 MONGO_URI = "mongodb://localhost:27017/"
 client = MongoClient(MONGO_URI)

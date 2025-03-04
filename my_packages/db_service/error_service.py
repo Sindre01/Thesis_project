@@ -83,15 +83,47 @@ def get_error_count_model(experiment: str, model_name: str, phase: str) -> int:
     errors_collection = db[f"{experiment}_errors"]
     return errors_collection.count_documents({"model_name": model_name, "phase": phase})
         
-def errors_to_df(experiment: str):
+def errors_to_df(experiment: str, model: str = None) -> pd.DataFrame:
     """Loads a MongoDB collection into a Pandas DataFrame."""
     collection_name = f"{experiment}_errors"
     collection = db[collection_name]
-    
-    data = list(collection.find({}, {"_id": 0}))  # Exclude MongoDB ObjectId
+    if model:
+        data = list(collection.find({"model_name": model}, {"_id": 0}))
+    else:
+        data = list(collection.find({}, {"_id": 0}))  # Exclude MongoDB ObjectId
 
     if not data:
         raise ValueError(f"Collection '{collection_name}' is empty in MongoDB.")
 
     return pd.DataFrame(data)
+
+# def make_error_dataset(pha: str, model: str = None) -> pd.DataFrame:
+#     """Creates a dataset of errors for all models in all experiemnts"""
+
+#     df_errors = errors_to_df(experiment, model)
+#     if df_errors.empty:
+#         print(f"⚠️ No errors found for experiment '{experiment}'.")
+#         return df_errors
+
+#     # Drop unnecessary columns
+#     df_errors.drop(columns=["code_candidate", "stderr", "stdout"], inplace=True)
+
+#     # Rename columns
+#     df_errors.rename(columns={
+#         "model_name": "Model",
+#         "task_id": "Task ID",
+#         "candidate_id": "Candidate ID",
+#         "metric": "Metric",
+#         "error_type": "Error Type",
+#         "error_msg": "Error Message",
+#         "test_result": "Test Result",
+#         "phase": "Phase",
+#         "seed": "Seed",
+#         "temperature": "Temperature",
+#         "top_p": "Top P",
+#         "top_k": "Top K",
+#         "created_at": "Created At"
+#     }, inplace=True)
+
+#     return df_errors
 

@@ -1,6 +1,8 @@
 from matplotlib import pyplot as plt
 import plotly.graph_objects as go
-from my_packages.db_service.data_export import load_collection_from_db
+
+from my_packages.db_service.error_service import errors_to_df
+
 
 def bar_chart_errors_for_metric_filtered(experiment: str, model_name: str, metric: str):
     """
@@ -14,7 +16,7 @@ def bar_chart_errors_for_metric_filtered(experiment: str, model_name: str, metri
       - metric (str): The evaluation metric (e.g., "syntax", "semantic", "tests").
     """
     # Load error data from the experiment's errors collection
-    df_errors = load_collection_from_db(experiment, "errors")
+    df_errors = errors_to_df(experiment)
     if df_errors.empty:
         print(f"⚠️ No errors found for experiment '{experiment}'.")
         return
@@ -49,7 +51,7 @@ def bar_chart_errors_for_metric_filtered(experiment: str, model_name: str, metri
 ### 📌 VISUALIZE ERRORS AS A BAR CHART ###
 def bar_chart_errors_by_type(experiment: str):
     """Plots a bar chart of error types from MongoDB."""
-    df_errors = load_collection_from_db(experiment, "errors")
+    df_errors = errors_to_df(experiment)
 
     error_counts = df_errors["error_type"].value_counts()
 
@@ -84,7 +86,7 @@ def visualize_error_flow_for_model(experiment: str, model_name: str):
     And creates a Sankey diagram that shows the hierarchical flow.
     """
     # Load error data from the experiment's errors collection (assumes load_collection_from_db is defined)
-    df_errors = load_collection_from_db(experiment, "errors")
+    df_errors = errors_to_df(experiment)
     if df_errors.empty:
         print(f"⚠️ No errors found for experiment '{experiment}'.")
         return

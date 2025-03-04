@@ -393,11 +393,29 @@ def pretty_print_experiment_collections(
         
         # Convert to DataFrame for better readability
         df = pd.DataFrame(documents)
+        if "model_name" in df.columns:
+            df["size"] = df["model_name"].apply(extract_size)  # Extract size
+            df = df.sort_values(by=["size", "model_name"], ascending=[True, True])  # Sort by size first, then name
+            df = df.drop(columns=["size"])  # Remove temporary column after sorting
+
         print(df.to_string(index=False))  # Pretty print DataFrame
         print("...")
+        # Display document counts for each model_name
+        model_counts = collection.aggregate([
+            {"$group": {"_id": "$model_name", "count": {"$sum": 1}}}
+        ])
+        model_counts_dict = {entry["_id"]: entry["count"] for entry in model_counts}
+        for model_name, count in model_counts_dict.items():
+            print(f"📊 {model_name}: {count} documents")
         extra_info = ""
         if collection_name == f"{experiment}_errors":
-             extra_info = f"validation: {collection.count_documents({'phase': 'validation'})}, testing: {collection.count_documents({'phase': 'testing'})}"
+            extra_info = f"validation: {collection.count_documents({'phase': 'validation'})}, testing: {collection.count_documents({'phase': 'testing'})}"
+
 
         print(f"Total documents/rows: {collection.count_documents({})}      {extra_info}")
         print("-" * 50)
+
+def extract_size(model: str):
+    if ":" not in model:
+        return "N/A"
+    return model.split(":")[1].strip().split("-")[0]

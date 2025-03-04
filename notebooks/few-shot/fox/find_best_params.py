@@ -224,7 +224,7 @@ def main(
 if __name__ == "__main__":
     env = "prod"
     example_selector_types = ["coverage"]  # ["coverage", "similarity"]
-    experiment_types = ["regular"]  # ["regular", "signature", "cot"]
+    experiment_types = ["signature"]  # ["regular", "signature", "cot"]
     shots = [1, 5, 10]
     optimizer_metrics = ["syntax", "semantic", "tests"]  # Separate metric evaluations
     use_threads = True
@@ -237,4 +237,6 @@ if __name__ == "__main__":
         use_threads=use_threads
     )
 
+   #2388
+   #1435
    
