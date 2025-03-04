@@ -290,7 +290,7 @@ if __name__ == "__main__":
         ]
 
     
-    print(f"Total experiments variations to run: {len(experiments) * len(models)* len(experiments[0]["num_shots"])}")
+    print(f"Total experiments variations to run: {len(experiments) * len(models)* len(experiments[0]['num_shots'])}")
     
     print("\n==== Running validation ====")
     for ex in experiments:
