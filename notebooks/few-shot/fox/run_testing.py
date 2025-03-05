@@ -229,7 +229,7 @@ if __name__ == "__main__":
     print("########################################")
 
     n_generations_per_task = 10
-    metrics = ["syntax", "semantic"] # ["syntax", "semantic"] or ["syntax", "semantic", "tests"]
+    metrics = ["syntax", "semantic", "tests"] # ["syntax", "semantic"] or ["syntax", "semantic", "tests"]
 
     start_time = time.time()
     main_dataset_folder = f'{project_dir}/data/MBPP_Midio_50/'
