@@ -236,7 +236,8 @@ if __name__ == "__main__":
     print("########################################")
 
     n_generations_per_task = 10
-    metrics = ["syntax", "semantic", "tests"] # ["syntax", "semantic"] or ["syntax", "semantic", "tests"]
+    
+
 
     start_time = time.time()
     main_dataset_folder = f'{project_dir}/data/MBPP_Midio_50/'
@@ -309,6 +310,11 @@ if __name__ == "__main__":
     for ex in experiments:
         selector_type= "similarity" if ex["semantic_selector"] else "coverage"
         prompt_type = ex["prompt_type"].value
+        if prompt_type == "regular":
+            metrics = ["syntax", "semantic"]
+        elif prompt_type == "signature":
+            metrics = ["syntax", "semantic", "tests"] # ["syntax", "semantic"] or ["syntax", "semantic", "tests"]
+            
         results_dir = os.path.join("/fp/homes01/u01/ec-sindrre/slurm_jobs", f"few-shot/testing/{selector_type}/{prompt_type}/runs/")
         best_params_folder = f"{project_dir}/notebooks/few-shot/fox/best_params/{selector_type}/{prompt_type}"
 

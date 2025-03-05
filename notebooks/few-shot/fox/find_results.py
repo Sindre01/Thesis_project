@@ -211,7 +211,7 @@ if __name__ == "__main__":
     ks = [1, 2, 5, 10]
     example_selector_types = ["coverage"] #["coverage", "similarity", "cot"]
     experiment_types = ["regular"]  # ["regular", "signature", "cot"]
-    shots = [1]  # [1, 5, 10]
+    shots = [1, 5, 10]
     metrics = ["syntax", "semantic", "tests"] # ["syntax", "semantic", "tests"] or ["syntax", "semantic"]
     use_threads = True
 
