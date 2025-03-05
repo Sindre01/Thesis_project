@@ -338,8 +338,14 @@ if __name__ == "__main__":
                     )
 
                 print(f"Best parameters for {model_name} on each metric: {best_params_for_metrics}")
+                optimizer_metric = metrics[-1]  # Best params for last metric in list, e.g: 'semantic' or 'tests' metric
+                best_params_model = best_params_for_metrics[optimizer_metric]
+                if optimizer_metric == "tests":
+                    if best_params_model["tests@1"] == 0.0:
+                        optimizer_metric = "semantic"
+                        best_params_model = best_params_for_metrics[optimizer_metric]
+                        print("No best params for tests@1 over 0.0 found. Using semantic metric instead.")
 
-                best_params_model = best_params_for_metrics[metrics[-1]] # Best params for last metric in list, e.g: 'semantic' or 'tests' metric
                 print(f"Best parameters for {model_name} on {metrics[-1]} metric: {best_params_model}")
                 run_testing_experiment(
                         client,

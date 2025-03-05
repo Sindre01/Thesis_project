@@ -223,11 +223,13 @@ def main(
 
 if __name__ == "__main__":
     env = "prod"
-    example_selector_types = ["coverage"]  # ["coverage", "similarity"]
-    experiment_types = ["signature"]  # ["regular", "signature", "cot"]
-    shots = [1, 5, 10]
+    example_selector_types = ["similarity"]  # ["coverage", "similarity"]
+    experiment_types = ["regular"]  # ["regular", "signature", "cot"]
+    shots = [10]
     optimizer_metrics = ["syntax", "semantic", "tests"]  # Separate metric evaluations
     use_threads = True
+    # print(extract_experiment_and_model_name("regular_similarity_1_shot_qwen2.5-coder:32b-instruct-fp16.json"))
+
     main(
         env=env,
         example_selector_types=example_selector_types,
