@@ -125,7 +125,7 @@ def run_model(
     seed=None,                              
     debug=False,
     prompt_type=PromptType.REGULAR,
-    ollama_port=11434
+    ollama_port="11434"
 )-> tuple[dict[int, list[str]], int]:
     
     results: dict[int, list[str]] = {}
