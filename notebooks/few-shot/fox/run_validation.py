@@ -142,6 +142,7 @@ def run_val_experiment(
         n = 1, # Max value of array is generations per task
         seed = 9,
         debug = False,
+        ollama_port = "11434"
 
 ):
     
@@ -173,7 +174,8 @@ def run_val_experiment(
                     n,
                     seed,
                     debug, 
-                    prompt_type
+                    prompt_type,
+                    ollama_port = ollama_port
                 )
                 result_obj = {
                     "experiment_name": experiment_name,
@@ -201,27 +203,31 @@ def parse_experiments(experiment_list):
     return experiment_list
 
 if __name__ == "__main__":
-    # Parse arguments:
     parser = argparse.ArgumentParser(description="Process input.")
 
     parser.add_argument("--model_provider", type=str, required=True, help="Model provider")
     parser.add_argument("--models", type=str, required=True, help="JSON string for models")
     parser.add_argument("--experiments", type=str, required=True, help="JSON string for experiments")
+    parser.add_argument("--ollama_port", type=str, required=True, help="ollama_port")
 
     args = parser.parse_args()
     # DEBUG: Print arguments before decoding JSON
     print("🛠️ Debug: Received --models =", repr(args.models))
     print("🛠️ Debug: Received --experiments =", repr(args.experiments))
+    print("🛠️ Debug: Received --model_provider =", repr(args.model_provider))
+    print("🛠️ Debug: Received --ollama_port =", repr(args.ollama_port))
     
     model_provider = args.model_provider
     models = json.loads(args.models)
     experiments = json.loads(args.experiments)
-
+    ollama_port = args.ollama_port
     experiments = parse_experiments(experiments)
+
     print("########### Parsed arguments ###########")
     print(f"Model provider: {model_provider}") 
     print(f"Models: {models}")
     print(f"Experiments: {experiments}")
+    print(f"Ollama port: {ollama_port}")
     print("########################################")
 
     start_time = time.time()
@@ -236,7 +242,7 @@ if __name__ == "__main__":
     available_nodes = used_functions_to_string(used_functions_json)
 
     print("\n==== Configures models ====")
-    client, models = model_configs(all_responses, model_provider, models)
+    client, models = model_configs(all_responses, model_provider, models, ollama_port)
 
     if not experiments:
         experiments = [
@@ -319,6 +325,7 @@ if __name__ == "__main__":
                     model,
                     selector,
                     ex["prompt_type"],
+                    ollama_port = ollama_port
                 )
                 print(f"Validation finished for experiment: {experiment_name}")
                 print(f"See run results in: {result_runs_path}")

@@ -141,7 +141,7 @@ def run_testing_experiment(
         n,
         best_params_optimization = None,
         seeds = [3, 75, 346],
-        ollama_port = None
+        ollama_port = "11434"
 ):
     total_count = len(seeds)
     count = 0
