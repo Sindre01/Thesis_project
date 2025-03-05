@@ -250,7 +250,7 @@ if __name__ == "__main__":
     available_nodes = used_functions_to_string(used_functions_json)
 
     print("\n==== Configures models ====")
-    client, models = model_configs(all_responses, model_provider, models)
+    client, models = model_configs(all_responses, model_provider, models, ollama_port)
 
     if not experiments:
         experiments = [
