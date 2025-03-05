@@ -224,7 +224,7 @@ def main(
 if __name__ == "__main__":
     env = "prod"
     example_selector_types = ["similarity"]  # ["coverage", "similarity"]
-    experiment_types = ["signature"]  # ["regular", "signature", "cot"]
+    experiment_types = ["regular"]  # ["regular", "signature", "cot"]
     shots = [10]
     optimizer_metrics = ["syntax", "semantic", "tests"]  # Separate metric evaluations
     use_threads = True

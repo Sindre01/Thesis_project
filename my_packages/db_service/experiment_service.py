@@ -207,7 +207,7 @@ def rename_field(collection_name: str, old_field: str, new_field: str):
 
     
 
-def run_experiment_quality_checks(experiment: str) -> bool:
+def run_experiment_quality_checks(experiment: str, prompt_user = True) -> bool:
     """
     Runs quality checks on an experiment's collections and prints errors if they occur.
     
@@ -243,8 +243,10 @@ def run_experiment_quality_checks(experiment: str) -> bool:
         
         # Check 1: If no best parameters exist, then there should be no validation errors.
         if best_params_count == 0 and validation_errors_count > 0:
-            user_input = input(f"❌ Error for model '{model}': No best parameters exist, but found {validation_errors_count} validation error(s).\n\n❓ Do you want to delete validation errors for '{model} on '{experiment}'? (yes/no): ").strip().lower()
-
+            user_input="no"
+            if prompt_user:
+                user_input = input(f"❌ Error for model '{model}': No best parameters exist, but found {validation_errors_count} validation error(s).\n\n❓ Do you want to delete validation errors for '{model} on '{experiment}'? (yes/no): ").strip().lower()
+            
             if user_input == "yes":
                 errors_deleted = errors_collection.delete_many({"model_name": model, "phase": "validation"}).deleted_count
                 print_msgs.append(f"⚠️ Found Error for model '{model}': No best parameters exist, but found {validation_errors_count} validation error(s). \nHowever these where fixed by deleting {errors_deleted} validation errors for '{model}'.")
@@ -255,7 +257,9 @@ def run_experiment_quality_checks(experiment: str) -> bool:
         
         # Check 2: If no results exist, then there should be no testing errors.
         if results_count == 0 and testing_errors_count > 0:
-            user_input = input(f"❌ Error for model '{model}': No best parameters exist, but found {testing_errors_count} testing error(s).\n\n❓ Do you want to delete testing errors for '{model} on '{experiment}'? (yes/no): ").strip().lower()
+            user_input="no"
+            if prompt_user:
+                user_input = input(f"❌ Error for model '{model}': No best parameters exist, but found {testing_errors_count} testing error(s).\n\n❓ Do you want to delete testing errors for '{model} on '{experiment}'? (yes/no): ").strip().lower()
 
             if user_input == "yes":
                 errors_deleted = errors_collection.delete_many({"model_name": model, "phase": "testing"}).deleted_count
@@ -267,7 +271,9 @@ def run_experiment_quality_checks(experiment: str) -> bool:
         
         # Check 3: If no best parameters exist, then there should be no results.
         if best_params_count == 0 and results_count > 0:
-            user_input = input(f"❌ Error for model '{model}': No best parameters exist, but found {results_count} result(s).\n\n❓ Do you want to delete result(s) for '{model} on '{experiment}'? (yes/no): ").strip().lower()
+            user_input="no"
+            if prompt_user:
+                user_input = input(f"❌ Error for model '{model}': No best parameters exist, but found {results_count} result(s).\n\n❓ Do you want to delete result(s) for '{model} on '{experiment}'? (yes/no): ").strip().lower()
 
             if user_input == "yes":
                 results_deleted = results_collection.delete_many({"model_name": model}).deleted_count
@@ -288,7 +294,7 @@ def run_experiment_quality_checks(experiment: str) -> bool:
     return not errors_found
 
 
-def run_quality_checks_for_all_experiments() -> bool:
+def run_quality_checks_for_all_experiments(prompt_user = True) -> bool:
     """
     Lists all experiments and models dynamically from the DB and runs quality checks.
     """
@@ -301,7 +307,7 @@ def run_quality_checks_for_all_experiments() -> bool:
     errors_found = False
     
     for experiment in experiments:
-        errors_found = run_experiment_quality_checks(experiment)
+        errors_found = run_experiment_quality_checks(experiment, prompt_user=prompt_user)
     return errors_found
 
 
