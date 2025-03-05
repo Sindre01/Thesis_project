@@ -141,6 +141,7 @@ def run_testing_experiment(
         n,
         best_params_optimization = None,
         seeds = [3, 75, 346],
+        ollama_port = None
 ):
     total_count = len(seeds)
     count = 0
@@ -161,7 +162,8 @@ def run_testing_experiment(
             n,
             seed,
             False, 
-            prompt_type
+            prompt_type,
+            ollama_port=ollama_port
         )
         result_obj = {
             "experiment_name": experiment_name,
@@ -211,21 +213,26 @@ if __name__ == "__main__":
     parser.add_argument("--model_provider", type=str, required=True, help="Model provider")
     parser.add_argument("--models", type=str, required=True, help="JSON string for models")
     parser.add_argument("--experiments", type=str, required=True, help="JSON string for experiments")
+    parser.add_argument("--ollama_port", type=str, required=True, help="ollama_port")
 
     args = parser.parse_args()
     # DEBUG: Print arguments before decoding JSON
     print("🛠️ Debug: Received --models =", repr(args.models))
     print("🛠️ Debug: Received --experiments =", repr(args.experiments))
+    print("🛠️ Debug: Received --model_provider =", repr(args.model_provider))
+    print("🛠️ Debug: Received --ollama_port =", repr(args.ollama_port))
     
     model_provider = args.model_provider
     models = json.loads(args.models)
     experiments = json.loads(args.experiments)
+    ollama_port = args.ollama_port
     experiments = parse_experiments(experiments)
 
     print("########### Parsed arguments ###########")
     print(f"Model provider: {model_provider}") 
     print(f"Models: {models}")
     print(f"Experiments: {experiments}")
+    print(f"Ollama port: {ollama_port}")
     print("########################################")
 
     n_generations_per_task = 10
@@ -348,6 +355,7 @@ if __name__ == "__main__":
                         best_params_model["top_k"],
                         n_generations_per_task,
                         best_params_optimization = best_params_model["optimizer_metric"],
+                        ollama_port = ollama_port,
                     )
 
                 print(f"Testing finished for {experiment_name} on model: {model_name}")

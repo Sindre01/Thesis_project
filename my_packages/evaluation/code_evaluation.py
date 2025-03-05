@@ -124,7 +124,8 @@ def run_model(
     n=1, # Number of generations per task
     seed=None,                              
     debug=False,
-    prompt_type=PromptType.REGULAR
+    prompt_type=PromptType.REGULAR,
+    ollama_port=11434
 )-> tuple[dict[int, list[str]], int]:
     
     results: dict[int, list[str]] = {}
@@ -205,7 +206,8 @@ def run_model(
                             stream=False,
                             num_ctx=largest_prompt_ctx_size,
                             stop=["```<|eot_id|>"],
-                            seed=new_seed
+                            seed=new_seed,
+                            base_url=f"http://localhost:{ollama_port}"
                         )
                     
                     chain = (final_prompt_template | llm)
