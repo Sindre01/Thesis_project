@@ -4,7 +4,7 @@ script_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), ''))
 sys.path.append('../../../')
 from my_packages.utils.file_utils import read_dataset_to_json, write_json_file
 from my_packages.evaluation.code_evaluation import extract_code
-dir = f'{script_dir}/testing_runs/coverage/regular/'
+dir = f'{script_dir}/testing_runs/coverage/signature/'
 
 for file in os.listdir(dir):
     print(file)
