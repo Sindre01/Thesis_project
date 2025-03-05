@@ -16,8 +16,10 @@ def compile_code(code: str, type: str = "build", flag: str = "") -> subprocess.C
     with tempfile.TemporaryDirectory() as tmp_dir:
         code_file_path = os.path.join(tmp_dir, "main.midio")
         
-        if code.startswith("func"): # If the code is only a function, wrap it in a module
-            code = "import('std', Std_k98ojb)\n import('http', Http_q7o96c) \nmodule() main { " + code + " }"
+        if code.lstrip().startswith("func"):  # Remove leading whitespace and check for "func"
+            print("starts with func keyword!")
+            code = "import(\"std\", Std_k98ojb)\n import(\"http\", Http_q7o96c)\nmodule() main { " + code + " }"
+
 
         # Write generated code to the main.midio file
         with open(code_file_path, "w") as temp_file:

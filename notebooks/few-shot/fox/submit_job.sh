@@ -46,11 +46,11 @@ model_provider='ollama'
 # ]'
 experiments='[
         {
-            "name": "signature_similarity",
+            "name": "regular_coverage",
             "prompt_prefix": "Create a function",
-            "num_shots": [10],
-            "prompt_type": "signature",
-            "semantic_selector": true
+            "num_shots": [1, 5, 10],
+            "prompt_type": "regular",
+            "semantic_selector": false
         }
 ]'
 # models='[

@@ -350,7 +350,8 @@ def pretty_print_experiment_collections(
         experiment: str, 
         limit=5, 
         exclude_columns=["stderr", "stdout", "code_candidate"],
-        db_connection=None
+        db_connection=None,
+        filter=None
     ):
     """
     Prints all collections related to an experiment in a readable format.
@@ -385,7 +386,10 @@ def pretty_print_experiment_collections(
         print("-" * 50)
 
         collection = db[collection_name]
-        documents = list(collection.find({}, projection).limit(limit))
+        if filter:
+            documents = list(collection.find(filter, projection).limit(limit))
+        else:
+            documents = list(collection.find({}, projection).limit(limit))
 
         if not documents:
             print("⚠️ No data found in this collection.")
