@@ -97,6 +97,49 @@ def errors_to_df(experiment: str, model: str = None) -> pd.DataFrame:
 
     return pd.DataFrame(data)
 
+def pretty_print_errors(
+        experiment: str, 
+        filter= {}, 
+        limit=10,
+        exclude_columns=["model_name", "candidate_id", "phase", "seed", "temperature",  "top_k", "top_p", "created_at"]
+        ):
+    """Pretty prints the errors for an experiment."""
+    collection_name = f"{experiment}_errors"
+    collection = db[collection_name]
+
+    projection = {"_id": 0}  # Always exclude MongoDB's `_id`
+    if exclude_columns:
+        for col in exclude_columns:
+            projection[col] = 0  # Set to 0 to exclude the column
+
+    documents = list(collection.find(filter, projection).limit(limit))
+
+    if not documents:
+        print("⚠️ No data found in this collection.")
+        return
+    
+    # Convert to DataFrame for better readability
+    df = pd.DataFrame(documents)
+    if "metric" in df.columns:
+        df = df.sort_values(by=["metric"], ascending=[True])
+
+    print(df.to_string(index=False))  # Pretty print DataFrame
+    print("...")
+    # Display document counts for each model_name
+    model_counts = collection.aggregate([
+        {"$group": {"_id": "$model_name", "count": {"$sum": 1}}}
+    ])
+    model_counts_dict = {entry["_id"]: entry["count"] for entry in model_counts}
+    for model_name, count in model_counts_dict.items():
+        print(f"📊 {model_name}: {count} documents")
+    extra_info = ""
+    if collection_name == f"{experiment}_errors":
+        extra_info = f"validation: {collection.count_documents({'phase': 'validation'})}, testing: {collection.count_documents({'phase': 'testing'})}"
+
+
+    print(f"Total documents/rows: {collection.count_documents({})}      {extra_info}")
+    print("-" * 50)
+
 def make_error_dataset(phase: str, experiment: str = None, output_file: str = None) -> pd.DataFrame:
     """Creates a dataset of errors for all models in all experiemnts"""
     errors = []
