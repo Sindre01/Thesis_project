@@ -1,0 +1,215 @@
+[
+    {
+        "model_name": "qwen2.5:72b-instruct-fp16",
+        "metrics": [
+            "syntax",
+            "semantic",
+            "tests"
+        ],
+        "seed": [
+            3,
+            75,
+            346
+        ],
+        "temperature": 0.2,
+        "top_p": 0.2,
+        "top_k": 50,
+        "ks": [
+            1,
+            2,
+            5,
+            10
+        ],
+        "created_at": "2025-03-06T18:04:00.317575+01:00",
+        "syntax@1": {
+            "mean": 0.89,
+            "std": 0.03
+        },
+        "syntax@2": {
+            "mean": 0.94,
+            "std": 0.03
+        },
+        "syntax@5": {
+            "mean": 0.98,
+            "std": 0.02
+        },
+        "syntax@10": {
+            "mean": 1.0,
+            "std": 0.0
+        },
+        "semantic@1": {
+            "mean": 0.69,
+            "std": 0.01
+        },
+        "semantic@2": {
+            "mean": 0.82,
+            "std": 0.01
+        },
+        "semantic@5": {
+            "mean": 0.96,
+            "std": 0.02
+        },
+        "semantic@10": {
+            "mean": 1.0,
+            "std": 0.0
+        },
+        "tests@1": {
+            "mean": 0.64,
+            "std": 0.02
+        },
+        "tests@2": {
+            "mean": 0.75,
+            "std": 0.02
+        },
+        "tests@5": {
+            "mean": 0.9,
+            "std": 0.04
+        },
+        "tests@10": {
+            "mean": 0.96,
+            "std": 0.05
+        }
+    },
+    {
+        "model_name": "llama3.3:70b-instruct-fp16",
+        "metrics": [
+            "syntax",
+            "semantic",
+            "tests"
+        ],
+        "seed": [
+            3,
+            75,
+            346
+        ],
+        "temperature": 0.9,
+        "top_p": 0.6,
+        "top_k": 100,
+        "ks": [
+            1,
+            2,
+            5,
+            10
+        ],
+        "created_at": "2025-03-06T18:04:03.327916+01:00",
+        "syntax@1": {
+            "mean": 0.81,
+            "std": 0.03
+        },
+        "syntax@2": {
+            "mean": 0.88,
+            "std": 0.0
+        },
+        "syntax@5": {
+            "mean": 0.89,
+            "std": 0.0
+        },
+        "syntax@10": {
+            "mean": 0.89,
+            "std": 0.0
+        },
+        "semantic@1": {
+            "mean": 0.71,
+            "std": 0.03
+        },
+        "semantic@2": {
+            "mean": 0.79,
+            "std": 0.02
+        },
+        "semantic@5": {
+            "mean": 0.83,
+            "std": 0.04
+        },
+        "semantic@10": {
+            "mean": 0.85,
+            "std": 0.05
+        },
+        "tests@1": {
+            "mean": 0.61,
+            "std": 0.01
+        },
+        "tests@2": {
+            "mean": 0.68,
+            "std": 0.01
+        },
+        "tests@5": {
+            "mean": 0.74,
+            "std": 0.06
+        },
+        "tests@10": {
+            "mean": 0.78,
+            "std": 0.09
+        }
+    },
+    {
+        "model_name": "phi4:14b-fp16",
+        "metrics": [
+            "syntax",
+            "semantic",
+            "tests"
+        ],
+        "seed": [
+            3,
+            75,
+            346
+        ],
+        "temperature": 0.2,
+        "top_p": 0.9,
+        "top_k": 10,
+        "ks": [
+            1,
+            2,
+            5,
+            10
+        ],
+        "created_at": "2025-03-06T18:04:05.747961+01:00",
+        "syntax@1": {
+            "mean": 0.87,
+            "std": 0.02
+        },
+        "syntax@2": {
+            "mean": 0.97,
+            "std": 0.01
+        },
+        "syntax@5": {
+            "mean": 1.0,
+            "std": 0.0
+        },
+        "syntax@10": {
+            "mean": 1.0,
+            "std": 0.0
+        },
+        "semantic@1": {
+            "mean": 0.76,
+            "std": 0.02
+        },
+        "semantic@2": {
+            "mean": 0.91,
+            "std": 0.0
+        },
+        "semantic@5": {
+            "mean": 0.99,
+            "std": 0.0
+        },
+        "semantic@10": {
+            "mean": 1.0,
+            "std": 0.0
+        },
+        "tests@1": {
+            "mean": 0.58,
+            "std": 0.02
+        },
+        "tests@2": {
+            "mean": 0.71,
+            "std": 0.05
+        },
+        "tests@5": {
+            "mean": 0.87,
+            "std": 0.05
+        },
+        "tests@10": {
+            "mean": 0.96,
+            "std": 0.05
+        }
+    }
+]

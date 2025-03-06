@@ -19,7 +19,7 @@ from my_packages.db_service.experiment_service import (
 )
 from my_packages.db_service.data_processing import flatten_metric_results
 from my_packages.common import Run
-from my_packages.db_service.results_service import save_results_to_db
+from my_packages.db_service.results_service import get_db_results, save_results_to_db
 from my_packages.evaluation.code_evaluation import calculate_final_result, evaluate_code
 from my_packages.utils.file_utils import read_dataset_to_json, write_json_file
 from my_packages.db_service import get_db_connection
@@ -118,7 +118,7 @@ def process_file(file_name: str, runs_folder: str, env: str, metrics: list[str],
             "top_p": final_results.top_p,
             "top_k": final_results.top_k,
             "ks": ks,
-            "created_at": datetime.now(ZoneInfo("Europe/Oslo")).isoformat(),
+            "created_at": final_results.created_at,
             **flattened_metrics,
     })
     print(f"Results for {experiment_name} with model {model_name} is: {flattened_metrics}")
@@ -142,7 +142,6 @@ def main(
                 print(f"\n🔍 Finding results for experiment: {experiment_name}")
                 runs_folder = f"{project_dir}/notebooks/few-shot/fox/testing_runs/{example_selector_type}/{experiment_type}"
 
-                
                 print(f"Processing experiment '{experiment_name}'")
                 
                 if experiment_exists(experiment_name):
@@ -166,6 +165,9 @@ def main(
                 for model_name in models:
                     if not confirm_testing_rerun(experiment_name, model_name):
                         print(f"🚫 Skipping testing for {experiment_name} with model {model_name}")
+                        results = get_db_results(experiment_name, model_name)
+                        print(f"Results for {experiment_name} with model {model_name} is: {results}")
+                        all_results.setdefault(experiment_name, []).extend(results)
                         skip_models.append(model_name)
                 
                 # Remove files for models that are skipped
@@ -203,6 +205,7 @@ def main(
             output_dir = f"{project_dir}/notebooks/few-shot/fox/results/{example_selector_type}/{experiment_type}"
             os.makedirs(output_dir, exist_ok=True)
             for experiment_name, results in all_results.items():
+                print(f"writes results for {experiment_name} to file")
                 write_json_file(f"{output_dir}/{experiment_name}.json", results)     
 
 
@@ -211,7 +214,7 @@ if __name__ == "__main__":
     ks = [1, 2, 5, 10]
     example_selector_types = ["coverage"] #["coverage", "similarity", "cot"]
     experiment_types = ["signature"]  # ["regular", "signature", "cot"]
-    shots = [5]
+    shots = [1]
     metrics = ["syntax", "semantic", "tests"] # ["syntax", "semantic", "tests"] or ["syntax", "semantic"]
     use_threads = True
 

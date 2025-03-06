@@ -48,7 +48,7 @@ experiments='[
         {
             "name": "regular_coverage",
             "prompt_prefix": "Create a function",
-            "num_shots": [10],
+            "num_shots": [1, 5, 10],
             "prompt_type": "regular",
             "semantic_selector": false
         }
@@ -60,7 +60,7 @@ experiments='[
 #     "qwen2.5-coder:32b-instruct-fp16"
 # ]'
 models='[
-    "qwen2.5:72b-instruct-fp16"
+    "deepseek-r1:14b-qwen-distill-fp16"
 ]'
 
 # normal* c1-[5-28]
