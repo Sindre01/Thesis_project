@@ -330,6 +330,7 @@ if __name__ == "__main__":
                 print(f"\n==== Running few-shot testing for {experiment_name} on '{model_name}' ====")  
                 model = get_model_code_tokens_from_file(model_name, f'{project_dir}/notebooks/few-shot/code_max_tokens.json')
                 best_params = read_dataset_to_json(best_params_path)
+                print(f"Best parameters for {experiment_name} on {model_name}: {best_params}")
                 if not best_params:
                     print(f"Skipping {model_name} since no best parameters found")
                     continue
