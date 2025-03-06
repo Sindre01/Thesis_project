@@ -210,8 +210,8 @@ if __name__ == "__main__":
     env = "prod" # if 'prod' then it will use the MongoDB database
     ks = [1, 2, 5, 10]
     example_selector_types = ["coverage"] #["coverage", "similarity", "cot"]
-    experiment_types = ["regular"]  # ["regular", "signature", "cot"]
-    shots = [1, 5, 10]
+    experiment_types = ["signature"]  # ["regular", "signature", "cot"]
+    shots = [5]
     metrics = ["syntax", "semantic", "tests"] # ["syntax", "semantic", "tests"] or ["syntax", "semantic"]
     use_threads = True
 
