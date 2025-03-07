@@ -1,35 +1,5 @@
 [ 
     {
-    "model_name": "deepseek-r1:14b-qwen-distill-fp16",
-    "optimizer_metric": "syntax",
-    "seed": 9,
-    "temperature": 0.6,
-    "top_p": 0.2,
-    "top_k": 20,
-    "created_at": "2025-03-05T08:46:07.724889+01:00",
-    "syntax@1": 0.2
-},
-{
-    "model_name": "deepseek-r1:14b-qwen-distill-fp16",
-    "optimizer_metric": "semantic",
-    "seed": 9,
-    "temperature": 0.6,
-    "top_p": 0.2,
-    "top_k": 20,
-    "created_at": "2025-03-05T08:46:52.355134+01:00",
-    "semantic@1": 0.1
-},
-{
-    "model_name": "deepseek-r1:14b-qwen-distill-fp16",
-    "optimizer_metric": "tests",
-    "seed": 9,
-    "temperature": 0.6,
-    "top_p": 0.2,
-    "top_k": 20,
-    "created_at": "2025-03-05T08:47:40.466821+01:00",
-    "tests@1": 0.1
-},
-    {
         "model_name": "gpt-4o",
         "optimizer_metric": "syntax",
         "seed": 9,
