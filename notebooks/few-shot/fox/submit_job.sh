@@ -8,7 +8,7 @@
 EXPERIMENT="few-shot"                    # Experiment ('few-shot' or 'COT')
 PHASE="testing"                       # Phase ('testing' or 'validation')
 EXAMPLES_TYPE="coverage"                 #'coverage' or 'similarity'
-PROMPT_TYPE="regular"                 # 'regular' or 'cot' or 'signature'   
+PROMPT_TYPE="signature"                 # 'regular' or 'cot' or 'signature'   
 # SEMANTIC_SELECTOR=true                   # Use semantic selector
 USER="ec-sindrre"                        # Your Educloud username
 HOST="fox.educloud.no"                   # Fox login address (matches SSH config)
@@ -46,10 +46,10 @@ model_provider='ollama'
 # ]'
 experiments='[
         {
-            "name": "regular_coverage",
+            "name": "signature_coverage",
             "prompt_prefix": "Create a function",
             "num_shots": [1, 5, 10],
-            "prompt_type": "regular",
+            "prompt_type": "signature",
             "semantic_selector": false
         }
 ]'
