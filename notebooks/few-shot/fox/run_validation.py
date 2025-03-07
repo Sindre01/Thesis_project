@@ -42,7 +42,7 @@ def get_dataset_splits(main_dataset_folder):
     print(f"Test data: {len(test_data)}")
     return train_data, val_data, test_data
 
-def model_configs(all_responses, model_provider, models = None):  
+def model_configs(all_responses, model_provider, models = None, ollama_port = "11434"):  
     load_dotenv(env_path)
 
     match model_provider:

@@ -6,7 +6,7 @@
 
 # Configuration
 EXPERIMENT="few-shot"                    # Experiment ('few-shot' or 'COT')
-PHASE="testing"                       # Phase ('testing' or 'validation')
+PHASE="validation"                       # Phase ('testing' or 'validation')
 EXAMPLES_TYPE="similarity"                 #'coverage' or 'similarity'
 PROMPT_TYPE=""                 # 'regular' or 'cot' or 'signature'   
 # SEMANTIC_SELECTOR=true                   # Use semantic selector
