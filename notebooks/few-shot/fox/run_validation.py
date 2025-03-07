@@ -191,7 +191,7 @@ def run_val_experiment(
                 current_combination += 1
                 print(f"Hyperparameter combination {current_combination}/{combinatios} finished.\n")
                 results.append(result_obj)
-                # write_directly_json_file(file_path, results) #Temporary viewing
+                write_directly_json_file(file_path, results) #Temporary viewing
     
     write_directly_json_file(file_path, results)
 
