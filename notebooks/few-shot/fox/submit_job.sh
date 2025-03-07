@@ -13,16 +13,16 @@ PROMPT_TYPE=""                 # 'regular' or 'cot' or 'signature'
 USER="ec-sindrre"                        # Your Educloud username
 HOST="fox.educloud.no"                   # Fox login address (matches SSH config)
 SSH_CONFIG_NAME="fox"                    # Name of the SSH config entry
-ACCOUNT="ec12"                           # Fox project account
-PARTITION="accel"                        # 'accel' or 'accel_long' (or 'ifi_accel' if access to ec11,ec29,ec30,ec34,ec35 or ec232)
-GPUS=a100:1                            # a100 have 40GB or 80GB VRAM, while rtx30 have 24GB VRAM.
+ACCOUNT="ec30"                           # Fox project account
+PARTITION="ifi_accel"                        # 'accel' or 'accel_long' (or 'ifi_accel' if access to ec11,ec29,ec30,ec34,ec35 or ec232)
+GPUS=rtx30:4                            # a100 have 40GB or 80GB VRAM, while rtx30 have 24GB VRAM.
 NODES=1                                  # Number of nodes. OLLAMA does currently only support single node inference
-NODE_LIST=gpu-9,gpu-7,gpu-8        # List of nodes that the job can run on gpu-9,gpu-7,gpu-8
-TIME="0-24:00:00"                       # Slurm walltime (D-HH:MM:SS)
-MEM_PER_GPU="80G"                       # Memory per GPU. 
+NODE_LIST=     # List of nodes that the job can run on gpu-9,gpu-7,gpu-8
+TIME="2-00:00:00"                       # Slurm walltime (D-HH:MM:SS)
+MEM_PER_GPU="20G"                       # Memory per GPU. 
 OLLAMA_MODELS_DIR="/cluster/work/projects/ec12/ec-sindrre/ollama-models"  # Path to where the Ollama models are stored and loaded                      
 LOCAL_PORT="11434"                        # Local port for forwarding
-OLLAMA_PORT="11434"                       # Remote port where Ollama listens. If different parallell runs, change ollama_port to avoid conflicts if same node is allocated.
+OLLAMA_PORT="11433"                       # Remote port where Ollama listens. If different parallell runs, change ollama_port to avoid conflicts if same node is allocated.
 SBATCH_SCRIPT="${PHASE}_${EXAMPLES_TYPE}_${EXAMPLES_TYPE}__${PROMPT_TYPE}_${GPUS}_ollama.slurm"           # Slurm batch script name
 # Directory on Fox to store scripts and output
 if [ -n "$PROMPT_TYPE" ]; then
@@ -37,11 +37,18 @@ CLONE_DIR="/fp/homes01/u01/ec-sindrre/tmp/Thesis_project_${EXAMPLES_TYPE}_\$SLUR
 model_provider='ollama'
 # experiments='[
 #         {
-#             "name": "regular_coverage",
+#             "name": "signature_similarity",
+#             "prompt_prefix": "Create a function",
+#             "num_shots": [1, 5, 10],
+#             "prompt_type": "signature",
+#             "semantic_selector": true
+#         },
+#         {
+#             "name": "regular_similarity",
 #             "prompt_prefix": "Create a function",
 #             "num_shots": [1, 5, 10],
 #             "prompt_type": "regular",
-#             "semantic_selector": false
+#             "semantic_selector": true
 #         }
 # ]'
 experiments='[

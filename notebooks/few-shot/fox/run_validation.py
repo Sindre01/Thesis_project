@@ -47,7 +47,7 @@ def model_configs(all_responses, model_provider, models = None, ollama_port = "1
 
     match model_provider:
         case 'ollama':
-            host = 'http://localhost:11434'
+            host = f'http://localhost:{ollama_port}'
             if is_remote_server_reachable(url = host + "/api/tags"):
                 print("Server is reachable.")
             else:
