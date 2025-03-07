@@ -21,16 +21,21 @@ def extract_code(response_text: str) -> str:
     Extracts a code snippet from the response using a regex for ```midio code blocks.
     Also removes any comments—whether they are on lines by themselves or inline.
     """
-    # Match content between ```midio and ```
-    match = re.search(r"```midio(.*?)(```|$)", response_text, re.DOTALL)
-    if match:
-        code_block = match.group(1)
-    else:
-        code_block = response_text
+    # Split the response to get content after the last </think>
+    parts = response_text.rsplit('</think>', 1)
+    code_section = parts[-1]  # Content after the last </think>
 
-    # Remove comments:
+    # Find all `midio` code blocks
+    matches = re.findall(r'```midio(.*?)(```|$)', code_section, re.DOTALL)
+
+    # If multiple code blocks exist, take the last one
+    if matches:
+        code_block = matches[-1][0]  # Get only the code part
+    else:
+        code_block = "No Midio code found in response!\n"
+        code_block += code_section
+
     # This regex finds any occurrence of '//' or '#' and removes everything until the end of the line.
-    # It will work for both full-line comments and inline comments.
     code_without_comments = re.sub(r'(?://|#).*$', '', code_block, flags=re.MULTILINE)
 
     return code_without_comments.strip()
@@ -216,7 +221,7 @@ def run_model(
                         prompt_variables_dict,
                         {"run_name": f"Few-shot code prediction"}
                     )
-
+                    print(generated)
                     generated = response.content
                     break  # If generation succeeded, break out of retry loop
                 except Exception as e:

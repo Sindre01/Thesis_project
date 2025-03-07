@@ -7,7 +7,6 @@
         "name": "qwen2.5:14b-instruct-fp16",
         "max_tokens": 2012
     },
-
     "qwq:32b-preview-fp16": {
         "name": "qwq:32b-preview-fp16",
         "max_tokens": -1
@@ -27,5 +26,9 @@
     "gpt-4o": {
         "name": "gpt-4o",
         "max_tokens": 1066
+    },
+    "qwq:32b-fp16": {
+        "name": "qwq:32b-fp16",
+        "max_tokens": -1
     }
 }

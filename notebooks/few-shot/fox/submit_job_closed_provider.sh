@@ -6,8 +6,8 @@
 
 # Configuration
 EXPERIMENT="few-shot"                    # Experiment ('few-shot' or 'COT')
-PHASE="validation"                       # Phase ('testing' or 'validation')
-EXAMPLES_TYPE="similarity"                 #'coverage' or 'similarity'
+PHASE="testing"                       # Phase ('testing' or 'validation')
+EXAMPLES_TYPE="coverage"                 #'coverage' or 'similarity'
 PROMPT_TYPE="signature"                 # 'signature' or 'cot' or 'signature'   
 # SEMANTIC_SELECTOR=true                   # Use semantic selector
 USER="ec-sindrre"                        # Your Educloud username
@@ -22,7 +22,7 @@ TIME="0-24:00:00"                       # Slurm walltime (D-HH:MM:SS)
 MEM_PER_GPU="20G"                       # Memory per GPU. 
 OLLAMA_MODELS_DIR="/cluster/work/projects/ec12/ec-sindrre/ollama-models"  # Path to where the Ollama models are stored and loaded                      
 LOCAL_PORT="11434"                        # Local port for forwarding
-OLLAMA_PORT="11434"                       # Remote port where Ollama listens. If different parallell runs, change ollama_port to avoid conflicts if same node is allocated.
+OLLAMA_PORT="11433"                       # Remote port where Ollama listens. If different parallell runs, change ollama_port to avoid conflicts if same node is allocated.
 SBATCH_SCRIPT="${PHASE}_${EXAMPLES_TYPE}_openai.slurm"           # Slurm batch script name
 # Directory on Fox to store scripts and output
 if [ -n "$PROMPT_TYPE" ]; then
@@ -37,11 +37,11 @@ CLONE_DIR="/fp/homes01/u01/ec-sindrre/tmp/Thesis_project_${EXAMPLES_TYPE}_\$SLUR
 model_provider='openai'
 experiments='[
         {
-            "name": "signature_similarity",
+            "name": "signature_coverage",
             "prompt_prefix": "Create a function",
             "num_shots": [1, 5, 10],
             "prompt_type": "signature",
-            "semantic_selector": true
+            "semantic_selector": false
         }
 ]'
 models='[
@@ -203,6 +203,7 @@ python -u ${CLONE_DIR}/notebooks/${EXPERIMENT}/fox/run_${PHASE}.py \
     --model_provider '${model_provider}' \
     --models '${models}' \
     --experiments '${experiments}' \
+    --ollama_port "" \
     > ${REMOTE_DIR}/AI_\$SLURM_JOB_ID.out 2>&1
 
 # Cleanup after job completion

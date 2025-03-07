@@ -186,7 +186,7 @@
     },
     {
         "prompts": [
-            "Creat a flow to convert the given string to lower case.",
+            "Create a flow to convert the given string to lower case.",
             "The 'String ToLower' node should then be tested inside a seperate module called tests, within the main module. Since the function does not contain input and ouput triggers, the flow of execution is sent between the assert nodes, using their input and output triggers."
         ],
         "task_id": 13,

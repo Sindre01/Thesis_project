@@ -1,0 +1,458 @@
+[
+    {
+        "model_name": "qwen2.5-coder:32b-instruct-fp16",
+        "metrics": [
+            "syntax",
+            "semantic",
+            "tests"
+        ],
+        "seed": [
+            3,
+            75,
+            346
+        ],
+        "temperature": 0.2,
+        "top_p": 0.2,
+        "top_k": 10,
+        "ks": [
+            1,
+            2,
+            5,
+            10
+        ],
+        "created_at": "2025-03-07T14:14:29.540000",
+        "syntax": [
+            {
+                "mean": 0.77,
+                "std": 0.02
+            },
+            {
+                "mean": 0.8,
+                "std": 0.0
+            },
+            {
+                "mean": 0.83,
+                "std": 0.0
+            },
+            {
+                "mean": 0.89,
+                "std": 0.0
+            }
+        ],
+        "semantic": [
+            {
+                "mean": 0.73,
+                "std": 0.01
+            },
+            {
+                "mean": 0.79,
+                "std": 0.01
+            },
+            {
+                "mean": 0.83,
+                "std": 0.0
+            },
+            {
+                "mean": 0.89,
+                "std": 0.0
+            }
+        ],
+        "tests": [
+            {
+                "mean": 0.53,
+                "std": 0.02
+            },
+            {
+                "mean": 0.58,
+                "std": 0.01
+            },
+            {
+                "mean": 0.67,
+                "std": 0.0
+            },
+            {
+                "mean": 0.78,
+                "std": 0.0
+            }
+        ]
+    },
+    {
+        "model_name": "llama3.3:70b-instruct-fp16",
+        "metrics": [
+            "syntax",
+            "semantic",
+            "tests"
+        ],
+        "seed": [
+            3,
+            75,
+            346
+        ],
+        "temperature": 0.9,
+        "top_p": 0.9,
+        "top_k": 10,
+        "ks": [
+            1,
+            2,
+            5,
+            10
+        ],
+        "created_at": "2025-03-07T14:18:09.931000",
+        "syntax": [
+            {
+                "mean": 0.76,
+                "std": 0.05
+            },
+            {
+                "mean": 0.89,
+                "std": 0.04
+            },
+            {
+                "mean": 0.98,
+                "std": 0.01
+            },
+            {
+                "mean": 1.0,
+                "std": 0.0
+            }
+        ],
+        "semantic": [
+            {
+                "mean": 0.73,
+                "std": 0.05
+            },
+            {
+                "mean": 0.87,
+                "std": 0.04
+            },
+            {
+                "mean": 0.97,
+                "std": 0.01
+            },
+            {
+                "mean": 1.0,
+                "std": 0.0
+            }
+        ],
+        "tests": [
+            {
+                "mean": 0.59,
+                "std": 0.04
+            },
+            {
+                "mean": 0.73,
+                "std": 0.04
+            },
+            {
+                "mean": 0.88,
+                "std": 0.05
+            },
+            {
+                "mean": 0.96,
+                "std": 0.05
+            }
+        ]
+    },
+    {
+        "model_name": "phi4:14b-fp16",
+        "metrics": [
+            "syntax",
+            "semantic",
+            "tests"
+        ],
+        "seed": [
+            3,
+            75,
+            346
+        ],
+        "temperature": 0.9,
+        "top_p": 0.6,
+        "top_k": 100,
+        "ks": [
+            1,
+            2,
+            5,
+            10
+        ],
+        "created_at": "2025-03-07T15:29:11.838000",
+        "syntax": [
+            {
+                "mean": 0.84,
+                "std": 0.02
+            },
+            {
+                "mean": 0.96,
+                "std": 0.02
+            },
+            {
+                "mean": 1.0,
+                "std": 0.0
+            },
+            {
+                "mean": 1.0,
+                "std": 0.0
+            }
+        ],
+        "semantic": [
+            {
+                "mean": 0.72,
+                "std": 0.05
+            },
+            {
+                "mean": 0.87,
+                "std": 0.04
+            },
+            {
+                "mean": 0.99,
+                "std": 0.01
+            },
+            {
+                "mean": 1.0,
+                "std": 0.0
+            }
+        ],
+        "tests": [
+            {
+                "mean": 0.41,
+                "std": 0.01
+            },
+            {
+                "mean": 0.57,
+                "std": 0.02
+            },
+            {
+                "mean": 0.78,
+                "std": 0.04
+            },
+            {
+                "mean": 0.89,
+                "std": 0.0
+            }
+        ]
+    },
+    {
+        "model_name": "qwq:32b-preview-fp16",
+        "metrics": [
+            "syntax",
+            "semantic",
+            "tests"
+        ],
+        "seed": [
+            3,
+            75,
+            346
+        ],
+        "temperature": 0.2,
+        "top_p": 0.2,
+        "top_k": 10,
+        "ks": [
+            1,
+            2,
+            5,
+            10
+        ],
+        "created_at": "2025-03-07T14:14:40.017000",
+        "syntax": [
+            {
+                "mean": 0.86,
+                "std": 0.02
+            },
+            {
+                "mean": 0.94,
+                "std": 0.02
+            },
+            {
+                "mean": 1.0,
+                "std": 0.0
+            },
+            {
+                "mean": 1.0,
+                "std": 0.0
+            }
+        ],
+        "semantic": [
+            {
+                "mean": 0.74,
+                "std": 0.01
+            },
+            {
+                "mean": 0.8,
+                "std": 0.01
+            },
+            {
+                "mean": 0.9,
+                "std": 0.02
+            },
+            {
+                "mean": 0.96,
+                "std": 0.05
+            }
+        ],
+        "tests": [
+            {
+                "mean": 0.66,
+                "std": 0.03
+            },
+            {
+                "mean": 0.71,
+                "std": 0.04
+            },
+            {
+                "mean": 0.78,
+                "std": 0.08
+            },
+            {
+                "mean": 0.81,
+                "std": 0.1
+            }
+        ]
+    },
+    {
+        "model_name": "qwen2.5:14b-instruct-fp16",
+        "metrics": [
+            "syntax",
+            "semantic",
+            "tests"
+        ],
+        "seed": [
+            3,
+            75,
+            346
+        ],
+        "temperature": 0.2,
+        "top_p": 0.6,
+        "top_k": 10,
+        "ks": [
+            1,
+            2,
+            5,
+            10
+        ],
+        "created_at": "2025-03-07T14:30:01.911000",
+        "syntax": [
+            {
+                "mean": 0.9,
+                "std": 0.02
+            },
+            {
+                "mean": 0.99,
+                "std": 0.0
+            },
+            {
+                "mean": 1.0,
+                "std": 0.0
+            },
+            {
+                "mean": 1.0,
+                "std": 0.0
+            }
+        ],
+        "semantic": [
+            {
+                "mean": 0.84,
+                "std": 0.03
+            },
+            {
+                "mean": 0.97,
+                "std": 0.01
+            },
+            {
+                "mean": 1.0,
+                "std": 0.0
+            },
+            {
+                "mean": 1.0,
+                "std": 0.0
+            }
+        ],
+        "tests": [
+            {
+                "mean": 0.56,
+                "std": 0.02
+            },
+            {
+                "mean": 0.75,
+                "std": 0.03
+            },
+            {
+                "mean": 0.91,
+                "std": 0.04
+            },
+            {
+                "mean": 0.96,
+                "std": 0.05
+            }
+        ]
+    },
+    {
+        "model_name": "qwen2.5:72b-instruct-fp16",
+        "metrics": [
+            "syntax",
+            "semantic",
+            "tests"
+        ],
+        "seed": [
+            3,
+            75,
+            346
+        ],
+        "temperature": 0.6,
+        "top_p": 0.9,
+        "top_k": 10,
+        "ks": [
+            1,
+            2,
+            5,
+            10
+        ],
+        "created_at": null,
+        "syntax@1": {
+            "mean": 0.87,
+            "std": 0.01
+        },
+        "syntax@2": {
+            "mean": 0.96,
+            "std": 0.01
+        },
+        "syntax@5": {
+            "mean": 1.0,
+            "std": 0.0
+        },
+        "syntax@10": {
+            "mean": 1.0,
+            "std": 0.0
+        },
+        "semantic@1": {
+            "mean": 0.82,
+            "std": 0.02
+        },
+        "semantic@2": {
+            "mean": 0.91,
+            "std": 0.02
+        },
+        "semantic@5": {
+            "mean": 0.99,
+            "std": 0.0
+        },
+        "semantic@10": {
+            "mean": 1.0,
+            "std": 0.0
+        },
+        "tests@1": {
+            "mean": 0.69,
+            "std": 0.02
+        },
+        "tests@2": {
+            "mean": 0.79,
+            "std": 0.04
+        },
+        "tests@5": {
+            "mean": 0.91,
+            "std": 0.03
+        },
+        "tests@10": {
+            "mean": 1.0,
+            "std": 0.0
+        }
+    }
+]

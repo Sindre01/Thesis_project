@@ -1,54 +1,21 @@
-import("std", Std_k98ojb)
-import("http", Http_q7o96c)
+import("std", Std_k98ojb) import("http", Http_q7o96c)
 
 module() main {
-    func(doc: "check if the given integer is a prime number") is_prime {
-        in(x: -487, y: -288, name: "n") property(Number) n_6a2b3a
-        in(x: -486, y: -109, name: "execute") trigger() execute_8d9f3c
-
-        out(x: 1164, y: -420, name: "continue") trigger() continue_8c4a8a
-        out(x: 1166, y: -252, name: "output") property(Bool) output_3c8b5f
-
-        instance(x: 55, y: -411) ifexpression_2b9d4e root.Std_k98ojb.Std.IfExpression {
-            expression: "n <= 1"
-        }
-        instance(x: 269, y: -368) generaterange_94f7d3 root.Std_k98ojb.List.GenerateRange {}
-        instance(x: 269, y: -230) filter_5b3f7a root.Std_k98ojb.Iteration.Filter {}
-        instance(x: 624, y: -346) isempty_98a0c3 root.Std_k98ojb.List.IsEmpty {}
-        instance(x: 816, y: -336) not_2c8f7c root.Std_k98ojb.Logic.Not {}
-        instance(x: 1024, y: -337) if_b3c8d9 root.Std_k98ojb.Std.If {}
-
-        1 -> ifexpression_2b9d4e.gen_0
-        ifexpression_2b9d4e.result -> output_3c8b5f
-        ifexpression_2b9d4e.value -> generaterange_94f7d3.from
-        ifexpression_2b9d4e.else -> generaterange_94f7d3.from
-
-        2 -> generaterange_94f7d3.to
-        n_6a2b3a -> generaterange_94f7d3.to
-        generaterange_94f7d3.list -> filter_5b3f7a.items
-
-        func() {
-            in(x: -36, y: -25, name: "item") property(Number) item_0f5b3d
-            out(x: 463, y: -23, name: "output") property(Bool) output_8f3c7e
-
-            instance(x: 126, y: -20) modulo_3f7c5d root.Std_k98ojb.Math.Modulo {}
-            instance(x: 350, y: -22) equal_5d3b7a root.Std_k98ojb.Logic.Equal {}
-
-            n_6a2b3a -> modulo_3f7c5d.value
-            item_0f5b3d -> modulo_3f7c5d.divisor
-            modulo_3f7c5d.result -> equal_5d3b7a.left
-            0 -> equal_5d3b7a.right
-            equal_5d3b7a.result -> output_8f3c7e
-        } -> filter_5b3f7a.handler
-
-        filter_5b3f7a.output_list -> isempty_98a0c3.list
-        isempty_98a0c3.isEmpty -> not_2c8f7c.input
-        not_2c8f7c.result -> if_b3c8d9.predicate
-        if_b3c8d9.value -> output_3c8b5f
-        if_b3c8d9.else -> continue_8c4a8a
-
-        execute_8d9f3c -> ifexpression_2b9d4e.execute
+    func(doc: "checks whether the given two integers have opposite sign or not.") opposite_signs {
+        in(x: -426, y: -248, name: "x") property(Number) x_853326
+        in(x: -420, y: -107, name: "y") property(Number) y_5390f5
+        out(x: 159, y: -219, name: "output") property(Bool) output_3339a3
+        
+        instance(x: -68, y: -127) multiply_b3e3b4 root.Std_k98ojb.Math.Multiply {}
+            x_853326 -> multiply_b3e3b4.x
+            y_5390f5 -> multiply_b3e3b4.y
+        
+        instance(x: -61, y: 12) less_than_7c41d7 root.Std_k98ojb.Math.LessThan {}
+            multiply_b3e3b4.result -> less_than_7c41d7.x
+            0 -> less_than_7c41d7.y
+        
+        less_than_7c41d7.result -> output_3339a3
     }
-
-    instance(x: -261, y: -50) is_prime_7b4d3a root.main.is_prime {}
+    
+    instance(x: -267, y: -189) opposite_signs_e5f1e root.main.opposite_signs {}
 }

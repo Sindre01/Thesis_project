@@ -7,7 +7,7 @@
 # Configuration
 EXPERIMENT="few-shot"                    # Experiment ('few-shot' or 'COT')
 PHASE="validation"                       # Phase ('testing' or 'validation')
-EXAMPLES_TYPE="similarity"                 #'coverage' or 'similarity'
+EXAMPLES_TYPE="coverage"                 #'coverage' or 'similarity'
 PROMPT_TYPE=""                 # 'regular' or 'cot' or 'signature'   
 # SEMANTIC_SELECTOR=true                   # Use semantic selector
 USER="ec-sindrre"                        # Your Educloud username
@@ -61,7 +61,7 @@ experiments='[
         }
 ]'
 models='[
-    "qwq:32b-preview-fp16"
+    "qwq:32b-fp16"
 ]'
 # models='[
 #     "phi4:14b-fp16",
