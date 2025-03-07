@@ -27,17 +27,5 @@
     "gpt-4o": {
         "name": "gpt-4o",
         "max_tokens": 1066
-    },
-    "deepseek-r1:14b-qwen-distill-fp16": {
-        "name": "deepseek-r1:14b-qwen-distill-fp16",
-        "max_tokens": 1575
-    },
-    "deepseek-r1:32b-qwen-distill-fp16": {
-        "name": "deepseek-r1:14b-qwen-distill-fp16",
-        "max_tokens": 1575
-    },
-    "deepseek-r1:70b-llama3.3-distill-fp16": {
-        "name": "deepseek-r1:14b-qwen-distill-fp16",
-        "max_tokens": 1575
     }
 }
