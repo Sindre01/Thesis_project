@@ -61,7 +61,7 @@ experiments='[
         }
 ]'
 models='[
-    "qwq:32b-preview-fp16",
+    "qwq:32b-preview-fp16"
 ]'
 # models='[
 #     "phi4:14b-fp16",
