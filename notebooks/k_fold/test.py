@@ -45,37 +45,37 @@ def get_dataset_splits(main_dataset_folder):
 
 # get_k_fold_splits(main_dataset_folder, 1, k_folds=5)
 train, _ , test = get_dataset_splits(main_dataset_folder)
-data, folds = create_kfold_splits((train+test), k_folds=3, write_to_file=False)
+data, folds = create_kfold_splits((train+test), k_folds=3, write_to_file=True)
 print(folds)
 main_dataset_folder = f'{project_dir}/data/MBPP_Midio_50/'
 j = []
-for fold in range(3):
-    train_data = [data[i] for i in folds[fold][0]]
-    test_data = [data[i] for i in folds[fold][1]]
+# for fold in range(3):
+#     train_data = [data[i] for i in folds[fold][0]]
+#     test_data = [data[i] for i in folds[fold][1]]
 
-    print(f"Fold {fold+1}")
-    print(f"len(train_data): {len(train_data)}")
-    for item in train_data:
-        print(item['prompts'][0])
+#     print(f"Fold {fold+1}")
+#     print(f"len(train_data): {len(train_data)}")
+#     for item in train_data:
+#         print(item['prompts'][0])
     
 
-    embedder = OllamaEmbeddings(model="nomic-embed-text")
-    texts = [example["prompts"][0] for example in train_data[:4]]
-    vectors = embedder.embed_documents(texts)
-    j.append(vectors)
+#     embedder = OllamaEmbeddings(model="nomic-embed-text")
+#     texts = [example["prompts"][0] for example in train_data[:4]]
+#     vectors = embedder.embed_documents(texts)
+#     j.append(vectors)
 
-    # pca = PCA(n_components=2)
-    # projected = pca.fit_transform(vectors)
+#     # pca = PCA(n_components=2)
+#     # projected = pca.fit_transform(vectors)
 
-    # plt.figure(figsize=(8,6))
-    # plt.scatter(projected[:, 0], projected[:, 1])
-    # plt.title("PCA Projection of Prompt Embeddings")
-    # plt.xlabel("PC 1")
-    # plt.ylabel("PC 2")
-    # plt.show()
-    # print(f"len(test_data): {len(test_data)}")
-    # analyze_functions_distribution(train, [], test)
-    # analyze_instance_distribution(train, [], test)
-    # analyze_visual_node_types_distribution(train, [], test) 
-    print(len(j))
-    visualize_datasets_pca(j, ["Fold 1", "Fold 2", "Fold 3"], "PCA Projection of Prompt Embeddings")
+#     # plt.figure(figsize=(8,6))
+#     # plt.scatter(projected[:, 0], projected[:, 1])
+#     # plt.title("PCA Projection of Prompt Embeddings")
+#     # plt.xlabel("PC 1")
+#     # plt.ylabel("PC 2")
+#     # plt.show()
+#     # print(f"len(test_data): {len(test_data)}")
+#     # analyze_functions_distribution(train, [], test)
+#     # analyze_instance_distribution(train, [], test)
+#     # analyze_visual_node_types_distribution(train, [], test) 
+#     print(len(j))
+#     visualize_datasets_pca(j, ["Fold 1", "Fold 2", "Fold 3"], "PCA Projection of Prompt Embeddings")

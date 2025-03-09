@@ -40,8 +40,8 @@ def create_kfold_splits(dataset: list[dict], k_folds=5, write_to_file=False):
 
     #Write to file:
     if write_to_file:
-        full_path = os.path.join(f'{project_root}/data/MBPP_Midio_50/splits/k_fold')
-        
+        full_path = os.path.join(f'{project_root}/data/MBPP_Midio_50/splits/{k_folds}_fold')
+        os.makedirs(full_path, exist_ok=True)
         for fold in range(k_folds):
             train_data = [dataset[i] for i in folds[fold][0]]
             test_data = [dataset[i] for i in folds[fold][1]]
