@@ -18,9 +18,9 @@ main_dataset_folder = f'{project_dir}/data/MBPP_Midio_50/'
 print("\n==== Splits data ====")
 
 def get_dataset_splits(main_dataset_folder):
-    train_data = read_dataset_to_json(main_dataset_folder + 'splits/train_dataset.json')
-    val_data = read_dataset_to_json(main_dataset_folder + 'splits/validation_dataset.json')
-    test_data = read_dataset_to_json(main_dataset_folder + 'splits/test_dataset.json')
+    train_data = transform_code_data(read_dataset_to_json(main_dataset_folder + 'splits/train_dataset.json'))
+    val_data = transform_code_data(read_dataset_to_json(main_dataset_folder + 'splits/validation_dataset.json'))
+    test_data = transform_code_data(read_dataset_to_json(main_dataset_folder + 'splits/test_dataset.json'))
 
     print(f"Train data: {len(train_data)}")
     print(f"Val data: {len(val_data)}")

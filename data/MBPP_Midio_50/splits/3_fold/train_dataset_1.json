@@ -1,2125 +1,1185 @@
 [
     {
-        "prompts": [
-            "Create a function that takes two lists and returns true if they have at least one common element.",
-            "The created user-defined function should then be tested inside a seperate module called tests, within the main module. Since the function does not contain input and ouput triggers, the flow of execution is sent between the assert nodes, using their input and output triggers."
+        "MBPP_task_id": "431",
+        "task_id": "7",
+        "task": "Create a function that takes two lists and returns true if they have at least one common element.",
+        "response": "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main {\n    func(doc: \"takes two lists and returns true if they have at least one common element.\") common_element {\n        in(x: -337, y: -126, name: \"list1\") property(List) list1_016b2e\n        in(x: -331, y: 30, name: \"list2\") property(List) list2_c8f404\n\n        out(x: 441, y: -72, name: \"output\") property(Bool) output_879de6\n\n        instance(x: -121, y: -71) intersection_78d487 root.Std_k98ojb.Sets.Intersection {}\n        instance(x: 169, y: -77) notempty_cd5cc4 root.Std_k98ojb.List.NotEmpty {}\n        intersection_78d487.intersection -> notempty_cd5cc4.list\n        notempty_cd5cc4.isEmpty -> output_879de6\n        list1_016b2e -> intersection_78d487.left\n        list2_c8f404 -> intersection_78d487.right\n    }\n\n    \n\n    instance(x: 425, y: -186) common_element_33ad55 root.main.common_element {}\n\n\n}",
+        "external_functions": "Sets.Intersection, List.NotEmpty",
+        "python_tests": [
+            "assert common_element([1,2,3,4,5], [5,6,7,8,9])==True",
+            "assert common_element([1,2,3,4,5], [6,7,8,9])==False",
+            "assert common_element(['a','b','c'], ['d','b','e'])==True"
         ],
-        "task_id": 7,
-        "specification": {
-            "function_signature": "func(doc: \"takes two lists and returns true if they have at least one common element.\") common_element {\n\tin(x: -337, y: -126, name: \"list1\") property(List) list1_016b2e\n\tin(x: -331, y: 30, name: \"list2\") property(List) list2_c8f404\n\tout(x: 441, y: -72, name: \"output\") property(Bool) output_879de6\n}",
-            "preconditions": "- Both arrays should be non-null",
-            "postconditions": "- If the method returns true, there exists at least one common element between the two arrays\n- If the method returns false, there are no common elements between the two arrays"
+        "tests": {
+            "test_cases": [
+                {
+                    "input": [
+                        [
+                            1,
+                            2,
+                            3,
+                            4,
+                            5
+                        ],
+                        [
+                            5,
+                            6,
+                            7,
+                            8,
+                            9
+                        ]
+                    ],
+                    "expected_output": true
+                },
+                {
+                    "input": [
+                        [
+                            1,
+                            2,
+                            3,
+                            4,
+                            5
+                        ],
+                        [
+                            6,
+                            7,
+                            8,
+                            9
+                        ]
+                    ],
+                    "expected_output": false
+                },
+                {
+                    "input": [
+                        [
+                            "a",
+                            "b",
+                            "c"
+                        ],
+                        [
+                            "d",
+                            "b",
+                            "e"
+                        ]
+                    ],
+                    "expected_output": true
+                }
+            ]
         },
-        "MBPP_task_id": 431,
-        "external_functions": [
-            "root.std.Sets.Intersection",
-            "root.std.List.NotEmpty"
-        ],
-        "visual_node_types": [
-            "Function",
-            "Output Property",
-            "Input Property"
-        ],
-        "textual_instance_types": [
-            "instance",
-            "in",
-            "out"
-        ],
-        "testing": {
-            "external_functions": [
-                "root.std.Testing.Test",
-                "root.std.Testing.AssertTrue",
-                "root.std.Testing.AssertFalse"
-            ],
-            "visual_node_types": [
-                "Event",
-                "Function",
-                "Data Object"
-            ],
-            "textual_instance_types": [
-                "instance",
-                "data_instance"
-            ],
-            "python_tests": [
-                "assert common_element([1,2,3,4,5], [5,6,7,8,9])==True",
-                "assert common_element([1,2,3,4,5], [6,7,8,9])==False",
-                "assert common_element(['a','b','c'], ['d','b','e'])==True"
-            ],
-            "tests": {
-                "test_cases": [
-                    {
-                        "input": [
-                            [
-                                1,
-                                2,
-                                3,
-                                4,
-                                5
-                            ],
-                            [
-                                5,
-                                6,
-                                7,
-                                8,
-                                9
-                            ]
-                        ],
-                        "expected_output": true
-                    },
-                    {
-                        "input": [
-                            [
-                                1,
-                                2,
-                                3,
-                                4,
-                                5
-                            ],
-                            [
-                                6,
-                                7,
-                                8,
-                                9
-                            ]
-                        ],
-                        "expected_output": false
-                    },
-                    {
-                        "input": [
-                            [
-                                "a",
-                                "b",
-                                "c"
-                            ],
-                            [
-                                "d",
-                                "b",
-                                "e"
-                            ]
-                        ],
-                        "expected_output": true
-                    }
-                ]
-            }
-        },
+        "function_signature": "func(doc: \"takes two lists and returns true if they have at least one common element.\") common_element {\n\tin(x: -337, y: -126, name: \"list1\") property(List) list1_016b2e\n\tin(x: -331, y: 30, name: \"list2\") property(List) list2_c8f404\n\tout(x: 441, y: -72, name: \"output\") property(Bool) output_879de6\n}",
+        "preconditions": "- Both arrays should be non-null",
+        "postconditions": "- If the method returns true, there exists at least one common element between the two arrays\n- If the method returns false, there are no common elements between the two arrays",
         "flow_description": "The flow should create a user-defined function. The function should contain two input properties of type List, one 'List Intersection' node, one 'List Not Empty' node and one output property of type Bool.\n The arrows are connected as follows: The input properties are connected with arrows to the 'List Intersection' node. The result of the 'List Intersection' node is connected with arrows to the 'List not empty' node property, which is then connected with arrows to the output property, that return the Bool from the function. The user-defined function is then created within the main module."
     },
     {
-        "prompts": [
-            "Create a function to check whether the entered number is greater than the elements of the given array.",
-            "The created user-defined function should then be tested inside a seperate module called tests, within the main module. Since the function does not contain input and ouput triggers, the flow of execution is sent between the assert nodes, using their input and output triggers."
+        "MBPP_task_id": "433",
+        "task_id": "8",
+        "task": "Create a function to check whether the entered number is greater than the elements of the given array.",
+        "response": "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main {\n    func(doc: \"check whether the entered number is greater than the elements of the given array.\") check_greater {\n        in(x: -33, y: -26, name: \"n\") property(Number) n_a6cea7\n        in(x: -294, y: 155, name: \"list\") property(Any) list_0b075e\n\n        out(x: 546, y: 63, name: \"output\") property(Bool) output_b1d7f8\n\n        instance(x: -82, y: 155) length_6e87f2 root.Std_k98ojb.List.Length {}\n        instance(x: 201, y: 62) greaterthan_cb50ae root.Std_k98ojb.Math.GreaterThan {}\n        greaterthan_cb50ae.result -> output_b1d7f8\n        length_6e87f2.length -> greaterthan_cb50ae.right\n        n_a6cea7 -> greaterthan_cb50ae.left\n        list_0b075e -> length_6e87f2.list\n    }\n\n    \n\n    instance(x: 48, y: 11) check_greater_15f9e9 root.main.check_greater {}\n}",
+        "external_functions": "List.Length, Math.GreaterThan",
+        "python_tests": [
+            "assert check_greater([1, 2, 3, 4, 5], 4) == False",
+            "assert check_greater([2, 3, 4, 5, 6], 8) == True",
+            "assert check_greater([9, 7, 4, 8, 6, 1], 11) == True"
         ],
-        "task_id": 8,
-        "specification": {
-            "function_signature": "func(doc: \"check whether the entered number is greater than the elements of the given array.\") check_greater {\n\tin(x: -33, y: -26, name: \"n\") property(Number) n_a6cea7\n\tin(x: -294, y: 155, name: \"list\") property(Any) list_0b075e\n\tout(x: 546, y: 63, name: \"output\") property(Bool) output_b1d7f8\n}",
-            "preconditions": "- The array should not be null",
-            "postconditions": "- If the result is true, then n is greater than all elements in the array\n- If the result is false, then there exists at least one element in the array that is greater than or equal to n"
+        "tests": {
+            "test_cases": [
+                {
+                    "input": [
+                        [
+                            1,
+                            2,
+                            3,
+                            4,
+                            5
+                        ],
+                        4
+                    ],
+                    "expected_output": false
+                },
+                {
+                    "input": [
+                        [
+                            2,
+                            3,
+                            4,
+                            5,
+                            6
+                        ],
+                        8
+                    ],
+                    "expected_output": true
+                },
+                {
+                    "input": [
+                        [
+                            9,
+                            7,
+                            4,
+                            8,
+                            6,
+                            1
+                        ],
+                        11
+                    ],
+                    "expected_output": true
+                }
+            ]
         },
-        "MBPP_task_id": 433,
-        "external_functions": [
-            "root.std.List.Length",
-            "root.std.Math.GreaterThan"
-        ],
-        "visual_node_types": [
-            "Function",
-            "Output Property",
-            "Input Property"
-        ],
-        "textual_instance_types": [
-            "instance",
-            "in",
-            "out"
-        ],
-        "testing": {
-            "external_functions": [
-                "root.std.Testing.Test",
-                "root.std.Testing.AssertTrue",
-                "root.std.Testing.AssertFalse"
-            ],
-            "visual_node_types": [
-                "Event",
-                "Function",
-                "Data Object"
-            ],
-            "textual_instance_types": [
-                "instance",
-                "data_instance"
-            ],
-            "python_tests": [
-                "assert check_greater([1, 2, 3, 4, 5], 4) == False",
-                "assert check_greater([2, 3, 4, 5, 6], 8) == True",
-                "assert check_greater([9, 7, 4, 8, 6, 1], 11) == True"
-            ],
-            "tests": {
-                "test_cases": [
-                    {
-                        "input": [
-                            [
-                                1,
-                                2,
-                                3,
-                                4,
-                                5
-                            ],
-                            4
-                        ],
-                        "expected_output": false
-                    },
-                    {
-                        "input": [
-                            [
-                                2,
-                                3,
-                                4,
-                                5,
-                                6
-                            ],
-                            8
-                        ],
-                        "expected_output": true
-                    },
-                    {
-                        "input": [
-                            [
-                                9,
-                                7,
-                                4,
-                                8,
-                                6,
-                                1
-                            ],
-                            11
-                        ],
-                        "expected_output": true
-                    }
-                ]
-            }
-        },
+        "function_signature": "func(doc: \"check whether the entered number is greater than the elements of the given array.\") check_greater {\n\tin(x: -33, y: -26, name: \"n\") property(Number) n_a6cea7\n\tin(x: -294, y: 155, name: \"list\") property(Any) list_0b075e\n\tout(x: 546, y: 63, name: \"output\") property(Bool) output_b1d7f8\n}",
+        "preconditions": "- The array should not be null",
+        "postconditions": "- If the result is true, then n is greater than all elements in the array\n- If the result is false, then there exists at least one element in the array that is greater than or equal to n",
         "flow_description": "The flow should create a user-defined function. The body of the function contains two input properties of type Number and List, one 'List Object' node with number 11, one 'Math GreaterThan' and one output property of type Bool.\n The arrows are connected as follows: The input property, called list, is connected with arrows to the list property of the 'List Lenght' node. The output property of 'List Lenght' node, named lenght, is connected with arrows to the input property, named right, of the 'Math GreaterThan' node. The other input property to the user-defnied function is named n and is conencted to the other input property, named left, of the 'Math GreaterThan' node. The output property of the 'Math GreaterThan' node is returned to the output property of the user-defined function, that return this Bool value from the function. The user-defined function is then created within the main module."
     },
     {
-        "prompts": [
-            "Create a function that matches a word containing 'z'.",
-            "The created user-defined function should then be tested inside a seperate module called tests, within the main module. Since the function does not contain input and ouput triggers, the flow of execution is sent between the assert nodes, using their input and output triggers."
+        "MBPP_task_id": "454",
+        "task_id": "10",
+        "task": "Create a function that matches a word containing 'z'.",
+        "response": "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main {\n    func(doc: \"matches a word containing 'z'.\") text_match_wordz {\n        in(x: -230, y: 0, name: \"string\") property(String) input_0\n\n        out(x: 530, y: -2, name: \"result\") property(Bool) result_0\n\n        instance(x: 0, y: 1) tolower_2e1444 root.Std_k98ojb.Strings.ToLower {}\n        instance(x: 265, y: 0) contains_d42dce root.Std_k98ojb.Strings.Contains {}\n        tolower_2e1444.output -> contains_d42dce.input\n        \"z\" -> contains_d42dce.contains\n        input_0 -> tolower_2e1444.input\n        contains_d42dce.result -> result_0\n    }\n\n    \n\n    instance(x: 81, y: 52) ContainsZ_e54b7f root.main.text_match_wordz {}\n\n\n}",
+        "external_functions": "Strings.ToLower, Strings.Contains",
+        "python_tests": [
+            "assert text_match_wordz(\"pythonz.\")==True",
+            "assert text_match_wordz(\"xyz.\")==True",
+            "assert text_match_wordz(\"  lang  .\")==False"
         ],
-        "task_id": 10,
-        "specification": {
-            "function_signature": "func(doc: \"matches a word containing 'z'.\") text_match_wordz {\n\tin(x: -230, y: 0, name: \"string\") property(String) input_0\n\tout(x: 530, y: -2, name: \"result\") property(Bool) result_0\n}",
-            "preconditions": "- There are no preconditions, the method will always work. Strings and sequences are always not null.",
-            "postconditions": "- The result is true if the input string contains the character 'z' or 'Z'\n- The result is false if the input string does not contain the character 'z' or 'Z'"
+        "tests": {
+            "test_cases": [
+                {
+                    "input": "pythonz.",
+                    "expected_output": true
+                },
+                {
+                    "input": "xyz.",
+                    "expected_output": true
+                },
+                {
+                    "input": "  lang  .",
+                    "expected_output": false
+                }
+            ]
         },
-        "MBPP_task_id": 454,
-        "external_functions": [
-            "root.std.Strings.ToLower",
-            "root.std.Strings.Contains"
-        ],
-        "visual_node_types": [
-            "Function",
-            "Output Property",
-            "Input Property"
-        ],
-        "textual_instance_types": [
-            "instance",
-            "in",
-            "out"
-        ],
-        "testing": {
-            "external_functions": [
-                "root.std.Testing.Test",
-                "root.std.Testing.AssertFalse",
-                "root.std.Testing.AssertTrue"
-            ],
-            "visual_node_types": [
-                "Event",
-                "Function",
-                "Data Object"
-            ],
-            "textual_instance_types": [
-                "instance",
-                "data_instance"
-            ],
-            "python_tests": [
-                "assert text_match_wordz(\"pythonz.\")==True",
-                "assert text_match_wordz(\"xyz.\")==True",
-                "assert text_match_wordz(\"  lang  .\")==False"
-            ],
-            "tests": {
-                "test_cases": [
-                    {
-                        "input": "pythonz.",
-                        "expected_output": true
-                    },
-                    {
-                        "input": "xyz.",
-                        "expected_output": true
-                    },
-                    {
-                        "input": "  lang  .",
-                        "expected_output": false
-                    }
-                ]
-            }
-        },
+        "function_signature": "func(doc: \"matches a word containing 'z'.\") text_match_wordz {\n\tin(x: -230, y: 0, name: \"string\") property(String) input_0\n\tout(x: 530, y: -2, name: \"result\") property(Bool) result_0\n}",
+        "preconditions": "- There are no preconditions, the method will always work. Strings and sequences are always not null.",
+        "postconditions": "- The result is true if the input string contains the character 'z' or 'Z'\n- The result is false if the input string does not contain the character 'z' or 'Z'",
         "flow_description": "The flow should create a user-defined function. The body of the function contains one input property of type String, one 'Strings ToLower' node, one 'Strings Contains' node with the input property, named 'contains', set to z in lower case and one output property of type Bool.\n The arrows are connected as follows: The input property, called string, is connected with arrows to the input propery of the 'String ToLower' node. The output property, called output, of the 'Strings ToLower' node is then connected with arrows to the input property, named input, of the 'Strings Contains' node. The output property, named result, of the 'Strings contains' node is then connected with arrows to the output property, named result, of the user-defined function. The user-defined function is then created within the main module."
     },
     {
-        "prompts": [
-            "Create a function to check whether the given list contains consecutive numbers or not.",
-            "The created user-defined function should then be tested inside a seperate module called tests, within the main module. Since the function does not contain input and ouput triggers, the flow of execution is sent between the assert nodes, using their input and output triggers."
+        "MBPP_task_id": "472",
+        "task_id": "11",
+        "task": "Create a function to check whether the given list contains consecutive numbers or not.",
+        "response": "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main {\n    func(doc: \"check whether the given list contains consecutive numbers or not.\") check_consecutive {\n        in(x: -425, y: 209, name: \"list\") property(List) list_faf6c2\n\n        out(x: 866, y: 132, name: \"output\") property(Bool) output_a2b59d\n\n        instance(x: 5, y: 346) max_a8e56c root.Std_k98ojb.List.Max {}\n        instance(x: -6, y: 129) sort_a49ae4 root.Std_k98ojb.List.Sort {}\n        instance(x: 0, y: 242) min_18909a root.Std_k98ojb.List.Min {}\n        instance(x: 532, y: 135) expression_b5dba9 root.Std_k98ojb.Math.Expression {\n            expression: \"list1 == list2\"\n        }\n        instance(x: 251, y: 257) generaterange_82d404 root.Std_k98ojb.List.GenerateRange {}\n        sort_a49ae4.sorted_list -> expression_b5dba9.gen_0\n        min_18909a.min -> generaterange_82d404.from\n        max_a8e56c.max -> generaterange_82d404.to\n        generaterange_82d404.list -> expression_b5dba9.gen_1\n        expression_b5dba9.result -> output_a2b59d\n        list_faf6c2 -> sort_a49ae4.list\n        list_faf6c2 -> min_18909a.items\n        list_faf6c2 -> max_a8e56c.items\n    }\n\n    \n\n    instance(x: 203, y: -192) check_consecutive_24d4b5 root.main.check_consecutive {}\n\n\n}",
+        "external_functions": "List.Sort, List.Min, List.Max, List.GenerateRange, Math.Expression",
+        "python_tests": [
+            "assert check_consecutive([1,2,3,4,5]) == True",
+            "assert check_consecutive([1,2,3,5,6]) == False",
+            "assert check_consecutive([1,2,1]) == False"
         ],
-        "task_id": 11,
-        "specification": {
-            "function_signature": "func(doc: \"check whether the given list contains consecutive numbers or not.\") check_consecutive {\n\tin(x: -425, y: 209, name: \"list\") property(List) list_faf6c2\n\tout(x: 866, y: 132, name: \"output\") property(Bool) output_a2b59d\n}",
-            "preconditions": "- There are no preconditions, the method will always work. Arrays can be empty or non-empty.",
-            "postconditions": "- If the array contains consecutive numbers, the result is true\n- If the array does not contain consecutive numbers, the result is false"
+        "tests": {
+            "test_cases": [
+                {
+                    "input": [
+                        1,
+                        2,
+                        3,
+                        4,
+                        5
+                    ],
+                    "expected_output": true
+                },
+                {
+                    "input": [
+                        1,
+                        2,
+                        3,
+                        5,
+                        6
+                    ],
+                    "expected_output": false
+                },
+                {
+                    "input": [
+                        1,
+                        2,
+                        1
+                    ],
+                    "expected_output": false
+                }
+            ]
         },
-        "MBPP_task_id": 472,
-        "external_functions": [
-            "root.std.List.Sort",
-            "root.std.List.Min",
-            "root.std.List.Max",
-            "root.std.List.GenerateRange",
-            "root.std.Math.Expression"
-        ],
-        "visual_node_types": [
-            "Function",
-            "Output Property",
-            "Input Property"
-        ],
-        "textual_instance_types": [
-            "instance",
-            "in",
-            "out"
-        ],
-        "testing": {
-            "external_functions": [
-                "root.std.Testing.Test",
-                "root.std.Testing.AssertTrue",
-                "root.std.Testing.AssertFalse"
-            ],
-            "visual_node_types": [
-                "Event",
-                "Function",
-                "Data Object"
-            ],
-            "textual_instance_types": [
-                "instance",
-                "data_instance"
-            ],
-            "python_tests": [
-                "assert check_consecutive([1,2,3,4,5]) == True",
-                "assert check_consecutive([1,2,3,5,6]) == False",
-                "assert check_consecutive([1,2,1]) == False"
-            ],
-            "tests": {
-                "test_cases": [
-                    {
-                        "input": [
-                            1,
-                            2,
-                            3,
-                            4,
-                            5
-                        ],
-                        "expected_output": true
-                    },
-                    {
-                        "input": [
-                            1,
-                            2,
-                            3,
-                            5,
-                            6
-                        ],
-                        "expected_output": false
-                    },
-                    {
-                        "input": [
-                            1,
-                            2,
-                            1
-                        ],
-                        "expected_output": false
-                    }
-                ]
-            }
-        },
+        "function_signature": "func(doc: \"check whether the given list contains consecutive numbers or not.\") check_consecutive {\n\tin(x: -425, y: 209, name: \"list\") property(List) list_faf6c2\n\tout(x: 866, y: 132, name: \"output\") property(Bool) output_a2b59d\n}",
+        "preconditions": "- There are no preconditions, the method will always work. Arrays can be empty or non-empty.",
+        "postconditions": "- If the array contains consecutive numbers, the result is true\n- If the array does not contain consecutive numbers, the result is false",
         "flow_description": "The flow should create a user-defined function. The body of the function contains one input property of type any, one 'List Sort' node, one 'List Min' node, one 'List Max' node, one 'List GenerateRange' node, one 'Math Expression' node with the expression 'list1 == list2', and in this case one output property 'result' of type Bool. \n The arrows are connected as follows: The input property, called list, is connected with arrows to the 'List Sort', 'List Min', and 'List Max' nodes. The sorted list output of the 'List Sort' node is connected with arrows to the first input (list1) of the 'Math Expression' node. The outputs of the 'List.Min' and 'List.Max' nodes are connected with arrows to the from and to inputs of the 'List GenerateRange' node, respectively. The generated range output of the 'List GenerateRange' node is connected with arrows to the second input (list2) of the 'Math Expression' node. The result output of the 'Math Expression' node is then connected with arrows to the output property, called output, of the user-defined function. The user-defined function is then created within the main module"
     },
     {
-        "prompts": [
-            "Create a function to get the sum of the digits of a non-negative integer.",
-            "The created user-defined function should then be tested inside a seperate module called tests, within the main module. Since the user-defined function uses input and ouput triggers, the flow of execution is sent between the created function and assert nodes, using their input and output triggers. "
+        "MBPP_task_id": "566",
+        "task_id": "14",
+        "task": "Create a function to get the sum of the digits of a non-negative integer.",
+        "response": "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main { \n    \n    func(doc: \"gets the sum of the digits of a non-negative integer.\") sum_digits {\n        in(x: -450, y: -421, name: \"execute\") trigger() execute_cdac2a\n        in(x: -436, y: -213, name: \"n\") property(Number) n_6b655b\n\n        out(x: 1146, y: -647, name: \"continue\") trigger() continue_d9efd7\n        out(x: 1169, y: -269, name: \"output\") property(Number) output_732a8a\n\n        instance(x: 80, y: -417) ifexpression_3d7de6 root.Std_k98ojb.Std.IfExpression {\n            expression: \"n <= 0\"\n        }\n        instance(x: 395, y: -378) sum_digits_96023e root.main.sum_digits {}\n        instance(x: 97, y: -127) modulo_adfa16 root.Std_k98ojb.Math.Modulo {}\n        instance(x: 656, y: -330) add_88bb8a root.Std_k98ojb.Math.Add {}\n        instance(x: 99, y: -249) div_547f34 root.Std_k98ojb.Math.Div {}\n        setter(x: -215, y: -463, name: \"setter_41e4ad\") setter_41e4ad = sum\n        setter(x: 875, y: -518, name: \"setter_375321\") setter_375321 = sum\n        getter(x: 902, y: -314, name: \"getter_38583a\") getter_38583a = sum\n        instance(x: -202, y: -236) floor_61b38d root.Std_k98ojb.Math.Floor {}\n        10 -> modulo_adfa16.divisor\n        modulo_adfa16.result -> add_88bb8a.first\n        10 -> div_547f34.second\n        div_547f34.result -> sum_digits_96023e.n_6b655b\n        0 -> setter_41e4ad.new_value\n        setter_41e4ad.continue -> ifexpression_3d7de6.execute\n        ifexpression_3d7de6.then -> continue_d9efd7\n        execute_cdac2a -> setter_41e4ad.execute\n        ifexpression_3d7de6.else -> sum_digits_96023e.execute_cdac2a\n        sum_digits_96023e.continue_d9efd7 -> setter_375321.execute\n        sum_digits_96023e.output_732a8a -> add_88bb8a.second\n        add_88bb8a.result -> setter_375321.new_value\n        setter_375321.continue -> continue_d9efd7\n        getter_38583a.value -> output_732a8a\n        n_6b655b -> floor_61b38d.input\n        floor_61b38d.output -> div_547f34.first\n        floor_61b38d.output -> modulo_adfa16.value\n        floor_61b38d.output -> ifexpression_3d7de6.gen_0\n    }\n\n    \n\n    instance(x: -176, y: -38) sum_digits_86117a root.main.sum_digits {}\n\n}",
+        "external_functions": "Math.Floor, Math.Modulo, Math.Div, Math.Add, Std.IfExpression",
+        "python_tests": [
+            "assert sum_digits(345)==12",
+            "assert sum_digits(12)==3",
+            "assert sum_digits(97)==16"
         ],
-        "task_id": 14,
-        "specification": {
-            "function_signature": "func(doc: \"gets the sum of the digits of a non-negative integer.\") sum_digits {\n\tin(x: -450, y: -421, name: \"execute\") trigger() execute_cdac2a\n\tin(x: -436, y: -213, name: \"n\") property(Number) n_6b655b\n\tout(x: 1146, y: -647, name: \"continue\") trigger() continue_d9efd7\n\tout(x: 1169, y: -269, name: \"output\") property(Number) output_732a8a\n}",
-            "preconditions": "- n should be a non-negative integer",
-            "postconditions": "- The sum of the digits of the input integer is returned\n- The sum is non-negative"
+        "tests": {
+            "test_cases": [
+                {
+                    "input": 345,
+                    "expected_output": 12
+                },
+                {
+                    "input": 12,
+                    "expected_output": 3
+                },
+                {
+                    "input": 97,
+                    "expected_output": 16
+                }
+            ]
         },
-        "MBPP_task_id": 566,
-        "external_functions": [
-            "root.std.Math.Floor",
-            "root.std.Math.Modulo",
-            "root.std.Math.Div",
-            "root.std.Math.Add",
-            "root.std.Std.IfExpression"
-        ],
-        "visual_node_types": [
-            "Function",
-            "Setter",
-            "Getter",
-            "Output Property",
-            "Input Property",
-            "Input Trigger",
-            "Output Trigger"
-        ],
-        "textual_instance_types": [
-            "instance",
-            "in",
-            "out"
-        ],
-        "testing": {
-            "external_functions": [
-                "root.std.Testing.Test",
-                "root.std.Testing.AssertEqual"
-            ],
-            "visual_node_types": [
-                "Event",
-                "Function",
-                "Data Object"
-            ],
-            "textual_instance_types": [
-                "instance",
-                "data_instance"
-            ],
-            "python_tests": [
-                "assert sum_digits(345)==12",
-                "assert sum_digits(12)==3",
-                "assert sum_digits(97)==16"
-            ],
-            "tests": {
-                "test_cases": [
-                    {
-                        "input": 345,
-                        "expected_output": 12
-                    },
-                    {
-                        "input": 12,
-                        "expected_output": 3
-                    },
-                    {
-                        "input": 97,
-                        "expected_output": 16
-                    }
-                ]
-            }
-        },
+        "function_signature": "func(doc: \"gets the sum of the digits of a non-negative integer.\") sum_digits {\n\tin(x: -450, y: -421, name: \"execute\") trigger() execute_cdac2a\n\tin(x: -436, y: -213, name: \"n\") property(Number) n_6b655b\n\tout(x: 1146, y: -647, name: \"continue\") trigger() continue_d9efd7\n\tout(x: 1169, y: -269, name: \"output\") property(Number) output_732a8a\n}",
+        "preconditions": "- n should be a non-negative integer",
+        "postconditions": "- The sum of the digits of the input integer is returned\n- The sum is non-negative",
         "flow_description": "The flow should create a user-defined function, called sum_digits. The body of the function contains one input property of type Number, called 'n', and one input trigger, called 'execute'. It also includes the following node: one 'Math Floor' node, one 'Math Modulo' node with the divisor set to 10, one 'Math Division' node with the divisor set to 10, one 'Math Addition' node, one 'Std IfExpression' node, local variable creation with the getter and setter nodes, and the current sum_digits function node to be able to do recursive calls. Lastly, it includes an output property of type number and an output trigger, called 'continue'.\n The arrows are connected as follows:  The input property, called n, is connected with arrows to the input property of the 'Math Floor' node. The output property of the 'Math Floor' node, called 'output', is connected with three arrows to the input properties of 'Std IfExpression', 'Math Div' and 'Math Modulo'. The input trigger, called 'execute' is conencted with an arrow to the setter node, which sets the value of a variable sum to the number 0. Then, the flow of execution is futher sent to the 'Std IfExpression' node, which evaluates if 'n <= 0'. If true, then the flow of execution is sent to the output trigger, called 'continue'. If false, the the flow of execution is sent to the current sum_digits node which starts a recursive call, with the input property 'n' set to the result of the 'Math Div' node, which divides n (after going through 'Math Floor') with 10. After the recursive calls, the flow of execution is sent to a setter node, which sets the variable 'sum' to the value of 'Math Add', which add the output of 'sum_digits' and the 'Math Modulo' node with divisor 10. After the varible 'sum' have been set by the setter node, the flow of execution is sent to the ouput trigger 'continue'. At the end of the main flow and all the recursive calls, the output property is returned by connecting it to a 'getter' node, which gets the value of the variable 'sum'. The user-defined function is then created within the main module."
     },
     {
-        "prompts": [
-            "Create a function to check whether a specified list is sorted or not.",
-            "The created user-defined function 'issort_list' should then be tested inside a seperate module called tests, within the main module. Since the user-defined function uses input and ouput triggers, the flow of execution is sent between the created function and assert nodes, using their input and output triggers. "
+        "MBPP_task_id": "567",
+        "task_id": "15",
+        "task": "Create a function to check whether a specified list is sorted or not.",
+        "response": "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main { \n    func(doc: \"Checks whether a specified list is sorted or not.\") issort_list {\n        in(x: -465, y: -235, name: \"execute\") trigger() execute_90aaec\n        in(x: -485, y: 30, name: \"list\") property(List) list_ec88cd\n\n        out(x: 1227, y: 5, name: \"continue\") trigger() continue_a96db6\n        out(x: 1218, y: 147, name: \"output\") property(Bool) output_5bbcd7\n\n        instance(x: 752, y: 93) ifexpression_875761 root.Std_k98ojb.Std.IfExpression {\n            expression: \"index == 0 || previous <= current\"\n        }\n        getter(x: 334, y: 160, name: \"getter_b280eb\") getter_b280eb = previous\n        setter(x: 679, y: -313, name: \"setter_9d4f1c\") setter_9d4f1c = previous\n        instance(x: 321, y: -20) for_d26972 root.Std_k98ojb.Std.For {}\n        setter(x: -0, y: -121, name: \"setter_9d4f1c\") setter_38e107 = previous\n        instance(x: -275, y: -35) getat_ce2a48 root.Std_k98ojb.List.GetAt {}\n        ifexpression_875761.else -> continue_a96db6\n        ifexpression_875761.value -> output_5bbcd7\n        ifexpression_875761.then -> setter_9d4f1c.execute\n        list_ec88cd -> for_d26972.items\n        for_d26972.item -> ifexpression_875761.gen_2\n        for_d26972.index -> ifexpression_875761.gen_0\n        getter_b280eb.value -> ifexpression_875761.gen_1\n        for_d26972.onItem -> ifexpression_875761.execute\n        for_d26972.done -> continue_a96db6\n        for_d26972.item -> setter_9d4f1c.new_value\n        list_ec88cd -> getat_ce2a48.list\n        0 -> getat_ce2a48.index\n        getat_ce2a48.itemAtIndex -> setter_38e107.new_value\n        execute_90aaec -> setter_38e107.execute\n        setter_38e107.continue -> for_d26972.reset\n        setter_9d4f1c.continue -> for_d26972.next\n    }\n\n    \n\n    instance(x: 10, y: -177) issort_list_fc79d5 root.main.issort_list {}\n\n}",
+        "external_functions": "List.GetAt, Std.For, Std.IfExpression",
+        "python_tests": [
+            "assert issort_list([1,2,4,6,8,10,12,14,16,17])==True",
+            "assert issort_list([1, 2, 4, 6, 8, 10, 12, 14, 20, 17])==False",
+            "assert issort_list([1, 2, 4, 6, 8, 10,15,14,20])==False"
         ],
-        "task_id": 15,
-        "specification": {
-            "function_signature": "func(doc: \"Checks whether a specified list is sorted or not.\") issort_list {\n\tin(x: -465, y: -235, name: \"execute\") trigger() execute_90aaec\n\tin(x: -485, y: 30, name: \"list\") property(List) list_ec88cd\n\tout(x: 1227, y: 5, name: \"continue\") trigger() continue_a96db6\n\tout(x: 1218, y: 147, name: \"output\") property(Bool) output_5bbcd7\n}",
-            "preconditions": "- There are no preconditions, the method will always work. Arrays can be empty or have any length.",
-            "postconditions": "- If the method returns true, the array is sorted in non-decreasing order\n- If the method returns false, the array is not sorted in non-decreasing order"
+        "tests": {
+            "test_cases": [
+                {
+                    "input": [
+                        1,
+                        2,
+                        4,
+                        6,
+                        8,
+                        10,
+                        12,
+                        14,
+                        16,
+                        17
+                    ],
+                    "expected_output": true
+                },
+                {
+                    "input": [
+                        1,
+                        2,
+                        4,
+                        6,
+                        8,
+                        10,
+                        12,
+                        14,
+                        20,
+                        17
+                    ],
+                    "expected_output": false
+                },
+                {
+                    "input": [
+                        1,
+                        2,
+                        4,
+                        6,
+                        8,
+                        10,
+                        15,
+                        14,
+                        20
+                    ],
+                    "expected_output": false
+                }
+            ]
         },
-        "MBPP_task_id": 567,
-        "external_functions": [
-            "root.std.List.GetAt",
-            "root.std.Std.For",
-            "root.std.Std.IfExpression"
-        ],
-        "visual_node_types": [
-            "Function",
-            "Setter",
-            "Getter",
-            "Output Property",
-            "Input Property",
-            "Input Trigger",
-            "Output Trigger"
-        ],
-        "textual_instance_types": [
-            "instance",
-            "setter",
-            "getter",
-            "in",
-            "out"
-        ],
-        "testing": {
-            "external_functions": [
-                "root.std.Testing.Test",
-                "root.std.Testing.AssertTrue",
-                "root.std.Testing.AssertFalse"
-            ],
-            "visual_node_types": [
-                "Event",
-                "Function",
-                "Data Object"
-            ],
-            "textual_instance_types": [
-                "instance",
-                "data_instance"
-            ],
-            "python_tests": [
-                "assert issort_list([1,2,4,6,8,10,12,14,16,17])==True",
-                "assert issort_list([1, 2, 4, 6, 8, 10, 12, 14, 20, 17])==False",
-                "assert issort_list([1, 2, 4, 6, 8, 10,15,14,20])==False"
-            ],
-            "tests": {
-                "test_cases": [
-                    {
-                        "input": [
-                            1,
-                            2,
-                            4,
-                            6,
-                            8,
-                            10,
-                            12,
-                            14,
-                            16,
-                            17
-                        ],
-                        "expected_output": true
-                    },
-                    {
-                        "input": [
-                            1,
-                            2,
-                            4,
-                            6,
-                            8,
-                            10,
-                            12,
-                            14,
-                            20,
-                            17
-                        ],
-                        "expected_output": false
-                    },
-                    {
-                        "input": [
-                            1,
-                            2,
-                            4,
-                            6,
-                            8,
-                            10,
-                            15,
-                            14,
-                            20
-                        ],
-                        "expected_output": false
-                    }
-                ]
-            }
-        },
+        "function_signature": "func(doc: \"Checks whether a specified list is sorted or not.\") issort_list {\n\tin(x: -465, y: -235, name: \"execute\") trigger() execute_90aaec\n\tin(x: -485, y: 30, name: \"list\") property(List) list_ec88cd\n\tout(x: 1227, y: 5, name: \"continue\") trigger() continue_a96db6\n\tout(x: 1218, y: 147, name: \"output\") property(Bool) output_5bbcd7\n}",
+        "preconditions": "- There are no preconditions, the method will always work. Arrays can be empty or have any length.",
+        "postconditions": "- If the method returns true, the array is sorted in non-decreasing order\n- If the method returns false, the array is not sorted in non-decreasing order",
         "flow_description": "The flow should create a user-defined function, called 'issort_list'. The body of the function contains one input property of type List, named 'list' and one input trigger, named 'execute'. It also includes the following nodes: one 'List GetAt' node, one 'Std For' node, one 'Std IfExpression' node, and getter and setter nodes for storing a local varibale named 'previous'. Lastly, it includes an output variable named 'output' and an output trigger named 'continue'.\n Arrows are connected as follows: The input trigger, named 'list', is conencted to the input property 'list' of the 'List GetAt' and the input property 'items' of the 'Std For' node. The 'List GetAt' node gets the items at index zero and the output property, named 'itemAtIndex' is connected to a setter node, which sets the a variable named 'previous'. The input trigger named 'execute' of this user-defined function is connected to the setter node, so that the node is set at the start of the execution flow. After this, the flow of execution is sent to the 'Std For' node, which loops through the 'items' property, which is set to the input property 'list' of this user-defined function. In each iteration, the flow of execution is sent through an 'Std IfExpression' node. This node takes in 'index', 'current' item in the loop and the 'previous' variable, which is stored in the local variable 'previous' and provided by a getter node. The 'Std IfExpression' node checks if index is zero or previous is lower or equal to the previous item, by using this expression 'index == 0 || previous <= current'. If it evaluates to true, the flow of execution is first sent through a setter node, which sets the variable 'previous' to the 'item' provided by 'Std For'. Then the flow of execution is sent back to the input trigger 'next' of the 'Std For' node, which triggers usage of the next item in the list. However, if the 'Std IfExpression' in the for loop evalutes to true, the flow of execution is sent to the output trigger, named 'continue', which exits the for loops. Regardless of outcome, the output property of the user-defined function, is set value of the 'Std IfExpression'.  Then the 'Std For' node loops through the provided  The user-defined function is then created within the main module."
     },
     {
-        "prompts": [
-            "Create a function to check whether a list is a sublist of another list.",
-            "The created user-defined function 'is_Sub_Array' should then be tested inside a seperate module called tests, within the main module. Since the user-defined function uses input and ouput triggers, the flow of execution is sent between the created function and assert nodes, using their input and output triggers."
+        "MBPP_task_id": "576",
+        "task_id": "17",
+        "task": "Create a function to check whether a list is a sublist of another list.",
+        "response": "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main { \n    func(doc: \"Checks whether a list is sublist of another or not.\") is_Sub_Array {\n        in(x: -2030, y: 959, name: \"main_list\") property(List) main_list_25f077\n        in(x: -2032, y: 1297, name: \"sub_list\") property(List) sub_list_f9cb80\n        in(x: -1875, y: 677, name: \"execute\") trigger() execute_68160a\n\n        out(x: -243, y: 1021, name: \"continue\") trigger() continue_d72620\n        out(x: -239, y: 1163, name: \"output\") property(Bool) output_ebc87c\n\n        instance(x: -1782, y: 1082) length_12a4a0 root.Std_k98ojb.List.Length {}\n        instance(x: -1275, y: 1052) count_e53297 root.Std_k98ojb.Std.Count {}\n        instance(x: -1595, y: 1148) expression_c84155 root.Std_k98ojb.Math.Expression {\n            expression: \"n - m + 1\"\n        }\n        instance(x: -1783, y: 1237) length_4fed60 root.Std_k98ojb.List.Length {}\n        instance(x: -548, y: 923) if_f81713 root.Std_k98ojb.Std.If {}\n        instance(x: -764, y: 1191) equal_010c84 root.Std_k98ojb.Logic.Equal {}\n        instance(x: -964, y: 1120) slice_cda647 root.Std_k98ojb.List.Slice {}\n        instance(x: -1040, y: 898) add_a3f57f root.Std_k98ojb.Math.Add {}\n        length_12a4a0.length -> expression_c84155.gen_0\n        length_4fed60.length -> expression_c84155.gen_1\n        expression_c84155.result -> count_e53297.iterations\n        count_e53297.interation -> slice_cda647.start\n        count_e53297.interation -> add_a3f57f.first\n        length_12a4a0.length -> add_a3f57f.second\n        add_a3f57f.result -> slice_cda647.end\n        slice_cda647.slice -> equal_010c84.left\n        equal_010c84.result -> if_f81713.predicate\n        count_e53297.onCount -> if_f81713.execute\n        main_list_25f077 -> length_12a4a0.list\n        sub_list_f9cb80 -> length_4fed60.list\n        sub_list_f9cb80 -> equal_010c84.right\n        main_list_25f077 -> slice_cda647.list\n        if_f81713.then -> continue_d72620\n        count_e53297.done -> continue_d72620\n        if_f81713.else -> count_e53297.count\n        execute_68160a -> count_e53297.reset\n        if_f81713.value -> output_ebc87c\n    }\n\n    \n\n    instance(x: 57, y: -40) is_sub_array_f8f3ba root.main.is_Sub_Array {}\n}",
+        "external_functions": "List.Length, Std.Count, Math.Expression, List.Slice, Logic.Equal, Std.If, Math.Add",
+        "python_tests": [
+            "assert is_Sub_Array([1,4,3,5],[1,2]) == False",
+            "assert is_Sub_Array([1,2,1],[1,2,1]) == True",
+            "assert is_Sub_Array([1,0,2,2],[2,2,0]) == False"
         ],
-        "task_id": 17,
-        "specification": {
-            "function_signature": "func(doc: \"Checks whether a list is sublist of another or not.\") is_Sub_Array {\n\tin(x: -2030, y: 959, name: \"main_list\") property(List) main_list_25f077\n\tin(x: -2032, y: 1297, name: \"sub_list\") property(List) sub_list_f9cb80\n\tin(x: -1875, y: 677, name: \"execute\") trigger() execute_68160a\n\tout(x: -243, y: 1021, name: \"continue\") trigger() continue_d72620\n\tout(x: -239, y: 1163, name: \"output\") property(Bool) output_ebc87c\n}",
-            "preconditions": "- Both `main_list` and `sub_list` are not null.",
-            "postconditions": "- The output is `True` if `sub_list` is a sublist of `main_list`.\n- The output is `False` if `sub_list` is not a sublist of `main_list`."
+        "tests": {
+            "test_cases": [
+                {
+                    "input": [
+                        [
+                            1,
+                            4,
+                            3,
+                            5
+                        ],
+                        [
+                            1,
+                            2
+                        ]
+                    ],
+                    "expected_output": false
+                },
+                {
+                    "input": [
+                        [
+                            1,
+                            2,
+                            1
+                        ],
+                        [
+                            1,
+                            2,
+                            1
+                        ]
+                    ],
+                    "expected_output": true
+                },
+                {
+                    "input": [
+                        [
+                            1,
+                            0,
+                            2,
+                            2
+                        ],
+                        [
+                            2,
+                            2,
+                            0
+                        ]
+                    ],
+                    "expected_output": false
+                }
+            ]
         },
-        "MBPP_task_id": 576,
-        "external_functions": [
-            "root.std.List.Length",
-            "root.std.Std.Count",
-            "root.std.Math.Expression",
-            "root.std.List.Slice",
-            "root.std.Logic.Equal",
-            "root.std.Std.If",
-            "root.std.Math.Add"
-        ],
-        "visual_node_types": [
-            "Function",
-            "Input Property",
-            "Output Property",
-            "Input Trigger",
-            "Output Trigger"
-        ],
-        "textual_instance_types": [
-            "instance",
-            "in",
-            "out"
-        ],
-        "testing": {
-            "external_functions": [
-                "root.std.Testing.Test",
-                "root.std.Testing.AssertEqual"
-            ],
-            "visual_node_types": [
-                "Event",
-                "Function",
-                "Data Object"
-            ],
-            "textual_instance_types": [
-                "instance",
-                "data_instance"
-            ],
-            "python_tests": [
-                "assert is_Sub_Array([1,4,3,5],[1,2]) == False",
-                "assert is_Sub_Array([1,2,1],[1,2,1]) == True",
-                "assert is_Sub_Array([1,0,2,2],[2,2,0]) == False"
-            ],
-            "tests": {
-                "test_cases": [
-                    {
-                        "input": [
-                            [
-                                1,
-                                4,
-                                3,
-                                5
-                            ],
-                            [
-                                1,
-                                2
-                            ]
-                        ],
-                        "expected_output": false
-                    },
-                    {
-                        "input": [
-                            [
-                                1,
-                                2,
-                                1
-                            ],
-                            [
-                                1,
-                                2,
-                                1
-                            ]
-                        ],
-                        "expected_output": true
-                    },
-                    {
-                        "input": [
-                            [
-                                1,
-                                0,
-                                2,
-                                2
-                            ],
-                            [
-                                2,
-                                2,
-                                0
-                            ]
-                        ],
-                        "expected_output": false
-                    }
-                ]
-            }
-        },
+        "function_signature": "func(doc: \"Checks whether a list is sublist of another or not.\") is_Sub_Array {\n\tin(x: -2030, y: 959, name: \"main_list\") property(List) main_list_25f077\n\tin(x: -2032, y: 1297, name: \"sub_list\") property(List) sub_list_f9cb80\n\tin(x: -1875, y: 677, name: \"execute\") trigger() execute_68160a\n\tout(x: -243, y: 1021, name: \"continue\") trigger() continue_d72620\n\tout(x: -239, y: 1163, name: \"output\") property(Bool) output_ebc87c\n}",
+        "preconditions": "- Both `main_list` and `sub_list` are not null.",
+        "postconditions": "- The output is `True` if `sub_list` is a sublist of `main_list`.\n- The output is `False` if `sub_list` is not a sublist of `main_list`.",
         "flow_description": "The flow should create a user-defined function, called 'is_Sub_Array'. The body of the function contains three input properties: an input trigger named 'execute', and two input properties of type 'List', named 'main_list' and 'sub_list'. It also includes the following nodes: two 'List Length' nodes to obtain the lengths of 'main_list' and 'sub_list', respectively; one 'Math Expression' node to calculate the number of iterations using the expression 'n - m + 1', where 'n' is the length of 'main_list' and 'm' is the length of 'sub_list'; one 'Std Count' node to iterate over the possible starting indices in 'main_list'; one 'List Slice' node to extract a sublist from 'main_list', starting at the current index and ending at 'current_index + m'; one 'Logic Equal' node to compare the sliced sublist with 'sub_list'; and one 'Std If' node to control the flow based on whether a match is found. Lastly, it includes an output property named 'output' of type 'Bool' and an output trigger named 'continue'.\n\nArrows are connected as follows: The input trigger 'execute' is connected to the 'Std Count' node's 'reset' input. The 'Std Count' node's 'iterations' property is set using the result from the 'Math Expression' node, which calculates 'n - m + 1' using the lengths obtained from the two 'List Length' nodes. Inside the loop, the 'Std Count' node's 'iteration' output is connected to the 'start' input of the 'List Slice' node, and also to a 'Math Add' node along with 'm' to calculate the 'end' index for slicing. The 'List Slice' node extracts a sublist from 'main_list' using the 'start' and 'end' indices. The sliced sublist is then connected to the 'left' input of the 'Logic Equal' node, while 'sub_list' is connected to the 'right' input. The result from the 'Logic Equal' node is connected to the predicate of the 'Std If' node.\n\nIf the predicate evaluates to 'true' (the sublists are equal), the flow proceeds to set the output property 'output' to 'True' and triggers the output trigger 'continue', effectively ending the function execution. If the predicate evaluates to 'false', the flow proceeds to the 'count' input of the 'Std Count' node to continue with the next iteration. If the 'Std Count' node completes all iterations without finding a match (indicated by the 'done' output), the function sets the output property 'output' to 'False' and triggers the output trigger 'continue'.\n\nThe user-defined function is then created within the main module."
     },
     {
-        "prompts": [
-            "Create a function which takes two lists of the same length and performs the element wise modulo.",
-            "The created user-defined functions should then be tested inside a seperate module called tests, within the main module.  Since the function does not contain input and ouput triggers, the flow of execution is sent between the assert nodes, using their input and output triggers."
+        "MBPP_task_id": "616",
+        "task_id": "25",
+        "task": "Create a function which takes two lists of the same length and performs the element wise modulo.",
+        "response": "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main { \n   func(doc: \"Takes two lists of the same length and performs the element wise modulo.\") list_modulo {\n        in(x: -173, y: -154, name: \"list1\") property(List) list1_1f846b\n        in(x: -181, y: -13, name: \"list2\") property(List) list2_c62075\n\n        out(x: 784, y: -110, name: \"newList\") property(List) list_0d40f1\n\n        instance(x: 133, y: -131) zip_201051 root.Std_k98ojb.Iteration.Zip {}\n        list1_1f846b -> zip_201051.left\n        list2_c62075 -> zip_201051.right\n        func() {\n            in(x: -231, y: -69, name: \"item1\") property(Number) list1_42bc6f\n            in(x: -223, y: 18, name: \"item2\") property(Number) list2_1d86d4\n\n            out(x: 245, y: -54, name: \"result\") property(Number) result_e245cb\n\n            instance(x: -8, y: -53) modulo_4e8c54 root.Std_k98ojb.Math.Modulo {}\n            list1_42bc6f -> modulo_4e8c54.value\n            list2_1d86d4 -> modulo_4e8c54.divisor\n            modulo_4e8c54.result -> result_e245cb\n        } -> zip_201051.handler\n        zip_201051.zipped -> list_0d40f1\n    }\n\n    \n\n    instance(x: 93, y: -122) list_modulo_cbc0b6 root.main.list_modulo {}\n\n\n}",
+        "external_functions": "Math.Modulo, Iteration.Zip",
+        "python_tests": [
+            "assert list_modulo((10, 4, 5, 6), (5, 6, 7, 5)) == (0, 4, 5, 1)",
+            "assert list_modulo((11, 5, 6, 7), (6, 7, 8, 6)) == (5, 5, 6, 1)",
+            "assert list_modulo((12, 6, 7, 8), (7, 8, 9, 7)) == (5, 6, 7, 1)"
         ],
-        "task_id": 25,
-        "specification": {
-            "function_signature": "func(doc: \"Takes two lists of the same length and performs the element wise modulo.\") list_modulo {\n\tin(x: -173, y: -154, name: \"list1\") property(List) list1_1f846b\n\tin(x: -181, y: -13, name: \"list2\") property(List) list2_c62075\n\tout(x: 784, y: -110, name: \"newList\") property(List) list_0d40f1\n}",
-            "preconditions": "- Both arrays should be non-null\n- Both arrays should have the same length\n- All elements in the second array (b) should be non-zero",
-            "postconditions": "- The length of the result array should be the same as the length of the input arrays\n- Each element in the result array should be the modulo of the corresponding elements in the input arrays"
+        "tests": {
+            "test_cases": []
         },
-        "MBPP_task_id": 616,
-        "external_functions": [
-            "root.std.Math.Modulo",
-            "root.std.Iteration.Zip"
-        ],
-        "visual_node_types": [
-            "Function",
-            "Input Property",
-            "Output Property"
-        ],
-        "textual_instance_types": [
-            "instance",
-            "in",
-            "out"
-        ],
-        "testing": {
-            "external_functions": [
-                "root.std.Testing.Test",
-                "root.std.Testing.AssertEqual"
-            ],
-            "visual_node_types": [
-                "Event",
-                "Function",
-                "Data Object"
-            ],
-            "textual_instance_types": [
-                "instance",
-                "data_instance"
-            ],
-            "python_tests": [
-                "assert list_modulo((10, 4, 5, 6), (5, 6, 7, 5)) == (0, 4, 5, 1)",
-                "assert list_modulo((11, 5, 6, 7), (6, 7, 8, 6)) == (5, 5, 6, 1)",
-                "assert list_modulo((12, 6, 7, 8), (7, 8, 9, 7)) == (5, 6, 7, 1)"
-            ],
-            "tests": {
-                "test_cases": []
-            }
-        },
+        "function_signature": "func(doc: \"Takes two lists of the same length and performs the element wise modulo.\") list_modulo {\n\tin(x: -173, y: -154, name: \"list1\") property(List) list1_1f846b\n\tin(x: -181, y: -13, name: \"list2\") property(List) list2_c62075\n\tout(x: 784, y: -110, name: \"newList\") property(List) list_0d40f1\n}",
+        "preconditions": "- Both arrays should be non-null\n- Both arrays should have the same length\n- All elements in the second array (b) should be non-zero",
+        "postconditions": "- The length of the result array should be the same as the length of the input arrays\n- Each element in the result array should be the modulo of the corresponding elements in the input arrays",
         "flow_description": "The flow should create a user-defined function called 'list_modulo'. The body of the function contains two input properties of type List, named 'list1' and 'list2', and one output property of type List, named 'newList'. The function should have the following nodes: a 'Iteration Zip' node to iterate over the two lists simultaneously and merge each element together with a provided handler anonymous function, that contains a 'Math Modulo' node to calculate the modulo of each pair of elements.\n Connect the nodes as follows: the input property 'list1' is connected to the 'Iteration Zip' node's 'left' input data. The input property 'list2' is connected to the 'Iteration Zip' node's 'right' input data. The zipped result of the 'Iteration Zip' node is connected to output data property 'newList'. The anonymous function inside 'iteration zip' have two input elements and one output elements, which takes the modulo of each element in the list. The user-defined function is then created within the main module."
     },
     {
-        "prompts": [
-            "Create a function to convert a given string to uppercase.",
-            "The created user-defined function should then be tested inside a separate module called 'tests', within the main module. Since the function does not contain input and ouput triggers, the flow of execution is sent between the assert nodes, using their input and output triggers."
+        "MBPP_task_id": "624",
+        "task_id": "26",
+        "task": "Create a function to convert a given string to uppercase.",
+        "response": "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main { \n\n    func(doc: \"convert a given string to uppercase.\") ToUpper {\n        in(x: -531, y: 2, name: \"input\") property(String) input_ai\n        out(x: 340, y: 77, name: \"output\") property(String) output_ai\n\n        instance(x: 772, y: 76) toupper_7b3b7b root.Std_k98ojb.Strings.ToUpper {}\n        input_ai -> toupper_7b3b7b.input\n        toupper_7b3b7b.output -> output_ai\n    }\n\n    \n\n    instance(x: -179, y: 30) toupper_59bc6e root.main.ToUpper {}\n\n}",
+        "external_functions": "Strings.ToUpper",
+        "python_tests": [
+            "assert ToUpper(\"person\") ==\"PERSON\"",
+            "assert ToUpper(\"final\") == \"FINAL\"",
+            "assert ToUpper(\"Valid\") == \"VALID\""
         ],
-        "task_id": 26,
-        "specification": {
-            "function_signature": "func(doc: \"convert a given string to uppercase.\") ToUpper {\n\tin(x: -531, y: 2, name: \"input\") property(String) input_ai\n\tout(x: 340, y: 77, name: \"output\") property(String) output_ai\n}",
-            "preconditions": "- There are no preconditions, the method will always work. Strings and sequences are always not null.",
-            "postconditions": "- The length of the returning string must be the same as the length of the input string\n- All lowercase characters of the input string are uppercase in the output string\n- All other characters are unchanged"
+        "tests": {
+            "test_cases": [
+                {
+                    "input": "person",
+                    "expected_output": "PERSON"
+                },
+                {
+                    "input": "final",
+                    "expected_output": "FINAL"
+                },
+                {
+                    "input": "Valid",
+                    "expected_output": "VALID"
+                }
+            ]
         },
-        "MBPP_task_id": 624,
-        "external_functions": [
-            "root.std.Strings.ToUpper"
-        ],
-        "visual_node_types": [
-            "Function"
-        ],
-        "textual_instance_types": [
-            "instance"
-        ],
-        "testing": {
-            "external_functions": [
-                "root.std.Testing.Test",
-                "root.std.Testing.AssertEqual"
-            ],
-            "visual_node_types": [
-                "Event",
-                "Function"
-            ],
-            "textual_instance_types": [
-                "instance"
-            ],
-            "python_tests": [
-                "assert ToUpper(\"person\") ==\"PERSON\"",
-                "assert ToUpper(\"final\") == \"FINAL\"",
-                "assert ToUpper(\"Valid\") == \"VALID\""
-            ],
-            "tests": {
-                "test_cases": [
-                    {
-                        "input": "person",
-                        "expected_output": "PERSON"
-                    },
-                    {
-                        "input": "final",
-                        "expected_output": "FINAL"
-                    },
-                    {
-                        "input": "Valid",
-                        "expected_output": "VALID"
-                    }
-                ]
-            }
-        },
+        "function_signature": "func(doc: \"convert a given string to uppercase.\") ToUpper {\n\tin(x: -531, y: 2, name: \"input\") property(String) input_ai\n\tout(x: 340, y: 77, name: \"output\") property(String) output_ai\n}",
+        "preconditions": "- There are no preconditions, the method will always work. Strings and sequences are always not null.",
+        "postconditions": "- The length of the returning string must be the same as the length of the input string\n- All lowercase characters of the input string are uppercase in the output string\n- All other characters are unchanged",
         "flow_description": "The flow should create the built-in function node from the std library, called 'Strings.ToUpper' node, should be used. The node should be created in a function with proper name."
     },
     {
-        "prompts": [
-            "Create a function to find the smallest missing number from a sorted list of natural numbers.",
-            "N/A"
+        "MBPP_task_id": "627",
+        "task_id": "27",
+        "task": "Create a function to find the smallest missing number from a sorted list of natural numbers.",
+        "response": "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main { \n    func(doc: \"Finds the smallest missing number from a sorted list of natural numbers.\") find_First_Missing {\n        in(x: -113, y: 62, name: \"list\") property(List) list_24e9a6\n        in(x: 483, y: -328, name: \"execute\") trigger() execute_fa8807\n\n        out(x: 1453, y: 319, name: \"output\") property(Number) output_25655e\n        out(x: 1491, y: -61, name: \"continue\") trigger() continue_aedf0f\n\n        instance(x: 49, y: -95) lastitem_02a3c2 root.Std_k98ojb.List.LastItem {}\n        instance(x: 268, y: -121) generaterange_578305 root.Std_k98ojb.List.GenerateRange {}\n        instance(x: 297, y: 38) difference_988da1 root.Std_k98ojb.Sets.Difference {}\n        instance(x: 697, y: 100) firstitem_5ed176 root.Std_k98ojb.List.FirstItem {}\n        instance(x: 776, y: -147) if_f43197 root.Std_k98ojb.Std.If {}\n        setter(x: 1081, y: -194, name: \"setter_8cdd78\") setter_8cdd78 = firstMissing\n        setter(x: 1081, y: 53, name: \"setter_9055a9\") setter_9055a9 = firstMissing\n        getter(x: 1086, y: 278, name: \"getter_4e1d42\") getter_4e1d42 = firstMissing\n        instance(x: 841, y: -275) add_9e1a23 root.Std_k98ojb.Math.Add {}\n        instance(x: 557, y: -118) isempty_a948ab root.Std_k98ojb.List.IsEmpty {}\n        list_24e9a6 -> lastitem_02a3c2.list\n        lastitem_02a3c2.item -> generaterange_578305.to\n        0 -> generaterange_578305.from\n        generaterange_578305.list -> difference_988da1.left\n        list_24e9a6 -> difference_988da1.right\n        difference_988da1.difference -> firstitem_5ed176.list\n        if_f43197.then -> setter_8cdd78.execute\n        if_f43197.else -> setter_9055a9.execute\n        execute_fa8807 -> if_f43197.execute\n        getter_4e1d42.value -> output_25655e\n        firstitem_5ed176.item -> setter_9055a9.new_value\n        setter_8cdd78.continue -> continue_aedf0f\n        setter_9055a9.continue -> continue_aedf0f\n        lastitem_02a3c2.item -> add_9e1a23.first\n        1 -> add_9e1a23.second\n        add_9e1a23.result -> setter_8cdd78.new_value\n        difference_988da1.difference -> isempty_a948ab.list\n        isempty_a948ab.isEmpty -> if_f43197.predicate\n    }\n\n    \n\n    instance(x: -234, y: 114) find_first_missing_870d80 root.main.find_First_Missing {}\n\n}",
+        "external_functions": "List.LastItem, List.GenerateRange, List.FirstItem, Sets.Difference, Std.If, Math.Add, List.IsEmpty",
+        "python_tests": [
+            "assert find_First_Missing([0,1,2,3]) == 4",
+            "assert find_First_Missing([0,1,2,6,9]) == 3",
+            "assert find_First_Missing([2,3,5,8,9]) == 0"
         ],
-        "task_id": 27,
-        "specification": {
-            "function_signature": "func(doc: \"Finds the smallest missing number from a sorted list of natural numbers.\") find_First_Missing {\n\tin(x: -113, y: 62, name: \"list\") property(List) list_24e9a6\n\tin(x: 483, y: -328, name: \"execute\") trigger() execute_fa8807\n\tout(x: 1453, y: 319, name: \"output\") property(Number) output_25655e\n\tout(x: 1491, y: -61, name: \"continue\") trigger() continue_aedf0f\n}",
-            "preconditions": "- The input sequence should be sorted in non-decreasing order\n- The input sequence should only contain natural numbers (including 0)",
-            "postconditions": "- The returned value should be the smallest natural number not present in the input sequence"
+        "tests": {
+            "test_cases": [
+                {
+                    "input": [
+                        0,
+                        1,
+                        2,
+                        3
+                    ],
+                    "expected_output": 4
+                },
+                {
+                    "input": [
+                        0,
+                        1,
+                        2,
+                        6,
+                        9
+                    ],
+                    "expected_output": 3
+                },
+                {
+                    "input": [
+                        2,
+                        3,
+                        5,
+                        8,
+                        9
+                    ],
+                    "expected_output": 0
+                }
+            ]
         },
-        "MBPP_task_id": 627,
-        "external_functions": [
-            "root.std.List.LastItem",
-            "root.std.List.GenerateRange",
-            "root.std.List.FirstItem",
-            "root.std.Sets.Difference",
-            "root.std.Std.If",
-            "root.std.Math.Add",
-            "root.std.List.IsEmpty"
-        ],
-        "visual_node_types": [
-            "Function",
-            "Getter",
-            "Setter",
-            "Input Property",
-            "Output Property",
-            "Input Trigger",
-            "Output Trigger"
-        ],
-        "textual_instance_types": [
-            "instance",
-            "getter",
-            "setter",
-            "in",
-            "out"
-        ],
-        "testing": {
-            "external_functions": [
-                "root.std.Testing.Test",
-                "root.std.Testing.AssertEqual"
-            ],
-            "visual_node_types": [
-                "Event",
-                "Function",
-                "Data Object"
-            ],
-            "textual_instance_types": [
-                "instance",
-                "data_instance"
-            ],
-            "python_tests": [
-                "assert find_First_Missing([0,1,2,3]) == 4",
-                "assert find_First_Missing([0,1,2,6,9]) == 3",
-                "assert find_First_Missing([2,3,5,8,9]) == 0"
-            ],
-            "tests": {
-                "test_cases": [
-                    {
-                        "input": [
-                            0,
-                            1,
-                            2,
-                            3
-                        ],
-                        "expected_output": 4
-                    },
-                    {
-                        "input": [
-                            0,
-                            1,
-                            2,
-                            6,
-                            9
-                        ],
-                        "expected_output": 3
-                    },
-                    {
-                        "input": [
-                            2,
-                            3,
-                            5,
-                            8,
-                            9
-                        ],
-                        "expected_output": 0
-                    }
-                ]
-            }
-        },
+        "function_signature": "func(doc: \"Finds the smallest missing number from a sorted list of natural numbers.\") find_First_Missing {\n\tin(x: -113, y: 62, name: \"list\") property(List) list_24e9a6\n\tin(x: 483, y: -328, name: \"execute\") trigger() execute_fa8807\n\tout(x: 1453, y: 319, name: \"output\") property(Number) output_25655e\n\tout(x: 1491, y: -61, name: \"continue\") trigger() continue_aedf0f\n}",
+        "preconditions": "- The input sequence should be sorted in non-decreasing order\n- The input sequence should only contain natural numbers (including 0)",
+        "postconditions": "- The returned value should be the smallest natural number not present in the input sequence",
         "flow_description": "N/A"
     },
     {
-        "prompts": [
-            "Create a function to reverse an array upto a given position.",
-            "N/A"
+        "MBPP_task_id": "644",
+        "task_id": "30",
+        "task": "Create a function to reverse an array upto a given position.",
+        "response": "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main { \n    func(doc: \"Reverse an list upto a given position.\") reverse_Array_Upto_K {\n        in(x: -227, y: 44, name: \"list\") property(List) list_f1bb24\n        in(x: -223, y: 164, name: \"k\") property(Number) k_cf24dd\n\n        out(x: 744, y: 146, name: \"output\") property(List) output_c4a1a8\n\n        instance(x: 52, y: 47, name: \"firstChunk\") slice_83e5f5 root.Std_k98ojb.List.Slice {}\n        instance(x: 69, y: 185, name: \"secondChunk\") slice_76ecda root.Std_k98ojb.List.Slice {}\n        instance(x: 279, y: 73) reversed_145712 root.Std_k98ojb.List.Reversed {}\n        instance(x: 516, y: 144) concat_0234d2 root.Std_k98ojb.List.Concat {}\n        list_f1bb24 -> slice_83e5f5.list\n        k_cf24dd -> slice_83e5f5.end\n        0 -> slice_83e5f5.start\n        k_cf24dd -> slice_76ecda.start\n        -1 -> slice_76ecda.end\n        list_f1bb24 -> slice_76ecda.list\n        slice_83e5f5.slice -> reversed_145712.list\n        reversed_145712.reversed -> concat_0234d2.left\n        slice_76ecda.slice -> concat_0234d2.right\n        concat_0234d2.result -> output_c4a1a8\n    }\n\n    \n\n    instance(x: -280, y: 136) reverse_array_upto_k_72ef29 root.main.reverse_Array_Upto_K {}\n}",
+        "external_functions": "List.Reversed, List.Concat, List.Slice",
+        "python_tests": [
+            "assert reverse_Array_Upto_K([1, 2, 3, 4, 5, 6],4) == [4, 3, 2, 1, 5, 6]",
+            "assert reverse_Array_Upto_K([4, 5, 6, 7], 2) == [5, 4, 6, 7]",
+            "assert reverse_Array_Upto_K([9, 8, 7, 6, 5],3) == [7, 8, 9, 6, 5]"
         ],
-        "task_id": 30,
-        "specification": {
-            "function_signature": "func(doc: \"Reverse an list upto a given position.\") reverse_Array_Upto_K {\n\tin(x: -227, y: 44, name: \"list\") property(List) list_f1bb24\n\tin(x: -223, y: 164, name: \"k\") property(Number) k_cf24dd\n\tout(x: 744, y: 146, name: \"output\") property(List) output_c4a1a8\n}",
-            "preconditions": "- k should be between 0 and the length of the array",
-            "postconditions": "- The input array is modified\n- The values of the array up to k are reversed\n- The values of the array after k remain unchanged"
-        },
-        "MBPP_task_id": 644,
-        "external_functions": [
-            "root.std.List.Reversed",
-            "root.std.List.Concat",
-            "root.std.List.Slice"
-        ],
-        "visual_node_types": [
-            "Function",
-            "Input Property",
-            "Output Property"
-        ],
-        "textual_instance_types": [
-            "instance",
-            "in",
-            "out"
-        ],
-        "testing": {
-            "external_functions": [
-                "root.std.Testing.Test",
-                "root.std.Testing.AssertEqual"
-            ],
-            "visual_node_types": [
-                "Event",
-                "Function",
-                "Data Object"
-            ],
-            "textual_instance_types": [
-                "instance",
-                "data_instance"
-            ],
-            "python_tests": [
-                "assert reverse_Array_Upto_K([1, 2, 3, 4, 5, 6],4) == [4, 3, 2, 1, 5, 6]",
-                "assert reverse_Array_Upto_K([4, 5, 6, 7], 2) == [5, 4, 6, 7]",
-                "assert reverse_Array_Upto_K([9, 8, 7, 6, 5],3) == [7, 8, 9, 6, 5]"
-            ],
-            "tests": {
-                "test_cases": [
-                    {
-                        "input": [
-                            [
-                                1,
-                                2,
-                                3,
-                                4,
-                                5,
-                                6
-                            ],
-                            4
-                        ],
-                        "expected_output": [
-                            4,
-                            3,
-                            2,
+        "tests": {
+            "test_cases": [
+                {
+                    "input": [
+                        [
                             1,
+                            2,
+                            3,
+                            4,
                             5,
                             6
-                        ]
-                    },
-                    {
-                        "input": [
-                            [
-                                4,
-                                5,
-                                6,
-                                7
-                            ],
-                            2
                         ],
-                        "expected_output": [
-                            5,
+                        4
+                    ],
+                    "expected_output": [
+                        4,
+                        3,
+                        2,
+                        1,
+                        5,
+                        6
+                    ]
+                },
+                {
+                    "input": [
+                        [
                             4,
+                            5,
                             6,
                             7
-                        ]
-                    },
-                    {
-                        "input": [
-                            [
-                                9,
-                                8,
-                                7,
-                                6,
-                                5
-                            ],
-                            3
                         ],
-                        "expected_output": [
-                            7,
-                            8,
+                        2
+                    ],
+                    "expected_output": [
+                        5,
+                        4,
+                        6,
+                        7
+                    ]
+                },
+                {
+                    "input": [
+                        [
                             9,
-                            6,
-                            5
-                        ]
-                    }
-                ]
-            }
-        },
-        "flow_description": "N/A"
-    },
-    {
-        "prompts": [
-            "Create a function to replace all occurrences of spaces, commas, or dots with a colon.",
-            "N/A"
-        ],
-        "task_id": 31,
-        "specification": {
-            "function_signature": "func(doc: \"Replace all occurrences of spaces, commas, or dots with a colon.\") replace_specialchar {\n\tin(x: -230, y: 0, name: \"input\") property(String) input_0\n\tout(x: 776, y: 0, name: \"output\") property(String) output_0\n}",
-            "preconditions": "- There are no preconditions, the method will always work. Strings and sequences are always not null.",
-            "postconditions": "- The length of the returning string must be the same as the length of the input string\n- All occurrences of spaces, commas, or dots in the input string are replaced with colons in the output string\n- All other characters are unchanged"
-        },
-        "MBPP_task_id": 732,
-        "external_functions": [
-            "root.std.Strings.Replace"
-        ],
-        "visual_node_types": [
-            "Function",
-            "Input Property",
-            "Output Property"
-        ],
-        "textual_instance_types": [
-            "instance",
-            "in",
-            "out"
-        ],
-        "testing": {
-            "external_functions": [
-                "root.std.Testing.Test",
-                "root.std.Testing.AssertEqual"
-            ],
-            "visual_node_types": [
-                "Event",
-                "Function",
-                "Data Object"
-            ],
-            "textual_instance_types": [
-                "instance",
-                "data_instance"
-            ],
-            "python_tests": [
-                "assert replace_specialchar('Python language, Programming language.')==('Python:language::Programming:language:')",
-                "assert replace_specialchar('a b c,d e f')==('a:b:c:d:e:f')",
-                "assert replace_specialchar('ram reshma,ram rahim')==('ram:reshma:ram:rahim')"
-            ],
-            "tests": {
-                "test_cases": []
-            }
-        },
-        "flow_description": "N/A"
-    },
-    {
-        "prompts": [
-            "Write a function to find the index of the first occurrence of a given number in a sorted array.",
-            "N/A"
-        ],
-        "task_id": 32,
-        "specification": {
-            "function_signature": "func(doc: \"Finds the index of the first occurrence of a given number in a sorted array.\") find_first_occurrence {\n\tin(x: 5, y: 218, name: \"list\") property(List) list_d128d8\n\tin(x: -252, y: -11, name: \"execute\") trigger() execute_467172\n\tin(x: 349, y: -105, name: \"target\") property(Number) target_fbe60e\n\tout(x: 1217, y: 29, name: \"continue\") trigger() continue_075eef\n\tout(x: 966, y: 219, name: \"output\") property(Number) output_3ae271\n}",
-            "preconditions": "- The input array is sorted in non-decreasing order",
-            "postconditions": "- If the target is found, the returned index should be the first occurrence of the target in the array\n- If the target is not found, the returned index should be -1\n- The input array remains unchanged"
-        },
-        "MBPP_task_id": 733,
-        "external_functions": [
-            "root.std.Std.For",
-            "root.std.Std.If",
-            "root.std.Logic.Equal"
-        ],
-        "visual_node_types": [
-            "Function",
-            "Input Property",
-            "Output Property",
-            "Getter",
-            "Setter"
-        ],
-        "textual_instance_types": [
-            "instance",
-            "in",
-            "out",
-            "getter",
-            "setter"
-        ],
-        "testing": {
-            "external_functions": [
-                "root.std.Testing.Test",
-                "root.std.Testing.AssertEqual"
-            ],
-            "visual_node_types": [
-                "Event",
-                "Function",
-                "Data Object"
-            ],
-            "textual_instance_types": [
-                "instance",
-                "data_instance"
-            ],
-            "python_tests": [
-                "assert find_first_occurrence([2, 5, 5, 5, 6, 6, 8, 9, 9, 9], 5) == 1",
-                "assert find_first_occurrence([2, 3, 5, 5, 6, 6, 8, 9, 9, 9], 5) == 2",
-                "assert find_first_occurrence([2, 4, 1, 5, 6, 6, 8, 9, 9, 9], 6) == 4"
-            ],
-            "tests": {
-                "test_cases": [
-                    {
-                        "input": [
-                            [
-                                2,
-                                5,
-                                5,
-                                5,
-                                6,
-                                6,
-                                8,
-                                9,
-                                9,
-                                9
-                            ],
-                            5
-                        ],
-                        "expected_output": 1
-                    },
-                    {
-                        "input": [
-                            [
-                                2,
-                                3,
-                                5,
-                                5,
-                                6,
-                                6,
-                                8,
-                                9,
-                                9,
-                                9
-                            ],
-                            5
-                        ],
-                        "expected_output": 2
-                    },
-                    {
-                        "input": [
-                            [
-                                2,
-                                4,
-                                1,
-                                5,
-                                6,
-                                6,
-                                8,
-                                9,
-                                9,
-                                9
-                            ],
-                            6
-                        ],
-                        "expected_output": 4
-                    }
-                ]
-            }
-        },
-        "flow_description": "N/A"
-    },
-    {
-        "prompts": [
-            "Create a function to check whether all the characters are same or not.",
-            "N/A"
-        ],
-        "task_id": 33,
-        "specification": {
-            "function_signature": "func(doc: \"Checks whether all the characters are same or not.\") all_Characters_Same {\n\tin(x: -862, y: 188, name: \"string\") property(String) string_db4ddf\n\tin(x: -878, y: 9, name: \"execute\") trigger() execute_f1c7e0\n\tout(x: 588, y: 123, name: \"continue\") trigger() continue_67430e\n\tout(x: 600, y: 270, name: \"output\") property(Bool) output_e9fa68\n}",
-            "preconditions": "- There are no preconditions, the method will always work. Strings and sequences are always not null.",
-            "postconditions": "- If the result is true, all characters in the input string are the same\n- If the result is false, there is at least one character in the input string that is different from the others"
-        },
-        "MBPP_task_id": 741,
-        "external_functions": [
-            "root.std.Strings.Characters",
-            "root.std.Strings.ToLower",
-            "root.std.List.FirstItem",
-            "root.std.Std.For",
-            "root.std.Logic.Equal",
-            "root.std.Std.If"
-        ],
-        "visual_node_types": [
-            "Function",
-            "Input Property",
-            "Output Property",
-            "Input Trigger",
-            "Output Trigger"
-        ],
-        "textual_instance_types": [
-            "instance",
-            "in",
-            "out"
-        ],
-        "testing": {
-            "external_functions": [
-                "root.std.Testing.Test",
-                "root.std.Testing.AssertTrue",
-                "root.std.Testing.AssertFalse"
-            ],
-            "visual_node_types": [
-                "Event",
-                "Function",
-                "Data Object"
-            ],
-            "textual_instance_types": [
-                "instance",
-                "data_instance"
-            ],
-            "python_tests": [
-                "assert all_Characters_Same(\"python\") == False",
-                "assert all_Characters_Same(\"aaa\") == True",
-                "assert all_Characters_Same(\"data\") == False"
-            ],
-            "tests": {
-                "test_cases": [
-                    {
-                        "input": "python",
-                        "expected_output": false
-                    },
-                    {
-                        "input": "aaa",
-                        "expected_output": true
-                    },
-                    {
-                        "input": "data",
-                        "expected_output": false
-                    }
-                ]
-            }
-        },
-        "flow_description": "N/A"
-    },
-    {
-        "prompts": [
-            "Create a function to count number of digits in a given string.",
-            "N/A"
-        ],
-        "task_id": 37,
-        "specification": {
-            "function_signature": "func(doc: \"Counts number of digits in a given string.\") number_ctr {\n\tin(x: -240, y: 69, name: \"string\") property(String) string_668bd2\n\tout(x: 929, y: 58, name: \"count\") property(Number) count_1f468d\n}",
-            "preconditions": "- There are no preconditions, the method will always work. Strings and sequences are always not null.",
-            "postconditions": "- The count should be non-negative\n- The count should be equal to the number of digits in the input string"
-        },
-        "MBPP_task_id": 764,
-        "external_functions": [
-            "root.std.Strings.Characters",
-            "root.std.Iteration.Filter",
-            "root.std.List.Length",
-            "root.std.Strings.IsNumeric"
-        ],
-        "visual_node_types": [
-            "Function",
-            "Input Property",
-            "Output Property"
-        ],
-        "textual_instance_types": [
-            "instance",
-            "in",
-            "out"
-        ],
-        "testing": {
-            "external_functions": [
-                "root.std.Testing.Test",
-                "root.std.Testing.AssertEqual"
-            ],
-            "visual_node_types": [
-                "Event",
-                "Function",
-                "Data Object"
-            ],
-            "textual_instance_types": [
-                "instance",
-                "data_instance"
-            ],
-            "python_tests": [
-                "assert number_ctr('program2bedone') == 1",
-                "assert number_ctr('3wonders') == 1",
-                "assert number_ctr('123') == 3",
-                "assert number_ctr('3wond-1ers2') == 3"
-            ],
-            "tests": {
-                "test_cases": [
-                    {
-                        "input": "program2bedone",
-                        "expected_output": 1
-                    },
-                    {
-                        "input": "3wonders",
-                        "expected_output": 1
-                    },
-                    {
-                        "input": "123",
-                        "expected_output": 3
-                    },
-                    {
-                        "input": "3wond-1ers2",
-                        "expected_output": 3
-                    }
-                ]
-            }
-        },
-        "flow_description": "N/A"
-    },
-    {
-        "prompts": [
-            "Create a function to find the sum of fourth power of first n odd natural numbers.",
-            "N/A"
-        ],
-        "task_id": 38,
-        "specification": {
-            "function_signature": "func(doc: \"Finds the sum of fourth power of first n odd natural numbers.\") odd_num_sum {\n\tin(x: -243, y: 86, name: \"n\") property(Number) n_0c0609\n\tout(x: 1090, y: 53, name: \"sum\") property(Number) sum_2ad0d5\n}",
-            "preconditions": "- n should be a non-negative integer",
-            "postconditions": "- The sum should be the sum of the fourth power of the first n odd natural numbers"
-        },
-        "MBPP_task_id": 770,
-        "external_functions": [
-            "root.std.List.GenerateRange",
-            "root.std.Iteration.Reduce",
-            "root.std.Math.Mul",
-            "root.std.Math.Sub",
-            "root.std.Math.Expression",
-            "root.std.Math.Add"
-        ],
-        "visual_node_types": [
-            "Function",
-            "Input Property",
-            "Output Property"
-        ],
-        "textual_instance_types": [
-            "instance",
-            "in",
-            "out"
-        ],
-        "testing": {
-            "external_functions": [
-                "root.std.Testing.Test",
-                "root.std.Testing.AssertEqual"
-            ],
-            "visual_node_types": [
-                "Event",
-                "Function"
-            ],
-            "textual_instance_types": [
-                "instance"
-            ],
-            "python_tests": [
-                "assert odd_num_sum(2) == 82",
-                "assert odd_num_sum(3) == 707",
-                "assert odd_num_sum(4) == 3108"
-            ],
-            "tests": {
-                "test_cases": [
-                    {
-                        "input": 2,
-                        "expected_output": 82
-                    },
-                    {
-                        "input": 3,
-                        "expected_output": 707
-                    },
-                    {
-                        "input": 4,
-                        "expected_output": 3108
-                    }
-                ]
-            }
-        },
-        "flow_description": "N/A"
-    },
-    {
-        "prompts": [
-            "Create a function to check whether every odd index contains odd numbers of a given list.",
-            "N/A"
-        ],
-        "task_id": 39,
-        "specification": {
-            "function_signature": "func(doc: \"Checks whether every odd index contains odd numbers of a given list.\") odd_position {\n\tin(x: -527, y: -214, name: \"list\") property(List) list_07cae4\n\tout(x: 1269, y: -209, name: \"output\") property(Bool) output_8d07dc\n}",
-            "preconditions": "- There are no preconditions, the method will always work.",
-            "postconditions": "- The result is true if every odd index contains an odd number\n- The result is false otherwise"
-        },
-        "MBPP_task_id": 775,
-        "external_functions": [
-            "root.std.Iteration.Filter",
-            "root.std.Iteration.Map",
-            "root.std.List.Contains",
-            "root.std.Logic.Not",
-            "root.std.Math.Modulo",
-            "root.std.Logic.NotEqual"
-        ],
-        "visual_node_types": [
-            "Function",
-            "Input Property",
-            "Output Property"
-        ],
-        "textual_instance_types": [
-            "instance",
-            "in",
-            "out"
-        ],
-        "testing": {
-            "external_functions": [
-                "root.std.Testing.Test",
-                "root.std.Testing.AssertTrue",
-                "root.std.Testing.AssertFalse"
-            ],
-            "visual_node_types": [
-                "Event",
-                "Function",
-                "Data Object"
-            ],
-            "textual_instance_types": [
-                "instance",
-                "data_instance"
-            ],
-            "python_tests": [
-                "assert odd_position([2,1,4,3,6,7,6,3]) == True",
-                "assert odd_position([4,1,2]) == True",
-                "assert odd_position([1,2,3]) == False"
-            ],
-            "tests": {
-                "test_cases": [
-                    {
-                        "input": [
-                            2,
-                            1,
-                            4,
-                            3,
-                            6,
+                            8,
                             7,
                             6,
-                            3
-                        ],
-                        "expected_output": true
-                    },
-                    {
-                        "input": [
-                            4,
-                            1,
-                            2
-                        ],
-                        "expected_output": true
-                    },
-                    {
-                        "input": [
-                            1,
-                            2,
-                            3
-                        ],
-                        "expected_output": false
-                    }
-                ]
-            }
-        },
-        "flow_description": "N/A"
-    },
-    {
-        "prompts": [
-            "Create a function to find the first odd number in a given list of numbers.",
-            "N/A"
-        ],
-        "task_id": 43,
-        "specification": {
-            "function_signature": "func(doc: \"Finds the first odd number in a given list of numbers.\") first_odd {\n\tin(x: -284, y: -0, name: \"list\") property(List) list_abed4a\n\tout(x: 593, y: -1, name: \"number\") property(Number) number_3bc2ae\n}",
-            "preconditions": "- The input array should not be null",
-            "postconditions": "- If found is true, then the value at index is odd\n- If found is false, then there are no odd numbers in the array\n- If there are multiple odd numbers, the index should be the smallest index with an odd number"
-        },
-        "MBPP_task_id": 807,
-        "external_functions": [
-            "root.std.Iteration.Find",
-            "root.std.Math.Modulo",
-            "root.std.Logic.NotEqual"
-        ],
-        "visual_node_types": [
-            "Function",
-            "Input Property",
-            "Output Property"
-        ],
-        "textual_instance_types": [
-            "instance",
-            "in",
-            "out"
-        ],
-        "testing": {
-            "external_functions": [
-                "root.std.Testing.Test",
-                "root.std.Testing.AssertEqual"
-            ],
-            "visual_node_types": [
-                "Event",
-                "Function",
-                "Data Object"
-            ],
-            "textual_instance_types": [
-                "instance",
-                "data_instance"
-            ],
-            "python_tests": [
-                "assert first_odd([1,3,5]) == 1",
-                "assert first_odd([2,4,1,3]) == 1",
-                "assert first_odd ([8,9,1]) == 9"
-            ],
-            "tests": {
-                "test_cases": [
-                    {
-                        "input": [
-                            1,
-                            3,
                             5
                         ],
-                        "expected_output": 1
-                    },
-                    {
-                        "input": [
+                        3
+                    ],
+                    "expected_output": [
+                        7,
+                        8,
+                        9,
+                        6,
+                        5
+                    ]
+                }
+            ]
+        },
+        "function_signature": "func(doc: \"Reverse an list upto a given position.\") reverse_Array_Upto_K {\n\tin(x: -227, y: 44, name: \"list\") property(List) list_f1bb24\n\tin(x: -223, y: 164, name: \"k\") property(Number) k_cf24dd\n\tout(x: 744, y: 146, name: \"output\") property(List) output_c4a1a8\n}",
+        "preconditions": "- k should be between 0 and the length of the array",
+        "postconditions": "- The input array is modified\n- The values of the array up to k are reversed\n- The values of the array after k remain unchanged",
+        "flow_description": "N/A"
+    },
+    {
+        "MBPP_task_id": "732",
+        "task_id": "31",
+        "task": "Create a function to replace all occurrences of spaces, commas, or dots with a colon.",
+        "response": "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main { \n    func(doc: \"Replace all occurrences of spaces, commas, or dots with a colon.\") replace_specialchar {\n        in(x: -230, y: 0, name: \"input\") property(String) input_0\n\n        out(x: 776, y: 0, name: \"output\") property(String) output_0\n\n        instance(x: 546, y: 0) replace_306f69 root.Std_k98ojb.Strings.Replace {}\n        instance(x: 0, y: 1) replace_ed0af2 root.Std_k98ojb.Strings.Replace {}\n        instance(x: 305, y: 0) replace_371e46 root.Std_k98ojb.Strings.Replace {}\n        replace_ed0af2.output -> replace_371e46.input\n        replace_371e46.output -> replace_306f69.input\n        \" \" -> replace_ed0af2.search\n        \",\" -> replace_371e46.search\n        \":\" -> replace_ed0af2.replace\n        \":\" -> replace_371e46.replace\n        \" \" -> replace_ed0af2.search\n        \".\" -> replace_306f69.search\n        \":\" -> replace_306f69.replace\n        input_0 -> replace_ed0af2.input\n        replace_306f69.output -> output_0\n    }\n\n    \n\n    instance(x: 175, y: -25) replace_specialchar_695b5e root.main.replace_specialchar {}\n}",
+        "external_functions": "Strings.Replace",
+        "python_tests": [
+            "assert replace_specialchar('Python language, Programming language.')==('Python:language::Programming:language:')",
+            "assert replace_specialchar('a b c,d e f')==('a:b:c:d:e:f')",
+            "assert replace_specialchar('ram reshma,ram rahim')==('ram:reshma:ram:rahim')"
+        ],
+        "tests": {
+            "test_cases": []
+        },
+        "function_signature": "func(doc: \"Replace all occurrences of spaces, commas, or dots with a colon.\") replace_specialchar {\n\tin(x: -230, y: 0, name: \"input\") property(String) input_0\n\tout(x: 776, y: 0, name: \"output\") property(String) output_0\n}",
+        "preconditions": "- There are no preconditions, the method will always work. Strings and sequences are always not null.",
+        "postconditions": "- The length of the returning string must be the same as the length of the input string\n- All occurrences of spaces, commas, or dots in the input string are replaced with colons in the output string\n- All other characters are unchanged",
+        "flow_description": "N/A"
+    },
+    {
+        "MBPP_task_id": "733",
+        "task_id": "32",
+        "task": "Write a function to find the index of the first occurrence of a given number in a sorted array.",
+        "response": "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main { \n    func(doc: \"Finds the index of the first occurrence of a given number in a sorted array.\") find_first_occurrence {\n        in(x: 5, y: 218, name: \"list\") property(List) list_d128d8\n        in(x: -252, y: -11, name: \"execute\") trigger() execute_467172\n        in(x: 349, y: -105, name: \"target\") property(Number) target_fbe60e\n\n        out(x: 1217, y: 29, name: \"continue\") trigger() continue_075eef\n        out(x: 966, y: 219, name: \"output\") property(Number) output_3ae271\n\n        setter(x: 0, y: 0, name: \"setter_6e7b4e\") setter_6e7b4e = index\n        instance(x: 340, y: 60) for_065883 root.Std_k98ojb.Std.For {}\n        getter(x: 704, y: 170, name: \"getter_84fbbe\") getter_84fbbe = index\n        setter(x: 955, y: -158, name: \"setter_7e2b42\") setter_7e2b42 = index\n        instance(x: 551, y: -105) equal_aabb6e root.Std_k98ojb.Logic.Equal {}\n        instance(x: 758, y: -75) if_7c284f root.Std_k98ojb.Std.If {}\n        setter_6e7b4e.continue -> for_065883.reset\n        list_d128d8 -> for_065883.items\n        execute_467172 -> setter_6e7b4e.execute\n        -1 -> setter_6e7b4e.new_value\n        for_065883.done -> continue_075eef\n        getter_84fbbe.value -> output_3ae271\n        target_fbe60e -> equal_aabb6e.left\n        for_065883.item -> equal_aabb6e.right\n        for_065883.onItem -> if_7c284f.execute\n        equal_aabb6e.result -> if_7c284f.predicate\n        if_7c284f.else -> for_065883.next\n        if_7c284f.then -> setter_7e2b42.execute\n        setter_7e2b42.continue -> continue_075eef\n        for_065883.index -> setter_7e2b42.new_value\n    }\n\n    \n\n    instance(x: 777, y: 760) find_first_occurrence_6e6bfd root.main.find_first_occurrence {}\n\n}",
+        "external_functions": "Std.For, Std.If, Logic.Equal",
+        "python_tests": [
+            "assert find_first_occurrence([2, 5, 5, 5, 6, 6, 8, 9, 9, 9], 5) == 1",
+            "assert find_first_occurrence([2, 3, 5, 5, 6, 6, 8, 9, 9, 9], 5) == 2",
+            "assert find_first_occurrence([2, 4, 1, 5, 6, 6, 8, 9, 9, 9], 6) == 4"
+        ],
+        "tests": {
+            "test_cases": [
+                {
+                    "input": [
+                        [
                             2,
-                            4,
-                            1,
-                            3
-                        ],
-                        "expected_output": 1
-                    }
-                ]
-            }
-        },
-        "flow_description": "N/A"
-    },
-    {
-        "prompts": [
-            "Create a function that takes in an integer n and returns the sum of the squares of the first n odd natural numbers.",
-            "N/A"
-        ],
-        "task_id": 44,
-        "specification": {
-            "function_signature": "func(doc: \"Takes in an integer n and returns the sum of the squares of the first n odd natural numbers.\") square_sum {\n\tin(x: -219, y: 55, name: \"n\") property(Number) n_3a3116\n\tout(x: 571, y: 7, name: \"sum\") property(Number) sum_365f7b\n}",
-            "preconditions": "- n should be non-negative",
-            "postconditions": "- The sum of the squares of the first n odd natural numbers is returned"
-        },
-        "MBPP_task_id": 267,
-        "external_functions": [
-            "root.std.Math.Mul",
-            "root.std.Math.Expression",
-            "root.std.Math.Div"
-        ],
-        "visual_node_types": [
-            "Function",
-            "Input Property",
-            "Output Property",
-            "Data Object"
-        ],
-        "textual_instance_types": [
-            "instance",
-            "in",
-            "out",
-            "data_instance"
-        ],
-        "testing": {
-            "external_functions": [
-                "root.std.Testing.Test",
-                "root.std.Testing.AssertEqual"
-            ],
-            "visual_node_types": [
-                "Event",
-                "Function"
-            ],
-            "textual_instance_types": [
-                "instance"
-            ],
-            "python_tests": [
-                "assert square_sum(2) == 10",
-                "assert square_sum(3) == 35",
-                "assert square_sum(4) == 84"
-            ],
-            "tests": {
-                "test_cases": [
-                    {
-                        "input": 2,
-                        "expected_output": 10
-                    },
-                    {
-                        "input": 3,
-                        "expected_output": 35
-                    },
-                    {
-                        "input": 4,
-                        "expected_output": 84
-                    }
-                ]
-            }
-        },
-        "flow_description": "N/A"
-    },
-    {
-        "prompts": [
-            "Create a function to find the surface area of a cube of a given size.",
-            "N/A"
-        ],
-        "task_id": 46,
-        "specification": {
-            "function_signature": "func(doc: \"find the surface area of a cube of a given size.\") CubeSurfaceArea {\n\tin(x: -56, y: -44, name: \"size\") property(Number) size_49c776\n\tout(x: 582, y: -80, name: \"Area\") property(Number) Area_a3e36f\n}",
-            "preconditions": "- The size of the cube should be greater than 0",
-            "postconditions": "- The surface area of the cube is calculated correctly"
-        },
-        "MBPP_task_id": 441,
-        "external_functions": [
-            "root.std.Math.Mul"
-        ],
-        "visual_node_types": [
-            "Function",
-            "Input Property",
-            "Output Property"
-        ],
-        "textual_instance_types": [
-            "instance",
-            "in",
-            "out"
-        ],
-        "testing": {
-            "external_functions": [
-                "root.std.Testing.Test",
-                "root.std.Testing.AssertEqual"
-            ],
-            "visual_node_types": [
-                "Event",
-                "Function"
-            ],
-            "textual_instance_types": [
-                "instance"
-            ],
-            "python_tests": [
-                "assert CubeSurfaceArea(5)==150",
-                "assert CubeSurfaceArea(3)==54",
-                "assert CubeSurfaceArea(10)==600"
-            ],
-            "tests": {
-                "test_cases": [
-                    {
-                        "input": 5,
-                        "expected_output": 150
-                    },
-                    {
-                        "input": 3,
-                        "expected_output": 54
-                    },
-                    {
-                        "input": 10,
-                        "expected_output": 600
-                    }
-                ]
-            }
-        },
-        "flow_description": "N/A"
-    },
-    {
-        "prompts": [
-            "Create a function to find cubes of individual elements in a list.",
-            "N/A"
-        ],
-        "task_id": 47,
-        "specification": {
-            "function_signature": "func(doc: \"find cubes of individual elements in a list.\") cube_nums {\n\tin(x: -122, y: -81, name: \"list\") property(List) list_63c248\n\tout(x: 656, y: -68, name: \"result\") property(List) result_cbb7bd\n}",
-            "preconditions": "- There are no preconditions, the method will always work. Arrays can be empty or non-empty.",
-            "postconditions": "- The length of the output array must be the same as the length of the input array\n- Each element in the output array is the cube of the corresponding element in the input array"
-        },
-        "MBPP_task_id": 447,
-        "external_functions": [
-            "root.std.Math.Pow",
-            "root.std.Iteration.Map"
-        ],
-        "visual_node_types": [
-            "Function",
-            "Input Property",
-            "Output Property"
-        ],
-        "textual_instance_types": [
-            "instance",
-            "in",
-            "out"
-        ],
-        "testing": {
-            "external_functions": [
-                "root.std.Testing.Test",
-                "root.std.Testing.AssertEqual"
-            ],
-            "visual_node_types": [
-                "Event",
-                "Function",
-                "Data Object"
-            ],
-            "textual_instance_types": [
-                "instance",
-                "data_instance"
-            ],
-            "python_tests": [
-                "assert cube_nums([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])==[1, 8, 27, 64, 125, 216, 343, 512, 729, 1000]",
-                "assert cube_nums([10,20,30])==([1000, 8000, 27000])",
-                "assert cube_nums([12,15])==([1728, 3375])"
-            ],
-            "tests": {
-                "test_cases": [
-                    {
-                        "input": [
-                            1,
-                            2,
-                            3,
-                            4,
+                            5,
+                            5,
                             5,
                             6,
-                            7,
+                            6,
                             8,
                             9,
-                            10
+                            9,
+                            9
                         ],
-                        "expected_output": [
-                            1,
+                        5
+                    ],
+                    "expected_output": 1
+                },
+                {
+                    "input": [
+                        [
+                            2,
+                            3,
+                            5,
+                            5,
+                            6,
+                            6,
                             8,
-                            27,
-                            64,
-                            125,
-                            216,
-                            343,
-                            512,
-                            729,
-                            1000
-                        ]
-                    }
-                ]
-            }
+                            9,
+                            9,
+                            9
+                        ],
+                        5
+                    ],
+                    "expected_output": 2
+                },
+                {
+                    "input": [
+                        [
+                            2,
+                            4,
+                            1,
+                            5,
+                            6,
+                            6,
+                            8,
+                            9,
+                            9,
+                            9
+                        ],
+                        6
+                    ],
+                    "expected_output": 4
+                }
+            ]
         },
+        "function_signature": "func(doc: \"Finds the index of the first occurrence of a given number in a sorted array.\") find_first_occurrence {\n\tin(x: 5, y: 218, name: \"list\") property(List) list_d128d8\n\tin(x: -252, y: -11, name: \"execute\") trigger() execute_467172\n\tin(x: 349, y: -105, name: \"target\") property(Number) target_fbe60e\n\tout(x: 1217, y: 29, name: \"continue\") trigger() continue_075eef\n\tout(x: 966, y: 219, name: \"output\") property(Number) output_3ae271\n}",
+        "preconditions": "- The input array is sorted in non-decreasing order",
+        "postconditions": "- If the target is found, the returned index should be the first occurrence of the target in the array\n- If the target is not found, the returned index should be -1\n- The input array remains unchanged",
         "flow_description": "N/A"
     },
     {
-        "prompts": [
-            "Create a function to find the difference between largest and smallest value in a given list.",
-            "The created user-defined function 'big_diff' should then be tested inside a separate module called 'tests', within the main module. Since the function does not contain input and ouput triggers, the flow of execution is sent between the assert nodes, using their input and output triggers."
+        "MBPP_task_id": "741",
+        "task_id": "33",
+        "task": "Create a function to check whether all the characters are same or not.",
+        "response": "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main { \n    func(doc: \"Checks whether all the characters are same or not.\") all_Characters_Same {\n        in(x: -862, y: 188, name: \"string\") property(String) string_db4ddf\n        in(x: -878, y: 9, name: \"execute\") trigger() execute_f1c7e0\n\n        out(x: 588, y: 123, name: \"continue\") trigger() continue_67430e\n        out(x: 600, y: 270, name: \"output\") property(Bool) output_e9fa68\n\n        instance(x: -483, y: 192) characters_97fc24 root.Std_k98ojb.Strings.Characters {}\n        instance(x: -704, y: 191) tolower_0caf71 root.Std_k98ojb.Strings.ToLower {}\n        instance(x: -178, y: 331) firstitem_532c77 root.Std_k98ojb.List.FirstItem {}\n        instance(x: -181, y: 102) for_942609 root.Std_k98ojb.Std.For {}\n        instance(x: 50, y: 183) equal_e1ecef root.Std_k98ojb.Logic.Equal {}\n        instance(x: 258, y: 107) if_75369f root.Std_k98ojb.Std.If {}\n        tolower_0caf71.output -> characters_97fc24.input\n        string_db4ddf -> tolower_0caf71.input\n        characters_97fc24.characters -> firstitem_532c77.list\n        characters_97fc24.characters -> for_942609.items\n        for_942609.item -> equal_e1ecef.left\n        firstitem_532c77.item -> equal_e1ecef.right\n        equal_e1ecef.result -> if_75369f.predicate\n        for_942609.onItem -> if_75369f.execute\n        if_75369f.then -> for_942609.next\n        if_75369f.else -> continue_67430e\n        for_942609.done -> continue_67430e\n        if_75369f.value -> output_e9fa68\n        execute_f1c7e0 -> for_942609.reset\n    }\n\n    \n\n    instance(x: -192, y: 139) all_characters_same_935476 root.main.all_Characters_Same {}\n}",
+        "external_functions": "Strings.Characters, Strings.ToLower, List.FirstItem, Std.For, Logic.Equal, Std.If",
+        "python_tests": [
+            "assert all_Characters_Same(\"python\") == False",
+            "assert all_Characters_Same(\"aaa\") == True",
+            "assert all_Characters_Same(\"data\") == False"
         ],
-        "task_id": 19,
-        "specification": {
-            "function_signature": "func(doc: \"finds the difference between largest and smallest value in a given list.\") big_diff {\n\tin(x: -266, y: 82, name: \"list\") property(List) list_9abc1d\n\tout(x: 533, y: 70, name: \"difference\") property(Number) difference_27806e\n}",
-            "preconditions": "- The input array should not be empty",
-            "postconditions": "- The difference between the largest and smallest value in the input array is returned"
+        "tests": {
+            "test_cases": [
+                {
+                    "input": "python",
+                    "expected_output": false
+                },
+                {
+                    "input": "aaa",
+                    "expected_output": true
+                },
+                {
+                    "input": "data",
+                    "expected_output": false
+                }
+            ]
         },
-        "MBPP_task_id": 588,
-        "external_functions": [
-            "root.std.List.Max",
-            "root.std.List.Min",
-            "root.std.Math.Sub"
+        "function_signature": "func(doc: \"Checks whether all the characters are same or not.\") all_Characters_Same {\n\tin(x: -862, y: 188, name: \"string\") property(String) string_db4ddf\n\tin(x: -878, y: 9, name: \"execute\") trigger() execute_f1c7e0\n\tout(x: 588, y: 123, name: \"continue\") trigger() continue_67430e\n\tout(x: 600, y: 270, name: \"output\") property(Bool) output_e9fa68\n}",
+        "preconditions": "- There are no preconditions, the method will always work. Strings and sequences are always not null.",
+        "postconditions": "- If the result is true, all characters in the input string are the same\n- If the result is false, there is at least one character in the input string that is different from the others",
+        "flow_description": "N/A"
+    },
+    {
+        "MBPP_task_id": "764",
+        "task_id": "37",
+        "task": "Create a function to count number of digits in a given string.",
+        "response": "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main { \n    func(doc: \"Counts number of digits in a given string.\") number_ctr {\n        in(x: -240, y: 69, name: \"string\") property(String) string_668bd2\n\n        out(x: 929, y: 58, name: \"count\") property(Number) count_1f468d\n\n        instance(x: -61, y: 62) characters_7942d4 root.Std_k98ojb.Strings.Characters {}\n        instance(x: 177, y: 66) filter_c1bb22 root.Std_k98ojb.Iteration.Filter {}\n        instance(x: 723, y: 62) length_8815e6 root.Std_k98ojb.List.Length {}\n        string_668bd2 -> characters_7942d4.input\n        length_8815e6.length -> count_1f468d\n        func() {\n            in(x: -272, y: -48, name: \"current\") property(Number) current_86a8fb\n\n            out(x: 405, y: -52, name: \"output\") property(Bool) output_8ba733\n\n            instance(x: 24, y: -54, stableId: \"dnbuj51ajiozratdcge1fc3s\") isnumeric_9cb360 root.Std_k98ojb.Strings.IsNumeric {}\n            current_86a8fb -> isnumeric_9cb360.input\n            isnumeric_9cb360.isNumeric -> output_8ba733\n        } -> filter_c1bb22.handler\n        filter_c1bb22.output_list -> length_8815e6.list\n        characters_7942d4.characters -> filter_c1bb22.items\n    }\n\n    \n\n    instance(x: 14, y: -52) number_ctr_407e1b root.main.number_ctr {}\n\n}",
+        "external_functions": "Strings.Characters, Iteration.Filter, List.Length, Strings.IsNumeric",
+        "python_tests": [
+            "assert number_ctr('program2bedone') == 1",
+            "assert number_ctr('3wonders') == 1",
+            "assert number_ctr('123') == 3",
+            "assert number_ctr('3wond-1ers2') == 3"
         ],
-        "visual_node_types": [
-            "Function",
-            "Input Property",
-            "Output Property"
-        ],
-        "textual_instance_types": [
-            "instance",
-            "in",
-            "out"
-        ],
-        "testing": {
-            "external_functions": [
-                "root.std.Testing.Test",
-                "root.std.Testing.AssertEqual"
-            ],
-            "visual_node_types": [
-                "Function",
-                "Data Object",
-                "Event"
-            ],
-            "textual_instance_types": [
-                "instance",
-                "data_instance"
-            ],
-            "python_tests": [
-                "assert big_diff([1,2,3,4]) == 3",
-                "assert big_diff([4,5,12]) == 8",
-                "assert big_diff([9,2,3]) == 7"
-            ],
-            "tests": {
-                "test_cases": [
-                    {
-                        "input": [
-                            1,
-                            2,
-                            3,
-                            4
-                        ],
-                        "expected_output": 3
-                    },
-                    {
-                        "input": [
-                            4,
-                            5,
-                            12
-                        ],
-                        "expected_output": 8
-                    },
-                    {
-                        "input": [
-                            9,
-                            2,
-                            3
-                        ],
-                        "expected_output": 7
-                    }
-                ]
-            }
+        "tests": {
+            "test_cases": [
+                {
+                    "input": "program2bedone",
+                    "expected_output": 1
+                },
+                {
+                    "input": "3wonders",
+                    "expected_output": 1
+                },
+                {
+                    "input": "123",
+                    "expected_output": 3
+                },
+                {
+                    "input": "3wond-1ers2",
+                    "expected_output": 3
+                }
+            ]
         },
+        "function_signature": "func(doc: \"Counts number of digits in a given string.\") number_ctr {\n\tin(x: -240, y: 69, name: \"string\") property(String) string_668bd2\n\tout(x: 929, y: 58, name: \"count\") property(Number) count_1f468d\n}",
+        "preconditions": "- There are no preconditions, the method will always work. Strings and sequences are always not null.",
+        "postconditions": "- The count should be non-negative\n- The count should be equal to the number of digits in the input string",
+        "flow_description": "N/A"
+    },
+    {
+        "MBPP_task_id": "770",
+        "task_id": "38",
+        "task": "Create a function to find the sum of fourth power of first n odd natural numbers.",
+        "response": "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main { \n    func(doc: \"Finds the sum of fourth power of first n odd natural numbers.\") odd_num_sum {\n        in(x: -243, y: 86, name: \"n\") property(Number) n_0c0609\n\n        out(x: 1090, y: 53, name: \"sum\") property(Number) sum_2ad0d5\n\n        instance(x: 88, y: 54) generaterange_6e8af5 root.Std_k98ojb.List.GenerateRange {}\n        instance(x: 472, y: 56) reduce_3a8e90 root.Std_k98ojb.Iteration.Reduce {}\n        1 -> generaterange_6e8af5.from\n        n_0c0609 -> generaterange_6e8af5.to\n        generaterange_6e8af5.list -> reduce_3a8e90.items\n        0 -> reduce_3a8e90.initialValue\n        func() {\n            in(x: -185, y: -84, name: \"accumulated\") property(Number) current_c750f1\n            in(x: -177, y: 22, name: \"current\") property(Number) current_3f11cd\n\n            out(x: 1072, y: -77, name: \"sum\") property(Number) sum_72dd2a\n\n            instance(x: 74, y: 2) mul_0f3be6 root.Std_k98ojb.Math.Mul {}\n            instance(x: 298, y: 1) sub_e38c7d root.Std_k98ojb.Math.Sub {}\n            instance(x: 568, y: 1) expression_8eee0e root.Std_k98ojb.Math.Expression {\n                expression: \"j*j*j*j\"\n            }\n            instance(x: 818, y: -74) add_8974a2 root.Std_k98ojb.Math.Add {}\n            2 -> mul_0f3be6.first\n            current_3f11cd -> mul_0f3be6.second\n            mul_0f3be6.result -> sub_e38c7d.first\n            1 -> sub_e38c7d.second\n            sub_e38c7d.result -> expression_8eee0e.gen_0\n            current_c750f1 -> add_8974a2.first\n            expression_8eee0e.result -> add_8974a2.second\n            add_8974a2.result -> sum_72dd2a\n        } -> reduce_3a8e90.reducer\n        reduce_3a8e90.output -> sum_2ad0d5\n    }\n\n    \n\n    instance(x: -272, y: 115) odd_num_sum_6c92e0 root.main.odd_num_sum {}\n}",
+        "external_functions": "List.GenerateRange, Iteration.Reduce, Math.Mul, Math.Sub, Math.Expression, Math.Add",
+        "python_tests": [
+            "assert odd_num_sum(2) == 82",
+            "assert odd_num_sum(3) == 707",
+            "assert odd_num_sum(4) == 3108"
+        ],
+        "tests": {
+            "test_cases": [
+                {
+                    "input": 2,
+                    "expected_output": 82
+                },
+                {
+                    "input": 3,
+                    "expected_output": 707
+                },
+                {
+                    "input": 4,
+                    "expected_output": 3108
+                }
+            ]
+        },
+        "function_signature": "func(doc: \"Finds the sum of fourth power of first n odd natural numbers.\") odd_num_sum {\n\tin(x: -243, y: 86, name: \"n\") property(Number) n_0c0609\n\tout(x: 1090, y: 53, name: \"sum\") property(Number) sum_2ad0d5\n}",
+        "preconditions": "- n should be a non-negative integer",
+        "postconditions": "- The sum should be the sum of the fourth power of the first n odd natural numbers",
+        "flow_description": "N/A"
+    },
+    {
+        "MBPP_task_id": "775",
+        "task_id": "39",
+        "task": "Create a function to check whether every odd index contains odd numbers of a given list.",
+        "response": "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main { \n    func(doc: \"Checks whether every odd index contains odd numbers of a given list.\") odd_position {\n        in(x: -527, y: -214, name: \"list\") property(List) list_07cae4\n\n        out(x: 1269, y: -209, name: \"output\") property(Bool) output_8d07dc\n\n        instance(x: -303, y: -205, name: \"only odd indexes\") filter_c91965 root.Std_k98ojb.Iteration.Filter {}\n        instance(x: 847, y: -207) contains_32727d root.Std_k98ojb.List.Contains {}\n        instance(x: 246, y: -209, name: \"transform numbers to true/false\") map_c73e3b root.Std_k98ojb.Iteration.Map {}\n        instance(x: 1058, y: -203) not_75283f root.Std_k98ojb.Logic.Not {}\n        func() {\n            in(x: -30, y: -25, name: \"current\") property(Number) _index_170471\n            in(x: -23, y: 79, name: \"_index\") property(Number) _index_769593\n\n            out(x: 705, y: 49, name: \"output\") property(Bool) output_efbc78\n\n            instance(x: 226, y: 56) modulo_c76d2b root.Std_k98ojb.Math.Modulo {}\n            instance(x: 463, y: 51) notequal_7836b4 root.Std_k98ojb.Logic.NotEqual {}\n            2 -> modulo_c76d2b.divisor\n            0 -> notequal_7836b4.right\n            notequal_7836b4.result -> output_efbc78\n            modulo_c76d2b.result -> notequal_7836b4.left\n            _index_769593 -> modulo_c76d2b.value\n        } -> filter_c91965.handler\n        list_07cae4 -> filter_c91965.items\n        func() {\n            in(x: -192, y: -16, name: \"current\") property(Number) current_81298e\n\n            out(x: 521, y: -28, name: \"bool\") property(Bool) bool_4524be\n\n            instance(x: 74, y: -23) modulo_ad7b2a root.Std_k98ojb.Math.Modulo {}\n            instance(x: 285, y: -25) notequal_cb8a55 root.Std_k98ojb.Logic.NotEqual {}\n            current_81298e -> modulo_ad7b2a.value\n            2 -> modulo_ad7b2a.divisor\n            modulo_ad7b2a.result -> notequal_cb8a55.left\n            0 -> notequal_cb8a55.right\n            notequal_cb8a55.result -> bool_4524be\n        } -> map_c73e3b.handler\n        filter_c91965.output_list -> map_c73e3b.items\n        map_c73e3b.output_list -> contains_32727d.list\n        false -> contains_32727d.item\n        not_75283f.result -> output_8d07dc\n        contains_32727d.is_contained -> not_75283f.input\n    }\n\n    \n\n    instance(x: -293, y: -5) odd_position_7a4dad root.main.odd_position {}\n}",
+        "external_functions": "Iteration.Filter, Iteration.Map, List.Contains, Logic.Not, Math.Modulo, Logic.NotEqual",
+        "python_tests": [
+            "assert odd_position([2,1,4,3,6,7,6,3]) == True",
+            "assert odd_position([4,1,2]) == True",
+            "assert odd_position([1,2,3]) == False"
+        ],
+        "tests": {
+            "test_cases": [
+                {
+                    "input": [
+                        2,
+                        1,
+                        4,
+                        3,
+                        6,
+                        7,
+                        6,
+                        3
+                    ],
+                    "expected_output": true
+                },
+                {
+                    "input": [
+                        4,
+                        1,
+                        2
+                    ],
+                    "expected_output": true
+                },
+                {
+                    "input": [
+                        1,
+                        2,
+                        3
+                    ],
+                    "expected_output": false
+                }
+            ]
+        },
+        "function_signature": "func(doc: \"Checks whether every odd index contains odd numbers of a given list.\") odd_position {\n\tin(x: -527, y: -214, name: \"list\") property(List) list_07cae4\n\tout(x: 1269, y: -209, name: \"output\") property(Bool) output_8d07dc\n}",
+        "preconditions": "- There are no preconditions, the method will always work.",
+        "postconditions": "- The result is true if every odd index contains an odd number\n- The result is false otherwise",
+        "flow_description": "N/A"
+    },
+    {
+        "MBPP_task_id": "807",
+        "task_id": "43",
+        "task": "Create a function to find the first odd number in a given list of numbers.",
+        "response": "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main { \n     func(doc: \"Finds the first odd number in a given list of numbers.\") first_odd {\n        in(x: -284, y: -0, name: \"list\") property(List) list_abed4a\n\n        out(x: 593, y: -1, name: \"number\") property(Number) number_3bc2ae\n\n        instance(x: 0, y: 0) find_6d05b0 root.Std_k98ojb.Iteration.Find {}\n        func() {\n            in(x: -113, y: 34, name: \"elem\") property(Number) elem_9f6850\n\n            out(x: 515, y: 44, name: \"bool\") property(Bool) bool_af09a7\n\n            instance(x: 89, y: 29) modulo_1088d5 root.Std_k98ojb.Math.Modulo {}\n            instance(x: 310, y: 35) notequal_807ffd root.Std_k98ojb.Logic.NotEqual {}\n            0 -> notequal_807ffd.right\n            modulo_1088d5.result -> notequal_807ffd.left\n            2 -> modulo_1088d5.divisor\n            elem_9f6850 -> modulo_1088d5.value\n            notequal_807ffd.result -> bool_af09a7\n        } -> find_6d05b0.predicate\n        list_abed4a -> find_6d05b0.items\n        find_6d05b0.item -> number_3bc2ae\n    }\n\n    \n\n    instance(x: -55, y: 529) first_odd_2c856f root.main.first_odd {}\n}",
+        "external_functions": "Iteration.Find, Math.Modulo, Logic.NotEqual",
+        "python_tests": [
+            "assert first_odd([1,3,5]) == 1",
+            "assert first_odd([2,4,1,3]) == 1",
+            "assert first_odd ([8,9,1]) == 9"
+        ],
+        "tests": {
+            "test_cases": [
+                {
+                    "input": [
+                        1,
+                        3,
+                        5
+                    ],
+                    "expected_output": 1
+                },
+                {
+                    "input": [
+                        2,
+                        4,
+                        1,
+                        3
+                    ],
+                    "expected_output": 1
+                }
+            ]
+        },
+        "function_signature": "func(doc: \"Finds the first odd number in a given list of numbers.\") first_odd {\n\tin(x: -284, y: -0, name: \"list\") property(List) list_abed4a\n\tout(x: 593, y: -1, name: \"number\") property(Number) number_3bc2ae\n}",
+        "preconditions": "- The input array should not be null",
+        "postconditions": "- If found is true, then the value at index is odd\n- If found is false, then there are no odd numbers in the array\n- If there are multiple odd numbers, the index should be the smallest index with an odd number",
+        "flow_description": "N/A"
+    },
+    {
+        "MBPP_task_id": "267",
+        "task_id": "44",
+        "task": "Create a function that takes in an integer n and returns the sum of the squares of the first n odd natural numbers.",
+        "response": "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main { \n    func(doc: \"Takes in an integer n and returns the sum of the squares of the first n odd natural numbers.\") square_sum {\n        in(x: -219, y: 55, name: \"n\") property(Number) n_3a3116\n\n        out(x: 571, y: 7, name: \"sum\") property(Number) sum_365f7b\n\n        instance(x: 23, y: -1) mul_f892a4 root.Std_k98ojb.Math.Mul {}\n        data_instance(x: 330, y: 133) data_cde0dc  = 3\n        instance(x: 12, y: 136) expression_2d6da6 root.Std_k98ojb.Math.Expression {\n            expression: \"4*n*n-1\"\n        }\n        instance(x: 303, y: 2) div_64046c root.Std_k98ojb.Math.Div {}\n        data_cde0dc -> div_64046c.second\n        mul_f892a4.result -> div_64046c.first\n        expression_2d6da6.result -> mul_f892a4.second\n        n_3a3116 -> mul_f892a4.first\n        n_3a3116 -> expression_2d6da6.gen_0\n        div_64046c.result -> sum_365f7b\n    }\n\n    \n\n    instance(x: 118, y: -26) square_sum_9dcc3d root.main.square_sum {}\n}",
+        "external_functions": "Math.Mul, Math.Expression, Math.Div",
+        "python_tests": [
+            "assert square_sum(2) == 10",
+            "assert square_sum(3) == 35",
+            "assert square_sum(4) == 84"
+        ],
+        "tests": {
+            "test_cases": [
+                {
+                    "input": 2,
+                    "expected_output": 10
+                },
+                {
+                    "input": 3,
+                    "expected_output": 35
+                },
+                {
+                    "input": 4,
+                    "expected_output": 84
+                }
+            ]
+        },
+        "function_signature": "func(doc: \"Takes in an integer n and returns the sum of the squares of the first n odd natural numbers.\") square_sum {\n\tin(x: -219, y: 55, name: \"n\") property(Number) n_3a3116\n\tout(x: 571, y: 7, name: \"sum\") property(Number) sum_365f7b\n}",
+        "preconditions": "- n should be non-negative",
+        "postconditions": "- The sum of the squares of the first n odd natural numbers is returned",
+        "flow_description": "N/A"
+    },
+    {
+        "MBPP_task_id": "441",
+        "task_id": "46",
+        "task": "Create a function to find the surface area of a cube of a given size.",
+        "response": "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main {\n    func(doc: \"find the surface area of a cube of a given size.\") CubeSurfaceArea {\n            in(x: -56, y: -44, name: \"size\") property(Number) size_49c776\n\n            out(x: 582, y: -80, name: \"Area\") property(Number) Area_a3e36f\n\n            instance(x: 159, y: -44) mul_b6493a root.Std_k98ojb.Math.Mul {}\n            instance(x: 394, y: -170) mul_a368ef root.Std_k98ojb.Math.Mul {}\n            size_49c776 -> mul_b6493a.first\n            6 -> mul_b6493a.second\n            size_49c776 -> mul_a368ef.first\n            mul_b6493a.result -> mul_a368ef.second\n            mul_a368ef.result -> Area_a3e36f\n        }\n\n        \n\n        instance(x: -140, y: 184) cubesurfacearea_5b796d root.main.CubeSurfaceArea {}\n}",
+        "external_functions": "Math.Mul",
+        "python_tests": [
+            "assert CubeSurfaceArea(5)==150",
+            "assert CubeSurfaceArea(3)==54",
+            "assert CubeSurfaceArea(10)==600"
+        ],
+        "tests": {
+            "test_cases": [
+                {
+                    "input": 5,
+                    "expected_output": 150
+                },
+                {
+                    "input": 3,
+                    "expected_output": 54
+                },
+                {
+                    "input": 10,
+                    "expected_output": 600
+                }
+            ]
+        },
+        "function_signature": "func(doc: \"find the surface area of a cube of a given size.\") CubeSurfaceArea {\n\tin(x: -56, y: -44, name: \"size\") property(Number) size_49c776\n\tout(x: 582, y: -80, name: \"Area\") property(Number) Area_a3e36f\n}",
+        "preconditions": "- The size of the cube should be greater than 0",
+        "postconditions": "- The surface area of the cube is calculated correctly",
+        "flow_description": "N/A"
+    },
+    {
+        "MBPP_task_id": "447",
+        "task_id": "47",
+        "task": "Create a function to find cubes of individual elements in a list.",
+        "response": "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main {\n    func(doc: \"find cubes of individual elements in a list.\") cube_nums {\n        in(x: -122, y: -81, name: \"list\") property(List) list_63c248\n\n        out(x: 656, y: -68, name: \"result\") property(List) result_cbb7bd\n\n        instance(x: 94, y: -105) map_f2330d root.Std_k98ojb.Iteration.Map {}\n        list_63c248 -> map_f2330d.items\n        func() {\n            in(x: -121, y: -37, name: \"x\") property(Number) x_8ee839\n\n            out(x: 333, y: -50, name: \"\") property(Number) _7dd980\n\n            instance(x: 92, y: -22) pow_584bfd root.Std_k98ojb.Math.Pow {}\n            x_8ee839 -> pow_584bfd.x\n            3 -> pow_584bfd.y\n            pow_584bfd.result -> _7dd980\n        } -> map_f2330d.handler\n        map_f2330d.output_list -> result_cbb7bd\n    }\n\n    \n\n    instance(x: -92, y: 45) cube_nums_b9ff6b root.main.cube_nums {}\n}",
+        "external_functions": "Math.Pow, Iteration.Map",
+        "python_tests": [
+            "assert cube_nums([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])==[1, 8, 27, 64, 125, 216, 343, 512, 729, 1000]",
+            "assert cube_nums([10,20,30])==([1000, 8000, 27000])",
+            "assert cube_nums([12,15])==([1728, 3375])"
+        ],
+        "tests": {
+            "test_cases": [
+                {
+                    "input": [
+                        1,
+                        2,
+                        3,
+                        4,
+                        5,
+                        6,
+                        7,
+                        8,
+                        9,
+                        10
+                    ],
+                    "expected_output": [
+                        1,
+                        8,
+                        27,
+                        64,
+                        125,
+                        216,
+                        343,
+                        512,
+                        729,
+                        1000
+                    ]
+                }
+            ]
+        },
+        "function_signature": "func(doc: \"find cubes of individual elements in a list.\") cube_nums {\n\tin(x: -122, y: -81, name: \"list\") property(List) list_63c248\n\tout(x: 656, y: -68, name: \"result\") property(List) result_cbb7bd\n}",
+        "preconditions": "- There are no preconditions, the method will always work. Arrays can be empty or non-empty.",
+        "postconditions": "- The length of the output array must be the same as the length of the input array\n- Each element in the output array is the cube of the corresponding element in the input array",
+        "flow_description": "N/A"
+    },
+    {
+        "MBPP_task_id": "588",
+        "task_id": "19",
+        "task": "Create a function to find the difference between largest and smallest value in a given list.",
+        "response": "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main { \n    func(doc: \"finds the difference between largest and smallest value in a given list.\") big_diff {\n        in(x: -266, y: 82, name: \"list\") property(List) list_9abc1d\n\n        out(x: 533, y: 70, name: \"difference\") property(Number) difference_27806e\n\n        instance(x: 15, y: 7) max_891a25 root.Std_k98ojb.List.Max {}\n        instance(x: 18, y: 149) min_89fe87 root.Std_k98ojb.List.Min {}\n        instance(x: 285, y: 69) sub_a433f3 root.Std_k98ojb.Math.Sub {}\n        list_9abc1d -> max_891a25.items\n        list_9abc1d -> min_89fe87.items\n        max_891a25.max -> sub_a433f3.first\n        min_89fe87.min -> sub_a433f3.second\n        sub_a433f3.result -> difference_27806e\n    }\n\n    \n\n    instance(x: -121, y: 41) big_diff_1dfbf1 root.main.big_diff {}\n}",
+        "external_functions": "List.Max, List.Min, Math.Sub",
+        "python_tests": [
+            "assert big_diff([1,2,3,4]) == 3",
+            "assert big_diff([4,5,12]) == 8",
+            "assert big_diff([9,2,3]) == 7"
+        ],
+        "tests": {
+            "test_cases": [
+                {
+                    "input": [
+                        1,
+                        2,
+                        3,
+                        4
+                    ],
+                    "expected_output": 3
+                },
+                {
+                    "input": [
+                        4,
+                        5,
+                        12
+                    ],
+                    "expected_output": 8
+                },
+                {
+                    "input": [
+                        9,
+                        2,
+                        3
+                    ],
+                    "expected_output": 7
+                }
+            ]
+        },
+        "function_signature": "func(doc: \"finds the difference between largest and smallest value in a given list.\") big_diff {\n\tin(x: -266, y: 82, name: \"list\") property(List) list_9abc1d\n\tout(x: 533, y: 70, name: \"difference\") property(Number) difference_27806e\n}",
+        "preconditions": "- The input array should not be empty",
+        "postconditions": "- The difference between the largest and smallest value in the input array is returned",
         "flow_description": "The flow should create a user-defined function, called 'big_diff'. The body of the function contains one input property: an input property of type 'List', named 'list'. It also includes the following nodes: one 'List Max' node to find the largest value in the list, one 'List Min' node to find the smallest value in the list, and one 'Math Sub' node to calculate the difference between the maximum and minimum values. Lastly, it includes an output property named 'difference' of type 'Number'.\n\nArrows are connected as follows: The input property 'list' is connected to both the 'List Max' node and the 'List Min' node. The 'max' output from the 'List Max' node is connected to the 'first' input of the 'Math Sub' node. The 'min' output from the 'List Min' node is connected to the 'second' input of the 'Math Sub' node. The 'result' output from the 'Math Sub' node is connected to the output property 'difference'.\n\nThe user-defined function is then created within the main module."
     },
     {
-        "prompts": [
-            "Create a function to check whether the given number is even or not.",
-            "The created user-defined function 'is_Even' should then be tested inside a separate module called 'tests', within the main module. Since the function does not contain input and ouput triggers, the flow of execution is sent between the assert nodes, using their input and output triggers."
+        "MBPP_task_id": "600",
+        "task_id": "22",
+        "task": "Create a function to check whether the given number is even or not.",
+        "response": "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main { \n    func(doc: \"checks whether the given number is even or not.\") is_Even {\n        in(x: -389, y: -3, name: \"num\") property(Number) num_1a1743\n\n        out(x: 197, y: -8, name: \"output\") property(Bool) output_4ff980\n\n        instance(x: -203, y: -7,) modulo_0e15bd root.Std_k98ojb.Math.Modulo {}\n        instance(x: -2, y: -7,) equal_f3c0cb root.Std_k98ojb.Logic.Equal {}\n        num_1a1743 -> modulo_0e15bd.value\n        2 -> modulo_0e15bd.divisor\n        modulo_0e15bd.result -> equal_f3c0cb.left\n        0 -> equal_f3c0cb.right\n        equal_f3c0cb.result -> output_4ff980\n    }\n\n    \n\n    instance(x: 80, y: 103) is_even_db84c5 root.main.is_Even {}\n\n}",
+        "external_functions": "Math.Modulo, Logic.Equal",
+        "python_tests": [
+            "assert is_Even(1) == False",
+            "assert is_Even(2) == True",
+            "assert is_Even(3) == False"
         ],
-        "task_id": 22,
-        "specification": {
-            "function_signature": "func(doc: \"checks whether the given number is even or not.\") is_Even {\n\tin(x: -389, y: -3, name: \"num\") property(Number) num_1a1743\n\tout(x: 197, y: -8, name: \"output\") property(Bool) output_4ff980\n}",
-            "preconditions": "- There are no preconditions, the method will always work for any integer.",
-            "postconditions": "- If the input number is even, the result is true\n- If the input number is odd, the result is false"
+        "tests": {
+            "test_cases": [
+                {
+                    "input": 1,
+                    "expected_output": false
+                },
+                {
+                    "input": 2,
+                    "expected_output": true
+                },
+                {
+                    "input": 3,
+                    "expected_output": false
+                }
+            ]
         },
-        "MBPP_task_id": 600,
-        "external_functions": [
-            "root.std.Math.Modulo",
-            "root.std.Logic.Equal"
-        ],
-        "visual_node_types": [
-            "Function",
-            "Input Property",
-            "Output Property"
-        ],
-        "textual_instance_types": [
-            "instance",
-            "in",
-            "out"
-        ],
-        "testing": {
-            "external_functions": [
-                "root.std.Testing.Test",
-                "root.std.Testing.AssertEqual"
-            ],
-            "visual_node_types": [
-                "Function",
-                "Event"
-            ],
-            "textual_instance_types": [
-                "instance"
-            ],
-            "python_tests": [
-                "assert is_Even(1) == False",
-                "assert is_Even(2) == True",
-                "assert is_Even(3) == False"
-            ],
-            "tests": {
-                "test_cases": [
-                    {
-                        "input": 1,
-                        "expected_output": false
-                    },
-                    {
-                        "input": 2,
-                        "expected_output": true
-                    },
-                    {
-                        "input": 3,
-                        "expected_output": false
-                    }
-                ]
-            }
-        },
+        "function_signature": "func(doc: \"checks whether the given number is even or not.\") is_Even {\n\tin(x: -389, y: -3, name: \"num\") property(Number) num_1a1743\n\tout(x: 197, y: -8, name: \"output\") property(Bool) output_4ff980\n}",
+        "preconditions": "- There are no preconditions, the method will always work for any integer.",
+        "postconditions": "- If the input number is even, the result is true\n- If the input number is odd, the result is false",
         "flow_description": "The flow should create a user-defined function called 'is_Even'. The body of the function contains one input property of type 'Number', named 'num'. It also includes the following nodes: one 'Math Modulo' node to calculate the remainder when 'num' is divided by 2, and one 'Logic Equal' node to check if the remainder is equal to 0. Lastly, it includes an output property named 'output' of type 'Bool'.\n\nArrows are connected as follows: The input property 'num' is connected to the 'Math Modulo' node's 'value' input. The constant value 2 is connected to the 'Math Modulo' node's 'divisor' input. The 'result' output from the 'Math Modulo' node is connected to the 'left' input of the 'Logic Equal' node. The constant value 0 is connected to the 'right' input of the 'Logic Equal' node. The 'result' output from the 'Logic Equal' node is connected to the output property 'output'. The user-defined function is then created within the main module."
     },
     {
-        "prompts": [
-            "Create a function to find the first repeated character in a given string.",
-            "The created user-defined function 'first_repeated_char' should then be tested inside a seperate module called tests, within the main module. Since the user-defined function uses input and ouput triggers, the flow of execution is sent between the created function and assert nodes, using their input and output triggers."
+        "MBPP_task_id": "602",
+        "task_id": "23",
+        "task": "Create a function to find the first repeated character in a given string.",
+        "response": "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main { \n    func(doc: \"finds the first repeated character in a given string.\") first_repeated_char {\n        in(x: -20, y: -110, name: \"execute\") trigger() execute_97d5d5\n        in(x: -216, y: 83, name: \"string\") property(String) string_71a657\n\n        out(x: 1545, y: 186, name: \"continue\") trigger() continue_1914e0\n        out(x: 904, y: 359, name: \"char\") property(Any) char_f2523c\n\n        instance(x: 526, y: 135) add_073b72 root.Std_k98ojb.Math.Add {}\n        instance(x: 1080, y: 45) if_204695 root.Std_k98ojb.Std.If {}\n        instance(x: 710, y: 0) slice_1801cb root.Std_k98ojb.List.Slice {}\n        instance(x: 0, y: 79) characters_e4ab8f root.Std_k98ojb.Strings.Characters {}\n        instance(x: 295, y: 125) for_245354 root.Std_k98ojb.Std.For {}\n        instance(x: 903, y: 143) contains_10d4db root.Std_k98ojb.List.Contains {}\n        setter(x: 256, y: -169, name: \"setter_a862c0\") setter_a862c0 = first\n        setter(x: 1302, y: -10, name: \"setter_28b12a\") setter_28b12a = first\n        getter(x: 571, y: 314, name: \"getter_d16e69\") getter_d16e69 = first\n        characters_e4ab8f.characters -> for_245354.items\n        characters_e4ab8f.characters -> slice_1801cb.list\n        for_245354.index -> add_073b72.first\n        slice_1801cb.slice -> contains_10d4db.list\n        add_073b72.result -> slice_1801cb.start\n        contains_10d4db.is_contained -> if_204695.predicate\n        for_245354.onItem -> if_204695.execute\n        1 -> add_073b72.second\n        -1 -> slice_1801cb.end\n        string_71a657 -> characters_e4ab8f.input\n        for_245354.item -> contains_10d4db.item\n        if_204695.else -> for_245354.next\n        for_245354.done -> continue_1914e0\n        execute_97d5d5 -> setter_a862c0.execute\n        setter_a862c0.continue -> for_245354.reset\n        getter_d16e69.value -> char_f2523c\n        if_204695.then -> setter_28b12a.execute\n        setter_28b12a.continue -> continue_1914e0\n        for_245354.item -> setter_28b12a.new_value\n    }\n\n    \n\n    instance(x: 1692, y: 462) first_repeated_char_f35a43 root.main.first_repeated_char {}\n\n\n}",
+        "external_functions": "Strings.Characters, Std.For, List.Slice, List.Contains, Std.If, Math.Add",
+        "python_tests": [
+            "assert first_repeated_char(\"abcabc\") == \"a\"",
+            "assert first_repeated_char(\"abc\") == null",
+            "assert first_repeated_char(\"123123\") == \"1\""
         ],
-        "task_id": 23,
-        "specification": {
-            "function_signature": "func(doc: \"finds the first repeated character in a given string.\") first_repeated_char {\n\tin(x: -20, y: -110, name: \"execute\") trigger() execute_97d5d5\n\tin(x: -216, y: 83, name: \"string\") property(String) string_71a657\n\tout(x: 1545, y: 186, name: \"continue\") trigger() continue_1914e0\n\tout(x: 904, y: 359, name: \"char\") property(Any) char_f2523c\n}",
-            "preconditions": "- There are no preconditions, the method will always work. Strings and sequences are always not null.",
-            "postconditions": "- If returns char, then returned char is the first repeated character in the input string\n- If returns null, then there are no repeated characters in the input string"
+        "tests": {
+            "test_cases": [
+                {
+                    "input": "abcabc",
+                    "expected_output": "a"
+                },
+                {
+                    "input": "123123",
+                    "expected_output": "1"
+                }
+            ]
         },
-        "MBPP_task_id": 602,
-        "external_functions": [
-            "root.std.Strings.Characters",
-            "root.std.Std.For",
-            "root.std.List.Slice",
-            "root.std.List.Contains",
-            "root.std.Std.If",
-            "root.std.Math.Add"
-        ],
-        "visual_node_types": [
-            "Function",
-            "Input Property",
-            "Output Property",
-            "Input Trigger",
-            "Output Trigger",
-            "Setter",
-            "Getter"
-        ],
-        "textual_instance_types": [
-            "instance",
-            "in",
-            "out",
-            "setter",
-            "getter"
-        ],
-        "testing": {
-            "external_functions": [
-                "root.std.Testing.Test",
-                "root.std.Testing.AssertEqual"
-            ],
-            "visual_node_types": [
-                "Event",
-                "Function"
-            ],
-            "textual_instance_types": [
-                "instance"
-            ],
-            "python_tests": [
-                "assert first_repeated_char(\"abcabc\") == \"a\"",
-                "assert first_repeated_char(\"abc\") == null",
-                "assert first_repeated_char(\"123123\") == \"1\""
-            ],
-            "tests": {
-                "test_cases": [
-                    {
-                        "input": "abcabc",
-                        "expected_output": "a"
-                    },
-                    {
-                        "input": "123123",
-                        "expected_output": "1"
-                    }
-                ]
-            }
-        },
+        "function_signature": "func(doc: \"finds the first repeated character in a given string.\") first_repeated_char {\n\tin(x: -20, y: -110, name: \"execute\") trigger() execute_97d5d5\n\tin(x: -216, y: 83, name: \"string\") property(String) string_71a657\n\tout(x: 1545, y: 186, name: \"continue\") trigger() continue_1914e0\n\tout(x: 904, y: 359, name: \"char\") property(Any) char_f2523c\n}",
+        "preconditions": "- There are no preconditions, the method will always work. Strings and sequences are always not null.",
+        "postconditions": "- If returns char, then returned char is the first repeated character in the input string\n- If returns null, then there are no repeated characters in the input string",
         "flow_description": "The flow should create a user-defined function called 'first_repeated_char'. The body of the function contains one input property of type String, named 'string', and one output property of type Any, named 'char'. It also includes one input trigger named 'execute' and one output trigger named 'continue'. Inside the function, use a 'Characters' node to convert the input string into a list of characters, a 'For' node to iterate over each character, and a 'Slice' node to manage portions of the list as needed. Additionally, include a 'List Contains' node to check for repeated characters and an 'If' node to handle the logic. Getter and Setter nodes are used for storing the fist char in local varibale, named 'first'. Connect the nodes appropriately: the input trigger 'execute' is connected to a Setter node, which sets the value of 'first' to null. Then this Setter is connected to the 'For' node to start the iteration. The 'Characters' node outputs to the 'For' node's items input. Within the loop, each character is sent to the 'List Contains' node to check for repetition in a the rest of the list. The 'List contains' node does also use the 'Math Add' and 'Slice' node to get the rest of the list. The result of 'List Contains' is connected to the 'If' node's predicate. If a repetition is found, use a 'Setter' node to set the output property 'char' with the repeated character and trigger 'continue'. If no repetition is found, continue the loop. After the loop completes without finding any repeats, the local variabel 'first' remains null and is then outputed though 'char'. The user-defined function is then created within the main module."
     },
     {
-        "prompts": [
-            "Create a function to find the second smallest number in a list.",
-            "N/A"
+        "MBPP_task_id": "755",
+        "task_id": "35",
+        "task": "Create a function to find the second smallest number in a list.",
+        "response": "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main { \n    func(doc: \"Finds the second smallest number in a list.\") second_smallest {\n        in(x: -52, y: 85, name: \"list\") property(List) list_56d273\n        in(x: -244, y: -39, name: \"execute\") trigger() execute_c23a43\n\n        out(x: 1025, y: 145, name: \"continue\") trigger() continue_642adb\n        out(x: 1026, y: 287, name: \"output\") property(Any) output_ad16ae\n\n        instance(x: 205, y: -205) sort_8b352b root.Std_k98ojb.List.Sort {}\n        instance(x: 391, y: 123) ifexpression_ef9cde root.Std_k98ojb.Std.IfExpression {\n            expression: \"n >= 2\"\n        }\n        instance(x: 164, y: 148) length_f23345 root.Std_k98ojb.List.Length {}\n        instance(x: 516, y: -8) getat_a71550 root.Std_k98ojb.List.GetAt {}\n        setter(x: 12, y: -81, name: \"setter_445dfe\") setter_445dfe = secondSmallest\n        setter(x: 757, y: 6, name: \"setter_a82658\") setter_a82658 = secondSmallest\n        getter(x: 762, y: 243, name: \"getter_4c77cf\") getter_4c77cf = secondSmallest\n        instance(x: 420, y: -216, name: \"unique list\") intersection_9b398b root.Std_k98ojb.Sets.Intersection {}\n        list_56d273 -> sort_8b352b.list\n        list_56d273 -> length_f23345.list\n        length_f23345.length -> ifexpression_ef9cde.gen_0\n        1 -> getat_a71550.index\n        setter_445dfe.continue -> ifexpression_ef9cde.execute\n        ifexpression_ef9cde.then -> setter_a82658.execute\n        getat_a71550.itemAtIndex -> setter_a82658.new_value\n        setter_a82658.continue -> continue_642adb\n        getter_4c77cf.value -> output_ad16ae\n        execute_c23a43 -> setter_445dfe.execute\n        ifexpression_ef9cde.else -> continue_642adb\n        intersection_9b398b.intersection -> getat_a71550.list\n        sort_8b352b.sorted_list -> intersection_9b398b.left\n        sort_8b352b.sorted_list -> intersection_9b398b.right\n    }\n\n    \n\n    instance(x: 49, y: 32) second_smallest_814eea root.main.second_smallest {}\n\n}",
+        "external_functions": "List.Sort, List.GetAt, List.Length, Std.IfExpression, Sets.Intersection",
+        "python_tests": [
+            "assert second_smallest([1, 2, -8, -2, 0, -2])==-2",
+            "assert second_smallest([1, 1, -0.5, 0, 2, -2, -2])==-0.5",
+            "assert second_smallest([2,2])==None"
         ],
-        "task_id": 35,
-        "specification": {
-            "function_signature": "func(doc: \"Finds the second smallest number in a list.\") second_smallest {\n\tin(x: -52, y: 85, name: \"list\") property(List) list_56d273\n\tin(x: -244, y: -39, name: \"execute\") trigger() execute_c23a43\n\tout(x: 1025, y: 145, name: \"continue\") trigger() continue_642adb\n\tout(x: 1026, y: 287, name: \"output\") property(Any) output_ad16ae\n}",
-            "preconditions": "- The input array should not be null\n- The input array should have at least two elements",
-            "postconditions": "- The returned value should be the second-smallest number in the input array\n- The input array remains unchanged"
+        "tests": {
+            "test_cases": []
         },
-        "MBPP_task_id": 755,
-        "external_functions": [
-            "root.std.List.Sort",
-            "root.std.List.GetAt",
-            "root.std.List.Length",
-            "root.std.Std.IfExpression",
-            "root.std.Sets.Intersection"
-        ],
-        "visual_node_types": [
-            "Function",
-            "Input Property",
-            "Output Property",
-            "Input Trigger",
-            "Output Trigger",
-            "Setter",
-            "Getter"
-        ],
-        "textual_instance_types": [
-            "instance",
-            "in",
-            "out",
-            "setter",
-            "getter"
-        ],
-        "testing": {
-            "external_functions": [
-                "root.std.Testing.Test",
-                "root.std.Testing.AssertEqual"
-            ],
-            "visual_node_types": [
-                "Event",
-                "Function",
-                "Data Object"
-            ],
-            "textual_instance_types": [
-                "instance",
-                "data_instance"
-            ],
-            "python_tests": [
-                "assert second_smallest([1, 2, -8, -2, 0, -2])==-2",
-                "assert second_smallest([1, 1, -0.5, 0, 2, -2, -2])==-0.5",
-                "assert second_smallest([2,2])==None"
-            ],
-            "tests": {
-                "test_cases": []
-            }
-        },
+        "function_signature": "func(doc: \"Finds the second smallest number in a list.\") second_smallest {\n\tin(x: -52, y: 85, name: \"list\") property(List) list_56d273\n\tin(x: -244, y: -39, name: \"execute\") trigger() execute_c23a43\n\tout(x: 1025, y: 145, name: \"continue\") trigger() continue_642adb\n\tout(x: 1026, y: 287, name: \"output\") property(Any) output_ad16ae\n}",
+        "preconditions": "- The input array should not be null\n- The input array should have at least two elements",
+        "postconditions": "- The returned value should be the second-smallest number in the input array\n- The input array remains unchanged",
         "flow_description": "N/A"
     },
     {
-        "prompts": [
-            "Create a function to find the product of first even and odd number of a given list.",
-            "N/A"
+        "MBPP_task_id": "784",
+        "task_id": "40",
+        "task": "Create a function to find the product of first even and odd number of a given list.",
+        "response": "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main { \n    func(doc: \"Finds the product of first even and odd number of a given list.\") mul_even_odd {\n        in(x: -277, y: 166, name: \"list\") property(List) list_09fcba\n\n        out(x: 800, y: 145, name: \"output\") property(Number) output_edc2e3\n\n        instance(x: 532, y: 147) mul_7e1ce0 root.Std_k98ojb.Math.Mul {}\n        instance(x: -39, y: 26, name: \"First even number\") find_de624f root.Std_k98ojb.Iteration.Find {}\n        instance(x: -39, y: 257, name: \"First odd number\") ``First even number_0b1361`` root.Std_k98ojb.Iteration.Find {}\n        list_09fcba -> find_de624f.items\n        func() {\n            in(x: -192, y: 84, name: \"current\") property(Number) current_afd5b1\n\n            out(x: 698, y: 85, name: \"bool\") property(Bool) bool_1eb6e9\n\n            instance(x: 112, y: 80) modulo_45e806 root.Std_k98ojb.Math.Modulo {}\n            instance(x: 415, y: 86) equal_a54bdc root.Std_k98ojb.Logic.Equal {}\n            current_afd5b1 -> modulo_45e806.value\n            2 -> modulo_45e806.divisor\n            modulo_45e806.result -> equal_a54bdc.left\n            0 -> equal_a54bdc.right\n            equal_a54bdc.result -> bool_1eb6e9\n        } -> find_de624f.predicate\n        func() {\n            in(x: -192, y: 84, name: \"current\") property(Number) current_afd5b1\n\n            out(x: 698, y: 85, name: \"bool\") property(Bool) bool_1eb6e9\n\n            instance(x: 112, y: 80) modulo_45e806 root.Std_k98ojb.Math.Modulo {}\n            instance(x: 421, y: 79) notequal_148aeb root.Std_k98ojb.Logic.NotEqual {}\n            current_afd5b1 -> modulo_45e806.value\n            2 -> modulo_45e806.divisor\n            modulo_45e806.result -> notequal_148aeb.left\n            0 -> notequal_148aeb.right\n            notequal_148aeb.result -> bool_1eb6e9\n        } -> ``First even number_0b1361``.predicate\n        list_09fcba -> ``First even number_0b1361``.items\n        find_de624f.item -> mul_7e1ce0.first\n        ``First even number_0b1361``.item -> mul_7e1ce0.second\n        mul_7e1ce0.result -> output_edc2e3\n    }\n\n    \n\n    instance(x: -291, y: 177) mul_even_odd_f53d27 root.main.mul_even_odd {}\n\n}",
+        "external_functions": "Math.Mul, Iteration.Find, Math.Modulo, Logic.Equal, Logic.NotEqual",
+        "python_tests": [
+            "assert mul_even_odd([1,3,5,7,4,1,6,8])==4",
+            "assert mul_even_odd([1,2,3,4,5,6,7,8,9,10])==2",
+            "assert mul_even_odd([1,5,7,9,10])==10"
         ],
-        "task_id": 40,
-        "specification": {
-            "function_signature": "func(doc: \"Finds the product of first even and odd number of a given list.\") mul_even_odd {\n\tin(x: -277, y: 166, name: \"list\") property(List) list_09fcba\n\tout(x: 800, y: 145, name: \"output\") property(Number) output_edc2e3\n}",
-            "preconditions": "- The list must have at least one even and one odd number",
-            "postconditions": "- The product is the multiplication of the first even and first odd number found in the list"
+        "tests": {
+            "test_cases": [
+                {
+                    "input": [
+                        1,
+                        3,
+                        5,
+                        7,
+                        4,
+                        1,
+                        6,
+                        8
+                    ],
+                    "expected_output": 4
+                },
+                {
+                    "input": [
+                        1,
+                        2,
+                        3,
+                        4,
+                        5,
+                        6,
+                        7,
+                        8,
+                        9,
+                        10
+                    ],
+                    "expected_output": 2
+                },
+                {
+                    "input": [
+                        1,
+                        5,
+                        7,
+                        9,
+                        10
+                    ],
+                    "expected_output": 10
+                }
+            ]
         },
-        "MBPP_task_id": 784,
-        "external_functions": [
-            "root.std.Math.Mul",
-            "root.std.Iteration.Find",
-            "root.std.Math.Modulo",
-            "root.std.Logic.Equal",
-            "root.std.Logic.NotEqual"
+        "function_signature": "func(doc: \"Finds the product of first even and odd number of a given list.\") mul_even_odd {\n\tin(x: -277, y: 166, name: \"list\") property(List) list_09fcba\n\tout(x: 800, y: 145, name: \"output\") property(Number) output_edc2e3\n}",
+        "preconditions": "- The list must have at least one even and one odd number",
+        "postconditions": "- The product is the multiplication of the first even and first odd number found in the list",
+        "flow_description": "N/A"
+    },
+    {
+        "MBPP_task_id": "793",
+        "task_id": "41",
+        "task": "Create a function to find the last position of an element in a sorted array.",
+        "response": "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main { \n    func(doc: \"Finds the last position of an element in a sorted array.\") last {\n        in(x: -231, y: -29, name: \"list\") property(List) list_2bbadf\n        in(x: -246, y: 105, name: \"elem\") property(Number) elem_94ca57\n        in(x: -356, y: -225, name: \"execute\") trigger() execute_076885\n\n        out(x: 801, y: -229, name: \"continue\") trigger() continue_9f5f84\n        out(x: 795, y: 205, name: \"index\") property(Number) index_fc05e7\n\n        instance(x: 151, y: -120) for_9ed60a root.Std_k98ojb.Std.For {}\n        instance(x: 465, y: 5) ifexpression_6c15d4 root.Std_k98ojb.Std.IfExpression {\n            expression: \"x == y\"\n        }\n        setter(x: -187, y: -246, name: \"setter_6a6081\") setter_6a6081 = index\n        getter(x: 502, y: 166, name: \"getter_cc0721\") getter_cc0721 = index\n        setter(x: 780, y: -125, name: \"setter_60cfcd\") setter_60cfcd = index\n        list_2bbadf -> for_9ed60a.items\n        elem_94ca57 -> ifexpression_6c15d4.gen_0\n        for_9ed60a.item -> ifexpression_6c15d4.gen_1\n        -1 -> setter_6a6081.new_value\n        execute_076885 -> setter_6a6081.execute\n        getter_cc0721.value -> index_fc05e7\n        for_9ed60a.done -> continue_9f5f84\n        setter_6a6081.continue -> for_9ed60a.reset\n        for_9ed60a.onItem -> ifexpression_6c15d4.execute\n        ifexpression_6c15d4.then -> setter_60cfcd.execute\n        for_9ed60a.index -> setter_60cfcd.new_value\n        setter_60cfcd.continue -> for_9ed60a.next\n        ifexpression_6c15d4.else -> for_9ed60a.next\n    }\n\n    \n\n    instance(x: -203, y: -53) last_9181e6 root.main.last {}\n\n}",
+        "external_functions": "Std.For, Std.IfExpression",
+        "python_tests": [
+            "assert last([1,2,3],1) == 0",
+            "assert last([1,1,1,2,3,4],1) == 2",
+            "assert last([2,3,2,3,6,8,9],3) == 3"
         ],
-        "visual_node_types": [
-            "Function",
-            "Input Property",
-            "Output Property"
-        ],
-        "textual_instance_types": [
-            "instance",
-            "in",
-            "out"
-        ],
-        "testing": {
-            "external_functions": [
-                "root.std.Testing.Test",
-                "root.std.Testing.AssertEqual"
-            ],
-            "visual_node_types": [
-                "Event",
-                "Function",
-                "Data Object"
-            ],
-            "textual_instance_types": [
-                "instance",
-                "data_instance"
-            ],
-            "python_tests": [
-                "assert mul_even_odd([1,3,5,7,4,1,6,8])==4",
-                "assert mul_even_odd([1,2,3,4,5,6,7,8,9,10])==2",
-                "assert mul_even_odd([1,5,7,9,10])==10"
-            ],
-            "tests": {
-                "test_cases": [
-                    {
-                        "input": [
+        "tests": {
+            "test_cases": [
+                {
+                    "input": [
+                        [
                             1,
-                            3,
-                            5,
-                            7,
-                            4,
-                            1,
-                            6,
-                            8
+                            2,
+                            3
                         ],
-                        "expected_output": 4
-                    },
-                    {
-                        "input": [
+                        1
+                    ],
+                    "expected_output": 0
+                },
+                {
+                    "input": [
+                        [
+                            1,
+                            1,
                             1,
                             2,
                             3,
-                            4,
-                            5,
+                            4
+                        ],
+                        1
+                    ],
+                    "expected_output": 2
+                },
+                {
+                    "input": [
+                        [
+                            2,
+                            3,
+                            2,
+                            3,
                             6,
-                            7,
                             8,
-                            9,
-                            10
+                            9
                         ],
-                        "expected_output": 2
-                    },
-                    {
-                        "input": [
-                            1,
-                            5,
-                            7,
-                            9,
-                            10
-                        ],
-                        "expected_output": 10
-                    }
-                ]
-            }
+                        3
+                    ],
+                    "expected_output": 3
+                }
+            ]
         },
-        "flow_description": "N/A"
-    },
-    {
-        "prompts": [
-            "Create a function to find the last position of an element in a sorted array.",
-            "N/A"
-        ],
-        "task_id": 41,
-        "specification": {
-            "function_signature": "func(doc: \"Finds the last position of an element in a sorted array.\") last {\n\tin(x: -231, y: -29, name: \"list\") property(List) list_2bbadf\n\tin(x: -246, y: 105, name: \"elem\") property(Number) elem_94ca57\n\tin(x: -356, y: -225, name: \"execute\") trigger() execute_076885\n\tout(x: 801, y: -229, name: \"continue\") trigger() continue_9f5f84\n\tout(x: 795, y: 205, name: \"index\") property(Number) index_fc05e7\n}",
-            "preconditions": "- The input array should be sorted in non-decreasing order",
-            "postconditions": "- If the element is found, the returned position should be the last occurrence of the element in the array\n- If the element is not found, the returned position should be -1\n- The input array remains unchanged"
-        },
-        "MBPP_task_id": 793,
-        "external_functions": [
-            "root.std.Std.For",
-            "root.std.Std.IfExpression"
-        ],
-        "visual_node_types": [
-            "Function",
-            "Input Property",
-            "Output Property",
-            "Getter",
-            "Setter"
-        ],
-        "textual_instance_types": [
-            "instance",
-            "in",
-            "out",
-            "getter",
-            "setter"
-        ],
-        "testing": {
-            "external_functions": [
-                "root.std.Testing.Test",
-                "root.std.Testing.AssertEqual"
-            ],
-            "visual_node_types": [
-                "Event",
-                "Function",
-                "Data Object"
-            ],
-            "textual_instance_types": [
-                "instance",
-                "data_instance"
-            ],
-            "python_tests": [
-                "assert last([1,2,3],1) == 0",
-                "assert last([1,1,1,2,3,4],1) == 2",
-                "assert last([2,3,2,3,6,8,9],3) == 3"
-            ],
-            "tests": {
-                "test_cases": [
-                    {
-                        "input": [
-                            [
-                                1,
-                                2,
-                                3
-                            ],
-                            1
-                        ],
-                        "expected_output": 0
-                    },
-                    {
-                        "input": [
-                            [
-                                1,
-                                1,
-                                1,
-                                2,
-                                3,
-                                4
-                            ],
-                            1
-                        ],
-                        "expected_output": 2
-                    },
-                    {
-                        "input": [
-                            [
-                                2,
-                                3,
-                                2,
-                                3,
-                                6,
-                                8,
-                                9
-                            ],
-                            3
-                        ],
-                        "expected_output": 3
-                    }
-                ]
-            }
-        },
+        "function_signature": "func(doc: \"Finds the last position of an element in a sorted array.\") last {\n\tin(x: -231, y: -29, name: \"list\") property(List) list_2bbadf\n\tin(x: -246, y: 105, name: \"elem\") property(Number) elem_94ca57\n\tin(x: -356, y: -225, name: \"execute\") trigger() execute_076885\n\tout(x: 801, y: -229, name: \"continue\") trigger() continue_9f5f84\n\tout(x: 795, y: 205, name: \"index\") property(Number) index_fc05e7\n}",
+        "preconditions": "- The input array should be sorted in non-decreasing order",
+        "postconditions": "- If the element is found, the returned position should be the last occurrence of the element in the array\n- If the element is not found, the returned position should be -1\n- The input array remains unchanged",
         "flow_description": "N/A"
     }
 ]
