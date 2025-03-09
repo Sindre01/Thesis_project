@@ -20,6 +20,7 @@ def server_diagnostics(host="http://localhost:11434"):
     if is_remote_server_reachable(host + "/api/tags"):
         print("Server is reachable.")
     else:
+        print("Server is not reachable. Running diagnostics...")
         project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '../..'))
         file_path = os.path.join(project_root, f'scripts/SSH_FORWARDING.sh')
         rc = call(file_path)

@@ -221,7 +221,7 @@ NVIDIA_MONITOR_PID=$!  # Capture PID of monitoring process
 ###############################################################################
 # Start Ollama Server in Background with Log Redirection
 ###############################################################################
-ollama serve > ollama_API_\${SLURM_JOB_ID_fold}_fold_\$SLURM_ARRAY_TASK_ID.out 2>&1 &  
+ollama serve > ollama_API_\${SLURM_JOB_ID}_fold_\$SLURM_ARRAY_TASK_ID.out 2>&1 &  
 
 sleep 5
 
