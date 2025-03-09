@@ -6,8 +6,8 @@
 
 # Configuration
 EXPERIMENT="few-shot"                    # Experiment ('few-shot' or 'COT')
-PHASE="testing"                       # Phase ('testing' or 'validation')
-EXAMPLES_TYPE="similarity"                 #'coverage' or 'similarity'
+PHASE="validation"                       # Phase ('testing' or 'validation')
+EXAMPLES_TYPE="coverage"                 #'coverage' or 'similarity'
 PROMPT_TYPE="signature"                 # 'regular' or 'cot' or 'signature'   
 # SEMANTIC_SELECTOR=true                   # Use semantic selector
 USER="ec-sindrre"                        # Your Educloud username
@@ -277,6 +277,7 @@ python -u ${CLONE_DIR}/notebooks/${EXPERIMENT}/fox/run_${PHASE}.py \
     --models '${models}' \
     --experiments '${experiments}' \
     --ollama_port ${OLLAMA_PORT} \
+    --fold -1 \
     > ${REMOTE_DIR}/AI_\$SLURM_JOB_ID.out 2>&1
 
 # Cleanup after job completion
