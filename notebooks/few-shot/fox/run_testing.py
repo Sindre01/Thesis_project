@@ -269,7 +269,7 @@ if __name__ == "__main__":
     dataset = train_data + val_data + test_data
 
     if fold != -1:
-        print(f"Using {fold}-fold cross-validation on merged train+test splits")
+        print(f"Using 3-fold cross-validation on merged train+test splits")
         k_fold_data = (train_data + test_data)  
         train_data, test_data = get_k_fold_splits(main_dataset_folder, fold)
     else:

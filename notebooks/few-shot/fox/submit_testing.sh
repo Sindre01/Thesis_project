@@ -7,7 +7,7 @@
 # Configuration
 EXPERIMENT="few-shot"                    # Experiment ('few-shot' or 'COT')
 PHASE="testing"                       # Phase ('testing' or 'validation')
-EXAMPLES_TYPE="coverage"                 #'coverage' or 'similarity'
+EXAMPLES_TYPE="similarity"                 #'coverage' or 'similarity'
 PROMPT_TYPE=""                 # 'regular' or 'cot' or 'signature'   
 # SEMANTIC_SELECTOR=true                   # Use semantic selector
 K_FOLD_JOBS=0-2                              # Runs jobs for folds 0 to 4 (5-fold CV)
@@ -18,11 +18,11 @@ ACCOUNT="ec12"                           # Fox project account
 PARTITION="accel"                        # 'accel' or 'accel_long' (or 'ifi_accel' if access to ec11,ec29,ec30,ec34,ec35 or ec232)
 GPUS=a100:2                           # a100 have 40GB or 80GB VRAM, while rtx30 have 24GB VRAM.
 NODES=1                                 # Number of nodes. OLLAMA does currently only support single node inference
-NODE_LIST=     # List of nodes that the job can run on gpu-9,gpu-7,gpu-8
+NODE_LIST=gpu-9,gpu-7,gpu-8     # List of nodes that the job can run on gpu-9,gpu-7,gpu-8
 TIME="0-24:00:00"                       # Slurm walltime (D-HH:MM:SS)
 MEM_PER_GPU="80G"                       # Memory per GPU. 
 OLLAMA_MODELS_DIR="/cluster/work/projects/ec12/ec-sindrre/ollama-models"  # Path to where the Ollama models are stored and loaded                      
-OLLAMA_PORT="11450"                       # Remote port where Ollama listens. If different parallell runs, change ollama_port to avoid conflicts if same node is allocated.
+OLLAMA_PORT="11460"                       # Remote port where Ollama listens. If different parallell runs, change ollama_port to avoid conflicts if same node is allocated.
 SBATCH_SCRIPT="${PHASE}_${EXAMPLES_TYPE}_${EXAMPLES_TYPE}__${PROMPT_TYPE}_${GPUS}_ollama.slurm"           # Slurm batch script name
 # Directory on Fox to store scripts and output
 if [ -n "$PROMPT_TYPE" ]; then
@@ -35,38 +35,38 @@ fi
 CLONE_DIR="/fp/homes01/u01/ec-sindrre/tmp/Thesis_project_${EXAMPLES_TYPE}_\$SLURM_JOB_ID"
 ##############Experiment config################
 model_provider='ollama'
-experiments='[
-        {
-            "name": "signature_coverage",
-            "prompt_prefix": "Create a function",
-            "num_shots": [1, 5, 10],
-            "prompt_type": "signature",
-            "semantic_selector": false
-        },
-        {
-            "name": "regular_coverage",
-            "prompt_prefix": "Create a function",
-            "num_shots": [1, 5, 10],
-            "prompt_type": "regular",
-            "semantic_selector": false
-        }
-]'
 # experiments='[
 #         {
-#             "name": "signature_similarity",
+#             "name": "signature_coverage",
 #             "prompt_prefix": "Create a function",
 #             "num_shots": [1, 5, 10],
 #             "prompt_type": "signature",
-#             "semantic_selector": true
+#             "semantic_selector": false
 #         },
 #         {
-#             "name": "regular_similarity",
+#             "name": "regular_coverage",
 #             "prompt_prefix": "Create a function",
 #             "num_shots": [1, 5, 10],
 #             "prompt_type": "regular",
-#             "semantic_selector": true
+#             "semantic_selector": false
 #         }
 # ]'
+experiments='[
+        {
+            "name": "signature_similarity",
+            "prompt_prefix": "Create a function",
+            "num_shots": [1, 5, 10],
+            "prompt_type": "signature",
+            "semantic_selector": true
+        },
+        {
+            "name": "regular_similarity",
+            "prompt_prefix": "Create a function",
+            "num_shots": [1, 5, 10],
+            "prompt_type": "regular",
+            "semantic_selector": true
+        }
+]'
 # models='[
 #     "phi4:14b-fp16"
 # ]'
@@ -74,8 +74,7 @@ experiments='[
 #     "qwq:32b-fp16",
 # ]'
 models='[
-    "llama3.3:70b-instruct-fp16",
-    "qwen2.5:72b-instruct-fp16"
+    "llama3.3:70b-instruct-fp16"
 ]'
 
 # normal* c1-[5-28]
