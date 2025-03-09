@@ -1,6 +1,6 @@
 import json
 import os
-from my_packages.common import CodeEvaluationResult
+from my_packages.common.classes import CodeEvaluationResult
 from my_packages.data_processing.code_files import extract_tests_module
 
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '../..'))

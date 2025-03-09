@@ -3,7 +3,7 @@ from datetime import datetime
 from zoneinfo import ZoneInfo
 
 import pandas as pd
-from my_packages.common import CodeEvaluationResult
+from my_packages.common.classes import CodeEvaluationResult
 from my_packages.db_service import db
 
 def save_errors_to_db(

@@ -16,7 +16,8 @@ SSH_CONFIG_NAME="fox"                    # Name of the SSH config entry
 ACCOUNT="ec12"                           # Fox project account
 PARTITION="accel"                        # 'accel' or 'accel_long' (or 'ifi_accel' if access to ec11,ec29,ec30,ec34,ec35 or ec232)
 GPUS=a100:2                           # a100 have 40GB or 80GB VRAM, while rtx30 have 24GB VRAM.
-NODES=1                                  # Number of nodes. OLLAMA does currently only support single node inference
+NODES=1
+ARRAY=[1,2,3]                                  # Number of nodes. OLLAMA does currently only support single node inference
 NODE_LIST=     # List of nodes that the job can run on gpu-9,gpu-7,gpu-8
 TIME="0-24:00:00"                       # Slurm walltime (D-HH:MM:SS)
 MEM_PER_GPU="40G"                       # Memory per GPU. 
@@ -88,53 +89,6 @@ models='[
 
 #80GB a100: gpu-9, gpu-7, gpu-8?
 
-            ############# Coverage examples prompt #################
-            # {
-            #     "name": "regular_coverage",
-            #     "prompt_prefix": "Create a function",
-            #     "num_shots": [1, 5, 10],
-            #     "prompt_type": PromptType.REGULAR,
-            #     "semantic_selector": False,
-            # },
-            # {
-            #     "name": "signature_coverage",
-            #     "prompt_prefix": "Create a function",
-            #     "num_shots": [1, 5, 10],
-            #     "prompt_type": PromptType.SIGNATURE,
-            #     "semantic_selector": False,
-            # },
-            # {
-            #     "name": "cot_coverage",
-            #     "prompt_prefix": "Create a function",
-            #     "num_shots": [1, 5, 10],
-            #     "prompt_type": PromptType.COT,
-            #     "semantic_selector": False,
-            # },
-
-            ############# RAG similarity examples prompt #################
-            # {
-            #     "name": "regular_similarity",
-            #     "prompt_prefix": "Create a function",
-            #     "num_shots": [1, 5, 10],
-            #     "prompt_type": PromptType.REGULAR,
-            #     "semantic_selector": True,
-            # },
-            # {
-            #     "name": "signature_similarity",
-            #     "prompt_prefix": "Create a function",
-            #     "num_shots": [1, 5, 10],
-            #     "prompt_type": PromptType.SIGNATURE,
-            #     "semantic_selector": True,
-            # },
-            # {
-            #     "name": "cot_similarity",
-            #     "prompt_prefix": "Create a function",
-            #     "num_shots": [1, 5, 10],
-            #     "prompt_type": PromptType.COT,
-            #     "semantic_selector": True,
-            # },
-    
-        
 ###############################################################################
 # Step 1: Create the Slurm Batch Script Locally
 ###############################################################################

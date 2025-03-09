@@ -1,211 +1,59 @@
 import json
 import os
 import numpy as np
-import random
 from collections import Counter
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import KFold, StratifiedKFold, train_test_split
 from sklearn.preprocessing import MultiLabelBinarizer
 from iterstrat.ml_stratifiers import MultilabelStratifiedShuffleSplit
+project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '../..'))
 
-# #Splits dataset for few-shot prompting, where num-shots is number of samples to be included in train-set
-# def split_on_shots_nodes(num_shots, desired_val_size, dataset, seed=62, random_few_shots=False, write_to_file=False):
-#     """
-#     Split the dataset into training, validation, and test sets for few-shot learning.
-#     - For each sample, the combined labels of external functions and textual instance types are used.
-#     - The training set is built by selecting num-shot samples that cover as many labels as possible,
-#       unless random=True, in which case num_shots are randomly selected.
-#     - The remaining samples are split into validation and test sets based on desired_val_size.
-#     - Samples that only have labels from the training set are included in the validation and test sets.
-#     - ***If not enough samples are available, all remaining samples are assigned to the validation or test set.
-#     - The resulting datasets are written to files if write_to_file is True.
+def get_stratified_kfold_splits(dataset: list[dict], k_folds=5):
+    """
+    Splits dataset into stratified k-folds based on function category.
+    Stratification happens **across** folds to maintain class distribution.
+    """
+    function_categories = [data["external_functions"] for data in dataset]  # Stratify by function type
 
-#     Tries to split into validation and test sets 50/50 (desired_val_size = 0.5), but because of 
-#     MultiLabelStratifiedShuffleSplit, the actual split may vary. 
-    
-#     This is because:
-#     1. **Stratification Constraints**:
-#         - The `MultilabelStratifiedShuffleSplit` prioritizes maintaining the relative frequency of labels across 
-#         validation and test sets over adhering strictly to the requested split proportions.
-#         - For example, if certain labels are rare, they may need to be placed entirely in one set to preserve 
-#         label distributions.
+    skf = StratifiedKFold(n_splits=k_folds, shuffle=True, random_state=42)
+    folds = []
 
-#     2. **Multilabel Data**:
-#         - Unlike single-label data, where each sample belongs to only one class, multilabel data assigns each 
-#         sample to multiple classes. This increases the complexity of stratification and may lead to deviations 
-#         from the exact split sizes.
+    for train_idx, test_idx in skf.split(dataset, function_categories):
+        train_data = [dataset[i] for i in train_idx]
+        test_data = [dataset[i] for i in test_idx]
 
-#     3. **Small or Imbalanced Dataset**:
-#         - When the dataset is small or highly imbalanced, the stratification process may reassign samples 
-#         between validation and test sets to ensure all labels are represented adequately.
+        # Verify stratification across folds
+        print(f"Fold {len(folds)+1}: Train={len(train_data)}, Test={len(test_data)}")
+        print("Train Distribution:", Counter([d["external_functions"] for d in train_data]))
+        print("Test Distribution:", Counter([d["external_functions"] for d in test_data]), "\n")
 
-#     4. **Minimum Label Constraints**:
-#         - Stratification requires that each label appears at least twice in the dataset to be split. If a label 
-#         is rare (e.g., appears only once), it may cause adjustments in the split sizes.
+        folds.append((train_data, test_data))
 
-#     As a result, while `desired_val_size` specifies the intended proportion for the validation set, the actual 
-#     sizes of the validation and test sets may differ slightly. These deviations ensure that the stratification 
-#     process produces meaningful and balanced splits for multilabel classification tasks.
-#     """
+    
+    return folds
 
-#     # If num_shots == 0, fallback to a different split logic
-#     if num_shots == 0:
-#         print("NOT WORKING: Number of shots is zero.")
-#         #return split(dataset, write_to_file, 0, 0.2, 0.8)  # Some custom function or logic not shown
+def create_kfold_splits(dataset: list[dict], k_folds=5, write_to_file=False):
+    """Splits dataset into k folds."""
+    kf = KFold(n_splits=k_folds, shuffle=True, random_state=42)
 
-#     # Set seeds for reproducibility
-#     SEED = seed
-#     random.seed(SEED)
-#     np.random.seed(SEED)
+    folds = [(train_idx, test_idx) for train_idx, test_idx in kf.split(dataset)]
     
-#     data = np.array(dataset, dtype=object)
-    
-#     # Clean up and combine labels
-#     combined_labels_list = []
-#     for item in data:
-#         external_functions = item.get('external_functions', [])
-#         # Remove 'root.std.' if present
-#         external_functions = [func.replace('root.std.', '') for func in external_functions]
-#         item['external_functions'] = external_functions
-    
-#         visual_node_types = item.get('visual_node_types', [])
-#         item['visual_node_types'] = visual_node_types
-    
-#         combined_labels = external_functions + visual_node_types
-#         combined_labels_list.append(combined_labels)
-    
-#     # Binarize labels
-#     mlb = MultiLabelBinarizer()
-#     labels_array = mlb.fit_transform(combined_labels_list)
-#     all_indices = np.arange(len(data))
-    
-#     # Build the training set with num_shots samples
-#     if random_few_shots:
-#         # -------------------
-#         # PICK RANDOM SAMPLES
-#         # -------------------
-#         print("Random selection of training samples.")
-#         # Ensure we don't pick more than available
-#         num_shots_actual = min(num_shots, len(all_indices))
-#         shuffled_indices = list(all_indices)
-#         np.random.shuffle(shuffled_indices)
-#         training_indices = shuffled_indices[:num_shots_actual]
-#     else:
-#         # ------------------------------------------------------------------------
-#         # ORIGINAL LOGIC: Select training samples that cover as many labels as possible
-#         # ------------------------------------------------------------------------
-#         print("Coverage-based selection of training samples.")
-#         training_indices = []
-#         label_coverage = set()
-        
-#         sample_labels = []
-#         for idx, labels in enumerate(combined_labels_list):
-#             sample_labels.append({
-#                 'index': idx,
-#                 'labels': set(labels),
-#                 'num_labels': len(set(labels))
-#             })
-        
-#         # Sort samples by number of labels (descending)
-#         sample_labels.sort(key=lambda x: x['num_labels'], reverse=True)
-        
-#         for sample in sample_labels:
-#             if len(training_indices) >= num_shots:
-#                 break
-#             # Only pick this sample if it adds at least one new label
-#             if not sample['labels'].issubset(label_coverage):
-#                 training_indices.append(sample['index'])
-#                 label_coverage.update(sample['labels'])
-        
-#         # If not enough unique coverage samples found, fill randomly
-#         if len(training_indices) < num_shots:
-#             print(f"Only {len(training_indices)} samples found with unique labels. Filling the rest randomly.")
-#             remaining_indices = list(set(all_indices) - set(training_indices))
-#             random.shuffle(remaining_indices)
-#             training_indices.extend(remaining_indices[:num_shots - len(training_indices)])
-#     # ------------------- END OF TRAINING SET SELECTION -------------------
-    
-#     # Collect labels used in the training set
-#     training_labels = set(label for idx in training_indices for label in combined_labels_list[idx])
-    
-#     # Remaining indices
-#     remaining_indices = list(set(all_indices) - set(training_indices))
-    
-#     # Filter samples that only have labels from the training set
-#     filtered_indices = [
-#         idx for idx in remaining_indices
-#         if set(combined_labels_list[idx]).issubset(training_labels)
-#     ]
-    
-#     # Number of possible samples after filtering
-#     total_possible_samples = len(filtered_indices)
-    
-#     # Calculate the number of validation samples based on desired_val_size
-#     num_val_samples = int(desired_val_size * total_possible_samples)
-#     num_val_samples = max(num_val_samples, 1)  # Ensure at least one sample
-#     num_test_samples = total_possible_samples - num_val_samples
-    
-#     print(f"Total available samples for evaluation with nodes covered in few-shot dataset (training set): {total_possible_samples}")
-#     print(f"> Samples possible for validation: {num_val_samples}")
-#     print(f"> Samples possible for testing: {num_test_samples}")
-    
-#     # Shuffle filtered indices to randomize before splitting
-#     random.shuffle(filtered_indices)
-    
-#     # If there are enough samples to split
-#     if num_val_samples > 0 and num_test_samples > 0:
-#         # Prepare data and labels for stratified splitting
-#         filtered_data = data[filtered_indices]
-#         filtered_labels = labels_array[filtered_indices]
-        
-#         msss = MultilabelStratifiedShuffleSplit(
-#             n_splits=1,
-#             train_size=float(num_val_samples) / total_possible_samples,
-#             test_size=float(num_test_samples) / total_possible_samples,
-#             random_state=SEED
-#         )
-#         val_indices_rel, test_indices_rel = next(msss.split(filtered_data, filtered_labels))
-        
-#         val_indices = [filtered_indices[i] for i in val_indices_rel]
-#         test_indices = [filtered_indices[i] for i in test_indices_rel]
-#     else:
-#         # Not enough samples to create both sets properly
-#         print("Not enough samples for validation and test sets. Assigning all to validation set.")
-#         val_indices = filtered_indices[:num_val_samples]
-#         test_indices = filtered_indices[num_val_samples:]
-    
-#     # Ensure no overlap
-#     assert len(set(training_indices) & set(val_indices)) == 0
-#     assert len(set(training_indices) & set(test_indices)) == 0
-#     assert len(set(val_indices) & set(test_indices)) == 0
-    
-#     # Create the datasets
-#     train_data = data[training_indices]
-#     val_data = data[val_indices]
-#     test_data = data[test_indices]
-    
-#     print(f"Training set size: {len(train_data)}")
-#     print(f"Validation set size: {len(val_data)}")
-#     print(f"Test set size: {len(test_data)}")
-    
-#     # Optionally write to file
-#     if write_to_file:
-#         current_dir = os.path.dirname(os.path.abspath(__file__))
-#         full_path = os.path.join(current_dir, '../../data/few_shot')
-        
-#         os.makedirs(full_path, exist_ok=True)
-        
-#         with open(f'{full_path}/train_{num_shots}_shot.json', 'w') as train_file:
-#             json.dump(train_data.tolist(), train_file, indent=4)
-        
-#         with open(f'{full_path}/validation_{num_shots}_shot.json', 'w') as val_file:
-#             json.dump(val_data.tolist(), val_file, indent=4)
-        
-#         with open(f'{full_path}/test_{num_shots}_shot.json', 'w') as test_file:
-#             json.dump(test_data.tolist(), test_file, indent=4)
-    
-#     return train_data.tolist(), val_data.tolist(), test_data.tolist()
 
-  
+    #Write to file:
+    if write_to_file:
+        full_path = os.path.join(f'{project_root}/data/MBPP_Midio_50/splits/k_fold')
+        
+        for fold in range(k_folds):
+            train_data = [dataset[i] for i in folds[fold][0]]
+            test_data = [dataset[i] for i in folds[fold][1]]
+
+            with open(f'{full_path}/train_dataset_{fold}.json', 'w') as train_file:
+                json.dump(train_data, train_file, indent=4)
+
+            with open(f'{full_path}/test_dataset_{fold}.json', 'w') as test_file:
+                json.dump(test_data, test_file, indent=4)
+
+    return dataset, folds
+
 def multi_stratified_split(dataset, write_to_file, eval_size, seed=58):
     SEED = seed
     prompts = [item['prompts'][0] for item in dataset]   # e.g., take the 'prompts' list as your features

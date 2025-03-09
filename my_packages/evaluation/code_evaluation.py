@@ -1,6 +1,6 @@
 from collections import defaultdict
 import numpy as np
-from my_packages.common import CodeEvaluationResult, PromptType, Run
+from my_packages.common.classes import CodeEvaluationResult, PromptType, Run
 from my_packages.db_service.best_params_service import save_best_params_to_db
 from my_packages.db_service.error_service import save_errors_to_db
 from my_packages.db_service.results_service import save_results_to_db

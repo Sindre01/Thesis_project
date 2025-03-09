@@ -3,7 +3,7 @@ from zoneinfo import ZoneInfo
 
 import pandas as pd
 from my_packages.db_service import db
-from my_packages.common import Run
+from my_packages.common.classes import Run
 from my_packages.db_service.data_processing import flatten_metric_results
 
 def save_best_params_to_db(

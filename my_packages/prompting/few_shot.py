@@ -141,6 +141,7 @@ def transform_code_data(data: dict)-> list[dict]:
         new_obj['task'] = sample['prompts'][0]
         new_obj['response'] = read_code_file(sample['task_id'])
         new_obj['external_functions'] = ', '.join([func.replace("root.std.", "") for func in sample['external_functions']])
+        new_obj['python_tests'] = sample['testing']['python_tests']
         new_obj['tests'] = sample['testing']['tests']
         new_obj['function_signature'] = sample['specification']['function_signature']
         new_obj['preconditions'] = sample['specification']['preconditions']

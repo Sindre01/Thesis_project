@@ -1,6 +1,6 @@
 import itertools
 import numpy as np
-from my_packages.common import CodeEvaluationResult
+from my_packages.common.classes import CodeEvaluationResult
 from my_packages.evaluation.midio_compiler import compile_code, is_code_semantically_valid, is_code_syntax_valid
 from my_packages.utils.file_utils import get_test_module_from_file
 

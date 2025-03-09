@@ -1,12 +1,8 @@
 from datetime import datetime
 import json
-import os
 from subprocess import CompletedProcess
-from typing import Dict, List
 from colorama import Fore, Style
-from pydantic import BaseModel, Field
 from my_packages.evaluation.midio_compiler import clean_output, extract_errors, get_json_test_result, is_all_tests_passed
-
 
 class CodeEvaluationResult:
     """

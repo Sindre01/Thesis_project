@@ -5,9 +5,6 @@ import subprocess
 import sys
 import argparse
 
-from my_packages.common.few_shot import init_example_selector, model_configs
-from my_packages.data_processing.split_dataset import create_kfold_splits, get_kfold_splits
-
 script_dir = os.path.dirname(os.path.abspath(__file__))
 project_dir = os.path.abspath(f"{script_dir}/../../..")
 # experiment_dir = os.path.abspath(f"{script_dir}/..")
@@ -23,43 +20,10 @@ results_dir = f"{project_dir}/notebooks/few-shot/fox/validation_runs"
 sys.path.append(project_dir)
 from my_packages.common.classes import PromptType
 from my_packages.evaluation.code_evaluation import run_model
-from dotenv import load_dotenv
 from my_packages.data_processing.attributes_processing import used_functions_to_string
-from my_packages.prompting.few_shot import transform_code_data
 from my_packages.utils.file_utils import write_directly_json_file, read_dataset_to_json
-from my_packages.utils.tokens_utils import get_model_code_tokens_from_file, models_not_in_file, write_models_tokens_to_file
-from my_packages.utils.server_utils import server_diagnostics, is_remote_server_reachable
-from langchain_ollama import OllamaEmbeddings, ChatOllama
-from langchain_anthropic import ChatAnthropic
-from langchain_openai import OpenAIEmbeddings, ChatOpenAI
-from my_packages.prompting.example_selectors import get_coverage_example_selector, get_semantic_similarity_example_selector
-from langchain_core.example_selectors.base import BaseExampleSelector
-
-def get_dataset_splits(main_dataset_folder):
-    train_data = transform_code_data(read_dataset_to_json(main_dataset_folder + 'splits/train_dataset.json'))
-    val_data = transform_code_data(read_dataset_to_json(main_dataset_folder + 'splits/validation_dataset.json'))
-    test_data = transform_code_data(read_dataset_to_json(main_dataset_folder + 'splits/test_dataset.json'))
-
-    print(f"Train data: {len(train_data)}")
-    print(f"Val data: {len(val_data)}")
-    print(f"Test data: {len(test_data)}")
-    return train_data, val_data, test_data
-
-def get_k_fold_splits(main_dataset_folder, k, k_folds=5):
-
-    if os.path.exists(main_dataset_folder + f'splits/{k_folds}_fold'):
-        print(f"Using existing {k_folds}-fold splits")
-    else:
-        print(f"Creating {k_folds}-fold splits")
-        train, val = get_dataset_splits(main_dataset_folder)
-        create_kfold_splits((val+train), k_folds=k_folds, write_to_file=True)
-
-    train_data = read_dataset_to_json(main_dataset_folder + f'splits/{k_folds}_fold/train_dataset_{k}.json')
-    val_data = read_dataset_to_json(main_dataset_folder + f'splits/{k_folds}_fold/val_dataset_{k}.json')
-
-    print(f"Train data: {len(train_data)}")
-    print(f"val data: {len(val_data)}")
-    return train_data, val_data
+from my_packages.utils.tokens_utils import get_model_code_tokens_from_file
+from notebooks.k_fold.common import get_kfold_splits, init_example_selector, model_configs
 
 
 def run_val_experiment(
@@ -78,6 +42,7 @@ def run_val_experiment(
         seed = 9,
         debug = False,
         ollama_port = "11434"
+
 ):
     
     if model["name"] in "gpt-4o":
@@ -135,10 +100,9 @@ def parse_experiments(experiment_list):
         if "prompt_type" in exp and isinstance(exp["prompt_type"], str):
             exp["prompt_type"] = PromptType(exp["prompt_type"])  # Convert to Enum
     return experiment_list
-def main():
-    """Run few-shot validation experiments."""
-    for ex in experiments:
 
+def main():
+    for ex in experiments:
         selector_type= "similarity" if ex["semantic_selector"] else "coverage"
         prompt_type = ex["prompt_type"].value
         experiments_dir = os.path.join("/fp/homes01/u01/ec-sindrre/slurm_jobs", f"few-shot/validation/{selector_type}/{prompt_type}/runs/")
@@ -151,7 +115,6 @@ def main():
                 file_name = f"{experiment_name}_{model_name}.json"
                 result_runs_path = os.path.join(experiments_dir, file_name)
     
-
                 print(f"\n==== Running few-shot validation for {experiment_name} on '{model_name}' ====")  
                 model = get_model_code_tokens_from_file(model_name, f'{project_dir}/notebooks/few-shot/code_max_tokens.json')
                 run_val_experiment(
@@ -181,16 +144,17 @@ def main():
                             prompt_type,
                             str(hours), str(minutes), str(seconds)], check=True)
             print("✅ push_runs.sh script executed successfully!")
-            print("🚀 Few-shot validation completed successfully!")
 
 if __name__ == "__main__":
+    OUTPUT_DIR = ? # Define output directory NOE MED FOLD
+
     parser = argparse.ArgumentParser(description="Process input.")
 
     parser.add_argument("--model_provider", type=str, required=True, help="Model provider")
     parser.add_argument("--models", type=str, required=True, help="JSON string for models")
     parser.add_argument("--experiments", type=str, required=True, help="JSON string for experiments")
     parser.add_argument("--ollama_port", type=str, required=True, help="ollama_port")
-    parser.add_argument("--k_fold", type=str, required=True, help="k_fold")
+    parser.add_argument("--fold", type=int, required=True, help="Current fold index")
 
     args = parser.parse_args()
     # DEBUG: Print arguments before decoding JSON
@@ -212,35 +176,82 @@ if __name__ == "__main__":
     print(f"Models: {models}")
     print(f"Experiments: {experiments}")
     print(f"Ollama port: {ollama_port}")
-    print(f"fold: {fold}")
+    print(f"Fold: {fold}")
     print("########################################")
 
     start_time = time.time()
     main_dataset_folder = f'{project_dir}/data/MBPP_Midio_50/'
 
     print("\n==== Splits data ====")
-    train_data, val_data, test_data = get_dataset_splits(main_dataset_folder)
-    dataset = train_data + val_data + test_data
+    full_data, folds = get_kfold_splits()
 
-    if fold != -1:
-        print(f"Using {fold}-fold cross-validation on merged train+test splits")
-        k_fold_data = (train_data + test_data)  
-        train, val = get_k_fold_splits(main_dataset_folder, fold)
-    else:
-        print("Using static train/validation split")
+    # Get the current train/test split
+    train_idx, val_idx = folds[fold]
+    train_data = [full_data[i] for i in train_idx]
+    val_data = [full_data[i] for i in val_idx]
+
+    print(f"Fold {fold}: Train = {len(train_data)}, Validation = {len(val_data)}")
+    all_responses = [sample["response"] for sample in train_data] + [sample["response"] for sample in val_data]
     
-    all_responses = [sample["response"] for sample in dataset]
+    
     print(f"Number of all responses: {len(all_responses)}")
-    
     used_functions_json = read_dataset_to_json(main_dataset_folder + "metadata/used_external_functions.json")
     print(f"Number of external functions used: {len(used_functions_json)}")
     available_nodes = used_functions_to_string(used_functions_json)
-
     print("\n==== Configures models ====")
     client, models = model_configs(all_responses, model_provider, models, ollama_port)
 
     print(f"Total experiments variations to run: {len(experiments) * len(models)* len(experiments[0]['num_shots'])}")
-    
     print("\n==== Running validation ====")
-    main(train_data, val_data)
-        
+    main()
+    
+
+    # experiments = [
+
+    #     ############# Coverage examples prompt #################
+    #     # {
+    #     #     "name": "regular_coverage",
+    #     #     "prompt_prefix": "Create a function",
+    #     #     "num_shots": [1, 5, 10],
+    #     #     "prompt_type": PromptType.REGULAR,
+    #     #     "semantic_selector": False,
+    #     # },
+    #     # {
+    #     #     "name": "signature_coverage",
+    #     #     "prompt_prefix": "Create a function",
+    #     #     "num_shots": [1, 5, 10],
+    #     #     "prompt_type": PromptType.SIGNATURE,
+    #     #     "semantic_selector": False,
+    #     # },
+    #     # {
+    #     #     "name": "cot_coverage",
+    #     #     "prompt_prefix": "Create a function",
+    #     #     "num_shots": [1, 5, 10],
+    #     #     "prompt_type": PromptType.COT,
+    #     #     "semantic_selector": False,
+    #     # },
+
+    #     ############# RAG similarity examples prompt #################
+    #     # {
+    #     #     "name": "regular_similarity",
+    #     #     "prompt_prefix": "Create a function",
+    #     #     "num_shots": [1, 5, 10],
+    #     #     "prompt_type": PromptType.REGULAR,
+    #     #     "semantic_selector": True,
+    #     # },
+    #     # {
+    #     #     "name": "signature_similarity",
+    #     #     "prompt_prefix": "Create a function",
+    #     #     "num_shots": [1, 5, 10],
+    #     #     "prompt_type": PromptType.SIGNATURE,
+    #     #     "semantic_selector": True,
+    #     # },
+    #     # {
+    #     #     "name": "cot_similarity",
+    #     #     "prompt_prefix": "Create a function",
+    #     #     "num_shots": [1, 5, 10],
+    #     #     "prompt_type": PromptType.COT,
+    #     #     "semantic_selector": True,
+    #     # }
+
+    # ]

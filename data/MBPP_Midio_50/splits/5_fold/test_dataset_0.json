@@ -1,0 +1,405 @@
+[
+    {
+        "MBPP_task_id": "433",
+        "task_id": "8",
+        "task": "Create a function to check whether the entered number is greater than the elements of the given array.",
+        "response": "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main {\n    func(doc: \"check whether the entered number is greater than the elements of the given array.\") check_greater {\n        in(x: -33, y: -26, name: \"n\") property(Number) n_a6cea7\n        in(x: -294, y: 155, name: \"list\") property(Any) list_0b075e\n\n        out(x: 546, y: 63, name: \"output\") property(Bool) output_b1d7f8\n\n        instance(x: -82, y: 155) length_6e87f2 root.Std_k98ojb.List.Length {}\n        instance(x: 201, y: 62) greaterthan_cb50ae root.Std_k98ojb.Math.GreaterThan {}\n        greaterthan_cb50ae.result -> output_b1d7f8\n        length_6e87f2.length -> greaterthan_cb50ae.right\n        n_a6cea7 -> greaterthan_cb50ae.left\n        list_0b075e -> length_6e87f2.list\n    }\n\n    \n\n    instance(x: 48, y: 11) check_greater_15f9e9 root.main.check_greater {}\n}",
+        "external_functions": "List.Length, Math.GreaterThan",
+        "tests": {
+            "test_cases": [
+                {
+                    "input": [
+                        [
+                            1,
+                            2,
+                            3,
+                            4,
+                            5
+                        ],
+                        4
+                    ],
+                    "expected_output": false
+                },
+                {
+                    "input": [
+                        [
+                            2,
+                            3,
+                            4,
+                            5,
+                            6
+                        ],
+                        8
+                    ],
+                    "expected_output": true
+                },
+                {
+                    "input": [
+                        [
+                            9,
+                            7,
+                            4,
+                            8,
+                            6,
+                            1
+                        ],
+                        11
+                    ],
+                    "expected_output": true
+                }
+            ]
+        },
+        "function_signature": "func(doc: \"check whether the entered number is greater than the elements of the given array.\") check_greater {\n\tin(x: -33, y: -26, name: \"n\") property(Number) n_a6cea7\n\tin(x: -294, y: 155, name: \"list\") property(Any) list_0b075e\n\tout(x: 546, y: 63, name: \"output\") property(Bool) output_b1d7f8\n}",
+        "preconditions": "- The array should not be null",
+        "postconditions": "- If the result is true, then n is greater than all elements in the array\n- If the result is false, then there exists at least one element in the array that is greater than or equal to n",
+        "flow_description": "The flow should create a user-defined function. The body of the function contains two input properties of type Number and List, one 'List Object' node with number 11, one 'Math GreaterThan' and one output property of type Bool.\n The arrows are connected as follows: The input property, called list, is connected with arrows to the list property of the 'List Lenght' node. The output property of 'List Lenght' node, named lenght, is connected with arrows to the input property, named right, of the 'Math GreaterThan' node. The other input property to the user-defnied function is named n and is conencted to the other input property, named left, of the 'Math GreaterThan' node. The output property of the 'Math GreaterThan' node is returned to the output property of the user-defined function, that return this Bool value from the function. The user-defined function is then created within the main module."
+    },
+    {
+        "MBPP_task_id": "566",
+        "task_id": "14",
+        "task": "Create a function to get the sum of the digits of a non-negative integer.",
+        "response": "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main { \n    \n    func(doc: \"gets the sum of the digits of a non-negative integer.\") sum_digits {\n        in(x: -450, y: -421, name: \"execute\") trigger() execute_cdac2a\n        in(x: -436, y: -213, name: \"n\") property(Number) n_6b655b\n\n        out(x: 1146, y: -647, name: \"continue\") trigger() continue_d9efd7\n        out(x: 1169, y: -269, name: \"output\") property(Number) output_732a8a\n\n        instance(x: 80, y: -417) ifexpression_3d7de6 root.Std_k98ojb.Std.IfExpression {\n            expression: \"n <= 0\"\n        }\n        instance(x: 395, y: -378) sum_digits_96023e root.main.sum_digits {}\n        instance(x: 97, y: -127) modulo_adfa16 root.Std_k98ojb.Math.Modulo {}\n        instance(x: 656, y: -330) add_88bb8a root.Std_k98ojb.Math.Add {}\n        instance(x: 99, y: -249) div_547f34 root.Std_k98ojb.Math.Div {}\n        setter(x: -215, y: -463, name: \"setter_41e4ad\") setter_41e4ad = sum\n        setter(x: 875, y: -518, name: \"setter_375321\") setter_375321 = sum\n        getter(x: 902, y: -314, name: \"getter_38583a\") getter_38583a = sum\n        instance(x: -202, y: -236) floor_61b38d root.Std_k98ojb.Math.Floor {}\n        10 -> modulo_adfa16.divisor\n        modulo_adfa16.result -> add_88bb8a.first\n        10 -> div_547f34.second\n        div_547f34.result -> sum_digits_96023e.n_6b655b\n        0 -> setter_41e4ad.new_value\n        setter_41e4ad.continue -> ifexpression_3d7de6.execute\n        ifexpression_3d7de6.then -> continue_d9efd7\n        execute_cdac2a -> setter_41e4ad.execute\n        ifexpression_3d7de6.else -> sum_digits_96023e.execute_cdac2a\n        sum_digits_96023e.continue_d9efd7 -> setter_375321.execute\n        sum_digits_96023e.output_732a8a -> add_88bb8a.second\n        add_88bb8a.result -> setter_375321.new_value\n        setter_375321.continue -> continue_d9efd7\n        getter_38583a.value -> output_732a8a\n        n_6b655b -> floor_61b38d.input\n        floor_61b38d.output -> div_547f34.first\n        floor_61b38d.output -> modulo_adfa16.value\n        floor_61b38d.output -> ifexpression_3d7de6.gen_0\n    }\n\n    \n\n    instance(x: -176, y: -38) sum_digits_86117a root.main.sum_digits {}\n\n}",
+        "external_functions": "Math.Floor, Math.Modulo, Math.Div, Math.Add, Std.IfExpression",
+        "tests": {
+            "test_cases": [
+                {
+                    "input": 345,
+                    "expected_output": 12
+                },
+                {
+                    "input": 12,
+                    "expected_output": 3
+                },
+                {
+                    "input": 97,
+                    "expected_output": 16
+                }
+            ]
+        },
+        "function_signature": "func(doc: \"gets the sum of the digits of a non-negative integer.\") sum_digits {\n\tin(x: -450, y: -421, name: \"execute\") trigger() execute_cdac2a\n\tin(x: -436, y: -213, name: \"n\") property(Number) n_6b655b\n\tout(x: 1146, y: -647, name: \"continue\") trigger() continue_d9efd7\n\tout(x: 1169, y: -269, name: \"output\") property(Number) output_732a8a\n}",
+        "preconditions": "- n should be a non-negative integer",
+        "postconditions": "- The sum of the digits of the input integer is returned\n- The sum is non-negative",
+        "flow_description": "The flow should create a user-defined function, called sum_digits. The body of the function contains one input property of type Number, called 'n', and one input trigger, called 'execute'. It also includes the following node: one 'Math Floor' node, one 'Math Modulo' node with the divisor set to 10, one 'Math Division' node with the divisor set to 10, one 'Math Addition' node, one 'Std IfExpression' node, local variable creation with the getter and setter nodes, and the current sum_digits function node to be able to do recursive calls. Lastly, it includes an output property of type number and an output trigger, called 'continue'.\n The arrows are connected as follows:  The input property, called n, is connected with arrows to the input property of the 'Math Floor' node. The output property of the 'Math Floor' node, called 'output', is connected with three arrows to the input properties of 'Std IfExpression', 'Math Div' and 'Math Modulo'. The input trigger, called 'execute' is conencted with an arrow to the setter node, which sets the value of a variable sum to the number 0. Then, the flow of execution is futher sent to the 'Std IfExpression' node, which evaluates if 'n <= 0'. If true, then the flow of execution is sent to the output trigger, called 'continue'. If false, the the flow of execution is sent to the current sum_digits node which starts a recursive call, with the input property 'n' set to the result of the 'Math Div' node, which divides n (after going through 'Math Floor') with 10. After the recursive calls, the flow of execution is sent to a setter node, which sets the variable 'sum' to the value of 'Math Add', which add the output of 'sum_digits' and the 'Math Modulo' node with divisor 10. After the varible 'sum' have been set by the setter node, the flow of execution is sent to the ouput trigger 'continue'. At the end of the main flow and all the recursive calls, the output property is returned by connecting it to a 'getter' node, which gets the value of the variable 'sum'. The user-defined function is then created within the main module."
+    },
+    {
+        "MBPP_task_id": "624",
+        "task_id": "26",
+        "task": "Create a function to convert a given string to uppercase.",
+        "response": "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main { \n\n    func(doc: \"convert a given string to uppercase.\") ToUpper {\n        in(x: -531, y: 2, name: \"input\") property(String) input_ai\n        out(x: 340, y: 77, name: \"output\") property(String) output_ai\n\n        instance(x: 772, y: 76) toupper_7b3b7b root.Std_k98ojb.Strings.ToUpper {}\n        input_ai -> toupper_7b3b7b.input\n        toupper_7b3b7b.output -> output_ai\n    }\n\n    \n\n    instance(x: -179, y: 30) toupper_59bc6e root.main.ToUpper {}\n\n}",
+        "external_functions": "Strings.ToUpper",
+        "tests": {
+            "test_cases": [
+                {
+                    "input": "person",
+                    "expected_output": "PERSON"
+                },
+                {
+                    "input": "final",
+                    "expected_output": "FINAL"
+                },
+                {
+                    "input": "Valid",
+                    "expected_output": "VALID"
+                }
+            ]
+        },
+        "function_signature": "func(doc: \"convert a given string to uppercase.\") ToUpper {\n\tin(x: -531, y: 2, name: \"input\") property(String) input_ai\n\tout(x: 340, y: 77, name: \"output\") property(String) output_ai\n}",
+        "preconditions": "- There are no preconditions, the method will always work. Strings and sequences are always not null.",
+        "postconditions": "- The length of the returning string must be the same as the length of the input string\n- All lowercase characters of the input string are uppercase in the output string\n- All other characters are unchanged",
+        "flow_description": "The flow should create the built-in function node from the std library, called 'Strings.ToUpper' node, should be used. The node should be created in a function with proper name."
+    },
+    {
+        "MBPP_task_id": "733",
+        "task_id": "32",
+        "task": "Write a function to find the index of the first occurrence of a given number in a sorted array.",
+        "response": "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main { \n    func(doc: \"Finds the index of the first occurrence of a given number in a sorted array.\") find_first_occurrence {\n        in(x: 5, y: 218, name: \"list\") property(List) list_d128d8\n        in(x: -252, y: -11, name: \"execute\") trigger() execute_467172\n        in(x: 349, y: -105, name: \"target\") property(Number) target_fbe60e\n\n        out(x: 1217, y: 29, name: \"continue\") trigger() continue_075eef\n        out(x: 966, y: 219, name: \"output\") property(Number) output_3ae271\n\n        setter(x: 0, y: 0, name: \"setter_6e7b4e\") setter_6e7b4e = index\n        instance(x: 340, y: 60) for_065883 root.Std_k98ojb.Std.For {}\n        getter(x: 704, y: 170, name: \"getter_84fbbe\") getter_84fbbe = index\n        setter(x: 955, y: -158, name: \"setter_7e2b42\") setter_7e2b42 = index\n        instance(x: 551, y: -105) equal_aabb6e root.Std_k98ojb.Logic.Equal {}\n        instance(x: 758, y: -75) if_7c284f root.Std_k98ojb.Std.If {}\n        setter_6e7b4e.continue -> for_065883.reset\n        list_d128d8 -> for_065883.items\n        execute_467172 -> setter_6e7b4e.execute\n        -1 -> setter_6e7b4e.new_value\n        for_065883.done -> continue_075eef\n        getter_84fbbe.value -> output_3ae271\n        target_fbe60e -> equal_aabb6e.left\n        for_065883.item -> equal_aabb6e.right\n        for_065883.onItem -> if_7c284f.execute\n        equal_aabb6e.result -> if_7c284f.predicate\n        if_7c284f.else -> for_065883.next\n        if_7c284f.then -> setter_7e2b42.execute\n        setter_7e2b42.continue -> continue_075eef\n        for_065883.index -> setter_7e2b42.new_value\n    }\n\n    \n\n    instance(x: 777, y: 760) find_first_occurrence_6e6bfd root.main.find_first_occurrence {}\n\n}",
+        "external_functions": "Std.For, Std.If, Logic.Equal",
+        "tests": {
+            "test_cases": [
+                {
+                    "input": [
+                        [
+                            2,
+                            5,
+                            5,
+                            5,
+                            6,
+                            6,
+                            8,
+                            9,
+                            9,
+                            9
+                        ],
+                        5
+                    ],
+                    "expected_output": 1
+                },
+                {
+                    "input": [
+                        [
+                            2,
+                            3,
+                            5,
+                            5,
+                            6,
+                            6,
+                            8,
+                            9,
+                            9,
+                            9
+                        ],
+                        5
+                    ],
+                    "expected_output": 2
+                },
+                {
+                    "input": [
+                        [
+                            2,
+                            4,
+                            1,
+                            5,
+                            6,
+                            6,
+                            8,
+                            9,
+                            9,
+                            9
+                        ],
+                        6
+                    ],
+                    "expected_output": 4
+                }
+            ]
+        },
+        "function_signature": "func(doc: \"Finds the index of the first occurrence of a given number in a sorted array.\") find_first_occurrence {\n\tin(x: 5, y: 218, name: \"list\") property(List) list_d128d8\n\tin(x: -252, y: -11, name: \"execute\") trigger() execute_467172\n\tin(x: 349, y: -105, name: \"target\") property(Number) target_fbe60e\n\tout(x: 1217, y: 29, name: \"continue\") trigger() continue_075eef\n\tout(x: 966, y: 219, name: \"output\") property(Number) output_3ae271\n}",
+        "preconditions": "- The input array is sorted in non-decreasing order",
+        "postconditions": "- If the target is found, the returned index should be the first occurrence of the target in the array\n- If the target is not found, the returned index should be -1\n- The input array remains unchanged",
+        "flow_description": "N/A"
+    },
+    {
+        "MBPP_task_id": "775",
+        "task_id": "39",
+        "task": "Create a function to check whether every odd index contains odd numbers of a given list.",
+        "response": "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main { \n    func(doc: \"Checks whether every odd index contains odd numbers of a given list.\") odd_position {\n        in(x: -527, y: -214, name: \"list\") property(List) list_07cae4\n\n        out(x: 1269, y: -209, name: \"output\") property(Bool) output_8d07dc\n\n        instance(x: -303, y: -205, name: \"only odd indexes\") filter_c91965 root.Std_k98ojb.Iteration.Filter {}\n        instance(x: 847, y: -207) contains_32727d root.Std_k98ojb.List.Contains {}\n        instance(x: 246, y: -209, name: \"transform numbers to true/false\") map_c73e3b root.Std_k98ojb.Iteration.Map {}\n        instance(x: 1058, y: -203) not_75283f root.Std_k98ojb.Logic.Not {}\n        func() {\n            in(x: -30, y: -25, name: \"current\") property(Number) _index_170471\n            in(x: -23, y: 79, name: \"_index\") property(Number) _index_769593\n\n            out(x: 705, y: 49, name: \"output\") property(Bool) output_efbc78\n\n            instance(x: 226, y: 56) modulo_c76d2b root.Std_k98ojb.Math.Modulo {}\n            instance(x: 463, y: 51) notequal_7836b4 root.Std_k98ojb.Logic.NotEqual {}\n            2 -> modulo_c76d2b.divisor\n            0 -> notequal_7836b4.right\n            notequal_7836b4.result -> output_efbc78\n            modulo_c76d2b.result -> notequal_7836b4.left\n            _index_769593 -> modulo_c76d2b.value\n        } -> filter_c91965.handler\n        list_07cae4 -> filter_c91965.items\n        func() {\n            in(x: -192, y: -16, name: \"current\") property(Number) current_81298e\n\n            out(x: 521, y: -28, name: \"bool\") property(Bool) bool_4524be\n\n            instance(x: 74, y: -23) modulo_ad7b2a root.Std_k98ojb.Math.Modulo {}\n            instance(x: 285, y: -25) notequal_cb8a55 root.Std_k98ojb.Logic.NotEqual {}\n            current_81298e -> modulo_ad7b2a.value\n            2 -> modulo_ad7b2a.divisor\n            modulo_ad7b2a.result -> notequal_cb8a55.left\n            0 -> notequal_cb8a55.right\n            notequal_cb8a55.result -> bool_4524be\n        } -> map_c73e3b.handler\n        filter_c91965.output_list -> map_c73e3b.items\n        map_c73e3b.output_list -> contains_32727d.list\n        false -> contains_32727d.item\n        not_75283f.result -> output_8d07dc\n        contains_32727d.is_contained -> not_75283f.input\n    }\n\n    \n\n    instance(x: -293, y: -5) odd_position_7a4dad root.main.odd_position {}\n}",
+        "external_functions": "Iteration.Filter, Iteration.Map, List.Contains, Logic.Not, Math.Modulo, Logic.NotEqual",
+        "tests": {
+            "test_cases": [
+                {
+                    "input": [
+                        2,
+                        1,
+                        4,
+                        3,
+                        6,
+                        7,
+                        6,
+                        3
+                    ],
+                    "expected_output": true
+                },
+                {
+                    "input": [
+                        4,
+                        1,
+                        2
+                    ],
+                    "expected_output": true
+                },
+                {
+                    "input": [
+                        1,
+                        2,
+                        3
+                    ],
+                    "expected_output": false
+                }
+            ]
+        },
+        "function_signature": "func(doc: \"Checks whether every odd index contains odd numbers of a given list.\") odd_position {\n\tin(x: -527, y: -214, name: \"list\") property(List) list_07cae4\n\tout(x: 1269, y: -209, name: \"output\") property(Bool) output_8d07dc\n}",
+        "preconditions": "- There are no preconditions, the method will always work.",
+        "postconditions": "- The result is true if every odd index contains an odd number\n- The result is false otherwise",
+        "flow_description": "N/A"
+    },
+    {
+        "MBPP_task_id": "807",
+        "task_id": "43",
+        "task": "Create a function to find the first odd number in a given list of numbers.",
+        "response": "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main { \n     func(doc: \"Finds the first odd number in a given list of numbers.\") first_odd {\n        in(x: -284, y: -0, name: \"list\") property(List) list_abed4a\n\n        out(x: 593, y: -1, name: \"number\") property(Number) number_3bc2ae\n\n        instance(x: 0, y: 0) find_6d05b0 root.Std_k98ojb.Iteration.Find {}\n        func() {\n            in(x: -113, y: 34, name: \"elem\") property(Number) elem_9f6850\n\n            out(x: 515, y: 44, name: \"bool\") property(Bool) bool_af09a7\n\n            instance(x: 89, y: 29) modulo_1088d5 root.Std_k98ojb.Math.Modulo {}\n            instance(x: 310, y: 35) notequal_807ffd root.Std_k98ojb.Logic.NotEqual {}\n            0 -> notequal_807ffd.right\n            modulo_1088d5.result -> notequal_807ffd.left\n            2 -> modulo_1088d5.divisor\n            elem_9f6850 -> modulo_1088d5.value\n            notequal_807ffd.result -> bool_af09a7\n        } -> find_6d05b0.predicate\n        list_abed4a -> find_6d05b0.items\n        find_6d05b0.item -> number_3bc2ae\n    }\n\n    \n\n    instance(x: -55, y: 529) first_odd_2c856f root.main.first_odd {}\n}",
+        "external_functions": "Iteration.Find, Math.Modulo, Logic.NotEqual",
+        "tests": {
+            "test_cases": [
+                {
+                    "input": [
+                        1,
+                        3,
+                        5
+                    ],
+                    "expected_output": 1
+                },
+                {
+                    "input": [
+                        2,
+                        4,
+                        1,
+                        3
+                    ],
+                    "expected_output": 1
+                }
+            ]
+        },
+        "function_signature": "func(doc: \"Finds the first odd number in a given list of numbers.\") first_odd {\n\tin(x: -284, y: -0, name: \"list\") property(List) list_abed4a\n\tout(x: 593, y: -1, name: \"number\") property(Number) number_3bc2ae\n}",
+        "preconditions": "- The input array should not be null",
+        "postconditions": "- If found is true, then the value at index is odd\n- If found is false, then there are no odd numbers in the array\n- If there are multiple odd numbers, the index should be the smallest index with an odd number",
+        "flow_description": "N/A"
+    },
+    {
+        "MBPP_task_id": "447",
+        "task_id": "47",
+        "task": "Create a function to find cubes of individual elements in a list.",
+        "response": "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main {\n    func(doc: \"find cubes of individual elements in a list.\") cube_nums {\n        in(x: -122, y: -81, name: \"list\") property(List) list_63c248\n\n        out(x: 656, y: -68, name: \"result\") property(List) result_cbb7bd\n\n        instance(x: 94, y: -105) map_f2330d root.Std_k98ojb.Iteration.Map {}\n        list_63c248 -> map_f2330d.items\n        func() {\n            in(x: -121, y: -37, name: \"x\") property(Number) x_8ee839\n\n            out(x: 333, y: -50, name: \"\") property(Number) _7dd980\n\n            instance(x: 92, y: -22) pow_584bfd root.Std_k98ojb.Math.Pow {}\n            x_8ee839 -> pow_584bfd.x\n            3 -> pow_584bfd.y\n            pow_584bfd.result -> _7dd980\n        } -> map_f2330d.handler\n        map_f2330d.output_list -> result_cbb7bd\n    }\n\n    \n\n    instance(x: -92, y: 45) cube_nums_b9ff6b root.main.cube_nums {}\n}",
+        "external_functions": "Math.Pow, Iteration.Map",
+        "tests": {
+            "test_cases": [
+                {
+                    "input": [
+                        1,
+                        2,
+                        3,
+                        4,
+                        5,
+                        6,
+                        7,
+                        8,
+                        9,
+                        10
+                    ],
+                    "expected_output": [
+                        1,
+                        8,
+                        27,
+                        64,
+                        125,
+                        216,
+                        343,
+                        512,
+                        729,
+                        1000
+                    ]
+                }
+            ]
+        },
+        "function_signature": "func(doc: \"find cubes of individual elements in a list.\") cube_nums {\n\tin(x: -122, y: -81, name: \"list\") property(List) list_63c248\n\tout(x: 656, y: -68, name: \"result\") property(List) result_cbb7bd\n}",
+        "preconditions": "- There are no preconditions, the method will always work. Arrays can be empty or non-empty.",
+        "postconditions": "- The length of the output array must be the same as the length of the input array\n- Each element in the output array is the cube of the corresponding element in the input array",
+        "flow_description": "N/A"
+    },
+    {
+        "MBPP_task_id": "784",
+        "task_id": "40",
+        "task": "Create a function to find the product of first even and odd number of a given list.",
+        "response": "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main { \n    func(doc: \"Finds the product of first even and odd number of a given list.\") mul_even_odd {\n        in(x: -277, y: 166, name: \"list\") property(List) list_09fcba\n\n        out(x: 800, y: 145, name: \"output\") property(Number) output_edc2e3\n\n        instance(x: 532, y: 147) mul_7e1ce0 root.Std_k98ojb.Math.Mul {}\n        instance(x: -39, y: 26, name: \"First even number\") find_de624f root.Std_k98ojb.Iteration.Find {}\n        instance(x: -39, y: 257, name: \"First odd number\") ``First even number_0b1361`` root.Std_k98ojb.Iteration.Find {}\n        list_09fcba -> find_de624f.items\n        func() {\n            in(x: -192, y: 84, name: \"current\") property(Number) current_afd5b1\n\n            out(x: 698, y: 85, name: \"bool\") property(Bool) bool_1eb6e9\n\n            instance(x: 112, y: 80) modulo_45e806 root.Std_k98ojb.Math.Modulo {}\n            instance(x: 415, y: 86) equal_a54bdc root.Std_k98ojb.Logic.Equal {}\n            current_afd5b1 -> modulo_45e806.value\n            2 -> modulo_45e806.divisor\n            modulo_45e806.result -> equal_a54bdc.left\n            0 -> equal_a54bdc.right\n            equal_a54bdc.result -> bool_1eb6e9\n        } -> find_de624f.predicate\n        func() {\n            in(x: -192, y: 84, name: \"current\") property(Number) current_afd5b1\n\n            out(x: 698, y: 85, name: \"bool\") property(Bool) bool_1eb6e9\n\n            instance(x: 112, y: 80) modulo_45e806 root.Std_k98ojb.Math.Modulo {}\n            instance(x: 421, y: 79) notequal_148aeb root.Std_k98ojb.Logic.NotEqual {}\n            current_afd5b1 -> modulo_45e806.value\n            2 -> modulo_45e806.divisor\n            modulo_45e806.result -> notequal_148aeb.left\n            0 -> notequal_148aeb.right\n            notequal_148aeb.result -> bool_1eb6e9\n        } -> ``First even number_0b1361``.predicate\n        list_09fcba -> ``First even number_0b1361``.items\n        find_de624f.item -> mul_7e1ce0.first\n        ``First even number_0b1361``.item -> mul_7e1ce0.second\n        mul_7e1ce0.result -> output_edc2e3\n    }\n\n    \n\n    instance(x: -291, y: 177) mul_even_odd_f53d27 root.main.mul_even_odd {}\n\n}",
+        "external_functions": "Math.Mul, Iteration.Find, Math.Modulo, Logic.Equal, Logic.NotEqual",
+        "tests": {
+            "test_cases": [
+                {
+                    "input": [
+                        1,
+                        3,
+                        5,
+                        7,
+                        4,
+                        1,
+                        6,
+                        8
+                    ],
+                    "expected_output": 4
+                },
+                {
+                    "input": [
+                        1,
+                        2,
+                        3,
+                        4,
+                        5,
+                        6,
+                        7,
+                        8,
+                        9,
+                        10
+                    ],
+                    "expected_output": 2
+                },
+                {
+                    "input": [
+                        1,
+                        5,
+                        7,
+                        9,
+                        10
+                    ],
+                    "expected_output": 10
+                }
+            ]
+        },
+        "function_signature": "func(doc: \"Finds the product of first even and odd number of a given list.\") mul_even_odd {\n\tin(x: -277, y: 166, name: \"list\") property(List) list_09fcba\n\tout(x: 800, y: 145, name: \"output\") property(Number) output_edc2e3\n}",
+        "preconditions": "- The list must have at least one even and one odd number",
+        "postconditions": "- The product is the multiplication of the first even and first odd number found in the list",
+        "flow_description": "N/A"
+    },
+    {
+        "MBPP_task_id": "793",
+        "task_id": "41",
+        "task": "Create a function to find the last position of an element in a sorted array.",
+        "response": "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main { \n    func(doc: \"Finds the last position of an element in a sorted array.\") last {\n        in(x: -231, y: -29, name: \"list\") property(List) list_2bbadf\n        in(x: -246, y: 105, name: \"elem\") property(Number) elem_94ca57\n        in(x: -356, y: -225, name: \"execute\") trigger() execute_076885\n\n        out(x: 801, y: -229, name: \"continue\") trigger() continue_9f5f84\n        out(x: 795, y: 205, name: \"index\") property(Number) index_fc05e7\n\n        instance(x: 151, y: -120) for_9ed60a root.Std_k98ojb.Std.For {}\n        instance(x: 465, y: 5) ifexpression_6c15d4 root.Std_k98ojb.Std.IfExpression {\n            expression: \"x == y\"\n        }\n        setter(x: -187, y: -246, name: \"setter_6a6081\") setter_6a6081 = index\n        getter(x: 502, y: 166, name: \"getter_cc0721\") getter_cc0721 = index\n        setter(x: 780, y: -125, name: \"setter_60cfcd\") setter_60cfcd = index\n        list_2bbadf -> for_9ed60a.items\n        elem_94ca57 -> ifexpression_6c15d4.gen_0\n        for_9ed60a.item -> ifexpression_6c15d4.gen_1\n        -1 -> setter_6a6081.new_value\n        execute_076885 -> setter_6a6081.execute\n        getter_cc0721.value -> index_fc05e7\n        for_9ed60a.done -> continue_9f5f84\n        setter_6a6081.continue -> for_9ed60a.reset\n        for_9ed60a.onItem -> ifexpression_6c15d4.execute\n        ifexpression_6c15d4.then -> setter_60cfcd.execute\n        for_9ed60a.index -> setter_60cfcd.new_value\n        setter_60cfcd.continue -> for_9ed60a.next\n        ifexpression_6c15d4.else -> for_9ed60a.next\n    }\n\n    \n\n    instance(x: -203, y: -53) last_9181e6 root.main.last {}\n\n}",
+        "external_functions": "Std.For, Std.IfExpression",
+        "tests": {
+            "test_cases": [
+                {
+                    "input": [
+                        [
+                            1,
+                            2,
+                            3
+                        ],
+                        1
+                    ],
+                    "expected_output": 0
+                },
+                {
+                    "input": [
+                        [
+                            1,
+                            1,
+                            1,
+                            2,
+                            3,
+                            4
+                        ],
+                        1
+                    ],
+                    "expected_output": 2
+                },
+                {
+                    "input": [
+                        [
+                            2,
+                            3,
+                            2,
+                            3,
+                            6,
+                            8,
+                            9
+                        ],
+                        3
+                    ],
+                    "expected_output": 3
+                }
+            ]
+        },
+        "function_signature": "func(doc: \"Finds the last position of an element in a sorted array.\") last {\n\tin(x: -231, y: -29, name: \"list\") property(List) list_2bbadf\n\tin(x: -246, y: 105, name: \"elem\") property(Number) elem_94ca57\n\tin(x: -356, y: -225, name: \"execute\") trigger() execute_076885\n\tout(x: 801, y: -229, name: \"continue\") trigger() continue_9f5f84\n\tout(x: 795, y: 205, name: \"index\") property(Number) index_fc05e7\n}",
+        "preconditions": "- The input array should be sorted in non-decreasing order",
+        "postconditions": "- If the element is found, the returned position should be the last occurrence of the element in the array\n- If the element is not found, the returned position should be -1\n- The input array remains unchanged",
+        "flow_description": "N/A"
+    }
+]

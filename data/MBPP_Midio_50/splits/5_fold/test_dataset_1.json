@@ -1,0 +1,355 @@
+[
+    {
+        "MBPP_task_id": "454",
+        "task_id": "10",
+        "task": "Create a function that matches a word containing 'z'.",
+        "response": "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main {\n    func(doc: \"matches a word containing 'z'.\") text_match_wordz {\n        in(x: -230, y: 0, name: \"string\") property(String) input_0\n\n        out(x: 530, y: -2, name: \"result\") property(Bool) result_0\n\n        instance(x: 0, y: 1) tolower_2e1444 root.Std_k98ojb.Strings.ToLower {}\n        instance(x: 265, y: 0) contains_d42dce root.Std_k98ojb.Strings.Contains {}\n        tolower_2e1444.output -> contains_d42dce.input\n        \"z\" -> contains_d42dce.contains\n        input_0 -> tolower_2e1444.input\n        contains_d42dce.result -> result_0\n    }\n\n    \n\n    instance(x: 81, y: 52) ContainsZ_e54b7f root.main.text_match_wordz {}\n\n\n}",
+        "external_functions": "Strings.ToLower, Strings.Contains",
+        "tests": {
+            "test_cases": [
+                {
+                    "input": "pythonz.",
+                    "expected_output": true
+                },
+                {
+                    "input": "xyz.",
+                    "expected_output": true
+                },
+                {
+                    "input": "  lang  .",
+                    "expected_output": false
+                }
+            ]
+        },
+        "function_signature": "func(doc: \"matches a word containing 'z'.\") text_match_wordz {\n\tin(x: -230, y: 0, name: \"string\") property(String) input_0\n\tout(x: 530, y: -2, name: \"result\") property(Bool) result_0\n}",
+        "preconditions": "- There are no preconditions, the method will always work. Strings and sequences are always not null.",
+        "postconditions": "- The result is true if the input string contains the character 'z' or 'Z'\n- The result is false if the input string does not contain the character 'z' or 'Z'",
+        "flow_description": "The flow should create a user-defined function. The body of the function contains one input property of type String, one 'Strings ToLower' node, one 'Strings Contains' node with the input property, named 'contains', set to z in lower case and one output property of type Bool.\n The arrows are connected as follows: The input property, called string, is connected with arrows to the input propery of the 'String ToLower' node. The output property, called output, of the 'Strings ToLower' node is then connected with arrows to the input property, named input, of the 'Strings Contains' node. The output property, named result, of the 'Strings contains' node is then connected with arrows to the output property, named result, of the user-defined function. The user-defined function is then created within the main module."
+    },
+    {
+        "MBPP_task_id": "567",
+        "task_id": "15",
+        "task": "Create a function to check whether a specified list is sorted or not.",
+        "response": "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main { \n    func(doc: \"Checks whether a specified list is sorted or not.\") issort_list {\n        in(x: -465, y: -235, name: \"execute\") trigger() execute_90aaec\n        in(x: -485, y: 30, name: \"list\") property(List) list_ec88cd\n\n        out(x: 1227, y: 5, name: \"continue\") trigger() continue_a96db6\n        out(x: 1218, y: 147, name: \"output\") property(Bool) output_5bbcd7\n\n        instance(x: 752, y: 93) ifexpression_875761 root.Std_k98ojb.Std.IfExpression {\n            expression: \"index == 0 || previous <= current\"\n        }\n        getter(x: 334, y: 160, name: \"getter_b280eb\") getter_b280eb = previous\n        setter(x: 679, y: -313, name: \"setter_9d4f1c\") setter_9d4f1c = previous\n        instance(x: 321, y: -20) for_d26972 root.Std_k98ojb.Std.For {}\n        setter(x: -0, y: -121, name: \"setter_9d4f1c\") setter_38e107 = previous\n        instance(x: -275, y: -35) getat_ce2a48 root.Std_k98ojb.List.GetAt {}\n        ifexpression_875761.else -> continue_a96db6\n        ifexpression_875761.value -> output_5bbcd7\n        ifexpression_875761.then -> setter_9d4f1c.execute\n        list_ec88cd -> for_d26972.items\n        for_d26972.item -> ifexpression_875761.gen_2\n        for_d26972.index -> ifexpression_875761.gen_0\n        getter_b280eb.value -> ifexpression_875761.gen_1\n        for_d26972.onItem -> ifexpression_875761.execute\n        for_d26972.done -> continue_a96db6\n        for_d26972.item -> setter_9d4f1c.new_value\n        list_ec88cd -> getat_ce2a48.list\n        0 -> getat_ce2a48.index\n        getat_ce2a48.itemAtIndex -> setter_38e107.new_value\n        execute_90aaec -> setter_38e107.execute\n        setter_38e107.continue -> for_d26972.reset\n        setter_9d4f1c.continue -> for_d26972.next\n    }\n\n    \n\n    instance(x: 10, y: -177) issort_list_fc79d5 root.main.issort_list {}\n\n}",
+        "external_functions": "List.GetAt, Std.For, Std.IfExpression",
+        "tests": {
+            "test_cases": [
+                {
+                    "input": [
+                        1,
+                        2,
+                        4,
+                        6,
+                        8,
+                        10,
+                        12,
+                        14,
+                        16,
+                        17
+                    ],
+                    "expected_output": true
+                },
+                {
+                    "input": [
+                        1,
+                        2,
+                        4,
+                        6,
+                        8,
+                        10,
+                        12,
+                        14,
+                        20,
+                        17
+                    ],
+                    "expected_output": false
+                },
+                {
+                    "input": [
+                        1,
+                        2,
+                        4,
+                        6,
+                        8,
+                        10,
+                        15,
+                        14,
+                        20
+                    ],
+                    "expected_output": false
+                }
+            ]
+        },
+        "function_signature": "func(doc: \"Checks whether a specified list is sorted or not.\") issort_list {\n\tin(x: -465, y: -235, name: \"execute\") trigger() execute_90aaec\n\tin(x: -485, y: 30, name: \"list\") property(List) list_ec88cd\n\tout(x: 1227, y: 5, name: \"continue\") trigger() continue_a96db6\n\tout(x: 1218, y: 147, name: \"output\") property(Bool) output_5bbcd7\n}",
+        "preconditions": "- There are no preconditions, the method will always work. Arrays can be empty or have any length.",
+        "postconditions": "- If the method returns true, the array is sorted in non-decreasing order\n- If the method returns false, the array is not sorted in non-decreasing order",
+        "flow_description": "The flow should create a user-defined function, called 'issort_list'. The body of the function contains one input property of type List, named 'list' and one input trigger, named 'execute'. It also includes the following nodes: one 'List GetAt' node, one 'Std For' node, one 'Std IfExpression' node, and getter and setter nodes for storing a local varibale named 'previous'. Lastly, it includes an output variable named 'output' and an output trigger named 'continue'.\n Arrows are connected as follows: The input trigger, named 'list', is conencted to the input property 'list' of the 'List GetAt' and the input property 'items' of the 'Std For' node. The 'List GetAt' node gets the items at index zero and the output property, named 'itemAtIndex' is connected to a setter node, which sets the a variable named 'previous'. The input trigger named 'execute' of this user-defined function is connected to the setter node, so that the node is set at the start of the execution flow. After this, the flow of execution is sent to the 'Std For' node, which loops through the 'items' property, which is set to the input property 'list' of this user-defined function. In each iteration, the flow of execution is sent through an 'Std IfExpression' node. This node takes in 'index', 'current' item in the loop and the 'previous' variable, which is stored in the local variable 'previous' and provided by a getter node. The 'Std IfExpression' node checks if index is zero or previous is lower or equal to the previous item, by using this expression 'index == 0 || previous <= current'. If it evaluates to true, the flow of execution is first sent through a setter node, which sets the variable 'previous' to the 'item' provided by 'Std For'. Then the flow of execution is sent back to the input trigger 'next' of the 'Std For' node, which triggers usage of the next item in the list. However, if the 'Std IfExpression' in the for loop evalutes to true, the flow of execution is sent to the output trigger, named 'continue', which exits the for loops. Regardless of outcome, the output property of the user-defined function, is set value of the 'Std IfExpression'.  Then the 'Std For' node loops through the provided  The user-defined function is then created within the main module."
+    },
+    {
+        "MBPP_task_id": "616",
+        "task_id": "25",
+        "task": "Create a function which takes two lists of the same length and performs the element wise modulo.",
+        "response": "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main { \n   func(doc: \"Takes two lists of the same length and performs the element wise modulo.\") list_modulo {\n        in(x: -173, y: -154, name: \"list1\") property(List) list1_1f846b\n        in(x: -181, y: -13, name: \"list2\") property(List) list2_c62075\n\n        out(x: 784, y: -110, name: \"newList\") property(List) list_0d40f1\n\n        instance(x: 133, y: -131) zip_201051 root.Std_k98ojb.Iteration.Zip {}\n        list1_1f846b -> zip_201051.left\n        list2_c62075 -> zip_201051.right\n        func() {\n            in(x: -231, y: -69, name: \"item1\") property(Number) list1_42bc6f\n            in(x: -223, y: 18, name: \"item2\") property(Number) list2_1d86d4\n\n            out(x: 245, y: -54, name: \"result\") property(Number) result_e245cb\n\n            instance(x: -8, y: -53) modulo_4e8c54 root.Std_k98ojb.Math.Modulo {}\n            list1_42bc6f -> modulo_4e8c54.value\n            list2_1d86d4 -> modulo_4e8c54.divisor\n            modulo_4e8c54.result -> result_e245cb\n        } -> zip_201051.handler\n        zip_201051.zipped -> list_0d40f1\n    }\n\n    \n\n    instance(x: 93, y: -122) list_modulo_cbc0b6 root.main.list_modulo {}\n\n\n}",
+        "external_functions": "Math.Modulo, Iteration.Zip",
+        "tests": {
+            "test_cases": []
+        },
+        "function_signature": "func(doc: \"Takes two lists of the same length and performs the element wise modulo.\") list_modulo {\n\tin(x: -173, y: -154, name: \"list1\") property(List) list1_1f846b\n\tin(x: -181, y: -13, name: \"list2\") property(List) list2_c62075\n\tout(x: 784, y: -110, name: \"newList\") property(List) list_0d40f1\n}",
+        "preconditions": "- Both arrays should be non-null\n- Both arrays should have the same length\n- All elements in the second array (b) should be non-zero",
+        "postconditions": "- The length of the result array should be the same as the length of the input arrays\n- Each element in the result array should be the modulo of the corresponding elements in the input arrays",
+        "flow_description": "The flow should create a user-defined function called 'list_modulo'. The body of the function contains two input properties of type List, named 'list1' and 'list2', and one output property of type List, named 'newList'. The function should have the following nodes: a 'Iteration Zip' node to iterate over the two lists simultaneously and merge each element together with a provided handler anonymous function, that contains a 'Math Modulo' node to calculate the modulo of each pair of elements.\n Connect the nodes as follows: the input property 'list1' is connected to the 'Iteration Zip' node's 'left' input data. The input property 'list2' is connected to the 'Iteration Zip' node's 'right' input data. The zipped result of the 'Iteration Zip' node is connected to output data property 'newList'. The anonymous function inside 'iteration zip' have two input elements and one output elements, which takes the modulo of each element in the list. The user-defined function is then created within the main module."
+    },
+    {
+        "MBPP_task_id": "629",
+        "task_id": "28",
+        "task": "Create a function to find even numbers from a list of numbers.",
+        "response": "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main { \n\n    func(doc:\"find even numbers from a list of numbers.\") Split {\n        in(x: -531, y: 2, name: \"list\") property(List) list_ai\n        out(x: 340, y: 77, name: \"output\") property(List) output_ai\n        instance(x: 772, y: 76) filter_7b3b7b root.Std_k98ojb.Query.Filter {\n            where: \"it % 2 == 0\"\n        }\n        list_ai -> filter_7b3b7b.list\n        filter_7b3b7b.result -> output_ai\n    }\n    \n\n    instance(x: -34, y: 127) split_node root.main.Split {}\n\n}",
+        "external_functions": "Query.Filter",
+        "tests": {
+            "test_cases": [
+                {
+                    "input": [
+                        1,
+                        2,
+                        3,
+                        4,
+                        5
+                    ],
+                    "expected_output": [
+                        2,
+                        4
+                    ]
+                },
+                {
+                    "input": [
+                        4,
+                        5,
+                        6,
+                        7,
+                        8,
+                        0,
+                        1
+                    ],
+                    "expected_output": [
+                        4,
+                        6,
+                        8,
+                        0
+                    ]
+                }
+            ]
+        },
+        "function_signature": "func(doc:\"find even numbers from a list of numbers.\") Split {\n\tin(x: -531, y: 2, name: \"list\") property(List) list_ai\n\tout(x: 340, y: 77, name: \"output\") property(List) output_ai\n}",
+        "preconditions": "- There are no preconditions, the method will always work. Arrays can be empty but not null.",
+        "postconditions": "- All elements in the output array are even\n- All even elements in the input array are present in the output array\n- The order of elements in the output array is the same as in the input array",
+        "flow_description": "N/A"
+    },
+    {
+        "MBPP_task_id": "632",
+        "task_id": "29",
+        "task": "Create a function to move all zeroes to the end of the given list.",
+        "response": "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main { \n    \n    func(doc: \"Moves all zeroes to the end of the given list.\") move_zero {\n        in(x: -199, y: -152, name: \"execute\") trigger() execute_1ddb9f\n        in(x: -174, y: 160, name: \"list\") property(List) list_0c1a77\n\n        out(x: 838, y: 168, name: \"output\") property(List) data_0_0\n        out(x: 817, y: 39, name: \"continue\") trigger() continue_a7f942\n\n        instance(x: 294, y: -19) for_9ab286 root.Std_k98ojb.Std.For {}\n        instance(x: 557, y: 167) concat_9b38cc root.Std_k98ojb.List.Concat {}\n        setter(x: 6, y: -64, name: \"setter_8c6eda\") setter_8c6eda = zeroList\n        instance(x: 554, y: -99) ifexpression_5c4634 root.Std_k98ojb.Std.IfExpression {\n            expression: \"item == 0\"\n        }\n        setter(x: 825, y: -223, name: \"setter_95dd4c\") setter_95dd4c = zeroList\n        getter(x: 252, y: -246, name: \"getter_e808a2\") getter_e808a2 = zeroList\n        getter(x: 313, y: 269, name: \"getter_c18a69\") getter_c18a69 = zeroList\n        instance(x: -200, y: 39) empty_ea3a3a root.Std_k98ojb.List.Empty {}\n        instance(x: 562, y: -203) add_14921d root.Std_k98ojb.List.Add {}\n        instance(x: 300, y: 168) filter_875ddb root.Std_k98ojb.Query.Filter {\n            where: \"it != 0\"\n        }\n        setter_8c6eda.continue -> for_9ab286.reset\n        execute_1ddb9f -> setter_8c6eda.execute\n        for_9ab286.onItem -> ifexpression_5c4634.execute\n        for_9ab286.item -> ifexpression_5c4634.gen_0\n        ifexpression_5c4634.then -> setter_95dd4c.execute\n        ifexpression_5c4634.else -> for_9ab286.next\n        setter_95dd4c.continue -> for_9ab286.next\n        list_0c1a77 -> for_9ab286.items\n        concat_9b38cc.result -> data_0_0\n        empty_ea3a3a.list -> setter_8c6eda.new_value\n        0 -> add_14921d.item\n        add_14921d.listWithItem -> setter_95dd4c.new_value\n        for_9ab286.done -> continue_a7f942\n        getter_c18a69.value -> concat_9b38cc.right\n        filter_875ddb.result -> concat_9b38cc.left\n        list_0c1a77 -> filter_875ddb.list\n        getter_e808a2.value -> add_14921d.list\n    }\n\n    \n\n    instance(x: -242, y: -31) move_zero_def9ac root.main.move_zero {}\n}",
+        "external_functions": "Std.For, List.Concat, Std.IfExpression, List.Empty, List.Add, Query.Filter",
+        "tests": {
+            "test_cases": [
+                {
+                    "input": [
+                        1,
+                        0,
+                        2,
+                        0,
+                        3,
+                        4
+                    ],
+                    "expected_output": [
+                        1,
+                        2,
+                        3,
+                        4,
+                        0,
+                        0
+                    ]
+                },
+                {
+                    "input": [
+                        2,
+                        3,
+                        2,
+                        0,
+                        0,
+                        4,
+                        0,
+                        5,
+                        0
+                    ],
+                    "expected_output": [
+                        2,
+                        3,
+                        2,
+                        4,
+                        5,
+                        0,
+                        0,
+                        0,
+                        0
+                    ]
+                },
+                {
+                    "input": [
+                        0,
+                        1,
+                        0,
+                        1,
+                        1
+                    ],
+                    "expected_output": [
+                        1,
+                        1,
+                        1,
+                        0,
+                        0
+                    ]
+                }
+            ]
+        },
+        "function_signature": "func(doc: \"Moves all zeroes to the end of the given list.\") move_zero {\n\tin(x: -199, y: -152, name: \"execute\") trigger() execute_1ddb9f\n\tin(x: -174, y: 160, name: \"list\") property(List) list_0c1a77\n\tout(x: 838, y: 168, name: \"output\") property(List) data_0_0\n\tout(x: 817, y: 39, name: \"continue\") trigger() continue_a7f942\n}",
+        "preconditions": "- There are no preconditions, the method will always work.",
+        "postconditions": "- The length of the output array must be the same as the length of the input array\n- All zeroes in the input array are at the end of the output array\n- The relative order of the non-zero elements should be the same as in the input array\n- The number of zeroes in the input and output arrays should be the same",
+        "flow_description": "N/A"
+    },
+    {
+        "MBPP_task_id": "644",
+        "task_id": "30",
+        "task": "Create a function to reverse an array upto a given position.",
+        "response": "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main { \n    func(doc: \"Reverse an list upto a given position.\") reverse_Array_Upto_K {\n        in(x: -227, y: 44, name: \"list\") property(List) list_f1bb24\n        in(x: -223, y: 164, name: \"k\") property(Number) k_cf24dd\n\n        out(x: 744, y: 146, name: \"output\") property(List) output_c4a1a8\n\n        instance(x: 52, y: 47, name: \"firstChunk\") slice_83e5f5 root.Std_k98ojb.List.Slice {}\n        instance(x: 69, y: 185, name: \"secondChunk\") slice_76ecda root.Std_k98ojb.List.Slice {}\n        instance(x: 279, y: 73) reversed_145712 root.Std_k98ojb.List.Reversed {}\n        instance(x: 516, y: 144) concat_0234d2 root.Std_k98ojb.List.Concat {}\n        list_f1bb24 -> slice_83e5f5.list\n        k_cf24dd -> slice_83e5f5.end\n        0 -> slice_83e5f5.start\n        k_cf24dd -> slice_76ecda.start\n        -1 -> slice_76ecda.end\n        list_f1bb24 -> slice_76ecda.list\n        slice_83e5f5.slice -> reversed_145712.list\n        reversed_145712.reversed -> concat_0234d2.left\n        slice_76ecda.slice -> concat_0234d2.right\n        concat_0234d2.result -> output_c4a1a8\n    }\n\n    \n\n    instance(x: -280, y: 136) reverse_array_upto_k_72ef29 root.main.reverse_Array_Upto_K {}\n}",
+        "external_functions": "List.Reversed, List.Concat, List.Slice",
+        "tests": {
+            "test_cases": [
+                {
+                    "input": [
+                        [
+                            1,
+                            2,
+                            3,
+                            4,
+                            5,
+                            6
+                        ],
+                        4
+                    ],
+                    "expected_output": [
+                        4,
+                        3,
+                        2,
+                        1,
+                        5,
+                        6
+                    ]
+                },
+                {
+                    "input": [
+                        [
+                            4,
+                            5,
+                            6,
+                            7
+                        ],
+                        2
+                    ],
+                    "expected_output": [
+                        5,
+                        4,
+                        6,
+                        7
+                    ]
+                },
+                {
+                    "input": [
+                        [
+                            9,
+                            8,
+                            7,
+                            6,
+                            5
+                        ],
+                        3
+                    ],
+                    "expected_output": [
+                        7,
+                        8,
+                        9,
+                        6,
+                        5
+                    ]
+                }
+            ]
+        },
+        "function_signature": "func(doc: \"Reverse an list upto a given position.\") reverse_Array_Upto_K {\n\tin(x: -227, y: 44, name: \"list\") property(List) list_f1bb24\n\tin(x: -223, y: 164, name: \"k\") property(Number) k_cf24dd\n\tout(x: 744, y: 146, name: \"output\") property(List) output_c4a1a8\n}",
+        "preconditions": "- k should be between 0 and the length of the array",
+        "postconditions": "- The input array is modified\n- The values of the array up to k are reversed\n- The values of the array after k remain unchanged",
+        "flow_description": "N/A"
+    },
+    {
+        "MBPP_task_id": "267",
+        "task_id": "44",
+        "task": "Create a function that takes in an integer n and returns the sum of the squares of the first n odd natural numbers.",
+        "response": "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main { \n    func(doc: \"Takes in an integer n and returns the sum of the squares of the first n odd natural numbers.\") square_sum {\n        in(x: -219, y: 55, name: \"n\") property(Number) n_3a3116\n\n        out(x: 571, y: 7, name: \"sum\") property(Number) sum_365f7b\n\n        instance(x: 23, y: -1) mul_f892a4 root.Std_k98ojb.Math.Mul {}\n        data_instance(x: 330, y: 133) data_cde0dc  = 3\n        instance(x: 12, y: 136) expression_2d6da6 root.Std_k98ojb.Math.Expression {\n            expression: \"4*n*n-1\"\n        }\n        instance(x: 303, y: 2) div_64046c root.Std_k98ojb.Math.Div {}\n        data_cde0dc -> div_64046c.second\n        mul_f892a4.result -> div_64046c.first\n        expression_2d6da6.result -> mul_f892a4.second\n        n_3a3116 -> mul_f892a4.first\n        n_3a3116 -> expression_2d6da6.gen_0\n        div_64046c.result -> sum_365f7b\n    }\n\n    \n\n    instance(x: 118, y: -26) square_sum_9dcc3d root.main.square_sum {}\n}",
+        "external_functions": "Math.Mul, Math.Expression, Math.Div",
+        "tests": {
+            "test_cases": [
+                {
+                    "input": 2,
+                    "expected_output": 10
+                },
+                {
+                    "input": 3,
+                    "expected_output": 35
+                },
+                {
+                    "input": 4,
+                    "expected_output": 84
+                }
+            ]
+        },
+        "function_signature": "func(doc: \"Takes in an integer n and returns the sum of the squares of the first n odd natural numbers.\") square_sum {\n\tin(x: -219, y: 55, name: \"n\") property(Number) n_3a3116\n\tout(x: 571, y: 7, name: \"sum\") property(Number) sum_365f7b\n}",
+        "preconditions": "- n should be non-negative",
+        "postconditions": "- The sum of the squares of the first n odd natural numbers is returned",
+        "flow_description": "N/A"
+    },
+    {
+        "MBPP_task_id": "127",
+        "task_id": "5",
+        "task": "Create a function to multiply two numbers.",
+        "response": "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main { \n   func(doc: \"multiply two numbers\") multiply_int{\n        in(x: 0, y: 0, name: \"x\") property(Number) x_ai\n        in(x: 0, y: 0, name: \"y\") property(Number) y_ai\n        out(x: 0, y: 0, name: \"result\") property(Number) result_ai\n\n        instance(x: 0, y: 0) math_expr_node root.Std_k98ojb.Math.Expression {\n            expression: \"x * y\"\n        }\n        x_ai -> math_expr_node.gen_0\n        y_ai -> math_expr_node.gen_1\n        math_expr_node.result -> result_ai\n   }\n   \n\n    instance(x: -85, y: -46, name: \"multiply_int\") expression_3e25a9 root.main.multiply_int {}\n}",
+        "external_functions": "Math.Expression",
+        "tests": {
+            "test_cases": [
+                {
+                    "input": [
+                        10,
+                        20
+                    ],
+                    "expected_output": 200
+                },
+                {
+                    "input": [
+                        5,
+                        10
+                    ],
+                    "expected_output": 50
+                },
+                {
+                    "input": [
+                        4,
+                        8
+                    ],
+                    "expected_output": 32
+                }
+            ]
+        },
+        "function_signature": "func(doc: \"multiply two numbers\") multiply_int{\n\tin(x: 0, y: 0, name: \"x\") property(Number) x_ai\n\tin(x: 0, y: 0, name: \"y\") property(Number) y_ai\n\tout(x: 0, y: 0, name: \"result\") property(Number) result_ai\n}",
+        "preconditions": "- There are no preconditions, the method will always work.",
+        "postconditions": "- The result should be the product of the two input integers",
+        "flow_description": "The flow should create the built-in function node from the std library, called 'Math.Expression' node, should be used. The node should be created inside a function, with proper name."
+    }
+]

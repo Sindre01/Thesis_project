@@ -2,7 +2,7 @@ from datetime import datetime
 from zoneinfo import ZoneInfo
 import re
 import pandas as pd
-from my_packages.common import Run
+from my_packages.common.classes import Run
 from my_packages.db_service.data_processing import flatten_metric_results
 from my_packages.db_service import db
 

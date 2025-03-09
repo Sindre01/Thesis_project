@@ -17,51 +17,11 @@
     },
     {
         "type": "function",
-        "function_name": "Std.Count",
-        "module_path": "Std",
-        "doc": "Count can be used to make sure a loop in a flow only runs for a certain number of iteartions. The `reset` input trigger resets the count, and the `count` trigger is used to increment it.",
-        "body": "extern func(doc: \"Count can be used to make sure a loop in a flow only runs for a certain number of iteartions. The `reset` input trigger resets the count, and the `count` trigger is used to increment it.\") Count {\n\n        in(x: 0, y: 0, name: \"reset\") trigger() reset\n\n        in(x: 0, y: 0, name: \"count\") trigger(consumes: Std.CountContext, ) count\n\n        in(x: 0, y: 0, name: \"iterations\") property(Number) iterations\n\n        out(x: 0, y: 0, name: \"on count\") trigger(produces: Std.CountContext) onCount\n\n        out(x: 0, y: 0, name: \"done\") trigger() done\n\n        out(x: 0, y: 0, name: \"interation\") property(Number) interation\n\n    }",
-        "types": "type CountContext Number\ntype AnyContext Any"
-    },
-    {
-        "type": "function",
         "function_name": "Std.For",
         "module_path": "Std",
         "doc": "For is a loop construct that can be used to iterate over a list of items. The `trigger` input is used to start the loop, the `reset` input is used to reset the loop, and the `next` input is used to move to the next item in the list. The `items` input is used to provide the list of items to iterate over. The `on item` output trigger is used to signal that an item has been processed, the `done` output trigger is used to signal that the loop has finished, the `item` output property is used to provide the current item, and the `index` output property is used to provide the current index.",
         "body": "extern func(doc: \"For is a loop construct that can be used to iterate over a list of items. The `trigger` input is used to start the loop, the `reset` input is used to reset the loop, and the `next` input is used to move to the next item in the list. The `items` input is used to provide the list of items to iterate over. The `on item` output trigger is used to signal that an item has been processed, the `done` output trigger is used to signal that the loop has finished, the `item` output property is used to provide the current item, and the `index` output property is used to provide the current index.\") For {\n\n        in trigger() reset\n\n        in trigger(consumes: Number) next\n\n        in property(List) items\n\n        out(name: \"on item\") trigger(produces: Number) onItem\n\n        out trigger done\n\n        out property(Any) item\n\n        out property(Number) index\n\n    }",
         "types": "type CountContext Number\ntype AnyContext Any"
-    },
-    {
-        "type": "function",
-        "function_name": "Strings.Replace",
-        "module_path": "Strings",
-        "doc": "Returns the string `input` with all occurrences of `search` replaced with `replace`.",
-        "body": "extern func(doc: \"Returns the string `input` with all occurrences of `search` replaced with `replace`.\") Replace {\n\n        in(x: 0, y: 0, name: \"input\") property(String) input\n\n        in(x: 0, y: 0, name: \"search\") property(String) search\n\n        in(x: 0, y: 0, name: \"replace\") property(String) replace\n\n        out(x: 0, y: 0, name: \"output\") property(String) output\n\n    }",
-        "types": ""
-    },
-    {
-        "type": "function",
-        "function_name": "Strings.ToLower",
-        "module_path": "Strings",
-        "doc": "Returns the string `input` with all characters converted to lowercase.",
-        "body": "extern func(doc: \"Returns the string `input` with all characters converted to lowercase.\") ToLower {\n\n        in(x: 0, y: 0, name: \"input\") property(String) input\n\n        out(x: 0, y: 0, name: \"output\") property(String) output\n\n    }",
-        "types": ""
-    },
-    {
-        "type": "function",
-        "function_name": "Strings.ToUpper",
-        "module_path": "Strings",
-        "doc": "Returns the string `input` with all characters converted to uppercase.",
-        "body": "extern func(doc: \"Returns the string `input` with all characters converted to uppercase.\") ToUpper {\n\n        in(x: 0, y: 0, name: \"input\") property(String) input\n\n        out(x: 0, y: 0, name: \"output\") property(String) output\n\n    }",
-        "types": ""
-    },
-    {
-        "type": "function",
-        "function_name": "Strings.IsNumeric",
-        "module_path": "Strings",
-        "doc": "Returns true if `input` is a numeric string.",
-        "body": "extern func(doc: \"Returns true if `input` is a numeric string.\") IsNumeric {\n\n        in property(String) input\n\n        out(name: \"is numeric\") property(Bool) isNumeric\n\n    }",
-        "types": ""
     },
     {
         "type": "function",
@@ -73,42 +33,10 @@
     },
     {
         "type": "function",
-        "function_name": "Strings.Contains",
-        "module_path": "Strings",
-        "doc": "Returns true if `input` contains `contains` as a substring.",
-        "body": "extern func(doc: \"Returns true if `input` contains `contains` as a substring.\") Contains {\n\n        in property(String) input\n\n        in property(String) contains\n\n        out property(Bool) result\n\n    }",
-        "types": ""
-    },
-    {
-        "type": "function",
-        "function_name": "List.Empty",
-        "module_path": "List",
-        "doc": "Creates an empty list",
-        "body": "extern func(doc: \"Creates an empty list\") Empty {\n\n        out(x: 0, y: 0, name: \"empty list\") property(List) list\n\n    }",
-        "types": ""
-    },
-    {
-        "type": "function",
         "function_name": "List.GetAt",
         "module_path": "List",
         "doc": "Gets the item at `index` from `list`, returning Null if the index is out of bounds.",
         "body": "extern func(doc: \"Gets the item at `index` from `list`, returning Null if the index is out of bounds.\") GetAt {\n\n        in(x: 0, y: 0, name: \"list\") property(List) list\n\n        in(x: 0, y: 0, name: \"index\") property(Number) index\n\n        out(x: 0, y: 0, name: \"itemAtIndex\") property(Any) itemAtIndex\n\n    }",
-        "types": ""
-    },
-    {
-        "type": "function",
-        "function_name": "List.Add",
-        "module_path": "List",
-        "doc": "Adds `item` to the `list` by creating a new list with the item added, available on the `listWithItem` output.",
-        "body": "extern func(doc: \"Adds `item` to the `list` by creating a new list with the item added, available on the `listWithItem` output.\") Add {\n\n        in(x: 0, y: 0, name: \"list\") property list\n\n        in(x: 0, y: 0, name: \"item\") property item\n\n        out(x: 0, y: 0, name: \"listWithItem\") property listWithItem\n\n    }",
-        "types": ""
-    },
-    {
-        "type": "function",
-        "function_name": "List.Remove",
-        "module_path": "List",
-        "doc": "Removes the item at `index` from `list` by creating a new list with the item removed, available on the `listWithoutItem` output.",
-        "body": "extern func(doc: \"Removes the item at `index` from `list` by creating a new list with the item removed, available on the `listWithoutItem` output.\") Remove {\n\n        in(x: 0, y: 0, name: \"list\") property list\n\n        in(x: 0, y: 0, name: \"index\") property index\n\n        out(x: 0, y: 0, name: \"listWithoutItem\") property listWithoutItem\n\n        out(x: 0, y: 0, name: \"removed item\") property removedItem\n\n    }",
         "types": ""
     },
     {
@@ -137,14 +65,6 @@
     },
     {
         "type": "function",
-        "function_name": "List.GenerateRange",
-        "module_path": "List",
-        "doc": "A list containing number from `from` to `to`.",
-        "body": "extern func(doc: \"A list containing number from `from` to `to`.\") GenerateRange {\n\n        in(x: 0, y: 0, name: \"from\") property from\n\n        in(x: 0, y: 0, name: \"to\") property to\n\n        out(x: 0, y: 0, name: \"list\") property list\n\n    }",
-        "types": ""
-    },
-    {
-        "type": "function",
         "function_name": "List.Max",
         "module_path": "List",
         "doc": "Finds the largest item in a list of numbers",
@@ -169,58 +89,10 @@
     },
     {
         "type": "function",
-        "function_name": "List.Reversed",
-        "module_path": "List",
-        "doc": "Reverses the order of the items in `list`",
-        "body": "extern func(doc: \"Reverses the order of the items in `list`\") Reversed {\n\n        in(x: 0, y: 0, name: \"items\") property(List) list\n\n        out property(List) reversed\n\n    }",
-        "types": ""
-    },
-    {
-        "type": "function",
         "function_name": "List.FirstItem",
         "module_path": "List",
         "doc": "Returns the first item in 'list', through the `item` output.",
         "body": "extern func(doc: \"Returns the first item in 'list', through the `item` output.\") FirstItem {\n\n        in property(List) list\n\n        out property(Any) item\n\n    }",
-        "types": ""
-    },
-    {
-        "type": "function",
-        "function_name": "List.LastItem",
-        "module_path": "List",
-        "doc": "Returns the last item in 'list', through the `item` output.",
-        "body": "extern func(doc: \"Returns the last item in 'list', through the `item` output.\") LastItem {\n\n        in property(List) list\n\n        out property(Any) item\n\n    }",
-        "types": ""
-    },
-    {
-        "type": "function",
-        "function_name": "List.IsEmpty",
-        "module_path": "List",
-        "doc": "Returns true if `list` is empty, through the 'isEmpty' output",
-        "body": "extern func(doc: \"Returns true if `list` is empty, through the 'isEmpty' output\") IsEmpty {\n\n        in property(List) list\n\n        out(name: \"is empty\") property(Bool) isEmpty\n\n    }",
-        "types": ""
-    },
-    {
-        "type": "function",
-        "function_name": "List.NotEmpty",
-        "module_path": "List",
-        "doc": "Returns true if `list` is not empty, through the 'isEmpty' output",
-        "body": "extern func(doc: \"Returns true if `list` is not empty, through the 'isEmpty' output\") NotEmpty {\n\n        in property(List) list\n\n        out(name: \"is empty\") property(Bool) isEmpty\n\n    }",
-        "types": ""
-    },
-    {
-        "type": "function",
-        "function_name": "List.Flatten",
-        "module_path": "List",
-        "doc": "Converts a list of lists into a flattened list.",
-        "body": "extern func(doc: \"Converts a list of lists into a flattened list.\") Flatten {\n\n        in property(List) items\n\n        out property(List) flattened\n\n    }",
-        "types": ""
-    },
-    {
-        "type": "function",
-        "function_name": "List.Concat",
-        "module_path": "List",
-        "doc": "Concatenates two lists",
-        "body": "extern func(doc: \"Concatenates two lists\") Concat {\n\n        in property(List) left\n\n        in property(List) right\n\n        out property(List) result\n\n    }",
         "types": ""
     },
     {
@@ -233,50 +105,10 @@
     },
     {
         "type": "function",
-        "function_name": "Iteration.Map",
-        "module_path": "Iteration",
-        "doc": "Calls the given function instance (`handler`) once for each item in `items` returning a new list with the mapped values (`output_list`). Handle is expected to be a function which takes in at least one input (the item), and returns a single item, the mapped value. It can also take a second input, which is the index of the value, and a third value, an optional context value passed from the outside.",
-        "body": "extern func(doc: \"Calls the given function instance (`handler`) once for each item in `items` returning a new list with the mapped values (`output_list`). Handle is expected to be a function which takes in at least one input (the item), and returns a single item, the mapped value. It can also take a second input, which is the index of the value, and a third value, an optional context value passed from the outside.\") Map {\n\n        in(x: 0, y: 0, name: \"items\") property items\n\n        in(x: 0, y: 0, name: \"handler\") property(Any) handler\n\n        in(x: 0, y: 0, name: \"context\") property(Any) context\n\n        out(x: 0, y: 0, name: \"output list\") property output_list\n\n    }",
-        "types": ""
-    },
-    {
-        "type": "function",
-        "function_name": "Iteration.Zip",
-        "module_path": "Iteration",
-        "doc": "Call the given function instance ('handler') on corresponding pairs of elements from 'left' and 'right' lists. The function applies 'handler(left[i], right[i])' for each index 'i', up to the length of the shorter list. The results are collected into the output property 'zipped'.",
-        "body": "extern func(doc: \"Call the given function instance ('handler') on corresponding pairs of elements from 'left' and 'right' lists. The function applies 'handler(left[i], right[i])' for each index 'i', up to the length of the shorter list. The results are collected into the output property 'zipped'.\") Zip {\n\n        in property(List) left\n\n        in property(List) right\n\n        in property(Any) handler\n\n        out property zipped\n\n    }",
-        "types": ""
-    },
-    {
-        "type": "function",
-        "function_name": "Iteration.Filter",
-        "module_path": "Iteration",
-        "doc": "Filters the input list 'items' using the provided 'handler' function, which is expected to return a boolean value. The filtered list is available on the 'output_list' output.",
-        "body": "extern func(doc: \"Filters the input list 'items' using the provided 'handler' function, which is expected to return a boolean value. The filtered list is available on the 'output_list' output.\") Filter {\n\n        in(x: 0, y: 0, name: \"items\") property items\n\n        in(x: 0, y: 0, name: \"handler\") property(Any) handler\n\n        in(x: 0, y: 0, name: \"context\") property(Any) context\n\n        out(x: 0, y: 0, name: \"output list\") property output_list\n\n    }",
-        "types": ""
-    },
-    {
-        "type": "function",
-        "function_name": "Iteration.Reduce",
-        "module_path": "Iteration",
-        "doc": "Reduces the list `item` using the provided reducer function, which is expected to accept 2-4 inputs, the first being the accumulated value, and the second the value being accumulated. A third optional input will contain the current index, while the fourth optional input will contain the context input.",
-        "body": "extern func(doc: \"Reduces the list `item` using the provided reducer function, which is expected to accept 2-4 inputs, the first being the accumulated value, and the second the value being accumulated. A third optional input will contain the current index, while the fourth optional input will contain the context input.\") Reduce {\n\n        in(x: 0, y: 0, name: \"items\") property items\n\n        in(name: \"initial value\") property initialValue\n\n        in(x: 0, y: 0, name: \"reducer\") property(Any) reducer\n\n        in(x: 0, y: 0, name: \"context\") property(Any) context\n\n        out(x: 0, y: 0, name: \"output\") property output\n\n    }",
-        "types": ""
-    },
-    {
-        "type": "function",
         "function_name": "Iteration.Find",
         "module_path": "Iteration",
         "doc": "Finds an item in the list `items` that satisfies the `predicate` function, and returns the item through the `item` output.",
         "body": "extern func(doc: \"Finds an item in the list `items` that satisfies the `predicate` function, and returns the item through the `item` output.\") Find {\n\n        in property(List) items\n\n        in property predicate\n\n        in property context\n\n        out property item\n\n    }",
-        "types": ""
-    },
-    {
-        "type": "function",
-        "function_name": "Math.Floor",
-        "module_path": "Math",
-        "doc": "Returns the largest integer less than or equal `input`",
-        "body": "extern func(doc: \"Returns the largest integer less than or equal `input`\") Floor {\n\n        in(x: 0, y: 0, name: \"input\") property input\n\n        out(x: 0, y: 0, name: \"output\") property output\n\n    }",
         "types": ""
     },
     {
@@ -313,22 +145,6 @@
     },
     {
         "type": "function",
-        "function_name": "Math.GreaterThan",
-        "module_path": "Math",
-        "doc": "Checks if `left` is greater than `right`",
-        "body": "extern func(doc: \"Checks if `left` is greater than `right`\") GreaterThan {\n\n        in(x: 0, y: 0, name: \"left\") property(Number) left\n\n        in(x: 0, y: 0, name: \"right\") property(Number) right\n\n        out(x: 0, y: 0, name: \"result\") property(Bool) result\n\n    }",
-        "types": ""
-    },
-    {
-        "type": "function",
-        "function_name": "Math.LessThanOrEqual",
-        "module_path": "Math",
-        "doc": "Checks if 'left' is les than or eqaul to the 'right'",
-        "body": "extern func(doc: \"Checks if 'left' is les than or eqaul to the 'right'\") LessThanOrEqual {\n\n        in(x: 0, y: 0, name: \"left\") property(Number) left\n\n        in(x: 0, y: 0, name: \"right\") property(Number) right\n\n        out(x: 0, y: 0, name: \"result\") property(Bool) result\n\n    }",
-        "types": ""
-    },
-    {
-        "type": "function",
         "function_name": "Math.Expression",
         "module_path": "Math",
         "doc": "Creates a mathematical expression using a simple expression language provided through the `expression` parameter. Example: `a + b / 10` creates two inputs, `a` and `b`. The expression is executed using the provided inputs, and the result is available on the `result` output.",
@@ -337,26 +153,10 @@
     },
     {
         "type": "function",
-        "function_name": "Math.Pow",
-        "module_path": "Math",
-        "doc": "Returns `x` raised to the power of `y`.",
-        "body": "extern func(doc: \"Returns `x` raised to the power of `y`.\") Pow {\n\n        in(x: 0, y: 0, name: \"x\") property x\n\n        in(x: 0, y: 0, name: \"y\") property y\n\n        out(x: 0, y: 0, name: \"result\") property result\n\n    }",
-        "types": ""
-    },
-    {
-        "type": "function",
         "function_name": "Math.Modulo",
         "module_path": "Math",
         "doc": "Calculates the modulo of `value` and `divisor`, and returns the modulo through the `result` output.",
         "body": "extern func(doc: \"Calculates the modulo of `value` and `divisor`, and returns the modulo through the `result` output.\") Modulo {\n\n        in(x: 0, y: 0, name: \"value\") property value\n\n        in(x: 0, y: 0, name: \"divisor\") property divisor\n\n        out(x: 0, y: 0, name: \"result\") property result\n\n    }",
-        "types": ""
-    },
-    {
-        "type": "function",
-        "function_name": "Math.Min",
-        "module_path": "Math",
-        "doc": "Returns the smallest of the input numbers.",
-        "body": "extern func(doc: \"Returns the smallest of the input numbers.\") Min {\n\n        in(x: 0, y: 0, name: \"values\") property values\n\n        out(x: 0, y: 0, name: \"result\") property result\n\n    }",
         "types": ""
     },
     {
@@ -377,34 +177,10 @@
     },
     {
         "type": "function",
-        "function_name": "Logic.Not",
-        "module_path": "Logic",
-        "doc": "The logic not operator",
-        "body": "extern func(doc: \"The logic not operator\") Not {\n\n        in property(Bool) input\n\n        out property(Bool) result\n\n    }",
-        "types": ""
-    },
-    {
-        "type": "function",
-        "function_name": "Logic.And",
-        "module_path": "Logic",
-        "doc": "The logic and operator",
-        "body": "extern func(doc: \"The logic and operator\") And {\n\n        in property(Bool) left\n\n        in property(Bool) right\n\n        out property(Bool) result\n\n    }",
-        "types": ""
-    },
-    {
-        "type": "function",
         "function_name": "Sets.Intersection",
         "module_path": "Sets",
         "doc": "Returns the intersection of the two input lists, `left` and `right`, through the `intersect` output.",
         "body": "extern func(doc: \"Returns the intersection of the two input lists, `left` and `right`, through the `intersect` output.\") Intersection {\n\n        in property(List) left\n\n        in property(List) right\n\n        out property(List) intersect\n\n    }",
-        "types": ""
-    },
-    {
-        "type": "function",
-        "function_name": "Sets.Difference",
-        "module_path": "Sets",
-        "doc": "Returns the difference of the two input lists, `left` and `right`, through the `difference` output.",
-        "body": "extern func(doc: \"Returns the difference of the two input lists, `left` and `right`, through the `difference` output.\") Difference {\n\n        in property(List) left\n\n        in property(List) right\n\n        out property(List) difference\n\n    }",
         "types": ""
     }
 ]
