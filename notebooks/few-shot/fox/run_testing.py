@@ -44,13 +44,13 @@ def get_dataset_splits(main_dataset_folder):
     print(f"Test data: {len(test_data)}")
     return train_data, val_data, test_data
 
-def get_k_fold_splits(main_dataset_folder, k, k_folds=5):
+def get_k_fold_splits(main_dataset_folder, k, k_folds=3):
 
     if os.path.exists(main_dataset_folder + f'splits/{k_folds}_fold'):
         print(f"Using existing {k_folds}-fold splits")
     else:
         print(f"Creating {k_folds}-fold splits")
-        train, test = get_dataset_splits(main_dataset_folder)
+        train, _ ,test = get_dataset_splits(main_dataset_folder)
         create_kfold_splits((test+train), k_folds=k_folds, write_to_file=True)
 
     train_data = read_dataset_to_json(main_dataset_folder + f'splits/{k_folds}_fold/train_dataset_{k}.json')

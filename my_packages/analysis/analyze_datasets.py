@@ -1,6 +1,58 @@
 import matplotlib.pyplot as plt
 import numpy as np
 from collections import Counter
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.decomposition import PCA
+
+def visualize_datasets_pca(datasets, dataset_labels=None, title="Dataset Embeddings Visualization (PCA)"):
+    """
+    Visualize multiple embedding datasets in the same 2D PCA plot with different colors.
+
+    Args:
+        datasets (List[np.ndarray]): List of arrays (each of shape N_i x D), where each array is one dataset's embeddings.
+        dataset_labels (List[str], optional): List of labels corresponding to each dataset. If None, generic labels will be used.
+        title (str): Title of the plot.
+    """
+    if dataset_labels is None:
+        dataset_labels = [f"Dataset {i+1}" for i in range(len(datasets))]
+
+    # Concatenate all embeddings
+    try:
+        all_embeddings = np.vstack(datasets)
+    except Exception as e:
+        print("❌ Error while stacking embeddings. Ensure all inputs are 2D arrays.")
+        print(e)
+        return
+
+    # Check for minimum dimension
+    if all_embeddings.shape[1] < 2:
+        print("❌ Not enough dimensions in embeddings for PCA (need at least 2).")
+        return
+
+    # Apply PCA to reduce to 2 dimensions
+    pca = PCA(n_components=2)
+    projected = pca.fit_transform(all_embeddings)
+
+    # Plot each dataset in different color
+    plt.figure(figsize=(10, 6))
+    start = 0
+    for i, data in enumerate(datasets):
+        n = len(data)
+        plt.scatter(
+            projected[start:start + n, 0],
+            projected[start:start + n, 1],
+            label=dataset_labels[i],
+            alpha=0.7
+        )
+        start += n
+    print("Visualizing PCA projection of embeddings")
+    plt.title(title)
+    plt.xlabel("PC 1")
+    plt.ylabel("PC 2")
+    plt.legend()
+    plt.grid(True)
+    plt.tight_layout
 
 def get_label_distribution(data_subset, label_type):
     subset_labels = []
