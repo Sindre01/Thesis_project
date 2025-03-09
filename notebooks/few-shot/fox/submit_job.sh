@@ -6,9 +6,9 @@
 
 # Configuration
 EXPERIMENT="few-shot"                    # Experiment ('few-shot' or 'COT')
-PHASE="validation"                       # Phase ('testing' or 'validation')
+PHASE="testing"                       # Phase ('testing' or 'validation')
 EXAMPLES_TYPE="similarity"                 #'coverage' or 'similarity'
-PROMPT_TYPE=""                 # 'regular' or 'cot' or 'signature'   
+PROMPT_TYPE="signature"                 # 'regular' or 'cot' or 'signature'   
 # SEMANTIC_SELECTOR=true                   # Use semantic selector
 USER="ec-sindrre"                        # Your Educloud username
 HOST="fox.educloud.no"                   # Fox login address (matches SSH config)
@@ -39,15 +39,8 @@ experiments='[
         {
             "name": "signature_similarity",
             "prompt_prefix": "Create a function",
-            "num_shots": [1, 5, 10],
+            "num_shots": [1, 5],
             "prompt_type": "signature",
-            "semantic_selector": true
-        },
-        {
-            "name": "regular_similarity",
-            "prompt_prefix": "Create a function",
-            "num_shots": [1, 5, 10],
-            "prompt_type": "regular",
             "semantic_selector": true
         }
 ]'
