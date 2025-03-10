@@ -179,7 +179,9 @@ def main():
                             "validation", 
                             selector_type, 
                             prompt_type,
-                            str(hours), str(minutes), str(seconds)], check=True)
+                            str(hours), str(minutes), str(seconds),
+                            fold
+                            ], check=True)
             print("✅ push_runs.sh script executed successfully!")
             print("🚀 Few-shot validation completed successfully!")
 

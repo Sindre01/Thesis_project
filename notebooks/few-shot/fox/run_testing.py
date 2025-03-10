@@ -224,7 +224,9 @@ def main(train_data, test_data, fold=-1):
                             "testing", 
                             selector_type, 
                             prompt_type,
-                            str(hours), str(minutes), str(seconds)], check=True)
+                            str(hours), str(minutes), str(seconds),
+                            fold
+                            ], check=True)
             print("✅ push_runs.sh script executed successfully!")
             
 if __name__ == "__main__":

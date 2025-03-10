@@ -6,12 +6,13 @@ PROMPT_TYPE=${4:-"regular"}
 H=${5:-"0"}
 M=${6:-"0"}
 S=${7:-"0"}
+K_FOLD=${8:-"fold"}
 
 EXPERIMENT_DIR="${EXAMPLES_TYPE}/${PROMPT_TYPE}"
 REMOTE_DIR="/fp/homes01/u01/ec-sindrre/slurm_jobs/${EXPERIMENT}/${PHASE}/${EXPERIMENT_DIR}/runs/"
 SCRIPT_DIR="$(realpath "$(dirname "${BASH_SOURCE[0]}")")"
 TARGET_DIR="$(realpath "${SCRIPT_DIR}/../${PHASE}_runs/${EXPERIMENT_DIR}/")"
-BRANCH="${PHASE}/${EXAMPLES_TYPE}-${PROMPT_TYPE}"
+BRANCH="${PHASE}/${EXAMPLES_TYPE}-${PROMPT_TYPE}-fold_${K_FOLD}"
 
 echo "==== Pushing runs to GitHub ====="
 echo "Pushing changes from ${TARGET_DIR} to ${BRANCH} on GitHub..."
