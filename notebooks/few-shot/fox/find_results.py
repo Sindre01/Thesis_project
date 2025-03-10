@@ -156,7 +156,8 @@ def main(
                     setup_experiment_collection(experiment_name)
 
                 # Only files for current shot
-                candidate_files = [file for file in os.listdir(runs_folder) if f"{shot}_shot" in file]
+                files_in_folder = [f for f in os.listdir(runs_folder) if os.path.isfile(os.path.join(runs_folder, f))]
+                candidate_files = [file for file in files_in_folder if f"{shot}_shot" in file]
                 print(f"Found {len(candidate_files)} candidate files in {runs_folder}")
 
                 models = [extract_experiment_and_model_name(file)[1] for file in candidate_files]

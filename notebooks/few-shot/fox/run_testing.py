@@ -161,7 +161,7 @@ def main(train_data, test_data, fold=-1):
             for model_name in models:
                 file_name = f"{experiment_name}_{model_name}.json"
                 if fold != -1:
-                    file_name = f"{experiment_name}_{model_name}/fold_{fold}.json"
+                    file_name = f"{experiment_name}_{model_name}/3_fold/fold_{fold}.json"
 
                 result_runs_path = os.path.join(results_dir, file_name)
                 best_params_path = os.path.join(best_params_folder, experiment_name + ".json")

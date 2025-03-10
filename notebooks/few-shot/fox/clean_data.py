@@ -6,7 +6,7 @@ from my_packages.utils.file_utils import read_dataset_to_json, write_json_file
 from my_packages.evaluation.code_evaluation import extract_code
 dir = f'{script_dir}/testing_runs/coverage/signature/'
 
-for file in os.listdir(dir):
+for file in [f for f in os.listdir(dir) if os.path.isfile(os.path.join(dir, f))]:
     print(file)
     file_path = dir + file
     data = read_dataset_to_json(file_path)

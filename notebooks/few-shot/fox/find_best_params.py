@@ -157,7 +157,8 @@ def main(
                 runs_folder = f"{project_dir}/notebooks/few-shot/fox/validation_runs/{example_selector_type}/{experiment_type}"
 
                 # Only files for current shot
-                candidate_files = [file for file in os.listdir(runs_folder) if f"{shot}_shot" in file]
+                files_in_folder = [f for f in os.listdir(runs_folder) if os.path.isfile(os.path.join(runs_folder, f))]
+                candidate_files = [file for file in files_in_folder if f"{shot}_shot" in file]
                 print(f"Found {len(candidate_files)} candidate files in {runs_folder}")
                 
                 print(f"Processing experiment '{experiment_name}'")
