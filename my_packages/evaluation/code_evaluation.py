@@ -26,14 +26,15 @@ def extract_code(response_text: str) -> str:
     code_section = parts[-1]  # Content after the last </think>
 
     # Find all `midio` code blocks
-    matches = re.findall(r'```midio(.*?)(```|$)', code_section, re.DOTALL)
+    # matches = re.findall(r'```midio(.*?)(```|$)', code_section, re.DOTALL)
+    matches = re.findall(r'```mid\w*(.*?)(```|$)', code_section, re.DOTALL)
+
 
     # If multiple code blocks exist, take the last one
     if matches:
         code_block = matches[-1][0]  # Get only the code part
     else:
-        code_block = "No Midio code found in response!\n"
-        code_block += code_section
+        code_block = code_section
 
     # This regex finds any occurrence of '//' or '#' and removes everything until the end of the line.
     code_without_comments = re.sub(r'(?://|#).*$', '', code_block, flags=re.MULTILINE)
