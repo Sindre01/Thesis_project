@@ -17,11 +17,11 @@ def update_all_colelctions(update_dict: dict):
             )
             print(f"✅ Updated {result.modified_count} documents in collection '{collection_name}' with field '{field}' = '{value}'")
 
-
-def confirm_testing_rerun(
+def confirm_rerun(
         experiment: str, 
         model_name: str, 
-        eval_method: str
+        eval_method: str,
+        phase: str
     ) -> bool:
     """
     Checks if a model for an eval_method already exists in the results collection of an experiment.
@@ -37,89 +37,45 @@ def confirm_testing_rerun(
     - True if the experiment should proceed, False otherwise.
     """
 
-    results_collection = db[f"{experiment}_results"]
+    if phase == "testing":
+        collection_type = "results"
+    elif phase == "validation":
+        collection_type = "best_params"
+    else:
+        raise ValueError("Phase must be either 'testing' or 'validation'.")
+    
+    collection = db[f"{experiment}_{collection_type}"]
     errors_collection = db[f"{experiment}_errors"]
     # params_collection = db[f"{experiment}_best_params"]
 
-    # Check if model exists in the results collection
-    existing_entry = results_collection.find_one({"model_name": model_name, "eval_method": eval_method})
+    # Check if model exists in the {collection_type} collection
+    existing_entry = collection.find_one({"model_name": model_name, "eval_method": eval_method})
 
     if existing_entry:
         print(f"⚠️ Model '{model_name}' already exists in experiment '{experiment}'.")
-        user_input = input("❓ Do you want to re-run the experiment and delete results and testing errors for this model? (yes/no):  ").strip().lower()
+        user_input = input(f"❓ Do you want to re-run the experiment and delete {collection_type} and {phase} errors for this model? (yes/no):  ").strip().lower()
 
         if user_input == "yes":
             print(f"==== Cleaning experiment for model '{model_name}'======")
             
-            # Delete existing entries in results and errors
-            results_deleted = results_collection.delete_many({"model_name": model_name, "eval_method": eval_method}).deleted_count
-            errors_deleted = errors_collection.delete_many({"model_name": model_name, "eval_method": eval_method, "phase": "testing"}).deleted_count
+            # Delete existing entries in {collection_type} and errors
+            deleted = collection.delete_many({"model_name": model_name, "eval_method": eval_method}).deleted_count
+            errors_deleted = errors_collection.delete_many({"model_name": model_name, "eval_method": eval_method, "phase": phase}).deleted_count
 
-            print(f"🗑️ Deleted {results_deleted} previous results & {errors_deleted} testing errors for '{model_name}'.")
+            print(f"🗑️ Deleted {deleted} previous {collection_type} & {errors_deleted} {phase} errors for '{model_name}'.")
             print("Ready to re-run the experiment.\n")
             return True
         else:
-            print(f"❌ Skipping testing for model '{model_name}'.\n")
+            print(f"❌ Skipping {phase} for model '{model_name}'.\n")
             return False
     
     # If model does not exist, proceed with the experiment
-    print(f"⚠️ No results found for model '{model_name}' in experiment '{experiment}_best_params'.\n")
+    print(f"⚠️ No {collection_type} found for model '{model_name}' in experiment '{experiment}_best_params'.\n")
 
-    cleanup_errors = errors_collection.delete_many({"model_name": model_name, "eval_method": eval_method, "phase": "testing"}).deleted_count # Cleanup previous saved testing errors, due to interuptions
+    cleanup_errors = errors_collection.delete_many({"model_name": model_name, "eval_method": eval_method, "phase": phase}).deleted_count # Cleanup previous saved {phase} errors, due to interuptions
     if cleanup_errors:
-        print(f"🗑️ Deleted {cleanup_errors} previous testing errors for '{model_name}'.\n")
+        print(f"🗑️ Deleted {cleanup_errors} previous {phase} errors for '{model_name}'.\n")
     return True
-
-def confirm_validation_rerun(
-        experiment: str, 
-        model_name: str, 
-        eval_method: str
-    ) -> bool:
-    """
-    Checks if a model already exists in the best params collection of an experiment.
-    If the model exists, asks the user whether to re-run the experiment.
-    If 'yes', deletes the old best params and validation errors, and runs the experiment again.
-
-    Parameters:
-    - experiment (str): The experiment name.
-    - model_name (str): The model to check.
-
-    Returns:
-    - True if the experiment should proceed, False otherwise.
-    """
-
-    params_collection = db[f"{experiment}_best_params"]
-    errors_collection = db[f"{experiment}_errors"]
-
-    # Check if model exists in the results collection
-    existing_entry = params_collection.find_one({"model_name": model_name, "eval_method": eval_method})
-
-    if existing_entry:
-        print(f"⚠️ Model '{model_name}' already exists in experiment '{experiment}'.")
-        user_input = input("❓ Do you want to re-run the experiment and delete best params and validation errors for this model? (yes/no): ").strip().lower()
-
-        if user_input == "yes":
-            print(f"==== Cleaning experiment for model '{model_name}'======")
-            
-            # Delete existing entries in results and errors
-            params_deleted = params_collection.delete_many({"model_name": model_name, "eval_method": eval_method}).deleted_count
-            errors_deleted = errors_collection.delete_many({"model_name": model_name, "eval_method": eval_method, "phase": "validation"}).deleted_count
-
-            print(f"🗑️ Deleted {params_deleted} previous best params & {errors_deleted} validation errors for '{model_name}'.")
-            print("Ready to re-run the experiment.\n")
-            return True
-        else:
-            print(f"❌ Skipping validation for model '{model_name}'.\n")
-            return False
-    
-    # If model does not exist, proceed with the experiment
-    print(f"⚠️ No best params found for model '{model_name}' in experiment '{experiment}_best_params'. Ready to rerun! \n")
-
-    cleanup_errors = errors_collection.delete_many({"model_name": model_name, "eval_method": eval_method, "phase": "validation"}).deleted_count  # Cleanup previous saved validation errors, due to interuptions
-    if cleanup_errors:
-        print(f"🗑️ Deleted {cleanup_errors} previous validation errors for '{model_name}'. \n")
-    return True
-
 
 ### 📌 SETUP EXPERIMENT COLLECTION ###
 def setup_experiment_collection(experiment: str):
@@ -233,7 +189,11 @@ def rename_field(collection_name: str, old_field: str, new_field: str):
 
     
 
-def run_experiment_quality_checks(experiment: str, prompt_user = True) -> bool:
+def run_experiment_quality_checks(
+        experiment: str, 
+        prompt_user = True, 
+        eval_method: str = "hold_out"
+    ) -> bool:
     """
     Runs quality checks on an experiment's collections and prints errors if they occur.
     
@@ -261,10 +221,10 @@ def run_experiment_quality_checks(experiment: str, prompt_user = True) -> bool:
     print_msgs = []
     for model in models:
         # Count documents in each collection for the given model.
-        best_params_count = best_params_collection.count_documents({"model_name": model})
-        results_count = results_collection.count_documents({"model_name": model})
-        validation_errors_count = errors_collection.count_documents({"model_name": model, "phase": "validation"})
-        testing_errors_count = errors_collection.count_documents({"model_name": model, "phase": "testing"})
+        best_params_count = best_params_collection.count_documents({"model_name": model, "eval_method": eval_method})
+        results_count = results_collection.count_documents({"model_name": model, "eval_method": eval_method})
+        validation_errors_count = errors_collection.count_documents({"model_name": model, "phase": "validation", "eval_method": eval_method})
+        testing_errors_count = errors_collection.count_documents({"model_name": model, "phase": "testing", "eval_method": eval_method})
         
         
         # Check 1: If no best parameters exist, then there should be no validation errors.
@@ -274,7 +234,7 @@ def run_experiment_quality_checks(experiment: str, prompt_user = True) -> bool:
                 user_input = input(f"❌ Error for model '{model}': No best parameters exist, but found {validation_errors_count} validation error(s).\n\n❓ Do you want to delete validation errors for '{model} on '{experiment}'? (yes/no): ").strip().lower()
             
             if user_input == "yes":
-                errors_deleted = errors_collection.delete_many({"model_name": model, "phase": "validation"}).deleted_count
+                errors_deleted = errors_collection.delete_many({"model_name": model, "phase": "validation", "eval_method": eval_method}).deleted_count
                 print_msgs.append(f"⚠️ Found Error for model '{model}': No best parameters exist, but found {validation_errors_count} validation error(s). \nHowever these where fixed by deleting {errors_deleted} validation errors for '{model}'.")
                 
             else:
@@ -288,7 +248,7 @@ def run_experiment_quality_checks(experiment: str, prompt_user = True) -> bool:
                 user_input = input(f"❌ Error for model '{model}': No best parameters exist, but found {testing_errors_count} testing error(s).\n\n❓ Do you want to delete testing errors for '{model} on '{experiment}'? (yes/no): ").strip().lower()
 
             if user_input == "yes":
-                errors_deleted = errors_collection.delete_many({"model_name": model, "phase": "testing"}).deleted_count
+                errors_deleted = errors_collection.delete_many({"model_name": model, "phase": "testing","eval_method": eval_method}).deleted_count
                 print_msgs.append(f"⚠️ Found Error for model '{model}': No best parameters exist, but found {testing_errors_count} testing error(s). \nHowever these where fixed by deleting {errors_deleted} testing errors for '{model}'.")
                 
             else:
@@ -302,7 +262,7 @@ def run_experiment_quality_checks(experiment: str, prompt_user = True) -> bool:
                 user_input = input(f"❌ Error for model '{model}': No best parameters exist, but found {results_count} result(s).\n\n❓ Do you want to delete result(s) for '{model} on '{experiment}'? (yes/no): ").strip().lower()
 
             if user_input == "yes":
-                results_deleted = results_collection.delete_many({"model_name": model}).deleted_count
+                results_deleted = results_collection.delete_many({"model_name": model, "eval_method": eval_method}).deleted_count
                 print_msgs.append(f"⚠️ Found Error for model '{model}': No best parameters exist, but found {results_count} result(s).\nHowever these where fixed by deleting {results_deleted} result(s) for '{model}'.")
                 
             else:

@@ -11,7 +11,7 @@ results_dir = f"{project_dir}/notebooks/few-shot/fox/validation_runs"
 sys.path.append(project_dir)
 
 from my_packages.db_service.experiment_service import (
-    confirm_validation_rerun,
+    confirm_rerun,
     experiment_exists,
     pretty_print_experiment_collections,
     run_experiment_quality_checks,
@@ -42,7 +42,7 @@ def evaluate_valiation_runs(
         metric_results_lists = evaluate_code(
             run["task_candidates"],
             ks=ks,
-            evaluation_metric=[metrics],
+            evaluation_metrics=[metrics],
             experiment_name=experiment_name,
             model_name=run["model"],
             env=env,
@@ -257,7 +257,7 @@ def main(
                 skip_models = []
                 print(f"Models to process: {models}")
                 for model_name in models:
-                    if not confirm_validation_rerun(experiment_name, model_name, eval_method):
+                    if not confirm_rerun(experiment_name, model_name, eval_method, phase="validation"):
                         print(f"🚫 Skipping testing for {experiment_name} with model {model_name}")
                         best_params = get_db_best_params(
                             experiment_name, 

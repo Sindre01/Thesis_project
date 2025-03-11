@@ -19,10 +19,10 @@ PARTITION="ifi_accel"                        # 'accel' or 'accel_long' (or 'ifi_
 GPUS=rtx30:2                         # a100 have 40GB or 80GB VRAM, while rtx30 have 24GB VRAM.
 NODES=1                                 # Number of nodes. OLLAMA does currently only support single node inference
 NODE_LIST=    # List of nodes that the job can run on gpu-9,gpu-7,gpu-8
-TIME="3-00:00:00"                       # Slurm walltime (D-HH:MM:SS)
+TIME="2-00:00:00"                       # Slurm walltime (D-HH:MM:SS)
 MEM_PER_GPU="20G"                       # Memory per GPU. 
 OLLAMA_MODELS_DIR="/cluster/work/projects/ec12/ec-sindrre/ollama-models"  # Path to where the Ollama models are stored and loaded                      
-OLLAMA_PORT="11470"                       # Remote port where Ollama listens. If different parallell runs, change ollama_port to avoid conflicts if same node is allocated.
+OLLAMA_PORT="11450"                       # Remote port where Ollama listens. If different parallell runs, change ollama_port to avoid conflicts if same node is allocated.
 SBATCH_SCRIPT="${PHASE}_${EXAMPLES_TYPE}_${EXAMPLES_TYPE}__${PROMPT_TYPE}_${GPUS}_ollama.slurm"           # Slurm batch script name
 # Directory on Fox to store scripts and output
 if [ -n "$PROMPT_TYPE" ]; then

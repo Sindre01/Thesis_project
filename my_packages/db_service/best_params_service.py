@@ -39,32 +39,43 @@ def save_best_params_to_db(
     print(f"✅ Best parameters saved in MongoDB for model '{model_name}' under experiment '{experiment}'.")  
 
     ### 📌 CHECK IF BEST PARAMS EXIST ###
-def get_best_params(
+def get_db_best_params(
         experiment: str, 
         model:str, 
-        optimizer_metric: str, 
+        metrics: list[str], 
         k: int,
         eval_method: str
-    ):
+    )-> list[dict]:
     """Checks if best parameters from validation exist in MongoDB."""
     collection = db[f"{experiment}_best_params"]
-    best_params = collection.find_one({"model_name": model, "optimizer_metric": optimizer_metric, "eval_method": eval_method})
+    results = []
 
-    if best_params:
-        print(f"✅ Using existing {eval_method} best parameters for model '{model}' optimized on metric '{optimizer_metric}@{k}': temperature={best_params['temperature']}, top_p={best_params['top_p']}, top_k={best_params['top_k']}, seed={best_params['seed']}")
-        return Run(
-            temperature=best_params["temperature"],
-            top_p=best_params["top_p"],
-            top_k=best_params["top_k"],
-            seed=best_params["seed"],
-            phase="validation",
-            created_at=best_params["created_at"],
-            metric_results={}
-        )
+    for optimizer_metric in metrics:
+        best_params = collection.find_one({"model_name": model, "optimizer_metric": optimizer_metric, "eval_method": eval_method})
+
+        if not best_params:
+            print(f"⚠️ No best parameters '{optimizer_metric}' found for model '{model}' under experiment '{experiment}' on metric '{optimizer_metric}, on eval method '{eval_method}' .")
+        else:
+            results_dict = {
+                f"pass@k_{metric}": [best_params[f"{metric}@{k}"] for k in best_params["ks"]]
+                for metric in best_params["metrics"]
+            }
+            flattened_metrics = flatten_metric_results(results_dict)
+            print(f"✅ Existing {eval_method} best parameters for model '{model}' optimized on metric '{optimizer_metric}@{k}': temperature={best_params['temperature']}, top_p={best_params['top_p']}, top_k={best_params['top_k']}, seed={best_params['seed']}")
+            results.append({
+                    "model_name": best_params["model_name"],
+                    "optimizer_metric": optimizer_metric,
+                    "seed": best_params["seed"],
+                    "temperature": best_params["temperature"],
+                    "top_p": best_params["top_p"],
+                    "top_k": best_params["top_k"],
+                    "eval_method": eval_method,
+                    "created_at": best_params["created_at"].isoformat(),
+                    **flattened_metrics,
+                })
+            
+    return results
     
-    print(f"⚠️ No best parameters found for model '{model}' under experiment '{experiment}'. Starting validation...")
-    return None
-
 def delete_best_params_collection(experiment: str):
     """
     Deletes a specific collection related to an experiment.
