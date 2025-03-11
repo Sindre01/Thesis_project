@@ -8,7 +8,7 @@
 EXPERIMENT="few-shot"                    # Experiment ('few-shot' or 'COT')
 PHASE="validation"                       # Phase ('testing' or 'validation')
 EXAMPLES_TYPE="coverage"                 #'coverage' or 'similarity'
-PROMPT_TYPE="signature"                 # 'regular' or 'cot' or 'signature'   
+PROMPT_TYPE="regular"                 # 'regular' or 'cot' or 'signature'   
 # SEMANTIC_SELECTOR=true                   # Use semantic selector
 USER="ec-sindrre"                        # Your Educloud username
 HOST="fox.educloud.no"                   # Fox login address (matches SSH config)
@@ -22,7 +22,7 @@ TIME="0-24:00:00"                       # Slurm walltime (D-HH:MM:SS)
 MEM_PER_GPU="40G"                       # Memory per GPU. 
 OLLAMA_MODELS_DIR="/cluster/work/projects/ec12/ec-sindrre/ollama-models"  # Path to where the Ollama models are stored and loaded                      
 LOCAL_PORT="11434"                        # Local port for forwarding
-OLLAMA_PORT="11433"                       # Remote port where Ollama listens. If different parallell runs, change ollama_port to avoid conflicts if same node is allocated.
+OLLAMA_PORT="11423"                       # Remote port where Ollama listens. If different parallell runs, change ollama_port to avoid conflicts if same node is allocated.
 SBATCH_SCRIPT="${PHASE}_${EXAMPLES_TYPE}_${EXAMPLES_TYPE}__${PROMPT_TYPE}_${GPUS}_ollama.slurm"           # Slurm batch script name
 # Directory on Fox to store scripts and output
 if [ -n "$PROMPT_TYPE" ]; then
@@ -37,11 +37,11 @@ CLONE_DIR="/fp/homes01/u01/ec-sindrre/tmp/Thesis_project_${EXAMPLES_TYPE}_\$SLUR
 model_provider='ollama'
 experiments='[
         {
-            "name": "signature_similarity",
+            "name": "regular_coverage",
             "prompt_prefix": "Create a function",
-            "num_shots": [1, 5],
-            "prompt_type": "signature",
-            "semantic_selector": true
+            "num_shots": [1, 5, 10],
+            "prompt_type": "regular",
+            "semantic_selector": false
         }
 ]'
 # experiments='[

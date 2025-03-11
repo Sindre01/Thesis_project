@@ -11,15 +11,61 @@ def load_code_from_file(file_path: str) -> str:
     with open(file_path, "r") as f:
         return f.read()
 
+def is_compile_ready(code: str) -> bool:
+    """
+    Check if the code is testable by checking if the first word contains Midio specifics.
+    To avoid compiling dangerous code and save execution time.
+    """
+    node_modules = [ #Not critical if not updated. Code wil fail either way if it starts with thes. Just for error messages to be applied.
+        "Url", 
+        "Std", 
+        "Http", 
+        "Strings", 
+        "Time", 
+        "Testing", 
+        "Data", 
+        "Json", 
+        "CSV", 
+        "List", 
+        "Map",
+        "Iteration", 
+        "Math", 
+        "LinearAlgebra", 
+        "Logic",
+        "Scheduling",
+        "Net",
+        "Image",
+        "File",
+        "Env",
+        "Buffer",
+        "Sets",
+        "Process",
+        "Base64",
+        "Hashing"
+    ]
+    correct_starts = ["import", "func", "module"]
+    other_keywords = ["instance", "data_instance", "getter", "setter", "in", "out"]
+
+    first_word = code.split()[0] if code.strip() else ""
+
+    if any(kw in first_word for kw in (correct_starts+node_modules+other_keywords)):
+        return True
+    return False
 # Function to check if the code compiles using package-manager
 def compile_code(code: str, type: str = "build", flag: str = "") -> subprocess.CompletedProcess[str]:
     with tempfile.TemporaryDirectory() as tmp_dir:
         code_file_path = os.path.join(tmp_dir, "main.midio")
-        
-        if code.lstrip().startswith("func"):  # Remove leading whitespace and check for "func"
+        code = code.lstrip().lstrip("\n")   # Remove leading/trailing whitespace and newlines
+        warnings = []
+        if code.startswith("func"):  # Remove leading whitespace and check for "func"
             # print("starts with func keyword!")
             code = "import(\"std\", Std_k98ojb)\n import(\"http\", Http_q7o96c)\nmodule() main { " + code + " }"
-
+            warnings.append("CUSTOM WARNING: Orignal code starts with 'func' keyword, but added imports and modules manually\n")
+        
+        if code.startswith("module"):  # Remove leading whitespace and check for "module"
+            # print("starts with module keyword!")
+            code = "import(\"std\", Std_k98ojb)\n import(\"http\", Http_q7o96c)\n" + code
+            warnings.append("CUSTOM WARNING: Orignal code starts with 'module' keyword, but added imports manually\n")
 
         # Write generated code to the main.midio file
         with open(code_file_path, "w") as temp_file:
@@ -47,19 +93,29 @@ def compile_code(code: str, type: str = "build", flag: str = "") -> subprocess.C
 
         try:
             # Run package-manager build on the temporary directory
-            if flag:
-                result = subprocess.run(
-                    ["package-manager", type, flag, tmp_dir],
-                    stdout=subprocess.PIPE,
-                    stderr=subprocess.PIPE,
-                    text=True
-                )
+            if is_compile_ready(code):
+                if flag:
+                    result = subprocess.run(
+                        ["package-manager", type, flag, tmp_dir],
+                        stdout=subprocess.PIPE,
+                        stderr=subprocess.PIPE,
+                        text=True
+                    )
+                else:
+                    result = subprocess.run(
+                        ["package-manager", type, tmp_dir],
+                        stdout=subprocess.PIPE,
+                        stderr=subprocess.PIPE,
+                        text=True
+                    )
+                result.stdout += "\n".join(warnings)
+            
             else:
-                result = subprocess.run(
-                    ["package-manager", type, tmp_dir],
-                    stdout=subprocess.PIPE,
-                    stderr=subprocess.PIPE,
-                    text=True
+                result = subprocess.CompletedProcess(
+                    args = [], 
+                    returncode=1, # 1 means compile build error
+                    stdout="CUSTOM WARNING: Code that is not compile ready for Midio", 
+                    stderr="CUSTOM WARNING: Code is not compile ready for Midio"
                 )
             return result
         except FileNotFoundError:

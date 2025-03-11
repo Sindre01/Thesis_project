@@ -105,11 +105,11 @@ def run_val_experiment(
                     temp,
                     top_p,
                     top_k,
-                    n,
-                    seed,
-                    debug, 
-                    prompt_type,
-                    ollama_port = ollama_port
+                    n = n,
+                    seed = seed,
+                    debug = False, 
+                    prompt_type = prompt_type,
+                    ollama_port=ollama_port
                 )
                 result_obj = {
                     "experiment_name": experiment_name,
@@ -148,7 +148,10 @@ def main():
             experiment_name = f"{ex['name']}_{shots}_shot"
 
             for model_name in models:
-                file_name = f"{experiment_name}_{model_name}.json"
+                if fold != -1:
+                    file_name = f"3_fold/{experiment_name}_{model_name}/fold_{fold}.json"
+                else:
+                    file_name = f"{experiment_name}_{model_name}.json"
                 result_runs_path = os.path.join(experiments_dir, file_name)
     
 
