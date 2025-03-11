@@ -13,7 +13,8 @@ def save_results_to_db(
         ks: list[int],
         metrics: list[str],
         result: Run,
-        db_connection=None
+        db_connection=None,
+        eval_method="hold_out"
     ):
     """Saves results to MongoDB in the '{experiment}_results' collection."""
     # Use the provided connection or fall back to the global one
@@ -32,6 +33,7 @@ def save_results_to_db(
         "ks": ks,
         "metrics": metrics,
         "created_at": datetime.now(ZoneInfo("Europe/Oslo")),
+        "eval_method": eval_method,
         **flattened_metrics,
     }
 
@@ -77,10 +79,10 @@ def results_to_df(experiment: str):
         raise ValueError(f"Collection '{collection_name}' is empty in MongoDB.")
 
     return pd.DataFrame(data)
-def get_db_results(experiment: str, model:str):
+def get_db_results(experiment: str, model:str, eval_method: str):
     """Checks if best parameters from validation exist in MongoDB."""
     collection = db[f"{experiment}_results"]
-    results = collection.find_one({"model_name": model})
+    results = collection.find_one({"model_name": model, "eval_method": eval_method})
 
     if results:
         results_dict = {
@@ -97,6 +99,7 @@ def get_db_results(experiment: str, model:str):
             "top_p": results["top_p"],
             "top_k": results["top_k"],
             "ks": results["ks"],
+            "eval_method": results["eval_method"],
             "created_at": results["created_at"].isoformat(),
             **flattened_metrics,
             }]

@@ -23,22 +23,15 @@ results_dir = f"{project_dir}/notebooks/few-shot/fox/validation_runs"
 sys.path.append(project_dir)
 from my_packages.common.classes import PromptType
 from my_packages.evaluation.code_evaluation import run_model
-from dotenv import load_dotenv
 from my_packages.data_processing.attributes_processing import used_functions_to_string
 from my_packages.prompting.few_shot import transform_code_data
 from my_packages.utils.file_utils import write_directly_json_file, read_dataset_to_json
-from my_packages.utils.tokens_utils import get_model_code_tokens_from_file, models_not_in_file, write_models_tokens_to_file
-from my_packages.utils.server_utils import server_diagnostics, is_remote_server_reachable
-from langchain_ollama import OllamaEmbeddings, ChatOllama
-from langchain_anthropic import ChatAnthropic
-from langchain_openai import OpenAIEmbeddings, ChatOpenAI
-from my_packages.prompting.example_selectors import get_coverage_example_selector, get_semantic_similarity_example_selector
-from langchain_core.example_selectors.base import BaseExampleSelector
+from my_packages.utils.tokens_utils import get_model_code_tokens_from_file
 
-def get_dataset_splits(main_dataset_folder):
-    train_data = transform_code_data(read_dataset_to_json(main_dataset_folder + 'splits/train_dataset.json'))
-    val_data = transform_code_data(read_dataset_to_json(main_dataset_folder + 'splits/validation_dataset.json'))
-    test_data = transform_code_data(read_dataset_to_json(main_dataset_folder + 'splits/test_dataset.json'))
+def get_hold_out_splits(main_dataset_folder):
+    train_data = transform_code_data(read_dataset_to_json(main_dataset_folder + 'splits/hold_out/train_dataset.json'))
+    val_data = transform_code_data(read_dataset_to_json(main_dataset_folder + 'splits/hold_out/validation_dataset.json'))
+    test_data = transform_code_data(read_dataset_to_json(main_dataset_folder + 'splits/hold_out/test_dataset.json'))
 
     print(f"Train data: {len(train_data)}")
     print(f"Val data: {len(val_data)}")
@@ -51,7 +44,7 @@ def get_k_fold_splits(main_dataset_folder, k, k_folds=5):
         print(f"Using existing {k_folds}-fold splits")
     else:
         print(f"Creating {k_folds}-fold splits")
-        train, val, _ = get_dataset_splits(main_dataset_folder)
+        train, val, _ = get_hold_out_splits(main_dataset_folder)
         create_kfold_splits((val+train), k_folds=k_folds, write_to_file=True)
 
     train_data = read_dataset_to_json(main_dataset_folder + f'splits/{k_folds}_fold/train_dataset_{k}.json')
@@ -224,7 +217,7 @@ if __name__ == "__main__":
     main_dataset_folder = f'{project_dir}/data/MBPP_Midio_50/'
 
     print("\n==== Splits data ====")
-    train_data, val_data, test_data = get_dataset_splits(main_dataset_folder)
+    train_data, val_data, test_data = get_hold_out_splits(main_dataset_folder)
     dataset = train_data + val_data + test_data
 
     if fold != -1:

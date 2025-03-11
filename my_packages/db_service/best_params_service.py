@@ -11,7 +11,8 @@ def save_best_params_to_db(
     model_name: str, 
     optimizer_metric: str, 
     best_params: Run, 
-    db_connection=None
+    db_connection=None,
+    eval_method="hold_out"
 ):
     """Saves the best hyperparameters for a given model in MongoDB."""
     # Use the provided connection or fall back to the global one
@@ -31,19 +32,26 @@ def save_best_params_to_db(
         "top_k": best_params.top_k,
         "seed": best_params.seed,
         "created_at": datetime.now(ZoneInfo("Europe/Oslo")),
+        "eval_method": eval_method,
         **flattened_metrics
     })
 
     print(f"✅ Best parameters saved in MongoDB for model '{model_name}' under experiment '{experiment}'.")  
 
     ### 📌 CHECK IF BEST PARAMS EXIST ###
-def get_best_params(experiment: str, model:str, optimizer_metric: str, k: int):
+def get_best_params(
+        experiment: str, 
+        model:str, 
+        optimizer_metric: str, 
+        k: int,
+        eval_method: str
+    ):
     """Checks if best parameters from validation exist in MongoDB."""
     collection = db[f"{experiment}_best_params"]
-    best_params = collection.find_one({"model_name": model, "optimizer_metric": optimizer_metric})
+    best_params = collection.find_one({"model_name": model, "optimizer_metric": optimizer_metric, "eval_method": eval_method})
 
     if best_params:
-        print(f"✅ Using existing best parameters for model '{model}' optimized on metric '{optimizer_metric}@{k}': temperature={best_params['temperature']}, top_p={best_params['top_p']}, top_k={best_params['top_k']}, seed={best_params['seed']}")
+        print(f"✅ Using existing {eval_method} best parameters for model '{model}' optimized on metric '{optimizer_metric}@{k}': temperature={best_params['temperature']}, top_p={best_params['top_p']}, top_k={best_params['top_k']}, seed={best_params['seed']}")
         return Run(
             temperature=best_params["temperature"],
             top_p=best_params["top_p"],

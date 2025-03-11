@@ -1,15 +1,37 @@
 import pandas as pd
 from my_packages.db_service import db
 
-def confirm_testing_rerun(experiment: str, model_name: str) -> bool:
+def update_all_colelctions(update_dict: dict):
     """
-    Checks if a model already exists in the results collection of an experiment.
+    Updates all collections in the database with the provided update dictionary.
+    """
+    collections = db.list_collection_names()
+    for collection_name in collections:
+        collection = db[collection_name]
+
+        for field, value in update_dict.items():
+            # Only update documents where the field does NOT already exist
+            result = collection.update_many(
+                {field: {"$exists": False}},
+                {"$set": {field: value}}
+            )
+            print(f"✅ Updated {result.modified_count} documents in collection '{collection_name}' with field '{field}' = '{value}'")
+
+
+def confirm_testing_rerun(
+        experiment: str, 
+        model_name: str, 
+        eval_method: str
+    ) -> bool:
+    """
+    Checks if a model for an eval_method already exists in the results collection of an experiment.
     If the model exists, asks the user whether to re-run the experiment.
     If 'yes', deletes the old results and testing errors, and runs the experiment again.
 
     Parameters:
     - experiment (str): The experiment name.
     - model_name (str): The model to check.
+    - eval_method (str): The evaluation method (e.g., "hold_out", "3_fold").
 
     Returns:
     - True if the experiment should proceed, False otherwise.
@@ -20,7 +42,7 @@ def confirm_testing_rerun(experiment: str, model_name: str) -> bool:
     # params_collection = db[f"{experiment}_best_params"]
 
     # Check if model exists in the results collection
-    existing_entry = results_collection.find_one({"model_name": model_name})
+    existing_entry = results_collection.find_one({"model_name": model_name, "eval_method": eval_method})
 
     if existing_entry:
         print(f"⚠️ Model '{model_name}' already exists in experiment '{experiment}'.")
@@ -30,8 +52,8 @@ def confirm_testing_rerun(experiment: str, model_name: str) -> bool:
             print(f"==== Cleaning experiment for model '{model_name}'======")
             
             # Delete existing entries in results and errors
-            results_deleted = results_collection.delete_many({"model_name": model_name}).deleted_count
-            errors_deleted = errors_collection.delete_many({"model_name": model_name, "phase": "testing"}).deleted_count
+            results_deleted = results_collection.delete_many({"model_name": model_name, "eval_method": eval_method}).deleted_count
+            errors_deleted = errors_collection.delete_many({"model_name": model_name, "eval_method": eval_method, "phase": "testing"}).deleted_count
 
             print(f"🗑️ Deleted {results_deleted} previous results & {errors_deleted} testing errors for '{model_name}'.")
             print("Ready to re-run the experiment.\n")
@@ -43,12 +65,16 @@ def confirm_testing_rerun(experiment: str, model_name: str) -> bool:
     # If model does not exist, proceed with the experiment
     print(f"⚠️ No results found for model '{model_name}' in experiment '{experiment}_best_params'.\n")
 
-    cleanup_errors = errors_collection.delete_many({"model_name": model_name, "phase": "testing"}).deleted_count # Cleanup previous saved testing errors, due to interuptions
+    cleanup_errors = errors_collection.delete_many({"model_name": model_name, "eval_method": eval_method, "phase": "testing"}).deleted_count # Cleanup previous saved testing errors, due to interuptions
     if cleanup_errors:
         print(f"🗑️ Deleted {cleanup_errors} previous testing errors for '{model_name}'.\n")
     return True
 
-def confirm_validation_rerun(experiment: str, model_name: str) -> bool:
+def confirm_validation_rerun(
+        experiment: str, 
+        model_name: str, 
+        eval_method: str
+    ) -> bool:
     """
     Checks if a model already exists in the best params collection of an experiment.
     If the model exists, asks the user whether to re-run the experiment.
@@ -66,7 +92,7 @@ def confirm_validation_rerun(experiment: str, model_name: str) -> bool:
     errors_collection = db[f"{experiment}_errors"]
 
     # Check if model exists in the results collection
-    existing_entry = params_collection.find_one({"model_name": model_name})
+    existing_entry = params_collection.find_one({"model_name": model_name, "eval_method": eval_method})
 
     if existing_entry:
         print(f"⚠️ Model '{model_name}' already exists in experiment '{experiment}'.")
@@ -76,8 +102,8 @@ def confirm_validation_rerun(experiment: str, model_name: str) -> bool:
             print(f"==== Cleaning experiment for model '{model_name}'======")
             
             # Delete existing entries in results and errors
-            params_deleted = params_collection.delete_many({"model_name": model_name}).deleted_count
-            errors_deleted = errors_collection.delete_many({"model_name": model_name, "phase": "validation"}).deleted_count
+            params_deleted = params_collection.delete_many({"model_name": model_name, "eval_method": eval_method}).deleted_count
+            errors_deleted = errors_collection.delete_many({"model_name": model_name, "eval_method": eval_method, "phase": "validation"}).deleted_count
 
             print(f"🗑️ Deleted {params_deleted} previous best params & {errors_deleted} validation errors for '{model_name}'.")
             print("Ready to re-run the experiment.\n")
@@ -89,7 +115,7 @@ def confirm_validation_rerun(experiment: str, model_name: str) -> bool:
     # If model does not exist, proceed with the experiment
     print(f"⚠️ No best params found for model '{model_name}' in experiment '{experiment}_best_params'. Ready to rerun! \n")
 
-    cleanup_errors = errors_collection.delete_many({"model_name": model_name, "phase": "validation"}).deleted_count  # Cleanup previous saved validation errors, due to interuptions
+    cleanup_errors = errors_collection.delete_many({"model_name": model_name, "eval_method": eval_method, "phase": "validation"}).deleted_count  # Cleanup previous saved validation errors, due to interuptions
     if cleanup_errors:
         print(f"🗑️ Deleted {cleanup_errors} previous validation errors for '{model_name}'. \n")
     return True

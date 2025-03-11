@@ -5,7 +5,6 @@ import subprocess
 import os
 import sys
 
-
 script_dir = os.path.dirname(os.path.abspath(__file__))
 project_dir = os.path.abspath(f"{script_dir}/../../..")
 # experiment_dir = os.path.abspath(f"{script_dir}/..")
@@ -20,24 +19,15 @@ from my_packages.common.few_shot import init_example_selector, model_configs
 from my_packages.data_processing.split_dataset import create_kfold_splits
 from my_packages.common.classes import PromptType, get_prompt_type
 from my_packages.evaluation.code_evaluation import run_model
-# from my_packages.experiments.few_shot import get_dataset_splits, init_example_selector, model_configs
-from dotenv import load_dotenv
-from pathlib import Path
 from my_packages.data_processing.attributes_processing import used_functions_to_string
 from my_packages.prompting.few_shot import transform_code_data
-from my_packages.utils.file_utils import write_directly_json_file, write_json_file, read_dataset_to_json
-from my_packages.utils.tokens_utils import get_model_code_tokens_from_file, models_not_in_file, write_models_tokens_to_file
-from my_packages.utils.server_utils import server_diagnostics, is_remote_server_reachable
-from langchain_ollama import OllamaEmbeddings, ChatOllama
-from langchain_anthropic import ChatAnthropic
-from langchain_openai import OpenAIEmbeddings, ChatOpenAI
-from my_packages.prompting.example_selectors import get_coverage_example_selector, get_semantic_similarity_example_selector
-from langchain_core.example_selectors.base import BaseExampleSelector
+from my_packages.utils.file_utils import write_directly_json_file, read_dataset_to_json
+from my_packages.utils.tokens_utils import get_model_code_tokens_from_file
 
-def get_dataset_splits(main_dataset_folder):
-    train_data = transform_code_data(read_dataset_to_json(main_dataset_folder + 'splits/train_dataset.json'))
-    val_data = transform_code_data(read_dataset_to_json(main_dataset_folder + 'splits/validation_dataset.json'))
-    test_data = transform_code_data(read_dataset_to_json(main_dataset_folder + 'splits/test_dataset.json'))
+def get_hold_out_splits(main_dataset_folder):
+    train_data = transform_code_data(read_dataset_to_json(main_dataset_folder + 'splits/hold_out/train_dataset.json'))
+    val_data = transform_code_data(read_dataset_to_json(main_dataset_folder + 'splits/hold_out/validation_dataset.json'))
+    test_data = transform_code_data(read_dataset_to_json(main_dataset_folder + 'splits/hold_out/test_dataset.json'))
 
     print(f"Train data: {len(train_data)}")
     print(f"Val data: {len(val_data)}")
@@ -50,8 +40,9 @@ def get_k_fold_splits(main_dataset_folder, k, k_folds=3):
         print(f"Using existing {k_folds}-fold splits")
     else:
         print(f"Creating {k_folds}-fold splits")
-        train, _ ,test = get_dataset_splits(main_dataset_folder)
-        create_kfold_splits((test+train), k_folds=k_folds, write_to_file=True)
+        train, _ ,test = get_hold_out_splits(main_dataset_folder)
+        # Only use train+train for k-fold splits
+        create_kfold_splits((train+test), k_folds=k_folds, write_to_file=True)
 
     train_data = read_dataset_to_json(main_dataset_folder + f'splits/{k_folds}_fold/train_dataset_{k}.json')
     test_data = read_dataset_to_json(main_dataset_folder + f'splits/{k_folds}_fold/test_dataset_{k}.json')
@@ -141,7 +132,7 @@ def run_testing_experiment(
     write_directly_json_file(file_path, results)
 
 
-def main(train_data, test_data, fold=-1):
+def main(train_data, test_data, fold=-1, k_folds=3):
     """Main function to run few-shot testing experiments."""
     for ex in experiments:
         selector_type= "similarity" if ex["semantic_selector"] else "coverage"
@@ -159,9 +150,11 @@ def main(train_data, test_data, fold=-1):
             experiment_name = f"{ex['name']}_{shots}_shot"
 
             for model_name in models:
-                file_name = f"{experiment_name}_{model_name}.json"
-                if fold != -1:
-                    file_name = f"3_fold/{experiment_name}_{model_name}/fold_{fold}.json"
+                
+                if fold != -1: # 3-fold cross-validation
+                    file_name = f"{k_folds}_fold/{experiment_name}_{model_name}/fold_{fold}.json"
+                else: # Static train/val/test split
+                    file_name = f"hold_out/{experiment_name}_{model_name}.json"
 
                 result_runs_path = os.path.join(results_dir, file_name)
                 best_params_path = os.path.join(best_params_folder, experiment_name + ".json")
@@ -267,8 +260,12 @@ if __name__ == "__main__":
     main_dataset_folder = f'{project_dir}/data/MBPP_Midio_50/'
 
     print("\n==== Splits data ====")
-    train_data, val_data, test_data = get_dataset_splits(main_dataset_folder)
+    train_data, val_data, test_data = get_hold_out_splits(main_dataset_folder)
     dataset = train_data + val_data + test_data
+    
+    used_functions_json = read_dataset_to_json(main_dataset_folder + "metadata/used_external_functions.json") # Used functions in the dataset
+    print(f"Number of used nodes: {len(used_functions_json)}")
+    available_nodes = used_functions_to_string(used_functions_json) #used for Context prompt
 
     if fold != -1:
         print(f"Using 3-fold cross-validation on merged train+test splits")
@@ -279,10 +276,6 @@ if __name__ == "__main__":
     
     all_responses = [sample["response"] for sample in dataset]
     print(f"Number of all responses: {len(all_responses)}")
-    
-    used_functions_json = read_dataset_to_json(main_dataset_folder + "metadata/used_external_functions.json") # Used functions in the dataset
-    print(f"Number of used nodes: {len(used_functions_json)}")
-    available_nodes = used_functions_to_string(used_functions_json) #used for Context prompt
 
     print("\n==== Configures models ====")
     client, models = model_configs(all_responses, model_provider, models, ollama_port)
