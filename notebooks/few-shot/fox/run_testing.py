@@ -218,7 +218,7 @@ def main(train_data, test_data, fold=-1, k_folds=3):
                             selector_type, 
                             prompt_type,
                             str(hours), str(minutes), str(seconds),
-                            fold
+                            str(fold)
                             ], check=True)
             print("✅ push_runs.sh script executed successfully!")
             
