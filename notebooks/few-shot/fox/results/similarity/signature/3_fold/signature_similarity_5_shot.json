@@ -1,1 +1,14 @@
-[]
+[
+    "model_name",
+    "experiment",
+    "metrics",
+    "seed",
+    "temperature",
+    "top_p",
+    "top_k",
+    "ks",
+    "tests@1",
+    "tests@2",
+    "tests@5",
+    "tests@10"
+]

@@ -45,7 +45,7 @@ def check_correctness(
     results: dict[int, list[CodeEvaluationResult]] = {}
 
     for task_id, candidates in candidates_dict.items():
-        # print(f"\n> Checking correctness for task {task_id}...")
+        print(f"\n> Checking correctness for task {task_id}...")
         test_code = get_test_module_from_file(task_id)
         checked_canidates = []
 
@@ -53,6 +53,7 @@ def check_correctness(
             # print(f"    Compiling code with tests for candidate {i+1}...")
             # Add the testing code to the candidate code
             test_candidate = candidate + "\n" + test_code
+            print(f"    Compiling code with tests for candidate {i+1}...", flush=True)
             compiled = compile_code(test_candidate)
             
             evaluation_result = CodeEvaluationResult("tests", test_candidate, task_id, (i+1), compiled)
@@ -65,7 +66,7 @@ def check_correctness(
                 evaluation_result.add_semantic_error(compiled)
             
             else: # If the code is semantically valid, check tests and extract the test results
-                # print(f"    Running tests...")
+                print(f"    Running tests...", flush=True)
                 compiled_tests = compile_code(test_candidate, "test", "--json")
                 evaluation_result.add_tests_result(compiled_tests)
 

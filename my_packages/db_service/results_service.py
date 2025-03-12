@@ -1,4 +1,5 @@
 from datetime import datetime
+import json
 from zoneinfo import ZoneInfo
 import re
 import pandas as pd
@@ -94,7 +95,8 @@ def get_db_results(
             for metric in results["metrics"]
         }
         flattened_metrics = flatten_metric_results(results_dict)
-        print(f"✅ Existing {eval_method} results for model '{model}' under experiment '{experiment}': {flattened_metrics}")
+        print(f"✅ Existing {eval_method} results for model '{model}' under experiment '{experiment}':")
+        print(json.dumps(flattened_metrics, indent=2))
         return [{
             "model_name": results["model_name"],
             "metrics": results["metrics"],

@@ -1,0 +1,20 @@
+Installing dependencies for midio_example@0.1.0
+
+No external dependencies
+
+Building package...
+Package built successfully!
+
+[31mERROR[0m [2mengine::engine::engine[0m[2m:[0m [2m1727:[0m Error stepping: StepError(Panicked: Tried to call function with trigger which was not connected to anything at unknown origin)
+[31mERROR[0m [2mengine::engine::engine[0m[2m:[0m [2m1728:[0m disabled backtrace
+{
+  "num_tests": 1,
+  "num_passed": 1,
+  "test_results": [
+    {
+      "name": "Test second_smallest",
+      "assertions": [],
+      "passed": true
+    }
+  ]
+}

@@ -1,0 +1,66 @@
+import("std", Std_k98ojb)
+import("http", Http_q7o96c)
+
+module() main { 
+    func(doc: "Finds the second smallest number in a list.") second_smallest {
+        in(x: -52, y: 85, name: "list") property(List) list_56d273
+        in(x: -244, y: -39, name: "execute") trigger() execute_c23a43
+
+        out(x: 1025, y: 145, name: "continue") trigger() continue_642adb
+        out(x: 1026, y: 287, name: "output") property(Any) output_ad16ae
+
+        instance(x: -52, y: -39) min_1c9d7f root.Std_k98ojb.List.Min {}
+        list_56d273 -> min_1c9d7f.items
+        instance(x: 0, y: 0) find_6d05b0 root.Std_k98ojb.Iteration.Find {}
+        func() {
+            in(x: -113, y: 34, name: "elem") property(Number) elem_9f6850
+
+            out(x: 515, y: 44, name: "bool") property(Bool) bool_af09a7
+
+            instance(x: 89, y: 29) notequal_807ffd root.Std_k98ojb.Logic.NotEqual {}
+            min_1c9d7f.min -> notequal_807ffd.right
+            elem_9f6850 -> notequal_807ffd.left
+            notequal_807ffd.result -> bool_af09a7
+        } -> find_6d05b0.predicate
+        list_56d273 -> find_6d05b0.items
+        find_6d05b0.item -> output_ad16ae
+
+        execute_c23a43 -> min_1c9d7f.execute
+        min_1c9d7f.done -> continue_642adb
+    }
+
+    
+
+    instance(x: 0, y: -34) second_smallest_node root.main.second_smallest {}
+}
+module(doc: "Contains three different tests for the 'second_smallest' function node") tests {
+        instance(x: -109, y: 121) second_smallest_4179fe root.main.second_smallest {}
+        instance(x: -131, y: 13) test_756f72 root.Std_k98ojb.Testing.Test {
+            name: "Test second_smallest"
+        }
+        instance(x: 178, y: 114) assertequal_01a02e root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 423, y: 117) second_0b8e2c root.main.second_smallest {}
+        instance(x: 710, y: 110) assertequal_5cd621 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 977, y: 124) second_d6b46c root.main.second_smallest {}
+        instance(x: 1264, y: 117) assertequal_64065d root.Std_k98ojb.Testing.AssertEqual {}
+        data_instance(x: -99, y: 246) data_3efee3  = [1, 2, -8, -2, 0, -2]
+        data_instance(x: 434, y: 246) data_1cddfd  = [1, 1, -0, 0, 2, -2, -2]
+        data_instance(x: 1003, y: 294) data_42c57b  = [2, 2]
+        test_756f72.onRun -> second_smallest_4179fe.execute_c23a43
+        second_smallest_4179fe.continue_642adb -> assertequal_01a02e.execute
+        second_0b8e2c.continue_642adb -> assertequal_5cd621.execute
+        second_d6b46c.continue_642adb -> assertequal_64065d.execute
+        assertequal_5cd621.continue -> second_d6b46c.execute_c23a43
+        assertequal_01a02e.continue -> second_0b8e2c.execute_c23a43
+        data_3efee3 -> second_smallest_4179fe.list_56d273
+        data_1cddfd -> second_0b8e2c.list_56d273
+        data_42c57b -> second_d6b46c.list_56d273
+        second_0b8e2c.output_ad16ae -> assertequal_5cd621.actual
+        -0 -> assertequal_5cd621.expect
+        second_smallest_4179fe.output_ad16ae -> assertequal_01a02e.actual
+        -2 -> assertequal_01a02e.expect
+        second_d6b46c.output_ad16ae -> assertequal_64065d.actual
+        null -> assertequal_64065d.expect
+
+
+    }
