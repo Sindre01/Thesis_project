@@ -52,7 +52,7 @@ def confirm_rerun(
     existing_entry = collection.find_one({"model_name": model_name, "eval_method": eval_method})
 
     if existing_entry:
-        print(f"⚠️ Model '{model_name}' already exists in experiment '{experiment}'.")
+        print(f"⚠️ Model '{model_name}' already exists in {eval_method} experiment '{experiment}'.")
         user_input = input(f"❓ Do you want to re-run the experiment and delete {collection_type} and {phase} errors for this model? (yes/no):  ").strip().lower()
 
         if user_input == "yes":
@@ -70,7 +70,7 @@ def confirm_rerun(
             return False
     
     # If model does not exist, proceed with the experiment
-    print(f"⚠️ No {collection_type} found for model '{model_name}' in experiment '{experiment}_best_params'.\n")
+    print(f"⚠️ No {collection_type} found for model '{model_name}' in {eval_method} experiment '{experiment}_{collection_type}'.\n")
 
     cleanup_errors = errors_collection.delete_many({"model_name": model_name, "eval_method": eval_method, "phase": phase}).deleted_count # Cleanup previous saved {phase} errors, due to interuptions
     if cleanup_errors:

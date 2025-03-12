@@ -4,7 +4,6 @@ import sys
 from zoneinfo import ZoneInfo
 import concurrent.futures
 
-
 script_dir = os.path.dirname(os.path.abspath(__file__))
 project_dir = os.path.abspath(f"{script_dir}/../../..")
 experiment_dir = os.path.abspath(f"{script_dir}/..")
@@ -144,11 +143,11 @@ def evaluate_final_result(
                 ks=ks,
                 db_connection=db
             )
-            all_runs.extend(final_result) # append the final averaged result accross the seeds
-            print(f"✅ Processed fold {fold_idx} for {experiment_name}")
+            all_runs.append(final_result) # append the final averaged result accross the seeds
+            print(f"✅ Processed fold {fold_idx} for {experiment_name} for {model_name}")
 
         if not all_runs:
-            print(f"❌ No valid folds found for {experiment_name}")
+            print(f"❌ No valid folds found for {experiment_name} for {model_name}")
             return experiment_name, {}
 
         final_result = calculate_final_result(all_runs)

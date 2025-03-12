@@ -39,7 +39,7 @@ experiments='[
         {
             "name": "signature_coverage",
             "prompt_prefix": "Create a function",
-            "num_shots": [1, 5, 10],
+            "num_shots": [5, 10],
             "prompt_type": "signature",
             "semantic_selector": false
         },
@@ -256,26 +256,22 @@ git rev-parse --show-toplevel
 export GIT_DIR="$CLONE_DIR/.git"
 export GIT_WORK_TREE="$CLONE_DIR"
 
-# branch_name="$PHASE/$EXAMPLES_TYPE"
-# if [ -n "$PROMPT_TYPE" ]; then
-#     branch_name="\${branch_name}-$PROMPT_TYPE"
-# fi
-
-# if git rev-parse --verify --quiet "refs/heads/\${branch_name}"; then
-#     git checkout "\${branch_name}"
-# else
-#     git checkout -b "\${branch_name}"
-#     git push --set-upstream origin "\${branch_name}"  # Set remote tracking
-# fi
-
 git checkout main
 
 git reset --hard HEAD  # Ensure a clean state
 git pull --rebase --autostash || { echo "❌ Git pull failed!"; exit 1; }
 
-#PULL changes to Main git repo as well
-# git --git-dir=~/Thesis_project/.git --work-tree=~/Thesis_project/ pull origin main
 source ~/Thesis_project/thesis_venv/bin/activate  # Activate it to ensure the correct Python environment
+
+# Define a cleanup function
+cleanup() {
+    echo "⚠️ Job failed or completed — cleaning up $CLONE_DIR"
+    rm -rf "$CLONE_DIR"
+    echo "✅ Repository removed: $CLONE_DIR"
+}
+
+# Ensure cleanup is called on exit (both success or error)
+trap cleanup EXIT
 
 echo "============= Running ${PHASE} ${EXPERIMENT} Python script for Fold ${SLURM_ARRAY_TASK_ID}... ============="
 export PYTHONPATH="${CLONE_DIR}:$PYTHONPATH"
@@ -287,10 +283,6 @@ python -u ${CLONE_DIR}/notebooks/${EXPERIMENT}/fox/run_${PHASE}.py \
     --fold \$SLURM_ARRAY_TASK_ID \
     > ${REMOTE_DIR}/AI_\${SLURM_JOB_ID}_fold_\$SLURM_ARRAY_TASK_ID.out 2>&1
 
-# Cleanup after job completion
-echo "🚀 Cleaning up cloned repository..."
-rm -rf "$CLONE_DIR"
-echo "✅ Repository removed: $CLONE_DIR"
 
 ###############################################################################
 # End of Script
