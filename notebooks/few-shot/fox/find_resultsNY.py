@@ -80,7 +80,7 @@ def evaluate_runs(
         return results, best_params
     
     elif PHASE == Phase.TESTING:
-        final_results = calculate_final_result(results)
+        final_results = calculate_final_result(results, only_mean=True)
         return results, final_results
     
     else:
@@ -113,7 +113,7 @@ def extract_experiment_and_model_name(file_name: str):
 def extract_models_from_files(files: list[str]):
     return [extract_experiment_and_model_name(file)[1] for file in files]
 
-def evaluate_final_result(
+def evaluate_final_results(
         file_name: str, 
         runs_folder: str, 
         env: str, 
@@ -136,14 +136,15 @@ def evaluate_final_result(
                 print(f"⚠️ Skipping missing fold file: {file_path}")
                 continue
 
-            _, final_result = evaluate_runs(
+            _, fold_result = evaluate_runs(
                 file_path,
                 env,
                 metrics,
                 ks=ks,
                 db_connection=db
             )
-            all_runs.append(final_result) # append the final averaged result accross the seeds
+            all_runs.append(fold_result) # append the final averaged result accross the seeds
+            
             print(f"✅ Processed fold {fold_idx} for {experiment_name} for {model_name}")
 
         if not all_runs:
@@ -198,7 +199,7 @@ def evaluate_final_result(
             **flattened_metrics
         }
 
-    return result_dict
+    return experiment_name, result_dict
 
 def evaluate_best_params(
         file_name: str, 
@@ -252,7 +253,7 @@ def evaluate_best_params(
         })
         print(f"Best hyperparameters for {experiment_name} with model {model_name}: temp={best_run_result.temperature}, top_p={best_run_result.top_p}, top_k={best_run_result.top_k}, seed={best_run_result.seed}")
     
-    return best_params
+    return experiment_name, best_params
 
 def process_file(
         file_name: str, 
@@ -267,24 +268,17 @@ def process_file(
     Supports k-fold and hold-out evaluation methods.
     Returns a tuple: (experiment_name, dict with final result)
     """
-    kwargs = {
-        "file_name": file_name,
-        "runs_folder": runs_folder,
-        "env": env,
-        "metrics": metrics,
-        "ks": ks,
-        "eval_method": eval_method
-    }
-    experiment_name, model_name = extract_experiment_and_model_name(file_name)
+    kwargs = locals()
+
     file_results = []
 
     if PHASE == Phase.VALIDATION:
-        best_params = evaluate_best_params(**kwargs)
-        file_results = [result_dict]
+        experiment_name, file_results = evaluate_best_params(**kwargs)
 
     elif PHASE == Phase.TESTING:
-        result_dict = evaluate_final_result(**kwargs)
-        file_results = best_params
+        experiment_name, file_results = evaluate_final_results(**kwargs)
+    else:
+        raise Exception(f"Invalid PHASE type. Must be one of Enum values: {Phase.VALIDATION}, {Phase.TESTING}")
 
     return experiment_name, file_results
         
@@ -315,6 +309,7 @@ def main(
                     pretty_print_experiment_collections(
                         experiment_name,
                         exclude_columns=["stderr", "stdout", "code_candidate", "test_result", "error_msg"],
+                        filter={"eval_method": eval_method}
                     )
                     if not run_experiment_quality_checks(experiment_name, eval_method=eval_method):
                         raise Exception("Experiment quality checks failed.")
@@ -404,11 +399,11 @@ if __name__ == "__main__":
 
     env = "prod" # if 'prod' then it will use the MongoDB database
     ks = [1, 2, 5, 10]
-    example_selector_types = ["coverage"] #["coverage", "similarity", "cot"]
+    example_selector_types = ["similarity"] #["coverage", "similarity", "cot"]
     experiment_types = ["signature"]  # ["regular", "signature", "cot"]
-    shots = [1, 5, 10]
+    shots = [5]
     metrics = ["syntax", "semantic", "tests"] # ["syntax", "semantic", "tests"] or ["syntax", "semantic"]
-    use_threads = True
+    use_threads = False
 
     main(
         env = env,

@@ -213,7 +213,7 @@ def run_experiment_quality_checks(
     errors_found = False
 
     models = list_models_for_experiment(experiment)
-    print(f"\n=== Running quality checks for experiment: {experiment} ===")
+    print(f"\n=== Running quality checks for {eval_method} experiment: {experiment} ===")
     if models:
         print("Models found in DB for experiment::", models)
     else:

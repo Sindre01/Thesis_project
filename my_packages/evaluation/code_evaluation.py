@@ -492,7 +492,7 @@ def run_testing(
     print(f"✅ Final results saved to database for '{model['name']}' in {experiment_name}")
     return results, final_result
 
-def calculate_final_result(testing_runs: list[Run]) -> Run:
+def calculate_final_result(testing_runs: list[Run], only_mean: bool = False) -> Run:
     """
     Calculate the mean and standard deviation of the metrics, across all testing runs.
 
@@ -555,6 +555,13 @@ def calculate_final_result(testing_runs: list[Run]) -> Run:
         final_metric_results[metric_name.replace(" ", "_")] = metric_summary
 
     final_metric_results = round_results(final_metric_results)
+    
+    if only_mean:
+        # Only return mean values as integers, instead of dict of mean and std
+        for metric, passes in final_metric_results.items():
+            for pass_k, stats in passes.items():
+                final_metric_results[metric][pass_k] = stats["mean"]
+
     # Return a new Run object for the final result
     return Run(
         phase="final",
