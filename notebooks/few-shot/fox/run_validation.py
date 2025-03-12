@@ -128,7 +128,7 @@ def parse_experiments(experiment_list):
         if "prompt_type" in exp and isinstance(exp["prompt_type"], str):
             exp["prompt_type"] = PromptType(exp["prompt_type"])  # Convert to Enum
     return experiment_list
-def main():
+def main(train_data, val_data):
     """Run few-shot validation experiments."""
     for ex in experiments:
 
