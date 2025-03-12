@@ -6,7 +6,7 @@ PROMPT_TYPE=${4:-"regular"}
 H=${5:-"0"}
 M=${6:-"0"}
 S=${7:-"0"}
-K_FOLD=${8:-"fold"}
+K_FOLD=${8:-"-1"}
 
 EXPERIMENT_DIR="${EXAMPLES_TYPE}/${PROMPT_TYPE}"
 REMOTE_DIR="/fp/homes01/u01/ec-sindrre/slurm_jobs/${EXPERIMENT}/${PHASE}/${EXPERIMENT_DIR}/runs/"

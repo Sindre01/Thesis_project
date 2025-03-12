@@ -176,7 +176,7 @@ def main():
                             selector_type, 
                             prompt_type,
                             str(hours), str(minutes), str(seconds),
-                            fold
+                            str(fold)
                             ], check=True)
             print("✅ push_runs.sh script executed successfully!")
             print("🚀 Few-shot validation completed successfully!")

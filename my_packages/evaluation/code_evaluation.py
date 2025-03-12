@@ -255,7 +255,7 @@ def run_model(
 def evaluate_code(
     candidate_dict: dict[int, list[str]],
     ks: list[int],                               
-    evaluation_metric:list[str],
+    evaluation_metrics:list[str],
     experiment_name: str,
     model_name: str,
     env: str,
@@ -274,7 +274,7 @@ def evaluate_code(
     """
 
     metric_results = []
-    for metric in evaluation_metric:
+    for metric in evaluation_metrics:
         if metric not in ["syntax", "semantic", "tests"]:
             raise ValueError("Invalid evaluation metric. Choose from 'syntax', 'semantic', 'tests'")
         else:
@@ -361,7 +361,7 @@ def run_validation(
                 metric_results_lists = evaluate_code (
                     model_result,
                     ks=ks,
-                    evaluation_metric=[optimizer_metric],
+                    evaluation_metrics=[optimizer_metric],
                     experiment_name=experiment_name,
                     model_name=model["name"],
                     env=env,
@@ -451,7 +451,7 @@ def run_testing(
         metric_results_lists = evaluate_code (
             model_result,
             ks=ks,
-            evaluation_metric=metrics,
+            evaluation_metrics=metrics,
             experiment_name=experiment_name,
             model_name=model["name"],
             env=env,
@@ -575,4 +575,33 @@ def round_results(metric_results, ndigits=2):
             }
     return rounded
 
+def calculate_best_params(
+        validation_runs: list[Run],
+        metrics: list[str],
+        k: int
+):
+    """Calculate the best run from the validation runs"""
+    pass_k_metric = f"pass@k_{metrics[0]}"
+    best_metric_score = 0.0
+    best_run = Run("validation", 0.2, 0.6, 10, {pass_k_metric: {f"pass@{k}": 0.0}}, 9, {})
+    for run in validation_runs:
+        
+        if len(run.metric_results) != 1:
+            raise ValueError(f"Expected one metric result, got {len(run.metric_results)}")
+        
+        pass_at_k_dict = run.metric_results[pass_k_metric]
+        metric_score = pass_at_k_dict[f"pass@{k}"] # Can only optimize for one metric
 
+        if metric_score > best_metric_score:
+            # print(f"New best pass@{ks[0]} found: {val_metric}")
+            best_metric_score = metric_score
+            best_run = Run(
+                phase="validation",
+                temperature=run["temperature"],
+                top_p=run["top_p"],
+                top_k=run["top_k"],
+                metric_results={pass_k_metric: pass_at_k_dict}, # Can only optimize for one metric
+                seed=run["seed"],
+                metadata={"largest_prompt_size": run["largest_context"]},
+            )
+    return best_run

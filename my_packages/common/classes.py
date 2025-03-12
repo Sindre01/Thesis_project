@@ -186,6 +186,14 @@ class PromptType(Enum):
     SIGNATURE = "signature"
     COT = "cot"
 
+# class Evaluation(Enum):
+#     BEST_PARAMS = "best_params"
+#     FINAL_RESULTS = "final_results"
+class Phase(Enum):
+    VALIDATION = "validation"
+    TESTING = "testing"
+
+
 def get_prompt_type(file_name: str) -> PromptType | None:
     for prompt in PromptType:
         if prompt.value in file_name:

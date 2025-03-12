@@ -143,7 +143,7 @@ def main(train_data, test_data, fold=-1, k_folds=3):
             metrics = ["syntax", "semantic", "tests"] # ["syntax", "semantic"] or ["syntax", "semantic", "tests"]
             
         results_dir = os.path.join("/fp/homes01/u01/ec-sindrre/slurm_jobs", f"few-shot/testing/{selector_type}/{prompt_type}/runs/")
-        best_params_folder = f"{project_dir}/notebooks/few-shot/fox/best_params/{selector_type}/{prompt_type}"
+        best_params_folder = f"{project_dir}/notebooks/few-shot/fox/best_params/{selector_type}/{prompt_type}/hold_out"
 
         for shots in ex["num_shots"]:
             selector=init_example_selector(shots, train_data, semantic_selector=ex["semantic_selector"])
@@ -218,7 +218,7 @@ def main(train_data, test_data, fold=-1, k_folds=3):
                             selector_type, 
                             prompt_type,
                             str(hours), str(minutes), str(seconds),
-                            fold
+                            str(fold)
                             ], check=True)
             print("✅ push_runs.sh script executed successfully!")
             

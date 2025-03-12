@@ -79,7 +79,11 @@ def results_to_df(experiment: str):
         raise ValueError(f"Collection '{collection_name}' is empty in MongoDB.")
 
     return pd.DataFrame(data)
-def get_db_results(experiment: str, model:str, eval_method: str):
+def get_db_results(
+        experiment: str, 
+        model:str, 
+        eval_method: str
+    ) -> list[dict]:
     """Checks if best parameters from validation exist in MongoDB."""
     collection = db[f"{experiment}_results"]
     results = collection.find_one({"model_name": model, "eval_method": eval_method})
@@ -90,7 +94,7 @@ def get_db_results(experiment: str, model:str, eval_method: str):
             for metric in results["metrics"]
         }
         flattened_metrics = flatten_metric_results(results_dict)
-        print(f"✅ Existing results for model '{model}' under experiment '{experiment}': {flattened_metrics}")
+        print(f"✅ Existing {eval_method} results for model '{model}' under experiment '{experiment}': {flattened_metrics}")
         return [{
             "model_name": results["model_name"],
             "metrics": results["metrics"],
@@ -104,7 +108,7 @@ def get_db_results(experiment: str, model:str, eval_method: str):
             **flattened_metrics,
             }]
     
-    print(f"⚠️ No best parameters found for model '{model}' under experiment '{experiment}'. Starting validation...")
+    print(f"⚠️ No best results found for model '{model}' under experiment '{experiment}'. Starting validation...")
     return None
 
 def pretty_print_results(
