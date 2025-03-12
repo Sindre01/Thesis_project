@@ -7,8 +7,8 @@
 # Configuration
 EXPERIMENT="few-shot"                    # Experiment ('few-shot' or 'COT')
 PHASE="testing"                       # Phase ('testing' or 'validation')
-EXAMPLES_TYPE="similarity"                 #'coverage' or 'similarity'
-PROMPT_TYPE=""                 # 'regular' or 'cot' or 'signature'   
+EXAMPLES_TYPE="coverage"                 #'coverage' or 'similarity'
+PROMPT_TYPE="signature"                 # 'regular' or 'cot' or 'signature'   
 # SEMANTIC_SELECTOR=true                   # Use semantic selector
 K_FOLD_JOBS=0-2                              # Runs jobs for folds 0 to 4 (5-fold CV)
 USER="ec-sindrre"                        # Your Educloud username
@@ -19,10 +19,10 @@ PARTITION="ifi_accel"                        # 'accel' or 'accel_long' (or 'ifi_
 GPUS=rtx30:2                         # a100 have 40GB or 80GB VRAM, while rtx30 have 24GB VRAM.
 NODES=1                                 # Number of nodes. OLLAMA does currently only support single node inference
 NODE_LIST=    # List of nodes that the job can run on gpu-9,gpu-7,gpu-8
-TIME="3-00:00:00"                       # Slurm walltime (D-HH:MM:SS)
+TIME="0-20:00:00"                       # Slurm walltime (D-HH:MM:SS)
 MEM_PER_GPU="20G"                       # Memory per GPU. 
 OLLAMA_MODELS_DIR="/cluster/work/projects/ec12/ec-sindrre/ollama-models"  # Path to where the Ollama models are stored and loaded                      
-OLLAMA_PORT="11450"                       # Remote port where Ollama listens. If different parallell runs, change ollama_port to avoid conflicts if same node is allocated.
+OLLAMA_PORT="11455"                       # Remote port where Ollama listens. If different parallell runs, change ollama_port to avoid conflicts if same node is allocated.
 SBATCH_SCRIPT="${PHASE}_${EXAMPLES_TYPE}_${EXAMPLES_TYPE}__${PROMPT_TYPE}_${GPUS}_ollama.slurm"           # Slurm batch script name
 # Directory on Fox to store scripts and output
 if [ -n "$PROMPT_TYPE" ]; then
@@ -35,38 +35,31 @@ fi
 CLONE_DIR="/fp/homes01/u01/ec-sindrre/tmp/Thesis_project_${EXAMPLES_TYPE}_\$SLURM_JOB_ID"
 ##############Experiment config################
 model_provider='ollama'
+experiments='[
+        {
+            "name": "signature_coverage",
+            "prompt_prefix": "Create a function",
+            "num_shots": [1],
+            "prompt_type": "signature",
+            "semantic_selector": false
+        }
+]'
 # experiments='[
 #         {
-#             "name": "signature_coverage",
+#             "name": "signature_similarity",
 #             "prompt_prefix": "Create a function",
-#             "num_shots": [5, 10],
+#             "num_shots": [1, 5, 10],
 #             "prompt_type": "signature",
-#             "semantic_selector": false
+#             "semantic_selector": true
 #         },
 #         {
-#             "name": "regular_coverage",
+#             "name": "regular_similarity",
 #             "prompt_prefix": "Create a function",
 #             "num_shots": [1, 5, 10],
 #             "prompt_type": "regular",
-#             "semantic_selector": false
+#             "semantic_selector": true
 #         }
 # ]'
-experiments='[
-        {
-            "name": "signature_similarity",
-            "prompt_prefix": "Create a function",
-            "num_shots": [1, 5, 10],
-            "prompt_type": "signature",
-            "semantic_selector": true
-        },
-        {
-            "name": "regular_similarity",
-            "prompt_prefix": "Create a function",
-            "num_shots": [1, 5, 10],
-            "prompt_type": "regular",
-            "semantic_selector": true
-        }
-]'
 models='[
     "phi4:14b-fp16"
 ]'
@@ -206,9 +199,9 @@ export OLLAMA_KV_CACHE_TYPE="f16" # f16 (default), q8_0 (half of the memory of f
 
 
 # Set the age threshold (1 hours)
-AGE_THRESHOLD=$((1 * 3600)) # 1 hours in seconds
+AGE_THRESHOLD=$((5 * 3600)) # 5 hours in seconds
 
-echo "🧹 Cleaning up files older than 1 hours in: $REMOTE_DIR"
+echo "🧹 Cleaning up files older than 5 hours in: $REMOTE_DIR"
 
 # Find and delete .out, .slurm, and .csv files older than 1 hours
 find "$REMOTE_DIR" -type f \( -name "*.out" -o -name "*.slurm" -o -name "*.csv" \) -mmin +1800 -exec rm -v {} \;
