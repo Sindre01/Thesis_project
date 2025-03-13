@@ -6,14 +6,17 @@ PROMPT_TYPE=${4:-"regular"}
 H=${5:-"0"}
 M=${6:-"0"}
 S=${7:-"0"}
-K_FOLD=${8:-"-1"}
+FOLD=${8:-"-1"}
 
 EXPERIMENT_DIR="${EXAMPLES_TYPE}/${PROMPT_TYPE}"
-REMOTE_DIR="/fp/homes01/u01/ec-sindrre/slurm_jobs/${EXPERIMENT}/${PHASE}/${EXPERIMENT_DIR}/runs/"
 SCRIPT_DIR="$(realpath "$(dirname "${BASH_SOURCE[0]}")")"
 TARGET_DIR="$(realpath "${SCRIPT_DIR}/../${PHASE}_runs/${EXPERIMENT_DIR}/")"
-BRANCH="${PHASE}/${EXAMPLES_TYPE}-${PROMPT_TYPE}-fold_${K_FOLD}"
-
+if [[ "$FOLD" == "-1" ]]; then
+    REMOTE_DIR="/fp/homes01/u01/ec-sindrre/slurm_jobs/${EXPERIMENT}/${PHASE}/${EXPERIMENT_DIR}/runs/hold_out/"
+    BRANCH="${PHASE}/${EXAMPLES_TYPE}-${PROMPT_TYPE}"
+else
+    REMOTE_DIR="/fp/homes01/u01/ec-sindrre/slurm_jobs/${EXPERIMENT}/${PHASE}/${EXPERIMENT_DIR}/runs/3_fold/"
+    BRANCH="${PHASE}/${EXAMPLES_TYPE}-${PROMPT_TYPE}-fold_${FOLD}"
 echo "==== Pushing runs to GitHub ====="
 echo "Pushing changes from ${TARGET_DIR} to ${BRANCH} on GitHub..."
 git pull
@@ -46,13 +49,18 @@ if [ ! -d "${TARGET_DIR}" ]; then
 fi
 
 # Load files from REMOTE_DIR into TARGET_DIR
-echo "📥 Loading files from ${REMOTE_DIR} into '${TARGET_DIR}'..."
-rsync -av "${REMOTE_DIR}/" "${TARGET_DIR}/" # --ignore-existing: skips existing files in TARGET_DIR
+if [[ "$FOLD" == "-1" ]]; then
+    echo "📥 Loading files from ${REMOTE_DIR} into '${TARGET_DIR}'..."
+    rsync -av "${REMOTE_DIR}/" "${TARGET_DIR}/" # --ignore-existing: skips existing files in TARGET_DIR 
+else
+    echo "📥 Loading 'fold_${FOLD}.json' files from ${REMOTE_DIR} into '${TARGET_DIR}'..."
+    rsync -av --include="*fold_${FOLD}.json" --exclude='*' "${REMOTE_DIR}/" "${TARGET_DIR}/"
+fi
+
 
 # Stage changes only in TARGET_DIR
 git add --intent-to-add "$TARGET_DIR" && git reset  # Ensures only TARGET_DIR is tracked
 git add "$TARGET_DIR"
-
 
 # Check if there are actual changes before committing
 if ! git diff --cached --exit-code >/dev/null; then
