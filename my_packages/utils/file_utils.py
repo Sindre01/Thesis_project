@@ -148,3 +148,30 @@ def save_results_as_string(test_results: dict[int, list[CodeEvaluationResult]], 
             for result in results:
                 f.write(str(result))  # Call __str__() and write to file
                 f.write("\n")  # Newline for readability
+                
+def extract_experiment_and_model_name(file_name: str):
+    """Extract experiment and model name from a file name and dir name in this format:
+        - "regular_coverage_1_shot_llama3.3:70b-instruct-fp16.json"
+        - "regular_coverage_1_shot_llama3.3:70b-instruct-fp16"
+    
+    """
+    # Remove only .json if it exists
+    if file_name.endswith(".json"):
+        file_base = file_name[:-5]
+    else:
+        file_base = file_name
+
+    parts = file_base.split("_")
+
+    # find shot index
+    shot_idx = next((i for i, p in enumerate(parts) if "shot" in p), None)
+    if shot_idx is None:
+        raise ValueError(f"Could not detect shot type in filename: {file_name}")
+
+    experiment_name = "_".join(parts[:shot_idx + 1])
+    model_name = "_".join(parts[shot_idx + 1:])
+    
+    return experiment_name, model_name
+
+def extract_models_from_files(files: list[str]):
+    return [extract_experiment_and_model_name(file)[1] for file in files]

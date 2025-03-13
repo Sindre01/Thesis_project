@@ -262,6 +262,7 @@ def evaluate_code(
     hyperparams: dict,
     phase: str,
     eval_method: str = "hold_out",
+    fold: int = None,
     db_connection=None
 )-> list[dict[str, dict[int, float]]]:
     """
@@ -294,8 +295,9 @@ def evaluate_code(
                     test_results,
                     hyperparams,
                     phase,
-                    eval_method,
-                    db_connection
+                    eval_method=eval_method,
+                    fold=fold,
+                    db_connection=db_connection
                 )
                 print(f"✅ Errors saved to database for {metric} in {experiment_name}")
 
@@ -494,7 +496,10 @@ def run_testing(
     print(f"✅ Final results saved to database for '{model['name']}' in {experiment_name}")
     return results, final_result
 
-def calculate_final_result(testing_runs: list[Run], only_mean: bool = False) -> Run:
+def calculate_final_result(
+        testing_runs: list[Run], 
+        only_mean: bool = False
+    ) -> Run:
     """
     Calculate the mean and standard deviation of the metrics, across all testing runs.
 
@@ -588,7 +593,7 @@ def calculate_best_params(
         validation_runs: list[Run],
         metrics: list[str],
         k: int
-):
+) -> Run:
     """Calculate the best run from the validation runs"""
     pass_k_metric = f"pass@k_{metrics[0]}"
     best_metric_score = 0.0

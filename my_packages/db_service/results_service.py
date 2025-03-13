@@ -10,7 +10,7 @@ from my_packages.db_service import db
 def save_results_to_db(
         experiment: str, 
         model_name: str, 
-        seeds: list[int], 
+        seeds: set[int], 
         ks: list[int],
         metrics: list[str],
         result: Run,
@@ -83,9 +83,13 @@ def results_to_df(experiment: str):
 def get_db_results(
         experiment: str, 
         model:str, 
-        eval_method: str
+        eval_method: str,
+        db_connection=None
     ) -> list[dict]:
     """Checks if best parameters from validation exist in MongoDB."""
+    if db_connection is None:
+        db_connection = db
+        
     collection = db[f"{experiment}_results"]
     results = collection.find_one({"model_name": model, "eval_method": eval_method})
 

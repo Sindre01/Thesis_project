@@ -10,7 +10,7 @@ import psutil
 def load_code_from_file(file_path: str) -> str:
     with open(file_path, "r") as f:
         return f.read()
-def run_compiler_with_timeout_quiet(command, timeout=10, max_output_chars=3000):
+def run_compiler_with_timeout_quiet(command, timeout=10, max_output_chars=20000):
     """
     Run a subprocess quietly with timeout and return a CompletedProcess object.
     stdout/stderr are captured internally.
@@ -41,12 +41,15 @@ def run_compiler_with_timeout_quiet(command, timeout=10, max_output_chars=3000):
         stderr = stderr[:max_output_chars]
         if len(stdout) == max_output_chars:
             print(f"Truncated output to {max_output_chars} chars.")
+
+            with open("truncated.log", "w") as f:
+                f.write(stdout)
+            
     if timed_out:
         stderr += "\n[ERROR][TIMEOUT] Process timed out after {} seconds.".format(timeout)
         stdout += "\n[ERROR][TIMEOUT] Process timed out after {} seconds.".format(timeout)
-        # with open("timeout.log", "w") as f:
-        #     f.write(stderr + "\n" + stdout)
-
+    stderr = stderr.strip()
+    stdout = stdout.strip()
     return subprocess.CompletedProcess(
         args=command,
         returncode=proc.returncode,
@@ -155,7 +158,7 @@ def compile_code(code: str, type: str = "build", flag: str = "") -> subprocess.C
                 result.stdout += "\n".join(warnings)
             
             else:
-                print("Code is NOT compile ready for Midio")
+                # print("Code is NOT compile ready for Midio")
                 
                 result = subprocess.CompletedProcess(
                     args = [], 
@@ -163,7 +166,6 @@ def compile_code(code: str, type: str = "build", flag: str = "") -> subprocess.C
                     stdout="CUSTOM WARNING: Code that is not compile ready for Midio", 
                     stderr="CUSTOM WARNING: Code is not compile ready for Midio"
                 )
-            print("Code is compiled")
             return result
         except FileNotFoundError:
             print("Error: package-manager not found in PATH.")

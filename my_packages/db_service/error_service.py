@@ -13,6 +13,7 @@ def save_errors_to_db(
         hyperparams: dict, 
         phase: str,
         eval_method: str = "hold_out",
+        fold: int = None,
         db_connection=None
     ):
     if db_connection is None:
@@ -40,9 +41,11 @@ def save_errors_to_db(
                     "temperature": hyperparams["temperature"],
                     "top_p": hyperparams["top_p"],
                     "top_k": hyperparams["top_k"],
-                    "created_at": datetime.now(ZoneInfo("Europe/Oslo"))
-
+                    "created_at": datetime.now(ZoneInfo("Europe/Oslo")),
+                    "eval_method": eval_method,
                 })
+                if eval_method == "3_fold":
+                    errors[-1]["fold"] = fold
 
     if errors:
         collection.insert_many(errors)
@@ -72,6 +75,26 @@ def delete_errors_collection(experiment: str):
         print(f"✅ Collection '{collection_name}' has been deleted successfully.")
     else:
         print("❌ Deletion cancelled.")
+
+def delete_error_docs(experiment: str, filter: dict):
+    """
+    Deletes specific documents from an experiment's errors collection.
+
+    Parameters:
+    - experiment (str): The name of the experiment.
+    - filter (dict): The filter to apply when deleting documents.
+
+    Example:
+        delete_docs("signature_exp1", {"model_name": "GPT-2"})
+    """
+    collection_name = f"{experiment}_errors"
+
+    if collection_name not in db.list_collection_names():
+        print(f"⚠️ Collection '{collection_name}' does not exist in the database.")
+        return
+
+    result = db[collection_name].delete_many(filter)
+    print(f"✅ {result.deleted_count} documents have been deleted from '{collection_name}'.")
 
 def list_errors_collections() -> list[str]:
     """
