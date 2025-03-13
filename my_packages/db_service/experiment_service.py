@@ -221,11 +221,11 @@ def run_experiment_quality_checks(
     print_msgs = []
     for model in models:
         # Count documents in each collection for the given model.
-        best_params_count = best_params_collection.count_documents({"model_name": model, "eval_method": eval_method})
-        results_count = results_collection.count_documents({"model_name": model, "eval_method": eval_method})
-        validation_errors_count = errors_collection.count_documents({"model_name": model, "phase": "validation", "eval_method": eval_method})
-        testing_errors_count = errors_collection.count_documents({"model_name": model, "phase": "testing", "eval_method": eval_method})
+        best_params_count = best_params_collection.count_documents({"model_name": model}) # currently only hold_out for best_params
+        validation_errors_count = errors_collection.count_documents({"model_name": model, "phase": "validation"}) # currently only hold_out for validation errors
         
+        results_count = results_collection.count_documents({"model_name": model, "eval_method": eval_method})
+        testing_errors_count = errors_collection.count_documents({"model_name": model, "phase": "testing", "eval_method": eval_method})
         
         # Check 1: If no best parameters exist, then there should be no validation errors.
         if best_params_count == 0 and validation_errors_count > 0:
@@ -234,7 +234,7 @@ def run_experiment_quality_checks(
                 user_input = input(f"❌ Error for model '{model}': No best parameters exist, but found {validation_errors_count} validation error(s).\n\n❓ Do you want to delete validation errors for '{model} on '{experiment}'? (yes/no): ").strip().lower()
             
             if user_input == "yes":
-                errors_deleted = errors_collection.delete_many({"model_name": model, "phase": "validation", "eval_method": eval_method}).deleted_count
+                errors_deleted = errors_collection.delete_many({"model_name": model, "phase": "validation"}).deleted_count
                 print_msgs.append(f"⚠️ Found Error for model '{model}': No best parameters exist, but found {validation_errors_count} validation error(s). \nHowever these where fixed by deleting {errors_deleted} validation errors for '{model}'.")
                 
             else:

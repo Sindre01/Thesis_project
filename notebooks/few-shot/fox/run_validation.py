@@ -128,7 +128,7 @@ def parse_experiments(experiment_list):
         if "prompt_type" in exp and isinstance(exp["prompt_type"], str):
             exp["prompt_type"] = PromptType(exp["prompt_type"])  # Convert to Enum
     return experiment_list
-def main():
+def main(train_data, val_data):
     """Run few-shot validation experiments."""
     for ex in experiments:
 
@@ -188,7 +188,7 @@ if __name__ == "__main__":
     parser.add_argument("--models", type=str, required=True, help="JSON string for models")
     parser.add_argument("--experiments", type=str, required=True, help="JSON string for experiments")
     parser.add_argument("--ollama_port", type=str, required=True, help="ollama_port")
-    parser.add_argument("--k_fold", type=str, required=True, help="k_fold")
+    parser.add_argument("--fold", type=int, required=True, help="fold")
 
     args = parser.parse_args()
     # DEBUG: Print arguments before decoding JSON

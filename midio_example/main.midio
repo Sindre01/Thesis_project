@@ -1,21 +1,70 @@
-import("std", Std_k98ojb) import("http", Http_q7o96c)
+import("std", Std_k98ojb)
+import("http", Http_q7o96c)
 
-module() main {
-    func(doc: "checks whether the given two integers have opposite sign or not.") opposite_signs {
-        in(x: -426, y: -248, name: "x") property(Number) x_853326
-        in(x: -420, y: -107, name: "y") property(Number) y_5390f5
-        out(x: 159, y: -219, name: "output") property(Bool) output_3339a3
-        
-        instance(x: -68, y: -127) multiply_b3e3b4 root.Std_k98ojb.Math.Multiply {}
-            x_853326 -> multiply_b3e3b4.x
-            y_5390f5 -> multiply_b3e3b4.y
-        
-        instance(x: -61, y: 12) less_than_7c41d7 root.Std_k98ojb.Math.LessThan {}
-            multiply_b3e3b4.result -> less_than_7c41d7.x
-            0 -> less_than_7c41d7.y
-        
-        less_than_7c41d7.result -> output_3339a3
+module() main { 
+    func(doc: "Finds the last position of an element in a sorted array.") last {
+        in(x: -231, y: -29, name: "list") property(List) list_2bbadf
+        in(x: -246, y: 105, name: "elem") property(Number) elem_94ca57
+        in(x: -356, y: -225, name: "execute") trigger() execute_076885
+
+        out(x: 801, y: -229, name: "continue") trigger() continue_9f5f84
+        out(x: 795, y: 205, name: "index") property(Number) index_fc05e7
+
+        instance(x: 166, y: -55) for_1a3b2c root.Std_k98ojb.Std.For {}
+        instance(x: 443, y: -223) ifexpression_9d8f6f root.Std_k98ojb.Std.IfExpression {
+            expression: "item == elem"
+        }
+        setter(x: 728, y: -248, name: "setter_e5a7e3") setter_e5a7e3 = index
+        getter(x: 299, y: -249, name: "getter_9f8c1d") getter_9f8c1d = index
+        instance(x: -356, y: -64) empty_2b0f4f root.Std_k98ojb.List.Empty {}
+        setter_e5a7e3.continue -> for_1a3b2c.reset
+        execute_076885 -> setter_e5a7e3.execute
+        list_2bbadf -> for_1a3b2c.items
+        empty_2b0f4f.list -> setter_e5a7e3.new_value
+        for_1a3b2c.onItem -> ifexpression_9d8f6f.execute
+        for_1a3b2c.item -> ifexpression_9d8f6f.gen_0
+        elem_94ca57 -> ifexpression_9d8f6f.gen_1
+        ifexpression_9d8f6f.then -> setter_e5a7e3.execute
+        getter_9f8c1d.value -> index_fc05e7
+        for_1a3b2c.index -> getter_9f8c1d
+        for_1a3b2c.done -> continue_9f5f84
     }
+
     
-    instance(x: -267, y: -189) opposite_signs_e5f1e root.main.opposite_signs {}
+
+    instance(x: -378, y: 0) last_position_6e4d7c root.main.last {}
 }
+module(doc: "Contains three different tests for the 'last' function node") tests {
+        instance(x: -359, y: 161) test_e0e516 root.Std_k98ojb.Testing.Test {
+            name: "Test last"
+        }
+        instance(x: -108, y: 266) assertequal_e535d3 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: -359, y: 269) last_ec893e root.main.last {}
+        instance(x: 362, y: 266) assertequal_83e73c root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 111, y: 269) last_2e9081 root.main.last {}
+        instance(x: 829, y: 279) assertequal_96a0a1 root.Std_k98ojb.Testing.AssertEqual {}
+        instance(x: 578, y: 282) last_f37b3f root.main.last {}
+        data_instance(x: -562, y: 304) data_99c885  = [1, 2, 3]
+        data_instance(x: 93, y: 460) data_3e9e23  = [1, 1, 1, 2, 3, 4]
+        data_instance(x: 596, y: 464) data_09ea6a  = [2, 3, 2, 3, 6, 8, 9]
+        test_e0e516.onRun -> last_ec893e.execute_076885
+        last_ec893e.continue_9f5f84 -> assertequal_e535d3.execute
+        last_ec893e.index_fc05e7 -> assertequal_e535d3.actual
+        last_2e9081.continue_9f5f84 -> assertequal_83e73c.execute
+        last_2e9081.index_fc05e7 -> assertequal_83e73c.actual
+        last_f37b3f.continue_9f5f84 -> assertequal_96a0a1.execute
+        last_f37b3f.index_fc05e7 -> assertequal_96a0a1.actual
+        assertequal_e535d3.continue -> last_2e9081.execute_076885
+        assertequal_83e73c.continue -> last_f37b3f.execute_076885
+        1 -> last_ec893e.elem_94ca57
+        data_99c885 -> last_ec893e.list_2bbadf
+        data_3e9e23 -> last_2e9081.list_2bbadf
+        0 -> assertequal_e535d3.expect
+        2 -> assertequal_83e73c.expect
+        3 -> assertequal_96a0a1.expect
+        data_09ea6a -> last_f37b3f.list_2bbadf
+        3 -> last_f37b3f.elem_94ca57
+        1 -> last_2e9081.elem_94ca57
+
+
+    }

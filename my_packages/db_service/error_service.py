@@ -12,6 +12,7 @@ def save_errors_to_db(
         test_results: dict[int, list[CodeEvaluationResult]], 
         hyperparams: dict, 
         phase: str,
+        eval_method: str = "hold_out",
         db_connection=None
     ):
     if db_connection is None:

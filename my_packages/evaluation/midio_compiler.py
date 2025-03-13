@@ -4,12 +4,55 @@ import subprocess
 import os
 import tempfile
 import re
-import json
+import psutil
 
 # Function to load code from a file
 def load_code_from_file(file_path: str) -> str:
     with open(file_path, "r") as f:
         return f.read()
+def run_compiler_with_timeout_quiet(command, timeout=10, max_output_chars=3000):
+    """
+    Run a subprocess quietly with timeout and return a CompletedProcess object.
+    stdout/stderr are captured internally.
+    """
+
+    proc = subprocess.Popen(
+        command,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        text=True
+    )
+
+    try:
+        stdout, stderr = proc.communicate(timeout=timeout)
+        timed_out = False
+    except subprocess.TimeoutExpired:
+        # Kill child processes
+        parent = psutil.Process(proc.pid)
+        for child in parent.children(recursive=True):
+            child.kill()
+        proc.kill()
+        stdout, stderr = proc.communicate()
+        timed_out = True
+
+    # Truncate output to avoid log spam
+    if max_output_chars is not None:
+        stdout = stdout[:max_output_chars]
+        stderr = stderr[:max_output_chars]
+        if len(stdout) == max_output_chars:
+            print(f"Truncated output to {max_output_chars} chars.")
+    if timed_out:
+        stderr += "\n[ERROR][TIMEOUT] Process timed out after {} seconds.".format(timeout)
+        stdout += "\n[ERROR][TIMEOUT] Process timed out after {} seconds.".format(timeout)
+        # with open("timeout.log", "w") as f:
+        #     f.write(stderr + "\n" + stdout)
+
+    return subprocess.CompletedProcess(
+        args=command,
+        returncode=proc.returncode,
+        stdout=stdout,
+        stderr=stderr
+    )
 
 def is_compile_ready(code: str) -> bool:
     """
@@ -51,6 +94,7 @@ def is_compile_ready(code: str) -> bool:
     if any(kw in first_word for kw in (correct_starts+node_modules+other_keywords)):
         return True
     return False
+
 # Function to check if the code compiles using package-manager
 def compile_code(code: str, type: str = "build", flag: str = "") -> subprocess.CompletedProcess[str]:
     with tempfile.TemporaryDirectory() as tmp_dir:
@@ -95,28 +139,31 @@ def compile_code(code: str, type: str = "build", flag: str = "") -> subprocess.C
             # Run package-manager build on the temporary directory
             if is_compile_ready(code):
                 if flag:
-                    result = subprocess.run(
-                        ["package-manager", type, flag, tmp_dir],
-                        stdout=subprocess.PIPE,
-                        stderr=subprocess.PIPE,
-                        text=True
-                    )
+                    commands =["package-manager", type, flag, tmp_dir]
                 else:
-                    result = subprocess.run(
-                        ["package-manager", type, tmp_dir],
-                        stdout=subprocess.PIPE,
-                        stderr=subprocess.PIPE,
-                        text=True
-                    )
+                    commands = ["package-manager", type, tmp_dir]
+
+                result = run_compiler_with_timeout_quiet(commands, timeout=10)
+                
+                # with open("temp_stdout.log", "w") as f:
+                #     f.write(result.stdout)
+                # with open("temp_stderr.log", "w") as f:
+                #     f.write(result.stderr)
+                # with open("temp_code.log", "w") as f:
+                #     f.write(code)
+                # print("Code is compiled")
                 result.stdout += "\n".join(warnings)
             
             else:
+                print("Code is NOT compile ready for Midio")
+                
                 result = subprocess.CompletedProcess(
                     args = [], 
                     returncode=1, # 1 means compile build error
                     stdout="CUSTOM WARNING: Code that is not compile ready for Midio", 
                     stderr="CUSTOM WARNING: Code is not compile ready for Midio"
                 )
+            print("Code is compiled")
             return result
         except FileNotFoundError:
             print("Error: package-manager not found in PATH.")
@@ -166,7 +213,6 @@ def extract_errors(text: str) -> str:
     errors = [line.strip() for line in clean_text.split("\n") if "error" in line.lower()]
     
     return errors # Store as JSON string for structured retrieval
-
 
 def get_test_result(json_result: dict) -> str:
     num_passed = json_result['num_passed']

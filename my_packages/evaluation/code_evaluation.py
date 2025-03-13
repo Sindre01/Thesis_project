@@ -261,6 +261,7 @@ def evaluate_code(
     env: str,
     hyperparams: dict,
     phase: str,
+    eval_method: str = "hold_out",
     db_connection=None
 )-> list[dict[str, dict[int, float]]]:
     """
@@ -293,9 +294,10 @@ def evaluate_code(
                     test_results,
                     hyperparams,
                     phase,
+                    eval_method,
                     db_connection
                 )
-                # print(f"✅ Errors saved to database for {metric} in {experiment_name}")
+                print(f"✅ Errors saved to database for {metric} in {experiment_name}")
 
             metric_results.append(pass_at_k_dict)
 
@@ -555,7 +557,7 @@ def calculate_final_result(testing_runs: list[Run], only_mean: bool = False) -> 
         final_metric_results[metric_name.replace(" ", "_")] = metric_summary
 
     final_metric_results = round_results(final_metric_results)
-    
+
     if only_mean:
         # Only return mean values as integers, instead of dict of mean and std
         for metric, passes in final_metric_results.items():
