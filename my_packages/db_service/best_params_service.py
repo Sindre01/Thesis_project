@@ -44,9 +44,13 @@ def get_db_best_params(
         model:str, 
         metrics: list[str], 
         k: int,
-        eval_method: str
+        eval_method: str,
+        db_connection=None
     )-> list[dict]:
     """Checks if best parameters from validation exist in MongoDB."""
+    if db_connection is None:
+        db_connection = db
+        
     collection = db[f"{experiment}_best_params"]
     results = []
 

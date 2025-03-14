@@ -57,7 +57,6 @@ else
     rsync -av --include="*fold_${FOLD}.json" --exclude='*' "${REMOTE_DIR}/" "${TARGET_DIR}/"
 fi
 
-
 # Stage changes only in TARGET_DIR
 git add --intent-to-add "$TARGET_DIR" && git reset  # Ensures only TARGET_DIR is tracked
 git add "$TARGET_DIR"

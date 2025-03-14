@@ -205,10 +205,10 @@ export OLLAMA_KV_CACHE_TYPE="f16" # f16 (default), q8_0 (half of the memory of f
 # Set the target directory (default: current directory)
 
 
-# Set the age threshold (1 hours)
-AGE_THRESHOLD=$((5 * 3600)) # 5 hours in seconds
+# Set the age threshold 4 days
+AGE_THRESHOLD=$((96 * 3600))
 
-echo "🧹 Cleaning up files older than 5 hours in: $REMOTE_DIR"
+echo "🧹 Cleaning up files older than 4 days in: $REMOTE_DIR"
 
 # Find and delete .out, .slurm, and .csv files older than 1 hours
 find "$REMOTE_DIR" -type f \( -name "*.out" -o -name "*.slurm" -o -name "*.csv" \) -mmin +1800 -exec rm -v {} \;

@@ -21,7 +21,8 @@ def confirm_rerun(
         experiment: str, 
         model_name: str, 
         eval_method: str,
-        phase: str
+        phase: str,
+        db_connection=None
     ) -> bool:
     """
     Checks if a model for an eval_method already exists in the results collection of an experiment.
@@ -36,7 +37,8 @@ def confirm_rerun(
     Returns:
     - True if the experiment should proceed, False otherwise.
     """
-
+    if db_connection is None:
+        db_connection = db
     if phase == "testing":
         collection_type = "results"
     elif phase == "validation":
@@ -78,10 +80,14 @@ def confirm_rerun(
     return True
 
 ### 📌 SETUP EXPERIMENT COLLECTION ###
-def setup_experiment_collection(experiment: str):
+def setup_experiment_collection(
+        experiment: str,
+        db_connection = None
+    )-> None:
     """Sets up MongoDB collections for a new experiment inside the database."""
-    
-    if experiment_exists(experiment):
+    if db_connection is None:
+        db_connection = db
+    if experiment_exists(experiment, db_connection):
         raise FileExistsError(f"🚨 Experiment '{experiment}' already exists in MongoDB.")
 
     # Create collections inside the database
@@ -192,7 +198,8 @@ def rename_field(collection_name: str, old_field: str, new_field: str):
 def run_experiment_quality_checks(
         experiment: str, 
         prompt_user = True, 
-        eval_method: str = "hold_out"
+        eval_method: str = "hold_out",
+        db_connection=None
     ) -> bool:
     """
     Runs quality checks on an experiment's collections and prints errors if they occur.
@@ -206,18 +213,20 @@ def run_experiment_quality_checks(
 
     Prompt user to fix issues by deleting errors or results if necessary.
     """
+    if db_connection is None:
+        db_connection = db
     # Define collections for this experiment.
     best_params_collection = db[f"{experiment}_best_params"]
     results_collection = db[f"{experiment}_results"]
     errors_collection = db[f"{experiment}_errors"]
     errors_found = False
 
-    models = list_models_for_experiment(experiment)
+    models = list_models_for_experiment(experiment, query_filter={"eval_method": eval_method})
     print(f"\n=== Running quality checks for {eval_method} experiment: {experiment} ===")
     if models:
-        print("Models found in DB for experiment::", models)
+        print("Models found in DB for experiment:", models)
     else:
-        print(f"No models found for experiment '{experiment}'.")
+        print(f"No models found for {eval_method} experiment '{experiment}'.")
     print_msgs = []
     for model in models:
         # Count documents in each collection for the given model.
@@ -320,7 +329,10 @@ def list_collections() -> list[str]:
 
 
 
-def list_models_for_experiment(experiment: str) -> list[str]:
+def list_models_for_experiment(
+        experiment: str,
+        query_filter: dict | None = None
+    ) -> list[str]:
     """
     Dynamically list model names for a given experiment.
     It queries all three collections for the experiment and takes the union.
@@ -332,11 +344,12 @@ def list_models_for_experiment(experiment: str) -> list[str]:
     existing_collections = set(db.list_collection_names())
     for coll_name in collections_to_check:
         if coll_name in existing_collections:
-            # Get distinct model names from the collection.
-            models_in_coll = db[coll_name].distinct("model_name")
+            if query_filter:
+                models_in_coll = db[coll_name].distinct("model_name", filter=query_filter)
+            else:
+                models_in_coll = db[coll_name].distinct("model_name")
             models.update(models_in_coll)
     return list(models)
-
 
 def pretty_print_experiment_collections(
         experiment: str, 

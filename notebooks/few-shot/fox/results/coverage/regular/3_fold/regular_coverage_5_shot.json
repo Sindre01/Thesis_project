@@ -1,0 +1,93 @@
+[
+    {
+        "model_name": "phi4:14b-fp16",
+        "metrics": [
+            "syntax",
+            "semantic",
+            "tests"
+        ],
+        "seed": [
+            null,
+            null,
+            null
+        ],
+        "temperature": 0.2,
+        "top_p": 0.2,
+        "top_k": 10,
+        "ks": [
+            1,
+            2,
+            3,
+            5,
+            10
+        ],
+        "eval_method": "3_fold",
+        "created_at": "2025-03-13T12:26:28.916000",
+        "syntax": [
+            {
+                "mean": 0.82,
+                "std": 0.07
+            },
+            {
+                "mean": 0.9,
+                "std": 0.05
+            },
+            {
+                "mean": 0.93,
+                "std": 0.04
+            },
+            {
+                "mean": 0.95,
+                "std": 0.04
+            },
+            {
+                "mean": 0.97,
+                "std": 0.05
+            }
+        ],
+        "semantic": [
+            {
+                "mean": 0.75,
+                "std": 0.12
+            },
+            {
+                "mean": 0.85,
+                "std": 0.08
+            },
+            {
+                "mean": 0.9,
+                "std": 0.06
+            },
+            {
+                "mean": 0.93,
+                "std": 0.04
+            },
+            {
+                "mean": 0.96,
+                "std": 0.04
+            }
+        ],
+        "tests": [
+            {
+                "mean": 0.0,
+                "std": 0.0
+            },
+            {
+                "mean": 0.0,
+                "std": 0.0
+            },
+            {
+                "mean": 0.0,
+                "std": 0.0
+            },
+            {
+                "mean": 0.0,
+                "std": 0.0
+            },
+            {
+                "mean": 0.0,
+                "std": 0.0
+            }
+        ]
+    }
+]
