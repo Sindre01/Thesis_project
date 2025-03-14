@@ -1,7 +1,7 @@
 [
     {
         "model_name": "phi4:14b-fp16",
-        "experiment": "regular_similarity_5_shot",
+        "experiment": "signature_similarity_10_shot",
         "metrics": [
             "syntax",
             "semantic",
@@ -12,8 +12,8 @@
             346,
             75
         ],
-        "temperature": 0.2,
-        "top_p": 0.2,
+        "temperature": 0.9,
+        "top_p": 0.6,
         "top_k": 100,
         "ks": [
             1,
@@ -23,64 +23,64 @@
             10
         ],
         "syntax@1": {
-            "mean": 0.83,
-            "std": 0.03
+            "mean": 0.79,
+            "std": 0.05
         },
         "syntax@2": {
             "mean": 0.91,
-            "std": 0.03
+            "std": 0.06
         },
         "syntax@3": {
             "mean": 0.94,
-            "std": 0.04
+            "std": 0.05
         },
         "syntax@5": {
-            "mean": 0.96,
-            "std": 0.03
-        },
-        "syntax@10": {
             "mean": 0.97,
             "std": 0.04
         },
+        "syntax@10": {
+            "mean": 0.98,
+            "std": 0.02
+        },
         "semantic@1": {
-            "mean": 0.72,
-            "std": 0.04
+            "mean": 0.69,
+            "std": 0.02
         },
         "semantic@2": {
-            "mean": 0.81,
+            "mean": 0.82,
             "std": 0.04
         },
         "semantic@3": {
-            "mean": 0.85,
-            "std": 0.04
+            "mean": 0.89,
+            "std": 0.05
         },
         "semantic@5": {
-            "mean": 0.91,
-            "std": 0.04
+            "mean": 0.93,
+            "std": 0.06
         },
         "semantic@10": {
             "mean": 0.96,
             "std": 0.06
         },
         "tests@1": {
-            "mean": 0.0,
-            "std": 0.0
+            "mean": 0.48,
+            "std": 0.02
         },
         "tests@2": {
-            "mean": 0.0,
-            "std": 0.0
+            "mean": 0.63,
+            "std": 0.03
         },
         "tests@3": {
-            "mean": 0.0,
-            "std": 0.0
+            "mean": 0.71,
+            "std": 0.03
         },
         "tests@5": {
-            "mean": 0.0,
-            "std": 0.0
+            "mean": 0.81,
+            "std": 0.04
         },
         "tests@10": {
-            "mean": 0.0,
-            "std": 0.0
+            "mean": 0.9,
+            "std": 0.04
         }
     }
 ]

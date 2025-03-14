@@ -15,6 +15,7 @@ from langchain_ollama import OllamaEmbeddings, ChatOllama
 from langchain_anthropic import ChatAnthropic
 from langchain_openai import OpenAIEmbeddings, ChatOpenAI
 from langchain_core.example_selectors.base import BaseExampleSelector
+from langchain.prompts import ChatPromptTemplate
 
 def extract_code(response_text: str) -> str:
     """
@@ -116,6 +117,69 @@ def calculate_pass_at_k_scores(
 
     return pass_at_k
 
+def build_prompt(
+    prompt_type: PromptType,
+    example_pool: BaseExampleSelector,
+    sample: dict[str, str],
+    available_nodes: list[str],
+    rag: bool = False,
+    retriever=None,
+)-> tuple[str, ChatPromptTemplate, dict[str, str]]:
+    """Create a prompt for the model based on the prompt type."""  
+    few_shot_examples = example_pool.select_examples(sample)
+    task = sample["task"]
+
+    if prompt_type == PromptType.SIGNATURE: # Uses signature prompt
+        few_shot = create_few_shot_prompt(few_shot_examples, 'CODE_SIGNATURE_TEMPLATE')
+        final_prompt_template = create_final_prompt(few_shot, "CODE_GENERATOR_TEMPLATE", "CODE_SIGNATURE_TEMPLATE")
+
+        prompt_variables_dict ={
+            "external_functions": available_nodes,
+            "task": task, 
+            "function_signature": sample["function_signature"],
+        }
+    elif prompt_type == PromptType.REGULAR: # Uses regular prompt
+        few_shot = create_few_shot_prompt(few_shot_examples, 'CODE_TEMPLATE')
+        final_prompt_template = create_final_prompt(few_shot, "CODE_GENERATOR_TEMPLATE", "CODE_TEMPLATE")
+        prompt_variables_dict ={
+            "external_functions": available_nodes,
+            "task": task, 
+        }
+    elif prompt_type == PromptType.COT: # Uses COT prompt
+        few_shot = create_few_shot_prompt(few_shot_examples, 'COT_TEMPLATE')
+        final_prompt_template = create_final_prompt(few_shot, "CODE_GENERATOR_TEMPLATE", "COT_TEMPLATE")
+        prompt_variables_dict = {
+            "external_functions": available_nodes,
+            "task": task, 
+            "function_signature": sample["function_signature"],
+        }
+    else:
+        raise ValueError("Invalid prompt type. Choose from 'signature', 'regular' or 'cot'")
+
+# === Optional RAG enhancement ===
+    if rag and retriever:
+        retrieved_docs = retriever.invoke(task)
+        formatted_context = "\n\n".join(doc.page_content for doc in retrieved_docs)
+        prompt_variables_dict["context"] = formatted_context
+
+        # Define RAG-enhanced prompt template
+        rag_prompt_template = ChatPromptTemplate.from_template("""
+            You are a helpful code assistant. Use the following documentation context to improve your code generation.
+
+            Context:
+            {context}
+
+            External Functions:
+            {external_functions}
+
+            Task:
+            {task}
+            """)
+        final_prompt_template = rag_prompt_template  # override
+
+        
+    prompt = final_prompt_template.format(**prompt_variables_dict)
+    return prompt, final_prompt_template, prompt_variables_dict
 
 def run_model(
     client: ChatOllama | ChatOpenAI | ChatAnthropic,
@@ -131,8 +195,10 @@ def run_model(
     seed=None,                              
     debug=False,
     prompt_type=PromptType.REGULAR,
-    ollama_port="11434"
+    ollama_port="11434",
+    rag=False
 )-> tuple[dict[int, list[str]], int]:
+    """Run a model on a list of tasks and return the generated code snippets."""
     
     results: dict[int, list[str]] = {}
     largest_prompt_ctx_size = 0
@@ -142,37 +208,15 @@ def run_model(
         true_response_code = extract_code(true_response)
         task = sample["task"]
         task_id = int(sample["task_id"])
-        
-        few_shot_examples = example_pool.select_examples(sample)
-        
-        if prompt_type == PromptType.SIGNATURE: # Uses signature prompt
-            few_shot = create_few_shot_prompt(few_shot_examples, 'CODE_SIGNATURE_TEMPLATE')
-            final_prompt_template = create_final_prompt(few_shot, "CODE_GENERATOR_TEMPLATE", "CODE_SIGNATURE_TEMPLATE")
 
-            prompt_variables_dict ={
-                "external_functions": available_nodes,
-                "task": task, 
-                "function_signature": sample["function_signature"],
-            }
-        elif prompt_type == PromptType.REGULAR: # Uses regular prompt
-            few_shot = create_few_shot_prompt(few_shot_examples, 'CODE_TEMPLATE')
-            final_prompt_template = create_final_prompt(few_shot, "CODE_GENERATOR_TEMPLATE", "CODE_TEMPLATE")
-            prompt_variables_dict ={
-                "external_functions": available_nodes,
-                "task": task, 
-            }
-        elif prompt_type == PromptType.COT: # Uses COT prompt
-            few_shot = create_few_shot_prompt(few_shot_examples, 'COT_TEMPLATE')
-            final_prompt_template = create_final_prompt(few_shot, "CODE_GENERATOR_TEMPLATE", "COT_TEMPLATE")
-            prompt_variables_dict = {
-                "external_functions": available_nodes,
-                "task": task, 
-                "function_signature": sample["function_signature"],
-            }
-        else:
-            raise ValueError("Invalid prompt type. Choose from 'signature', 'regular' or 'cot'")
+        prompt, final_prompt_template, prompt_variables_dict = build_prompt(
+            prompt_type,
+            example_pool,
+            sample,
+            available_nodes,
+            rag
+        )
 
-        prompt = final_prompt_template.format(**prompt_variables_dict)
         prompt_size = client(model=model).get_num_tokens(prompt) # Will print warning if prompt is too big for model
 
         
@@ -216,6 +260,7 @@ def run_model(
                             base_url=f"http://localhost:{ollama_port}"
                         )
                     
+    
                     chain = (final_prompt_template | llm)
 
                     response = chain.invoke(
@@ -569,19 +614,20 @@ def calculate_final_result(
             for pass_k, stats in passes.items():
                 final_metric_results[metric][pass_k] = stats["mean"]
 
-    # Return a new Run object for the final result
+    # To get the unique seeds:
     try:
         seeds = {seed for run in testing_runs for seed in run.seed}
     except TypeError:
         print("Seeds is not 2d list")
         seeds = {run.seed for run in testing_runs}
-        
+
+    # Return a new Run object for the final result
     return Run(
         phase="final",
         temperature=testing_runs[0].temperature,
         top_p=testing_runs[0].top_p,
         top_k=testing_runs[0].top_k,
-        seed = seeds,
+        seed = list(seeds),
         metric_results=final_metric_results,
         metadata=testing_runs[0].metadata
     )

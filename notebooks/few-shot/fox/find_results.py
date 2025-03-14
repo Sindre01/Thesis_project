@@ -167,7 +167,7 @@ def evaluate_final_results(
         print(f"run seed 2: {all_runs[1].seed}")
         print(f"run seed 3: {all_runs[2].seed}")
         print(f"Storing result seeds: {final_result.seed}")
-        
+
         save_results_to_db(
             experiment=experiment_name,
             model_name=model_name,
@@ -185,7 +185,7 @@ def evaluate_final_results(
             "model_name": model_name,
             "experiment": experiment_name,
             "metrics": metrics,
-            "seed": seeds,
+            "seed": final_result.seed,
             "temperature": final_result.temperature,
             "top_p": final_result.top_p,
             "top_k": final_result.top_k,
@@ -258,7 +258,7 @@ def process_model_file(
         metrics: list[str], 
         ks: list[int], 
         eval_method: str
-    ) -> tuple[str, list[dict]]:
+    ) -> tuple[str, dict]:
     """
     Process a single file of testing runs or validation runs, for an experiment and model.
     Supports k-fold and hold-out evaluation methods.
@@ -266,19 +266,17 @@ def process_model_file(
     """
     kwargs = locals()
 
-    file_results = []
+    model_result = {}
 
     if PHASE == Phase.VALIDATION:
-        experiment_name, file_results = evaluate_best_params(**kwargs)
+        experiment_name, model_result = evaluate_best_params(**kwargs)
 
     elif PHASE == Phase.TESTING:
-        experiment_name, file_results = evaluate_final_results(**kwargs)
-        if not file_results:
-            return experiment_name, file_results
+        experiment_name, model_result = evaluate_final_results(**kwargs)
     else:
         raise Exception(f"Invalid PHASE type. Must be one of Enum values: {Phase.VALIDATION}, {Phase.TESTING}")
-
-    return experiment_name, file_results
+    
+    return experiment_name, model_result
 
 def process_shot_file(
     shot: int,
@@ -288,14 +286,15 @@ def process_shot_file(
     metrics: list[str], 
     ks: list[int], 
     eval_method: str,
-    shot_files: list[str]
+    model_files: list[str]
 ) -> tuple[str, list[dict]]:   
     
-    shot_results = {}    
+    experiment_name = f"{experiment}_{shot}_shot"
+    shot_results: list[dict] =  []    
     start_time = datetime.now()
     print("PROCESSING SHOT FILES")
     print(f"🔍 Processing {shot}-shot {experiment} files in {runs_folder}")
-    # print(f"Chosen models: {shot_files}")
+    # print(f"Chosen models: {model_files}")
     if use_threads:
         # Process candidate files concurrently
         with concurrent.futures.ProcessPoolExecutor() as executor:
@@ -309,18 +308,18 @@ def process_shot_file(
                     ks,
                     eval_method=eval_method
                 )
-                for file_name in shot_files
+                for file_name in model_files
             ]
             for future in concurrent.futures.as_completed(futures):
                 result = future.result()
                 if result is None:
                     continue
-                experiment_name, model_results = result
-                shot_results.setdefault(experiment_name, []).extend(model_results)
+                experiment_name, model_result = result
+                shot_results.append(model_result)
     else:
         # Process candidate files sequentially
-        for file_name in shot_files:
-            experiment_name, model_results = process_model_file(
+        for file_name in model_files:
+            experiment_name, model_result = process_model_file(
                 file_name, 
                 runs_folder, 
                 env, 
@@ -328,23 +327,24 @@ def process_shot_file(
                 ks, 
                 eval_method=eval_method
             )
-            if not model_results:
+            if not model_result:
                 continue
-            shot_results.setdefault(experiment_name, []).extend(model_results)
+            shot_results.append(model_result)
     
     end_time = datetime.now()
     print(f"🕒 Time taken for {shot}-shot {experiment}: {end_time - start_time}")
-    return shot_results,     
+    print(f"📊 Results for {shot}-shot {experiment}: {shot_results}")
+    return experiment_name, shot_results     
 
 def prepare_experiement(
     experiment_name: str,
     shot: int,
     runs_folder: str,
-)-> tuple[dict[str, list[dict]], list[str]]:
+)-> tuple[list[dict], list[str]]:
     """Setup experiment collection if not exist, decide which ones to rerun and get rexisting result."""
 
     db = get_db_connection()
-    experiment_results: dict[str, list[dict]] = {}
+    shot_results: list[dict] = []
 
     print(f"\n🔍 Finding results for {eval_method} experiment: {experiment_name}")
 
@@ -394,13 +394,13 @@ def prepare_experiement(
                     model=model_name, 
                     eval_method=eval_method
                 )
-            experiment_results.setdefault(experiment_name, []).extend(results)
+            shot_results.extend(results)
             skip_models.append(model_name)
     
     # Remove files for models that are skipped
     chosen_models = [file for file in candidate_names if extract_experiment_and_model_name(file)[1] not in skip_models]
    
-    return experiment_results, chosen_models
+    return shot_results, chosen_models
 
 def main(
     env: str,
@@ -419,8 +419,8 @@ def main(
             runs_folder = f"{project_dir}/notebooks/few-shot/fox/{PHASE.value}_runs/{example_selector_type}/{experiment_type}/{eval_method}"  
             experiment = f"{experiment_type}_{example_selector_type}"
             experiment_results: dict[str, list[dict]] = {}
+            shot_files: dict[int, list[str]] = {} # Store filenames to process for each shot
 
-            shot_files: dict[int, list[str]] = {}
             for shot in shots:
                 experiment_name = f"{experiment}_{shot}_shot"
                 print(f"\n🔍 Finding results for {eval_method} experiment: {experiment_name}")
@@ -429,7 +429,9 @@ def main(
                     shot,
                     runs_folder
                 )
+                print(f"Shot results: {shot_results}")
                 experiment_results.setdefault(experiment_name, []).extend(shot_results)
+                print(f"Experiment results: {experiment_results}")
                 shot_files.setdefault(shot, []).extend(chosen_models)
 
             print(f"Chosen models: {shot_files}")
@@ -446,7 +448,7 @@ def main(
                             metrics,
                             ks,
                             eval_method=eval_method,
-                            shot_files=shot_files[shot]
+                            model_files=shot_files[shot]
                         )
                         for shot in shots
                     ]
@@ -455,7 +457,10 @@ def main(
                         if result is None:
                             continue
                         experiment_name, shot_result = result
+                        if not shot_result:
+                            continue
                         experiment_results.setdefault(experiment_name, []).extend(shot_result)
+
             else:
                 # Process candidate files sequentially
                 for shot in shots:
@@ -482,7 +487,7 @@ def main(
                 write_json_file(f"{output_dir}/{experiment_name}.json", shot_result)
             
 if __name__ == "__main__":
-    eval_method = "3_fold"
+    eval_method = "hold_out"
     PHASE = Phase.TESTING
     # PHASE = Phase.VALIDATION
     MODEL = "phi4:14b-fp16" # if empty string, all models found in current experiment folders will be processed
@@ -490,9 +495,9 @@ if __name__ == "__main__":
     eval_method = "hold_out" if PHASE == Phase.VALIDATION else eval_method
     env = "prod" # if 'prod' then it will use the MongoDB database
     ks = [1, 2, 3, 5, 10]
-    example_selector_types = ["coverage", "similarity"] #["coverage", "similarity", "cot"]
-    experiment_types = ["regular", "signature"]  # ["regular", "signature", "cot"]
-    shots = [1, 5, 10]
+    example_selector_types = ["similarity"] #["coverage", "similarity", "cot"]
+    experiment_types = ["signature"]  # ["regular", "signature", "cot"]
+    shots = [10, 5, 1]
     metrics = ["syntax", "semantic", "tests"] # or ["syntax", "semantic"]
     use_threads = True
 

@@ -1,0 +1,41 @@
+[
+    {
+        "model_name": "phi4:14b-fp16",
+        "experiment": "signature_similarity_5_shot",
+        "metrics": [
+            "syntax",
+            "semantic",
+            "tests"
+        ],
+        "seed": [
+            75,
+            3,
+            346
+        ],
+        "temperature": 0.2,
+        "top_p": 0.2,
+        "top_k": 50,
+        "ks": [
+            1,
+            2,
+            3,
+            5,
+            10
+        ],
+        "syntax@1": 0.79,
+        "syntax@2": 0.86,
+        "syntax@3": 0.89,
+        "syntax@5": 0.93,
+        "syntax@10": 0.96,
+        "semantic@1": 0.71,
+        "semantic@2": 0.81,
+        "semantic@3": 0.87,
+        "semantic@5": 0.92,
+        "semantic@10": 0.96,
+        "tests@1": 0.51,
+        "tests@2": 0.65,
+        "tests@3": 0.73,
+        "tests@5": 0.8,
+        "tests@10": 0.85
+    }
+]

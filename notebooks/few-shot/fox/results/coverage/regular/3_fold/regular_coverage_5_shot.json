@@ -7,9 +7,9 @@
             "tests"
         ],
         "seed": [
-            null,
-            null,
-            null
+            3,
+            346,
+            75
         ],
         "temperature": 0.2,
         "top_p": 0.2,
@@ -22,7 +22,7 @@
             10
         ],
         "eval_method": "3_fold",
-        "created_at": "2025-03-13T12:26:28.916000",
+        "created_at": "2025-03-14T09:30:48.711000",
         "syntax": [
             {
                 "mean": 0.82,

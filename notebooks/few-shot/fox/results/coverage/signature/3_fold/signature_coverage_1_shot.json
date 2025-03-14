@@ -1,25 +1,93 @@
 [
-    "model_name",
-    "experiment",
-    "metrics",
-    "seed",
-    "temperature",
-    "top_p",
-    "top_k",
-    "ks",
-    "syntax@1",
-    "syntax@2",
-    "syntax@3",
-    "syntax@5",
-    "syntax@10",
-    "semantic@1",
-    "semantic@2",
-    "semantic@3",
-    "semantic@5",
-    "semantic@10",
-    "tests@1",
-    "tests@2",
-    "tests@3",
-    "tests@5",
-    "tests@10"
+    {
+        "model_name": "phi4:14b-fp16",
+        "metrics": [
+            "syntax",
+            "semantic",
+            "tests"
+        ],
+        "seed": [
+            3,
+            346,
+            75
+        ],
+        "temperature": 0.9,
+        "top_p": 0.2,
+        "top_k": 50,
+        "ks": [
+            1,
+            2,
+            3,
+            5,
+            10
+        ],
+        "eval_method": "3_fold",
+        "created_at": "2025-03-14T10:40:19.529000",
+        "syntax": [
+            {
+                "mean": 0.82,
+                "std": 0.03
+            },
+            {
+                "mean": 0.93,
+                "std": 0.02
+            },
+            {
+                "mean": 0.96,
+                "std": 0.02
+            },
+            {
+                "mean": 0.99,
+                "std": 0.01
+            },
+            {
+                "mean": 1.0,
+                "std": 0.0
+            }
+        ],
+        "semantic": [
+            {
+                "mean": 0.62,
+                "std": 0.05
+            },
+            {
+                "mean": 0.74,
+                "std": 0.06
+            },
+            {
+                "mean": 0.82,
+                "std": 0.05
+            },
+            {
+                "mean": 0.9,
+                "std": 0.04
+            },
+            {
+                "mean": 0.97,
+                "std": 0.02
+            }
+        ],
+        "tests": [
+            {
+                "mean": 0.38,
+                "std": 0.02
+            },
+            {
+                "mean": 0.5,
+                "std": 0.02
+            },
+            {
+                "mean": 0.58,
+                "std": 0.02
+            },
+            {
+                "mean": 0.69,
+                "std": 0.03
+            },
+            {
+                "mean": 0.82,
+                "std": 0.03
+            }
+        ]
+    }
 ]

@@ -7,13 +7,11 @@ import sys
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
 project_dir = os.path.abspath(f"{script_dir}/../../..")
-# experiment_dir = os.path.abspath(f"{script_dir}/..")
-env_path = os.path.abspath(f"{project_dir}/../../.env")
-results_dir = f"{project_dir}/notebooks/few-shot/fox/testing_runs"
+
 sys.path.append(project_dir)
 print("Script is located in:", script_dir)
 print("Project is located in:", project_dir)
-print("Env is located in:", env_path)
+
 
 from my_packages.common.few_shot import init_example_selector, model_configs
 from my_packages.data_processing.split_dataset import create_kfold_splits
@@ -223,6 +221,10 @@ def main(train_data, test_data, fold=-1, k_folds=3):
             print("✅ push_runs.sh script executed successfully!")
             
 if __name__ == "__main__":
+    # experiment_dir = os.path.abspath(f"{script_dir}/..")
+    env_path = os.path.abspath(f"{project_dir}/../../.env")
+    results_dir = f"{project_dir}/notebooks/few-shot/fox/testing_runs"
+    print("Env is located in:", env_path)
     # Parse arguments:
     parser = argparse.ArgumentParser(description="Process input.")
 

@@ -27,7 +27,7 @@ def save_results_to_db(
     
     result_doc = {
         "model_name": model_name,
-        "seed": seeds,
+        "seed": list(seeds),
         "temperature": result.temperature,
         "top_p": result.top_p,
         "top_k": result.top_k,
