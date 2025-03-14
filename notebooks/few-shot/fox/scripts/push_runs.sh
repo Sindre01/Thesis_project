@@ -17,6 +17,7 @@ if [[ "$FOLD" == "-1" ]]; then
 else
     REMOTE_DIR="/fp/homes01/u01/ec-sindrre/slurm_jobs/${EXPERIMENT}/${PHASE}/${EXPERIMENT_DIR}/runs/3_fold/"
     BRANCH="${PHASE}/${EXAMPLES_TYPE}-${PROMPT_TYPE}-fold_${FOLD}"
+fi
 echo "==== Pushing runs to GitHub ====="
 echo "Pushing changes from ${TARGET_DIR} to ${BRANCH} on GitHub..."
 git pull

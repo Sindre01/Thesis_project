@@ -113,7 +113,7 @@ class Run:
         top_p: float,
         top_k: int,
         metric_results: dict,
-        seed = None,
+        seed: int | None | set | list = None,
         metadata: dict | None = None,
         created_at: datetime = None
     ):

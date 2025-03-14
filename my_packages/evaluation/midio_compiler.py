@@ -46,8 +46,8 @@ def run_compiler_with_timeout_quiet(command, timeout=10, max_output_chars=20000)
                 f.write(stdout)
             
     if timed_out:
-        stderr += "\n[ERROR][TIMEOUT] Process timed out after {} seconds.".format(timeout)
-        stdout += "\n[ERROR][TIMEOUT] Process timed out after {} seconds.".format(timeout)
+        stderr += "\n[TIMEOUT] Process timed out after {} seconds.".format(timeout)
+        stdout += "\n[TIMEOUT] Process timed out after {} seconds.".format(timeout)
     stderr = stderr.strip()
     stdout = stdout.strip()
     return subprocess.CompletedProcess(

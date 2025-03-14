@@ -33,7 +33,7 @@ def evaluate_runs(
         ks: list[int],
         db_connection=None,
         fold: int = None
-    ):
+    ) -> tuple[list[Run], dict]:
     """Evaluate runs from a given file"""
 
     print(f"🔍 Evaluating {PHASE} runs with metric {metrics} on file {file_path}")
@@ -41,7 +41,7 @@ def evaluate_runs(
     runs_json = read_dataset_to_json(file_path)
     for run in runs_json:
         experiment_name = run["experiment_name"]
-    
+
         metric_results_lists = evaluate_code(
             run["task_candidates"],
             ks=ks,
@@ -60,6 +60,7 @@ def evaluate_runs(
             fold=fold,
             db_connection=db_connection,
         )
+        print(f"seed for run: {run['seed']}")
 
         results.append(Run(
             phase=PHASE.value,
@@ -76,7 +77,6 @@ def evaluate_runs(
             metadata={"largest_prompt_size": run["largest_context"]}
         ))
     
-
     if PHASE == Phase.VALIDATION:
         best_params = calculate_best_params(
             validation_runs=results, 
@@ -86,7 +86,10 @@ def evaluate_runs(
         return results, best_params
     
     elif PHASE == Phase.TESTING:
-        final_results = calculate_final_result(results, only_mean=True)
+        final_results = calculate_final_result(
+            testing_runs=results, 
+            only_mean=True
+        )
         return results, final_results
     
     else:
@@ -129,6 +132,7 @@ def evaluate_final_results(
                 db_connection=db,
                 fold=fold_idx
             )
+            print(f"✅ Processed fold {fold_file} with seed {fold_result.seed}")
             all_runs.append(fold_result) # append the final averaged result accross the seeds
 
             print(f"✅ Processed fold {fold_file}")
@@ -159,13 +163,15 @@ def evaluate_final_results(
     
     # Save results only once outside if/else
     if env == "prod" and final_result is not None:
+        print(f"run seed 1: {all_runs[0].seed}")
+        print(f"run seed 2: {all_runs[1].seed}")
+        print(f"run seed 3: {all_runs[2].seed}")
+        print(f"Storing result seeds: {final_result.seed}")
         
-        seeds = {run.seed for run in all_runs}
-        print(f"Storing result seeds: {seeds}")
         save_results_to_db(
             experiment=experiment_name,
             model_name=model_name,
-            seeds=seeds,
+            seeds=final_result.seed,
             ks=ks,
             metrics=metrics,
             result=final_result,
@@ -282,14 +288,14 @@ def process_shot_file(
     metrics: list[str], 
     ks: list[int], 
     eval_method: str,
-    chosen_models: list[str]
+    shot_files: list[str]
 ) -> tuple[str, list[dict]]:   
     
     shot_results = {}    
     start_time = datetime.now()
     print("PROCESSING SHOT FILES")
     print(f"🔍 Processing {shot}-shot {experiment} files in {runs_folder}")
-    # print(f"Chosen models: {chosen_models}")
+    # print(f"Chosen models: {shot_files}")
     if use_threads:
         # Process candidate files concurrently
         with concurrent.futures.ProcessPoolExecutor() as executor:
@@ -303,7 +309,7 @@ def process_shot_file(
                     ks,
                     eval_method=eval_method
                 )
-                for file_name in chosen_models
+                for file_name in shot_files
             ]
             for future in concurrent.futures.as_completed(futures):
                 result = future.result()
@@ -313,7 +319,7 @@ def process_shot_file(
                 shot_results.setdefault(experiment_name, []).extend(model_results)
     else:
         # Process candidate files sequentially
-        for file_name in chosen_models:
+        for file_name in shot_files:
             experiment_name, model_results = process_model_file(
                 file_name, 
                 runs_folder, 
@@ -414,7 +420,7 @@ def main(
             experiment = f"{experiment_type}_{example_selector_type}"
             experiment_results: dict[str, list[dict]] = {}
 
-            shot_models: dict[int, list[str]] = {}
+            shot_files: dict[int, list[str]] = {}
             for shot in shots:
                 experiment_name = f"{experiment}_{shot}_shot"
                 print(f"\n🔍 Finding results for {eval_method} experiment: {experiment_name}")
@@ -424,9 +430,9 @@ def main(
                     runs_folder
                 )
                 experiment_results.setdefault(experiment_name, []).extend(shot_results)
-                shot_models.setdefault(shot, []).extend(chosen_models)
+                shot_files.setdefault(shot, []).extend(chosen_models)
 
-            print(f"Chosen models: {shot_models}")
+            print(f"Chosen models: {shot_files}")
             if use_threads:
                 # Process candidate files concurrently
                 with concurrent.futures.ProcessPoolExecutor() as executor:
@@ -440,7 +446,7 @@ def main(
                             metrics,
                             ks,
                             eval_method=eval_method,
-                            chosen_models=shot_models[shot]
+                            shot_files=shot_files[shot]
                         )
                         for shot in shots
                     ]
@@ -461,7 +467,7 @@ def main(
                         metrics,
                         ks,
                         eval_method=eval_method,
-                        chosen_models=shot_models[shot]
+                        shot_files=shot_files[shot]
                     )
                     if not shot_result:
                         continue

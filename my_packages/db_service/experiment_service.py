@@ -238,6 +238,7 @@ def run_experiment_quality_checks(
         
         # Check 1: If no best parameters exist, then there should be no validation errors.
         if best_params_count == 0 and validation_errors_count > 0:
+            errors_found = True
             user_input="no"
             if prompt_user:
                 user_input = input(f"❌ Error for model '{model}': No best parameters exist, but found {validation_errors_count} validation error(s).\n\n❓ Do you want to delete validation errors for '{model} on '{experiment}'? (yes/no): ").strip().lower()
@@ -245,13 +246,13 @@ def run_experiment_quality_checks(
             if user_input == "yes":
                 errors_deleted = errors_collection.delete_many({"model_name": model, "phase": "validation"}).deleted_count
                 print_msgs.append(f"⚠️ Found Error for model '{model}': No best parameters exist, but found {validation_errors_count} validation error(s). \nHowever these where fixed by deleting {errors_deleted} validation errors for '{model}'.")
-                
+                errors_found = False # Fixed
             else:
                 print_msgs.append(f"❌ Error for model '{model}': No best parameters exist, but found {validation_errors_count} validation error(s).")
-            errors_found = True
         
         # Check 2: If no results exist, then there should be no testing errors.
         if results_count == 0 and testing_errors_count > 0:
+            errors_found = True
             user_input="no"
             if prompt_user:
                 user_input = input(f"❌ Error for model '{model}': No best parameters exist, but found {testing_errors_count} testing error(s).\n\n❓ Do you want to delete testing errors for '{model} on '{experiment}'? (yes/no): ").strip().lower()
@@ -259,13 +260,13 @@ def run_experiment_quality_checks(
             if user_input == "yes":
                 errors_deleted = errors_collection.delete_many({"model_name": model, "phase": "testing","eval_method": eval_method}).deleted_count
                 print_msgs.append(f"⚠️ Found Error for model '{model}': No best parameters exist, but found {testing_errors_count} testing error(s). \nHowever these where fixed by deleting {errors_deleted} testing errors for '{model}'.")
-                
+                errors_found = False # Fixed
             else:
                 print_msgs.append(f"❌ Error for model '{model}': No results exist, but found {testing_errors_count} testing error(s).")
-            errors_found = True
         
         # Check 3: If no best parameters exist, then there should be no results.
         if best_params_count == 0 and results_count > 0:
+            errors_found = True
             user_input="no"
             if prompt_user:
                 user_input = input(f"❌ Error for model '{model}': No best parameters exist, but found {results_count} result(s).\n\n❓ Do you want to delete result(s) for '{model} on '{experiment}'? (yes/no): ").strip().lower()
@@ -273,10 +274,9 @@ def run_experiment_quality_checks(
             if user_input == "yes":
                 results_deleted = results_collection.delete_many({"model_name": model, "eval_method": eval_method}).deleted_count
                 print_msgs.append(f"⚠️ Found Error for model '{model}': No best parameters exist, but found {results_count} result(s).\nHowever these where fixed by deleting {results_deleted} result(s) for '{model}'.")
-                
+                errors_found = False
             else:
                 print_msgs.append(f"❌ Error for model '{model}': No best parameters exist, but found {results_count} result(s).")
-            errors_found = True
         
         if not errors_found:
             print_msgs.append(f"✅ Models '{model}' passed all quality checks successfully.")

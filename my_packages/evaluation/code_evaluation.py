@@ -570,11 +570,18 @@ def calculate_final_result(
                 final_metric_results[metric][pass_k] = stats["mean"]
 
     # Return a new Run object for the final result
+    try:
+        seeds = {seed for run in testing_runs for seed in run.seed}
+    except TypeError:
+        print("Seeds is not 2d list")
+        seeds = {run.seed for run in testing_runs}
+        
     return Run(
         phase="final",
         temperature=testing_runs[0].temperature,
         top_p=testing_runs[0].top_p,
         top_k=testing_runs[0].top_k,
+        seed = seeds,
         metric_results=final_metric_results,
         metadata=testing_runs[0].metadata
     )

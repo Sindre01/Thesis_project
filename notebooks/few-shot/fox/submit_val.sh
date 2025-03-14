@@ -15,14 +15,14 @@ HOST="fox.educloud.no"                   # Fox login address (matches SSH config
 SSH_CONFIG_NAME="fox"                    # Name of the SSH config entry
 ACCOUNT="ec12"                           # Fox project account
 PARTITION="accel"                        # 'accel' or 'accel_long' (or 'ifi_accel' if access to ec11,ec29,ec30,ec34,ec35 or ec232)
-GPUS=a100:2                         # a100 have 40GB or 80GB VRAM, while rtx30 have 24GB VRAM.
+GPUS=2                         # a100 have 40GB or 80GB VRAM, while rtx30 have 24GB VRAM.
 NODES=1                                  # Number of nodes. OLLAMA does currently only support single node inference
-NODE_LIST=gpu-9,gpu-7,gpu-8   # List of nodes that the job can run on gpu-9,gpu-7,gpu-8
+NODE_LIST=   # List of nodes that the job can run on gpu-9,gpu-7,gpu-8
 TIME="0-24:00:00"                       # Slurm walltime (D-HH:MM:SS)
-MEM_PER_GPU="80G"                       # Memory per GPU. 
+MEM_PER_GPU="40G"                       # Memory per GPU. 
 OLLAMA_MODELS_DIR="/cluster/work/projects/ec12/ec-sindrre/ollama-models"  # Path to where the Ollama models are stored and loaded                      
 LOCAL_PORT="11434"                        # Local port for forwarding
-OLLAMA_PORT="11420"                       # Remote port where Ollama listens. If different parallell runs, change ollama_port to avoid conflicts if same node is allocated.
+OLLAMA_PORT="11417"                       # Remote port where Ollama listens. If different parallell runs, change ollama_port to avoid conflicts if same node is allocated.
 SBATCH_SCRIPT="${PHASE}_${EXAMPLES_TYPE}_${EXAMPLES_TYPE}__${PROMPT_TYPE}_${GPUS}_ollama.slurm"           # Slurm batch script name
 # Directory on Fox to store scripts and output
 if [ -n "$PROMPT_TYPE" ]; then
@@ -40,7 +40,7 @@ model_provider='ollama'
 #         {
 #             "name": "signature_similarity",
 #             "prompt_prefix": "Create a function",
-#             "num_shots": [1, 5, 10],
+#             "num_shots": [10],
 #             "prompt_type": "signature",
 #             "semantic_selector": true
 #         },
@@ -56,7 +56,7 @@ experiments='[
         {
             "name": "signature_coverage",
             "prompt_prefix": "Create a function",
-            "num_shots": [1, 5, 10],
+            "num_shots": [10],
             "prompt_type": "signature",
             "semantic_selector": false
         },
@@ -69,7 +69,7 @@ experiments='[
         }
 ]'
 models='[
-    "phi4:14b-fp16"
+    "qwq:32b-fp16"
 ]'
 # models='[
 #     "phi4:14b-fp16",
