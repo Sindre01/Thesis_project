@@ -52,10 +52,10 @@ fi
 # Load files from REMOTE_DIR into TARGET_DIR
 if [[ "$FOLD" == "-1" ]]; then
     echo "📥 Loading files from ${REMOTE_DIR} into '${TARGET_DIR}'..."
-    rsync -av "${REMOTE_DIR}/" "${TARGET_DIR}/" # --ignore-existing: skips existing files in TARGET_DIR 
+    rsync -av "${REMOTE_DIR}/" "${TARGET_DIR}/"
 else
     echo "📥 Loading 'fold_${FOLD}.json' files from ${REMOTE_DIR} into '${TARGET_DIR}'..."
-    rsync -av --include="*fold_${FOLD}.json" --exclude='*' "${REMOTE_DIR}/" "${TARGET_DIR}/"
+    rsync -av --include='*/' --include="*fold_${FOLD}.json" --exclude='*' "${REMOTE_DIR}/" "${TARGET_DIR}/"
 fi
 
 # Stage changes only in TARGET_DIR

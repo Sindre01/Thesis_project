@@ -22,20 +22,65 @@
             5,
             10
         ],
-        "syntax@1": 0.59,
-        "syntax@2": 0.67,
-        "syntax@3": 0.72,
-        "syntax@5": 0.78,
-        "syntax@10": 0.85,
-        "semantic@1": 0.38,
-        "semantic@2": 0.46,
-        "semantic@3": 0.51,
-        "semantic@5": 0.57,
-        "semantic@10": 0.63,
-        "tests@1": 0.31,
-        "tests@2": 0.35,
-        "tests@3": 0.37,
-        "tests@5": 0.4,
-        "tests@10": 0.44
+        "syntax@1": {
+            "mean": 0.59,
+            "std": 0.02
+        },
+        "syntax@2": {
+            "mean": 0.67,
+            "std": 0.03
+        },
+        "syntax@3": {
+            "mean": 0.72,
+            "std": 0.04
+        },
+        "syntax@5": {
+            "mean": 0.78,
+            "std": 0.05
+        },
+        "syntax@10": {
+            "mean": 0.85,
+            "std": 0.05
+        },
+        "semantic@1": {
+            "mean": 0.38,
+            "std": 0.02
+        },
+        "semantic@2": {
+            "mean": 0.46,
+            "std": 0.04
+        },
+        "semantic@3": {
+            "mean": 0.51,
+            "std": 0.05
+        },
+        "semantic@5": {
+            "mean": 0.57,
+            "std": 0.06
+        },
+        "semantic@10": {
+            "mean": 0.63,
+            "std": 0.05
+        },
+        "tests@1": {
+            "mean": 0.31,
+            "std": 0.01
+        },
+        "tests@2": {
+            "mean": 0.35,
+            "std": 0.02
+        },
+        "tests@3": {
+            "mean": 0.37,
+            "std": 0.04
+        },
+        "tests@5": {
+            "mean": 0.4,
+            "std": 0.06
+        },
+        "tests@10": {
+            "mean": 0.44,
+            "std": 0.09
+        }
     }
 ]

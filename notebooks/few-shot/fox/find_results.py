@@ -88,7 +88,7 @@ def evaluate_runs(
     elif PHASE == Phase.TESTING:
         final_results = calculate_final_result(
             testing_runs=results, 
-            only_mean=True
+            only_mean=True if fold is not None else False
         )
         return results, final_results
     
