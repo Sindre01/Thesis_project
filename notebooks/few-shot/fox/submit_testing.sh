@@ -5,12 +5,12 @@
 ###############################################################################
 
 # Configuration
-EXPERIMENT="few-shot"                    # Experiment ('few-shot' or 'COT')
+EXPERIMENT="few-shot"                    # Experiment ('few-shot')
 PHASE="testing"                       # Phase ('testing' or 'validation')
-EXAMPLES_TYPE="similarity"                 #'coverage' or 'similarity'
+EXAMPLES_TYPE="coverage"                 #'coverage' or 'similarity'
 PROMPT_TYPE=""                 # 'regular' or 'cot' or 'signature'   
 # SEMANTIC_SELECTOR=true                   # Use semantic selector
-K_FOLD_JOBS=0-2                              # Runs jobs for folds 0 to 4 (5-fold CV)
+K_FOLD_JOBS=0-0                              # Runs jobs for folds 0 to 2 (3-fold CV)
 USER="ec-sindrre"                        # Your Educloud username
 HOST="fox.educloud.no"                   # Fox login address (matches SSH config)
 SSH_CONFIG_NAME="fox"                    # Name of the SSH config entry
@@ -22,8 +22,8 @@ NODE_LIST=gpu-9,gpu-7,gpu-8        # List of nodes that the job can run on gpu-9
 TIME="0-24:00:00"                       # Slurm walltime (D-HH:MM:SS)
 MEM_PER_GPU="80G"                       # Memory per GPU. 
 OLLAMA_MODELS_DIR="/cluster/work/projects/ec12/ec-sindrre/ollama-models"  # Path to where the Ollama models are stored and loaded                      
-OLLAMA_PORT="11490"                       # Remote port where Ollama listens. If different parallell runs, change ollama_port to avoid conflicts if same node is allocated.
-SBATCH_SCRIPT="${PHASE}_${EXAMPLES_TYPE}_${EXAMPLES_TYPE}__${PROMPT_TYPE}_${GPUS}_ollama.slurm"           # Slurm batch script name
+OLLAMA_PORT="11495"                       # Remote port where Ollama listens. If different parallell runs, change ollama_port to avoid conflicts if same node is allocated.
+SBATCH_SCRIPT="${PHASE}_${EXAMPLES_TYPE}_${PROMPT_TYPE}_${GPUS}_ollama.slurm"           # Slurm batch script name
 # Directory on Fox to store scripts and output
 if [ -n "$PROMPT_TYPE" ]; then
     REMOTE_DIR="/fp/homes01/u01/ec-sindrre/slurm_jobs/${EXPERIMENT}/${PHASE}/${EXAMPLES_TYPE}/${PROMPT_TYPE}"
@@ -35,38 +35,31 @@ fi
 CLONE_DIR="/fp/homes01/u01/ec-sindrre/tmp/Thesis_project_${EXAMPLES_TYPE}_\$SLURM_JOB_ID"
 ##############Experiment config################
 model_provider='ollama'
+experiments='[
+        {
+            "name": "regular_coverage",
+            "prompt_prefix": "Create a function",
+            "num_shots": [10],
+            "prompt_type": "regular",
+            "semantic_selector": false
+        }
+]'
 # experiments='[
 #         {
-#             "name": "signature_coverage",
+#             "name": "signature_similarity",
 #             "prompt_prefix": "Create a function",
 #             "num_shots": [5, 10],
 #             "prompt_type": "signature",
-#             "semantic_selector": false
+#             "semantic_selector": true
 #         },
 #         {
-#             "name": "regular_coverage",
+#             "name": "regular_similarity",
 #             "prompt_prefix": "Create a function",
 #             "num_shots": [1, 5, 10],
 #             "prompt_type": "regular",
-#             "semantic_selector": false
+#             "semantic_selector": true
 #         }
 # ]'
-experiments='[
-        {
-            "name": "signature_similarity",
-            "prompt_prefix": "Create a function",
-            "num_shots": [5, 10],
-            "prompt_type": "signature",
-            "semantic_selector": true
-        },
-        {
-            "name": "regular_similarity",
-            "prompt_prefix": "Create a function",
-            "num_shots": [1, 5, 10],
-            "prompt_type": "regular",
-            "semantic_selector": true
-        }
-]'
 models='[
     "llama3.3:70b-instruct-fp16"
 ]'

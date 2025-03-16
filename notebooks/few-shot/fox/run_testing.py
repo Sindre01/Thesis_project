@@ -107,7 +107,8 @@ def run_testing_experiment(
             seed = seed,
             debug = False, 
             prompt_type = prompt_type,
-            ollama_port=ollama_port
+            ollama_port=ollama_port,
+            rag_data=None
         )
         result_obj = {
             "experiment_name": experiment_name,

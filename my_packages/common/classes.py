@@ -2,7 +2,10 @@ from datetime import datetime
 import json
 from subprocess import CompletedProcess
 from colorama import Fore, Style
+from langchain_ollama import OllamaEmbeddings
 from my_packages.evaluation.midio_compiler import clean_output, extract_errors, get_json_test_result, is_all_tests_passed
+from langchain.vectorstores import FAISS
+from langchain.schema import Document
 
 class CodeEvaluationResult:
     """
@@ -199,3 +202,31 @@ def get_prompt_type(file_name: str) -> PromptType | None:
         if prompt.value in file_name:
             return prompt
     return None 
+
+class RagData:
+    def __init__(
+        self,
+        embeddings: OllamaEmbeddings,
+        language_docs: list[str],
+        node_docs: list[str]
+    ):
+        self.embeddings: OllamaEmbeddings = embeddings
+        self.language_docs: list[str] = language_docs
+        self.node_docs: list[str] = node_docs
+
+    def init_language_retriever(self):
+        faiss_docs = [Document(page_content=doc["content"], metadata={"file": doc["file"], "chunk_id": doc["chunk_id"]}) for doc in self.language_docs]
+        vectorstore = FAISS.from_documents(faiss_docs, self.embeddings)
+        vectorstore.save_local("faiss_language_index") # Save FAISS index locally
+        print("✅ FAISS index saved successfully.")
+        self.language_retriever = vectorstore
+
+    def init_node_retriever(self):
+        faiss_docs = [Document(page_content=doc["content"], metadata={"file": doc["file"], "chunk_id": doc["chunk_id"]}) for doc in self.node_docs]
+        vectorstore = FAISS.from_documents(faiss_docs, self.embeddings)
+        vectorstore.save_local("faiss_node_index") # Save FAISS index locally
+        print("✅ FAISS index saved successfully.")
+        self.node_retriever = vectorstore
+        
+       
+        

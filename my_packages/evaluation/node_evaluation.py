@@ -1,6 +1,7 @@
 import json
 import numpy as np
 import re
+from my_packages.common.classes import RagData
 from my_packages.evaluation.metrics import estimate_pass_at_k
 from my_packages.prompting.few_shot import create_few_shot_prompt, create_final_prompt
 from my_packages.utils.server_utils import server_diagnostics
@@ -234,6 +235,7 @@ def evaluate_nodes(
     seed,
     ks,                               
     debug=False,
+    rag_data: RagData = None
 ):
     model_result = run_model(
         client,
@@ -247,7 +249,8 @@ def evaluate_nodes(
         top_k,
         ks,
         seed,
-        debug
+        debug,
+        rag_data=rag_data
     )
 
     #calculate pass@k and f1 score metrics

@@ -8,8 +8,9 @@
 EXPERIMENT="few-shot"                    # Experiment ('few-shot' or 'COT')
 PHASE="testing"                       # Phase ('testing' or 'validation')
 EXAMPLES_TYPE="coverage"                 #'coverage' or 'similarity'
-PROMPT_TYPE="signature"                 # 'signature' or 'cot' or 'signature'   
+PROMPT_TYPE=""                 # 'signature' or 'cot' or 'signature'   
 # SEMANTIC_SELECTOR=true                   # Use semantic selector
+K_FOLD_JOBS=0-2                              # Runs jobs for folds 0 to 2 (3-fold CV)
 USER="ec-sindrre"                        # Your Educloud username
 HOST="fox.educloud.no"                   # Fox login address (matches SSH config)
 SSH_CONFIG_NAME="fox"                    # Name of the SSH config entry
@@ -23,7 +24,7 @@ MEM_PER_GPU="20G"                       # Memory per GPU.
 OLLAMA_MODELS_DIR="/cluster/work/projects/ec12/ec-sindrre/ollama-models"  # Path to where the Ollama models are stored and loaded                      
 LOCAL_PORT="11434"                        # Local port for forwarding
 OLLAMA_PORT="11433"                       # Remote port where Ollama listens. If different parallell runs, change ollama_port to avoid conflicts if same node is allocated.
-SBATCH_SCRIPT="${PHASE}_${EXAMPLES_TYPE}_openai.slurm"           # Slurm batch script name
+SBATCH_SCRIPT="${PHASE}_${EXAMPLES_TYPE}_${PROMPT_TYPE}_${GPUS}_openai.slurm"           # Slurm batch script name
 # Directory on Fox to store scripts and output
 if [ -n "$PROMPT_TYPE" ]; then
     REMOTE_DIR="/fp/homes01/u01/ec-sindrre/slurm_jobs/${EXPERIMENT}/${PHASE}/${EXAMPLES_TYPE}/${PROMPT_TYPE}"
@@ -44,6 +45,22 @@ experiments='[
             "semantic_selector": false
         }
 ]'
+# experiments='[
+#         {
+#             "name": "signature_similarity",
+#             "prompt_prefix": "Create a function",
+#             "num_shots": [5, 10],
+#             "prompt_type": "signature",
+#             "semantic_selector": true
+#         },
+#         {
+#             "name": "regular_similarity",
+#             "prompt_prefix": "Create a function",
+#             "num_shots": [1, 5, 10],
+#             "prompt_type": "regular",
+#             "semantic_selector": true
+#         }
+# ]'
 models='[
     "gpt-4o"
 ]'
@@ -81,6 +98,8 @@ cat <<EOT > "./scripts/${SBATCH_SCRIPT}"
 #SBATCH --account=${ACCOUNT}                      # Project account
 #SBATCH --partition=${PARTITION}                  # Partition ('accel' or 'accel_long')
 #SBATCH --nodes=${NODES}                           # Amount of nodes. Ollama one support single node inference
+#SBATCH --array=${K_FOLD_JOBS}  
+#SBATCH --ntasks=1
 #SBATCH --nodelist=${NODE_LIST}                   # List of nodes that the job can run on
 #SBATCH --gpus=${GPUS}                             # Number of GPUs
 #SBATCH --time=${TIME}                             # Walltime (D-HH:MM:SS)
@@ -104,9 +123,10 @@ module load Python/3.11.5-GCCcore-13.2.0
 # module load CUDA/12.4.0
 
 source ~/.bashrc # may ovewrite previous modules
+OLLAMA_PORT_K_FOLD=\$((${OLLAMA_PORT} + \$SLURM_ARRAY_TASK_ID))
 
 export OLLAMA_MODELS=${OLLAMA_MODELS_DIR}    # Path to where the Ollama models are stored and loaded
-export OLLAMA_HOST=0.0.0.0:${OLLAMA_PORT}      # Host and port where Ollama listens
+export OLLAMA_HOST=0.0.0.0:\$OLLAMA_PORT_K_FOLD    # Host and port where Ollama listens
 export OLLAMA_ORIGINS=”*”
 export OLLAMA_LLM_LIBRARY="cuda_v12_avx" 
 export OLLAMA_FLASH_ATTENTION=1
@@ -144,7 +164,7 @@ NVIDIA_MONITOR_PID=$!  # Capture PID of monitoring process
 ###############################################################################
 # Start Ollama Server in Background with Log Redirection
 ###############################################################################
-ollama serve > ollama_API_\$SLURM_JOB_ID.out 2>&1 &  
+ollama serve > ollama_API_\${SLURM_JOB_ID}_fold_\$SLURM_ARRAY_TASK_ID.out 2>&1 &  
 
 sleep 5
 
@@ -193,15 +213,16 @@ cleanup() {
 # Ensure cleanup is called on exit (both success or error)
 trap cleanup EXIT
 
-echo "============= Running ${PHASE} ${EXPERIMENT} Python script... ============="
+echo "============= Running ${PHASE} ${EXPERIMENT} Python script for Fold ${SLURM_ARRAY_TASK_ID}... ============="
 export PYTHONPATH="${CLONE_DIR}:$PYTHONPATH"
 
 python -u ${CLONE_DIR}/notebooks/${EXPERIMENT}/fox/run_${PHASE}.py \
     --model_provider '${model_provider}' \
     --models '${models}' \
     --experiments '${experiments}' \
-    --ollama_port "" \
-    > ${REMOTE_DIR}/AI_\$SLURM_JOB_ID.out 2>&1
+    --ollama_port \$OLLAMA_PORT_K_FOLD \
+    --fold \$SLURM_ARRAY_TASK_ID \
+    > ${REMOTE_DIR}/AI_\${SLURM_JOB_ID}_fold_\$SLURM_ARRAY_TASK_ID.out 2>&1
 
 ###############################################################################
 # End of Script

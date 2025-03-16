@@ -1,11 +1,11 @@
 from collections import defaultdict
 import numpy as np
-from my_packages.common.classes import CodeEvaluationResult, PromptType, Run
+from my_packages.common.classes import CodeEvaluationResult, PromptType, RagData, Run
 from my_packages.db_service.best_params_service import save_best_params_to_db
 from my_packages.db_service.error_service import save_errors_to_db
 from my_packages.db_service.results_service import save_results_to_db
 from my_packages.evaluation.metrics import check_correctness, check_semantics, check_syntax, estimate_pass_at_k
-from my_packages.prompting.few_shot import create_few_shot_prompt, create_final_prompt
+from my_packages.prompting.few_shot import create_few_shot_prompt, create_final_prompt, get_prompt_template
 
 from my_packages.utils.file_utils import save_results_as_string, save_results_to_file
 from my_packages.utils.server_utils import server_diagnostics
@@ -15,7 +15,7 @@ from langchain_ollama import OllamaEmbeddings, ChatOllama
 from langchain_anthropic import ChatAnthropic
 from langchain_openai import OpenAIEmbeddings, ChatOpenAI
 from langchain_core.example_selectors.base import BaseExampleSelector
-from langchain.prompts import ChatPromptTemplate
+from langchain.prompts import ChatPromptTemplate, HumanMessagePromptTemplate
 
 def extract_code(response_text: str) -> str:
     """
@@ -116,36 +116,71 @@ def calculate_pass_at_k_scores(
     # print(f"Pass@K: {pass_at_k}")
 
     return pass_at_k
+def add_RAG_to_prompt(
+    task: str,
+    available_ctx: int, 
+    rag_data: RagData, 
+    final_prompt_template: ChatPromptTemplate,
+    prompt_variables_dict: dict
+)-> tuple[str, ChatPromptTemplate, dict]:
+    
+    """Add RAG context to the prompt."""
+    rag_template = HumanMessagePromptTemplate.from_template(get_prompt_template("RAG"))
+  
+    if available_ctx > 70000:
+        # Use all data
+        formatted_language_context = "\n\n".join(rag_data.language_docs)
+        formatted_node_context = "\n\n".join(rag_data.node_docs)
+
+    else:
+        # Use a subset of data. Maximum avalable_ctx
+        language_context_docs = rag_data.language_retriever.similarity_search(task, k=5)
+        node_context_docs = rag_data.node_retriever.similarity_search(task, k=5)
+
+        formatted_language_context = "\n\n".join([doc.page_content for doc in language_context_docs])
+        formatted_node_context = "\n\n".join(doc.page_content for doc in node_context_docs)
+
+    prompt_variables_dict.update({
+        "language_context": formatted_language_context,
+        "node_context": formatted_node_context,
+    })
+
+    final_prompt_template.messages.insert(-1, rag_template)
+
+    final_rag_prompt = final_prompt_template.format(**prompt_variables_dict)
+    return final_rag_prompt, final_prompt_template, prompt_variables_dict
+
+
 
 def build_prompt(
     prompt_type: PromptType,
     example_pool: BaseExampleSelector,
     sample: dict[str, str],
     available_nodes: list[str],
-    rag: bool = False,
-    retriever=None,
+
 )-> tuple[str, ChatPromptTemplate, dict[str, str]]:
     """Create a prompt for the model based on the prompt type."""  
     few_shot_examples = example_pool.select_examples(sample)
     task = sample["task"]
 
-    if prompt_type == PromptType.SIGNATURE: # Uses signature prompt
+
+    if prompt_type.value is PromptType.SIGNATURE.value: # Uses signature prompt
         few_shot = create_few_shot_prompt(few_shot_examples, 'CODE_SIGNATURE_TEMPLATE')
         final_prompt_template = create_final_prompt(few_shot, "CODE_GENERATOR_TEMPLATE", "CODE_SIGNATURE_TEMPLATE")
 
-        prompt_variables_dict ={
+        prompt_variables_dict = {
             "external_functions": available_nodes,
             "task": task, 
             "function_signature": sample["function_signature"],
         }
-    elif prompt_type == PromptType.REGULAR: # Uses regular prompt
+    elif prompt_type.value is PromptType.REGULAR.value: # Uses regular prompt
         few_shot = create_few_shot_prompt(few_shot_examples, 'CODE_TEMPLATE')
         final_prompt_template = create_final_prompt(few_shot, "CODE_GENERATOR_TEMPLATE", "CODE_TEMPLATE")
         prompt_variables_dict ={
             "external_functions": available_nodes,
             "task": task, 
         }
-    elif prompt_type == PromptType.COT: # Uses COT prompt
+    elif prompt_type.value is PromptType.COT.value: # Uses COT prompt
         few_shot = create_few_shot_prompt(few_shot_examples, 'COT_TEMPLATE')
         final_prompt_template = create_final_prompt(few_shot, "CODE_GENERATOR_TEMPLATE", "COT_TEMPLATE")
         prompt_variables_dict = {
@@ -154,29 +189,7 @@ def build_prompt(
             "function_signature": sample["function_signature"],
         }
     else:
-        raise ValueError("Invalid prompt type. Choose from 'signature', 'regular' or 'cot'")
-
-# === Optional RAG enhancement ===
-    if rag and retriever:
-        retrieved_docs = retriever.invoke(task)
-        formatted_context = "\n\n".join(doc.page_content for doc in retrieved_docs)
-        prompt_variables_dict["context"] = formatted_context
-
-        # Define RAG-enhanced prompt template
-        rag_prompt_template = ChatPromptTemplate.from_template("""
-            You are a helpful code assistant. Use the following documentation context to improve your code generation.
-
-            Context:
-            {context}
-
-            External Functions:
-            {external_functions}
-
-            Task:
-            {task}
-            """)
-        final_prompt_template = rag_prompt_template  # override
-
+        raise ValueError("Invalid prompt type. Choose from 'regular', 'signature', 'signature' or 'cot'")
         
     prompt = final_prompt_template.format(**prompt_variables_dict)
     return prompt, final_prompt_template, prompt_variables_dict
@@ -196,7 +209,7 @@ def run_model(
     debug=False,
     prompt_type=PromptType.REGULAR,
     ollama_port="11434",
-    rag=False
+    rag_data: RagData = None
 )-> tuple[dict[int, list[str]], int]:
     """Run a model on a list of tasks and return the generated code snippets."""
     
@@ -208,20 +221,36 @@ def run_model(
         true_response_code = extract_code(true_response)
         task = sample["task"]
         task_id = int(sample["task_id"])
+        max_ctx = 16000 if "phi" else 125000
 
         prompt, final_prompt_template, prompt_variables_dict = build_prompt(
             prompt_type,
             example_pool,
             sample,
             available_nodes,
-            rag
         )
 
-        prompt_size = client(model=model).get_num_tokens(prompt) # Will print warning if prompt is too big for model
+        prompt_size = client(model=model, num_ctx=max_ctx).get_num_tokens(prompt) # Will print warning if prompt is too big for model
 
-        
+        # Add RAG context
+        if rag_data:
+            prompt, final_prompt_template, prompt_variables_dict = add_RAG_to_prompt(
+                task = task,
+                available_ctx = (max_ctx - prompt_size),
+                rag_data = rag_data,
+                final_prompt_template = final_prompt_template,
+                prompt_variables_dict = prompt_variables_dict
+            )
+            prompt_size = max_ctx # Set prompt size to max_ctx. can be lower if all docs are used
+
+        print(f"Prompt size: {prompt_size}")
+
         if prompt_size > largest_prompt_ctx_size:
-            largest_prompt_ctx_size = prompt_size
+            largest_prompt_ctx_size = prompt_size + max_new_tokens
+
+        if debug:
+            print(f"\n\n{Style.BRIGHT}=== Sample: {index+1} ===")
+            print(f"{Fore.CYAN}{Style.BRIGHT} User prompt: {Style.RESET_ALL}\n{prompt}\n")
 
         print(f"Generating response..  ({index + 1}/{len(data)})", end="\r")
 
@@ -279,6 +308,7 @@ def run_model(
                 print("Failed to get a response from the server after "
                       + str(retries) + " attempts.")
                 generated = ""
+            
             current_n += 1
             # Extract code from the generated response
             generated_code = extract_code(generated)
@@ -288,8 +318,8 @@ def run_model(
         results[task_id] = generated_candidates
 
         if debug:
-            print(f"\n\n{Style.BRIGHT}=== Sample: {index+1} ===")
-            print(f"{Fore.CYAN}{Style.BRIGHT} User prompt: {Style.RESET_ALL}\n{prompt}\n")
+            # print(f"\n\n{Style.BRIGHT}=== Sample: {index+1} ===")
+            # print(f"{Fore.CYAN}{Style.BRIGHT} User prompt: {Style.RESET_ALL}\n{prompt}\n")
             print(f"{Fore.YELLOW}{Style.BRIGHT} Full Assistant response: #{1}:\n{generated}\n")
             for i, cand in enumerate(generated_candidates):
                 print(f"{Fore.YELLOW}{Style.BRIGHT} Assistant response: #{i+1}:\n{cand}\n")
@@ -365,7 +395,8 @@ def run_validation(
         optimizer_metric: str, #tests, syntax, semantic
         experiment_name: str,
         env: str,
-        prompt_type: PromptType
+        prompt_type: PromptType,
+        rag_data: RagData = None
     ) -> Run:
 
     """
@@ -404,7 +435,8 @@ def run_validation(
                     n,
                     seed,
                     debug, 
-                    prompt_type
+                    prompt_type,
+                    rag_data=rag_data
                 )
 
                 metric_results_lists = evaluate_code (
@@ -464,7 +496,8 @@ def run_testing(
     metrics:list[str],
     experiment_name: str,
     env: str,
-    prompt_type: PromptType
+    prompt_type: PromptType,
+    rag_data: RagData = None
 ) -> tuple[list[Run], Run]:
     """
     Run the model on the test set with different seeds and the best hyperparameters.
@@ -494,7 +527,8 @@ def run_testing(
             n,
             seed,
             debug, 
-            prompt_type
+            prompt_type,
+            rag_data=rag_data
         )
 
         metric_results_lists = evaluate_code (

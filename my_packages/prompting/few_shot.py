@@ -70,15 +70,15 @@ def create_few_shot_prompt(
         example_prompt=example_prompt_template, #Formats each individual example
     )
     return few_shot_prompt
-
 def create_final_prompt(
         few_shot_prompt: FewShotChatMessagePromptTemplate, 
         system_template_name: str, 
-        prompt_template_name: str
+        prompt_template_name: str,
     ) -> ChatPromptTemplate:
 
     system_msg = get_system_template(system_template_name)
     prompt_template = get_prompt_template(prompt_template_name)
+        
     final_prompt = ChatPromptTemplate.from_messages(
         [
             ("system", system_msg),
