@@ -15,7 +15,7 @@ from my_packages.utils.tokens_utils import models_not_in_file, write_models_toke
 script_dir = os.path.dirname(os.path.abspath(__file__))
 project_dir = os.path.abspath(f"{script_dir}/../..")
 # experiment_dir = os.path.abspath(f"{script_dir}/..")
-env_path = os.path.abspath(f"{project_dir}/../.env")
+env_path = os.path.abspath(f"{project_dir}/.env")
 results_dir = f"{project_dir}/notebooks/few-shot/fox/testing_runs"
 
 sys.path.append(project_dir)
@@ -24,7 +24,8 @@ print("Project is located in:", project_dir)
 print("Env is located in:", env_path)
 
 def model_configs(all_responses, model_provider, models = None, ollama_port = "11434"):  
-    
+    print(f"Loading .env file from {env_path}")
+    load_dotenv(env_path)
 
     match model_provider:
         case 'ollama':
