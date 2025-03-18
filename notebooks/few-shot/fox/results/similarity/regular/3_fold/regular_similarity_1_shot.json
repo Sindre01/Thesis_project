@@ -1,6 +1,6 @@
 [
     {
-        "model_name": "phi4:14b-fp16",
+        "model_name": "llama3.3:70b-instruct-fp16",
         "experiment": "regular_similarity_1_shot",
         "metrics": [
             "syntax",
@@ -14,7 +14,7 @@
         ],
         "temperature": 0.6,
         "top_p": 0.6,
-        "top_k": 10,
+        "top_k": 50,
         "ks": [
             1,
             2,
@@ -23,44 +23,44 @@
             10
         ],
         "syntax@1": {
-            "mean": 0.54,
-            "std": 0.03
+            "mean": 0.13,
+            "std": 0.01
         },
         "syntax@2": {
-            "mean": 0.7,
-            "std": 0.04
+            "mean": 0.18,
+            "std": 0.02
         },
         "syntax@3": {
-            "mean": 0.78,
+            "mean": 0.2,
             "std": 0.04
         },
         "syntax@5": {
-            "mean": 0.86,
-            "std": 0.04
+            "mean": 0.23,
+            "std": 0.05
         },
         "syntax@10": {
-            "mean": 0.93,
-            "std": 0.03
+            "mean": 0.24,
+            "std": 0.05
         },
         "semantic@1": {
-            "mean": 0.48,
-            "std": 0.02
+            "mean": 0.09,
+            "std": 0.03
         },
         "semantic@2": {
-            "mean": 0.63,
-            "std": 0.02
+            "mean": 0.13,
+            "std": 0.04
         },
         "semantic@3": {
-            "mean": 0.7,
-            "std": 0.02
+            "mean": 0.14,
+            "std": 0.04
         },
         "semantic@5": {
-            "mean": 0.79,
-            "std": 0.02
+            "mean": 0.17,
+            "std": 0.04
         },
         "semantic@10": {
-            "mean": 0.9,
-            "std": 0.03
+            "mean": 0.19,
+            "std": 0.04
         },
         "tests@1": {
             "mean": 0.0,

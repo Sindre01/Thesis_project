@@ -38,6 +38,13 @@ CLONE_DIR="/fp/homes01/u01/ec-sindrre/tmp/Thesis_project_${EXAMPLES_TYPE}_\$SLUR
 model_provider='openai'
 experiments='[
         {
+            "name": "regular_coverage",
+            "prompt_prefix": "Create a function",
+            "num_shots": [1, 5, 10],
+            "prompt_type": "regular",
+            "semantic_selector": false
+        },
+        {
             "name": "signature_coverage",
             "prompt_prefix": "Create a function",
             "num_shots": [1, 5, 10],

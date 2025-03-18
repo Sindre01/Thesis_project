@@ -153,8 +153,8 @@ def pretty_print_results(
         {"$group": {"_id": "$model_name", "count": {"$sum": 1}}}
     ])
     model_counts_dict = {entry["_id"]: entry["count"] for entry in model_counts}
-    for model_name, count in model_counts_dict.items():
-        print(f"📊 {model_name}: {count} documents")
+    # for model_name, count in model_counts_dict.items():
+    #     print(f"📊 {model_name}: {count} documents")
     extra_info = ""
 
     print(f"Total documents/rows: {collection.count_documents({})}      {extra_info}")

@@ -434,7 +434,7 @@ def main(
                 print(f"Experiment results: {experiment_results}")
                 shot_files.setdefault(shot, []).extend(chosen_models)
 
-            print(f"Chosen models: {shot_files}")
+            print(f"Chosen shot files: {shot_files}")
             if use_threads:
                 # Process candidate files concurrently
                 with concurrent.futures.ProcessPoolExecutor() as executor:
@@ -487,17 +487,17 @@ def main(
                 write_json_file(f"{output_dir}/{experiment_name}.json", shot_result)
             
 if __name__ == "__main__":
-    eval_method = "hold_out"
+    eval_method = "3_fold" # or "hold_out"
     PHASE = Phase.TESTING
     # PHASE = Phase.VALIDATION
-    MODEL = "phi4:14b-fp16" # if empty string, all models found in current experiment folders will be processed
+    MODEL = "llama3.3:70b-instruct-fp16" # if empty string, all models found in current experiment folders will be processed
 
     eval_method = "hold_out" if PHASE == Phase.VALIDATION else eval_method
     env = "prod" # if 'prod' then it will use the MongoDB database
     ks = [1, 2, 3, 5, 10]
-    example_selector_types = ["similarity"] #["coverage", "similarity", "cot"]
-    experiment_types = ["signature"]  # ["regular", "signature", "cot"]
-    shots = [10, 5, 1]
+    example_selector_types = ["coverage", "similarity"] #["coverage", "similarity", "cot"]
+    experiment_types = ["regular", "signature"]  # ["regular", "signature", "cot"]
+    shots = [1, 5, 10]
     metrics = ["syntax", "semantic", "tests"] # or ["syntax", "semantic"]
     use_threads = True
 
