@@ -5,6 +5,8 @@ import subprocess
 import os
 import sys
 
+from dotenv import load_dotenv
+
 script_dir = os.path.dirname(os.path.abspath(__file__))
 project_dir = os.path.abspath(f"{script_dir}/../../..")
 
@@ -223,7 +225,8 @@ def main(train_data, test_data, fold=-1, k_folds=3):
             
 if __name__ == "__main__":
     # experiment_dir = os.path.abspath(f"{script_dir}/..")
-    env_path = os.path.abspath(f"{project_dir}/../../.env")
+    env_path = os.path.abspath(f"{project_dir}/.env")
+    load_dotenv(env_path)
     results_dir = f"{project_dir}/notebooks/few-shot/fox/testing_runs"
     print("Env is located in:", env_path)
     # Parse arguments:

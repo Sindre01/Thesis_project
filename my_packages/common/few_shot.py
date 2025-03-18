@@ -24,7 +24,7 @@ print("Project is located in:", project_dir)
 print("Env is located in:", env_path)
 
 def model_configs(all_responses, model_provider, models = None, ollama_port = "11434"):  
-    load_dotenv(env_path)
+    
 
     match model_provider:
         case 'ollama':
