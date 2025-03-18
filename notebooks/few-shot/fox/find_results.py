@@ -479,18 +479,19 @@ def main(
                     experiment_results.setdefault(experiment_name, []).extend(shot_result)
             
             # Write results for model on each experiement to files
-            output_dir = f"{project_dir}/notebooks/few-shot/fox/results/{example_selector_type}/{experiment_type}/{eval_method}/"
+            results_type = "best_params" if PHASE == Phase.VALIDATION else "results"
+            output_dir = f"{project_dir}/notebooks/few-shot/fox/{results_type}/{example_selector_type}/{experiment_type}/{eval_method}/"
             os.makedirs(output_dir, exist_ok=True)
 
             for experiment_name, shot_result in experiment_results.items():
-                print(f"writes results for {experiment_name} to file")
+                print(f"writes {results_type} for {experiment_name} to file")
                 write_json_file(f"{output_dir}/{experiment_name}.json", shot_result)
             
 if __name__ == "__main__":
     eval_method = "3_fold" # or "hold_out"
     # PHASE = Phase.TESTING
     PHASE = Phase.VALIDATION
-    MODEL = "qwq:32b-fp16" # if empty string, all models found in current experiment folders will be processed
+    MODEL = "" # if empty string, all models found in current experiment folders will be processed
 
     eval_method = "hold_out" if PHASE == Phase.VALIDATION else eval_method
     env = "prod" # if 'prod' then it will use the MongoDB database

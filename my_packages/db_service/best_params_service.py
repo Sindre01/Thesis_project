@@ -60,11 +60,8 @@ def get_db_best_params(
         if not best_params:
             print(f"⚠️ No best parameters '{optimizer_metric}' found for model '{model}' under experiment '{experiment}' on metric '{optimizer_metric}, on eval method '{eval_method}' .")
         else:
-            results_dict = {
-                f"pass@k_{metric}": [best_params[f"{metric}@{k}"] for k in best_params["ks"]]
-                for metric in best_params["metrics"]
-            }
-            flattened_metrics = flatten_metric_results(results_dict)
+            metric_result = best_params[f"{optimizer_metric}@1"]
+            
             print(f"✅ Existing {eval_method} best parameters for model '{model}' optimized on metric '{optimizer_metric}@{k}': temperature={best_params['temperature']}, top_p={best_params['top_p']}, top_k={best_params['top_k']}, seed={best_params['seed']}")
             results.append({
                     "model_name": best_params["model_name"],
@@ -75,7 +72,7 @@ def get_db_best_params(
                     "top_k": best_params["top_k"],
                     "eval_method": eval_method,
                     "created_at": best_params["created_at"].isoformat(),
-                    **flattened_metrics,
+                    f"{optimizer_metric}@1": metric_result,
                 })
             
     return results
