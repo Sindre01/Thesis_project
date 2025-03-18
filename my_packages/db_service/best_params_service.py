@@ -123,3 +123,52 @@ def best_params_to_df(experiment: str):
         raise ValueError(f"Collection '{collection_name}' is empty in MongoDB.")
 
     return pd.DataFrame(data)
+
+def pretty_print_best_params(
+        experiment: str, 
+        filter= {}, 
+        limit=10,
+        exclude_columns=["seed", "ks", "created_at", "syntax@2"]
+        ):
+    """Pretty prints the best_params for an experiment."""
+    collection_name = f"{experiment}_best_params"
+    collection = db[collection_name]
+
+    projection = {"_id": 0}  # Always exclude MongoDB's `_id`
+    if exclude_columns:
+        for col in exclude_columns:
+            projection[col] = 0  # Set to 0 to exclude the column
+
+    documents = list(collection.find(filter, projection).limit(limit))
+
+    if not documents:
+        print("⚠️ No data found in this collection.")
+        return
+    
+    # Convert to DataFrame for better readability
+    df = pd.DataFrame(documents)
+    if "model_name" in df.columns:
+        df["size"] = df["model_name"].apply(extract_size)  # Extract size
+        df = df.sort_values(by=["size", "model_name"], ascending=[True, True])  # Sort by size first, then name
+        df = df.drop(columns=["size"])  # Remove temporary column after sorting
+
+
+    print(df.to_string(index=False))  # Pretty print DataFrame
+    print("...")
+    # Display document counts for each model_name
+    model_counts = collection.aggregate([
+        {"$group": {"_id": "$model_name", "count": {"$sum": 1}}}
+    ])
+    model_counts_dict = {entry["_id"]: entry["count"] for entry in model_counts}
+    # for model_name, count in model_counts_dict.items():
+    #     print(f"📊 {model_name}: {count} documents")
+    extra_info = ""
+
+    print(f"Total documents/rows: {collection.count_documents({})}      {extra_info}")
+    print("-" * 50)
+    return df
+
+def extract_size(model: str):
+    if ":" not in model:
+        return "N/A"
+    return model.split(":")[1].strip().split("-")[0]

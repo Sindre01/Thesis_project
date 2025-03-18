@@ -4,7 +4,7 @@ from subprocess import CompletedProcess
 from colorama import Fore, Style
 from langchain_ollama import OllamaEmbeddings
 from my_packages.evaluation.midio_compiler import clean_output, extract_errors, get_json_test_result, is_all_tests_passed
-from langchain.vectorstores import FAISS
+from langchain_community.vectorstores import FAISS
 from langchain.schema import Document
 
 class CodeEvaluationResult:

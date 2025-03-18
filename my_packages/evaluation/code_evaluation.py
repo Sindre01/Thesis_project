@@ -698,11 +698,11 @@ def calculate_best_params(
             best_metric_score = metric_score
             best_run = Run(
                 phase="validation",
-                temperature=run["temperature"],
-                top_p=run["top_p"],
-                top_k=run["top_k"],
+                temperature=run.temperature,
+                top_p=run.top_p,
+                top_k=run.top_k,
                 metric_results={pass_k_metric: pass_at_k_dict}, # Can only optimize for one metric
-                seed=run["seed"],
-                metadata={"largest_prompt_size": run["largest_context"]},
+                seed=run.seed,
+                metadata=run.metadata,
             )
     return best_run

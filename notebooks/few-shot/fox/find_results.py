@@ -33,7 +33,7 @@ def evaluate_runs(
         ks: list[int],
         db_connection=None,
         fold: int = None
-    ) -> tuple[list[Run], dict]:
+    ) -> tuple[list[Run], Run]:
     """Evaluate runs from a given file"""
 
     print(f"🔍 Evaluating {PHASE} runs with metric {metrics} on file {file_path}")
@@ -218,7 +218,7 @@ def evaluate_best_params(
         return experiment_name, {}
     
     for optimizer_metric in metrics:
-        best_run_result = evaluate_runs(
+        all_runs, best_run_result = evaluate_runs(
             file_path, 
             env, 
             metrics=[optimizer_metric], 
@@ -488,9 +488,9 @@ def main(
             
 if __name__ == "__main__":
     eval_method = "3_fold" # or "hold_out"
-    PHASE = Phase.TESTING
-    # PHASE = Phase.VALIDATION
-    MODEL = "llama3.3:70b-instruct-fp16" # if empty string, all models found in current experiment folders will be processed
+    # PHASE = Phase.TESTING
+    PHASE = Phase.VALIDATION
+    MODEL = "qwq:32b-fp16" # if empty string, all models found in current experiment folders will be processed
 
     eval_method = "hold_out" if PHASE == Phase.VALIDATION else eval_method
     env = "prod" # if 'prod' then it will use the MongoDB database
