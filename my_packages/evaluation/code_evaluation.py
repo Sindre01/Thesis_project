@@ -1,5 +1,6 @@
 from collections import defaultdict
 import numpy as np
+import tiktoken
 from my_packages.common.classes import CodeEvaluationResult, PromptType, RagData, Run
 from my_packages.db_service.best_params_service import save_best_params_to_db
 from my_packages.db_service.error_service import save_errors_to_db
@@ -16,6 +17,8 @@ from langchain_anthropic import ChatAnthropic
 from langchain_openai import OpenAIEmbeddings, ChatOpenAI
 from langchain_core.example_selectors.base import BaseExampleSelector
 from langchain.prompts import ChatPromptTemplate, HumanMessagePromptTemplate
+
+from my_packages.utils.tokens_utils import find_max_tokens_tokenizer
 
 def extract_code(response_text: str) -> str:
     """
@@ -229,8 +232,12 @@ def run_model(
             sample,
             available_nodes,
         )
+        if "gpt" in model:
+            encoding = tiktoken.encoding_for_model(model)
+            prompt_size = find_max_tokens_tokenizer([prompt], encoding)
+        else:
+            prompt_size = client(model=model, num_ctx=max_ctx).get_num_tokens(prompt) # Will print warning if prompt is too big for model
 
-        prompt_size = client(model=model, num_ctx=max_ctx).get_num_tokens(prompt) # Will print warning if prompt is too big for model
 
         # Add RAG context
         if rag_data:
@@ -264,7 +271,9 @@ def run_model(
                 try:
 
                     print(f"    > Generating k response..  ({current_n + 1}/{n})", end="\r")
+                    print(f"MODEL: {model}")
                     if "gpt" in model:
+                        print("GPT MODEL")
                         llm = client(
                             model=model,
                             temperature=temperature,

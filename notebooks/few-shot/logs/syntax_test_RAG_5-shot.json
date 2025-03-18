@@ -21,5 +21,25 @@
         ],
         "test_result": null,
         "code": "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main {\n    func(doc: \"finds whether a number is divisible by 11.\") is_divisible_by_11 {\n        in(x: -200, y: -100, name: \"number\") property(Number) number\n        out(x: 800, y: 0, name: \"isDivisible\") property(Bool) isDivisible\n\n        instance(x: 50, y: -150) modulo_1 root.Std_k98ojb.Math.Modulo {\n            value: number\n            divisor: 11\n        }\n        \n        instance(x: 300, y: -100) equal_2 root.Std_k98ojb.Logic.Equal {\n            left: modulo_1.result\n            right: 0\n        }\n\n        modulo_1.result -> equal_2.left\n        equal_2.result -> isDivisible\n    }\n\n    instance(x: -150, y: -50) is_divisible_by_11_instance root.main.is_divisible_by_11 {}\n\n}"
+    },
+    {
+        "task_id": 1,
+        "candidate_id": 1,
+        "metric": "syntax",
+        "passed": true,
+        "error_type": null,
+        "error_msg": null,
+        "test_result": null,
+        "code": "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main { \n    func(doc: \"checks whether the given two integers have opposite sign or not.\") opposite_sign {\n        in(x: -286, y: -119, name: \"execute\") trigger() execute_1e159f\n        in(x: 153, y: 446, name: \"first\") property(Number) first_b5d10a\n        in(x: -289, y: 126, name: \"second\") property(Number) second_1e19fb\n\n        out(x: 844, y: 53, name: \"continue\") trigger() continue_c95bcb\n        out(x: 692, y: 553, name: \"isOpposite\") property(Bool) isOpposite_fd7945\n\n        instance(x: 406, y: 546) lessthan_8eae56 root.Std_k98ojb.Math.LessThanOrEqual {}\n        instance(x: 215, y: 100) ifexpression_a2fa90 root.Std_k98ojb.Std.IfExpression {\n            expression: \"a * b < 0\"\n        }\n        instance(x: 196, y: 256) mul_9ff257 root.Std_k98ojb.Math.Mul {}\n        setter(x: -37, y: -48, name: \"setter_d09207\") setter_d09207 = result\n        getter(x: -130, y: 211, name: \"getter_7f13b7\") getter_7f13b7 = result\n        getter(x: 118, y: 540, name: \"getter_44a047\") getter_44a047 = result\n        setter(x: 491, y: 194, name: \"setter_29a5c8\") setter_29a5c8 = result\n        first_b5d10a -> mul_9ff257.first\n        second_1e19fb -> mul_9ff257.second\n        mul_9ff257.result -> lessthan_8eae56.left\n        0 -> lessthan_8eae56.right\n        lessthan_8eae56.result -> isOpposite_fd7945\n        execute_1e159f -> continue_c95bcb\n    }\n\n    \n\n    instance(x: -97, y: -68) opposite_sign_49c6ac root.main.opposite_sign {}\n}"
+    },
+    {
+        "task_id": 3,
+        "candidate_id": 1,
+        "metric": "syntax",
+        "passed": true,
+        "error_type": null,
+        "error_msg": null,
+        "test_result": null,
+        "code": "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main { \n    func(doc: \"finds whether a number is divisible by 11.\") is_divisible_by_11 {\n        in(x: -250, y: -150, name: \"number\") property(Number) number_1a2b3c\n\n        out(x: 650, y: -150, name: \"result\") property(Bool) result_4d5e6f\n\n        instance(x: 150, y: -150) modulo_7f8g9h root.Std_k98ojb.Math.Modulo {}\n        instance(x: 450, y: -150) equal_0a1b2c root.Std_k98ojb.Logic.Equal {}\n        number_1a2b3c -> modulo_7f8g9h.value\n        11 -> modulo_7f8g9h.divisor\n        modulo_7f8g9h.result -> equal_0a1b2c.left\n        0 -> equal_0a1b2c.right\n        equal_0a1b2c.result -> result_4d5e6f\n    }\n\n    \n\n    instance(x: -100, y: -50) is_divisible_by_11_7h8i9j root.main.is_divisible_by_11 {}\n}"
     }
 ]
