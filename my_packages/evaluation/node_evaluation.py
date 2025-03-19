@@ -3,7 +3,7 @@ import numpy as np
 import re
 from my_packages.common.classes import RagData
 from my_packages.evaluation.metrics import estimate_pass_at_k
-from my_packages.prompting.few_shot import create_few_shot_prompt, create_final_prompt
+from my_packages.prompting.prompt_building import create_few_shot_prompt, create_final_prompt
 from my_packages.utils.server_utils import server_diagnostics
 from my_packages.evaluation.models import invoke_anthropic_model, invoke_openai_model, invoke_o1_model, invoke_ollama_model
 from colorama import Fore, Back, Style # type: ignore

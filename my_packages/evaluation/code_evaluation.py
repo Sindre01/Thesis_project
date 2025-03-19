@@ -1,13 +1,14 @@
 from collections import defaultdict
 import numpy as np
 import tiktoken
-from my_packages.common.classes import CodeEvaluationResult, PromptType, RagData, Run
+from langchain.schema import Document
+from my_packages.common.classes import CodeEvaluationResult, PromptType, Run
+from my_packages.common.rag import RagData
 from my_packages.db_service.best_params_service import save_best_params_to_db
 from my_packages.db_service.error_service import save_errors_to_db
 from my_packages.db_service.results_service import save_results_to_db
 from my_packages.evaluation.metrics import check_correctness, check_semantics, check_syntax, estimate_pass_at_k
-from my_packages.prompting.few_shot import create_few_shot_prompt, create_final_prompt, get_prompt_template
-
+from my_packages.prompting.prompt_building import create_few_shot_prompt, create_final_prompt, get_prompt_template
 from my_packages.utils.file_utils import save_results_as_string, save_results_to_file
 from my_packages.utils.server_utils import server_diagnostics
 import re
@@ -16,8 +17,7 @@ from langchain_ollama import OllamaEmbeddings, ChatOllama
 from langchain_anthropic import ChatAnthropic
 from langchain_openai import OpenAIEmbeddings, ChatOpenAI
 from langchain_core.example_selectors.base import BaseExampleSelector
-from langchain.prompts import ChatPromptTemplate, HumanMessagePromptTemplate
-
+from langchain.prompts import ChatPromptTemplate, HumanMessagePromptTemplat
 from my_packages.utils.tokens_utils import find_max_tokens_tokenizer
 
 def extract_code(response_text: str) -> str:
@@ -119,7 +119,52 @@ def calculate_pass_at_k_scores(
     # print(f"Pass@K: {pass_at_k}")
 
     return pass_at_k
+
+def fit_docs_by_tokens(
+    client: ChatOllama | ChatOpenAI | ChatAnthropic,
+    docs: list[Document], 
+    available_ctx: int,
+    model: str,
+) -> tuple[str, int]:
+    """
+    Select a subset of documents that fit within the available context tokens.
+    Start with half of the docs, then prune or expand as needed.
+    Supports both tiktoken and custom tokenizer.
+    """
+
+    def get_token_count(doc: str) -> int:
+        if "gpt" in model:
+            encoding = tiktoken.encoding_for_model(model)
+            tokens = find_max_tokens_tokenizer([doc], encoding)
+        else:
+            tokens = client(model=model, num_ctx=available_ctx).get_num_tokens(doc) 
+        return tokens
+
+    selected_docs = docs[:]
+    total_tokens = sum(get_token_count(doc.page_content) for doc in selected_docs)
+    print(f"Initial token count: {total_tokens} / limit {available_ctx}")
+
+    # Prune if over budget
+    while total_tokens > available_ctx and selected_docs:
+        removed_doc = selected_docs.pop()
+        total_tokens -= get_token_count(removed_doc.page_content)
+        print(f"Removed document, new token count: {total_tokens}")
+
+    # Try adding more docs while staying under the token limit
+    for doc in docs[len(selected_docs):]:
+        doc_tokens = get_token_count(doc.page_content)
+        if total_tokens + doc_tokens <= available_ctx:
+            selected_docs.append(doc)
+            total_tokens += doc_tokens
+            print(f"Added document, new token count: {total_tokens}")
+        else:
+            break  # No more room
+
+    return "\n\n".join(doc.page_content for doc in selected_docs), total_tokens
+
 def add_RAG_to_prompt(
+    client: ChatOllama | ChatOpenAI | ChatAnthropic,
+    model: str,
     task: str,
     available_ctx: int, 
     rag_data: RagData, 
@@ -128,20 +173,38 @@ def add_RAG_to_prompt(
 )-> tuple[str, ChatPromptTemplate, dict]:
     
     """Add RAG context to the prompt."""
+
+    TOTAL_DOCS_TOKENS = 70000
     rag_template = HumanMessagePromptTemplate.from_template(get_prompt_template("RAG"))
-  
-    if available_ctx > 70000:
+    
+    if available_ctx > TOTAL_DOCS_TOKENS:
         # Use all data
         formatted_language_context = "\n\n".join(rag_data.language_docs)
         formatted_node_context = "\n\n".join(rag_data.node_docs)
 
-    else:
-        # Use a subset of data. Maximum avalable_ctx
-        language_context_docs = rag_data.language_retriever.similarity_search(task, k=5)
-        node_context_docs = rag_data.node_retriever.similarity_search(task, k=5)
+    else:    
+        # Split token budget
+        print("Total available tokens: ", available_ctx)
+        max_lang_tokens = int(available_ctx * 0.5)
+        print("allocating ", max_lang_tokens, " tokens to language context")
 
-        formatted_language_context = "\n\n".join([doc.page_content for doc in language_context_docs])
-        formatted_node_context = "\n\n".join(doc.page_content for doc in node_context_docs)
+        formatted_language_context, used_tokens = fit_docs_by_tokens(
+            client,
+            rag_data.language_retriever.similarity_search(task, k=10),
+            available_ctx=max_lang_tokens,
+            model=model
+        )
+        print(f"Used {used_tokens} tokens for language context\n")
+
+        max_node_tokens = available_ctx - (used_tokens)
+        print("allocating remaining", max_node_tokens, " tokens to node context")
+        formatted_node_context, used_tokens = fit_docs_by_tokens(
+            client,
+            rag_data.node_retriever.similarity_search(task, k=10),
+            available_ctx=max_node_tokens,
+            model=model
+        )
+
 
     prompt_variables_dict.update({
         "language_context": formatted_language_context,
@@ -165,7 +228,6 @@ def build_prompt(
     """Create a prompt for the model based on the prompt type."""  
     few_shot_examples = example_pool.select_examples(sample)
     task = sample["task"]
-
 
     if prompt_type.value is PromptType.SIGNATURE.value: # Uses signature prompt
         few_shot = create_few_shot_prompt(few_shot_examples, 'CODE_SIGNATURE_TEMPLATE')
@@ -212,10 +274,16 @@ def run_model(
     debug=False,
     prompt_type=PromptType.REGULAR,
     ollama_port="11434",
-    rag_data: RagData = None
+    rag_data: RagData = None,
+    max_ctx=16000
 )-> tuple[dict[int, list[str]], int]:
     """Run a model on a list of tasks and return the generated code snippets."""
-    
+
+    if "phi" in model and max_ctx > 16000:
+        raise ValueError("Max context for Phi model is 16000 tokens")
+    elif max_ctx > 130000:
+        raise ValueError("Max context for GPT model is 130000 tokens")
+
     results: dict[int, list[str]] = {}
     largest_prompt_ctx_size = 0
     for index, sample in enumerate(data):
@@ -224,8 +292,7 @@ def run_model(
         true_response_code = extract_code(true_response)
         task = sample["task"]
         task_id = int(sample["task_id"])
-        max_ctx = 16000 if "phi" else 125000
-
+        
         prompt, final_prompt_template, prompt_variables_dict = build_prompt(
             prompt_type,
             example_pool,
@@ -238,10 +305,11 @@ def run_model(
         else:
             prompt_size = client(model=model, num_ctx=max_ctx).get_num_tokens(prompt) # Will print warning if prompt is too big for model
 
-
         # Add RAG context
         if rag_data:
             prompt, final_prompt_template, prompt_variables_dict = add_RAG_to_prompt(
+                client = client,
+                model = model,
                 task = task,
                 available_ctx = (max_ctx - prompt_size),
                 rag_data = rag_data,
@@ -405,7 +473,8 @@ def run_validation(
         experiment_name: str,
         env: str,
         prompt_type: PromptType,
-        rag_data: RagData = None
+        rag_data: RagData = None,
+        max_ctx: int = 125000
     ) -> Run:
 
     """
@@ -445,7 +514,8 @@ def run_validation(
                     seed,
                     debug, 
                     prompt_type,
-                    rag_data=rag_data
+                    rag_data=rag_data,
+                    max_ctx=max_ctx
                 )
 
                 metric_results_lists = evaluate_code (
@@ -506,7 +576,8 @@ def run_testing(
     experiment_name: str,
     env: str,
     prompt_type: PromptType,
-    rag_data: RagData = None
+    rag_data: RagData = None,
+    max_ctx: int = 125000
 ) -> tuple[list[Run], Run]:
     """
     Run the model on the test set with different seeds and the best hyperparameters.
@@ -537,7 +608,8 @@ def run_testing(
             seed,
             debug, 
             prompt_type,
-            rag_data=rag_data
+            rag_data=rag_data,
+            max_ctx=max_ctx
         )
 
         metric_results_lists = evaluate_code (

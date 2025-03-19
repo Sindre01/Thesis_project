@@ -22,8 +22,8 @@ __pycache__/
 
 .webui_secret_key
 
-notebooks/few-shot/fox/scripts/*.slurm
-notebooks/few-shot/fox/scripts/SSH_FORWARDING.sh
+experiments/few-shot/fox/scripts/*.slurm
+experiments/few-shot/fox/scripts/SSH_FORWARDING.sh
 
 scripts/SSH_FORWARDING.sh
 scripts/*.slurm
