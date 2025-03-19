@@ -5,8 +5,8 @@ from zoneinfo import ZoneInfo
 import concurrent.futures
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
-project_dir = os.path.abspath(f"{script_dir}/../../..")
-experiment_dir = os.path.abspath(f"{script_dir}/..")
+project_dir = os.path.abspath(f"{script_dir}/../..")
+experiment_dir = os.path.abspath(f"{project_dir}/experiments")
 
 sys.path.append(project_dir)
 
@@ -478,7 +478,7 @@ def find_results(
                             metrics=metrics,
                             ks=ks,
                             eval_method=eval_method,
-                            shot_files=shot_files[shot],
+                            model_files=shot_files[shot],
                             use_threads=use_threads,
                             phase=phase
                         )
@@ -504,7 +504,9 @@ def find_results(
                         metrics,
                         ks,
                         eval_method=eval_method,
-                        shot_files=shot_files[shot]
+                        model_files=shot_files[shot],
+                        use_threads=use_threads,
+                        phase=phase
                     )
                     if not shot_result:
                         continue

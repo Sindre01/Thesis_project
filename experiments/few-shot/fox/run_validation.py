@@ -171,7 +171,7 @@ def main(train_data, val_data):
             hours, remainder = divmod(int(elapsed_time), 3600)
             minutes, seconds = divmod(remainder, 60)
             print(f"\n⏱️ Total execution time: {hours}h {minutes}m {seconds}s")
-            subprocess.run(["bash", f"{project_dir}/experiments/few-shot/fox/scripts/push_runs.sh", 
+            subprocess.run(["bash", f"{project_dir}/my_packages/common/push_runs.sh", 
                             "few-shot", 
                             "validation", 
                             selector_type, 

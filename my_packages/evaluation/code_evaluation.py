@@ -17,7 +17,7 @@ from langchain_ollama import OllamaEmbeddings, ChatOllama
 from langchain_anthropic import ChatAnthropic
 from langchain_openai import OpenAIEmbeddings, ChatOpenAI
 from langchain_core.example_selectors.base import BaseExampleSelector
-from langchain.prompts import ChatPromptTemplate, HumanMessagePromptTemplat
+from langchain.prompts import ChatPromptTemplate, HumanMessagePromptTemplate
 from my_packages.utils.tokens_utils import find_max_tokens_tokenizer
 
 def extract_code(response_text: str) -> str:

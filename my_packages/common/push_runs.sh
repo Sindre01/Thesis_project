@@ -13,10 +13,10 @@ SCRIPT_DIR="$(realpath "$(dirname "${BASH_SOURCE[0]}")")"
 TARGET_DIR="$(realpath "${SCRIPT_DIR}/../${PHASE}_runs/${EXPERIMENT_DIR}/")"
 if [[ "$FOLD" == "-1" ]]; then
     REMOTE_DIR="/fp/homes01/u01/ec-sindrre/slurm_jobs/${EXPERIMENT}/${PHASE}/${EXPERIMENT_DIR}/runs/hold_out/"
-    BRANCH="${PHASE}/${EXAMPLES_TYPE}-${PROMPT_TYPE}"
+    BRANCH="${PHASE}/${EXPERIMENT}-${EXAMPLES_TYPE}-${PROMPT_TYPE}"
 else
     REMOTE_DIR="/fp/homes01/u01/ec-sindrre/slurm_jobs/${EXPERIMENT}/${PHASE}/${EXPERIMENT_DIR}/runs/3_fold/"
-    BRANCH="${PHASE}/${EXAMPLES_TYPE}-${PROMPT_TYPE}-fold_${FOLD}"
+    BRANCH="${PHASE}/${EXPERIMENT}-${EXAMPLES_TYPE}-${PROMPT_TYPE}-fold_${FOLD}"
 fi
 echo "==== Pushing runs to GitHub ====="
 echo "Pushing changes from ${TARGET_DIR} to ${BRANCH} on GitHub..."
