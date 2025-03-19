@@ -95,14 +95,16 @@ def get_db_results(
 
     if results:
         results_dict = {
-            f"pass@k_{metric}": [results[f"{metric}@{k}"] for k in results["ks"]]
+            f"{metric}@{k}": results[f'{metric}@{k}']
             for metric in results["metrics"]
+            for k in results["ks"]
         }
-        flattened_metrics = flatten_metric_results(results_dict)
+
         print(f"✅ Existing {eval_method} results for model '{model}' under experiment '{experiment}':")
-        print(json.dumps(flattened_metrics, indent=2))
+        print(json.dumps([results_dict], indent=2))
         return [{
             "model_name": results["model_name"],
+            "experiment": experiment,
             "metrics": results["metrics"],
             "seed": results["seed"],
             "temperature": results["temperature"],
@@ -111,7 +113,7 @@ def get_db_results(
             "ks": results["ks"],
             "eval_method": results["eval_method"],
             "created_at": results["created_at"].isoformat(),
-            **flattened_metrics,
+            **results_dict,
             }]
     
     print(f"⚠️ No best results found for model '{model}' under experiment '{experiment}'. Starting validation...")
