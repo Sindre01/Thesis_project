@@ -62,7 +62,7 @@ def is_compile_ready(code: str) -> bool:
     Check if the code is testable by checking if the first word contains Midio specifics.
     To avoid compiling dangerous code and save execution time.
     """
-    node_modules = [ #Not critical if not updated. Code wil fail either way if it starts with thes. Just for error messages to be applied.
+    node_modules = [ #Not critical if not updated. Code wil fail either way if it starts with these. Just for error messages to be applied.
         "Url", 
         "Std", 
         "Http", 

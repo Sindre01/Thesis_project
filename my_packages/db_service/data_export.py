@@ -15,7 +15,7 @@ def export_collection(experiment: str, collection_type: str, file_format="json",
         - file_format (str): The output format ("json" or "csv"). Default is "json".
     """
 
-    EXPORT_DIR = os.path.join(project_root, "notebooks/few-shot/db_exports")
+    EXPORT_DIR = os.path.join(project_root, "experiments/few-shot/db_exports")
     os.makedirs(EXPORT_DIR, exist_ok=True)
 
     collection_name = f"{experiment}_{collection_type}"

@@ -1,7 +1,7 @@
 Utilize the following documentation to solve the given task:
 
-Below is relevant documentation about the Midio language:
+Below is documentation about the Midio language:
 {language_context}
 
-Here is documentation about the nodes you can use and their function signature:
+Below is documentation about some function nodes in Midio:
 {node_context}

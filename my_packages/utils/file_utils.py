@@ -97,7 +97,7 @@ def save_results_to_file(test_results: dict[int, list[CodeEvaluationResult]], fi
     - Writes the updated JSON data back as an array.
     """
     project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
-    file_path = os.path.join(project_root, f"notebooks/few-shot/logs/{filename}")
+    file_path = os.path.join(project_root, f"experiments/few-shot/logs/{filename}")
 
     # Ensure the file exists with an empty array if it doesn't
     if not os.path.exists(file_path):
@@ -141,7 +141,7 @@ def save_results_as_string(test_results: dict[int, list[CodeEvaluationResult]], 
     """
     Saves the string representation of CodeEvaluationResult objects to a file incrementally.
     """
-    file_path = os.path.join(project_root, f'notebooks/few-shot/logs/{filename}')
+    file_path = os.path.join(project_root, f'experiments/few-shot/logs/{filename}')
 
     with open(file_path, "a", encoding="utf-8") as f:
         for task_id, results in test_results.items():
