@@ -200,16 +200,16 @@ def add_RAG_to_prompt(
         # )
         formatted_language_context = rag_data.formatted_language_context
 
-        avg_doc_tokens = 150
-        estimated_k = int(available_ctx/ avg_doc_tokens)
-        print(f"Estimated to extract k = {estimated_k} documents.")
-
-        docs = rag_data.node_retriever.similarity_search(task, k=estimated_k) # init too many docs, to later reduce to fit context
+        
         used_lang_tokens = TOTAL_LANG_DOCS_TOKENS
         print(f"Used {used_lang_tokens} tokens for language context\n")
 
         max_node_tokens = available_ctx - (used_lang_tokens)
         print("allocating remaining", max_node_tokens, " tokens to node context")
+        avg_doc_tokens = 150
+        estimated_k = int(available_ctx/ avg_doc_tokens)
+        print(f"Estimated to extract k = {estimated_k} documents.")
+        docs = rag_data.node_retriever.similarity_search(task, k=estimated_k) # init too many docs, to later reduce to fit context
         formatted_node_context, used_node_tokens = fit_docs_by_tokens(
             client,
             docs,
@@ -317,6 +317,12 @@ def run_model(
         else:
             prompt_size = client(model=model, num_ctx=max_ctx).get_num_tokens(prompt) # Will print warning if prompt is too big for model
         print(f"Using {max_ctx} for context window")
+
+        # if max_ctx == -1:
+        #     #Reasoning model uses as much context as possible.
+        #     # Need to limit to max_ctx
+        #     max_new_tokens = 
+
         available_ctx = max_ctx - prompt_size - max_new_tokens # available context for the model, after prompt and output tokens.
         print(f"available context after subtracting prompt_size of {prompt_size} tokens and output tokens of {max_new_tokens} tokens: {available_ctx}")
 
@@ -333,10 +339,11 @@ def run_model(
             )
             prompt_size = prompt_size + used_tokens
 
-        print(f"Final prompt size: {prompt_size}. ({max_new_tokens} tokens remaining for output)")
 
         if prompt_size > largest_prompt_ctx_size:
             largest_prompt_ctx_size = prompt_size + max_new_tokens
+            
+        print(f"Final prompt size: {prompt_size}. ({max_new_tokens} tokens remaining for output)")
 
         if debug:
             print(f"\n\n{Style.BRIGHT}=== Sample: {index+1} ===")
