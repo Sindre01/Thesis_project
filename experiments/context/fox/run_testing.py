@@ -148,7 +148,7 @@ def main(
         k_folds=3):
     """Main function to run few-shot testing experiments."""
     for ex in experiments:
-        # selector_type= "similarity" if ex["semantic_selector"] else "coverage"
+        selector_type= "similarity" if ex["semantic_selector"] else "coverage"
         prompt_type = ex["prompt_type"].value
         if prompt_type == "regular":
             metrics = ["syntax", "semantic"]
@@ -164,11 +164,13 @@ def main(
             raise ValueError(f"Unknown experiment type: {experiment_type}")
             
         results_dir = os.path.join(f"{results_dir}/{experiment_type}/{prompt_type}/runs/")
-        best_params_folder = f"{best_params_folder}/{experiment_type}/{prompt_type}/hold_out"
+        best_params_folder = f"{best_params_folder}/{selector_type}/{prompt_type}/hold_out" #Using few-shot best params
 
         for shots in ex["num_shots"]:
             selector=init_example_selector(shots, train_data, semantic_selector=ex["semantic_selector"])
+            
             experiment_name = f"{ex['name']}_{shots}_shot"
+            best_params_experiment_name = f"{prompt_type}_{selector_type}_{shots}_shot"
 
             for model_name in models:
                 
@@ -178,11 +180,12 @@ def main(
                     file_name = f"hold_out/{experiment_name}_{model_name}.json"
 
                 result_runs_path = os.path.join(results_dir, file_name)
-                best_params_path = os.path.join(best_params_folder, experiment_name + ".json")
+                best_params_path = os.path.join(best_params_folder, best_params_experiment_name + ".json")
 
                 print(f"\n==== Running few-shot testing for {experiment_name} on '{model_name}' ====")  
                 model = get_model_code_tokens_from_file(model_name, f'{project_dir}/data/code_max_tokens.json')
                 print(f"Max generation tokens for model {model['max_tokens']}")
+
                 best_params = read_dataset_to_json(best_params_path)
 
                 if not best_params:
