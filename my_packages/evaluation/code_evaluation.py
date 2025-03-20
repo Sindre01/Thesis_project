@@ -143,7 +143,7 @@ def fit_docs_by_tokens(
 
     selected_docs = docs[:]
     total_tokens = sum(get_token_count(doc.page_content) for doc in selected_docs)
-    print(f"Initial token count: {total_tokens} / limit {available_ctx}")
+    print(f"Initial docs contain {total_tokens} tokens of availbale {available_ctx} tokens")
 
     # Prune if over budget
     while total_tokens > available_ctx and selected_docs:
@@ -187,7 +187,7 @@ def add_RAG_to_prompt(
         formatted_node_context = rag_data.formatted_node_context
 
     else:    
-        print("Total available tokens: ", available_ctx)
+        print("Total available tokens after prompt: ", available_ctx)
         # Split token budget
         # max_lang_tokens = int(available_ctx * 0.5)
         # print("allocating ", max_lang_tokens, " tokens to language context")
@@ -202,7 +202,7 @@ def add_RAG_to_prompt(
 
         avg_doc_tokens = 150
         estimated_k = int(available_ctx/ avg_doc_tokens)
-        print(f"Estimated k: {estimated_k}")
+        print(f"Estimated to extract k = {estimated_k} documents.")
 
         docs = rag_data.node_retriever.similarity_search(task, k=estimated_k) # init too many docs, to later reduce to fit context
         used_lang_tokens = TOTAL_LANG_DOCS_TOKENS
@@ -294,7 +294,7 @@ def run_model(
     if "phi" in model and max_ctx > 16000:
         raise ValueError("Max context for Phi model is 16000 tokens")
     elif max_ctx > 130000:
-        raise ValueError("Max context for GPT model is 130000 tokens")
+        raise ValueError("Max context in our setup is 130000 tokens")
 
     results: dict[int, list[str]] = {}
     largest_prompt_ctx_size = 0
@@ -316,6 +316,9 @@ def run_model(
             prompt_size = find_max_tokens_tokenizer([prompt], encoding)
         else:
             prompt_size = client(model=model, num_ctx=max_ctx).get_num_tokens(prompt) # Will print warning if prompt is too big for model
+        print(f"Using {max_ctx} for context window")
+        available_ctx = max_ctx - prompt_size - max_new_tokens # available context for the model, after prompt and output tokens.
+        print(f"available context after subtracting prompt_size of {prompt_size} tokens and output tokens of {max_new_tokens} tokens: {available_ctx}")
 
         # Add RAG context
         if rag_data:
@@ -323,14 +326,14 @@ def run_model(
                 client = client,
                 model = model,
                 task = task,
-                available_ctx = (max_ctx - prompt_size),
+                available_ctx = available_ctx,
                 rag_data = rag_data,
                 final_prompt_template = final_prompt_template,
                 prompt_variables_dict = prompt_variables_dict
             )
             prompt_size = prompt_size + used_tokens
 
-        print(f"Prompt size: {prompt_size}")
+        print(f"Final prompt size: {prompt_size}. ({max_new_tokens} tokens remaining for output)")
 
         if prompt_size > largest_prompt_ctx_size:
             largest_prompt_ctx_size = prompt_size + max_new_tokens
@@ -349,9 +352,7 @@ def run_model(
             generated = ""
             while retries < max_retries:
                 try:
-
                     print(f"    > Generating k response..  ({current_n + 1}/{n})", end="\r")
-                    print(f"MODEL: {model}")
                     if "gpt" in model:
                         print("GPT MODEL")
                         llm = client(
