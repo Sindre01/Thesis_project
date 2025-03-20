@@ -297,7 +297,7 @@ def run_model(
         raise ValueError("Max context in our setup is 130000 tokens")
 
     results: dict[int, list[str]] = {}
-    largest_prompt_ctx_size = 0
+    largest_ctx_size = 0
     for index, sample in enumerate(data):
         generated_candidates: list[str] = []
         true_response = sample["response"]
@@ -340,8 +340,8 @@ def run_model(
             prompt_size = prompt_size + used_tokens
 
 
-        if prompt_size > largest_prompt_ctx_size:
-            largest_prompt_ctx_size = prompt_size + max_new_tokens
+        if prompt_size > largest_ctx_size:
+            largest_ctx_size = prompt_size + max_new_tokens
             
         print(f"Final prompt size: {prompt_size}. ({max_new_tokens} tokens remaining for output)")
 
@@ -380,7 +380,7 @@ def run_model(
                             top_p=top_p,
                             top_k=top_k,
                             stream=False,
-                            num_ctx=largest_prompt_ctx_size,
+                            num_ctx=largest_ctx_size,
                             stop=["```<|eot_id|>"],
                             seed=new_seed,
                             base_url=f"http://localhost:{ollama_port}"
@@ -422,7 +422,7 @@ def run_model(
                 print(f"{Fore.YELLOW}{Style.BRIGHT} Assistant response: #{i+1}:\n{cand}\n")
             print(f"{Fore.GREEN}{Style.BRIGHT} True response:{Style.RESET_ALL}\n {true_response_code}\n")
 
-    return results, largest_prompt_ctx_size
+    return results, largest_ctx_size
 
 def evaluate_code(
     candidate_dict: dict[int, list[str]],
