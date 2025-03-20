@@ -138,7 +138,14 @@ def run_testing_experiment(
     write_directly_json_file(file_path, results)
 
 
-def main(train_data, test_data, fold=-1, k_folds=3):
+def main(
+        train_data: list, 
+        test_data: list,
+        results_dir: str,
+        best_params_folder: str, 
+        rag_data: RagData = None,
+        fold=-1, 
+        k_folds=3):
     """Main function to run few-shot testing experiments."""
     for ex in experiments:
         # selector_type= "similarity" if ex["semantic_selector"] else "coverage"
@@ -310,7 +317,14 @@ if __name__ == "__main__":
     print("\n==== Running testing ====")
     start_time = time.time()
 
-    main(train_data, test_data, fold)
+    main(
+        train_data=train_data, 
+        test_data=test_data, 
+        fold=fold,
+        results_dir=results_dir,
+        rag_data=rag_data,
+        best_params_folder=best_params_folder,
+    )
     
 
 
