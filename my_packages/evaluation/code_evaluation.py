@@ -19,6 +19,7 @@ from langchain_openai import OpenAIEmbeddings, ChatOpenAI
 from langchain_core.example_selectors.base import BaseExampleSelector
 from langchain.prompts import ChatPromptTemplate, HumanMessagePromptTemplate
 from my_packages.utils.tokens_utils import find_max_tokens_tokenizer
+from langchain_community.vectorstores import FAISS
 
 def extract_code(response_text: str) -> str:
     """
@@ -128,9 +129,9 @@ def fit_docs_by_tokens(
 ) -> tuple[str, int]:
     """
     Select a subset of documents that fit within the available context tokens.
-    Start with half of the docs, then prune or expand as needed.
-    Supports both tiktoken and custom tokenizer.
+    Supports both tiktoken and ollama models own tokenizer.
     """
+
 
     def get_token_count(doc: str) -> int:
         if "gpt" in model:
@@ -148,18 +149,20 @@ def fit_docs_by_tokens(
     while total_tokens > available_ctx and selected_docs:
         removed_doc = selected_docs.pop()
         total_tokens -= get_token_count(removed_doc.page_content)
-        print(f"Removed document, new token count: {total_tokens}")
+        # print(f"Removed document, new token count: {total_tokens}")
 
     # Try adding more docs while staying under the token limit
     for doc in docs[len(selected_docs):]:
         doc_tokens = get_token_count(doc.page_content)
+        # print(f"Document token count: {doc_tokens}")
         if total_tokens + doc_tokens <= available_ctx:
             selected_docs.append(doc)
             total_tokens += doc_tokens
-            print(f"Added document, new token count: {total_tokens}")
+            # print(f"Added document, new token count: {total_tokens}")
         else:
+            # print("Not room for more documents")
             break  # No more room
-
+    print(f"Removed {len(docs) - len(selected_docs)} documents to fit within {available_ctx} tokens. From {len(docs)} docs to {len(selected_docs)} docs")
     return "\n\n".join(doc.page_content for doc in selected_docs), total_tokens
 
 def add_RAG_to_prompt(
@@ -170,41 +173,49 @@ def add_RAG_to_prompt(
     rag_data: RagData, 
     final_prompt_template: ChatPromptTemplate,
     prompt_variables_dict: dict
-)-> tuple[str, ChatPromptTemplate, dict]:
+)-> tuple[str, ChatPromptTemplate, dict, int]:
     
     """Add RAG context to the prompt."""
 
     TOTAL_DOCS_TOKENS = 70000
+    TOTAL_LANG_DOCS_TOKENS = 2650
     rag_template = HumanMessagePromptTemplate.from_template(get_prompt_template("RAG"))
     
     if available_ctx > TOTAL_DOCS_TOKENS:
         # Use all data
-        formatted_language_context = "\n\n".join(rag_data.language_docs)
-        formatted_node_context = "\n\n".join(rag_data.node_docs)
+        formatted_language_context = rag_data.formatted_language_context
+        formatted_node_context = rag_data.formatted_node_context
 
     else:    
-        # Split token budget
         print("Total available tokens: ", available_ctx)
-        max_lang_tokens = int(available_ctx * 0.5)
-        print("allocating ", max_lang_tokens, " tokens to language context")
+        # Split token budget
+        # max_lang_tokens = int(available_ctx * 0.5)
+        # print("allocating ", max_lang_tokens, " tokens to language context")
 
-        formatted_language_context, used_tokens = fit_docs_by_tokens(
-            client,
-            rag_data.language_retriever.similarity_search(task, k=10),
-            available_ctx=max_lang_tokens,
-            model=model
-        )
-        print(f"Used {used_tokens} tokens for language context\n")
+        # formatted_language_context, used_tokens = fit_docs_by_tokens(
+        #     client,
+        #     rag_data.language_retriever.similarity_search(task, k=10),
+        #     available_ctx=max_lang_tokens,
+        #     model=model
+        # )
+        formatted_language_context = rag_data.formatted_language_context
 
-        max_node_tokens = available_ctx - (used_tokens)
+        avg_doc_tokens = 150
+        estimated_k = int(available_ctx/ avg_doc_tokens)
+        print(f"Estimated k: {estimated_k}")
+
+        docs = rag_data.node_retriever.similarity_search(task, k=estimated_k) # init too many docs, to later reduce to fit context
+        used_lang_tokens = TOTAL_LANG_DOCS_TOKENS
+        print(f"Used {used_lang_tokens} tokens for language context\n")
+
+        max_node_tokens = available_ctx - (used_lang_tokens)
         print("allocating remaining", max_node_tokens, " tokens to node context")
-        formatted_node_context, used_tokens = fit_docs_by_tokens(
+        formatted_node_context, used_node_tokens = fit_docs_by_tokens(
             client,
-            rag_data.node_retriever.similarity_search(task, k=10),
+            docs,
             available_ctx=max_node_tokens,
             model=model
         )
-
 
     prompt_variables_dict.update({
         "language_context": formatted_language_context,
@@ -212,9 +223,10 @@ def add_RAG_to_prompt(
     })
 
     final_prompt_template.messages.insert(-1, rag_template)
+    used_tokens = used_lang_tokens + used_node_tokens
 
     final_rag_prompt = final_prompt_template.format(**prompt_variables_dict)
-    return final_rag_prompt, final_prompt_template, prompt_variables_dict
+    return final_rag_prompt, final_prompt_template, prompt_variables_dict, used_tokens
 
 
 
@@ -257,7 +269,7 @@ def build_prompt(
         raise ValueError("Invalid prompt type. Choose from 'regular', 'signature', 'signature' or 'cot'")
         
     prompt = final_prompt_template.format(**prompt_variables_dict)
-    return prompt, final_prompt_template, prompt_variables_dict
+    return prompt, final_prompt_template, prompt_variables_dict,
 
 def run_model(
     client: ChatOllama | ChatOpenAI | ChatAnthropic,
@@ -307,7 +319,7 @@ def run_model(
 
         # Add RAG context
         if rag_data:
-            prompt, final_prompt_template, prompt_variables_dict = add_RAG_to_prompt(
+            prompt, final_prompt_template, prompt_variables_dict, used_tokens = add_RAG_to_prompt(
                 client = client,
                 model = model,
                 task = task,
@@ -316,7 +328,7 @@ def run_model(
                 final_prompt_template = final_prompt_template,
                 prompt_variables_dict = prompt_variables_dict
             )
-            prompt_size = max_ctx # Set prompt size to max_ctx. can be lower if all docs are used
+            prompt_size = prompt_size + used_tokens
 
         print(f"Prompt size: {prompt_size}")
 

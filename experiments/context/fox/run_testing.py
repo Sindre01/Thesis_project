@@ -136,15 +136,17 @@ def run_testing_experiment(
 def main(train_data, test_data, fold=-1, k_folds=3):
     """Main function to run few-shot testing experiments."""
     for ex in experiments:
-        selector_type= "similarity" if ex["semantic_selector"] else "coverage"
+        # selector_type= "similarity" if ex["semantic_selector"] else "coverage"
         prompt_type = ex["prompt_type"].value
         if prompt_type == "regular":
             metrics = ["syntax", "semantic"]
         elif prompt_type == "signature":
             metrics = ["syntax", "semantic", "tests"] # ["syntax", "semantic"] or ["syntax", "semantic", "tests"]
 
-        results_dir = os.path.join("/fp/homes01/u01/ec-sindrre/slurm_jobs", f"few-shot/testing/{selector_type}/{prompt_type}/runs/")
-        best_params_folder = f"{project_dir}/experiments/few-shot/fox/best_params/{selector_type}/{prompt_type}/hold_out"
+        experiment_type = ex["name"].split("_")[1] # e.g: "RAG" or "full-context"
+            
+        results_dir = os.path.join(f"{results_dir}/{experiment_type}/{prompt_type}/runs/")
+        best_params_folder = f"{best_params_folder}/{experiment_type}/{prompt_type}/hold_out"
 
         for shots in ex["num_shots"]:
             selector=init_example_selector(shots, train_data, semantic_selector=ex["semantic_selector"])
@@ -214,9 +216,9 @@ def main(train_data, test_data, fold=-1, k_folds=3):
             minutes, seconds = divmod(remainder, 60)
             print(f"\n⏱️ Total execution time: {hours}h {minutes}m {seconds}s")
             subprocess.run(["bash", f"{project_dir}/my_packages/common/push_runs.sh", 
-                            "few-shot", 
+                            experiment_folder, 
                             "testing", 
-                            selector_type, 
+                            experiment_type, 
                             prompt_type,
                             str(hours), str(minutes), str(seconds),
                             str(fold)
@@ -224,11 +226,15 @@ def main(train_data, test_data, fold=-1, k_folds=3):
             print("✅ push_runs.sh script executed successfully!")
             
 if __name__ == "__main__":
+    experiment_folder = "context"
+    best_params_folder = f"{project_dir}/experiments/few-shot/fox/best_params"
+    results_dir = f"/fp/homes01/u01/ec-sindrre/slurm_jobs/{experiment_folder}/testing"
+
     experiment_dir = os.path.abspath(f"{script_dir}/..")
     env_path = os.path.abspath(f"{project_dir}/../../.env")
     print("Env is located in:", env_path)
     load_dotenv(env_path)
-    results_dir = f"{project_dir}/experiments/few-shot/fox/testing_runs"
+
     # Parse arguments:
     parser = argparse.ArgumentParser(description="Process input.")
 

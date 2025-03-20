@@ -38,7 +38,7 @@ def save_best_params_to_db(
 
     print(f"✅ Best parameters saved in MongoDB for model '{model_name}' under experiment '{experiment}'.")  
 
-    ### 📌 CHECK IF BEST PARAMS EXIST ###
+### 📌 CHECK IF BEST PARAMS EXIST ###
 def get_db_best_params(
         experiment: str, 
         model:str, 
@@ -51,7 +51,7 @@ def get_db_best_params(
     if db_connection is None:
         db_connection = db
         
-    collection = db[f"{experiment}_best_params"]
+    collection = db_connection[f"{experiment}_best_params"]
     results = []
 
     for optimizer_metric in metrics:

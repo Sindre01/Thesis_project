@@ -17,22 +17,26 @@ class RagData:
     def __init__(
         self,
         embeddings: OllamaEmbeddings,
-        language_docs: list[str],
-        node_docs: list[str]
     ):
         self.embeddings: OllamaEmbeddings = embeddings
-        self.language_docs: list[str] = language_docs
-        self.node_docs: list[str] = node_docs
+        self.formatted_language_context: str = ""
+        self.formatted_node_context: str = ""
 
-    def init_language_retriever(self):
-        faiss_docs = [Document(page_content=doc["content"], metadata={"file": doc["file"], "chunk_id": doc["chunk_id"]}) for doc in self.language_docs]
+    def init_language_retriever(
+        self,
+        language_docs: list[str] 
+    ):
+        faiss_docs = [Document(page_content=doc["content"], metadata={"file": doc["file"], "chunk_id": doc["chunk_id"]}) for doc in language_docs]
         vectorstore = FAISS.from_documents(faiss_docs, self.embeddings)
         vectorstore.save_local("faiss_language_index") # Save FAISS index locally
         print("✅ FAISS index saved successfully.")
         self.language_retriever = vectorstore
 
-    def init_node_retriever(self):
-        faiss_docs = [Document(page_content=doc["content"], metadata={"file": doc["file"], "chunk_id": doc["chunk_id"]}) for doc in self.node_docs]
+    def init_node_retriever(
+        self,
+        node_docs: list[str]
+    ):
+        faiss_docs = [Document(page_content=doc["content"], metadata={"file": doc["file"], "chunk_id": doc["chunk_id"]}) for doc in node_docs]
         vectorstore = FAISS.from_documents(faiss_docs, self.embeddings)
         vectorstore.save_local("faiss_node_index") # Save FAISS index locally
         print("✅ FAISS index saved successfully.")
@@ -43,7 +47,7 @@ def init_rag_data(
     write_to_file: bool = False
 )-> RagData:
     """Initializes a RagData object for the Midio documentation"""
-    main_dataset_folder = f" {project_dir}/data/"
+    main_dataset_folder = f"{project_dir}/data/"
     df = pd.read_json(main_dataset_folder + 'rag_dataset.jsonl', lines=True)
     docs = df.to_dict(orient="records")
     # print(f"Number of docs: {len(docs)}")
@@ -80,24 +84,25 @@ def init_rag_data(
     print(f"Number of language docs: {len(language_docs)}")
     print(f"Number of node docs: {len(node_docs)}")
 
-    rag_data = RagData(
-        OllamaEmbeddings(model="nomic-embed-text"), 
-        language_docs=language_docs,
+    rag_data = RagData(OllamaEmbeddings(model="nomic-embed-text"))
+    rag_data.init_language_retriever(
+        language_docs=language_docs
+    )
+    rag_data.init_node_retriever(
         node_docs=node_docs
     )
-    rag_data.init_language_retriever()
-    rag_data.init_node_retriever()
 
+    rag_data.formatted_language_context = "\n\n".join([doc["content"]for doc in language_docs])
+    rag_data.formatted_node_context = "\n\n".join([doc["content"]for doc in node_docs])
+    
     if write_to_file:
-        formatted_language_context = "\n\n".join([doc["content"]for doc in language_docs])
-        formatted_node_context = "\n\n".join([doc["content"]for doc in node_docs])
         # tokens = client(model=model["name"]).get_num_tokens(formatted_language_context) 
         # print(f"Number of tokens in the language context: {tokens}")
 
         with open("./language_doc", 'w') as f:
-            f.write(formatted_language_context)
+            f.write(rag_data.formatted_language_context)
 
         with open("./node_doc", 'w') as f:
-            f.write(formatted_node_context)
+            f.write(rag_data.formatted_node_context)
     return rag_data
 

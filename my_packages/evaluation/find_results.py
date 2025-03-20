@@ -425,8 +425,8 @@ def prepare_experiement(
 
 def find_results(
     env: str,
-    example_selector_types: list[str],
     experiment_types: list[str],
+    prompt_types: list[str],
     shots: list[int],
     metrics: list[str],
     ks: list[int],
@@ -438,10 +438,10 @@ def find_results(
 ):
     """Find results for each experiments and model."""
     # experiment_results: dict[str, list[dict]] = {}
-    for example_selector_type in example_selector_types:
-        for experiment_type in experiment_types:
-            runs_folder = f"{project_dir}/experiments/{experiment_folder}/fox/{phase.value}_runs/{example_selector_type}/{experiment_type}/{eval_method}"  
-            experiment = f"{experiment_type}_{example_selector_type}"
+    for experiment_type in experiment_types:
+        for prompt_type in prompt_types:
+            runs_folder = f"{project_dir}/experiments/{experiment_folder}/fox/{phase.value}_runs/{experiment_type}/{prompt_type}/{eval_method}"  
+            experiment = f"{prompt_type}_{experiment_type}"
             experiment_results: dict[str, list[dict]] = {}
             shot_files: dict[int, list[str]] = {} # Store filenames to process for each shot
 
@@ -514,7 +514,7 @@ def find_results(
             
             # Write results for model on each experiement to files
             results_type = "best_params" if phase == Phase.VALIDATION else "results"
-            output_dir = f"{project_dir}/experiments/{experiment_folder}/fox/{results_type}/{example_selector_type}/{experiment_type}/{eval_method}/"
+            output_dir = f"{project_dir}/experiments/{experiment_folder}/fox/{results_type}/{experiment_type}/{prompt_type}/{eval_method}/"
             os.makedirs(output_dir, exist_ok=True)
 
             for experiment_name, shot_result in experiment_results.items():
@@ -532,16 +532,16 @@ if __name__ == "__main__":
     eval_method = "hold_out" if PHASE == Phase.VALIDATION else eval_method
     env = "prod" # if 'prod' then it will use the MongoDB database
     ks = [1, 2, 3, 5, 10]
-    example_selector_types = ["coverage", "similarity"] #["coverage", "similarity", "cot"]
-    experiment_types = ["regular", "signature"]  # ["regular", "signature", "cot"]
+    experiment_types = ["coverage", "similarity"] #["coverage", "similarity", "cot"]
+    prompt_types = ["regular", "signature"]  # ["regular", "signature", "cot"]
     shots = [1, 5, 10]
     metrics = ["syntax", "semantic", "tests"] # or ["syntax", "semantic"]
     use_threads = True
 
     find_results(
         env = env,
-        example_selector_types=example_selector_types,
         experiment_types=experiment_types,
+        prompt_types=prompt_types,
         shots=shots,
         metrics=metrics,
         ks=ks,

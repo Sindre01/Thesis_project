@@ -1,22 +1,22 @@
 #!/bin/bash
 EXPERIMENT=${1:-"few-shot"}
 PHASE=${2:-"validation"}
-EXAMPLES_TYPE=${3:-"coverage"}
+EXPERIMENT_TYPE=${3:-""}
 PROMPT_TYPE=${4:-"regular"}
 H=${5:-"0"}
 M=${6:-"0"}
 S=${7:-"0"}
 FOLD=${8:-"-1"}
 
-EXPERIMENT_DIR="${EXAMPLES_TYPE}/${PROMPT_TYPE}"
+EXPERIMENT_DIR="${EXPERIMENT_TYPE}/${PROMPT_TYPE}"
 SCRIPT_DIR="$(realpath "$(dirname "${BASH_SOURCE[0]}")")"
 TARGET_DIR="$(realpath "${SCRIPT_DIR}/../${PHASE}_runs/${EXPERIMENT_DIR}/")"
 if [[ "$FOLD" == "-1" ]]; then
     REMOTE_DIR="/fp/homes01/u01/ec-sindrre/slurm_jobs/${EXPERIMENT}/${PHASE}/${EXPERIMENT_DIR}/runs/hold_out/"
-    BRANCH="${PHASE}/${EXPERIMENT}-${EXAMPLES_TYPE}-${PROMPT_TYPE}"
+    BRANCH="${PHASE}/${EXPERIMENT}-${EXPERIMENT_TYPE}-${PROMPT_TYPE}"
 else
     REMOTE_DIR="/fp/homes01/u01/ec-sindrre/slurm_jobs/${EXPERIMENT}/${PHASE}/${EXPERIMENT_DIR}/runs/3_fold/"
-    BRANCH="${PHASE}/${EXPERIMENT}-${EXAMPLES_TYPE}-${PROMPT_TYPE}-fold_${FOLD}"
+    BRANCH="${PHASE}/${EXPERIMENT}-${EXPERIMENT_TYPE}-${PROMPT_TYPE}-fold_${FOLD}"
 fi
 echo "==== Pushing runs to GitHub ====="
 echo "Pushing changes from ${TARGET_DIR} to ${BRANCH} on GitHub..."

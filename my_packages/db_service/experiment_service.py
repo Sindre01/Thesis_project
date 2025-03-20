@@ -199,7 +199,8 @@ def run_experiment_quality_checks(
         experiment: str, 
         prompt_user = True, 
         eval_method: str = "hold_out",
-        db_connection=None
+        db_connection=None,
+        ignore_best_params: bool = False
     ) -> bool:
     """
     Runs quality checks on an experiment's collections and prints errors if they occur.
@@ -265,18 +266,19 @@ def run_experiment_quality_checks(
                 print_msgs.append(f"❌ Error for model '{model}': No results exist, but found {testing_errors_count} testing error(s).")
         
         # Check 3: If no best parameters exist, then there should be no results.
-        if best_params_count == 0 and results_count > 0:
-            errors_found = True
-            user_input="no"
-            if prompt_user:
-                user_input = input(f"❌ Error for model '{model}': No best parameters exist, but found {results_count} result(s).\n\n❓ Do you want to delete result(s) for '{model} on '{experiment}'? (yes/no): ").strip().lower()
+        if not ignore_best_params:
+            if best_params_count == 0 and results_count > 0:
+                errors_found = True
+                user_input="no"
+                if prompt_user:
+                    user_input = input(f"❌ Error for model '{model}': No best parameters exist, but found {results_count} result(s).\n\n❓ Do you want to delete result(s) for '{model} on '{experiment}'? (yes/no): ").strip().lower()
 
-            if user_input == "yes":
-                results_deleted = results_collection.delete_many({"model_name": model, "eval_method": eval_method}).deleted_count
-                print_msgs.append(f"⚠️ Found Error for model '{model}': No best parameters exist, but found {results_count} result(s).\nHowever these where fixed by deleting {results_deleted} result(s) for '{model}'.")
-                errors_found = False
-            else:
-                print_msgs.append(f"❌ Error for model '{model}': No best parameters exist, but found {results_count} result(s).")
+                if user_input == "yes":
+                    results_deleted = results_collection.delete_many({"model_name": model, "eval_method": eval_method}).deleted_count
+                    print_msgs.append(f"⚠️ Found Error for model '{model}': No best parameters exist, but found {results_count} result(s).\nHowever these where fixed by deleting {results_deleted} result(s) for '{model}'.")
+                    errors_found = False
+                else:
+                    print_msgs.append(f"❌ Error for model '{model}': No best parameters exist, but found {results_count} result(s).")
         
         if not errors_found:
             print_msgs.append(f"✅ Models '{model}' passed all quality checks successfully.")

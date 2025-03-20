@@ -10,6 +10,13 @@ db = client[DB_NAME]
 # Define project root directory
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../.."))
 
-def get_db_connection():
+def get_db_connection(
+        db_name: str = None,
+):
     client = MongoClient(MONGO_URI)
-    return client[DB_NAME]
+    if db_name is None:
+        DB_NAME = os.getenv("EXPERIMENT_DB_NAME")
+        return client[DB_NAME]
+    return client[db_name]
+
+     
