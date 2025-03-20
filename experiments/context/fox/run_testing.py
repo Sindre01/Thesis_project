@@ -7,7 +7,7 @@ import sys
 
 from dotenv import load_dotenv
 
-from my_packages.common.rag import init_rag_data
+from my_packages.common.rag import RagData, init_rag_data
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
 project_dir = os.path.abspath(f"{script_dir}/../../..")
@@ -87,9 +87,11 @@ def run_testing_experiment(
         top_p,
         top_k,
         n,
+        rag_data: RagData,
+        max_ctx: int,
         best_params_optimization = None,
         seeds = [3, 75, 346],
-        ollama_port = "11434"
+        ollama_port = "11434",
 ):
     total_count = len(seeds)
     count = 0
@@ -113,7 +115,7 @@ def run_testing_experiment(
             prompt_type = prompt_type,
             ollama_port=ollama_port,
             rag_data=rag_data,
-            max_ctx=16000 if "phi4:14b" in model["name"] else 125000
+            max_ctx=max_ctx
         )
         result_obj = {
             "experiment_name": experiment_name,
@@ -147,6 +149,12 @@ def main(train_data, test_data, fold=-1, k_folds=3):
             metrics = ["syntax", "semantic", "tests"] # ["syntax", "semantic"] or ["syntax", "semantic", "tests"]
 
         experiment_type = ex["name"].split("_")[1] # e.g: "RAG" or "full-context"
+        if experiment_type == "RAG":
+            max_ctx = 16000
+        elif experiment_type == "full-context":
+            max_ctx = 125000
+        else:
+            raise ValueError(f"Unknown experiment type: {experiment_type}")
             
         results_dir = os.path.join(f"{results_dir}/{experiment_type}/{prompt_type}/runs/")
         best_params_folder = f"{best_params_folder}/{experiment_type}/{prompt_type}/hold_out"
@@ -198,14 +206,16 @@ def main(train_data, test_data, fold=-1, k_folds=3):
                         test_data,
                         available_nodes,
                         experiment_name,
-                        result_runs_path,
-                        model,
-                        selector,
-                        ex["prompt_type"],
-                        best_params_model["temperature"],
-                        best_params_model["top_p"],
-                        best_params_model["top_k"],
-                        n_generations_per_task,
+                        file_path=result_runs_path,
+                        model=model,
+                        example_pool=selector,
+                        prompt_type=ex["prompt_type"],
+                        temperature=best_params_model["temperature"],
+                        top_p=best_params_model["top_p"],
+                        top_k=best_params_model["top_k"],
+                        n=n_generations_per_task,
+                        rag_data = rag_data,
+                        max_ctx = max_ctx,
                         best_params_optimization = best_params_model["optimizer_metric"],
                         ollama_port = ollama_port,
                     )
@@ -233,7 +243,7 @@ if __name__ == "__main__":
     best_params_folder = f"{project_dir}/experiments/few-shot/fox/best_params"
     results_dir = f"/fp/homes01/u01/ec-sindrre/slurm_jobs/{experiment_folder}/testing"
     rag_data = init_rag_data() # None if not using RAG
-
+   
     experiment_dir = os.path.abspath(f"{script_dir}/..")
     env_path = os.path.abspath(f"{project_dir}/../../.env")
     print("Env is located in:", env_path)
