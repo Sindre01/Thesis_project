@@ -7,6 +7,8 @@ import sys
 
 from dotenv import load_dotenv
 
+from my_packages.common.rag import init_rag_data
+
 script_dir = os.path.dirname(os.path.abspath(__file__))
 project_dir = os.path.abspath(f"{script_dir}/../../..")
 
@@ -110,7 +112,8 @@ def run_testing_experiment(
             debug = False, 
             prompt_type = prompt_type,
             ollama_port=ollama_port,
-            rag_data=None
+            rag_data=rag_data,
+            max_ctx=16000 if "phi4:14b" in model["name"] else 125000
         )
         result_obj = {
             "experiment_name": experiment_name,
@@ -229,6 +232,7 @@ if __name__ == "__main__":
     experiment_folder = "context"
     best_params_folder = f"{project_dir}/experiments/few-shot/fox/best_params"
     results_dir = f"/fp/homes01/u01/ec-sindrre/slurm_jobs/{experiment_folder}/testing"
+    rag_data = init_rag_data() # None if not using RAG
 
     experiment_dir = os.path.abspath(f"{script_dir}/..")
     env_path = os.path.abspath(f"{project_dir}/../../.env")

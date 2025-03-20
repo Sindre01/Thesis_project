@@ -14,15 +14,15 @@ K_FOLD_JOBS=0-2                              # Runs jobs for folds 0 to 2 (3-fol
 USER="ec-sindrre"                        # Your Educloud username
 HOST="fox.educloud.no"                   # Fox login address (matches SSH config)
 SSH_CONFIG_NAME="fox"                    # Name of the SSH config entry
-ACCOUNT="ec12"                           # Fox project account
-PARTITION="accel"                        # 'accel' or 'accel_long' (or 'ifi_accel' if access to ec11,ec29,ec30,ec34,ec35 or ec232)
-GPUS=a100:2                   # a100 have 40GB or 80GB VRAM, while rtx30 have 24GB VRAM.
+ACCOUNT="ec30"                           # Fox project account
+PARTITION="ifi_accel"                        # 'accel' or 'accel_long' (or 'ifi_accel' if access to ec11,ec29,ec30,ec34,ec35 or ec232)
+GPUS=rtx30:2                   # a100 have 40GB or 80GB VRAM, while rtx30 have 24GB VRAM.
 NODES=1                          # Number of nodes. OLLAMA does currently only support single node inference
 NODE_LIST=      # List of nodes that the job can run on gpu-9,gpu-7,gpu-8, gpu-14 (h100)
-TIME="0-24:00:00"                  # Slurm walltime (D-HH:MM:SS)
-MEM_PER_GPU="40G"                       # Memory per GPU. 
+TIME="5-00:00:00"                  # Slurm walltime (D-HH:MM:SS)
+MEM_PER_GPU="20G"                       # Memory per GPU. 
 OLLAMA_MODELS_DIR="/cluster/work/projects/ec12/ec-sindrre/ollama-models"  # Path to where the Ollama models are stored and loaded                      
-OLLAMA_PORT="11490"                       # Remote port where Ollama listens. If different parallell runs, change ollama_port to avoid conflicts if same node is allocated.
+OLLAMA_PORT="11420"                       # Remote port where Ollama listens. If different parallell runs, change ollama_port to avoid conflicts if same node is allocated.
 SBATCH_SCRIPT="${PHASE}_${CONTEXT_TYPE}_${PROMPT_TYPE}_${GPUS}_ollama.slurm"           # Slurm batch script name
 # Directory on Fox to store scripts and output
 if [ -n "$PROMPT_TYPE" ]; then
@@ -41,14 +41,14 @@ model_provider='ollama'
 #             "prompt_prefix": "Create a function",
 #             "num_shots": [5],
 #             "prompt_type": "regular",
-#             "semantic_selector": false
+#             "semantic_selector": true
 #         },
 #         {
 #             "name": "signature_full-context",
 #             "prompt_prefix": "Create a function",
 #             "num_shots": [5],
 #             "prompt_type": "signature",
-#             "semantic_selector": false
+#             "semantic_selector": true
 #         }
 # ]'
 experiments='[
@@ -71,7 +71,7 @@ experiments='[
 #     "llama3.3:70b-instruct-fp16"
 # ]'
 models='[
-    "qwq:32b-fp16"
+    "phi4:14b-fp16"
 ]'
 # models='[
 #     "llama3.3:70b-instruct-fp16"
