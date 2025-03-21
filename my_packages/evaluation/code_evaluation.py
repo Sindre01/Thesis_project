@@ -231,6 +231,7 @@ def run_prompt_step(
     true_response = sample["response"]
     few_shot_examples = example_pool.select_examples(sample)
     if response_type == "NODE":
+    
         few_shot_examples= code_data_to_node_data(few_shot_examples)
         true_response = sample["external_functions"]
 

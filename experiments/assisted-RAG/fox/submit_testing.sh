@@ -38,7 +38,7 @@ model_provider='ollama'
 
 # experiments='[
 #         {
-#             "name": "regular_RAG",
+#             "name": "regular_ONE",
 #             "prompt_prefix": "Create a function",
 #             "num_shots": [5],
 #             "prompt_type": "regular",
@@ -47,7 +47,7 @@ model_provider='ollama'
 # ]'
 experiments='[
         {
-            "name": "signature_RAG",
+            "name": "signature_ONE",
             "prompt_prefix": "Create a function",
             "num_shots": [5],
             "prompt_type": "signature",

@@ -288,7 +288,7 @@ def build_prompt(
 
     task = sample["task"]
 
-    if prompt_type.value is PromptType.SIGNATURE.value and prompt_type == "CODE": # Uses signature prompt
+    if (prompt_type.value is PromptType.SIGNATURE.value) and (response_type == "CODE"): # Uses signature prompt
         few_shot = create_few_shot_prompt(few_shot_examples, f'{response_type}_SIGNATURE_TEMPLATE')
         final_prompt_template = create_final_prompt(few_shot, f"{response_type}_GENERATOR_TEMPLATE", f"{response_type}_SIGNATURE_TEMPLATE")
 
@@ -297,7 +297,7 @@ def build_prompt(
             "task": task, 
             "function_signature": sample["function_signature"],
         }
-    elif prompt_type.value is PromptType.REGULAR.value or (prompt_type == "NODE"): # Uses regular prompt
+    elif (response_type == "NODE") or (prompt_type.value is PromptType.REGULAR.value): # Uses regular prompt
         few_shot = create_few_shot_prompt(few_shot_examples, f'{response_type}_TEMPLATE')
         final_prompt_template = create_final_prompt(few_shot, f"{response_type}_GENERATOR_TEMPLATE", f"{response_type}_TEMPLATE")
         prompt_variables_dict ={
