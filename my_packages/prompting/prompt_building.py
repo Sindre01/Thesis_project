@@ -190,13 +190,12 @@ def add_RAG_to_prompt(
     TOTAL_LANG_DOCS_TOKENS = 2650
     TOTAL_NODE_DOCS_TOKENS = 35000
     rag_template = HumanMessagePromptTemplate.from_template(get_prompt_template("RAG"))
-   
-    
+    used_lang_tokens = TOTAL_LANG_DOCS_TOKENS
+
     if available_ctx > TOTAL_DOCS_TOKENS:
         # Use all data
         formatted_language_context = rag_data.formatted_language_context
         formatted_node_context = rag_data.formatted_node_context
-        used_lang_tokens = TOTAL_LANG_DOCS_TOKENS
         used_node_tokens = TOTAL_NODE_DOCS_TOKENS
     else:    
         # Use RAG
@@ -211,7 +210,7 @@ def add_RAG_to_prompt(
         #     available_ctx=max_lang_tokens,
         #     model=model
         # )
-        print(f"Used {used_lang_tokens} tokens for language context\n")
+        # print(f"Used {used_lang_tokens} tokens for language context\n")
 
         max_node_tokens = available_ctx - (used_lang_tokens)
         print("allocating remaining", max_node_tokens, " tokens to node context")

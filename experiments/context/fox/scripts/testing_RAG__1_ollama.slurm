@@ -10,7 +10,7 @@
 #SBATCH --account=ec12                      # Project account
 #SBATCH --partition=accel                  # Partition ('accel' or 'accel_long')
 #SBATCH --nodes=1                           # Amount of nodes. Ollama one support single node inference
-#SBATCH --array=0-2  
+#SBATCH --array=0-0  
 #SBATCH --ntasks=1
 #SBATCH --nodelist=                   # List of nodes that the job can run on
 #SBATCH --gpus=1                             # Number of GPUs
@@ -128,17 +128,17 @@ trap cleanup EXIT
 echo "============= Running testing context Python script for Fold ... ============="
 export PYTHONPATH="/fp/homes01/u01/ec-sindrre/tmp/Thesis_project_RAG_$SLURM_JOB_ID:~/Thesis_project:~/Thesis_project:"
 python -u /fp/homes01/u01/ec-sindrre/tmp/Thesis_project_RAG_$SLURM_JOB_ID/experiments/context/fox/run_testing.py     --model_provider 'ollama'     --models '[
-    "llama3.3:70b-instruct-fp16"
+    "phi4:14b-fp16"
 ]'     --experiments '[
         {
-            "name": "regular_full-context",
+            "name": "regular_RAG",
             "prompt_prefix": "Create a function",
             "num_shots": [5],
             "prompt_type": "regular",
             "semantic_selector": true
         },
         {
-            "name": "signature_full-context",
+            "name": "signature_RAG",
             "prompt_prefix": "Create a function",
             "num_shots": [5],
             "prompt_type": "signature",

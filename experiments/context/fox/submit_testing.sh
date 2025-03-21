@@ -10,7 +10,7 @@ PHASE="testing"                       # Phase ('testing' or 'validation')
 CONTEXT_TYPE="RAG"                 #'RAG' or 'full-context'
 PROMPT_TYPE=""                 # 'regular' or 'cot' or 'signature'   
 # SEMANTIC_SELECTOR=true                   # Use semantic selector
-K_FOLD_JOBS=0-2                              # Runs jobs for folds 0 to 2 (3-fold CV)
+K_FOLD_JOBS=0-0                              # Runs jobs for folds 0 to 2 (3-fold CV)
 USER="ec-sindrre"                        # Your Educloud username
 HOST="fox.educloud.no"                   # Fox login address (matches SSH config)
 SSH_CONFIG_NAME="fox"                    # Name of the SSH config entry
@@ -35,44 +35,44 @@ fi
 CLONE_DIR="/fp/homes01/u01/ec-sindrre/tmp/Thesis_project_${CONTEXT_TYPE}_\$SLURM_JOB_ID"
 ##############Experiment config################
 model_provider='ollama'
-experiments='[
-        {
-            "name": "regular_full-context",
-            "prompt_prefix": "Create a function",
-            "num_shots": [5],
-            "prompt_type": "regular",
-            "semantic_selector": true
-        },
-        {
-            "name": "signature_full-context",
-            "prompt_prefix": "Create a function",
-            "num_shots": [5],
-            "prompt_type": "signature",
-            "semantic_selector": true
-        }
-]'
 # experiments='[
 #         {
-#             "name": "regular_RAG",
+#             "name": "regular_full-context",
 #             "prompt_prefix": "Create a function",
 #             "num_shots": [5],
 #             "prompt_type": "regular",
 #             "semantic_selector": true
 #         },
 #         {
-#             "name": "signature_RAG",
+#             "name": "signature_full-context",
 #             "prompt_prefix": "Create a function",
 #             "num_shots": [5],
 #             "prompt_type": "signature",
 #             "semantic_selector": true
 #         }
 # ]'
-models='[
-    "llama3.3:70b-instruct-fp16"
+experiments='[
+        {
+            "name": "regular_RAG",
+            "prompt_prefix": "Create a function",
+            "num_shots": [5],
+            "prompt_type": "regular",
+            "semantic_selector": true
+        },
+        {
+            "name": "signature_RAG",
+            "prompt_prefix": "Create a function",
+            "num_shots": [5],
+            "prompt_type": "signature",
+            "semantic_selector": true
+        }
 ]'
 # models='[
-#     "phi4:14b-fp16"
+#     "llama3.3:70b-instruct-fp16"
 # ]'
+models='[
+    "phi4:14b-fp16"
+]'
 # models='[
 #     "llama3.3:70b-instruct-fp16"
 # ]'
