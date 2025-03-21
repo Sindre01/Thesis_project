@@ -177,7 +177,7 @@ def add_RAG_to_prompt(
     
     """Add RAG context to the prompt."""
 
-    TOTAL_DOCS_TOKENS = 70000
+    TOTAL_DOCS_TOKENS = 40000
     TOTAL_LANG_DOCS_TOKENS = 2650
     rag_template = HumanMessagePromptTemplate.from_template(get_prompt_template("RAG"))
     
@@ -494,7 +494,7 @@ def run_validation(
         env: str,
         prompt_type: PromptType,
         rag_data: RagData = None,
-        max_ctx: int = 125000
+        max_ctx: int = 60000
     ) -> Run:
 
     """
@@ -597,7 +597,7 @@ def run_testing(
     env: str,
     prompt_type: PromptType,
     rag_data: RagData = None,
-    max_ctx: int = 125000
+    max_ctx: int = 60000
 ) -> tuple[list[Run], Run]:
     """
     Run the model on the test set with different seeds and the best hyperparameters.

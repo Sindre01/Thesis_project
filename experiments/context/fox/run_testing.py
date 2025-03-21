@@ -159,7 +159,7 @@ def main(
         if experiment_type == "RAG":
             max_ctx = 16000
         elif experiment_type == "full-context":
-            max_ctx = 125000
+            max_ctx = 60000 # 60k tokens, because all documentation and few-shot are less than this
         else:
             raise ValueError(f"Unknown experiment type: {experiment_type}")
             
