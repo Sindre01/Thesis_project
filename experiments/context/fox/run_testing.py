@@ -326,7 +326,7 @@ if __name__ == "__main__":
         fold=fold,
         results_dir=results_dir,
         rag_data=rag_data,
-        best_params_folder=best_params_root,
+        best_params_root=best_params_root,
     )
     
 
