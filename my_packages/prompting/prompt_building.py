@@ -216,7 +216,7 @@ def add_RAG_to_prompt(
         avg_doc_tokens = 150
 
         if candidate_nodes:
-            MAX_DOCS_PER_NODE = 2
+            MAX_DOCS_PER_NODE = 1
             # Use predicted/fetched nodes for extracted relevant docuemtnation
             print("Using predictd nodes to extract relevant docuemntation.")
             num_nodes = len(candidate_nodes)
@@ -234,7 +234,15 @@ def add_RAG_to_prompt(
                 docs.extend(node_docs)
                 print(f"Node {node} extracted these docs")
                 for doc in node_docs:
-                    print(doc.page_title)
+                    node = ""
+                    pattern = re.compile(r"'([^']+)'")
+
+                    match = pattern.search(doc.page_content)
+                    if match:
+                        node = match.group(1)  # "Image.FromFile"
+                    print(f"    > {node}")
+
+            
 
             formatted_node_context, used_node_tokens = fit_docs_by_tokens(
                 client,

@@ -22,44 +22,44 @@
             10
         ],
         "syntax@1": {
-            "mean": 0.72,
-            "std": 0.08
+            "mean": 0.82,
+            "std": 0.01
         },
         "syntax@2": {
-            "mean": 0.81,
-            "std": 0.08
+            "mean": 0.92,
+            "std": 0.01
         },
         "syntax@3": {
-            "mean": 0.86,
-            "std": 0.07
+            "mean": 0.95,
+            "std": 0.01
         },
         "syntax@5": {
-            "mean": 0.9,
-            "std": 0.06
+            "mean": 0.99,
+            "std": 0.0
         },
         "syntax@10": {
-            "mean": 0.94,
-            "std": 0.06
+            "mean": 1.0,
+            "std": 0.0
         },
         "semantic@1": {
-            "mean": 0.61,
-            "std": 0.13
+            "mean": 0.71,
+            "std": 0.02
         },
         "semantic@2": {
-            "mean": 0.71,
-            "std": 0.14
+            "mean": 0.83,
+            "std": 0.03
         },
         "semantic@3": {
-            "mean": 0.76,
-            "std": 0.14
+            "mean": 0.89,
+            "std": 0.04
         },
         "semantic@5": {
-            "mean": 0.82,
-            "std": 0.14
+            "mean": 0.95,
+            "std": 0.04
         },
         "semantic@10": {
-            "mean": 0.89,
-            "std": 0.14
+            "mean": 0.98,
+            "std": 0.03
         }
     }
 ]
