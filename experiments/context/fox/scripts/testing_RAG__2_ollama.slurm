@@ -6,16 +6,16 @@
 ###############################################################################
 
 # Job Configuration
-#SBATCH --job-name=testing_assisted-RAG_RAG_signature_rtx30:2        # Job name
-#SBATCH --account=ec30                      # Project account
-#SBATCH --partition=ifi_accel                  # Partition ('accel' or 'accel_long')
+#SBATCH --job-name=testing_context_RAG__2        # Job name
+#SBATCH --account=ec12                      # Project account
+#SBATCH --partition=accel                  # Partition ('accel' or 'accel_long')
 #SBATCH --nodes=1                           # Amount of nodes. Ollama one support single node inference
 #SBATCH --array=0-2  
 #SBATCH --ntasks=1
-#SBATCH --nodelist=                   # List of nodes that the job can run on
-#SBATCH --gpus=rtx30:2                             # Number of GPUs
-#SBATCH --time=4-00:00:00                             # Walltime (D-HH:MM:SS)
-#SBATCH --mem-per-gpu=20G              # Memory per CPU
+#SBATCH --nodelist=gpu-9,gpu-7,gpu-8,gpu-14                   # List of nodes that the job can run on
+#SBATCH --gpus=2                             # Number of GPUs
+#SBATCH --time=0-24:00:00                             # Walltime (D-HH:MM:SS)
+#SBATCH --mem-per-gpu=80G              # Memory per CPU
 #SBATCH --output=Job_testing_%j.out                 # Standard output and error log
 
 
@@ -36,7 +36,7 @@ module load Python/3.11.5-GCCcore-13.2.0
 # module load CUDA/12.4.0
 
 source ~/.bashrc # may ovewrite previous modules
-OLLAMA_PORT_K_FOLD=$((11410 + $SLURM_ARRAY_TASK_ID))
+OLLAMA_PORT_K_FOLD=$((11420 + $SLURM_ARRAY_TASK_ID))
 
 export OLLAMA_MODELS=/cluster/work/projects/ec12/ec-sindrre/ollama-models    # Path to where the Ollama models are stored and loaded
 export OLLAMA_HOST=0.0.0.0:$OLLAMA_PORT_K_FOLD    # Host and port where Ollama listens
@@ -61,10 +61,10 @@ export OLLAMA_KV_CACHE_TYPE="f16" # f16 (default), q8_0 (half of the memory of f
 # Set the age threshold 4 days
 AGE_THRESHOLD=345600
 
-echo "🧹 Cleaning up files older than 4 days in: /fp/homes01/u01/ec-sindrre/slurm_jobs/assisted-RAG/testing/RAG/signature"
+echo "🧹 Cleaning up files older than 4 days in: /fp/homes01/u01/ec-sindrre/slurm_jobs/context/testing/RAG"
 
 # Find and delete .out, .slurm, and .csv files older than 1 hours
-find "/fp/homes01/u01/ec-sindrre/slurm_jobs/assisted-RAG/testing/RAG/signature" -type f \( -name "*.out" -o -name "*.slurm" -o -name "*.csv" \) -mmin +1800 -exec rm -v {} \;
+find "/fp/homes01/u01/ec-sindrre/slurm_jobs/context/testing/RAG" -type f \( -name "*.out" -o -name "*.slurm" -o -name "*.csv" \) -mmin +1800 -exec rm -v {} \;
 
 echo "✅ Cleanup completed!"
 
@@ -125,11 +125,18 @@ cleanup() {
 # Ensure cleanup is called on exit (both success or error)
 trap cleanup EXIT
 
-echo "============= Running testing assisted-RAG Python script for Fold ... ============="
+echo "============= Running testing context Python script for Fold ... ============="
 export PYTHONPATH="/fp/homes01/u01/ec-sindrre/tmp/Thesis_project_RAG_$SLURM_JOB_ID:~/Thesis_project:~/Thesis_project:"
-python -u /fp/homes01/u01/ec-sindrre/tmp/Thesis_project_RAG_$SLURM_JOB_ID/experiments/assisted-RAG/fox/run_testing.py     --model_provider 'ollama'     --models '[
-    "phi4:14b-fp16"
+python -u /fp/homes01/u01/ec-sindrre/tmp/Thesis_project_RAG_$SLURM_JOB_ID/experiments/context/fox/run_testing.py     --model_provider 'ollama'     --models '[
+    "llama3.3:70b-instruct-fp16"
 ]'     --experiments '[
+        {
+            "name": "regular_RAG",
+            "prompt_prefix": "Create a function",
+            "num_shots": [5],
+            "prompt_type": "regular",
+            "semantic_selector": true
+        },
         {
             "name": "signature_RAG",
             "prompt_prefix": "Create a function",
@@ -137,7 +144,7 @@ python -u /fp/homes01/u01/ec-sindrre/tmp/Thesis_project_RAG_$SLURM_JOB_ID/experi
             "prompt_type": "signature",
             "semantic_selector": true
         }
-]'     --ollama_port $OLLAMA_PORT_K_FOLD     --fold $SLURM_ARRAY_TASK_ID     > /fp/homes01/u01/ec-sindrre/slurm_jobs/assisted-RAG/testing/RAG/signature/AI_${SLURM_JOB_ID}_fold_$SLURM_ARRAY_TASK_ID.out 2>&1
+]'     --ollama_port $OLLAMA_PORT_K_FOLD     --fold $SLURM_ARRAY_TASK_ID     > /fp/homes01/u01/ec-sindrre/slurm_jobs/context/testing/RAG/AI_${SLURM_JOB_ID}_fold_$SLURM_ARRAY_TASK_ID.out 2>&1
 
 
 ###############################################################################

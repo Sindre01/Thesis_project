@@ -6,7 +6,7 @@
 ###############################################################################
 
 # Job Configuration
-#SBATCH --job-name=testing_context_RAG_regular_rtx30:2        # Job name
+#SBATCH --job-name=testing_assisted-RAG_RAG_regular_rtx30:2        # Job name
 #SBATCH --account=ec30                      # Project account
 #SBATCH --partition=ifi_accel                  # Partition ('accel' or 'accel_long')
 #SBATCH --nodes=1                           # Amount of nodes. Ollama one support single node inference
@@ -14,7 +14,7 @@
 #SBATCH --ntasks=1
 #SBATCH --nodelist=                   # List of nodes that the job can run on
 #SBATCH --gpus=rtx30:2                             # Number of GPUs
-#SBATCH --time=5-00:00:00                             # Walltime (D-HH:MM:SS)
+#SBATCH --time=4-00:00:00                             # Walltime (D-HH:MM:SS)
 #SBATCH --mem-per-gpu=20G              # Memory per CPU
 #SBATCH --output=Job_testing_%j.out                 # Standard output and error log
 
@@ -61,10 +61,10 @@ export OLLAMA_KV_CACHE_TYPE="f16" # f16 (default), q8_0 (half of the memory of f
 # Set the age threshold 4 days
 AGE_THRESHOLD=345600
 
-echo "🧹 Cleaning up files older than 4 days in: /fp/homes01/u01/ec-sindrre/slurm_jobs/context/testing/RAG/regular"
+echo "🧹 Cleaning up files older than 4 days in: /fp/homes01/u01/ec-sindrre/slurm_jobs/assisted-RAG/testing/RAG/regular"
 
 # Find and delete .out, .slurm, and .csv files older than 1 hours
-find "/fp/homes01/u01/ec-sindrre/slurm_jobs/context/testing/RAG/regular" -type f \( -name "*.out" -o -name "*.slurm" -o -name "*.csv" \) -mmin +1800 -exec rm -v {} \;
+find "/fp/homes01/u01/ec-sindrre/slurm_jobs/assisted-RAG/testing/RAG/regular" -type f \( -name "*.out" -o -name "*.slurm" -o -name "*.csv" \) -mmin +1800 -exec rm -v {} \;
 
 echo "✅ Cleanup completed!"
 
@@ -125,9 +125,9 @@ cleanup() {
 # Ensure cleanup is called on exit (both success or error)
 trap cleanup EXIT
 
-echo "============= Running testing context Python script for Fold ... ============="
+echo "============= Running testing assisted-RAG Python script for Fold ... ============="
 export PYTHONPATH="/fp/homes01/u01/ec-sindrre/tmp/Thesis_project_RAG_$SLURM_JOB_ID:~/Thesis_project:~/Thesis_project:"
-python -u /fp/homes01/u01/ec-sindrre/tmp/Thesis_project_RAG_$SLURM_JOB_ID/experiments/context/fox/run_testing.py     --model_provider 'ollama'     --models '[
+python -u /fp/homes01/u01/ec-sindrre/tmp/Thesis_project_RAG_$SLURM_JOB_ID/experiments/assisted-RAG/fox/run_testing.py     --model_provider 'ollama'     --models '[
     "phi4:14b-fp16"
 ]'     --experiments '[
         {
@@ -137,7 +137,7 @@ python -u /fp/homes01/u01/ec-sindrre/tmp/Thesis_project_RAG_$SLURM_JOB_ID/experi
             "prompt_type": "regular",
             "semantic_selector": true
         }
-]'     --ollama_port $OLLAMA_PORT_K_FOLD     --fold $SLURM_ARRAY_TASK_ID     > /fp/homes01/u01/ec-sindrre/slurm_jobs/context/testing/RAG/regular/AI_${SLURM_JOB_ID}_fold_$SLURM_ARRAY_TASK_ID.out 2>&1
+]'     --ollama_port $OLLAMA_PORT_K_FOLD     --fold $SLURM_ARRAY_TASK_ID     > /fp/homes01/u01/ec-sindrre/slurm_jobs/assisted-RAG/testing/RAG/regular/AI_${SLURM_JOB_ID}_fold_$SLURM_ARRAY_TASK_ID.out 2>&1
 
 
 ###############################################################################

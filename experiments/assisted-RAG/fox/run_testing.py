@@ -157,7 +157,7 @@ def main(
             metrics = ["syntax", "semantic", "tests"] # ["syntax", "semantic"] or ["syntax", "semantic", "tests"]
 
         experiment_type = ex["name"].split("_")[1] # e.g: "RAG" or "full-context"
-        if experiment_type == "assisted-RAG":
+        if experiment_type == "ONE":
             max_ctx = 16000
         else:
             raise ValueError(f"Unknown experiment type: {experiment_type}")
