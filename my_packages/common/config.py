@@ -55,8 +55,8 @@ def model_configs(
                     # "llama3.3:70b-instruct-fp16", #ctx: 130k
                     # "qwen2.5:72b-instruct-fp16", #ctx: 139k
                 ]
-            models_not_tokenized = models_not_in_file(models, f'{project_dir}/data/code_max_tokens.json')
-            write_models_tokens_to_file(client, models_not_tokenized, all_responses, f'{project_dir}/data/code_max_tokens.json')
+            models_not_tokenized = models_not_in_file(models, f'{project_dir}/data/max_tokens.json')
+            write_models_tokens_to_file(client, models_not_tokenized, all_responses, f'{project_dir}/data/max_tokens.json')
 
         case 'openai':
             openai_token = os.getenv('OPENAI_API_KEY')
@@ -68,8 +68,8 @@ def model_configs(
                 # "o1-preview", 
             ]
             # few_shot_messages = create_few_shot_messages(explained_used_libraries, train_prompts, train_responses, "NODE_GENERATOR_TEMPLATE", "developer")
-            models_not_tokenized = models_not_in_file(models, f'{project_dir}/data/code_max_tokens.json')
-            write_models_tokens_to_file(client, models_not_tokenized, all_responses, f'{project_dir}/data/code_max_tokens.json')
+            models_not_tokenized = models_not_in_file(models, f'{project_dir}/data/max_tokens.json')
+            write_models_tokens_to_file(client, models_not_tokenized, all_responses, f'{project_dir}/data/max_tokens.json')
             
         case 'anthropic':
             anthropic_token = os.getenv('ANTHROPIC_API_KEY')
@@ -80,8 +80,8 @@ def model_configs(
             models = [
                 "claude-3-5-sonnet-latest"
             ]
-            models_not_tokenized = models_not_in_file(models, f'{project_dir}/data/code_max_tokens.json')
-            write_models_tokens_to_file(client, models_not_tokenized, all_responses, f'{project_dir}/data/code_max_tokens.json')
+            models_not_tokenized = models_not_in_file(models, f'{project_dir}/data/max_tokens.json')
+            write_models_tokens_to_file(client, models_not_tokenized, all_responses, f'{project_dir}/data/max_tokens.json')
         case _:
             raise Exception("Model provider not supported")
     return client, models

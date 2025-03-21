@@ -1,4 +1,5 @@
 import os
+import re
 import sys
 from langchain_ollama import OllamaEmbeddings
 import pandas as pd
@@ -34,9 +35,20 @@ class RagData:
 
     def init_node_retriever(
         self,
-        node_docs: list[str]
+        node_docs: list[dict]
     ):
-        faiss_docs = [Document(page_content=doc["content"], metadata={"file": doc["file"], "chunk_id": doc["chunk_id"]}) for doc in node_docs]
+        def get_node_name(text):
+            # text = "#### Function 'Image.FromFile' 'SomethingElse'"
+
+            pattern = re.compile(r"'([^']+)'")
+
+            match = pattern.search(text)
+            if match:
+                first_name = match.group(1)  # "Image.FromFile"
+                return first_name
+            else:
+                return "Did not find title"
+        faiss_docs = [Document(page_title=get_node_name(doc["content"]),page_content=doc["content"], metadata={"file": doc["file"], "chunk_id": doc["chunk_id"]}) for doc in node_docs]
         vectorstore = FAISS.from_documents(faiss_docs, self.embeddings)
         vectorstore.save_local("faiss_node_index") # Save FAISS index locally
         print("✅ FAISS index saved successfully.")

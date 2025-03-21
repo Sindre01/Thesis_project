@@ -1,4 +1,35 @@
 
+from langchain_anthropic import ChatAnthropic
+from langchain_ollama import ChatOllama
+from langchain_openai import ChatOpenAI
+from langchain.prompts import ChatPromptTemplate
+from my_packages.utils.server_utils import server_diagnostics
+
+def extract_response(response_text: str) -> str:
+    """
+    Extracts a code snippet from the response using a regex for ```midio code blocks.
+    Also removes any comments—whether they are on lines by themselves or inline.
+    """
+    # Split the response to get content after the last </think>
+    parts = response_text.rsplit('</think>', 1)
+    code_section = parts[-1]  # Content after the last </think>
+
+    # Find all `midio` code blocks
+    # matches = re.findall(r'```midio(.*?)(```|$)', code_section, re.DOTALL)
+    matches = re.findall(r'```mid\w*(.*?)(```|$)', code_section, re.DOTALL)
+
+
+    # If multiple code blocks exist, take the last one
+    if matches:
+        code_block = matches[-1][0]  # Get only the code part
+    else:
+        code_block = code_section
+
+    # This regex finds any occurrence of '//' or '#' and removes everything until the end of the line.
+    code_without_comments = re.sub(r'(?://|#).*$', '', code_block, flags=re.MULTILINE)
+
+    return code_without_comments.strip()
+
 def invoke_anthropic_model(client, full_prompt, model, max_new_tokens, temperature, top_p, top_k,):
     """Invoke the anthropic model using the anthropic client sdk."""
     kwargs = {
@@ -75,3 +106,83 @@ def invoke_o1_model(client, full_prompt, model, max_new_tokens):
     
     filtered_generated = generated.choices[0].message.content.replace("//", "").strip() # '//' outside main module can lead to compiler not ending properly
     return filtered_generated
+
+
+def generate_n_responses(
+    n:int, # Number of generations per task
+    client: ChatOllama | ChatOpenAI,
+    model: str,
+    max_new_tokens: int,
+    temperature: float,
+    top_p: float,
+    top_k: int,
+    seed:int,   
+    final_prompt_template: ChatPromptTemplate,       
+    prompt_variables_dict: dict,      
+    context: int,
+    debug: bool=False,              
+    ollama_port:str="11434",
+)-> list[str]:
+    """Generate n responses for a given prompt."""
+    
+    generated_candidates = []
+    current_n = 0
+    for attempt_i in range(n):
+        max_retries = 3
+        retries = 0
+        new_seed = seed * attempt_i if seed else None # different seed for each attempt if not None
+        generated = ""
+        while retries < max_retries:
+            try:
+                print(f"    > Generating n response..  ({current_n + 1}/{n})", end="\r")
+                if "gpt" in model:
+                    print("GPT MODEL")
+                    llm = client(
+                        model=model,
+                        temperature=temperature,
+                        seed=new_seed,
+                        max_tokens=max_new_tokens,
+                        stop=["```<|eot_id|>"],
+                        top_p=top_p,
+                        # top_k=top_k, #NOT AVAILABLE IN GPT
+                        streaming=False,
+                    )
+                else:
+                    llm = client(
+                        model=model,
+                        temperature=temperature,
+                        num_predict=max_new_tokens,
+                        top_p=top_p,
+                        top_k=top_k,
+                        stream=False,
+                        num_ctx=context,
+                        stop=["```<|eot_id|>"],
+                        seed=new_seed,
+                        base_url=f"http://localhost:{ollama_port}"
+                    )
+                
+
+                chain = (final_prompt_template | llm)
+
+                response = chain.invoke(
+                    prompt_variables_dict,
+                    {"run_name": f"Few-shot code prediction"}
+                )
+                print(generated)
+                generated = response.content
+                break  # If generation succeeded, break out of retry loop
+            except Exception as e:
+                retries += 1
+                print(f"Attempt {retries} failed with error: {e}")
+                server_diagnostics()
+
+        if retries == max_retries:
+            print("Failed to get a response from the server after "
+                    + str(retries) + " attempts.")
+            generated = ""
+        
+        current_n += 1
+        # Extract code from the generated response
+        generated_code = extract_response(generated)
+        generated_candidates.append(generated_code)
+    return generated_candidates

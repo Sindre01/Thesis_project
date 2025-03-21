@@ -11,5 +11,5 @@ You must return the code inside a code block, in the following form:
 Important that you generate only the code, so that it can be directly executed in a compiler.
 Only the external functions that is provided can be used. If you need to create a new function, that does something different than the external functions provided, you can do so by creating a new function in the code.
 
-Bellow is the list of external functions that you can choose from:
+Bellow is the some of the most used external functions:
 {external_functions}

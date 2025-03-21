@@ -183,7 +183,7 @@ def main(
                 best_params_path = os.path.join(best_params_folder, best_params_experiment_name + ".json")
 
                 print(f"\n==== Running few-shot testing for {experiment_name} on '{model_name}' ====")  
-                model = get_model_code_tokens_from_file(model_name, f'{project_dir}/data/code_max_tokens.json')
+                model = get_model_code_tokens_from_file(model_name, f'{project_dir}/data/max_tokens.json')
                 print(f"Max generation tokens for model {model['max_tokens']}")
 
                 best_params = read_dataset_to_json(best_params_path)

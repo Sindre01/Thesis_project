@@ -1,50 +1,22 @@
 from collections import defaultdict
 import numpy as np
-import tiktoken
-from langchain.schema import Document
 from my_packages.common.classes import CodeEvaluationResult, PromptType, Run
 from my_packages.common.rag import RagData
 from my_packages.db_service.best_params_service import save_best_params_to_db
 from my_packages.db_service.error_service import save_errors_to_db
 from my_packages.db_service.results_service import save_results_to_db
 from my_packages.evaluation.metrics import check_correctness, check_semantics, check_syntax, estimate_pass_at_k
-from my_packages.prompting.prompt_building import create_few_shot_prompt, create_final_prompt, get_prompt_template
+from my_packages.evaluation.models import generate_n_responses
+from my_packages.prompting.prompt_building import add_RAG_to_prompt, build_prompt, code_data_to_node_data
 from my_packages.utils.file_utils import save_results_as_string, save_results_to_file
-from my_packages.utils.server_utils import server_diagnostics
 import re
-from colorama import Fore, Back, Style
-from langchain_ollama import OllamaEmbeddings, ChatOllama
+from colorama import Fore, Style
+from langchain_ollama import ChatOllama
 from langchain_anthropic import ChatAnthropic
-from langchain_openai import OpenAIEmbeddings, ChatOpenAI
+from langchain_openai import ChatOpenAI
 from langchain_core.example_selectors.base import BaseExampleSelector
-from langchain.prompts import ChatPromptTemplate, HumanMessagePromptTemplate
-from my_packages.utils.tokens_utils import find_max_tokens_tokenizer
-from langchain_community.vectorstores import FAISS
+from my_packages.utils.tokens_utils import measure_prompt_tokens
 
-def extract_code(response_text: str) -> str:
-    """
-    Extracts a code snippet from the response using a regex for ```midio code blocks.
-    Also removes any comments—whether they are on lines by themselves or inline.
-    """
-    # Split the response to get content after the last </think>
-    parts = response_text.rsplit('</think>', 1)
-    code_section = parts[-1]  # Content after the last </think>
-
-    # Find all `midio` code blocks
-    # matches = re.findall(r'```midio(.*?)(```|$)', code_section, re.DOTALL)
-    matches = re.findall(r'```mid\w*(.*?)(```|$)', code_section, re.DOTALL)
-
-
-    # If multiple code blocks exist, take the last one
-    if matches:
-        code_block = matches[-1][0]  # Get only the code part
-    else:
-        code_block = code_section
-
-    # This regex finds any occurrence of '//' or '#' and removes everything until the end of the line.
-    code_without_comments = re.sub(r'(?://|#).*$', '', code_block, flags=re.MULTILINE)
-
-    return code_without_comments.strip()
 
 def evaluate_code_metric(
       result_dict: dict[int, list[str]],
@@ -121,156 +93,199 @@ def calculate_pass_at_k_scores(
 
     return pass_at_k
 
-def fit_docs_by_tokens(
-    client: ChatOllama | ChatOpenAI | ChatAnthropic,
-    docs: list[Document], 
-    available_ctx: int,
-    model: str,
-) -> tuple[str, int]:
-    """
-    Select a subset of documents that fit within the available context tokens.
-    Supports both tiktoken and ollama models own tokenizer.
-    """
 
-
-    def get_token_count(doc: str) -> int:
-        if "gpt" in model:
-            encoding = tiktoken.encoding_for_model(model)
-            tokens = find_max_tokens_tokenizer([doc], encoding)
-        else:
-            tokens = client(model=model, num_ctx=available_ctx).get_num_tokens(doc) 
-        return tokens
-
-    selected_docs = docs[:]
-    total_tokens = sum(get_token_count(doc.page_content) for doc in selected_docs)
-    print(f"Initial docs contain {total_tokens} tokens of availbale {available_ctx} tokens")
-
-    # Prune if over budget
-    while total_tokens > available_ctx and selected_docs:
-        removed_doc = selected_docs.pop()
-        total_tokens -= get_token_count(removed_doc.page_content)
-        # print(f"Removed document, new token count: {total_tokens}")
-
-    # Try adding more docs while staying under the token limit
-    for doc in docs[len(selected_docs):]:
-        doc_tokens = get_token_count(doc.page_content)
-        # print(f"Document token count: {doc_tokens}")
-        if total_tokens + doc_tokens <= available_ctx:
-            selected_docs.append(doc)
-            total_tokens += doc_tokens
-            # print(f"Added document, new token count: {total_tokens}")
-        else:
-            # print("Not room for more documents")
-            break  # No more room
-    print(f"Removed {len(docs) - len(selected_docs)} documents to fit within {available_ctx} tokens. From {len(docs)} docs to {len(selected_docs)} docs")
-    return "\n\n".join(doc.page_content for doc in selected_docs), total_tokens
-
-def add_RAG_to_prompt(
+def two_step_run(
     client: ChatOllama | ChatOpenAI | ChatAnthropic,
     model: str,
-    task: str,
-    available_ctx: int, 
-    rag_data: RagData, 
-    final_prompt_template: ChatPromptTemplate,
-    prompt_variables_dict: dict
-)-> tuple[str, ChatPromptTemplate, dict, int]:
-    
-    """Add RAG context to the prompt."""
+    available_nodes: list[str],
+    data: list[dict],
+    example_pool: BaseExampleSelector,
+    node_max_new_tokens: int,
+    code_max_new_tokens: int,
+    temperature: float,
+    top_p: float,
+    top_k: int,
+    n=1,
+    seed=None,
+    debug=False,
+    prompt_type: PromptType = PromptType.REGULAR,
+    ollama_port="11434",
+    rag_data: RagData = None,
+    max_ctx=16000
+) -> tuple[dict[int, list[str]], int]:
+    """
+    Run a model on a list of tasks in two stages:
+      1) Node step
+      2) Code step
+    Return a dict mapping task_id -> list of generated code snippets,
+    plus the largest context usage observed.
+    """
 
-    TOTAL_DOCS_TOKENS = 40000
-    TOTAL_LANG_DOCS_TOKENS = 2650
-    rag_template = HumanMessagePromptTemplate.from_template(get_prompt_template("RAG"))
-    
-    if available_ctx > TOTAL_DOCS_TOKENS:
-        # Use all data
-        formatted_language_context = rag_data.formatted_language_context
-        formatted_node_context = rag_data.formatted_node_context
+    # Basic input checks
+    if "phi" in model.lower() and max_ctx > 16000:
+        raise ValueError("Max context for Phi model is 16000 tokens.")
+    elif max_ctx > 130000:
+        raise ValueError("Max context in our setup is 130000 tokens.")
 
-    else:    
-        print("Total available tokens after prompt: ", available_ctx)
-        # Split token budget
-        # max_lang_tokens = int(available_ctx * 0.5)
-        # print("allocating ", max_lang_tokens, " tokens to language context")
 
-        # formatted_language_context, used_tokens = fit_docs_by_tokens(
-        #     client,
-        #     rag_data.language_retriever.similarity_search(task, k=10),
-        #     available_ctx=max_lang_tokens,
-        #     model=model
-        # )
-        formatted_language_context = rag_data.formatted_language_context
+    results: dict[int, list[str]] = {}
+    largest_ctx_size = 0
 
-        
-        used_lang_tokens = TOTAL_LANG_DOCS_TOKENS
-        print(f"Used {used_lang_tokens} tokens for language context\n")
+    for idx, sample in enumerate(data):
+        node_candidates = []
+        # (A) Step 1: Node step (optionally use rag_data to retrieve nodes if you want).
+        generation_kwargs = { # Get the best from validation
+            "client": client,
+            "model": model,
+            "temperature": temperature,
+            "top_p": top_p,
+            "top_k": top_k,
+            "seed": seed,
+            "n": 1,
+            "debug": debug,
+        }
+        node_candidates, node_prompt_size = run_prompt_step(
+            response_type="NODE",
+            sample=sample,
+            example_pool=example_pool,
+            prompt_type=prompt_type,
+            available_nodes=available_nodes,
+            client=client,
+            model=model,
+            max_ctx=max_ctx,
+            max_new_tokens=node_max_new_tokens,
+            generation_kwargs=generation_kwargs,
+            rag_data=rag_data,
+            debug=debug,
+            ollama_port=ollama_port
+        )
+        node_candidates = node_candidates[0].split(",")
+        print("Extracted nodes into list: ", node_candidates)
 
-        max_node_tokens = available_ctx - (used_lang_tokens)
-        print("allocating remaining", max_node_tokens, " tokens to node context")
-        avg_doc_tokens = 150
-        estimated_k = int(available_ctx/ avg_doc_tokens)
-        print(f"Estimated to extract k = {estimated_k} documents.")
-        docs = rag_data.node_retriever.similarity_search(task, k=estimated_k) # init too many docs, to later reduce to fit context
-        formatted_node_context, used_node_tokens = fit_docs_by_tokens(
-            client,
-            docs,
-            available_ctx=max_node_tokens,
-            model=model
+        # (B) Step 2: Code step
+        generation_kwargs = { #
+            "client": client,
+            "model": model,
+            "temperature": temperature,
+            "top_p": top_p,
+            "top_k": top_k,
+            "n": n,
+            "seed": seed,
+            "debug": debug,
+        }
+        code_candidates, code_prompt_size = run_prompt_step(
+            response_type="CODE",
+            sample=sample,
+            example_pool=example_pool,
+            prompt_type=prompt_type,
+            available_nodes=available_nodes,
+            client=client,
+            model=model,
+            max_ctx=max_ctx,
+            max_new_tokens=code_max_new_tokens,
+            generation_kwargs=generation_kwargs,
+            rag_data=rag_data,
+            debug=debug,
+            candidate_nodes=node_candidates,
+            ollama_port=ollama_port
         )
 
-    prompt_variables_dict.update({
-        "language_context": formatted_language_context,
-        "node_context": formatted_node_context,
-    })
+        # Track largest context usage
+        used_ctx_node = node_prompt_size + node_max_new_tokens
+        used_ctx_code = code_prompt_size + code_max_new_tokens
+        largest_ctx_size = max(largest_ctx_size, used_ctx_node, used_ctx_code)
 
-    final_prompt_template.messages.insert(1, rag_template) # Betweem system message and few-shots
-    used_tokens = used_lang_tokens + used_node_tokens
+        # Store final code from step 2 in results
+        task_id = int(sample["task_id"])
+        true_response_code = sample["response"]
+        results[task_id] = code_candidates
 
-    final_rag_prompt = final_prompt_template.format(**prompt_variables_dict)
-    return final_rag_prompt, final_prompt_template, prompt_variables_dict, used_tokens
-
-
-
-def build_prompt(
-    prompt_type: PromptType,
-    example_pool: BaseExampleSelector,
-    sample: dict[str, str],
-    available_nodes: list[str],
-
-)-> tuple[str, ChatPromptTemplate, dict[str, str]]:
-    """Create a prompt for the model based on the prompt type."""  
-    few_shot_examples = example_pool.select_examples(sample)
-    task = sample["task"]
-
-    if prompt_type.value is PromptType.SIGNATURE.value: # Uses signature prompt
-        few_shot = create_few_shot_prompt(few_shot_examples, 'CODE_SIGNATURE_TEMPLATE')
-        final_prompt_template = create_final_prompt(few_shot, "CODE_GENERATOR_TEMPLATE", "CODE_SIGNATURE_TEMPLATE")
-
-        prompt_variables_dict = {
-            "external_functions": available_nodes,
-            "task": task, 
-            "function_signature": sample["function_signature"],
-        }
-    elif prompt_type.value is PromptType.REGULAR.value: # Uses regular prompt
-        few_shot = create_few_shot_prompt(few_shot_examples, 'CODE_TEMPLATE')
-        final_prompt_template = create_final_prompt(few_shot, "CODE_GENERATOR_TEMPLATE", "CODE_TEMPLATE")
-        prompt_variables_dict ={
-            "external_functions": available_nodes,
-            "task": task, 
-        }
-    elif prompt_type.value is PromptType.COT.value: # Uses COT prompt
-        few_shot = create_few_shot_prompt(few_shot_examples, 'COT_TEMPLATE')
-        final_prompt_template = create_final_prompt(few_shot, "CODE_GENERATOR_TEMPLATE", "COT_TEMPLATE")
-        prompt_variables_dict = {
-            "external_functions": available_nodes,
-            "task": task, 
-            "function_signature": sample["function_signature"],
-        }
-    else:
-        raise ValueError("Invalid prompt type. Choose from 'regular', 'signature', 'signature' or 'cot'")
+        print(f"\nDone with: === Task {idx+1}/{len(data)} (TASK ID={task_id}) ===")
         
-    prompt = final_prompt_template.format(**prompt_variables_dict)
-    return prompt, final_prompt_template, prompt_variables_dict,
+    return results, largest_ctx_size
 
+def run_prompt_step(
+    response_type: str, # CODE or NODE
+    sample: dict,
+    example_pool: BaseExampleSelector,
+    prompt_type: PromptType,
+    available_nodes: list[str],
+    client,
+    model: str,
+    max_ctx: int,
+    max_new_tokens: int,
+    generation_kwargs: dict,
+    rag_data: RagData = None,
+    debug: bool = False,
+    candidate_nodes: list = [],
+    ollama_port: str = "11434"
+) -> tuple[list[str], int]:
+    """
+    1. Build prompt
+    2. Measure tokens.
+    3. Possibly add RAG context. Between System message and few-shots.
+    4. Generate responses.
+    5. Return generated candidates & final prompt size.
+    """
+    # Build the base prompt
+    true_response = sample["response"]
+    few_shot_examples = example_pool.select_examples(sample)
+    if response_type == "NODE":
+        few_shot_examples= code_data_to_node_data(few_shot_examples)
+        true_response = sample["external_functions"]
+
+    prompt, final_prompt_template, prompt_variables_dict = build_prompt(
+        response_type=response_type,
+        prompt_type=prompt_type,
+        few_shot_examples=few_shot_examples,
+        sample=sample,
+        available_nodes=available_nodes,
+    )
+    # Measure initial prompt size
+    prompt_size = measure_prompt_tokens(client, model, prompt, max_ctx)
+
+    # Reserve output tokens and get the leftover context for RAG
+    print(f"Using {max_ctx} for context window")    
+    available_ctx = max_ctx - prompt_size - max_new_tokens
+    if debug:
+        print(f"\nPrompt size = {prompt_size}, leaving {available_ctx} tokens for RAG + buffer.")
+
+    # Possibly inject RAG data
+    if rag_data:
+        # print(f"available context after subtracting prompt_size of {prompt_size} tokens and output tokens of {max_new_tokens} tokens: {available_ctx}")
+        prompt, final_prompt_template, prompt_variables_dict, used_tokens = add_RAG_to_prompt(
+            client = client,
+            model = model,
+            task = sample["task"],
+            available_ctx = available_ctx,
+            rag_data = rag_data,
+            final_prompt_template = final_prompt_template,
+            prompt_variables_dict = prompt_variables_dict,
+            candidate_nodes = candidate_nodes
+        )
+        prompt_size = prompt_size + used_tokens
+
+    if debug:
+        print(f"Final prompt size: {prompt_size} (plus {max_new_tokens} for output).")
+
+    # Generate responses
+    generated_candidates = generate_n_responses(
+        **generation_kwargs,
+        max_new_tokens=max_new_tokens,
+        final_prompt_template=final_prompt_template,
+        prompt_variables_dict=prompt_variables_dict,
+        context=prompt_size + max_new_tokens,
+        ollama_port=ollama_port
+    )
+    if debug:
+        # print(f"\n\n{Style.BRIGHT}=== Sample: {index+1} ===")
+        print(f"{Fore.CYAN}{Style.BRIGHT} User prompt: {Style.RESET_ALL}\n{prompt}\n")
+        for i, cand in enumerate(generated_candidates):
+            print(f"{Fore.YELLOW}{Style.BRIGHT} Assistant response: #{i+1}:\n{cand}\n")
+        print(f"{Fore.GREEN}{Style.BRIGHT} True response:{Style.RESET_ALL}\n {true_response}\n")
+
+    return generated_candidates, prompt_size
+   
 def run_model(
     client: ChatOllama | ChatOpenAI | ChatAnthropic,
     model,
@@ -299,128 +314,32 @@ def run_model(
     results: dict[int, list[str]] = {}
     largest_ctx_size = 0
     for index, sample in enumerate(data):
-        generated_candidates: list[str] = []
-        true_response = sample["response"]
-        true_response_code = extract_code(true_response)
-        task = sample["task"]
-        task_id = int(sample["task_id"])
-        
-        prompt, final_prompt_template, prompt_variables_dict = build_prompt(
-            prompt_type,
-            example_pool,
-            sample,
-            available_nodes,
+
+        generated_candidates = run_prompt_step(
+            response_type="CODE",
+            sample=sample,
+            example_pool=example_pool,
+            prompt_type=prompt_type,
+            available_nodes=available_nodes,
+            client=client,
+            model=model,
+            max_ctx=max_ctx,
+            max_new_tokens=max_new_tokens,
+            generation_kwargs={
+                "client": client,
+                "model": model,
+                "temperature": temperature,
+                "top_p": top_p,
+                "top_k": top_k,
+                "n": n,
+                "seed": seed,
+                "debug": debug,
+            },
+            rag_data=rag_data,
+            debug=debug
         )
-        if "gpt" in model:
-            encoding = tiktoken.encoding_for_model(model)
-            prompt_size = find_max_tokens_tokenizer([prompt], encoding)
-        else:
-            prompt_size = client(model=model, num_ctx=max_ctx).get_num_tokens(prompt) # Will print warning if prompt is too big for model
-
-        # if max_ctx == -1:
-        #     #Reasoning model uses as much context as possible.
-        #     # Need to limit to max_ctx
-        #     max_new_tokens = 
-
-
-        # Add RAG context
-        if rag_data:
-            print(f"Using {max_ctx} for context window")    
-            available_ctx = max_ctx - prompt_size - max_new_tokens # available context for the model, after prompt and output tokens.
-            print(f"available context after subtracting prompt_size of {prompt_size} tokens and output tokens of {max_new_tokens} tokens: {available_ctx}")
-            prompt, final_prompt_template, prompt_variables_dict, used_tokens = add_RAG_to_prompt(
-                client = client,
-                model = model,
-                task = task,
-                available_ctx = available_ctx,
-                rag_data = rag_data,
-                final_prompt_template = final_prompt_template,
-                prompt_variables_dict = prompt_variables_dict
-            )
-            prompt_size = prompt_size + used_tokens
-
-
-        if prompt_size > largest_ctx_size:
-            largest_ctx_size = prompt_size + max_new_tokens
-            
-        print(f"Final prompt size: {prompt_size}. ({max_new_tokens} tokens remaining for output) (total context size: {largest_ctx_size})")
-
-        if debug:
-            print(f"\n\n{Style.BRIGHT}=== Sample: {index+1} ===")
-            print(f"{Fore.CYAN}{Style.BRIGHT} User prompt: {Style.RESET_ALL}\n{prompt}\n")
-
-        print(f"Generating response..  ({index + 1}/{len(data)})", end="\r")
-
-        current_n = 0
-        for attempt_i in range(n):
-            max_retries = 3
-            retries = 0
-            new_seed = seed * attempt_i if seed else None # different seed for each attempt if not None
-            generated = ""
-            while retries < max_retries:
-                try:
-                    print(f"    > Generating k response..  ({current_n + 1}/{n})", end="\r")
-                    if "gpt" in model:
-                        print("GPT MODEL")
-                        llm = client(
-                            model=model,
-                            temperature=temperature,
-                            seed=new_seed,
-                            max_tokens=max_new_tokens,
-                            stop=["```<|eot_id|>"],
-                            top_p=top_p,
-                            # top_k=top_k, #NOT AVAILABLE IN GPT
-                            streaming=False,
-                        )
-                    else:
-                        llm = client(
-                            model=model,
-                            temperature=temperature,
-                            num_predict=max_new_tokens,
-                            top_p=top_p,
-                            top_k=top_k,
-                            stream=False,
-                            num_ctx=largest_ctx_size,
-                            stop=["```<|eot_id|>"],
-                            seed=new_seed,
-                            base_url=f"http://localhost:{ollama_port}"
-                        )
-                    
-    
-                    chain = (final_prompt_template | llm)
-
-                    response = chain.invoke(
-                        prompt_variables_dict,
-                        {"run_name": f"Few-shot code prediction"}
-                    )
-                    print(generated)
-                    generated = response.content
-                    break  # If generation succeeded, break out of retry loop
-                except Exception as e:
-                    retries += 1
-                    print(f"Attempt {retries} failed with error: {e}")
-                    server_diagnostics()
-
-            if retries == max_retries:
-                print("Failed to get a response from the server after "
-                      + str(retries) + " attempts.")
-                generated = ""
-            
-            current_n += 1
-            # Extract code from the generated response
-            generated_code = extract_code(generated)
-            generated_candidates.append(generated_code)
-        # --- Now we have up to k responses for this prompt. ---
-
+        task_id = int(sample["task_id"])
         results[task_id] = generated_candidates
-
-        if debug:
-            # print(f"\n\n{Style.BRIGHT}=== Sample: {index+1} ===")
-            # print(f"{Fore.CYAN}{Style.BRIGHT} User prompt: {Style.RESET_ALL}\n{prompt}\n")
-            print(f"{Fore.YELLOW}{Style.BRIGHT} Full Assistant response: #{1}:\n{generated}\n")
-            for i, cand in enumerate(generated_candidates):
-                print(f"{Fore.YELLOW}{Style.BRIGHT} Assistant response: #{i+1}:\n{cand}\n")
-            print(f"{Fore.GREEN}{Style.BRIGHT} True response:{Style.RESET_ALL}\n {true_response_code}\n")
 
     return results, largest_ctx_size
 
@@ -596,8 +515,10 @@ def run_testing(
     experiment_name: str,
     env: str,
     prompt_type: PromptType,
+    two_step: bool = False,
     rag_data: RagData = None,
-    max_ctx: int = 60000
+    max_ctx: int = 60000,
+
 ) -> tuple[list[Run], Run]:
     """
     Run the model on the test set with different seeds and the best hyperparameters.
@@ -613,24 +534,45 @@ def run_testing(
 
     for seed in seeds:
         print(f"\nTesting with Seed: {seed} ..", end="\r")
-
-        model_result, largest_context = run_model(
-            client,
-            model["name"],
-            available_nodes,
-            test_data,
-            example_pool,
-            model["max_tokens"],
-            temperature,
-            top_p,
-            top_k,
-            n,
-            seed,
-            debug, 
-            prompt_type,
-            rag_data=rag_data,
-            max_ctx=max_ctx
-        )
+        if two_step:
+            model_result, largest_context = two_step_run(
+                client,
+                model=model["name"],
+                available_nodes=available_nodes,
+                data=test_data,
+                example_pool=example_pool,
+                node_max_new_tokens=model["node_max_tokens"],
+                code_max_new_tokens=model["max_tokens"],
+                temperature=temperature,
+                top_p=top_p,
+                top_k=top_k,
+                n=n,
+                seed=seed,
+                debug=debug,
+                prompt_type=prompt_type,
+                ollama_port="11434",
+                rag_data=rag_data,
+                max_ctx=max_ctx
+            )
+        
+        else:
+            model_result, largest_context = run_model(
+                client,
+                model["name"],
+                available_nodes,
+                test_data,
+                example_pool,
+                model["max_tokens"],
+                temperature,
+                top_p,
+                top_k,
+                n,
+                seed,
+                debug, 
+                prompt_type,
+                rag_data=rag_data,
+                max_ctx=max_ctx
+            )
 
         metric_results_lists = evaluate_code (
             model_result,
@@ -642,6 +584,7 @@ def run_testing(
             hyperparams={"seed": seed, "temperature": temperature, "top_p": top_p, "top_k": top_k},
             phase="testing"
         )
+        print(f"Testing with seed={seed}, Gave pass@ks={metric_results_lists}")
 
         new_run = Run(
             phase="testing",

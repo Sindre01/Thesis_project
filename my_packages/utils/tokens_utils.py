@@ -1,5 +1,9 @@
 import json
 import os
+from langchain_anthropic import ChatAnthropic
+from langchain_ollama import ChatOllama
+from langchain_openai import ChatOpenAI
+from langchain.schema import Document
 import tiktoken # type: ignore
 
 def find_max_tokens_client(responses: list[str], model, client):
@@ -87,3 +91,57 @@ def models_not_in_file(models, file_path):
     with open(file_path, "r") as f:
         existing_models = json.load(f)
     return [model for model in models if model not in existing_models]
+
+def measure_prompt_tokens(
+    client, model: str, prompt: str, max_ctx: int
+) -> int:
+    """
+    Return the number of tokens used by `prompt`.
+    For GPT models, uses tiktoken.
+    Otherwise, uses the client's built-in .get_num_tokens().
+    """
+    if "gpt" in model.lower():
+        encoding = tiktoken.encoding_for_model(model)
+        # A helper function you wrote that sums tokens in a list of strings
+        return find_max_tokens_tokenizer([prompt], encoding)
+    else:
+        # Ollama or Anthropic style
+        return client(model=model, num_ctx=max_ctx).get_num_tokens(prompt)
+    
+
+def fit_docs_by_tokens(
+    client: ChatOllama | ChatOpenAI | ChatAnthropic,
+    docs: list[Document], 
+    available_ctx: int,
+    model: str,
+) -> tuple[str, int]:
+    """
+    Select a subset of documents that fit within the available context tokens.
+    Supports both tiktoken and ollama models own tokenizer.
+    """
+    kwargs = {"client": client, "model": model, "max_ctx": available_ctx}
+
+
+    selected_docs = docs[:]
+    total_tokens = sum(measure_prompt_tokens(prompt=doc.page_content, **kwargs) for doc in selected_docs)
+    print(f"Initial docs contain {total_tokens} tokens of availbale {available_ctx} tokens")
+
+    # Prune if over budget
+    while total_tokens > available_ctx and selected_docs:
+        removed_doc = selected_docs.pop()
+        total_tokens -= measure_prompt_tokens(prompt=removed_doc.page_content, **kwargs)
+        # print(f"Removed document, new token count: {total_tokens}")
+
+    # Try adding more docs while staying under the token limit
+    for doc in docs[len(selected_docs):]:
+        doc_tokens = measure_prompt_tokens(prompt=doc.page_content, **kwargs)
+        # print(f"Document token count: {doc_tokens}")
+        if total_tokens + doc_tokens <= available_ctx:
+            selected_docs.append(doc)
+            total_tokens += doc_tokens
+            # print(f"Added document, new token count: {total_tokens}")
+        else:
+            # print("Not room for more documents")
+            break  # No more room
+    print(f"Removed {len(docs) - len(selected_docs)} documents to fit within {available_ctx} tokens. From {len(docs)} docs to {len(selected_docs)} docs")
+    return "\n\n".join(doc.page_content for doc in selected_docs), total_tokens

@@ -150,7 +150,7 @@ def main(train_data, val_data):
     
 
                 print(f"\n==== Running few-shot validation for {experiment_name} on '{model_name}' ====")  
-                model = get_model_code_tokens_from_file(model_name, f'{project_dir}/data/code_max_tokens.json')
+                model = get_model_code_tokens_from_file(model_name, f'{project_dir}/data/max_tokens.json')
                 run_val_experiment(
                     client,
                     val_data,
