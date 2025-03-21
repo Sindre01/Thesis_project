@@ -164,7 +164,7 @@ def main(
             raise ValueError(f"Unknown experiment type: {experiment_type}")
             
         results_dir = os.path.join(f"{results_dir}/{experiment_type}/{prompt_type}/runs/")
-        best_params_folder = f"{best_params_folder}/{selector_type}/{prompt_type}/hold_out" #Using few-shot best params
+        best_params_folder = f"{best_params_root}/{selector_type}/{prompt_type}/hold_out" #Using few-shot best params
 
         for shots in ex["num_shots"]:
             selector=init_example_selector(shots, train_data, semantic_selector=ex["semantic_selector"])
@@ -250,7 +250,7 @@ def main(
             
 if __name__ == "__main__":
     experiment_folder = "context"
-    best_params_folder = f"{project_dir}/experiments/few-shot/fox/best_params"
+    best_params_root = f"{project_dir}/experiments/few-shot/fox/best_params"
     results_dir = f"/fp/homes01/u01/ec-sindrre/slurm_jobs/{experiment_folder}/testing"
     rag_data = init_rag_data() # None if not using RAG
    

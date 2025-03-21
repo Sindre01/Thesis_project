@@ -7,7 +7,7 @@
 # Configuration
 EXPERIMENT="few-shot"                    # Experiment ('few-shot')
 PHASE="testing"                       # Phase ('testing' or 'validation')
-EXAMPLES_TYPE="similarity"                 #'coverage' or 'similarity'
+EXAMPLES_TYPE="coverage"                 #'coverage' or 'similarity'
 PROMPT_TYPE=""                 # 'regular' or 'cot' or 'signature'   
 # SEMANTIC_SELECTOR=true                   # Use semantic selector
 K_FOLD_JOBS=0-2                              # Runs jobs for folds 0 to 2 (3-fold CV)
@@ -35,38 +35,38 @@ fi
 CLONE_DIR="/fp/homes01/u01/ec-sindrre/tmp/Thesis_project_${EXAMPLES_TYPE}_\$SLURM_JOB_ID"
 ##############Experiment config################
 model_provider='ollama'
-# experiments='[
-#         {
-#             "name": "regular_coverage",
-#             "prompt_prefix": "Create a function",
-#             "num_shots": [5, 10],
-#             "prompt_type": "regular",
-#             "semantic_selector": false
-#         },
-#         {
-#             "name": "signature_coverage",
-#             "prompt_prefix": "Create a function",
-#             "num_shots": [1, 5, 10],
-#             "prompt_type": "signature",
-#             "semantic_selector": false
-#         }
-# ]'
 experiments='[
         {
-            "name": "signature_similarity",
+            "name": "regular_coverage",
             "prompt_prefix": "Create a function",
             "num_shots": [5, 10],
-            "prompt_type": "signature",
-            "semantic_selector": true
+            "prompt_type": "regular",
+            "semantic_selector": false
         },
         {
-            "name": "regular_similarity",
+            "name": "signature_coverage",
             "prompt_prefix": "Create a function",
             "num_shots": [1, 5, 10],
-            "prompt_type": "regular",
-            "semantic_selector": true
+            "prompt_type": "signature",
+            "semantic_selector": false
         }
 ]'
+# experiments='[
+#         {
+#             "name": "signature_similarity",
+#             "prompt_prefix": "Create a function",
+#             "num_shots": [5, 10],
+#             "prompt_type": "signature",
+#             "semantic_selector": true
+#         },
+#         {
+#             "name": "regular_similarity",
+#             "prompt_prefix": "Create a function",
+#             "num_shots": [1, 5, 10],
+#             "prompt_type": "regular",
+#             "semantic_selector": true
+#         }
+# ]'
 # models='[
 #     "llama3.3:70b-instruct-fp16"
 # ]'
