@@ -10,7 +10,8 @@ FOLD=${8:-"-1"}
 
 EXPERIMENT_DIR="${EXPERIMENT_TYPE}/${PROMPT_TYPE}"
 SCRIPT_DIR="$(realpath "$(dirname "${BASH_SOURCE[0]}")")"
-TARGET_DIR="$(realpath "${SCRIPT_DIR}/../${PHASE}_runs/${EXPERIMENT_DIR}/")"
+ROOT_DIR="$(realpath "${SCRIPT_DIR}/../../")"
+TARGET_DIR="$(realpath "${ROOT_DIR}/experiments/${EXPERIMENT}/fox/${PHASE}_runs/${EXPERIMENT_DIR}/")"
 if [[ "$FOLD" == "-1" ]]; then
     REMOTE_DIR="/fp/homes01/u01/ec-sindrre/slurm_jobs/${EXPERIMENT}/${PHASE}/${EXPERIMENT_DIR}/runs/hold_out/"
     BRANCH="${PHASE}/${EXPERIMENT}-${EXPERIMENT_TYPE}-${PROMPT_TYPE}"
