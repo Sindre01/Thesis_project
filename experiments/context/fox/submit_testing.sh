@@ -52,13 +52,7 @@ model_provider='ollama'
 #         }
 # ]'
 experiments='[
-        {
-            "name": "regular_RAG",
-            "prompt_prefix": "Create a function",
-            "num_shots": [5],
-            "prompt_type": "regular",
-            "semantic_selector": true
-        },
+        
         {
             "name": "signature_RAG",
             "prompt_prefix": "Create a function",

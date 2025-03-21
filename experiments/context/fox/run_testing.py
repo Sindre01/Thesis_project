@@ -111,7 +111,7 @@ def run_testing_experiment(
             top_k,
             n = n,
             seed = seed,
-            debug = False, 
+            debug = True, 
             prompt_type = prompt_type,
             ollama_port=ollama_port,
             rag_data=rag_data,
@@ -142,7 +142,7 @@ def main(
         train_data: list, 
         test_data: list,
         results_dir: str,
-        best_params_folder: str, 
+        best_params_root: str, 
         rag_data: RagData = None,
         fold=-1, 
         k_folds=3):
@@ -326,7 +326,7 @@ if __name__ == "__main__":
         fold=fold,
         results_dir=results_dir,
         rag_data=rag_data,
-        best_params_folder=best_params_folder,
+        best_params_folder=best_params_root,
     )
     
 

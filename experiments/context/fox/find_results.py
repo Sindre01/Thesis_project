@@ -10,14 +10,16 @@ from my_packages.common.classes import Phase
 from my_packages.evaluation.find_results import find_results
 
 if __name__ == "__main__":
+
+    os.environ['EXPERIMENT_DB_NAME'] = "context_experiments"
     find_results( 
         experiment_folder="context",
         env="prod",
         eval_method="3_fold",
         experiment_types=["RAG", "full-context"],
-        prompt_types=["regular", "signature"],
+        prompt_types=["regular"],
         shots=[5],
-        metrics=["syntax", "semantic", "tests"],
+        metrics=["syntax", "semantic"],
         ks=[1, 2, 3, 5, 10],
         use_threads=True,
         model="",

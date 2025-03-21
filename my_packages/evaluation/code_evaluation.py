@@ -222,7 +222,7 @@ def add_RAG_to_prompt(
         "node_context": formatted_node_context,
     })
 
-    final_prompt_template.messages.insert(-1, rag_template)
+    final_prompt_template.messages.insert(1, rag_template) # Betweem system message and few-shots
     used_tokens = used_lang_tokens + used_node_tokens
 
     final_rag_prompt = final_prompt_template.format(**prompt_variables_dict)
@@ -316,18 +316,18 @@ def run_model(
             prompt_size = find_max_tokens_tokenizer([prompt], encoding)
         else:
             prompt_size = client(model=model, num_ctx=max_ctx).get_num_tokens(prompt) # Will print warning if prompt is too big for model
-        print(f"Using {max_ctx} for context window")
 
         # if max_ctx == -1:
         #     #Reasoning model uses as much context as possible.
         #     # Need to limit to max_ctx
         #     max_new_tokens = 
 
-        available_ctx = max_ctx - prompt_size - max_new_tokens # available context for the model, after prompt and output tokens.
-        print(f"available context after subtracting prompt_size of {prompt_size} tokens and output tokens of {max_new_tokens} tokens: {available_ctx}")
 
         # Add RAG context
         if rag_data:
+            print(f"Using {max_ctx} for context window")    
+            available_ctx = max_ctx - prompt_size - max_new_tokens # available context for the model, after prompt and output tokens.
+            print(f"available context after subtracting prompt_size of {prompt_size} tokens and output tokens of {max_new_tokens} tokens: {available_ctx}")
             prompt, final_prompt_template, prompt_variables_dict, used_tokens = add_RAG_to_prompt(
                 client = client,
                 model = model,
@@ -343,7 +343,7 @@ def run_model(
         if prompt_size > largest_ctx_size:
             largest_ctx_size = prompt_size + max_new_tokens
             
-        print(f"Final prompt size: {prompt_size}. ({max_new_tokens} tokens remaining for output)")
+        print(f"Final prompt size: {prompt_size}. ({max_new_tokens} tokens remaining for output) (total context size: {largest_ctx_size})")
 
         if debug:
             print(f"\n\n{Style.BRIGHT}=== Sample: {index+1} ===")
