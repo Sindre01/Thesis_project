@@ -191,10 +191,10 @@ def add_RAG_to_prompt(
     TOTAL_NODE_DOCS_TOKENS = 35000
     rag_template = HumanMessagePromptTemplate.from_template(get_prompt_template("RAG"))
     used_lang_tokens = TOTAL_LANG_DOCS_TOKENS
+    formatted_language_context = rag_data.formatted_language_context
 
     if available_ctx > TOTAL_DOCS_TOKENS:
         # Use all data
-        formatted_language_context = rag_data.formatted_language_context
         formatted_node_context = rag_data.formatted_node_context
         used_node_tokens = TOTAL_NODE_DOCS_TOKENS
     else:    
