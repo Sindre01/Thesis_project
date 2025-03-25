@@ -8,7 +8,7 @@
 EXPERIMENT="assisted-RAG"                    # Experiment e.g.: 'few-shot'
 PHASE="testing"                       # Phase ('testing' or 'validation')
 CONTEXT_TYPE="ONE"                 #'ONE'
-PROMPT_TYPE="signature"                 # 'regular' or 'cot' or 'signature'   
+PROMPT_TYPE="regular"                 # 'regular' or 'cot' or 'signature'   
 # SEMANTIC_SELECTOR=true                   # Use semantic selector
 K_FOLD_JOBS=0-2                              # Runs jobs for folds 0 to 2 (3-fold CV)
 USER="ec-sindrre"                        # Your Educloud username
@@ -36,24 +36,24 @@ CLONE_DIR="/fp/homes01/u01/ec-sindrre/tmp/Thesis_project_${CONTEXT_TYPE}_\$SLURM
 ##############Experiment config################
 model_provider='ollama'
 
-# experiments='[
-#         {
-#             "name": "regular_ONE",
-#             "prompt_prefix": "Create a function",
-#             "num_shots": [5],
-#             "prompt_type": "regular",
-#             "semantic_selector": true
-#         }
-# ]'
 experiments='[
         {
-            "name": "signature_ONE",
+            "name": "regular_ONE",
             "prompt_prefix": "Create a function",
             "num_shots": [5],
-            "prompt_type": "signature",
+            "prompt_type": "regular",
             "semantic_selector": true
         }
 ]'
+# experiments='[
+#         {
+#             "name": "signature_ONE",
+#             "prompt_prefix": "Create a function",
+#             "num_shots": [5],
+#             "prompt_type": "signature",
+#             "semantic_selector": true
+#         }
+# ]'
 # models='[
 #     "llama3.3:70b-instruct-fp16"
 # ]'
