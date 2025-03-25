@@ -23,7 +23,12 @@ def server_diagnostics(host="http://localhost:11434"):
         print("Server is not reachable. Running diagnostics...")
         project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '../..'))
         file_path = os.path.join(project_root, f'scripts/SSH_FORWARDING.sh')
-        rc = call(file_path)
+        if os.file.exists(file_path):
+            print(f"Running forwarding script: {file_path}")
+            rc = call(file_path)
+        else:
+            print(f"File not found: {file_path}")
+            rc = 1
         # Check the result
         if rc == 0:
             print("Executed ssh forwarding successfully! Check job status on the server if failure continues.")

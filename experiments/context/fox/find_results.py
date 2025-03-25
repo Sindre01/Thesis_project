@@ -7,17 +7,17 @@ experiment_dir = os.path.abspath(f"{script_dir}/..")
 
 sys.path.append(project_dir)
 from my_packages.common.classes import Phase
+os.environ['EXPERIMENT_DB_NAME'] = "context_experiments"
 from my_packages.evaluation.find_results import find_results
 
 if __name__ == "__main__":
 
-    os.environ['EXPERIMENT_DB_NAME'] = "context_experiments"
     find_results( 
         experiment_folder="context",
         env="prod",
         eval_method="3_fold",
         experiment_types=["RAG"],
-        prompt_types=["signature"],
+        prompt_types=["regular", "signature"],
         shots=[5],
         metrics=["syntax", "semantic", "tests"],
         ks=[1, 2, 3, 5, 10],

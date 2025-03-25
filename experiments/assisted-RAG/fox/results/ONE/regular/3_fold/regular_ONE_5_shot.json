@@ -1,7 +1,7 @@
 [
     {
         "model_name": "phi4:14b-fp16",
-        "experiment": "regular_RAG_5_shot",
+        "experiment": "regular_ONE_5_shot",
         "metrics": [
             "syntax",
             "semantic",
@@ -23,44 +23,44 @@
             10
         ],
         "syntax@1": {
-            "mean": 0.82,
-            "std": 0.01
+            "mean": 0.83,
+            "std": 0.04
         },
         "syntax@2": {
-            "mean": 0.92,
-            "std": 0.01
-        },
-        "syntax@3": {
-            "mean": 0.95,
-            "std": 0.01
-        },
-        "syntax@5": {
-            "mean": 0.99,
-            "std": 0.0
-        },
-        "syntax@10": {
-            "mean": 1.0,
-            "std": 0.0
-        },
-        "semantic@1": {
-            "mean": 0.71,
+            "mean": 0.93,
             "std": 0.02
         },
+        "syntax@3": {
+            "mean": 0.96,
+            "std": 0.02
+        },
+        "syntax@5": {
+            "mean": 0.98,
+            "std": 0.02
+        },
+        "syntax@10": {
+            "mean": 0.98,
+            "std": 0.02
+        },
+        "semantic@1": {
+            "mean": 0.67,
+            "std": 0.09
+        },
         "semantic@2": {
-            "mean": 0.83,
-            "std": 0.03
+            "mean": 0.8,
+            "std": 0.1
         },
         "semantic@3": {
-            "mean": 0.89,
-            "std": 0.04
+            "mean": 0.85,
+            "std": 0.11
         },
         "semantic@5": {
-            "mean": 0.95,
-            "std": 0.04
+            "mean": 0.89,
+            "std": 0.1
         },
         "semantic@10": {
-            "mean": 0.98,
-            "std": 0.03
+            "mean": 0.92,
+            "std": 0.09
         },
         "tests@1": {
             "mean": 0.0,
