@@ -36,7 +36,7 @@ def model_configs(
             if is_remote_server_reachable(url = host + "/api/tags"):
                 print("Server is reachable.")
             else:
-                server_diagnostics()
+                server_diagnostics(host=host)
                 if not is_remote_server_reachable(url = host + "/api/tags"):
                     print("Ollama server is not reachable. Batch job might have finished. Try running bash script again.")
 
