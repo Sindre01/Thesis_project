@@ -14,7 +14,7 @@
 #SBATCH --ntasks=1
 #SBATCH --nodelist=                   # List of nodes that the job can run on
 #SBATCH --gpus=rtx30:2                             # Number of GPUs
-#SBATCH --time=5-00:00:00                             # Walltime (D-HH:MM:SS)
+#SBATCH --time=3-00:00:00                             # Walltime (D-HH:MM:SS)
 #SBATCH --mem-per-gpu=20G              # Memory per CPU
 #SBATCH --output=Job_testing_%j.out                 # Standard output and error log
 
@@ -128,19 +128,19 @@ trap cleanup EXIT
 echo "============= Running testing context Python script for Fold ... ============="
 export PYTHONPATH="/fp/homes01/u01/ec-sindrre/tmp/Thesis_project_RAG_$SLURM_JOB_ID:~/Thesis_project:~/Thesis_project:"
 python -u /fp/homes01/u01/ec-sindrre/tmp/Thesis_project_RAG_$SLURM_JOB_ID/experiments/context/fox/run_testing.py     --model_provider 'ollama'     --models '[
-    "phi4:14b-fp16"
+    "llama3.3:70b-instruct-fp16"
 ]'     --experiments '[
         {
             "name": "regular_RAG",
             "prompt_prefix": "Create a function",
-            "num_shots": [5],
+            "num_shots": [10],
             "prompt_type": "regular",
             "semantic_selector": true
         },
         {
             "name": "signature_RAG",
             "prompt_prefix": "Create a function",
-            "num_shots": [5],
+            "num_shots": [10],
             "prompt_type": "signature",
             "semantic_selector": true
         }
