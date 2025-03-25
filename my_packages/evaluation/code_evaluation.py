@@ -337,7 +337,8 @@ def run_model(
                 "debug": debug,
             },
             rag_data=rag_data,
-            debug=debug
+            debug=debug,
+            ollama_port=ollama_port
         )
         task_id = int(sample["task_id"])
         results[task_id] = generated_candidates

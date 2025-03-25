@@ -22,7 +22,7 @@ NODE_LIST=    # List of nodes that the job can run on gpu-9,gpu-7,gpu-8,gpu-14 (
 TIME="3-00:00:00"                  # Slurm walltime (D-HH:MM:SS)
 MEM_PER_GPU="20G"                       # Memory per GPU. 
 OLLAMA_MODELS_DIR="/cluster/work/projects/ec12/ec-sindrre/ollama-models"  # Path to where the Ollama models are stored and loaded                      
-OLLAMA_PORT="11420"                       # Remote port where Ollama listens. If different parallell runs, change ollama_port to avoid conflicts if same node is allocated.
+OLLAMA_PORT="11414"                       # Remote port where Ollama listens. If different parallell runs, change ollama_port to avoid conflicts if same node is allocated.
 SBATCH_SCRIPT="${PHASE}_${CONTEXT_TYPE}_${PROMPT_TYPE}_${GPUS}_ollama.slurm"           # Slurm batch script name
 # Directory on Fox to store scripts and output
 if [ -n "$PROMPT_TYPE" ]; then
@@ -67,12 +67,10 @@ experiments='[
             "semantic_selector": true
         }
 ]'
+
 models='[
-    "llama3.3:70b-instruct-fp16"
+    "phi4:14b-fp16"
 ]'
-# models='[
-#     "phi4:14b-fp16"
-# ]'
 # models='[
 #     "llama3.3:70b-instruct-fp16"
 # ]'
@@ -139,8 +137,8 @@ source ~/.bashrc # may ovewrite previous modules
 OLLAMA_PORT_K_FOLD=\$((${OLLAMA_PORT} + \$SLURM_ARRAY_TASK_ID))
 
 export OLLAMA_MODELS=${OLLAMA_MODELS_DIR}    # Path to where the Ollama models are stored and loaded
-export OLLAMA_HOST=0.0.0.0:\$OLLAMA_PORT_K_FOLD    # Host and port where Ollama listens
-export OLLAMA_ORIGINS=”*”
+export OLLAMA_HOST=127.0.0.1:\$OLLAMA_PORT_K_FOLD    # Host and port where Ollama listens
+export OLLAMA_ORIGINS="*"
 export OLLAMA_LLM_LIBRARY="cuda_v12_avx" 
 export OLLAMA_FLASH_ATTENTION=1
 export OLLAMA_KV_CACHE_TYPE="f16" # f16 (default), q8_0 (half of the memory of f16, try this), q4_0 different quantization types to find the best balance between memory usage and quality.

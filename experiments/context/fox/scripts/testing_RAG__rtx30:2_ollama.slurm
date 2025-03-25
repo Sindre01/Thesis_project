@@ -36,10 +36,10 @@ module load Python/3.11.5-GCCcore-13.2.0
 # module load CUDA/12.4.0
 
 source ~/.bashrc # may ovewrite previous modules
-OLLAMA_PORT_K_FOLD=$((11420 + $SLURM_ARRAY_TASK_ID))
+OLLAMA_PORT_K_FOLD=$((11414 + $SLURM_ARRAY_TASK_ID))
 
 export OLLAMA_MODELS=/cluster/work/projects/ec12/ec-sindrre/ollama-models    # Path to where the Ollama models are stored and loaded
-export OLLAMA_HOST=0.0.0.0:$OLLAMA_PORT_K_FOLD    # Host and port where Ollama listens
+export OLLAMA_HOST=127.0.0.1:$OLLAMA_PORT_K_FOLD    # Host and port where Ollama listens
 export OLLAMA_ORIGINS=”*”
 export OLLAMA_LLM_LIBRARY="cuda_v12_avx" 
 export OLLAMA_FLASH_ATTENTION=1
@@ -128,7 +128,7 @@ trap cleanup EXIT
 echo "============= Running testing context Python script for Fold ... ============="
 export PYTHONPATH="/fp/homes01/u01/ec-sindrre/tmp/Thesis_project_RAG_$SLURM_JOB_ID:~/Thesis_project:~/Thesis_project:"
 python -u /fp/homes01/u01/ec-sindrre/tmp/Thesis_project_RAG_$SLURM_JOB_ID/experiments/context/fox/run_testing.py     --model_provider 'ollama'     --models '[
-    "llama3.3:70b-instruct-fp16"
+    "phi4:14b-fp16"
 ]'     --experiments '[
         {
             "name": "regular_RAG",
