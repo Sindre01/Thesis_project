@@ -5,7 +5,26 @@ import re
 import json
 import ast
 
+def all_nodes_from_libraries(write_to_file: bool = False):
+    """Extracts all available nodes (functions, types, etc.) from std_library and http_package."""
+    # Load function/type metadata from both libraries
+    std_library_data = extract_midio_functions("../../midio_libraries/src/std_library")
+    http_package_data = extract_midio_functions("../../midio_libraries/src/http_package")
 
+    combined_library_data = std_library_data + http_package_data
+
+    print(f"Total nodes found in std_library: {len(std_library_data)}")
+    print(f"Total nodes found in http_package: {len(http_package_data)}")
+    print(f"Combined total: {len(combined_library_data)}")
+
+    if write_to_file:
+        project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
+        file_path = os.path.join(project_root, "data/all_library_nodes.json")
+        with open(file_path, "w", encoding="utf-8") as f:
+            json.dump(combined_library_data, f, indent=4, ensure_ascii=False)
+        print(f"✅ All library nodes saved to {file_path}")
+
+    return combined_library_data
 
 def used_functions_from_dataset(data: list[dict], write_to_file: bool = False):
     """Extracts the used external functions from a dataset of sanitized MBPP-midio samples."""
