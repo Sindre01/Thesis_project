@@ -316,7 +316,7 @@ def run_model(
     largest_ctx_size = 0
     for index, sample in enumerate(data):
 
-        generated_candidates = run_prompt_step(
+        generated_candidates, prompt_size = run_prompt_step(
             response_type="CODE",
             sample=sample,
             example_pool=example_pool,
@@ -340,6 +340,9 @@ def run_model(
             debug=debug,
             ollama_port=ollama_port
         )
+        if prompt_size > largest_ctx_size:
+            largest_ctx_size = prompt_size + max_new_tokens
+
         task_id = int(sample["task_id"])
         results[task_id] = generated_candidates
 

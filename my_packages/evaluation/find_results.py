@@ -378,7 +378,11 @@ def prepare_experiement(
                 filter={"eval_method": eval_method},
                 db_connection=db
             )
-        if not run_experiment_quality_checks(experiment_name, eval_method=eval_method, db_connection=db):
+        ignore_best_params = False
+        if "RAG" in experiment_name or "context" in experiment_name:
+            ignore_best_params = True
+    
+        if not run_experiment_quality_checks(experiment_name, eval_method=eval_method, db_connection=db, ignore_best_params=ignore_best_params):
             raise Exception("Experiment quality checks failed.")
     else:
         setup_experiment_collection(experiment_name, db_connection=db)

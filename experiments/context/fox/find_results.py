@@ -18,7 +18,7 @@ if __name__ == "__main__":
         eval_method="3_fold",
         experiment_types=["RAG"],
         prompt_types=["regular", "signature"],
-        shots=[5],
+        shots=[5, 10],
         metrics=["syntax", "semantic", "tests"],
         ks=[1, 2, 3, 5, 10],
         use_threads=True,
