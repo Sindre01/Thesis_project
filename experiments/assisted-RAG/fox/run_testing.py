@@ -159,6 +159,8 @@ def main(
         experiment_type = ex["name"].split("_")[1] # e.g: "RAG" or "full-context"
         if experiment_type == "ONE":
             max_ctx = 16000
+        elif experiment_type == "MANY":
+            max_ctx = 16000
         else:
             raise ValueError(f"Unknown experiment type: {experiment_type}")
             
