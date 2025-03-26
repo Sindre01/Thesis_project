@@ -141,7 +141,7 @@ def run_testing_experiment(
 def main(
         train_data: list, 
         test_data: list,
-        results_dir: str,
+        results_root: str,
         best_params_root: str, 
         rag_data: RagData = None,
         fold=-1, 
@@ -163,7 +163,7 @@ def main(
         else:
             raise ValueError(f"Unknown experiment type: {experiment_type}")
             
-        results_dir = os.path.join(f"{results_dir}/{experiment_type}/{prompt_type}/runs/")
+        results_dir = os.path.join(f"{results_root}/{experiment_type}/{prompt_type}/runs/")
         best_params_folder = f"{best_params_root}/{selector_type}/{prompt_type}/hold_out" #Using few-shot best params
 
         for shots in ex["num_shots"]:
@@ -251,7 +251,7 @@ def main(
 if __name__ == "__main__":
     experiment_folder = "context"
     best_params_root = f"{project_dir}/experiments/few-shot/fox/best_params"
-    results_dir = f"/fp/homes01/u01/ec-sindrre/slurm_jobs/{experiment_folder}/testing"
+    results_root = f"/fp/homes01/u01/ec-sindrre/slurm_jobs/{experiment_folder}/testing"
     rag_data = init_rag_data() # None if not using RAG
    
     experiment_dir = os.path.abspath(f"{script_dir}/..")
@@ -324,7 +324,7 @@ if __name__ == "__main__":
         train_data=train_data, 
         test_data=test_data, 
         fold=fold,
-        results_dir=results_dir,
+        results_root=results_root,
         rag_data=rag_data,
         best_params_root=best_params_root,
     )
