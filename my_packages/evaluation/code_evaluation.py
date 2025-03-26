@@ -1,4 +1,5 @@
 from collections import defaultdict
+import os
 import numpy as np
 from my_packages.common.classes import CodeEvaluationResult, PromptType, Run
 from my_packages.common.rag import RagData
@@ -10,13 +11,14 @@ from my_packages.evaluation.models import generate_n_responses
 from my_packages.prompting.prompt_building import add_RAG_to_prompt, build_prompt, code_data_to_node_data
 from my_packages.utils.file_utils import save_results_as_string, save_results_to_file
 import re
+from syncode import Syncode
 from colorama import Fore, Style
 from langchain_ollama import ChatOllama
 from langchain_anthropic import ChatAnthropic
 from langchain_openai import ChatOpenAI
 from langchain_core.example_selectors.base import BaseExampleSelector
 from my_packages.utils.tokens_utils import measure_prompt_tokens
-
+project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '../..'))
 
 def evaluate_code_metric(
       result_dict: dict[int, list[str]],
@@ -303,7 +305,8 @@ def run_model(
     prompt_type=PromptType.REGULAR,
     ollama_port="11434",
     rag_data: RagData = None,
-    max_ctx=16000
+    max_ctx=16000,
+    constrained_output=False
 )-> tuple[dict[int, list[str]], int]:
     """Run a model on a list of tasks and return the generated code snippets."""
 
@@ -311,6 +314,24 @@ def run_model(
         raise ValueError("Max context for Phi model is 16000 tokens")
     elif max_ctx > 130000:
         raise ValueError("Max context in our setup is 130000 tokens")
+    
+    constrained_llm = None
+    if constrained_output:
+        print("Constrained output is set to True.")
+        model_kwargs = {
+            "seed": seed,
+            "max_length": max_new_tokens,
+            "temperature": temperature,
+            "top_k": top_k,
+            "top_p": top_p
+        }
+        # Load the Syncode augmented model
+        constrained_llm = Syncode(
+            model=model, 
+            grammar=f"{project_root}/data/midio_grammar.lark", 
+            parse_output_only=True, 
+            **model_kwargs
+        )
 
     results: dict[int, list[str]] = {}
     largest_ctx_size = 0
@@ -335,10 +356,11 @@ def run_model(
                 "n": n,
                 "seed": seed,
                 "debug": debug,
+                "constrained_llm": constrained_llm
             },
             rag_data=rag_data,
             debug=debug,
-            ollama_port=ollama_port
+            ollama_port=ollama_port,
         )
         if prompt_size > largest_ctx_size:
             largest_ctx_size = prompt_size + max_new_tokens

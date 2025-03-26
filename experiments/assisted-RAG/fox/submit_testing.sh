@@ -8,7 +8,7 @@
 EXPERIMENT="assisted-RAG"                    # Experiment e.g.: 'few-shot'
 PHASE="testing"                       # Phase ('testing' or 'validation')
 CONTEXT_TYPE="ONE"                 #'ONE'
-PROMPT_TYPE="regular"                 # 'regular' or 'cot' or 'signature'   
+PROMPT_TYPE=""                 # 'regular' or 'cot' or 'signature'   
 # SEMANTIC_SELECTOR=true                   # Use semantic selector
 K_FOLD_JOBS=0-2                              # Runs jobs for folds 0 to 2 (3-fold CV)
 USER="ec-sindrre"                        # Your Educloud username
@@ -43,7 +43,14 @@ experiments='[
             "num_shots": [5],
             "prompt_type": "regular",
             "semantic_selector": true
-        }
+        },
+         {
+             "name": "signature_ONE",
+             "prompt_prefix": "Create a function",
+             "num_shots": [5],
+             "prompt_type": "signature",
+            "semantic_selector": true
+         }
 ]'
 # experiments='[
 #         {

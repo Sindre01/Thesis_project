@@ -1,0 +1,148 @@
+WHITESPACE = _{ " " | "\n" | "\r\n" | "\t" }
+
+kw_module = { "module" }
+kw_func = { "func" }
+kw_extern = { "extern" }
+kw_event = { "event" }
+kw_type = { "type" }
+
+kw_instance = { "instance" }
+kw_data_instance = { "data_instance" }
+kw_waypoint_instance = { "waypoint" }
+kw_comment_instance = { "comment" }
+
+kw_import = { "import" }
+kw_native_dependencies_location = { "native_dependencies_location" }
+
+kw_in = { "in" }
+kw_out = { "out" }
+kw_property = { "property" }
+kw_trigger = { "trigger" }
+kw_parameter = { "parameter" }
+
+kw_produces = { "produces" }
+kw_consumes = { "consumes" }
+kw_borrows = { "borrows" }
+
+kw_or = { "or" }
+
+left_paren = { "(" }
+right_paren = { ")" }
+left_curl = { "{" }
+right_curl = { "}" }
+left_square = { "[" }
+right_square = { "]" }
+
+arrow_op = { "->" }
+
+attribute_marker = { "@" }
+
+eq = { "=" }
+lt = { "<" }
+gt = { ">" }
+minus = { "-" }
+
+comma = { "," }
+colon = { ":" }
+dot = { "." }
+single_quote = { "'" }
+double_quote = { "\"" }
+double_backtick = { "``" }
+
+verbatim_ident = { double_backtick ~ (!double_backtick ~ ANY)* ~ double_backtick }
+ident = @{ (LETTER | "_") ~ (LETTER | "_" | NUMBER)* | verbatim_ident }
+
+value_bool = { "true" | "false" }
+value_number = { minus? ~ NUMBER+ ~ ( dot ~ NUMBER+ )? }
+
+char = {
+    !("\"" | "\\") ~ ANY
+    | ("\\") ~ ANY
+}
+inner = @{ char* }
+value_string = ${ double_quote ~ inner ~ double_quote }
+
+value_list = { left_square ~ (value ~ (comma ~ value)* ~ comma?)? ~ right_square }
+
+value_object_field = { ident ~ colon ~ value }
+value_object = { left_curl ~ (value_object_field ~ (comma ~ value_object_field)* ~ comma?)? ~ right_curl }
+
+value = {  | value_bool | value_number | value_string | value_list | value_object }
+
+attribute = { ident ~ colon ~ value }
+attributes = { left_paren ~ (attribute ~ (comma ~ attribute)* ~ comma?)? ~ right_paren }
+
+generic_args = { lt ~ (type_expr ~ (comma ~ type_expr)*)? ~ gt }
+
+compound_type_field = { ident ~ colon ~ type_expr }
+compound_type = { left_curl ~ (compound_type_field ~ (comma ~ compound_type_field)* ~ comma?)? ~ right_curl }
+
+item_path = { ident ~ (dot ~ ident)* }
+type_ref = { item_path ~ generic_args? }
+type_literal_or_ref = { value | type_ref | compound_type }
+type_expr = { type_literal_or_ref ~ (kw_or ~ type_expr)* }
+
+property_type = { left_paren ~ type_expr? ~ right_paren }
+
+consumption = { (kw_produces | kw_consumes | kw_borrows) ~ colon ~ type_expr }
+trigger_consumption = { left_paren ~ (consumption ~ (comma ~ consumption)* ~ comma?)? ~ right_paren }
+
+input_property = { kw_in ~ attributes? ~ kw_property ~ property_type? ~ ident }
+output_property = { kw_out ~ attributes? ~ kw_property ~ property_type? ~ ident }
+
+input_trigger = { kw_in ~ attributes? ~ kw_trigger ~ trigger_consumption? ~ ident }
+output_trigger = { kw_out ~ attributes? ~ kw_trigger ~ trigger_consumption? ~ ident }
+
+generic_params = { lt ~ (ident ~ (comma ~ ident)*)? ~ gt }
+
+property = {
+    input_property | output_property
+    | input_trigger | output_trigger
+}
+
+parameter = { kw_parameter ~ attributes? ~ ident }
+
+item_name = { ident ~ generic_params? }
+
+instance = { kw_instance ~ attributes? ~ ident ~ type_ref ~ value_object }
+
+data_instance = { kw_data_instance ~ attributes? ~ ident ~ eq ~ value }
+
+field_access_item = { ('0'..'9')+ | ident }
+field_access = { field_access_item ~ (dot ~ field_access_item) }
+waypoint_instance = { kw_waypoint_instance ~ attributes? ~ ident ~ (eq ~ field_access)? }
+
+comment_instance = { kw_comment_instance ~ attributes? ~ ident ~ value_string }
+
+any_instance = { instance | data_instance | waypoint_instance | comment_instance }
+
+arrow_source = { value | item_path }
+arrow_sink = { item_path }
+arrow = { arrow_source ~ arrow_op ~ arrow_sink }
+
+func_body = {
+    (property | parameter | any_instance | arrow)*
+}
+func = {  kw_extern? ~ kw_func ~ attributes? ~ item_name ~ left_curl ~ func_body ~ right_curl  }
+
+event_body = {
+    (property | parameter)*
+}
+event = {  kw_extern? ~ kw_event ~ attributes? ~ item_name ~ left_curl ~ func_body ~ right_curl  }
+
+type = { kw_type ~ item_name ~ type_expr }
+
+module_body = {
+    (func | event | type | module | any_instance | arrow)*
+}
+module = { kw_module ~ attributes? ~ ident ~ left_curl ~ module_body ~ right_curl }
+
+top_level_attribute_value = { value }
+top_level_attribute = { attribute_marker ~ ident ~ left_paren ~ (top_level_attribute_value ~ (comma ~ top_level_attribute_value)*)? ~ right_paren }
+
+import = { kw_import ~ left_paren ~ value_string ~ comma ~ ident ~ right_paren }
+native_dependencies_location = { kw_native_dependencies_location ~ left_paren ~ value_string ~ right_paren }
+
+top_level_item = { top_level_attribute | import | native_dependencies_location | module }
+
+file = { SOI ~ top_level_item* ~ EOI }

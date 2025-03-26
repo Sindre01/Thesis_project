@@ -1,5 +1,6 @@
 
 import re
+from syncode import Syncode
 from langchain_anthropic import ChatAnthropic
 from langchain_ollama import ChatOllama
 from langchain_openai import ChatOpenAI
@@ -123,6 +124,7 @@ def generate_n_responses(
     context: int,
     debug: bool=False,              
     ollama_port:str="11434",
+    constrained_llm: Syncode = None,
 )-> list[str]:
     """Generate n responses for a given prompt."""
     
@@ -136,41 +138,27 @@ def generate_n_responses(
         while retries < max_retries:
             try:
                 print(f"    > Generating n response..  ({current_n + 1}/{n})", end="\r")
-                if "gpt" in model:
-                    print("GPT MODEL")
-                    llm = client(
-                        model=model,
-                        temperature=temperature,
-                        seed=new_seed,
-                        max_tokens=max_new_tokens,
-                        stop=["```<|eot_id|>"],
-                        top_p=top_p,
-                        # top_k=top_k, #NOT AVAILABLE IN GPT
-                        streaming=False,
+                if constrained_llm:
+                    generated = generate_syncode_reponse(
+                        client=constrained_llm,
+                        final_prompt_template=final_prompt_template,
+                        prompt_variables_dict=prompt_variables_dict,
+                        context=context
                     )
                 else:
-                    llm = client(
+                    generated = generate_langchain_response(
+                        client=client,
                         model=model,
+                        max_new_tokens=max_new_tokens,
                         temperature=temperature,
-                        num_predict=max_new_tokens,
                         top_p=top_p,
                         top_k=top_k,
-                        stream=False,
-                        num_ctx=context,
-                        stop=["```<|eot_id|>"],
                         seed=new_seed,
-                        base_url=f"http://localhost:{ollama_port}"
+                        final_prompt_template=final_prompt_template,
+                        prompt_variables_dict=prompt_variables_dict,
+                        context=context,
+                        ollama_port=ollama_port,
                     )
-                
-
-                chain = (final_prompt_template | llm)
-
-                response = chain.invoke(
-                    prompt_variables_dict,
-                    {"run_name": f"Few-shot code prediction"}
-                )
-                print(generated)
-                generated = response.content
                 break  # If generation succeeded, break out of retry loop
             except Exception as e:
                 retries += 1
@@ -187,3 +175,68 @@ def generate_n_responses(
         generated_code = extract_response(generated)
         generated_candidates.append(generated_code)
     return generated_candidates
+def generate_syncode_reponse(
+    client: Syncode,
+    final_prompt_template: ChatPromptTemplate,
+    prompt_variables_dict: dict,
+    context: int,
+)-> str:
+    """Generate a response for a given prompt using the Syncode model."""
+    prompt = final_prompt_template.format(**prompt_variables_dict)
+    output = client.infer(prompt, stop_words=["```<|eot_id|>"], debug=True)[0]
+    return output
+    
+
+def generate_langchain_response(
+    client: ChatOllama | ChatOpenAI,
+    model: str,
+    max_new_tokens: int,
+    temperature: float,
+    top_p: float,
+    top_k: int,
+    seed: int,
+    final_prompt_template: ChatPromptTemplate,
+    prompt_variables_dict: dict,
+    context: int,
+    ollama_port: str,
+ )-> str:
+    """Generate a response for a given prompt using langchain."""
+    if "gpt" in model:
+        print("GPT MODEL")
+        llm = client(
+            model=model,
+            temperature=temperature,
+            seed=seed,
+            max_tokens=max_new_tokens,
+            stop=["```<|eot_id|>"],
+            top_p=top_p,
+            # top_k=top_k, #NOT AVAILABLE IN GPT
+            streaming=False,
+        )
+
+    
+
+    else:
+        llm = client(
+            model=model,
+            temperature=temperature,
+            num_predict=max_new_tokens,
+            top_p=top_p,
+            top_k=top_k,
+            stream=False,
+            num_ctx=context,
+            stop=["```<|eot_id|>"],
+            seed=seed,
+            base_url=f"http://localhost:{ollama_port}"
+        )
+    
+
+    chain = (final_prompt_template | llm)
+
+    response = chain.invoke(
+        prompt_variables_dict,
+        {"run_name": f"Few-shot code prediction"}
+    )
+    print(generated)
+    generated = response.content
+    return generated
