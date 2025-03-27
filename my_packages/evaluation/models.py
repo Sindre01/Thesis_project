@@ -173,6 +173,8 @@ def generate_n_responses(
             generated = ""
         
         current_n += 1
+        if not generated:
+            raise Exception("Failed to generate a response.")
         # Extract code from the generated response
         generated_code = extract_response(generated)
         generated_candidates.append(generated_code)
