@@ -326,8 +326,7 @@ def run_model(
             "top_k": top_k,
             "top_p": top_p,
             "do_sample": True,
-            "torch_dtype": torch.float16,
-            "device_map": "auto",
+            "quantize": True, # Sets to torch.float16
         }
         # Load the Syncode augmented model
         if "phi4" in model:
