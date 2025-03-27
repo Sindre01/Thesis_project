@@ -139,6 +139,7 @@ def generate_n_responses(
             try:
                 print(f"    > Generating n response..  ({current_n + 1}/{n})", end="\r")
                 if constrained_llm:
+                    print("Using Syncode")
                     generated = generate_syncode_reponse(
                         client=constrained_llm,
                         final_prompt_template=final_prompt_template,
@@ -146,6 +147,7 @@ def generate_n_responses(
                         context=context
                     )
                 else:
+                    print("Using Langchain")
                     generated = generate_langchain_response(
                         client=client,
                         model=model,
@@ -175,6 +177,7 @@ def generate_n_responses(
         generated_code = extract_response(generated)
         generated_candidates.append(generated_code)
     return generated_candidates
+
 def generate_syncode_reponse(
     client: Syncode,
     final_prompt_template: ChatPromptTemplate,
@@ -183,7 +186,7 @@ def generate_syncode_reponse(
 )-> str:
     """Generate a response for a given prompt using the Syncode model."""
     prompt = final_prompt_template.format(**prompt_variables_dict)
-    output = client.infer(prompt, stop_words=["```<|eot_id|>"], debug=True)[0]
+    output = client.infer(prompt, stop_words=["```<|eot_id|>"])[0]
     return output
     
 
@@ -213,9 +216,6 @@ def generate_langchain_response(
             # top_k=top_k, #NOT AVAILABLE IN GPT
             streaming=False,
         )
-
-    
-
     else:
         llm = client(
             model=model,
@@ -237,6 +237,5 @@ def generate_langchain_response(
         prompt_variables_dict,
         {"run_name": f"Few-shot code prediction"}
     )
-    print(generated)
     generated = response.content
     return generated

@@ -7,10 +7,10 @@
 
 # Job Configuration
 #SBATCH --job-name=testing_context_full-context__2        # Job name
-#SBATCH --account=ec12                      # Project account
+#SBATCH --account=ec30                      # Project account
 #SBATCH --partition=accel                  # Partition ('accel' or 'accel_long')
 #SBATCH --nodes=1                           # Amount of nodes. Ollama one support single node inference
-#SBATCH --array=0-2  
+#SBATCH --array=2  
 #SBATCH --ntasks=1
 #SBATCH --nodelist=gpu-9,gpu-7,gpu-8,gpu-14                   # List of nodes that the job can run on
 #SBATCH --gpus=2                             # Number of GPUs
@@ -36,11 +36,11 @@ module load Python/3.11.5-GCCcore-13.2.0
 # module load CUDA/12.4.0
 
 source ~/.bashrc # may ovewrite previous modules
-OLLAMA_PORT_K_FOLD=$((11424 + $SLURM_ARRAY_TASK_ID))
+OLLAMA_PORT_K_FOLD=$((11430 + $SLURM_ARRAY_TASK_ID))
 
 export OLLAMA_MODELS=/cluster/work/projects/ec12/ec-sindrre/ollama-models    # Path to where the Ollama models are stored and loaded
-export OLLAMA_HOST=0.0.0.0:$OLLAMA_PORT_K_FOLD    # Host and port where Ollama listens
-export OLLAMA_ORIGINS=”*”
+export OLLAMA_HOST=127.0.0.1:$OLLAMA_PORT_K_FOLD    # Host and port where Ollama listens
+export OLLAMA_ORIGINS="*"
 export OLLAMA_LLM_LIBRARY="cuda_v12_avx" 
 export OLLAMA_FLASH_ATTENTION=1
 export OLLAMA_KV_CACHE_TYPE="f16" # f16 (default), q8_0 (half of the memory of f16, try this), q4_0 different quantization types to find the best balance between memory usage and quality.
