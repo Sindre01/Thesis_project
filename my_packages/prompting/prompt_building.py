@@ -10,6 +10,7 @@ from langchain_ollama import ChatOllama
 from langchain_openai import ChatOpenAI
 from my_packages.common.classes import PromptType
 from my_packages.common.rag import RagData
+from my_packages.data_processing.attributes_processing import used_functions_to_string
 from my_packages.utils.file_utils import read_code_file, read_file
 from my_packages.utils.tokens_utils import find_max_tokens_tokenizer, fit_docs_by_tokens, measure_prompt_tokens
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '../..'))
@@ -181,7 +182,8 @@ def add_RAG_to_prompt(
     rag_data: RagData, 
     final_prompt_template: ChatPromptTemplate,
     prompt_variables_dict: dict,
-    candidate_nodes: list
+    candidate_nodes: list,
+    all_nodes: list[dict]
 )-> tuple[str, ChatPromptTemplate, dict, int]:
     
     """Add RAG context to the prompt."""
@@ -217,12 +219,12 @@ def add_RAG_to_prompt(
         avg_doc_tokens = 150
 
         if candidate_nodes:
-            MAX_DOCS_PER_NODE = 1
+            MAX_DOCS_PER_NODE = 20
             # Use predicted/fetched nodes for extracted relevant docuemtnation
-            print("Using predictd nodes to extract relevant docuemntation.")
+            print("Using predicted nodes to extract relevant docuemntation.")
             num_nodes = len(candidate_nodes)
             estimated_k = int(available_ctx / avg_doc_tokens)
-            print(f"Have availbale context to extract k = {estimated_k} documents.")
+            print(f"Have available context to extract k = {estimated_k} documents.")
             possible_docs_per_node = int(estimated_k / num_nodes)
             if possible_docs_per_node > MAX_DOCS_PER_NODE:
                 docs_per_node = MAX_DOCS_PER_NODE
@@ -231,7 +233,12 @@ def add_RAG_to_prompt(
             print(f"Extracting {docs_per_node} documents per node.")
             docs = []
             for node in candidate_nodes:
-                node_docs = rag_data.node_retriever.similarity_search(node, k=docs_per_node)
+                # Extract relevant documentation for each node
+                node_doc_str= next(all_node for all_node in all_nodes if all_node['function_name'] == node) # Not using at the moment
+                print(f"Found doc string for node {node}: {node_doc_str}") 
+
+                node_docs = rag_data.node_retriever.similarity_search(node, k=docs_per_node) # Change to node_doc_str later
+
                 docs.extend(node_docs)
                 print(f"Node {node} extracted these docs")
                 for doc in node_docs:
@@ -242,8 +249,6 @@ def add_RAG_to_prompt(
                     if match:
                         node = match.group(1)  # "Image.FromFile"
                     print(f"    > {node}")
-
-            
 
             formatted_node_context, used_node_tokens = fit_docs_by_tokens(
                 client,
@@ -281,7 +286,7 @@ def build_prompt(
     prompt_type: PromptType,
     few_shot_examples: list[dict],
     sample: dict[str, str],
-    available_nodes: list[str],
+    available_nodes: list[dict],
 
 )-> tuple[str, ChatPromptTemplate, dict[str, str]]:
     """Create a prompt for the model based on the prompt type."""  
@@ -294,7 +299,7 @@ def build_prompt(
         final_prompt_template = create_final_prompt(few_shot, f"{response_type}_GENERATOR_TEMPLATE", f"{response_type}_SIGNATURE_TEMPLATE")
 
         prompt_variables_dict = {
-            "external_functions": available_nodes,
+            "external_functions": used_functions_to_string(available_nodes),
             "task": task, 
             "function_signature": sample["function_signature"],
         }
@@ -302,14 +307,14 @@ def build_prompt(
         few_shot = create_few_shot_prompt(few_shot_examples, f'{response_type}_TEMPLATE')
         final_prompt_template = create_final_prompt(few_shot, f"{response_type}_GENERATOR_TEMPLATE", f"{response_type}_TEMPLATE")
         prompt_variables_dict ={
-            "external_functions": available_nodes,
+            "external_functions": used_functions_to_string(available_nodes),
             "task": task, 
         }
     # elif prompt_type.value is PromptType.COT.value: # Uses COT prompt
     #     few_shot = create_few_shot_prompt(few_shot_examples, 'COT_TEMPLATE')
     #     final_prompt_template = create_final_prompt(few_shot, f"{response_type}_GENERATOR_TEMPLATE", "COT_TEMPLATE")
     #     prompt_variables_dict = {
-    #         "external_functions": available_nodes,
+    #         "external_functions": used_functions_to_string(available_nodes),
     #         "task": task, 
     #         "function_signature": sample["function_signature"],
     #     }

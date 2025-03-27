@@ -82,7 +82,7 @@ def get_test_module_from_file(task_id: int) -> str:
     return module_tests
 
 
-def read_dataset_to_json(file_path: str) -> dict:
+def read_dataset_to_json(file_path: str) -> list[dict]:
     """Reads the dataset from the file and returns it as a json object."""
     with open(file_path, 'r') as file:
         dataset = json.load(file)

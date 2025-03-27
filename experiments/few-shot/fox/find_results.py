@@ -6,13 +6,14 @@ project_dir = os.path.abspath(f"{script_dir}/../../..")
 experiment_dir = os.path.abspath(f"{script_dir}/..")
 
 sys.path.append(project_dir)
+os.environ['EXPERIMENT_DB_NAME'] = "few_shot_experiments"
 from my_packages.common.classes import Phase
 from my_packages.evaluation.find_results import find_results
 
 if __name__ == "__main__":
     find_results( 
         experiment_folder="few-shot",
-        env="env",
+        env="prod",
         eval_method="3_fold/ALL_NODES",
         experiment_types=["similarity"],
         prompt_types=["regular", "signature"],

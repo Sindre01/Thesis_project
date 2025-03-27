@@ -100,7 +100,8 @@ def calculate_pass_at_k_scores(
 def two_step_run(
     client: ChatOllama | ChatOpenAI | ChatAnthropic,
     model: str,
-    available_nodes: list[str],
+    dataset_nodes: list[dict],
+    all_nodes: list[dict],
     data: list[dict],
     example_pool: BaseExampleSelector,
     node_max_new_tokens: int,
@@ -114,7 +115,7 @@ def two_step_run(
     prompt_type: PromptType = PromptType.REGULAR,
     ollama_port="11434",
     rag_data: RagData = None,
-    max_ctx=16000
+    max_ctx=16000,
 ) -> tuple[dict[int, list[str]], int]:
     """
     Run a model on a list of tasks in two stages:
@@ -152,13 +153,14 @@ def two_step_run(
             sample=sample,
             example_pool=example_pool,
             prompt_type=prompt_type,
-            available_nodes=available_nodes,
+            dataset_nodes=dataset_nodes,
+            all_nodes=all_nodes,
             client=client,
             model=model,
             max_ctx=max_ctx,
             max_new_tokens=node_max_new_tokens,
             generation_kwargs=generation_kwargs,
-            rag_data=rag_data,
+            rag_data=None, # Not using RAG
             debug=debug,
             ollama_port=ollama_port
         )
@@ -181,7 +183,8 @@ def two_step_run(
             sample=sample,
             example_pool=example_pool,
             prompt_type=prompt_type,
-            available_nodes=available_nodes,
+            dataset_nodes=dataset_nodes,
+            all_nodes=all_nodes,
             client=client,
             model=model,
             max_ctx=max_ctx,
@@ -212,7 +215,8 @@ def run_prompt_step(
     sample: dict,
     example_pool: BaseExampleSelector,
     prompt_type: PromptType,
-    available_nodes: list[str],
+    dataset_nodes: list[dict],
+    all_nodes: list[dict],
     client,
     model: str,
     max_ctx: int,
@@ -233,11 +237,13 @@ def run_prompt_step(
     # Build the base prompt
     true_response = sample["response"]
     few_shot_examples = example_pool.select_examples(sample)
-    if response_type == "NODE":
+    available_nodes = dataset_nodes
     
+    if response_type == "NODE":
         few_shot_examples= code_data_to_node_data(few_shot_examples)
         true_response = sample["external_functions"]
-
+        available_nodes = all_nodes
+        
     prompt, final_prompt_template, prompt_variables_dict = build_prompt(
         response_type=response_type,
         prompt_type=prompt_type,
@@ -265,7 +271,8 @@ def run_prompt_step(
             rag_data = rag_data,
             final_prompt_template = final_prompt_template,
             prompt_variables_dict = prompt_variables_dict,
-            candidate_nodes = candidate_nodes
+            candidate_nodes = candidate_nodes,
+            all_nodes = all_nodes,
         )
         prompt_size = prompt_size + used_tokens
 

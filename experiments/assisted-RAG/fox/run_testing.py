@@ -76,11 +76,12 @@ def parse_experiments(experiment_list):
 
 def run_testing_experiment(
         client,
-        test_data,
-        available_nodes,
-        experiment_name,
-        file_path,
-        model,
+        test_data: list[dict],
+        dataset_nodes: list[dict],
+        all_nodes: list[dict],
+        experiment_name: str,
+        file_path: str,
+        model: str,
         example_pool,
         prompt_type: PromptType,
         temperature,
@@ -99,10 +100,12 @@ def run_testing_experiment(
     for seed in seeds:
         print(f"Running with seed: {seed}")
         print(f"seeds runned: {count}/{total_count}")
+    
         model_result, largest_context = two_step_run(
             client,
             model["name"],
-            available_nodes,
+            dataset_nodes,
+            all_nodes,
             test_data,
             example_pool,
             code_max_new_tokens=model["max_tokens"],
@@ -116,7 +119,7 @@ def run_testing_experiment(
             prompt_type = prompt_type,
             ollama_port=ollama_port,
             rag_data=rag_data,
-            max_ctx=max_ctx
+            max_ctx=max_ctx,
         )
         result_obj = {
             "experiment_name": experiment_name,
@@ -215,7 +218,8 @@ def main(
                 run_testing_experiment(
                         client,
                         test_data,
-                        available_nodes,
+                        dataset_nodes,
+                        all_nodes,
                         experiment_name,
                         file_path=result_runs_path,
                         model=model,
@@ -300,11 +304,13 @@ if __name__ == "__main__":
     train_data, val_data, test_data = get_hold_out_splits(main_dataset_folder)
     dataset = train_data + val_data + test_data
     
-    # used_functions_json = read_dataset_to_json(main_dataset_folder + "metadata/used_external_functions.json") # Used functions in the dataset
-    used_functions_json = read_dataset_to_json( f"{project_dir}/data/all_library_nodes.json") # All nodes
+    dataset_nodes = read_dataset_to_json(main_dataset_folder + "metadata/used_external_functions.json") # Used functions in the dataset
+    print(f"Number of nodes used in datset: {len(dataset_nodes)}")
+    # dataset_nodes_str = used_functions_to_string(dataset_nodes) #used for Context prompt
 
-    print(f"Number of nodes as context: {len(used_functions_json)}")
-    available_nodes = used_functions_to_string(used_functions_json) #used for Context prompt
+    all_nodes = read_dataset_to_json( f"{project_dir}/data/all_library_nodes.json") # All nodes
+    print(f"Number of all nodes: {len(all_nodes)}")
+    # all_nodes_str = used_functions_to_string(all_nodes) #used for Context prompt
 
     if fold != -1:
         print(f"Using 3-fold cross-validation on merged train+test splits")
