@@ -107,23 +107,23 @@ def evaluate_final_results(
 
 )-> tuple[str, dict]:
     """Evaluate the final results for a given model and experiment. """
-
-    db = get_db_connection()
     kwargs = {
         "env": env,
         "metrics": metrics,
         "ks": ks,
-        "db_connection": db,
         "phase": phase,
         "eval_method": eval_method
     }
+    if env == "prod":
+        db = get_db_connection()
+        kwargs["db_connection"] = db
     experiment_name, model_name = extract_experiment_and_model_name(file_name)
     all_runs = []
     result_dict = {}
     final_result = None
 
 
-    if eval_method == "3_fold":
+    if eval_method == "3_fold" or eval_method.split("/")[0] == "3_fold":
         folds = 3
         fold_files = [f"{file_name}/fold_{fold_idx}.json" for fold_idx in range(folds)]
         # Check if all fold files exist before evaluating
@@ -359,33 +359,34 @@ def prepare_experiement(
     model: str,
     phase: Phase,
     metrics: list[str],
-    ks: list[int]
+    ks: list[int],
+    env: str
 
 )-> tuple[list[dict], list[str]]:
     """Setup experiment collection if not exist, decide which ones to rerun and get rexisting result."""
-
-    db = get_db_connection()
+    if env == "prod":
+        db = get_db_connection()
     shot_results: list[dict] = []
 
     print(f"\n🔍 Finding results for {eval_method} experiment: {experiment_name}")
-
-    if experiment_exists(experiment_name, db):
-        print(f"📂 Experiment {eval_method} '{experiment_name}' already exists.")
-        if not use_threads:
-            pretty_print_experiment_collections(
-                experiment_name,
-                exclude_columns=["stderr", "stdout", "code_candidate", "test_result", "error_msg"],
-                filter={"eval_method": eval_method},
-                db_connection=db
-            )
-        ignore_best_params = False
-        if "RAG" in experiment_name or "context" in experiment_name:
-            ignore_best_params = True
-    
-        if not run_experiment_quality_checks(experiment_name, eval_method=eval_method, db_connection=db, ignore_best_params=ignore_best_params):
-            raise Exception("Experiment quality checks failed.")
-    else:
-        setup_experiment_collection(experiment_name, db_connection=db)
+    if env == "prod":
+        if experiment_exists(experiment_name, db):
+            print(f"📂 Experiment {eval_method} '{experiment_name}' already exists.")
+            if not use_threads:
+                pretty_print_experiment_collections(
+                    experiment_name,
+                    exclude_columns=["stderr", "stdout", "code_candidate", "test_result", "error_msg"],
+                    filter={"eval_method": eval_method},
+                    db_connection=db
+                )
+            ignore_best_params = False
+            if "RAG" in experiment_name or "context" in experiment_name:
+                ignore_best_params = True
+        
+            if not run_experiment_quality_checks(experiment_name, eval_method=eval_method, db_connection=db, ignore_best_params=ignore_best_params):
+                raise Exception("Experiment quality checks failed.")
+        else:
+            setup_experiment_collection(experiment_name, db_connection=db)
 
     # Only files for current shot
     names_in_folder = [f for f in os.listdir(runs_folder)]
@@ -401,26 +402,26 @@ def prepare_experiement(
             print(f"Skipping model {model_name}")
             skip_models.append(model_name)
             continue
-        
-        if not confirm_rerun(experiment_name, model_name, eval_method=eval_method, phase=phase.value, db_connection=db):
-            print(f"🚫 Skipping {phase} for {experiment_name} with model {model_name}. On eval method: '{eval_method}'")
-            if phase == Phase.VALIDATION:
-                results = get_db_best_params(
-                    experiment=experiment_name, 
-                    model=model_name, 
-                    metrics=metrics, 
-                    k=ks[0],
-                    eval_method=eval_method,
-                    db_connection=db
-                )
-            elif phase == Phase.TESTING:
-                results = get_db_results(
-                    experiment=experiment_name, 
-                    model=model_name, 
-                    eval_method=eval_method
-                )
-            shot_results.extend(results)
-            skip_models.append(model_name)
+        if env == "prod":
+            if not confirm_rerun(experiment_name, model_name, eval_method=eval_method, phase=phase.value, db_connection=db):
+                print(f"🚫 Skipping {phase} for {experiment_name} with model {model_name}. On eval method: '{eval_method}'")
+                if phase == Phase.VALIDATION:
+                    results = get_db_best_params(
+                        experiment=experiment_name, 
+                        model=model_name, 
+                        metrics=metrics, 
+                        k=ks[0],
+                        eval_method=eval_method,
+                        db_connection=db
+                    )
+                elif phase == Phase.TESTING:
+                    results = get_db_results(
+                        experiment=experiment_name, 
+                        model=model_name, 
+                        eval_method=eval_method
+                    )
+                shot_results.extend(results)
+                skip_models.append(model_name)
     
     # Remove files for models that are skipped
     chosen_models = [file for file in candidate_names if extract_experiment_and_model_name(file)[1] not in skip_models]
@@ -452,6 +453,7 @@ def find_results(
             for shot in shots:
                 experiment_name = f"{experiment}_{shot}_shot"
                 print(f"\n🔍 Finding results for {eval_method} experiment: {experiment_name}")
+            
                 shot_results, chosen_models = prepare_experiement(
                     experiment_name=experiment_name,
                     shot=shot,
@@ -461,7 +463,8 @@ def find_results(
                     model=model,
                     phase=phase,
                     metrics=metrics,
-                    ks=ks
+                    ks=ks,
+                    env = env
                 )
                 print(f"Shot results: {shot_results}")
                 experiment_results.setdefault(experiment_name, []).extend(shot_results)
@@ -524,34 +527,3 @@ def find_results(
             for experiment_name, shot_result in experiment_results.items():
                 print(f"writes {results_type} for {experiment_name} to file")
                 write_json_file(f"{output_dir}/{experiment_name}.json", shot_result)
-                
-            
-if __name__ == "__main__":
-    eval_method = "3_fold" # or "hold_out"
-    experiment_folder = "few-shot"
-    # PHASE = Phase.TESTING
-    PHASE = Phase.VALIDATION
-    MODEL = "" # if empty string, all models found in current experiment folders will be processed
-
-    eval_method = "hold_out" if PHASE == Phase.VALIDATION else eval_method
-    env = "prod" # if 'prod' then it will use the MongoDB database
-    ks = [1, 2, 3, 5, 10]
-    experiment_types = ["coverage", "similarity"] #["coverage", "similarity", "cot"]
-    prompt_types = ["regular", "signature"]  # ["regular", "signature", "cot"]
-    shots = [1, 5, 10]
-    metrics = ["syntax", "semantic", "tests"] # or ["syntax", "semantic"]
-    use_threads = True
-
-    find_results(
-        env = env,
-        experiment_types=experiment_types,
-        prompt_types=prompt_types,
-        shots=shots,
-        metrics=metrics,
-        ks=ks,
-        use_threads = use_threads,
-        eval_method = eval_method,
-        experiment_folder = experiment_folder,
-        model="",
-        phase=Phase.TESTING
-    )

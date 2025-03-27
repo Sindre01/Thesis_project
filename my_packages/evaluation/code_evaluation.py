@@ -321,7 +321,8 @@ def run_model(
         print("Constrained output is set to True.")
         model_kwargs = {
             "seed": seed,
-            "max_length": max_new_tokens,
+            "max_length": max_ctx,
+            "max_new_tokens": max_new_tokens,
             "temperature": temperature,
             "top_k": top_k,
             "top_p": top_p,
