@@ -331,7 +331,7 @@ def run_model(
         # Load the Syncode augmented model
         if "phi4" in model:
             # hf_model = "microsoft/phi-4"
-            hf_model = "microsoft/Phi-4-mini-instruct"
+            hf_model = "microsoft/Phi-4-mini"
         else:
             raise ValueError("Constrained output is only available for Phi4 model.")
         constrained_llm = Syncode(
