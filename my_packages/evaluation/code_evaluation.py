@@ -328,10 +328,12 @@ def run_model(
             "do_sample": True,
             "quantize": True, # Sets to torch.float16
         }
-        # Load the Syncode augmented model
+        # Load the Syncode augmented model with huggingface model
         if "phi4" in model:
             # hf_model = "microsoft/phi-4"
-            hf_model = "microsoft/Phi-4-mini"
+            hf_model = "meta-llama/Llama-3.2-3B"
+        elif "llama" in model:
+            hf_model = "meta-llama/Llama-3.3-70B-Instruct"
         else:
             raise ValueError("Constrained output is only available for Phi4 model.")
         constrained_llm = Syncode(
