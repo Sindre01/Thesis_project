@@ -330,7 +330,8 @@ def run_model(
         }
         # Load the Syncode augmented model
         if "phi4" in model:
-            hf_model = "microsoft/phi-4"
+            # hf_model = "microsoft/phi-4"
+            hf_model = "microsoft/Phi-4-mini-instruct"
         else:
             raise ValueError("Constrained output is only available for Phi4 model.")
         constrained_llm = Syncode(
@@ -369,6 +370,8 @@ def run_model(
             debug=debug,
             ollama_port=ollama_port,
         )
+        if constrained_llm:
+            torch.cuda.empty_cache()
         if prompt_size > largest_ctx_size:
             largest_ctx_size = prompt_size + max_new_tokens
 

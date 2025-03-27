@@ -6,6 +6,9 @@ import os
 import sys
 
 from dotenv import load_dotenv
+os.environ['EXPERIMENT_DB_NAME'] = "syncode_experiments"
+os.environ['HF_CACHE'] = "/cluster/work/projects/ec12/ec-sindrre/hf-models"
+os.environ['SYNCODE_CACHE'] = "/cluster/work/projects/ec12/ec-sindrre/syncode"
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
 project_dir = os.path.abspath(f"{script_dir}/../../..")

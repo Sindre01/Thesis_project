@@ -5,9 +5,12 @@ import subprocess
 import sys
 import argparse
 
-from my_packages.common.few_shot import init_example_selector, model_configs
+os.environ['EXPERIMENT_DB_NAME'] = "syncode_experiments"
+os.environ['HF_CACHE'] = "/cluster/work/projects/ec12/ec-sindrre/hf-models"
+os.environ['SYNCODE_CACHE'] = "/cluster/work/projects/ec12/ec-sindrre/syncode"
+from my_packages.common.few_shot import init_example_selector
+from my_packages.common.config import model_configs
 from my_packages.data_processing.split_dataset import create_kfold_splits
-
 script_dir = os.path.dirname(os.path.abspath(__file__))
 project_dir = os.path.abspath(f"{script_dir}/../../..")
 # experiment_dir = os.path.abspath(f"{script_dir}/..")
