@@ -1,6 +1,7 @@
 from collections import defaultdict
 import os
 import numpy as np
+import torch
 from my_packages.common.classes import CodeEvaluationResult, PromptType, Run
 from my_packages.common.rag import RagData
 from my_packages.db_service.best_params_service import save_best_params_to_db
@@ -323,7 +324,10 @@ def run_model(
             "max_length": max_new_tokens,
             "temperature": temperature,
             "top_k": top_k,
-            "top_p": top_p
+            "top_p": top_p,
+            "do_sample": True,
+            "torch_dtype": torch.float16,
+            "device_map": "auto",
         }
         # Load the Syncode augmented model
         if "phi4" in model:
