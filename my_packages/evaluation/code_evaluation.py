@@ -326,8 +326,12 @@ def run_model(
             "top_p": top_p
         }
         # Load the Syncode augmented model
+        if "phi4" in model:
+            hf_model = "microsoft/phi-4"
+        else:
+            raise ValueError("Constrained output is only available for Phi4 model.")
         constrained_llm = Syncode(
-            model=model, 
+            model=hf_model, 
             grammar=f"{project_root}/data/midio_grammar.lark", 
             parse_output_only=True, 
             **model_kwargs
