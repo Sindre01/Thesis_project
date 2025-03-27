@@ -327,6 +327,8 @@ def run_model(
             "top_p": top_p,
             "do_sample": True,
             "quantize": True, # Sets to torch.float16
+            # "pad_token_id": 0,
+            # "eos_token_id": 1,
         }
         # Load the Syncode augmented model with huggingface model
         if "phi4" in model:

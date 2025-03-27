@@ -190,7 +190,8 @@ def generate_syncode_reponse(
     print("SynCode output w/o stop_words: ", output[0])
     output = client.infer(prompt, stop_words=["```<|eot_id|>"])
     print("SynCode output w stop_words: ", output[0])
-    return output
+    response = output[0]
+    return response
     
 
 def generate_langchain_response(
