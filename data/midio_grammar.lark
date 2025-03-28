@@ -1,13 +1,20 @@
 %import common.WS
 %ignore WS
 
-// --- TERMINALS --- = Basic building blocks of the language
+// TERMINALS:  Basic building blocks of the language
+KW_IMPORT: "import"
 
 KW_MODULE: "module"
 KW_FUNC: "func"
 KW_EXTERN: "extern"
 KW_EVENT: "event"
 KW_TYPE: "type"
+
+KW_IN: "in"
+KW_OUT: "out"
+KW_PROPERTY: "property"
+KW_TRIGGER: "trigger"
+KW_PARAMETER: "parameter"
 
 KW_INSTANCE: "instance"
 KW_DATA_INSTANCE: "data_instance"
@@ -16,19 +23,11 @@ KW_COMMENT_INSTANCE: "comment"
 KW_SETTER_INSTANCE: "setter"
 KW_GETTER_INSTANCE: "getter"
 
-KW_IMPORT: "import"
-KW_NATIVE_DEPENDENCIES_LOCATION: "native_dependencies_location"
-
-KW_IN: "in"
-KW_OUT: "out"
-KW_PROPERTY: "property"
-KW_TRIGGER: "trigger"
-KW_PARAMETER: "parameter"
-
 KW_PRODUCES: "produces"
 KW_CONSUMES: "consumes"
 KW_BORROWS: "borrows"
 KW_OR: "or"
+KW_AND: "and"
 
 LEFT_PAREN: "("
 RIGHT_PAREN: ")"
@@ -38,8 +37,6 @@ LEFT_SQUARE: "["
 RIGHT_SQUARE: "]"
 
 ARROW_OP: "->"
-
-ATTRIBUTE_MARKER: "@"
 
 EQ: "="
 LT: "<"
@@ -52,28 +49,19 @@ DOT: "."
 
 DOUBLE_BACKTICK: "``"
 
-// --- IDENTIFIERS & LITERALS ---
-
+// IDENTIFIERS and LITERALS 
+RESTRICTED_NAME.2: /[a-zA-Z][a-zA-Z0-9_]*/
 IDENTIFIER: /[a-zA-Z_][a-zA-Z0-9_]*/
 
 VERBATIM_IDENT: "``" /[^`]*/ "``"
 
-
 ?name: VERBATIM_IDENT | IDENTIFIER
 
-// Boolean literal
 VALUE_BOOL: "true" | "false"
-
-// Number literal (with optional leading minus and optional fractional part)
 VALUE_NUMBER: /-?\d+(\.\d+)?/
-
-// String literal (simplified)
 VALUE_STRING: "\"" /([^"\\]|\\.)*/ "\""
 
-
-// --- VALUES ---
-
-// A value can be a boolean, number, string, list, or object.
+// VALUES
 ?value: VALUE_BOOL 
       | VALUE_NUMBER 
       | VALUE_STRING 
@@ -88,28 +76,26 @@ value_object_field: name COLON value
 // Object value: { field, field, ... }
 value_object: LEFT_CURL [value_object_field (COMMA value_object_field)* [COMMA]] RIGHT_CURL
 
-// --- ATTRIBUTES ---
+// ATTRIBUTES
 
 attribute: name COLON value
 attributes: LEFT_PAREN [attribute (COMMA attribute)* [COMMA]] RIGHT_PAREN
 
-// --- GENERICS & TYPES ---
-
+// GENERICS and TYPES
 generic_args: LT [type_expr (COMMA type_expr)*] GT
-
 
 item_path: name (DOT name)*
 type_ref: item_path [generic_args]
 type_literal_or_ref: value | type_ref
-type_expr: type_literal_or_ref (KW_OR type_expr)*
+type_expr: type_literal_or_ref ((KW_OR | KW_AND) type_expr)*
 
 property_type: LEFT_PAREN [type_expr] RIGHT_PAREN
 
-// --- CONSUMPTION & TRIGGER --- 
+// CONSUMPTION and TRIGGER 
 consumption: (KW_PRODUCES | KW_CONSUMES | KW_BORROWS) COLON type_expr
 trigger_consumption: LEFT_PAREN [consumption (COMMA consumption)* [COMMA]] RIGHT_PAREN
 
-// --- PROPERTIES & PARAMETERS ---
+// PROPERTIES and PARAMETERS
 
 input_property: KW_IN attributes? KW_PROPERTY property_type? name
 output_property: KW_OUT attributes? KW_PROPERTY property_type? name
@@ -127,7 +113,7 @@ generic_params: LT [name (COMMA name)*] GT
 
 item_name: name [generic_params]
 
-// --- INSTANCES & FIELD ACCESS ---
+// INSTANCES and FIELD ACCESS
 
 instance: KW_INSTANCE attributes? name type_ref value_object
 data_instance: KW_DATA_INSTANCE attributes? name EQ value
@@ -150,13 +136,13 @@ any_instance: instance
             | waypoint_instance 
             | comment_instance
 
-// --- ARROWS --- 
+// ARROWS 
 
 arrow_source: value | item_path
 arrow_sink: item_path
 arrow: arrow_source ARROW_OP arrow_sink
 
-// --- FUNCTION & EVENT BODIES --- 
+// FUNCTION and EVENT BODIES 
 
 func_body: (property | parameter | any_instance | arrow)*
 
@@ -165,31 +151,22 @@ func: KW_EXTERN? KW_FUNC attributes? item_name LEFT_CURL func_body RIGHT_CURL
 event_body: (property | parameter)*
 event: KW_EXTERN? KW_EVENT attributes? item_name LEFT_CURL func_body RIGHT_CURL
 
-// --- TYPE DECLARATION --- 
+// TYPE DECLARATION 
 
 type_decl: KW_TYPE item_name type_expr
 
-// --- MODULE --- 
-
+// MODULE 
 module_body: (func | event | type_decl | module | any_instance | arrow)*
 module: KW_MODULE attributes? name LEFT_CURL module_body RIGHT_CURL
 
-// --- TOP-LEVEL ITEMS --- 
+// TOP-LEVEL ITEMS 
+import_stmt: KW_IMPORT LEFT_PAREN VALUE_STRING COMMA RESTRICTED_NAME RIGHT_PAREN
 
-top_level_attribute_value: value
-top_level_attribute: ATTRIBUTE_MARKER name LEFT_PAREN [top_level_attribute_value (COMMA top_level_attribute_value)*] RIGHT_PAREN
 
-IMPORT_ALIAS: /[a-zA-Z][a-zA-Z0-9_]*/
-import_stmt: KW_IMPORT LEFT_PAREN VALUE_STRING COMMA IMPORT_ALIAS RIGHT_PAREN
-
-native_dependencies_location: KW_NATIVE_DEPENDENCIES_LOCATION LEFT_PAREN VALUE_STRING RIGHT_PAREN
-
-top_level_item: top_level_attribute 
-              | import_stmt 
-              | native_dependencies_location 
+top_level_item: import_stmt 
               | module
 
-// --- FILE (start rule) --- 
+// FILE (start rule) 
 
 ?file: top_level_item*
 
