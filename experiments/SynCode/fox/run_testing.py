@@ -150,9 +150,19 @@ def main(train_data, test_data, fold=-1, k_folds=3):
             metrics = ["syntax", "semantic"]
         elif prompt_type == "signature":
             metrics = ["syntax", "semantic", "tests"] # ["syntax", "semantic"] or ["syntax", "semantic", "tests"]
-
-        results_dir = os.path.join("/fp/homes01/u01/ec-sindrre/slurm_jobs", f"{experiment_folder}/testing/{selector_type}/{prompt_type}/runs/")
-        best_params_folder = f"{project_dir}/experiments/{experiment_folder}/fox/best_params/{selector_type}/{prompt_type}/hold_out"
+        
+        experiment_type = ex["name"].split("_")[1] # e.g: "vanilla" or "?"
+        if experiment_type == "vanilla":
+            max_ctx = 16000
+        elif experiment_type == "?":
+            max_ctx = 16000
+        else:
+            raise ValueError(f"Unknown experiment type: {experiment_type}")
+       
+        results_dir = os.path.join("/fp/homes01/u01/ec-sindrre/slurm_jobs", f"{experiment_folder}t/testing/{selector_type}/{prompt_type}/runs/")
+        
+        # best_params_folder = f"{project_dir}/experiments/{experiment_folder}/fox/best_params/{experiment_type}/{prompt_type}/hold_out"
+        best_params_folder = f"{project_dir}/experiments/few-shot/fox/best_params/{experiment_type}/{prompt_type}/hold_out"
 
 
         for shots in ex["num_shots"]:
@@ -280,8 +290,6 @@ if __name__ == "__main__":
     train_data, val_data, test_data = get_hold_out_splits(main_dataset_folder)
     dataset = train_data + val_data + test_data
     
-    script_dir = os.getcwd()
-    project_dir = os.path.abspath(f"{script_dir}/../")
     dataset_nodes = read_dataset_to_json(main_dataset_folder + "/metadata/used_external_functions.json")
     print(f"Number of nodes in datset: {len(dataset_nodes)}")
 
