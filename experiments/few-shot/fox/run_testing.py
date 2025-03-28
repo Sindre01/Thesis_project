@@ -272,12 +272,13 @@ if __name__ == "__main__":
     train_data, val_data, test_data = get_hold_out_splits(main_dataset_folder)
     dataset = train_data + val_data + test_data
     
-    used_functions_json = read_dataset_to_json(main_dataset_folder + "/metadata/used_external_functions.json")
-    print(f"Number of nodes in datset: {len(used_functions_json)}")
-    dataset_nodes = used_functions_to_string(used_functions_json)
-    all_used_functions_json = read_dataset_to_json(main_dataset_folder + "/metadata/used_external_functions.json")
-    print(f"Number all nodes: {len(all_used_functions_json)}")
-    all_nodes = used_functions_to_string(all_used_functions_json)
+    script_dir = os.getcwd()
+    project_dir = os.path.abspath(f"{script_dir}/../../../")
+    dataset_nodes = read_dataset_to_json(main_dataset_folder + "/metadata/used_external_functions.json")
+    print(f"Number of nodes in datset: {len(dataset_nodes)}")
+
+    all_nodes = read_dataset_to_json( f"{project_dir}/data/all_library_nodes.json") # All nodes
+    print(f"Number all nodes: {len(all_nodes)}")
 
     if fold != -1:
         print(f"Using 3-fold cross-validation on merged train+test splits")

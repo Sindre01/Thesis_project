@@ -239,13 +239,14 @@ if __name__ == "__main__":
     all_responses = [sample["response"] for sample in dataset]
     print(f"Number of all responses: {len(all_responses)}")
     
-    used_functions_json = read_dataset_to_json(main_dataset_folder + "/metadata/used_external_functions.json")
-    print(f"Number of nodes in datset: {len(used_functions_json)}")
-    dataset_nodes = used_functions_to_string(used_functions_json)
-    all_used_functions_json = read_dataset_to_json(main_dataset_folder + "/metadata/used_external_functions.json")
-    print(f"Number all nodes: {len(all_used_functions_json)}")
-    all_nodes = used_functions_to_string(all_used_functions_json)
-    
+    script_dir = os.getcwd()
+    project_dir = os.path.abspath(f"{script_dir}/../../../")
+    dataset_nodes = read_dataset_to_json(main_dataset_folder + "/metadata/used_external_functions.json")
+    print(f"Number of nodes in datset: {len(dataset_nodes)}")
+
+    all_nodes = read_dataset_to_json( f"{project_dir}/data/all_library_nodes.json") # All nodes
+    print(f"Number all nodes: {len(all_nodes)}")
+
     print("\n==== Configures models ====")
     client, models = model_configs(all_responses, model_provider, models, ollama_port)
 
