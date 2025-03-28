@@ -44,6 +44,8 @@ DOUBLE_BACKTICK: "``"
 
 BACKTICKS_LANG: "```midio"
 BACKTICKS: "```"
+// // Matches any non-code text before the fenced block
+JUNK: /(.|\n)+/
 
 // IDENTIFIERS and LITERALS 
 IDENTIFIER: /[a-zA-Z_][a-zA-Z0-9_]*/
@@ -137,6 +139,8 @@ top_level_item: import_stmt | module
 file: top_level_item*
 
 // Wrapper for Markdown code block
-start: fenced_code_block | file
+start: JUNK? (fenced_code_block | file)
 
 fenced_code_block: (BACKTICKS_LANG | BACKTICKS) file BACKTICKS
+
+
