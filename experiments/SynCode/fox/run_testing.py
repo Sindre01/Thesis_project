@@ -112,7 +112,7 @@ def run_testing_experiment(
             top_k,
             n = n,
             seed = seed,
-            debug = False, 
+            debug = True, 
             prompt_type = prompt_type,
             ollama_port=ollama_port,
             rag_data=None,

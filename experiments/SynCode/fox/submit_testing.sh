@@ -7,10 +7,10 @@
 # Configuration
 EXPERIMENT="SynCode"                    # Experiment ('few-shot')
 PHASE="testing"                       # Phase ('testing' or 'validation')
-EXAMPLES_TYPE="Test"                 #'coverage' or 'similarity'
+EXAMPLES_TYPE="vanilla"                 #'coverage' or 'similarity'
 PROMPT_TYPE=""                 # 'regular' or 'cot' or 'signature'   
 # SEMANTIC_SELECTOR=true                   # Use semantic selector
-K_FOLD_JOBS=0                              # Runs jobs for folds 0 to 2 (3-fold CV)
+K_FOLD_JOBS=0-2                              # Runs jobs for folds 0 to 2 (3-fold CV)
 USER="ec-sindrre"                        # Your Educloud username
 HOST="fox.educloud.no"                   # Fox login address (matches SSH config)
 SSH_CONFIG_NAME="fox"                    # Name of the SSH config entry
@@ -53,14 +53,14 @@ model_provider='ollama'
 # ]'
 experiments='[
         {
-            "name": "signature_Test",
+            "name": "signature_vanilla",
             "prompt_prefix": "Create a function",
             "num_shots": [1, 5, 10],
             "prompt_type": "signature",
             "semantic_selector": true
         },
         {
-            "name": "regular_Test",
+            "name": "regular_vanilla",
             "prompt_prefix": "Create a function",
             "num_shots": [1, 5, 10],
             "prompt_type": "regular",
