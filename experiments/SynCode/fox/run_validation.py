@@ -61,7 +61,8 @@ def get_k_fold_splits(main_dataset_folder, k, k_folds=5):
 def run_val_experiment(
         client,
         val_data,
-        available_nodes,
+        dataset_nodes: list[dict],
+        all_nodes: list[dict],
         experiment_name,
         file_path,
         model,
@@ -94,7 +95,8 @@ def run_val_experiment(
                 model_result, largest_context = run_model(
                     client,
                     model["name"],
-                    available_nodes,
+                    dataset_nodes,
+                    all_nodes,
                     val_data,
                     example_pool,
                     model["max_tokens"],
@@ -159,7 +161,8 @@ def main(train_data, val_data):
                 run_val_experiment(
                     client,
                     val_data,
-                    available_nodes,
+                    dataset_nodes,
+                    all_nodes,
                     experiment_name,
                     result_runs_path,
                     model,
@@ -236,10 +239,13 @@ if __name__ == "__main__":
     all_responses = [sample["response"] for sample in dataset]
     print(f"Number of all responses: {len(all_responses)}")
     
-    used_functions_json = read_dataset_to_json(main_dataset_folder + "metadata/used_external_functions.json")
-    print(f"Number of external functions used: {len(used_functions_json)}")
-    available_nodes = used_functions_to_string(used_functions_json)
-
+    used_functions_json = read_dataset_to_json(main_dataset_folder + "/metadata/used_external_functions.json")
+    print(f"Number of nodes in datset: {len(used_functions_json)}")
+    dataset_nodes = used_functions_to_string(used_functions_json)
+    all_used_functions_json = read_dataset_to_json(main_dataset_folder + "/metadata/used_external_functions.json")
+    print(f"Number all nodes: {len(all_used_functions_json)}")
+    all_nodes = used_functions_to_string(all_used_functions_json)
+    
     print("\n==== Configures models ====")
     client, models = model_configs(all_responses, model_provider, models, ollama_port)
 

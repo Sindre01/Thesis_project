@@ -77,7 +77,8 @@ def parse_experiments(experiment_list):
 def run_testing_experiment(
         client,
         test_data,
-        available_nodes,
+        dataset_nodes,
+        all_nodes,
         experiment_name,
         file_path,
         model,
@@ -102,7 +103,8 @@ def run_testing_experiment(
         model_result, largest_context = run_model(
             client,
             model["name"],
-            available_nodes,
+            dataset_nodes,
+            all_nodes,
             test_data,
             example_pool,
             model["max_tokens"],
@@ -185,6 +187,10 @@ def main(
                 print(f"\n==== Running few-shot testing for {experiment_name} on '{model_name}' ====")  
                 model = get_model_code_tokens_from_file(model_name, f'{project_dir}/data/max_tokens.json')
                 print(f"Max generation tokens for model {model['max_tokens']}")
+                used_functions_json = read_dataset_to_json(main_dataset_folder + "/metadata/used_external_functions.json")
+                dataset_nodes = used_functions_to_string(used_functions_json)
+                all_used_functions_json = read_dataset_to_json(main_dataset_folder + "/metadata/used_external_functions.json")
+                all_nodes = used_functions_to_string(all_used_functions_json)
 
                 best_params = read_dataset_to_json(best_params_path)
 
@@ -214,7 +220,8 @@ def main(
                 run_testing_experiment(
                         client,
                         test_data,
-                        available_nodes,
+                        dataset_nodes,
+                        all_nodes,
                         experiment_name,
                         file_path=result_runs_path,
                         model=model,
