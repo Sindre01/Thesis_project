@@ -281,7 +281,7 @@ if __name__ == "__main__":
     dataset = train_data + val_data + test_data
     
     script_dir = os.getcwd()
-    project_dir = os.path.abspath(f"{script_dir}/../../../")
+    project_dir = os.path.abspath(f"{script_dir}/../")
     dataset_nodes = read_dataset_to_json(main_dataset_folder + "/metadata/used_external_functions.json")
     print(f"Number of nodes in datset: {len(dataset_nodes)}")
 
