@@ -188,10 +188,9 @@ def generate_syncode_reponse(
 )-> str:
     """Generate a response for a given prompt using the Syncode model."""
     prompt = final_prompt_template.format(**prompt_variables_dict)
+    
     output = client.infer(prompt)
     print("SynCode output w/o stop_words: ", output[0])
-    output = client.infer(prompt, stop_words=["```<|eot_id|>"])
-    print("SynCode output w stop_words: ", output[0])
     response = output[0]
     return response
     
