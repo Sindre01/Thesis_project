@@ -234,7 +234,7 @@ def add_RAG_to_prompt(
             docs = []
             for node in candidate_nodes:
                 # Extract relevant documentation for each node
-                node_doc_str= next(node['doc'] for node in all_nodes if node['function_name'] == node) # Not using at the moment
+                node_doc_str= next(node_dict['doc'] for node_dict in all_nodes if node_dict['function_name'] == node) # Not using at the moment
                 print(f"Found doc string for node {node}: {node_doc_str}") 
 
                 node_docs = rag_data.node_retriever.similarity_search(node, k=docs_per_node) # Change to node_doc_str later
