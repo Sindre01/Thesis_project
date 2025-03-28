@@ -139,4 +139,4 @@ file: top_level_item*
 // Wrapper for Markdown code block
 start: fenced_code_block | file
 
-fenced_code_block: BACKTICKS_LANG file BACKTICKS
+fenced_code_block: (BACKTICKS_LANG | BACKTICKS) file BACKTICKS

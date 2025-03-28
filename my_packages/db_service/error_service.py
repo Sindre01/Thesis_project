@@ -107,12 +107,14 @@ def get_error_count_model(experiment: str, model_name: str, phase: str) -> int:
     errors_collection = db[f"{experiment}_errors"]
     return errors_collection.count_documents({"model_name": model_name, "phase": phase})
         
-def errors_to_df(experiment: str, model: str = None) -> pd.DataFrame:
+def errors_to_df(experiment: str, model: str = None, filter: dict={}) -> pd.DataFrame:
     """Loads a MongoDB collection into a Pandas DataFrame."""
     collection_name = f"{experiment}_errors"
     collection = db[collection_name]
     if model:
-        data = list(collection.find({"model_name": model}, {"_id": 0}))
+        filter["model_name"] = model
+    if model:
+        data = list(collection.find(filter, {"_id": 0}))
     else:
         data = list(collection.find({}, {"_id": 0}))  # Exclude MongoDB ObjectId
 
