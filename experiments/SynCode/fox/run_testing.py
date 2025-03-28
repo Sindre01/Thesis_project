@@ -99,6 +99,7 @@ def run_testing_experiment(
     for seed in seeds:
         print(f"Running with seed: {seed}")
         print(f"seeds runned: {count}/{total_count}")
+
         model_result, largest_context = run_model(
             client,
             model["name"],
@@ -152,14 +153,14 @@ def main(train_data, test_data, fold=-1, k_folds=3):
             metrics = ["syntax", "semantic", "tests"] # ["syntax", "semantic"] or ["syntax", "semantic", "tests"]
         
         experiment_type = ex["name"].split("_")[1] # e.g: "vanilla" or "?"
-        if experiment_type == "vanilla":
+        if experiment_type == "similarity":
             max_ctx = 16000
         elif experiment_type == "?":
             max_ctx = 16000
         else:
             raise ValueError(f"Unknown experiment type: {experiment_type}")
        
-        results_dir = os.path.join("/fp/homes01/u01/ec-sindrre/slurm_jobs", f"{experiment_folder}t/testing/{experiment_type}/{prompt_type}/runs/")
+        results_dir = os.path.join("/fp/homes01/u01/ec-sindrre/slurm_jobs", f"{experiment_folder}/testing/{experiment_type}/{prompt_type}/runs/")
         
         # best_params_folder = f"{project_dir}/experiments/{experiment_folder}/fox/best_params/{experiment_type}/{prompt_type}/hold_out"
         best_params_folder = f"{project_dir}/experiments/few-shot/fox/best_params/{selector_type}/{prompt_type}/hold_out"
