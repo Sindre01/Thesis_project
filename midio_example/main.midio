@@ -1,85 +1,42 @@
 import("std", Std_k98ojb)
 import("http", Http_q7o96c)
 
-module() main {
-    func(doc: "finds whether a number is divisible by 11.") is_divisible_by_11 {
-        in(x: -150, y: -100, name: "number") property(Number) number
-        in(x: -150, y: 50, name: "execute") trigger() execute
+module() main { 
+    func(doc: "check whether the entered number is greater than the elements of the given array.") check_greater {
+        in(x: -33, y: -26, name: "n") property(Number) n_a6cea7
+        in(x: -294, y: 155, name: "list") property(Any) list_0b075e
 
-        out(x: 800, y: 0, name: "result") property(Bool) result
-        out(x: 850, y: 100, name: "continue") trigger() continue
+        out(x: 546, y: 63, name: "output") property(Bool) output_b1d7f8
 
-        instance(x: 200, y: -50) to_string_1 root.Std_k98ojb.Strings.ToNumber {
-            input: number
+        instance(x: 11, y: 57) filter_1f9e8f root.Std_k98ojb.Iteration.Filter {}
+        instance(x: 459, y: 63) lessthan_1e9f1f root.Std_k98ojb.Math.LessThan {}
+        instance(x: 321, y: 0) if_1f9f1f root.Std_k98ojb.Std.If {}
+        instance(x: 495, y: 0) count_1f9f1f root.Std_k98ojb.Std.Count {}
+        instance(x: 495, y: -48) ifexpression_1f9f1f root.Std_k98ojb.Std.IfExpression {
+            expression: "a == 0"
         }
-        instance(x: 400, y: -150) characters_2 root.Std_k98ojb.Strings.Characters {
-            input: to_string_1.output
-        }
-        instance(x: 600, y: -50) map_3 root.Std_k98ojb.Iteration.Map {}
-        instance(x: 800, y: -100) reduce_4 root.Std_k98ojb.Iteration.Reduce {}
-        instance(x: 700, y: -250) modulo_5 root.Std_k98ojb.Math.Modulo {
-            value: reduce_4.output
-            divisor: 11
-        }
-        instance(x: 600, y: -300) if_6 root.Std_k98ojb.Std.If {
-            predicate: modulo_5.result == 0
-        }
-
-        execute -> to_string_1.execute
-
-        characters_2.characters -> map_3.items
-
+        n_a6cea7 -> lessthan_1e9f1f.right
+        list_0b075e -> filter_1f9e8f.items
         func() {
-            in(x: -100, y: 50, name: "digit") property(String) digit
+            in(x: -272, y: -48, name: "current") property(Number) current_86a8fb
 
-            out(x: 300, y: 0, name: "") property(Number) _output
+            out(x: 405, y: -52, name: "output") property(Bool) output_8ba733
 
-            instance(x: 150, y: 0) to_number_7 root.Std_k98ojb.Strings.ToNumber {
-                input: digit
-            }
-            to_number_7.output -> _output
-        } -> map_3.handler
-
-        map_3.output_list -> reduce_4.items
-
-        func() {
-            in(x: -100, y: 50, name: "current") property(Number) current
-            in(x: -100, y: 0, name: "accumulator") property(Number) accumulator
-            in(x: -100, y: -50, name: "index") property(Number) index
-
-            out(x: 300, y: 0, name: "") property(Number) _output
-
-            instance(x: 150, y: 0) ifexpression_8 root.Std_k98ojb.Std.IfExpression {
-                expression: "(index % 2 == 0)"
-            }
-            instance(x: 250, y: -50) add_9 root.Std_k98ojb.Math.Add {}
-            instance(x: 350, y: -100) sub_10 root.Std_k98ojb.Math.Sub {}
-
-            ifexpression_8.then -> add_9.execute
-            ifexpression_8.else -> sub_10.execute
-
-            accumulator -> add_9.first
-            current -> add_9.second
-            accumulator -> sub_10.first
-            current -> sub_10.second
-
-            add_9.result -> ifexpression_8.then_output
-            sub_10.result -> ifexpression_8.else_output
-
-            ifexpression_8.output -> _output
-        } -> reduce_4.reducer
-
-        0 -> reduce_4.initial_value
-
-        if_6.then -> continue
-        modulo_5.result -> if_6.predicate
-        execute -> if_6.execute
-        reduce_4.done -> continue
-        if_6.value -> result
+            current_41a8fb -> lessthan_1e9f1f.left
+            lessthan_1e9f1f.result -> output_8ba733
+        } -> filter_1f9e8f.handler
+        filter_1f9e8f.output_list -> if_1f9f1f.predicate
+        count_1f9f1f.count -> if_1f9f1f.value
+        if_1f9f1f.then -> output_b1d7f8
+        if_1f9f1f.else -> ifexpression_1f9f1f.execute
+        count_1f9f1f.reset -> ifexpression_1f9f1f.execute
+        ifexpression_1f9f1f.then -> output_b1d7f8
+        ifexpression_1f9f1f.else -> count_1f9f1f.increment
+        filter_1f9e8f.onItem -> count_1f9f1f.increment
     }
 
     
 
-    instance(x: -100, y: -50) is_divisible_by_11_instance root.main.is_divisible_by_11 {}
+    instance(x: -1, y: -1) check_greater_1f9f1f root.main.check_greater {}
 
 }
