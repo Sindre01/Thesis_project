@@ -12,3 +12,4 @@ tree = parser.parse(code)
 
 # Print the raw AST
 print(tree.pretty())
+print(list(parser.lex(code)))
