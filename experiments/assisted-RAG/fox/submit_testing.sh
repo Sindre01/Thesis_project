@@ -7,7 +7,7 @@
 # Configuration
 EXPERIMENT="assisted-RAG"                    # Experiment e.g.: 'few-shot'
 PHASE="testing"                       # Phase ('testing' or 'validation')
-CONTEXT_TYPE="ONE"                 #'ONE'
+CONTEXT_TYPE="MANY"                 #'ONE'
 PROMPT_TYPE=""                 # 'regular' or 'cot' or 'signature'   
 # SEMANTIC_SELECTOR=true                   # Use semantic selector
 K_FOLD_JOBS=0-2                              # Runs jobs for folds 0 to 2 (3-fold CV)
@@ -22,7 +22,7 @@ NODE_LIST=      # List of nodes that the job can run on gpu-9,gpu-7,gpu-8, gpu-1
 TIME="4-00:00:00"                  # Slurm walltime (D-HH:MM:SS)
 MEM_PER_GPU="20G"                       # Memory per GPU. 
 OLLAMA_MODELS_DIR="/cluster/work/projects/ec12/ec-sindrre/ollama-models"  # Path to where the Ollama models are stored and loaded                      
-OLLAMA_PORT="11410"                       # Remote port where Ollama listens. If different parallell runs, change ollama_port to avoid conflicts if same node is allocated.
+OLLAMA_PORT="11415"                       # Remote port where Ollama listens. If different parallell runs, change ollama_port to avoid conflicts if same node is allocated.
 SBATCH_SCRIPT="${PHASE}_${CONTEXT_TYPE}_${PROMPT_TYPE}_${GPUS}_ollama.slurm"           # Slurm batch script name
 # Directory on Fox to store scripts and output
 if [ -n "$PROMPT_TYPE" ]; then
@@ -38,14 +38,14 @@ model_provider='ollama'
 
 experiments='[
         {
-            "name": "regular_ONE",
+            "name": "regular_MANY",
             "prompt_prefix": "Create a function",
             "num_shots": [5],
             "prompt_type": "regular",
             "semantic_selector": true
         },
          {
-             "name": "signature_ONE",
+             "name": "signature_MANY",
              "prompt_prefix": "Create a function",
              "num_shots": [5],
              "prompt_type": "signature",

@@ -24,7 +24,6 @@ def estimate_pass_at_k(num_samples, num_correct, k):
     # print(result)
     return result
 
-
  
 def check_correctness(
         candidates_dict: dict[int, list[str]],
