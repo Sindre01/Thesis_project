@@ -159,10 +159,10 @@ def main(train_data, test_data, fold=-1, k_folds=3):
         else:
             raise ValueError(f"Unknown experiment type: {experiment_type}")
        
-        results_dir = os.path.join("/fp/homes01/u01/ec-sindrre/slurm_jobs", f"{experiment_folder}t/testing/{selector_type}/{prompt_type}/runs/")
+        results_dir = os.path.join("/fp/homes01/u01/ec-sindrre/slurm_jobs", f"{experiment_folder}t/testing/{experiment_type}/{prompt_type}/runs/")
         
         # best_params_folder = f"{project_dir}/experiments/{experiment_folder}/fox/best_params/{experiment_type}/{prompt_type}/hold_out"
-        best_params_folder = f"{project_dir}/experiments/few-shot/fox/best_params/{experiment_type}/{prompt_type}/hold_out"
+        best_params_folder = f"{project_dir}/experiments/few-shot/fox/best_params/{selector_type}/{prompt_type}/hold_out"
 
 
         for shots in ex["num_shots"]:
