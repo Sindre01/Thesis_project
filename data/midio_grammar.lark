@@ -140,4 +140,3 @@ file: top_level_item*
 start: fenced_code_block | file
 
 fenced_code_block: BACKTICKS_LANG file BACKTICKS
-start: file_wrapper
