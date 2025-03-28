@@ -114,7 +114,8 @@ def calculate_f1_score(
 def run_model(
     client: ChatOllama | ChatOpenAI | ChatAnthropic,
     model,
-    available_nodes,
+    dataset_nodes,
+    all_nodes,
     data : list[Example],
     example_pool,
     max_new_tokens,
@@ -146,7 +147,7 @@ def run_model(
         examples = example_pool.select_examples(sample.inputs)
         few_shot = create_few_shot_prompt(examples, 'NODES_TEMPLATE')
         final_prompt_template = create_final_prompt(few_shot, "NODE_GENERATOR_TEMPLATE", "NODES_TEMPLATE")
-        prompt = final_prompt_template.format(task=task, external_functions=available_nodes)
+        prompt = final_prompt_template.format(task=task, external_functions=dataset_nodes)
 
         for attempt_i in range(max(ks)):
             max_retries = 3
@@ -186,7 +187,7 @@ def run_model(
 
                     response = chain.invoke({
                         "task": task, 
-                        "external_functions": available_nodes
+                        "external_functions": dataset_nodes
                     },
                     {"run_name": "Node prediction"})
 
@@ -225,7 +226,8 @@ def run_model(
 def evaluate_nodes(
     client: ChatOllama | ChatOpenAI | ChatAnthropic,
     model,
-    available_nodes,
+    dataset_nodes,
+    all_nodes,
     data,
     example_pool,
     max_new_tokens,
@@ -240,7 +242,8 @@ def evaluate_nodes(
     model_result = run_model(
         client,
         model,
-        available_nodes,
+        dataset_nodes,
+        all_nodes,
         data,
         example_pool,
         max_new_tokens,
@@ -263,7 +266,8 @@ def evaluate_nodes(
 def run_validation(
     client: ChatOllama | ChatOpenAI | ChatAnthropic,
     model, 
-    available_nodes, 
+    dataset_nodes,
+    all_nodes, 
     val_data: list[Example],
     example_pool: list[Example],
     temperatures, 
@@ -286,7 +290,8 @@ def run_validation(
                 val_f1, val_pass_k_dict = evaluate_nodes (
                     client,
                     model['name'],
-                    available_nodes,
+                    dataset_nodes,
+                    all_nodes,
                     val_data,
                     example_pool,
                     model["max_tokens"],
@@ -321,7 +326,8 @@ def run_validation(
 def run_testing(
     client: ChatOllama | ChatOpenAI | ChatAnthropic,
     model, 
-    available_nodes, 
+    dataset_nodes,
+    all_nodes, 
     test_data: list[Example],
     example_pool: list[Example],
     temperature, 
@@ -342,7 +348,8 @@ def run_testing(
         test_f1, test_pass_k_dict = evaluate_nodes(
             client,
             model['name'],
-            available_nodes,
+            dataset_nodes,
+            all_nodes,
             test_data,
             example_pool,
             model["max_tokens"],

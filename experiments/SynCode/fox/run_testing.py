@@ -78,7 +78,8 @@ def parse_experiments(experiment_list):
 def run_testing_experiment(
         client,
         test_data,
-        available_nodes,
+        dataset_nodes,
+        all_nodes,
         experiment_name,
         file_path,
         model,
@@ -101,7 +102,8 @@ def run_testing_experiment(
         model_result, largest_context = run_model(
             client,
             model["name"],
-            available_nodes,
+            dataset_nodes,
+            all_nodes,
             test_data,
             example_pool,
             model["max_tokens"],
@@ -197,7 +199,8 @@ def main(train_data, test_data, fold=-1, k_folds=3):
                 run_testing_experiment(
                         client,
                         test_data,
-                        available_nodes,
+                        dataset_nodes,
+                        all_nodes,
                         experiment_name,
                         result_runs_path,
                         model,
@@ -275,12 +278,13 @@ if __name__ == "__main__":
     train_data, val_data, test_data = get_hold_out_splits(main_dataset_folder)
     dataset = train_data + val_data + test_data
     
-    # used_functions_json = read_dataset_to_json(main_dataset_folder + "metadata/used_external_functions.json") # Used functions in the dataset
-    used_functions_json = read_dataset_to_json( f"{project_dir}/data/all_library_nodes.json") # All nodes
-
-    print(f"Number of nodes as context: {len(used_functions_json)}")
-    available_nodes = used_functions_to_string(used_functions_json) #used for Context prompt
-
+    used_functions_json = read_dataset_to_json(main_dataset_folder + "/metadata/used_external_functions.json")
+    print(f"Number of nodes in datset: {len(used_functions_json)}")
+    dataset_nodes = used_functions_to_string(used_functions_json)
+    all_used_functions_json = read_dataset_to_json(main_dataset_folder + "/metadata/used_external_functions.json")
+    print(f"Number all nodes: {len(all_used_functions_json)}")
+    all_nodes = used_functions_to_string(all_used_functions_json)
+    
     if fold != -1:
         print(f"Using 3-fold cross-validation on merged train+test splits")
         k_fold_data = (train_data + test_data)  
