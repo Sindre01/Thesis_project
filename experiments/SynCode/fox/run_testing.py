@@ -6,6 +6,8 @@ import os
 import sys
 
 from dotenv import load_dotenv
+
+from my_packages.common.rag import RagData, init_rag_data
 os.environ['EXPERIMENT_DB_NAME'] = "syncode_experiments"
 os.environ['HF_CACHE'] = "/cluster/work/projects/ec12/ec-sindrre/hf-models"
 os.environ['SYNCODE_CACHE'] = "/cluster/work/projects/ec12/ec-sindrre/syncode"
@@ -91,7 +93,8 @@ def run_testing_experiment(
         n,
         best_params_optimization = None,
         seeds = [3, 75, 346],
-        ollama_port = "11434"
+        ollama_port = "11434",
+        rag_data: RagData = None,
 ):
     total_count = len(seeds)
     count = 0
@@ -116,7 +119,7 @@ def run_testing_experiment(
             debug = True, 
             prompt_type = prompt_type,
             ollama_port=ollama_port,
-            rag_data=None,
+            rag_data=rag_data,
             max_ctx=16000,
             constrained_output=True
 
@@ -142,7 +145,12 @@ def run_testing_experiment(
     write_directly_json_file(file_path, results)
 
 
-def main(train_data, test_data, fold=-1, k_folds=3):
+def main(
+        train_data, 
+        test_data, 
+        fold=-1, 
+        k_folds=3,
+        rag_data: RagData = None,):
     """Main function to run few-shot testing experiments."""
     for ex in experiments:
         selector_type= "similarity" if ex["semantic_selector"] else "coverage"
@@ -224,6 +232,7 @@ def main(train_data, test_data, fold=-1, k_folds=3):
                         n_generations_per_task,
                         best_params_optimization = best_params_model["optimizer_metric"],
                         ollama_port = ollama_port,
+                        rag_data = rag_data
                     )
 
                 print(f"Testing finished for {experiment_name} on model: {model_name}")
@@ -250,7 +259,7 @@ if __name__ == "__main__":
     env_path = os.path.abspath(f"{project_dir}/../../.env")
     print("Env is located in:", env_path)
     load_dotenv(env_path)
-    results_dir = f"{project_dir}/experiments/few-shot/fox/testing_runs"
+    rag_data = init_rag_data() # None if not using RAG
     # Parse arguments:
     parser = argparse.ArgumentParser(description="Process input.")
 
@@ -314,7 +323,7 @@ if __name__ == "__main__":
     print("\n==== Running testing ====")
     start_time = time.time()
 
-    main(train_data, test_data, fold)
+    main(train_data, test_data, fold, rag_data=rag_data)
     
 
 
