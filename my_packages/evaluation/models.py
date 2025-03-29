@@ -149,7 +149,6 @@ def generate_n_responses(
                         final_prompt_template=final_prompt_template,
                         prompt_variables_dict=prompt_variables_dict,
                         seed=new_seed,
-                        context=context
                     )
                 else:
                     print("Using Langchain")
