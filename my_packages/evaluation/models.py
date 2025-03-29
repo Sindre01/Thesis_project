@@ -191,6 +191,7 @@ def generate_syncode_reponse(
 
     output = client.infer(prompt, stop_words=["{}\n\n}\n\n```\n"])
     print("SynCode output:", output[0])
+    print("* MARKERER SLUTT PÅ OUTPUT. SynCode output length:", len(output[0]))
     response = output[0]
     return response
     
