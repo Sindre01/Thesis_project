@@ -6,10 +6,14 @@ from langchain_ollama import ChatOllama
 from langchain_openai import ChatOpenAI
 from langchain.prompts import ChatPromptTemplate
 from my_packages.utils.server_utils import server_diagnostics
+from transformers import set_seed
 
 def extract_response(response_text: str) -> str:
     """
     Extracts a code snippet from the response using a regex for ```midio code blocks.
+    If multiple code blocks are found, returns:
+      - The last one if <think> is present and </think> is not
+      - The first one otherwise
     Also removes any comments—whether they are on lines by themselves or inline.
     """
     # Split the response to get content after the last </think>
@@ -17,17 +21,17 @@ def extract_response(response_text: str) -> str:
     code_section = parts[-1]  # Content after the last </think>
 
     # Find all `midio` code blocks
-    # matches = re.findall(r'```midio(.*?)(```|$)', code_section, re.DOTALL)
     matches = re.findall(r'```mid\w*(.*?)(```|$)', code_section, re.DOTALL)
 
-
-    # If multiple code blocks exist, take the last one
     if matches:
-        code_block = matches[-1][0]  # Get only the code part
+        if "<think>" in response_text and "</think>" not in response_text:
+            code_block = matches[-1][0] # Get last code block from thinking phase.
+        else:
+            code_block = matches[0][0]  # Get first code block from non-thinking phase.
     else:
         code_block = code_section
 
-    # This regex finds any occurrence of '//' or '#' and removes everything until the end of the line.
+    # Remove inline and full-line comments
     code_without_comments = re.sub(r'(?://|#).*$', '', code_block, flags=re.MULTILINE)
 
     return code_without_comments.strip()
@@ -144,6 +148,7 @@ def generate_n_responses(
                         client=constrained_llm,
                         final_prompt_template=final_prompt_template,
                         prompt_variables_dict=prompt_variables_dict,
+                        seed=new_seed,
                         context=context
                     )
                 else:
@@ -184,11 +189,11 @@ def generate_syncode_reponse(
     client: Syncode,
     final_prompt_template: ChatPromptTemplate,
     prompt_variables_dict: dict,
-    context: int,
+    seed: int,
 )-> str:
     """Generate a response for a given prompt using the Syncode model."""
+    set_seed(seed)
     prompt = final_prompt_template.format(**prompt_variables_dict) + "\n AI: "
-
     output = client.infer(prompt, stop_words=["}\n\n```\n", "Human:", "AI:"])
     print("SynCode output:", output[0])
     print("* MARKERER SLUTT PÅ OUTPUT. SynCode output length:", len(output[0]))

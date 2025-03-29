@@ -328,7 +328,6 @@ def run_model(
     if constrained_output:
         print("Constrained output is set to True.")
         model_kwargs = {
-            "seed": seed,
             "max_length": max_ctx,
             "max_new_tokens": max_new_tokens,
             "temperature": temperature,
@@ -336,9 +335,12 @@ def run_model(
             "top_p": top_p,
             "do_sample": True,
             "quantize": True, # Sets to torch.float16
+            "early_stopping": True,            # <- Stop if EOS is reached early
+            "use_cache": True,                 # <- Speeds things up (standard)
             # "pad_token_id": 0,
             # "eos_token_id": 1,
         }
+        print(f"Model kwargs: {model_kwargs}")
         # Load the Syncode augmented model with huggingface model
         if "phi4" in model:
             hf_model = "microsoft/phi-4"

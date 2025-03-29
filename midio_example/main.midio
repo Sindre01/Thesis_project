@@ -1,2 +1,42 @@
-func(doc: "check whether the entered number is equal to the elements of the given array.") check_equal {
-    in(x: -33, y: -26, name:
+    import("std", Std_k98ojb)
+import("http", Http_q7o96c)
+
+module() main { 
+    func(doc: "check whether the entered number is greater than the elements of the given array.") check_greater {
+        in(x: -33, y: -26, name: "n") property(Number) n_a6cea7
+        in(x: -294, y: 155, name: "list") property(Any) list_0b075e
+
+        out(x: 546, y: 63, name: "output") property(Bool) output_b1d7f8
+
+        instance(x: -1, y: 17) filter_0e9c8f root.Std_k98ojb.Iteration.Filter {}
+        instance(x: 232, y: 17) lessthan_0e9c8f root.Std_k98ojb.Math.LessThan {}
+        instance(x: 412, y: 17) not_0e9c8f root.Std_k98ojb.Logic.Not {}
+        instance(x: 582, y: 17) and_0e9c8f root.Std_k98ojb.Logic.And {}
+        instance(x: 752, y: 17) notempty_0e9c8f root.Std_k98ojb.List.NotEmpty {}
+        instance(x: 922, y: 17) if_0e9c8f root.Std_k98ojb.Std.If {}
+        n_a6cea7 -> lessthan_0e9c8f.left
+        list_0b075e -> lessthan_0e9c8f.right
+        lessthan_0e9c8f.result -> not_0e9c8f.input
+        not_0e9c8f.result -> and_0e9c8f.left
+        list_0b075e -> notempty_0e9c8f.list
+        notempty_0e9c8f.isEmpty -> and_0e9c8f.right
+        and_0e9c8f.result -> if_0e9c8f.predicate
+        filter_0e9c8f.output_list -> if_0e9c8f.value
+        list_0b075e -> filter_0e9c8f.items
+        func() {
+            in(x: -76, y: 46, name: "element") property(Number) element_5f51f7
+
+            out(x: 382, y: 19, name: "out") property(Bool) out_d0fd24
+
+            instance(x: 106, y: 17) lessthan_2f9d09 root.Std_k98ojb.Math.LessThan {}
+            n_a6cea7 -> lessthan_2f9d09.left
+            element_5f51f7 -> lessthan_2f9d09.right
+            lessthan_2f9d09.result -> out_d0fd24
+        } -> filter_0e9c8f.handler
+        if_0e9c8f.then -> output_b1d7f8
+    }
+
+    
+
+    instance(x: -1, y: -1) check_greater_1a1a1a root.main.check_greater {}
+}
