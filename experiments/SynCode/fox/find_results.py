@@ -12,10 +12,10 @@ from my_packages.evaluation.find_results import find_results
 if __name__ == "__main__":
     find_results( 
         experiment_folder="SynCode",
-        env="prod",
+        env="dev",
         eval_method="3_fold",
-        example_selector_types=["similarity"],
-        experiment_types=["regular", "signature"],
+        experiment_types=["similarity"],
+        prompt_types=["signature"],
         shots=[1, 5, 10],
         metrics=["syntax", "semantic", "tests"],
         ks=[1, 2, 3, 5, 10],

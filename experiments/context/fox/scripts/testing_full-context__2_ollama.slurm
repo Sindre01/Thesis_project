@@ -45,7 +45,7 @@ export OLLAMA_LLM_LIBRARY="cuda_v12_avx"
 export OLLAMA_FLASH_ATTENTION=1
 export OLLAMA_KV_CACHE_TYPE="f16" # f16 (default), q8_0 (half of the memory of f16, try this), q4_0 different quantization types to find the best balance between memory usage and quality.
 
-export OLLAMA_DEBUG=1
+# export OLLAMA_DEBUG=1
 # export OLLAMA_NUM_PARALLEL=2 # Number of parallel models to run. 
 # export OLLAMA_MAX_LOADED_MODELS=2
 # export OLLAMA_MAX_QUEUE

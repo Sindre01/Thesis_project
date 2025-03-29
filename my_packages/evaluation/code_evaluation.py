@@ -406,7 +406,8 @@ def evaluate_code(
     phase: str,
     eval_method: str = "hold_out",
     fold: int = None,
-    db_connection=None
+    db_connection=None,
+    experiment_folder: str = "few-shot"
 )-> list[dict[str, dict[int, float]]]:
     """
     Evaluate the code quality of the generated candidates.
@@ -430,7 +431,7 @@ def evaluate_code(
             # Save errors
             if env == "dev":
                 save_results_as_string(test_results, f"{metric}_{experiment_name}.txt")
-                save_results_to_file(test_results, f"{metric}_{experiment_name}.json")
+                save_results_to_file(test_results, f"{metric}_{experiment_name}.json", experiment_folder=experiment_folder)
             elif env == "prod":
                 save_errors_to_db(
                     experiment_name,

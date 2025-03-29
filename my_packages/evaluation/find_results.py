@@ -33,7 +33,8 @@ def evaluate_runs(
         db_connection=None,
         fold: int = None,
         phase: Phase = Phase.TESTING,
-        eval_method: str = "3_fold"
+        eval_method: str = "3_fold",
+        experiment_folder: str = "few-shot",
     ) -> tuple[list[Run], Run]:
     """Evaluate runs from a given file"""
 
@@ -60,6 +61,7 @@ def evaluate_runs(
             eval_method=eval_method,
             fold=fold,
             db_connection=db_connection,
+            experiment_folder=experiment_folder
         )
         print(f"seed for run: {run['seed']}")
 
@@ -104,6 +106,7 @@ def evaluate_final_results(
         ks: list[int], 
         eval_method: str,
         phase: Phase,
+        experiment_folder: str = "few-shot"
 
 )-> tuple[str, dict]:
     """Evaluate the final results for a given model and experiment. """
@@ -112,7 +115,8 @@ def evaluate_final_results(
         "metrics": metrics,
         "ks": ks,
         "phase": phase,
-        "eval_method": eval_method
+        "eval_method": eval_method,
+        "experiment_folder": experiment_folder,
     }
     if env == "prod":
         db = get_db_connection()
@@ -144,8 +148,6 @@ def evaluate_final_results(
             print(f"✅ Processed fold {fold_file} with seed {fold_result.seed}")
             all_runs.append(fold_result) # append the final averaged result accross the seeds
 
-            print(f"✅ Processed fold {fold_file}")
-
         if not all_runs:
             print(f"❌ No valid folds found for {experiment_name} for {model_name}")
             return experiment_name, {}
@@ -167,8 +169,9 @@ def evaluate_final_results(
     else:
         raise ValueError("Invalid evaluation method. Must be one of 'hold_out' or '3_fold'.")
     
-    # Save results only once outside if/else
-    if env == "prod" and final_result is not None:
+
+    if env == "prod":
+        # Save results to DB
         print(f"run seed 1: {all_runs[0].seed}")
         print(f"run seed 2: {all_runs[1].seed}")
         print(f"run seed 3: {all_runs[2].seed}")
@@ -187,17 +190,18 @@ def evaluate_final_results(
 
         # Flatten final result for return
         flattened_metrics = flatten_metric_results(final_result.metric_results)
-        result_dict = {
-            "model_name": model_name,
-            "experiment": experiment_name,
-            "metrics": metrics,
-            "seed": final_result.seed,
-            "temperature": final_result.temperature,
-            "top_p": final_result.top_p,
-            "top_k": final_result.top_k,
-            "ks": ks,
-            **flattened_metrics
-        }
+
+    result_dict = {
+        "model_name": model_name,
+        "experiment": experiment_name,
+        "metrics": metrics,
+        "seed": final_result.seed,
+        "temperature": final_result.temperature,
+        "top_p": final_result.top_p,
+        "top_k": final_result.top_k,
+        "ks": ks,
+        **flattened_metrics
+    }
 
     return experiment_name, result_dict
 
@@ -267,7 +271,8 @@ def process_model_file(
         metrics: list[str], 
         ks: list[int], 
         eval_method: str,
-        phase: Phase
+        phase: Phase,
+        experiment_folder: str = "few-shot"
     ) -> tuple[str, dict]:
     """
     Process a single file of testing runs or validation runs, for an experiment and model.
@@ -298,7 +303,8 @@ def process_shot_file(
     eval_method: str,
     model_files: list[str],
     use_threads: bool,
-    phase: Phase
+    phase: Phase,
+    experiment_folder: str = "few-shot"
 ) -> tuple[str, list[dict]]:   
     
     experiment_name = f"{experiment}_{shot}_shot"
@@ -319,7 +325,8 @@ def process_shot_file(
                     metrics=metrics,
                     ks=ks,
                     eval_method=eval_method,
-                    phase=phase
+                    phase=phase,
+                    experiment_folder=experiment_folder
                 )
                 for file_name in model_files
             ]
@@ -487,7 +494,8 @@ def find_results(
                             eval_method=eval_method,
                             model_files=shot_files[shot],
                             use_threads=use_threads,
-                            phase=phase
+                            phase=phase,
+                            experiment_folder=experiment_folder
                         )
                         for shot in shots
                     ]

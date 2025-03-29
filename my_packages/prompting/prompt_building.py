@@ -232,23 +232,31 @@ def add_RAG_to_prompt(
                 docs_per_node = possible_docs_per_node
             print(f"Extracting {docs_per_node} documents per node.")
             docs = []
-            for node in candidate_nodes:
+            for predicted_node in candidate_nodes:
                 # Extract relevant documentation for each node
-                node_doc_str= next(node_dict['doc'] for node_dict in all_nodes if node_dict['function_name'] == node) # Not using at the moment
-                print(f"Found doc string for node {node}: {node_doc_str}") 
+                node_doc_str = ""
+                if isinstance(predicted_node, str):
+                    node_doc_str = next(
+                        (node_dict['doc'] for node_dict in all_nodes if node_dict['function_name'] == predicted_node.strip()),
+                        "No doc"
+                    )
+                else:
+                    print("⚠️ Skipping node — not a string")
 
-                node_docs = rag_data.node_retriever.similarity_search(node, k=docs_per_node) # Change to node_doc_str later
+                print(f"Found doc string for node {predicted_node}: {node_doc_str}") 
+
+                node_docs = rag_data.node_retriever.similarity_search(predicted_node, k=docs_per_node) # Change to node_doc_str later
 
                 docs.extend(node_docs)
-                print(f"Node {node} extracted these docs")
+                print(f"Node {predicted_node} extracted these simialr nodes from docs:")
                 for doc in node_docs:
-                    node = ""
-                    pattern = re.compile(r"'([^']+)'")
+                    similar_node = ""
+                    pattern = re.compile(r"'([^']+)'") #first math within '' quotes
 
                     match = pattern.search(doc.page_content)
                     if match:
-                        node = match.group(1)  # "Image.FromFile"
-                    print(f"    > {node}")
+                        similar_node = match.group(1) 
+                    print(f"    > {similar_node}")
 
             formatted_node_context, used_node_tokens = fit_docs_by_tokens(
                 client,

@@ -88,7 +88,7 @@ def read_dataset_to_json(file_path: str) -> list[dict]:
         dataset = json.load(file)
     return dataset
 
-def save_results_to_file(test_results: dict[int, list[CodeEvaluationResult]], filename: str):
+def save_results_to_file(test_results: dict[int, list[CodeEvaluationResult]], filename: str, experiment_folder: str = "few-shot"):
     """
     Saves test results to a JSON file properly formatted as a valid JSON array.
     
@@ -97,7 +97,7 @@ def save_results_to_file(test_results: dict[int, list[CodeEvaluationResult]], fi
     - Writes the updated JSON data back as an array.
     """
     project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
-    file_path = os.path.join(project_root, f"experiments/few-shot/logs/{filename}")
+    file_path = os.path.join(project_root, f"experiments/{experiment_folder}/logs/{filename}")
 
     # Ensure the file exists with an empty array if it doesn't
     if not os.path.exists(file_path):
@@ -137,11 +137,11 @@ def save_results_to_file(test_results: dict[int, list[CodeEvaluationResult]], fi
 
     print(f"✅ Results saved to {file_path} as a valid JSON array.")
 
-def save_results_as_string(test_results: dict[int, list[CodeEvaluationResult]], filename: str):
+def save_results_as_string(test_results: dict[int, list[CodeEvaluationResult]], filename: str, experiment_folder: str = "few-shot"):
     """
     Saves the string representation of CodeEvaluationResult objects to a file incrementally.
     """
-    file_path = os.path.join(project_root, f'experiments/few-shot/logs/{filename}')
+    file_path = os.path.join(project_root, f'experiments/{experiment_folder}/logs/{filename}')
 
     with open(file_path, "a", encoding="utf-8") as f:
         for task_id, results in test_results.items():
