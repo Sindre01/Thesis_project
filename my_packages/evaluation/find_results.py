@@ -188,8 +188,8 @@ def evaluate_final_results(
             eval_method=eval_method
         )
 
-        # Flatten final result for return
-        flattened_metrics = flatten_metric_results(final_result.metric_results)
+    # Flatten final result for return
+    flattened_metrics = flatten_metric_results(final_result.metric_results)
 
     result_dict = {
         "model_name": model_name,
