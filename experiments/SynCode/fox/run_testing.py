@@ -163,7 +163,7 @@ def main(
         experiment_type = ex["name"].split("_")[1] # e.g: "vanilla" or "?"
         if experiment_type == "similarity":
             max_ctx = 16000
-        elif experiment_type == "?":
+        elif experiment_type == "RAG":
             max_ctx = 16000
         else:
             raise ValueError(f"Unknown experiment type: {experiment_type}")
@@ -259,7 +259,7 @@ if __name__ == "__main__":
     env_path = os.path.abspath(f"{project_dir}/../../.env")
     print("Env is located in:", env_path)
     load_dotenv(env_path)
-    rag_data = None #init_rag_data() # None if not using RAG
+    rag_data = init_rag_data() # None if not using RAG
     # Parse arguments:
     parser = argparse.ArgumentParser(description="Process input.")
 
