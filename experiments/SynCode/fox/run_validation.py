@@ -167,7 +167,7 @@ def main(train_data, val_data):
                     experiment_name=experiment_name,
                     result_runs_path=result_runs_path,
                     model=model,
-                    selector=selector,
+                    example_pool=selector,
                     prompt_type=ex["prompt_type"],
                     debug=True,
                     ollama_port = ollama_port

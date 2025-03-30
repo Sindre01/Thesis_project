@@ -143,9 +143,10 @@ import_stmt: KW_IMPORT LEFT_PAREN VALUE_STRING COMMA name RIGHT_PAREN
 top_level_item: import_stmt | module
 file: top_level_item*
 
-// Wrapper for Markdown code block
+// for markdown code block
+fenced_code_block: (BACKTICKS_LANG | BACKTICKS) file BACKTICKS
+
 start: (fenced_code_block | file)
 
-fenced_code_block: (BACKTICKS_LANG | BACKTICKS) file BACKTICKS
 
 
