@@ -360,7 +360,7 @@ def run_model(
     results: dict[int, list[str]] = {}
     largest_ctx_size = 0
     for index, sample in enumerate(data):
-        print(f"\n\n{Style.BRIGHT}=== Sample: {index+1} (task_id: {sample["task_id"]}) ===")
+        print(f"\n\n{Style.BRIGHT}=== Sample: {index+1} (task_id: {sample['task_id']}) ===")
         generated_candidates, prompt_size = run_prompt_step(
             response_type="CODE",
             sample=sample,
