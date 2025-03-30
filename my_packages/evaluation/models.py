@@ -172,13 +172,12 @@ def generate_n_responses(
                 server_diagnostics(host=f"http://localhost:{ollama_port}")
 
         if retries == max_retries:
-            print("Failed to get a response from the server after "
-                    + str(retries) + " attempts.")
-            generated = ""
+            print("Failed to get a response from the server after " + str(retries) + " attempts.")
+            generated = "Failed to get a response from the server after " + str(retries) + " attempts."
         
         current_n += 1
-        if not generated:
-            raise Exception("Failed to generate a response.")
+        # if not generated:
+        #     raise Exception("Failed to generate a response.")
         # Extract code from the generated response
         generated_code = extract_response(generated)
         generated_candidates.append(generated_code)
