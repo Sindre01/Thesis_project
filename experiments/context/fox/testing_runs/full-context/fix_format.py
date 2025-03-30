@@ -1,6 +1,6 @@
 import json
 
-file = "./regular/3_fold/regular_full-context_5_shot_llama3.3:70b-instruct-fp16/fold_1.json"
+file = "./signature/3_fold/signature_full-context_5_shot_llama3.3:70b-instruct-fp16/fold_1.json"
 with open(file) as f:
     data = json.load(f)
 

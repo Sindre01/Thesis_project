@@ -17,7 +17,7 @@ if __name__ == "__main__":
         env="prod",
         eval_method="3_fold",
         experiment_types=["full-context"],
-        prompt_types=["regular"],
+        prompt_types=["signature"],
         shots=[5],
         metrics=["syntax", "semantic", "tests"],
         ks=[1, 2, 3, 5, 10],

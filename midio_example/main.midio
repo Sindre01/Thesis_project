@@ -1,42 +1,49 @@
-    import("std", Std_k98ojb)
+import("std", Std_k98ojb)
 import("http", Http_q7o96c)
 
 module() main { 
-    func(doc: "check whether the entered number is greater than the elements of the given array.") check_greater {
-        in(x: -33, y: -26, name: "n") property(Number) n_a6cea7
-        in(x: -294, y: 155, name: "list") property(Any) list_0b075e
+    func(doc: "finds the difference of the first even and first odd number of a given list.") diff_even_odd {
+        in(x: -569, y: 438, name: "list") property(List) list_542a51
 
-        out(x: 546, y: 63, name: "output") property(Bool) output_b1d7f8
+        out(x: 443, y: 427, name: "difference") property(Number) difference_57c890
 
-        instance(x: -1, y: 17) filter_0e9c8f root.Std_k98ojb.Iteration.Filter {}
-        instance(x: 232, y: 17) lessthan_0e9c8f root.Std_k98ojb.Math.LessThan {}
-        instance(x: 412, y: 17) not_0e9c8f root.Std_k98ojb.Logic.Not {}
-        instance(x: 582, y: 17) and_0e9c8f root.Std_k98ojb.Logic.And {}
-        instance(x: 752, y: 17) notempty_0e9c8f root.Std_k98ojb.List.NotEmpty {}
-        instance(x: 922, y: 17) if_0e9c8f root.Std_k98ojb.Std.If {}
-        n_a6cea7 -> lessthan_0e9c8f.left
-        list_0b075e -> lessthan_0e9c8f.right
-        lessthan_0e9c8f.result -> not_0e9c8f.input
-        not_0e9c8f.result -> and_0e9c8f.left
-        list_0b075e -> notempty_0e9c8f.list
-        notempty_0e9c8f.isEmpty -> and_0e9c8f.right
-        and_0e9c8f.result -> if_0e9c8f.predicate
-        filter_0e9c8f.output_list -> if_0e9c8f.value
-        list_0b075e -> filter_0e9c8f.items
+        instance(x: 0, y: 0) find_6d05b0 root.Std_k98ojb.Iteration.Find {}
+        instance(x: 0, y: 0) ``First even number_0b1361`` root.Std_k98ojb.Iteration.Find {}
+        instance(x: 0, y: 0) sub_1e7b9f root.Std_k98ojb.Math.Sub {}
         func() {
-            in(x: -76, y: 46, name: "element") property(Number) element_5f51f7
+            in(x: -113, y: 34, name: "elem") property(Number) elem_9f6850
 
-            out(x: 382, y: 19, name: "out") property(Bool) out_d0fd24
+            out(x: 515, y: 44, name: "bool") property(Bool) bool_af09a7
 
-            instance(x: 106, y: 17) lessthan_2f9d09 root.Std_k98ojb.Math.LessThan {}
-            n_a6cea7 -> lessthan_2f9d09.left
-            element_5f51f7 -> lessthan_2f9d09.right
-            lessthan_2f9d09.result -> out_d0fd24
-        } -> filter_0e9c8f.handler
-        if_0e9c8f.then -> output_b1d7f8
+            instance(x: 89, y: 29) modulo_1088d5 root.Std_k98ojb.Math.Modulo {}
+            instance(x: 310, y: 35) notequal_807ffd root.Std_k98ojb.Logic.NotEqual {}
+            0 -> notequal_807ffd.right
+            modulo_1088d5.result -> notequal_807ffd.left
+            2 -> modulo_1088d5.divisor
+            elem_9f6850 -> modulo_1088d5.value
+            notequal_807ffd.result -> bool_af09a7
+        } -> find_6d05b0.predicate
+        func() {
+            in(x: -192, y: 84, name: "current") property(Number) current_afd5b1
+
+            out(x: 698, y: 85, name: "bool") property(Bool) bool_1eb6e9
+
+            instance(x: 112, y: 80) modulo_45e806 root.Std_k98ojb.Math.Modulo {}
+            instance(x: 415, y: 86) equal_a54bdc root.Std_k98ojb.Logic.Equal {}
+            current_afd5b1 -> modulo_45e806.value
+            2 -> modulo_45e806.divisor
+            modulo_45e806.result -> equal_a54bdc.left
+            0 -> equal_a54bdc.right
+            equal_a54bdc.result -> bool_1eb6e9
+        } -> ``First even number_0b1361``.predicate
+        list_542a51 -> find_6d05b0.items
+        list_542a51 -> ``First even number_0b1361``.items
+        find_6d05b0.item -> sub_1e7b9f.first
+        ``First even number_0b1361``.item -> sub_1e7b9f.second
+        sub_1e7b9f.result -> difference_57c890
     }
 
     
 
-    instance(x: -1, y: -1) check_greater_1a1a1a root.main.check_greater {}
+    instance(x: -293, y: 529) diff_even_odd_7a4dad root.main.diff_even_odd {}
 }
