@@ -155,6 +155,7 @@ def main(
     for ex in experiments:
         selector_type= "similarity" if ex["semantic_selector"] else "coverage"
         prompt_type = ex["prompt_type"].value
+        
         if prompt_type == "regular":
             metrics = ["syntax", "semantic"]
         elif prompt_type == "signature":

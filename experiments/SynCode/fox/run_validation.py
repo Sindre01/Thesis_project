@@ -5,6 +5,8 @@ import subprocess
 import sys
 import argparse
 
+from dotenv import load_dotenv
+from my_packages.common.rag import RagData, init_rag_data
 os.environ['EXPERIMENT_DB_NAME'] = "syncode_experiments"
 os.environ['HF_CACHE'] = "/cluster/work/projects/ec12/ec-sindrre/hf-models"
 os.environ['SYNCODE_CACHE'] = "/cluster/work/projects/ec12/ec-sindrre/syncode"
@@ -13,13 +15,11 @@ from my_packages.common.config import model_configs
 from my_packages.data_processing.split_dataset import create_kfold_splits
 script_dir = os.path.dirname(os.path.abspath(__file__))
 project_dir = os.path.abspath(f"{script_dir}/../../..")
-# experiment_dir = os.path.abspath(f"{script_dir}/..")
-env_path = os.path.abspath(f"{project_dir}/../../.env")
+
 
 print("Script is located in:", script_dir)
 print("Project is located in:", project_dir)
-print("Env is located in:", env_path)
-# print("Experiments are located in:", experiment_dir)
+
 
 results_dir = f"{project_dir}/experiments/few-shot/fox/validation_runs"
 
@@ -105,7 +105,7 @@ def run_val_experiment(
                     top_k,
                     n = n,
                     seed = seed,
-                    debug = False, 
+                    debug = debug, 
                     prompt_type = prompt_type,
                     ollama_port=ollama_port,
                     rag_data=None,
@@ -136,6 +136,7 @@ def parse_experiments(experiment_list):
         if "prompt_type" in exp and isinstance(exp["prompt_type"], str):
             exp["prompt_type"] = PromptType(exp["prompt_type"])  # Convert to Enum
     return experiment_list
+
 def main(train_data, val_data):
     """Run few-shot validation experiments."""
     for ex in experiments:
@@ -159,15 +160,16 @@ def main(train_data, val_data):
                 print(f"\n==== Running few-shot validation for {experiment_name} on '{model_name}' ====")  
                 model = get_model_code_tokens_from_file(model_name, f'{project_dir}/data/max_tokens.json')
                 run_val_experiment(
-                    client,
-                    val_data,
-                    dataset_nodes,
-                    all_nodes,
-                    experiment_name,
-                    result_runs_path,
-                    model,
-                    selector,
-                    ex["prompt_type"],
+                    client=client,
+                    val_data=val_data,
+                    dataset_nodes=dataset_nodes,
+                    all_nodes=all_nodes,
+                    experiment_name=experiment_name,
+                    result_runs_path=result_runs_path,
+                    model=model,
+                    selector=selector,
+                    prompt_type=ex["prompt_type"],
+                    debug=True,
                     ollama_port = ollama_port
                 )
                 print(f"Validation finished for experiment: {experiment_name}")
@@ -191,6 +193,13 @@ def main(train_data, val_data):
             print("🚀 Few-shot validation completed successfully!")
 
 if __name__ == "__main__":
+    experiment_folder = "SynCode"
+    experiment_dir = os.path.abspath(f"{script_dir}/..")
+    env_path = os.path.abspath(f"{project_dir}/../../.env")
+    print("Env is located in:", env_path)
+    load_dotenv(env_path)
+    rag_data = None # Not validating on RAG
+    # Parse arguments:
     parser = argparse.ArgumentParser(description="Process input.")
 
     parser.add_argument("--model_provider", type=str, required=True, help="Model provider")
@@ -239,8 +248,6 @@ if __name__ == "__main__":
     all_responses = [sample["response"] for sample in dataset]
     print(f"Number of all responses: {len(all_responses)}")
     
-    script_dir = os.getcwd()
-    project_dir = os.path.abspath(f"{script_dir}/../../../")
     dataset_nodes = read_dataset_to_json(main_dataset_folder + "/metadata/used_external_functions.json")
     print(f"Number of nodes in datset: {len(dataset_nodes)}")
 
