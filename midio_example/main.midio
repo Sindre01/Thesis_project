@@ -1,49 +1,69 @@
 import("std", Std_k98ojb)
 import("http", Http_q7o96c)
 
-module() main { 
-    func(doc: "finds the difference of the first even and first odd number of a given list.") diff_even_odd {
-        in(x: -569, y: 438, name: "list") property(List) list_542a51
+module() main {
+    func(doc: "Finds the last position of an element in a sorted array.") last {
+        in(x: -231, y: -29, name: "list") property(List) list_2bbadf
+        in(x: -246, y: 105, name: "elem") property(Number) elem_94ca57
+        in(x: -356, y: -225, name: "execute") trigger() execute_076885
 
-        out(x: 443, y: 427, name: "difference") property(Number) difference_57c890
+        out(x: 801, y: -229, name: "continue") trigger() continue_9f5f84
+        out(x: 795, y: 205, name: "index") property(Number) index_fc05e7
 
-        instance(x: 0, y: 0) find_6d05b0 root.Std_k98ojb.Iteration.Find {}
-        instance(x: 0, y: 0) ``First even number_0b1361`` root.Std_k98ojb.Iteration.Find {}
-        instance(x: 0, y: 0) sub_1e7b9f root.Std_k98ojb.Math.Sub {}
+        instance(x: -70, y: 1) filter_b5c6a3 root.Std_k98ojb.Iteration.Filter {}
+        instance(x: -35, y: -45) for_7b63c8 root.Std_k98ojb.Std.For {}
+        instance(x: 225, y: -60) lessthanorequal_14a6d4 root.Std_k98ojb.Math.LessThanOrEqual {}
+        instance(x: 307, y: -205) if_13c5a2 root.Std_k98ojb.Std.If {}
+        instance(x: 498, y: -131) map_33dd77 root.Std_k98ojb.Iteration.Map {}
+        instance(x: 645, y: 21) sub_3b1a04 root.Std_k98ojb.Math.Sub {}
+        instance(x: 789, y: -31) length_7c4e97 root.Std_k98ojb.List.Length {}
+        instance(x: 834, y: -159) getat_8a3cbe root.Std_k98ojb.List.GetAt {}
+        instance(x: 950, y: 7) equal_2a3c4e root.Std_k98ojb.Logic.Equal {}
+
+        list_2bbadf -> for_7b63c8.items
+        elem_94ca57 -> lessthanorequal_14a6d4.right
+        for_7b63c8.item -> lessthanorequal_14a6d4.left
+        lessthanorequal_14a6d4.result -> if_13c5a2.predicate
+        for_7b63c8.onItem -> if_13c5a2.execute
+        if_13c5a2.then -> filter_b5c6a3.items
+        filter_b5c6a3.handler -> func() {
+            in(x: -33, y: -15, name: "item") property(Number) item_8a3a21
+
+            out(x: 198, y: 3, name: "out") property(Bool) out_1c3e64
+
+            instance(x: 90, y: -5) equal_f1b8ba root.Std_k98ojb.Logic.Equal {}
+            item_8a3a21 -> equal_f1b8ba.left
+            elem_94ca57 -> equal_f1b8ba.right
+            equal_f1b8ba.result -> out_1c3e64
+        }
+        if_13c5a2.else -> continue_9f5f84
+        filter_b5c6a3.output_list -> map_33dd77.items
         func() {
-            in(x: -113, y: 34, name: "elem") property(Number) elem_9f6850
+            in(x: -4, y: -4, name: "element") property(Number) element_5f51f7
 
-            out(x: 515, y: 44, name: "bool") property(Bool) bool_af09a7
+            out(x: 100, y: 12, name: "out") property(Number) out_d0fd24
 
-            instance(x: 89, y: 29) modulo_1088d5 root.Std_k98ojb.Math.Modulo {}
-            instance(x: 310, y: 35) notequal_807ffd root.Std_k98ojb.Logic.NotEqual {}
-            0 -> notequal_807ffd.right
-            modulo_1088d5.result -> notequal_807ffd.left
-            2 -> modulo_1088d5.divisor
-            elem_9f6850 -> modulo_1088d5.value
-            notequal_807ffd.result -> bool_af09a7
-        } -> find_6d05b0.predicate
-        func() {
-            in(x: -192, y: 84, name: "current") property(Number) current_afd5b1
-
-            out(x: 698, y: 85, name: "bool") property(Bool) bool_1eb6e9
-
-            instance(x: 112, y: 80) modulo_45e806 root.Std_k98ojb.Math.Modulo {}
-            instance(x: 415, y: 86) equal_a54bdc root.Std_k98ojb.Logic.Equal {}
-            current_afd5b1 -> modulo_45e806.value
-            2 -> modulo_45e806.divisor
-            modulo_45e806.result -> equal_a54bdc.left
-            0 -> equal_a54bdc.right
-            equal_a54bdc.result -> bool_1eb6e9
-        } -> ``First even number_0b1361``.predicate
-        list_542a51 -> find_6d05b0.items
-        list_542a51 -> ``First even number_0b1361``.items
-        find_6d05b0.item -> sub_1e7b9f.first
-        ``First even number_0b1361``.item -> sub_1e7b9f.second
-        sub_1e7b9f.result -> difference_57c890
+            instance(x: 53, y: 11) mul_2f9d09 root.Std_k98ojb.Math.Mul {}
+            element_5f51f7 -> mul_2f9d09.first
+            1 -> mul_2f9d09.second
+            mul_2f9d09.result -> out_d0fd24
+        } -> map_33dd77.handler
+        map_33dd77.output_list -> length_7c4e97.list
+        length_7c4e97.len -> sub_3b1a04.second
+        1 -> sub_3b1a04.first
+        sub_3b1a04.result -> getat_8a3cbe.index
+        map_33dd77.output_list -> getat_8a3cbe.list
+        getat_8a3cbe.itemAtIndex -> index_fc05e7
+        execute_076885 -> for_7b63c8.reset
+        if_13c5a2.value -> getat_8a3cbe.execute
+        length_7c4e97.len -> for_7b63c8.next
+        getat_8a3cbe.itemAtIndex -> equal_2a3c4e.left
+        elem_94ca57 -> equal_2a3c4e.right
+        equal_2a3c4e.result -> if_13c5a2.value
+        for_7b63c8.done -> continue_9f5f84
     }
 
     
 
-    instance(x: -293, y: 529) diff_even_odd_7a4dad root.main.diff_even_odd {}
+    instance(x: -157, y: -86) last_8f2d6d root.main.last {}
 }

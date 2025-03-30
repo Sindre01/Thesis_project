@@ -7,6 +7,76 @@ your_grammar = reader.read()
 reader.close()
 parser = Lark(your_grammar, parser="lalr", start="start")
 code = read_code_file(1)
+code = """
+import("std", Std_k98ojb)
+import("http", Http_q7o96c)
+
+module() main {
+    func(doc: "Finds the last position of an element in a sorted array.") last {
+        in(x: -231, y: -29, name: "list") property(List) list_2bbadf
+        in(x: -246, y: 105, name: "elem") property(Number) elem_94ca57
+        in(x: -356, y: -225, name: "execute") trigger() execute_076885
+
+        out(x: 801, y: -229, name: "continue") trigger() continue_9f5f84
+        out(x: 795, y: 205, name: "index") property(Number) index_fc05e7
+
+        instance(x: -70, y: 1) filter_b5c6a3 root.Std_k98ojb.Iteration.Filter {}
+        instance(x: -35, y: -45) for_7b63c8 root.Std_k98ojb.Std.For {}
+        instance(x: 225, y: -60) lessthanorequal_14a6d4 root.Std_k98ojb.Math.LessThanOrEqual {}
+        instance(x: 307, y: -205) if_13c5a2 root.Std_k98ojb.Std.If {}
+        instance(x: 498, y: -131) map_33dd77 root.Std_k98ojb.Iteration.Map {}
+        instance(x: 645, y: 21) sub_3b1a04 root.Std_k98ojb.Math.Sub {}
+        instance(x: 789, y: -31) length_7c4e97 root.Std_k98ojb.List.Length {}
+        instance(x: 834, y: -159) getat_8a3cbe root.Std_k98ojb.List.GetAt {}
+        instance(x: 950, y: 7) equal_2a3c4e root.Std_k98ojb.Logic.Equal {}
+
+        list_2bbadf -> for_7b63c8.items
+        elem_94ca57 -> lessthanorequal_14a6d4.right
+        for_7b63c8.item -> lessthanorequal_14a6d4.left
+        lessthanorequal_14a6d4.result -> if_13c5a2.predicate
+        for_7b63c8.onItem -> if_13c5a2.execute
+        if_13c5a2.then -> filter_b5c6a3.items
+        filter_b5c6a3.handler -> func() {
+            in(x: -33, y: -15, name: "item") property(Number) item_8a3a21
+
+            out(x: 198, y: 3, name: "out") property(Bool) out_1c3e64
+
+            instance(x: 90, y: -5) equal_f1b8ba root.Std_k98ojb.Logic.Equal {}
+            item_8a3a21 -> equal_f1b8ba.left
+            elem_94ca57 -> equal_f1b8ba.right
+            equal_f1b8ba.result -> out_1c3e64
+        }
+        if_13c5a2.else -> continue_9f5f84
+        filter_b5c6a3.output_list -> map_33dd77.items
+        func() {
+            in(x: -4, y: -4, name: "element") property(Number) element_5f51f7
+
+            out(x: 100, y: 12, name: "out") property(Number) out_d0fd24
+
+            instance(x: 53, y: 11) mul_2f9d09 root.Std_k98ojb.Math.Mul {}
+            element_5f51f7 -> mul_2f9d09.first
+            1 -> mul_2f9d09.second
+            mul_2f9d09.result -> out_d0fd24
+        } -> map_33dd77.handler
+        map_33dd77.output_list -> length_7c4e97.list
+        length_7c4e97.len -> sub_3b1a04.second
+        1 -> sub_3b1a04.first
+        sub_3b1a04.result -> getat_8a3cbe.index
+        map_33dd77.output_list -> getat_8a3cbe.list
+        getat_8a3cbe.itemAtIndex -> index_fc05e7
+        execute_076885 -> for_7b63c8.reset
+        if_13c5a2.value -> getat_8a3cbe.execute
+        length_7c4e97.len -> for_7b63c8.next
+        getat_8a3cbe.itemAtIndex -> equal_2a3c4e.left
+        elem_94ca57 -> equal_2a3c4e.right
+        equal_2a3c4e.result -> if_13c5a2.value
+        for_7b63c8.done -> continue_9f5f84
+    }
+
+    
+
+    instance(x: -157, y: -86) last_8f2d6d root.main.last {}
+}"""
 # Parse it
 tree = parser.parse(code)
 

@@ -116,13 +116,22 @@ any_instance: instance
             | comment_instance
 
 // ARROWS 
-arrow_source: value | item_path
-arrow_sink: item_path
-arrow: arrow_source ARROW_OP arrow_sink
+arrow_source: item_path 
+            | VALUE_BOOL 
+            | VALUE_NUMBER 
+            | VALUE_STRING 
+            | value_list 
+            | value_object 
+            | inline_func
+
+arrow_target: item_path
+arrow: arrow_source ARROW_OP arrow_target
 
 // FUNCTION and EVENT BODIES 
 func_body: (property | parameter | any_instance | arrow)*
 func: KW_EXTERN? KW_FUNC attributes? item_name LEFT_CURL func_body RIGHT_CURL
+inline_func: KW_FUNC attributes? item_name? LEFT_CURL func_body RIGHT_CURL
+
 event_body: (property | parameter)*
 event: KW_EXTERN? KW_EVENT attributes? item_name LEFT_CURL func_body RIGHT_CURL
 
