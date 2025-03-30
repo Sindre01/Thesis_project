@@ -44,8 +44,7 @@ DOUBLE_BACKTICK: "``"
 
 BACKTICKS_LANG: "```midio"
 BACKTICKS: "```"
-// // Matches any non-code text before the fenced block
-JUNK: /(.|\n)+/
+
 
 // IDENTIFIERS and LITERALS 
 IDENTIFIER: /[a-zA-Z_][a-zA-Z0-9_]*/
@@ -56,26 +55,27 @@ VALUE_BOOL: "true" | "false"
 VALUE_NUMBER: /-?\d+(\.\d+)?/
 VALUE_STRING: "\"" /([^"\\]|\\.)*/ "\""
 
+
 // VALUES
-?value: VALUE_BOOL 
+literal_value: VALUE_BOOL 
       | VALUE_NUMBER 
       | VALUE_STRING 
       | value_list 
       | value_object
 
-value_list: LEFT_SQUARE [value (COMMA value)* [COMMA]] RIGHT_SQUARE
-value_object_field: name COLON value
+value_list: LEFT_SQUARE [literal_value (COMMA literal_value)* [COMMA]] RIGHT_SQUARE
+value_object_field: name COLON literal_value
 value_object: LEFT_CURL [value_object_field (COMMA value_object_field)* [COMMA]] RIGHT_CURL
 
 // ATTRIBUTES
-attribute: name COLON value
+attribute: name COLON literal_value
 attributes: LEFT_PAREN [attribute (COMMA attribute)* [COMMA]] RIGHT_PAREN
 
 // GENERICS and TYPES
 generic_args: LT [type_expr (COMMA type_expr)*] GT
 item_path: name (DOT name)*
 type_ref: item_path [generic_args]
-type_literal_or_ref: value | type_ref
+type_literal_or_ref: literal_value | type_ref
 type_expr: type_literal_or_ref ((KW_OR | KW_AND) type_expr)*
 property_type: LEFT_PAREN [type_expr] RIGHT_PAREN
 
@@ -100,9 +100,9 @@ item_name: name [generic_params]
 
 // INSTANCES and FIELD ACCESS
 instance: KW_INSTANCE attributes? name type_ref value_object
-data_instance: KW_DATA_INSTANCE attributes? name EQ value
-setter: KW_SETTER_INSTANCE attributes? name EQ value
-getter: KW_GETTER_INSTANCE attributes? name EQ value
+data_instance: KW_DATA_INSTANCE attributes? name EQ literal_value
+setter: KW_SETTER_INSTANCE attributes? name EQ literal_value
+getter: KW_GETTER_INSTANCE attributes? name EQ literal_value
 comment_instance: KW_COMMENT_INSTANCE attributes? name VALUE_STRING
 ?field_access_item: /[0-9]+/ | name
 field_access: field_access_item (DOT field_access_item)+
@@ -117,11 +117,7 @@ any_instance: instance
 
 // ARROWS 
 arrow_source: item_path 
-            | VALUE_BOOL 
-            | VALUE_NUMBER 
-            | VALUE_STRING 
-            | value_list 
-            | value_object 
+            | literal_value
             | inline_func
 
 arrow_target: item_path
@@ -148,7 +144,7 @@ top_level_item: import_stmt | module
 file: top_level_item*
 
 // Wrapper for Markdown code block
-start: JUNK? (fenced_code_block | file)
+start: (fenced_code_block | file)
 
 fenced_code_block: (BACKTICKS_LANG | BACKTICKS) file BACKTICKS
 
