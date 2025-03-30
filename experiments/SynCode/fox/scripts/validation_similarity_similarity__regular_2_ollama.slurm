@@ -6,12 +6,12 @@
 ###############################################################################
 
 # Job Configuration
-#SBATCH --job-name=validation_SynCode_similarity_regular_1         # Job name
+#SBATCH --job-name=validation_SynCode_similarity_regular_2         # Job name
 #SBATCH --account=ec12                      # Project account
 #SBATCH --partition=accel                  # Partition ('accel' or 'accel_long')
 #SBATCH --nodes=1                           # Amount of nodes. Ollama one support single node inference
 #SBATCH --nodelist=gpu-9,gpu-7,gpu-8,gpu-14                   # List of nodes that the job can run on
-#SBATCH --gpus=1                             # Number of GPUs
+#SBATCH --gpus=2                             # Number of GPUs
 #SBATCH --time=0-24:00:00                             # Walltime (D-HH:MM:SS)
 #SBATCH --mem-per-gpu=80G              # Memory per CPU
 #SBATCH --output=Job_validation_%j.out                 # Standard output and error log

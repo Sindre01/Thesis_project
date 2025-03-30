@@ -6,12 +6,12 @@
 ###############################################################################
 
 # Job Configuration
-#SBATCH --job-name=validation_SynCode_similarity_regular_1         # Job name
-#SBATCH --account=ec12                      # Project account
-#SBATCH --partition=accel                  # Partition ('accel' or 'accel_long')
+#SBATCH --job-name=validation_SynCode_similarity_regular_rtx30:3         # Job name
+#SBATCH --account=ec30                      # Project account
+#SBATCH --partition=ifi_accel                  # Partition ('accel' or 'accel_long')
 #SBATCH --nodes=1                           # Amount of nodes. Ollama one support single node inference
-#SBATCH --nodelist=gpu-9,gpu-7,gpu-8,gpu-14                   # List of nodes that the job can run on
-#SBATCH --gpus=1                             # Number of GPUs
+#SBATCH --nodelist=                   # List of nodes that the job can run on
+#SBATCH --gpus=rtx30:3                             # Number of GPUs
 #SBATCH --time=0-24:00:00                             # Walltime (D-HH:MM:SS)
 #SBATCH --mem-per-gpu=80G              # Memory per CPU
 #SBATCH --output=Job_validation_%j.out                 # Standard output and error log
@@ -35,7 +35,7 @@ module load Python/3.11.5-GCCcore-13.2.0
 source ~/.bashrc # may ovewrite previous modules
 
 export OLLAMA_MODELS=/cluster/work/projects/ec12/ec-sindrre/ollama-models    # Path to where the Ollama models are stored and loaded
-export OLLAMA_HOST=0.0.0.0:11425      # Host and port where Ollama listens
+export OLLAMA_HOST=0.0.0.0:11428      # Host and port where Ollama listens
 export OLLAMA_ORIGINS=”*”
 export OLLAMA_LLM_LIBRARY="cuda_v12_avx" 
 export OLLAMA_FLASH_ATTENTION=1
@@ -133,7 +133,7 @@ python -u /fp/homes01/u01/ec-sindrre/tmp/Thesis_project_similarity_$SLURM_JOB_ID
             "prompt_type": "regular",
             "semantic_selector": true
         }
-]'     --ollama_port 11425     --fold -1     > /fp/homes01/u01/ec-sindrre/slurm_jobs/SynCode/validation/similarity/regular/AI_$SLURM_JOB_ID.out 2>&1
+]'     --ollama_port 11428     --fold -1     > /fp/homes01/u01/ec-sindrre/slurm_jobs/SynCode/validation/similarity/regular/AI_$SLURM_JOB_ID.out 2>&1
 
 ###############################################################################
 # End of Script

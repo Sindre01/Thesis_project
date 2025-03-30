@@ -21,7 +21,7 @@ NODE_LIST=gpu-9,gpu-7,gpu-8,gpu-14   # List of nodes that the job can run on gpu
 TIME="0-24:00:00"                       # Slurm walltime (D-HH:MM:SS)
 MEM_PER_GPU="80G"                       # Memory per GPU. 
 OLLAMA_MODELS_DIR="/cluster/work/projects/ec12/ec-sindrre/ollama-models"  # Path to where the Ollama models are stored and loaded                      
-OLLAMA_PORT="11429"                       # Remote port where Ollama listens. If different parallell runs, change ollama_port to avoid conflicts if same node is allocated.
+OLLAMA_PORT="11425"                       # Remote port where Ollama listens. If different parallell runs, change ollama_port to avoid conflicts if same node is allocated.
 SBATCH_SCRIPT="${PHASE}_${EXAMPLES_TYPE}_${EXAMPLES_TYPE}__${PROMPT_TYPE}_${GPUS}_ollama.slurm"           # Slurm batch script name
 # Directory on Fox to store scripts and output
 if [ -n "$PROMPT_TYPE" ]; then
@@ -45,9 +45,9 @@ experiments='[
             "semantic_selector": true
         }
 ]'
-models='[
-    "phi4:14b-fp16"
-]'
+# models='[
+#     "phi4:14b-fp16"
+# ]'
 
 # models='[
 #     "qwq:32b-fp16"
@@ -59,8 +59,7 @@ models='[
 #     "qwen2.5-coder:32b-instruct-fp16"
 # ]'
 # models='[
-#     "llama3.3:70b-instruct-fp16",
-#     "qwen2.5:72b-instruct-fp16"
+#     "llama3.3:70b-instruct-fp16"
 # ]'
 
 # normal* c1-[5-28]

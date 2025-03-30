@@ -2,34 +2,21 @@ import("std", Std_k98ojb)
 import("http", Http_q7o96c)
 
 module() main {
-    func(doc: "check whether the given list contains consecutive numbers or not.") check_consecutive {
-        in(x: -425, y: 209, name: "list") property(List) list_faf6c2
+    func(doc: "finds whether a number is divisible by 11.") is_diff {
+        in(x: 5, y: -25, name: "n") property(Number) n_27f29c
 
-        out(x: 866, y: 132, name: "output") property(Bool) output_a2b59d
+        out(x: 668, y: 2, name: "output") property(Bool) output_f2630f
 
-        instance(x: -111, y: 31) for_2c05e5 root.Std_k98ojb.Std.For {}
-        instance(x: 170, y: 60) sub_5e8e54 root.Std_k98ojb.Math.Sub {}
-        instance(x: 366, y: 85) lessthanorequal_f2eb91 root.Std_k98ojb.Math.LessThanOrEqual {}
-        instance(x: 534, y: 42) if_1f8e92 root.Std_k98ojb.Std.If {}
-        instance(x: 680, y: 9) if_5a4f0d root.Std_k98ojb.Std.If {}
-        list_faf6c2 -> for_2c05e5.items
-        for_2c05e5.index -> sub_5e8e54.first
-        for_2c05e5.index -> sub_5e8e54.second
-        1 -> sub_5e8e54.second
-        sub_5e8e54.result -> lessthanorequal_f2eb91.left
-        for_2c05e5.item -> lessthanorequal_f2eb91.right
-        lessthanorequal_f2eb91.result -> if_1f8e92.predicate
-        for_2c05e5.onItem -> if_1f8e92.execute
-        if_1f8e92.then -> for_2c05e5.next
-        if_1f8e92.else -> output_a2b59d
-        for_2c05e5.done -> output_a2b59d
-        for_2c05e5.index -> if_5a4f0d.gen_0
-        1 -> if_5a4f0d.gen_1
-        list_faf6c2 -> if_5a4f0d.gen_2
-        if_5a4f0d.result -> if_1f8e92.else
+        instance(x: 154, y: -25) modulo_1e9b9f root.Std_k98ojb.Math.Modulo {}
+        instance(x: 465, y: -23) equal_1a9f2f root.Std_k98ojb.Logic.Equal {}
+        n_27f29c -> modulo_1e9b9f.value
+        11 -> modulo_1e9b9f.divisor
+        modulo_1e9b9f.result -> equal_1a9f2f.left
+        0 -> equal_1a9f2f.right
+        equal_1a9f2f.result -> output_f2630f
     }
 
     
 
-    instance(x: -184, y: 161) check_consecutive_7d5f2a root.main.check_consecutive {}
+    instance(x: -7, y: 11) is_diff_1e9b9f root.main.is_diff {}
 }
