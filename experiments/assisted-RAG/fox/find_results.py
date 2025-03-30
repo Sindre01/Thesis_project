@@ -16,7 +16,7 @@ if __name__ == "__main__":
         experiment_folder="assisted-RAG",
         env="prod",
         eval_method="3_fold",
-        experiment_types=["ONE"],
+        experiment_types=["MANY"],
         prompt_types=["regular", "signature"],
         shots=[5],
         metrics=["syntax", "semantic", "tests"],
