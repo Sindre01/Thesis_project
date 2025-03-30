@@ -155,7 +155,7 @@ def main(
     for ex in experiments:
         selector_type= "similarity" if ex["semantic_selector"] else "coverage"
         prompt_type = ex["prompt_type"].value
-        
+
         if prompt_type == "regular":
             metrics = ["syntax", "semantic"]
         elif prompt_type == "signature":
@@ -172,7 +172,8 @@ def main(
         results_dir = os.path.join("/fp/homes01/u01/ec-sindrre/slurm_jobs", f"{experiment_folder}/testing/{experiment_type}/{prompt_type}/runs/")
         
         # best_params_folder = f"{project_dir}/experiments/{experiment_folder}/fox/best_params/{experiment_type}/{prompt_type}/hold_out"
-        best_params_folder = f"{project_dir}/experiments/few-shot/fox/best_params/{selector_type}/{prompt_type}/hold_out"
+        best_params_folder = f"{project_dir}/experiments/{experiment_folder}/fox/best_params/test"
+        # best_params_folder = f"{project_dir}/experiments/few-shot/fox/best_params/{selector_type}/{prompt_type}/hold_out"
 
 
         for shots in ex["num_shots"]:
@@ -217,6 +218,7 @@ def main(
                         print("No best params for tests@1 over 0.0 found. Using semantic metric instead.")
 
                 print(f"Best parameters for {model_name} on {metrics[-1]} metric: {best_params_model}")
+                
                 run_testing_experiment(
                         client,
                         test_data,

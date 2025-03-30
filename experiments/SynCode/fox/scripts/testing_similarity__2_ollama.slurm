@@ -7,12 +7,12 @@
 
 # Job Configuration
 #SBATCH --job-name=testing_SynCode_similarity__2        # Job name
-#SBATCH --account=ec30                      # Project account
-#SBATCH --partition=ifi_accel                  # Partition ('accel' or 'accel_long')
+#SBATCH --account=ec12                      # Project account
+#SBATCH --partition=accel                  # Partition ('accel' or 'accel_long')
 #SBATCH --nodes=1                           # Amount of nodes. Ollama one support single node inference
 #SBATCH --array=0-2  
 #SBATCH --ntasks=1
-#SBATCH --nodelist=                   # List of nodes that the job can run on
+#SBATCH --nodelist=gpu-9,gpu-7,gpu-8,gpu-14                   # List of nodes that the job can run on
 #SBATCH --gpus=2                             # Number of GPUs
 #SBATCH --time=0-24:00:00                             # Walltime (D-HH:MM:SS)
 #SBATCH --mem-per-gpu=20G              # Memory per CPU
@@ -131,17 +131,10 @@ python -u /fp/homes01/u01/ec-sindrre/tmp/Thesis_project_similarity_$SLURM_JOB_ID
     "phi4:14b-fp16"
 ]'     --experiments '[
         {
-            "name": "signature_RAG",
+            "name": "signature_similarity",
             "prompt_prefix": "Create a function",
             "num_shots": [5, 10],
             "prompt_type": "signature",
-            "semantic_selector": true
-        },
-        {
-            "name": "regular_RAG",
-            "prompt_prefix": "Create a function",
-            "num_shots": [5, 10],
-            "prompt_type": "regular",
             "semantic_selector": true
         }
 ]'     --ollama_port $OLLAMA_PORT_K_FOLD     --fold $SLURM_ARRAY_TASK_ID     > /fp/homes01/u01/ec-sindrre/slurm_jobs/SynCode/testing/similarity/AI_${SLURM_JOB_ID}_fold_$SLURM_ARRAY_TASK_ID.out 2>&1

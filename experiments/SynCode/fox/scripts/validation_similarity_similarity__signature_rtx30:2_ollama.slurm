@@ -6,12 +6,12 @@
 ###############################################################################
 
 # Job Configuration
-#SBATCH --job-name=validation_SynCode_similarity_regular_1         # Job name
-#SBATCH --account=ec12                      # Project account
-#SBATCH --partition=accel                  # Partition ('accel' or 'accel_long')
+#SBATCH --job-name=validation_SynCode_similarity_signature_rtx30:2         # Job name
+#SBATCH --account=ec30                      # Project account
+#SBATCH --partition=ifi_accel                  # Partition ('accel' or 'accel_long')
 #SBATCH --nodes=1                           # Amount of nodes. Ollama one support single node inference
-#SBATCH --nodelist=gpu-9,gpu-7,gpu-8,gpu-14                   # List of nodes that the job can run on
-#SBATCH --gpus=1                             # Number of GPUs
+#SBATCH --nodelist=                   # List of nodes that the job can run on
+#SBATCH --gpus=rtx30:2                             # Number of GPUs
 #SBATCH --time=0-24:00:00                             # Walltime (D-HH:MM:SS)
 #SBATCH --mem-per-gpu=80G              # Memory per CPU
 #SBATCH --output=Job_validation_%j.out                 # Standard output and error log
@@ -59,10 +59,10 @@ export OLLAMA_KV_CACHE_TYPE="f16" # f16 (default), q8_0 (half of the memory of f
 # Set the age threshold 4 days
 AGE_THRESHOLD=345600
 
-echo "🧹 Cleaning up files older than 4 days in: /fp/homes01/u01/ec-sindrre/slurm_jobs/SynCode/validation/similarity/regular"
+echo "🧹 Cleaning up files older than 4 days in: /fp/homes01/u01/ec-sindrre/slurm_jobs/SynCode/validation/similarity/signature"
 
 # Find and delete .out, .slurm, and .csv files older than 1 hours
-find "/fp/homes01/u01/ec-sindrre/slurm_jobs/SynCode/validation/similarity/regular" -type f \( -name "*.out" -o -name "*.slurm" -o -name "*.csv" \) -mmin +1800 -exec rm -v {} \;
+find "/fp/homes01/u01/ec-sindrre/slurm_jobs/SynCode/validation/similarity/signature" -type f \( -name "*.out" -o -name "*.slurm" -o -name "*.csv" \) -mmin +1800 -exec rm -v {} \;
 
 echo "✅ Cleanup completed!"
 
@@ -127,13 +127,13 @@ python -u /fp/homes01/u01/ec-sindrre/tmp/Thesis_project_similarity_$SLURM_JOB_ID
     "phi4:14b-fp16"
 ]'     --experiments '[
         {
-            "name": "regular_similarity",
+            "name": "signature_similarity",
             "prompt_prefix": "Create a function",
             "num_shots": [5, 10],
-            "prompt_type": "regular",
+            "prompt_type": "signature",
             "semantic_selector": true
         }
-]'     --ollama_port 11425     --fold -1     > /fp/homes01/u01/ec-sindrre/slurm_jobs/SynCode/validation/similarity/regular/AI_$SLURM_JOB_ID.out 2>&1
+]'     --ollama_port 11425     --fold -1     > /fp/homes01/u01/ec-sindrre/slurm_jobs/SynCode/validation/similarity/signature/AI_$SLURM_JOB_ID.out 2>&1
 
 ###############################################################################
 # End of Script
