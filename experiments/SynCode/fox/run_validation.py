@@ -182,7 +182,7 @@ def main(train_data, val_data):
             minutes, seconds = divmod(remainder, 60)
             print(f"\n⏱️ Total execution time: {hours}h {minutes}m {seconds}s")
             subprocess.run(["bash", f"{project_dir}/my_packages/common/push_runs.sh", 
-                            "few-shot", 
+                            experiment_folder, 
                             "validation", 
                             selector_type, 
                             prompt_type,
