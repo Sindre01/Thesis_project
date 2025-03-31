@@ -15,7 +15,7 @@ if __name__ == "__main__":
         env="dev",
         eval_method="3_fold",
         experiment_types=["similarity"],
-        prompt_types=["signature"],
+        prompt_types=["regular","signature"],
         shots=[5, 10],
         metrics=["syntax", "semantic", "tests"],
         ks=[1, 2, 3, 5, 10],
