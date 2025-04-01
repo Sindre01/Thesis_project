@@ -3,27 +3,32 @@
 
 // TERMINALS:  Basic building blocks of the language
 KW_IMPORT: "import"
+
 KW_MODULE: "module"
 KW_FUNC: "func"
 KW_EXTERN: "extern"
 KW_EVENT: "event"
 KW_TYPE: "type"
+
+KW_INSTANCE: "instance"
+KW_DATA_INSTANCE: "data_instance"
+KW_WAYPOINT_INSTANCE: "waypoint"
+KW_COMMENT_INSTANCE: "comment"
+
 KW_IN: "in"
 KW_OUT: "out"
 KW_PROPERTY: "property"
 KW_TRIGGER: "trigger"
 KW_PARAMETER: "parameter"
-KW_INSTANCE: "instance"
-KW_DATA_INSTANCE: "data_instance"
-KW_WAYPOINT_INSTANCE: "waypoint"
-KW_COMMENT_INSTANCE: "comment"
-KW_SETTER_INSTANCE: "setter"
-KW_GETTER_INSTANCE: "getter"
+
 KW_PRODUCES: "produces"
 KW_CONSUMES: "consumes"
 KW_BORROWS: "borrows"
+
+KW_SETTER_INSTANCE: "setter"
+KW_GETTER_INSTANCE: "getter"
+
 KW_OR: "or"
-KW_AND: "and"
 
 LEFT_PAREN: "("
 RIGHT_PAREN: ")"
@@ -45,15 +50,14 @@ DOUBLE_BACKTICK: "``"
 BACKTICKS_LANG: "```midio"
 BACKTICKS: "```"
 
+VALUE_BOOL.1: "true" | "false"
+VALUE_NUMBER: /-?\d+(\.\d+)?/
+VALUE_STRING: "\"" /([^"\\]|\\.)*/ "\""
 
 // IDENTIFIERS and LITERALS 
 IDENTIFIER: /[a-zA-Z_][a-zA-Z0-9_]*/
 VERBATIM_IDENT: "``" /[^`]*/ "``"
 ?name: VERBATIM_IDENT | IDENTIFIER
-
-VALUE_BOOL: "true" | "false"
-VALUE_NUMBER: /-?\d+(\.\d+)?/
-VALUE_STRING: "\"" /([^"\\]|\\.)*/ "\""
 
 
 // VALUES
@@ -72,13 +76,15 @@ attribute: name COLON literal_value
 attributes: LEFT_PAREN [attribute (COMMA attribute)* [COMMA]] RIGHT_PAREN
 
 // GENERICS and TYPES
-generic_args: LT [type_expr (COMMA type_expr)*] GT // e.g. List<Number> (remove?)
-item_path: name (DOT name)* //e.g: root.module.Class
+generic_args: LT [type_expr (COMMA type_expr)*] GT
+item_path: name (DOT name)*
 type_ref: item_path [generic_args]
-ref_or_literal: item_path | literal_value // e.g: root.module.Class or 42 or "hello" or list_5fda54
+ref_or_literal: item_path | literal_value
 type_literal_or_ref: literal_value | type_ref
-type_expr: type_literal_or_ref ((KW_OR | KW_AND) type_expr)* // e.g: Number or String. false and true
-property_type: LEFT_PAREN [type_expr] RIGHT_PAREN // e.g: property(Number)
+
+type_expr: type_literal_or_ref (KW_OR type_literal_or_ref)*
+
+property_type: LEFT_PAREN [type_expr] RIGHT_PAREN
 
 // CONSUMPTION and TRIGGER 
 consumption: (KW_PRODUCES | KW_CONSUMES | KW_BORROWS) COLON type_expr
@@ -105,7 +111,8 @@ data_instance: KW_DATA_INSTANCE attributes? name EQ literal_value
 setter: KW_SETTER_INSTANCE attributes? name EQ IDENTIFIER
 getter: KW_GETTER_INSTANCE attributes? name EQ IDENTIFIER
 comment_instance: KW_COMMENT_INSTANCE attributes? name VALUE_STRING
-?field_access_item: /[0-9]+/ | name
+?field_access_item: VALUE_NUMBER | name
+
 field_access: field_access_item (DOT field_access_item)+
 waypoint_instance: KW_WAYPOINT_INSTANCE attributes? name [EQ field_access]
 
@@ -148,6 +155,3 @@ file: top_level_item*
 fenced_code_block: (BACKTICKS_LANG | BACKTICKS) file BACKTICKS
 
 start: (fenced_code_block | file)
-
-
-

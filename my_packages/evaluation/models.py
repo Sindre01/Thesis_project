@@ -168,6 +168,7 @@ def generate_n_responses(
                 break  # If generation succeeded, break out of retry loop
             except Exception as e:
                 retries += 1
+                print("Generated: ", generated)
                 print(f"Attempt {retries} failed with error: {e}")
                 server_diagnostics(host=f"http://localhost:{ollama_port}")
 
