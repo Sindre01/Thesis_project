@@ -262,6 +262,7 @@ def run_prompt_step(
 
     # Possibly inject RAG data
     if rag_data:
+        print(f"Using RAG data for task {sample['task_id']}")
         # print(f"available context after subtracting prompt_size of {prompt_size} tokens and output tokens of {max_new_tokens} tokens: {available_ctx}")
         prompt, final_prompt_template, prompt_variables_dict, used_tokens = add_RAG_to_prompt(
             client = client,
