@@ -3,25 +3,31 @@
 
 // TERMINALS:  Basic building blocks of the language
 KW_IMPORT: "import"
+
 KW_MODULE: "module"
 KW_FUNC: "func"
 KW_EXTERN: "extern"
 KW_EVENT: "event"
 KW_TYPE: "type"
+
+KW_INSTANCE: "instance"
+KW_DATA_INSTANCE: "data_instance"
+KW_WAYPOINT_INSTANCE: "waypoint"
+KW_COMMENT_INSTANCE: "comment"
+
 KW_IN: "in"
 KW_OUT: "out"
 KW_PROPERTY: "property"
 KW_TRIGGER: "trigger"
 KW_PARAMETER: "parameter"
-KW_INSTANCE: "instance"
-KW_DATA_INSTANCE: "data_instance"
-KW_WAYPOINT_INSTANCE: "waypoint"
-KW_COMMENT_INSTANCE: "comment"
-KW_SETTER_INSTANCE: "setter"
-KW_GETTER_INSTANCE: "getter"
+
 KW_PRODUCES: "produces"
 KW_CONSUMES: "consumes"
 KW_BORROWS: "borrows"
+
+KW_SETTER_INSTANCE: "setter"
+KW_GETTER_INSTANCE: "getter"
+
 KW_OR: "or"
 KW_AND: "and"
 

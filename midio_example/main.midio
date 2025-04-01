@@ -2,6 +2,7 @@
  import("http", Http_q7o96c)
  
  module() main { 
+    type MyType Number or String
     func(doc: "Finds the smallest missing number from a sorted list of natural numbers.") find_First_Missing {
         in(x: -113, y: 62, name: "list") property(List) list_24e9a6
         in(x: 483, y: -328, name: "execute") trigger() execute_fa8807
@@ -15,7 +16,8 @@
         instance(x: 3, y: 11) if_4f8c0c root.Std_k98ojb.Std.If {
                 input: "list[index] != index + 1"
         }
-        -0.1 "->" if_4f8c0c.instance_
+
+        or -> if_4f8c0c.instance_
     }
     instance(x: 0, y: 0) find_First_Missing_5a4e8f root.main.find_First_Missing {}
  }
