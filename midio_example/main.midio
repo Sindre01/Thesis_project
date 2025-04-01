@@ -1,23 +1,59 @@
- import("std", Std_k98ojb)
- import("http", Http_q7o96c)
- 
- module() main { 
-    type MyType Number or String
-    func(doc: "Finds the smallest missing number from a sorted list of natural numbers.") find_First_Missing {
-        in(x: -113, y: 62, name: "list") property(List) list_24e9a6
-        in(x: 483, y: -328, name: "execute") trigger() execute_fa8807
+   import("std", Std_k98ojb)
+import("http", Http_q7o96c)
 
-        out(x: 1453, y: 319, name: "output") property(Number) output_25655e
-        out(x: 1491, y: -61, name: "continue") trigger() continue_aedf0f
+module() main { 
+    func(doc: "get sum of the digits of a non-negative integer.") sum_of_digits {
+        in(x: -211, y: 71, name: "number") property(Number) number_8d8c8d
 
-        instance(x: -3, y: -8) for_4e7c92 root.Std_k98ojb.Std.For {
-                reset: "execute"
-        }
-        instance(x: 3, y: 11) if_4f8c0c root.Std_k98ojb.Std.If {
-                input: "list[index] != index + 1"
-        }
+        out(x: 744, y: 47, name: "sum") property(Number) sum_91b0d1
 
-        or -> if_4f8c0c.instance_
+        instance(x: 27, y: 66) generaterange_8a42df root.Std_k98ojb.List.GenerateRange {}
+        instance(x: 224, y: 68) zip_0f5d7c root.Std_k98ojb.Iteration.Zip {}
+        instance(x: 570, y: 45) map_b4f5b9 root.Std_k98ojb.Iteration.Map {}
+        instance(x: 831, y: 42) add_9dc4ef root.Std_k98ojb.Math.Add {}
+        number_8d8c8d -> generaterange_8a42df.from
+        number_8d8c8d -> generaterange_8a42df.to
+        func() {
+            in(x: -61, y: -10, name: "item") property(Number) item_0a1c5e
+
+            out(x: 339, y: -8, name: "output") property(Number) output_bce2b0
+
+            instance(x: 39, y: -8) pow_d6d6f9 root.Std_k98ojb.Math.Pow {}
+            instance(x: 149, y: -8) modulo_5c4f2a root.Std_k98ojb.Math.Modulo {}
+            instance(x: 277, y: -8) div_7db0c1 root.Std_k98ojb.Math.Div {}
+            instance(x: 403, y: -8) floor_7f7d4f root.Std_k98ojb.Math.Floor {}
+            instance(x: 519, y: -8) add_2a4f0b root.Std_k98ojb.Math.Add {}
+            item_0a1c5e -> pow_d6d6f9.y
+            generaterange_8a42df.list -> pow_d6d6f9.x
+            pow_d6d6f9.result -> modulo_5c4f2a.value
+            number_8d8c8d -> modulo_5c4f2a.divisor
+            modulo_5c4f2a.result -> div_7db0c1.first
+            10 -> div_7db0c1.second
+            div_7db0c1.result -> floor_7f7d4f.input
+            floor_7f7d4f.result -> add_2a4f0b.second
+            0 -> add_2a4f0b.first
+            add_2a4f0b.result -> output_bce2b0
+        } -> zip_0f5d7c.handler
+        generaterange_8a42df.list -> zip_0f5d7c.left
+        zip_0f5d7c.zipped -> map_b4b5b9.items
+        func() {
+            in(x: -64, y: 32, name: "item") property(Number) item_93a2c0
+
+            out(x: 336, y: 36, name: "output") property(Number) output_8eb5c9
+
+            instance(x: 35, y: 37) div_9b3d4f root.Std_k98ojb.Math.Div {}
+            instance(x: 155, y: 36) add_0c8e90 root.Std_k98ojb.Math.Add {}
+            item_93a2c0 -> div_9b3d4f.first
+            add_9dc4ef.result -> div_9b3d4f.second
+            div_9b3d4f.result -> add_0c8e90.first
+            0 -> add_0c8e90.second
+            add_0c8e90.result -> output_8eb5c9
+        } -> map_b4b5b9.handler
+        map_b4b5b9.output_list -> add_9dc4ef.first
+        add_9dc4ef.result -> sum_91b0d1
     }
-    instance(x: 0, y: 0) find_First_Missing_5a4e8f root.main.find_First_Missing {}
- }
+
+    
+
+    instance(x: 12, y: 21) sum_of_digits_eb4f0b root.main.sum_of_digits {}
+}

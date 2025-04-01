@@ -23,6 +23,90 @@
             10
         ],
         "syntax@1": {
+            "mean": 0.6,
+            "std": 0.04
+        },
+        "syntax@2": {
+            "mean": 0.74,
+            "std": 0.04
+        },
+        "syntax@3": {
+            "mean": 0.81,
+            "std": 0.04
+        },
+        "syntax@5": {
+            "mean": 0.87,
+            "std": 0.04
+        },
+        "syntax@10": {
+            "mean": 0.91,
+            "std": 0.06
+        },
+        "semantic@1": {
+            "mean": 0.48,
+            "std": 0.06
+        },
+        "semantic@2": {
+            "mean": 0.61,
+            "std": 0.08
+        },
+        "semantic@3": {
+            "mean": 0.68,
+            "std": 0.1
+        },
+        "semantic@5": {
+            "mean": 0.75,
+            "std": 0.1
+        },
+        "semantic@10": {
+            "mean": 0.84,
+            "std": 0.09
+        },
+        "tests@1": {
+            "mean": 0.37,
+            "std": 0.04
+        },
+        "tests@2": {
+            "mean": 0.51,
+            "std": 0.04
+        },
+        "tests@3": {
+            "mean": 0.58,
+            "std": 0.05
+        },
+        "tests@5": {
+            "mean": 0.68,
+            "std": 0.05
+        },
+        "tests@10": {
+            "mean": 0.78,
+            "std": 0.07
+        }
+    },
+    {
+        "model_name": "phi4:14b-fp16(old)",
+        "experiment": "signature_similarity_5_shot",
+        "metrics": [
+            "syntax",
+            "semantic",
+            "tests"
+        ],
+        "seed": [
+            3,
+            346,
+            75
+        ],
+        "temperature": 0.9,
+        "top_p": 0.9,
+        "top_k": 50,
+        "ks": [
+            1,
+            2,
+            3,
+            5,
+            10
+        ],
+        "syntax@1": {
             "mean": 0.65,
             "std": 0.06
         },
@@ -80,90 +164,6 @@
         },
         "tests@10": {
             "mean": 0.82,
-            "std": 0.02
-        }
-    },
-    {
-        "model_name": "phi4:14b-fp16(Old params)",
-        "experiment": "signature_similarity_5_shot",
-        "metrics": [
-            "syntax",
-            "semantic",
-            "tests"
-        ],
-        "seed": [
-            3,
-            346,
-            75
-        ],
-        "temperature": 0.2,
-        "top_p": 0.2,
-        "top_k": 50,
-        "ks": [
-            1,
-            2,
-            3,
-            5,
-            10
-        ],
-        "syntax@1": {
-            "mean": 0.59,
-            "std": 0.09
-        },
-        "syntax@2": {
-            "mean": 0.65,
-            "std": 0.1
-        },
-        "syntax@3": {
-            "mean": 0.68,
-            "std": 0.1
-        },
-        "syntax@5": {
-            "mean": 0.71,
-            "std": 0.09
-        },
-        "syntax@10": {
-            "mean": 0.76,
-            "std": 0.08
-        },
-        "semantic@1": {
-            "mean": 0.52,
-            "std": 0.07
-        },
-        "semantic@2": {
-            "mean": 0.56,
-            "std": 0.08
-        },
-        "semantic@3": {
-            "mean": 0.58,
-            "std": 0.08
-        },
-        "semantic@5": {
-            "mean": 0.62,
-            "std": 0.07
-        },
-        "semantic@10": {
-            "mean": 0.66,
-            "std": 0.06
-        },
-        "tests@1": {
-            "mean": 0.4,
-            "std": 0.06
-        },
-        "tests@2": {
-            "mean": 0.44,
-            "std": 0.04
-        },
-        "tests@3": {
-            "mean": 0.46,
-            "std": 0.04
-        },
-        "tests@5": {
-            "mean": 0.49,
-            "std": 0.03
-        },
-        "tests@10": {
-            "mean": 0.54,
             "std": 0.02
         }
     }

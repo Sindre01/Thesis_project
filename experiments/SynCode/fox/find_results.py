@@ -13,7 +13,7 @@ if __name__ == "__main__":
     find_results( 
         experiment_folder="SynCode",
         env="dev",
-        eval_method="hold_out",
+        eval_method="3_fold",
         experiment_types=["similarity"],
         prompt_types=["signature"],
         shots=[5, 10],
@@ -21,7 +21,7 @@ if __name__ == "__main__":
         ks=[1, 2, 3, 5, 10],
         use_threads=True,
         model="",
-        phase=Phase.VALIDATION,
+        phase=Phase.TESTING,
     )
 
 
