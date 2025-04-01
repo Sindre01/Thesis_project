@@ -45,9 +45,9 @@ experiments='[
             "semantic_selector": true
         }
 ]'
-# models='[
-#     "phi4:14b-fp16"
-# ]'
+models='[
+    "phi4:14b-fp16"
+]'
 
 # models='[
 #     "qwq:32b-fp16"

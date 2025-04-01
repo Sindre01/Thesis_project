@@ -35,7 +35,7 @@ module load Python/3.11.5-GCCcore-13.2.0
 source ~/.bashrc # may ovewrite previous modules
 
 export OLLAMA_MODELS=/cluster/work/projects/ec12/ec-sindrre/ollama-models    # Path to where the Ollama models are stored and loaded
-export OLLAMA_HOST=0.0.0.0:11427      # Host and port where Ollama listens
+export OLLAMA_HOST=0.0.0.0:11425      # Host and port where Ollama listens
 export OLLAMA_ORIGINS=”*”
 export OLLAMA_LLM_LIBRARY="cuda_v12_avx" 
 export OLLAMA_FLASH_ATTENTION=1
@@ -133,7 +133,7 @@ python -u /fp/homes01/u01/ec-sindrre/tmp/Thesis_project_similarity_$SLURM_JOB_ID
             "prompt_type": "signature",
             "semantic_selector": true
         }
-]'     --ollama_port 11427     --fold -1     > /fp/homes01/u01/ec-sindrre/slurm_jobs/SynCode/validation/similarity/signature/AI_$SLURM_JOB_ID.out 2>&1
+]'     --ollama_port 11425     --fold -1     > /fp/homes01/u01/ec-sindrre/slurm_jobs/SynCode/validation/similarity/signature/AI_$SLURM_JOB_ID.out 2>&1
 
 ###############################################################################
 # End of Script
