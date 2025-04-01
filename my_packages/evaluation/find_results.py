@@ -212,7 +212,8 @@ def evaluate_best_params(
         metrics: list[str], 
         ks: list[int], 
         eval_method: str,
-        phase: Phase
+        phase: Phase,
+        experiment_folder: str
 )-> tuple[str, dict]:
     """Evaluate the best hyperparameters for a given model and experiment. """
 
@@ -237,6 +238,7 @@ def evaluate_best_params(
             db_connection=db,
             phase=phase,
             eval_method=eval_method,
+            experiment_folder=experiment_folder
         )
 
         if env == "prod":

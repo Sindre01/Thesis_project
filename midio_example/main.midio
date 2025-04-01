@@ -1,22 +1,21 @@
-import("std", Std_k98ojb)
-import("http", Http_q7o96c)
+ import("std", Std_k98ojb)
+ import("http", Http_q7o96c)
+ 
+ module() main { 
+    func(doc: "Finds the smallest missing number from a sorted list of natural numbers.") find_First_Missing {
+        in(x: -113, y: 62, name: "list") property(List) list_24e9a6
+        in(x: 483, y: -328, name: "execute") trigger() execute_fa8807
 
-module() main {
-    func(doc: "finds whether a number is divisible by 11.") is_diff {
-        in(x: 5, y: -25, name: "n") property(Number) n_27f29c
+        out(x: 1453, y: 319, name: "output") property(Number) output_25655e
+        out(x: 1491, y: -61, name: "continue") trigger() continue_aedf0f
 
-        out(x: 668, y: 2, name: "output") property(Bool) output_f2630f
-
-        instance(x: 154, y: -25) modulo_1e9b9f root.Std_k98ojb.Math.Modulo {}
-        instance(x: 465, y: -23) equal_1a9f2f root.Std_k98ojb.Logic.Equal {}
-        n_27f29c -> modulo_1e9b9f.value
-        11 -> modulo_1e9b9f.divisor
-        modulo_1e9b9f.result -> equal_1a9f2f.left
-        0 -> equal_1a9f2f.right
-        equal_1a9f2f.result -> output_f2630f
+        instance(x: -3, y: -8) for_4e7c92 root.Std_k98ojb.Std.For {
+                reset: "execute"
+        }
+        instance(x: 3, y: 11) if_4f8c0c root.Std_k98ojb.Std.If {
+                input: "list[index] != index + 1"
+        }
+        -0.1 "->" if_4f8c0c.instance_
     }
-
-    
-
-    instance(x: -7, y: 11) is_diff_1e9b9f root.main.is_diff {}
-}
+    instance(x: 0, y: 0) find_First_Missing_5a4e8f root.main.find_First_Missing {}
+ }

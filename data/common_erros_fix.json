@@ -1,0 +1,7 @@
+[
+    {
+        "type": "syntax",
+        "message": "The keywords are reserved and cannot be used as identfiers/variables 'instance', 'data_instance', 'in', 'out', 'trigger', 'property', 'arrows'.\n - E.g. This is not allowed: '''1 -> list_23.instance'''. However, this is allowed:'''1 -> list_23.instance_var''' "
+
+    }
+]

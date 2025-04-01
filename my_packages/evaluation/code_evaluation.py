@@ -348,6 +348,7 @@ def run_model(
             hf_model = "meta-llama/Llama-3.3-70B-Instruct"
         else:
             raise ValueError("Constrained output is only available for Phi4 model.")
+        print(f"Loading Syncode model with miodel kwargs: {model_kwargs}")
         constrained_llm = Syncode(
             model=hf_model, 
             grammar=f"{project_root}/data/midio_grammar.lark", 
