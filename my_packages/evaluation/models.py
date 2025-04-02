@@ -7,6 +7,7 @@ from langchain_openai import ChatOpenAI
 from langchain.prompts import ChatPromptTemplate
 from my_packages.utils.server_utils import server_diagnostics
 from transformers import set_seed
+import torch
 
 def extract_response(response_text: str) -> str:
     """
@@ -135,6 +136,7 @@ def generate_n_responses(
     generated_candidates = []
     current_n = 0
     for attempt_i in range(n):
+        torch.cuda.empty_cache()
         max_retries = 3
         retries = 0
         new_seed = seed * attempt_i if seed else None # different seed for each attempt if not None

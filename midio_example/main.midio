@@ -1,99 +1,51 @@
-import("std", Std_k98ojb)
+    import("std", Std_k98ojb)
 import("http", Http_q7o96c)
 
 module() main { 
-    func(doc: "Check whether a specified list is sorted or not.") check_sorted {
-        in(x: -194, y: -13, name: "list") property(List) list_3c9d6f
+    func(doc: "Check whether a specified list is sorted or not.") is_sorted {
+        in(x: -234, y: -34, name: "list") property(List) list_7c8ea8
 
-        out(x: 1060, y: -41, name: "output") property(Bool) output_eaf5ce
+        out(x: 757, y: -10, name: "output") property(Bool) output_b7b2b0
 
-        instance(x: 22, y: 11, name: "check_sorted") zip_7b1e3d root.Std_k98ojb.Iteration.Zip {}
-        instance(x: 364, y: 9, name: "check_sorted") filter_d5c3ce root.Std_k98ojb.Iteration.Filter {}
-        instance(x: 717, y: 12, name: "check_sorted") len_6eb4b5 root.Std_k98ojb.List.Length {}
-        instance(x: 969, y: -40, name: "check_sorted") for_1abeb0 root.Std_k98ojb.Std.For {}
-        instance(x: 1029, y: -152, name: "check_sorted") lessthan_e4ebc6 root.Std_k98ojb.Math.LessThan {}
-        instance(x: 1137, y: -235, name: "check_sorted") if_b0a4c2 root.Std_k98ojb.Std.If {}
-        instance(x: 1302, y: -344, name: "check_sorted") equal_12b2c6 root.Std_k98ojb.Logic.Equal {}
-        instance(x: 1486, y: -150, name: "check_sorted") expression_1c5a6f root.Std_k98ojb.Math.Expression {
-            expression: "a < b"
+        instance(x: 50, y: 17) zip_f2a1d8 root.Std_k98ojb.Iteration.Zip {}
+        instance(x: 353, y: -46) map_d3a3dd root.Std_k98ojb.Iteration.Map {}
+        instance(x: 619, y: 9) for_8d0a6c root.Std_k98ojb.Std.For {}
+        instance(x: 1026, y: -53) and_8eb9c9 root.Std_k98ojb.Logic.And {}
+        instance(x: 1114, y: -155) if_7b4a3a root.Std_k98ojb.Std.If {}
+        instance(x: 1389, y: -52) lessThan_e2a9d3 root.Std_k98ojb.Math.LessThan {}
+        instance(x: 1302, y: -155) not_4c6d8b root.Std_k98ojb.Logic.Not {}
+        instance(x: 1443, y: -52) expression_b7eb66 root.Std_k98ojb.Math.Expression {
+            expression: "i + 1 < list.length"
         }
-        instance(x: 1416, y: -237, name: "check_sorted") expression_c5dbbb root.Std_k98ojb.Math.Expression {
-            expression: "a == b"
-        }
-        instance(x: 1536, y: -41, name: "check_sorted") not_dcd8d3 root.Std_k98ojb.Logic.Not {}
-        len_6eb4b5.length -> for_1abeb0.items
         func() {
-            in(x: -65, y: 43, name: "left") property(Number) left_d6a3d4
-            in(x: -56, y: -28, name: "right") property(Number) right_d0b8ca
+            in(x: -72, y: -21, name: "element") property(List) element_4b8a5e
 
-            out(x: 384, y: -17, name: "output") property(Tuple) output_5c0f96
+            out(x: 368, y: -11, name: "out") property(Bool) out_95e9c9
 
-            instance(x: 16, y: 19, name: "left") tuple_1d2dc9 root.Std_k98ojb.Tuple {}
-            instance(x: 156, y: -37, name: "right") tuple_1f8f48 root.Std_k98ojb.Tuple {}
-            left_d6a3d4 -> tuple_1d2dc9.a
-            right_d0b8ca -> tuple_1f8f48.a
-            tuple_1d2dc9.tuple -> output_5c0f96.left
-            tuple_1f8f48.tuple -> output_5c0f96.right
-        } -> zip_7b1e3d.handler
-        zip_7b1e3d.zipped -> filter_d5c3ce.items
-        zip_7b1e3d.zipped -> len_6eb4b5.list
-        for_1abeb0.index -> expression_1c5a6f.gen_0
-        for_1abeb0.index -> expression_c5dbbb.gen_0
-        func() {
-            in(x: 8, y: 29, name: "element") property(Tuple) element_9d2cbb
-
-            out(x: 372, y: -14, name: "output") property(Number) out_1c3c9d
-
-            instance(x: 104, y: 18, name: "element") getat_0e9f79 root.Std_k98ojb.List.GetAt {}
-            element_9d2cbb.left -> getat_0e9f79.list
-            getat_0e9f79.index -> out_1c3c9d
-        } -> expression_1c5a6f.handler
-        func() {
-            in(x: 7, y: -38, name: "element") property(Tuple) element_c0b4aa
-
-            out(x: 383, y: -40, name: "output") property(Number) out_6ea1db
-
-            instance(x: 101, y: -47, name: "element") getat_3e3ebe root.Std_k98ojb.List.GetAt {}
-            element_c0b4aa.right -> getat_3e3ebe.list
-            getat_3e3ebe.index -> out_6ea1db
-        } -> expression_c5dbbb.handler
-        func() {
-            in(x: 6, y: 23, name: "element") property(Tuple) element_7aa8d6
-
-            out(x: 382, y: 21, name: "output") property(Bool) out_4a1d1b
-
-            instance(x: 102, y: 17, name: "element") getat_5f7ba4 root.Std_k98ojb.List.GetAt {}
-            instance(x: 240, y: -33, name: "element") getat_b2f9a9 root.Std_k98ojb.List.GetAt {}
-            element_7aa8d6.left -> getat_5f7ba4.list
-            getat_5f7ba4.index -> lessthan_e4ebc6.left
-            element_7aa8d6.right -> getat_b2f9a9.list
-            getat_b2f9a9.index -> lessthan_e4ebc6.right
-            lessthan_e4ebc6.result -> out_4a1d1b
-        } -> filter_d5c3ce.handler
-        func() {
-            in(x: -58, y: -35, name: "element") property(Tuple) element_b4d4a6
-
-            out(x: 385, y: -37, name: "output") property(Bool) out_2f9a3e
-
-            instance(x: 114, y: -41, name: "element") getat_b3a5b6 root.Std_k98ojb.List.GetAt {}
-            instance(x: 252, y: 16, name: "element") getat_5dfe99 root.Std_k98ojb.List.GetAt {}
-            element_b4d4a6.left -> getat_b3a5b6.list
-            getat_b3a5b6.index -> equal_12b2c6.left
-            element_b4d4a6.right -> getat_5dfe99.list
-            getat_5dfe99.index -> equal_12b2c6.right
-            equal_12b2c6.result -> out_2f9a3e
-        } -> expression_c5dbbb.handler
-        expression_1c5a6f.result -> if_b0a4c2.predicate
-        for_1abeb0.onItem -> if_b0a4c2.execute
-        if_b0a4c2.else -> for_1abeb0.next
-        for_1abeb0.done -> not_dcd8d3.input
-        expression_c5dbbb.result -> not_dcd8d3.input
-        not_dcd8d3.not -> output_eaf5ce
-        list_3c9d6f -> zip_7b1e3d.left
-        list_3c9d6f -> zip_7b1e3d.right
+            instance(x: 35, y: -33) length_5a8e2f root.Std_k98ojb.List.Length {}
+            element_4b8a5e -> length_5a8e2f.list
+            length_5a8e2f.length -> out_95e9c9
+        } -> map_d3a3dd.handler
+        list_7c8ea8 -> zip_f2a1d8.left
+        list_7c8ea8 -> zip_f2a1d8.right
+        zip_f2a1d8.zipped -> map_d3a3dd.items
+        map_d3a3dd.output_list -> for_8d0a6c.items
+        for_8d0a6c.onItem -> and_8eb9c9.execute
+        and_8eb9c9.left -> if_7b4a3a.predicate
+        and_8eb9c9.result -> not_4c6d8b.input
+        not_4c6d8b.not -> if_7b4a3a.predicate
+        for_8d0a6c.index -> lessThan_e2a9d3.first
+        for_8d0a6c.item -> lessThan_e2a9d3.second
+        lessThan_e2a9d3.result -> and_8eb9c9.right
+        for_8d0a6c.done -> if_7b4a3a.execute
+        if_7b4a3a.then -> output_b7b2b0
+        expression_b7eb66.result -> if_7b4a3a.else
+        for_8d0a6c.index -> expression_b7eb66.gen_1
+        list_7c8ea8 -> expression_b7eb66.gen_0
     }
 
     
 
-    instance(x: -136, y: -56) check_sorted_0b4dbf root.main.check_sorted {}
+    instance(x: -88, y: -58) is_sorted_e0c2b0 root.main.is_sorted {}
+
 }

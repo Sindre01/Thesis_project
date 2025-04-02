@@ -151,7 +151,7 @@ def main(
         fold=-1, 
         k_folds=3,
         rag_data: RagData = None,):
-    """Main function to run few-shot testing experiments."""
+    """Main function to run testing experiments."""
     for ex in experiments:
         selector_type= "similarity" if ex["semantic_selector"] else "coverage"
         prompt_type = ex["prompt_type"].value
@@ -262,7 +262,7 @@ if __name__ == "__main__":
     env_path = os.path.abspath(f"{project_dir}/../../.env")
     print("Env is located in:", env_path)
     load_dotenv(env_path)
-    rag_data = init_rag_data() # None if not using RAG
+    rag_data = None #init_rag_data() # None if not using RAG
     # Parse arguments:
     parser = argparse.ArgumentParser(description="Process input.")
 
