@@ -5,20 +5,18 @@ import subprocess
 import sys
 import argparse
 
-from my_packages.common.few_shot import init_example_selector, model_configs
+from dotenv import load_dotenv
+
+from my_packages.common.few_shot import init_example_selector
+from my_packages.common.config import model_configs
 from my_packages.data_processing.split_dataset import create_kfold_splits
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
 project_dir = os.path.abspath(f"{script_dir}/../../..")
-# experiment_dir = os.path.abspath(f"{script_dir}/..")
-env_path = os.path.abspath(f"{project_dir}/../../.env")
 
 print("Script is located in:", script_dir)
 print("Project is located in:", project_dir)
-print("Env is located in:", env_path)
-# print("Experiments are located in:", experiment_dir)
 
-results_dir = f"{project_dir}/experiments/few-shot/fox/validation_runs"
 
 sys.path.append(project_dir)
 from my_packages.common.classes import PromptType
@@ -105,7 +103,6 @@ def run_val_experiment(
                     debug = False, 
                     prompt_type = prompt_type,
                     ollama_port=ollama_port,
-                    rag_data=None
                 )
                 result_obj = {
                     "experiment_name": experiment_name,
@@ -131,13 +128,14 @@ def parse_experiments(experiment_list):
         if "prompt_type" in exp and isinstance(exp["prompt_type"], str):
             exp["prompt_type"] = PromptType(exp["prompt_type"])  # Convert to Enum
     return experiment_list
+
 def main(train_data, val_data):
     """Run few-shot validation experiments."""
     for ex in experiments:
 
         selector_type= "similarity" if ex["semantic_selector"] else "coverage"
         prompt_type = ex["prompt_type"].value
-        experiments_dir = os.path.join("/fp/homes01/u01/ec-sindrre/slurm_jobs", f"few-shot/validation/{selector_type}/{prompt_type}/runs/")
+        experiments_dir = os.path.join("/fp/homes01/u01/ec-sindrre/slurm_jobs", f"{experiment_folder}/validation/{selector_type}/{prompt_type}/runs/")
 
         for shots in ex["num_shots"]:
             selector=init_example_selector(shots, train_data, semantic_selector=ex["semantic_selector"])
@@ -151,17 +149,19 @@ def main(train_data, val_data):
                 result_runs_path = os.path.join(experiments_dir, file_name)
     
 
-                print(f"\n==== Running few-shot validation for {experiment_name} on '{model_name}' ====")  
+                print(f"\n==== Running {experiment_folder} validation for {experiment_name} on '{model_name}' ====")  
                 model = get_model_code_tokens_from_file(model_name, f'{project_dir}/data/max_tokens.json')
                 run_val_experiment(
                     client,
                     val_data,
-                    available_nodes,
-                    experiment_name,
-                    result_runs_path,
-                    model,
-                    selector,
-                    ex["prompt_type"],
+                    dataset_nodes=dataset_nodes,
+                    all_nodes=all_nodes,
+                    experiment_name=experiment_name,
+                    result_runs_path=result_runs_path,
+                    model=model,
+                    example_pool=selector,
+                    prompt_type=ex["prompt_type"],
+                    debug=True, 
                     ollama_port = ollama_port
                 )
                 print(f"Validation finished for experiment: {experiment_name}")
@@ -174,7 +174,7 @@ def main(train_data, val_data):
             minutes, seconds = divmod(remainder, 60)
             print(f"\n⏱️ Total execution time: {hours}h {minutes}m {seconds}s")
             subprocess.run(["bash", f"{project_dir}/my_packages/common/push_runs.sh", 
-                            "few-shot", 
+                            experiment_folder, 
                             "validation", 
                             selector_type, 
                             prompt_type,
@@ -185,6 +185,13 @@ def main(train_data, val_data):
             print("🚀 Few-shot validation completed successfully!")
 
 if __name__ == "__main__":
+    experiment_folder = "few-shot"
+    experiment_dir = os.path.abspath(f"{script_dir}/..")
+    env_path = os.path.abspath(f"{project_dir}/../../.env")
+    print("Env is located in:", env_path)
+    load_dotenv(env_path)
+    rag_data = None # Not validating on RAG
+
     parser = argparse.ArgumentParser(description="Process input.")
 
     parser.add_argument("--model_provider", type=str, required=True, help="Model provider")
@@ -232,20 +239,20 @@ if __name__ == "__main__":
     
     all_responses = [sample["response"] for sample in dataset]
     print(f"Number of all responses: {len(all_responses)}")
-    
-    script_dir = os.getcwd()
-    project_dir = os.path.abspath(f"{script_dir}/../../../")
+
     dataset_nodes = read_dataset_to_json(main_dataset_folder + "/metadata/used_external_functions.json")
     print(f"Number of nodes in datset: {len(dataset_nodes)}")
 
     all_nodes = read_dataset_to_json( f"{project_dir}/data/all_library_nodes.json") # All nodes
     print(f"Number all nodes: {len(all_nodes)}")
-
     print("\n==== Configures models ====")
     client, models = model_configs(all_responses, model_provider, models, ollama_port)
 
     print(f"Total experiments variations to run: {len(experiments) * len(models)* len(experiments[0]['num_shots'])}")
     
     print("\n==== Running validation ====")
-    main(train_data, val_data)
+    main(
+        train_data=train_data, 
+        val_data=val_data
+    )
         

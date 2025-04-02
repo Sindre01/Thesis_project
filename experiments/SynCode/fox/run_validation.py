@@ -16,10 +16,8 @@ from my_packages.data_processing.split_dataset import create_kfold_splits
 script_dir = os.path.dirname(os.path.abspath(__file__))
 project_dir = os.path.abspath(f"{script_dir}/../../..")
 
-
 print("Script is located in:", script_dir)
 print("Project is located in:", project_dir)
-
 
 sys.path.append(project_dir)
 from my_packages.common.classes import PromptType
@@ -155,7 +153,7 @@ def main(train_data, val_data):
                 result_runs_path = os.path.join(experiments_dir, file_name)
     
 
-                print(f"\n==== Running validation for {experiment_name} on '{model_name}' ====")  
+                print(f"\n==== Running {experiment_folder} validation for {experiment_name} on '{model_name}' ====")  
                 model = get_model_code_tokens_from_file(model_name, f'{project_dir}/data/max_tokens.json')
                 run_val_experiment(
                     client=client,
@@ -258,5 +256,8 @@ if __name__ == "__main__":
     print(f"Total experiments variations to run: {len(experiments) * len(models)* len(experiments[0]['num_shots'])}")
     
     print("\n==== Running validation ====")
-    main(train_data, val_data)
+    main(
+        train_data=train_data, 
+        val_data=val_data
+    )
         

@@ -171,7 +171,9 @@ def generate_n_responses(
             except Exception as e:
                 retries += 1
          
-                print("Running command: 'torch.cuda.empty_cache()' ")
+                print("Running command: 'gc.collect()' and 'torch.cuda.empty_cache()' ")
+                import gc
+                gc.collect()
                 torch.cuda.empty_cache()
                 
                 print(f"Attempt {retries} failed with error: {e}")
