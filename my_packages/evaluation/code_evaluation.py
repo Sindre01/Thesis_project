@@ -345,8 +345,10 @@ def run_model(
         # Load the Syncode augmented model with huggingface model
         if "phi4" in model:
             hf_model = "microsoft/phi-4"
-        elif "llama" in model:
+        elif "llama-3.3:70B" in model:
             hf_model = "meta-llama/Llama-3.3-70B-Instruct"
+        elif "llama-3.2:3b" in model:
+            hf_model = "meta-llama/Llama-3.2-3b-Instruct"
         else:
             raise ValueError("Constrained output is only available for Phi4 model.")
         print(f"Loading Syncode model with miodel kwargs: {model_kwargs}")
