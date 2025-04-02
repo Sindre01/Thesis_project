@@ -21,8 +21,6 @@ print("Script is located in:", script_dir)
 print("Project is located in:", project_dir)
 
 
-results_dir = f"{project_dir}/experiments/few-shot/fox/validation_runs"
-
 sys.path.append(project_dir)
 from my_packages.common.classes import PromptType
 from my_packages.evaluation.code_evaluation import run_model
@@ -70,7 +68,7 @@ def run_val_experiment(
         prompt_type: PromptType,
         temperatures = [0.2, 0.6, 0.9],
         top_ps = [0.2, 0.6, 0.9],
-        top_ks = [],#[10, 50, 100],
+        top_ks = [10, 50, 100],
         n = 1, # Max value of array is generations per task
         seed = 9,
         debug = False,
@@ -94,15 +92,15 @@ def run_val_experiment(
                 
                 model_result, largest_context = run_model(
                     client,
-                    model["name"],
-                    dataset_nodes,
-                    all_nodes,
-                    val_data,
-                    example_pool,
-                    model["max_tokens"],
-                    temp,
-                    top_p,
-                    top_k,
+                    model=model["name"],
+                    dataset_nodes=dataset_nodes,
+                    all_nodes=all_nodes,
+                    data=val_data,
+                    example_pool=example_pool,
+                    max_new_tokens=model["max_tokens"],
+                    temperature=temp,
+                    top_p=top_p,
+                    top_k=top_k,
                     n = n,
                     seed = seed,
                     debug = debug, 
@@ -138,12 +136,12 @@ def parse_experiments(experiment_list):
     return experiment_list
 
 def main(train_data, val_data):
-    """Run few-shot validation experiments."""
+    """Run validation experiments."""
     for ex in experiments:
 
         selector_type= "similarity" if ex["semantic_selector"] else "coverage"
         prompt_type = ex["prompt_type"].value
-        experiments_dir = os.path.join("/fp/homes01/u01/ec-sindrre/slurm_jobs", f"few-shot/validation/{selector_type}/{prompt_type}/runs/")
+        experiments_dir = os.path.join("/fp/homes01/u01/ec-sindrre/slurm_jobs", f"{experiment_folder}/validation/{selector_type}/{prompt_type}/runs/")
 
         for shots in ex["num_shots"]:
             selector=init_example_selector(shots, train_data, semantic_selector=ex["semantic_selector"])
@@ -153,11 +151,11 @@ def main(train_data, val_data):
                 if fold != -1:
                     file_name = f"3_fold/{experiment_name}_{model_name}/fold_{fold}.json"
                 else:
-                    file_name = f"{experiment_name}_{model_name}.json"
+                    file_name = f"hold_out/{experiment_name}_{model_name}.json"
                 result_runs_path = os.path.join(experiments_dir, file_name)
     
 
-                print(f"\n==== Running few-shot validation for {experiment_name} on '{model_name}' ====")  
+                print(f"\n==== Running validation for {experiment_name} on '{model_name}' ====")  
                 model = get_model_code_tokens_from_file(model_name, f'{project_dir}/data/max_tokens.json')
                 run_val_experiment(
                     client=client,
@@ -169,7 +167,7 @@ def main(train_data, val_data):
                     model=model,
                     example_pool=selector,
                     prompt_type=ex["prompt_type"],
-                    debug=True,
+                    debug=True, 
                     ollama_port = ollama_port
                 )
                 print(f"Validation finished for experiment: {experiment_name}")
@@ -190,7 +188,7 @@ def main(train_data, val_data):
                             str(fold)
                             ], check=True)
             print("✅ push_runs.sh script executed successfully!")
-            print("🚀 Few-shot validation completed successfully!")
+            print("🚀 validation completed successfully!")
 
 if __name__ == "__main__":
     experiment_folder = "SynCode"

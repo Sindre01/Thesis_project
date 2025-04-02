@@ -1,59 +1,99 @@
-   import("std", Std_k98ojb)
+import("std", Std_k98ojb)
 import("http", Http_q7o96c)
 
 module() main { 
-    func(doc: "get sum of the digits of a non-negative integer.") sum_of_digits {
-        in(x: -211, y: 71, name: "number") property(Number) number_8d8c8d
+    func(doc: "Check whether a specified list is sorted or not.") check_sorted {
+        in(x: -194, y: -13, name: "list") property(List) list_3c9d6f
 
-        out(x: 744, y: 47, name: "sum") property(Number) sum_91b0d1
+        out(x: 1060, y: -41, name: "output") property(Bool) output_eaf5ce
 
-        instance(x: 27, y: 66) generaterange_8a42df root.Std_k98ojb.List.GenerateRange {}
-        instance(x: 224, y: 68) zip_0f5d7c root.Std_k98ojb.Iteration.Zip {}
-        instance(x: 570, y: 45) map_b4f5b9 root.Std_k98ojb.Iteration.Map {}
-        instance(x: 831, y: 42) add_9dc4ef root.Std_k98ojb.Math.Add {}
-        number_8d8c8d -> generaterange_8a42df.from
-        number_8d8c8d -> generaterange_8a42df.to
+        instance(x: 22, y: 11, name: "check_sorted") zip_7b1e3d root.Std_k98ojb.Iteration.Zip {}
+        instance(x: 364, y: 9, name: "check_sorted") filter_d5c3ce root.Std_k98ojb.Iteration.Filter {}
+        instance(x: 717, y: 12, name: "check_sorted") len_6eb4b5 root.Std_k98ojb.List.Length {}
+        instance(x: 969, y: -40, name: "check_sorted") for_1abeb0 root.Std_k98ojb.Std.For {}
+        instance(x: 1029, y: -152, name: "check_sorted") lessthan_e4ebc6 root.Std_k98ojb.Math.LessThan {}
+        instance(x: 1137, y: -235, name: "check_sorted") if_b0a4c2 root.Std_k98ojb.Std.If {}
+        instance(x: 1302, y: -344, name: "check_sorted") equal_12b2c6 root.Std_k98ojb.Logic.Equal {}
+        instance(x: 1486, y: -150, name: "check_sorted") expression_1c5a6f root.Std_k98ojb.Math.Expression {
+            expression: "a < b"
+        }
+        instance(x: 1416, y: -237, name: "check_sorted") expression_c5dbbb root.Std_k98ojb.Math.Expression {
+            expression: "a == b"
+        }
+        instance(x: 1536, y: -41, name: "check_sorted") not_dcd8d3 root.Std_k98ojb.Logic.Not {}
+        len_6eb4b5.length -> for_1abeb0.items
         func() {
-            in(x: -61, y: -10, name: "item") property(Number) item_0a1c5e
+            in(x: -65, y: 43, name: "left") property(Number) left_d6a3d4
+            in(x: -56, y: -28, name: "right") property(Number) right_d0b8ca
 
-            out(x: 339, y: -8, name: "output") property(Number) output_bce2b0
+            out(x: 384, y: -17, name: "output") property(Tuple) output_5c0f96
 
-            instance(x: 39, y: -8) pow_d6d6f9 root.Std_k98ojb.Math.Pow {}
-            instance(x: 149, y: -8) modulo_5c4f2a root.Std_k98ojb.Math.Modulo {}
-            instance(x: 277, y: -8) div_7db0c1 root.Std_k98ojb.Math.Div {}
-            instance(x: 403, y: -8) floor_7f7d4f root.Std_k98ojb.Math.Floor {}
-            instance(x: 519, y: -8) add_2a4f0b root.Std_k98ojb.Math.Add {}
-            item_0a1c5e -> pow_d6d6f9.y
-            generaterange_8a42df.list -> pow_d6d6f9.x
-            pow_d6d6f9.result -> modulo_5c4f2a.value
-            number_8d8c8d -> modulo_5c4f2a.divisor
-            modulo_5c4f2a.result -> div_7db0c1.first
-            10 -> div_7db0c1.second
-            div_7db0c1.result -> floor_7f7d4f.input
-            floor_7f7d4f.result -> add_2a4f0b.second
-            0 -> add_2a4f0b.first
-            add_2a4f0b.result -> output_bce2b0
-        } -> zip_0f5d7c.handler
-        generaterange_8a42df.list -> zip_0f5d7c.left
-        zip_0f5d7c.zipped -> map_b4b5b9.items
+            instance(x: 16, y: 19, name: "left") tuple_1d2dc9 root.Std_k98ojb.Tuple {}
+            instance(x: 156, y: -37, name: "right") tuple_1f8f48 root.Std_k98ojb.Tuple {}
+            left_d6a3d4 -> tuple_1d2dc9.a
+            right_d0b8ca -> tuple_1f8f48.a
+            tuple_1d2dc9.tuple -> output_5c0f96.left
+            tuple_1f8f48.tuple -> output_5c0f96.right
+        } -> zip_7b1e3d.handler
+        zip_7b1e3d.zipped -> filter_d5c3ce.items
+        zip_7b1e3d.zipped -> len_6eb4b5.list
+        for_1abeb0.index -> expression_1c5a6f.gen_0
+        for_1abeb0.index -> expression_c5dbbb.gen_0
         func() {
-            in(x: -64, y: 32, name: "item") property(Number) item_93a2c0
+            in(x: 8, y: 29, name: "element") property(Tuple) element_9d2cbb
 
-            out(x: 336, y: 36, name: "output") property(Number) output_8eb5c9
+            out(x: 372, y: -14, name: "output") property(Number) out_1c3c9d
 
-            instance(x: 35, y: 37) div_9b3d4f root.Std_k98ojb.Math.Div {}
-            instance(x: 155, y: 36) add_0c8e90 root.Std_k98ojb.Math.Add {}
-            item_93a2c0 -> div_9b3d4f.first
-            add_9dc4ef.result -> div_9b3d4f.second
-            div_9b3d4f.result -> add_0c8e90.first
-            0 -> add_0c8e90.second
-            add_0c8e90.result -> output_8eb5c9
-        } -> map_b4b5b9.handler
-        map_b4b5b9.output_list -> add_9dc4ef.first
-        add_9dc4ef.result -> sum_91b0d1
+            instance(x: 104, y: 18, name: "element") getat_0e9f79 root.Std_k98ojb.List.GetAt {}
+            element_9d2cbb.left -> getat_0e9f79.list
+            getat_0e9f79.index -> out_1c3c9d
+        } -> expression_1c5a6f.handler
+        func() {
+            in(x: 7, y: -38, name: "element") property(Tuple) element_c0b4aa
+
+            out(x: 383, y: -40, name: "output") property(Number) out_6ea1db
+
+            instance(x: 101, y: -47, name: "element") getat_3e3ebe root.Std_k98ojb.List.GetAt {}
+            element_c0b4aa.right -> getat_3e3ebe.list
+            getat_3e3ebe.index -> out_6ea1db
+        } -> expression_c5dbbb.handler
+        func() {
+            in(x: 6, y: 23, name: "element") property(Tuple) element_7aa8d6
+
+            out(x: 382, y: 21, name: "output") property(Bool) out_4a1d1b
+
+            instance(x: 102, y: 17, name: "element") getat_5f7ba4 root.Std_k98ojb.List.GetAt {}
+            instance(x: 240, y: -33, name: "element") getat_b2f9a9 root.Std_k98ojb.List.GetAt {}
+            element_7aa8d6.left -> getat_5f7ba4.list
+            getat_5f7ba4.index -> lessthan_e4ebc6.left
+            element_7aa8d6.right -> getat_b2f9a9.list
+            getat_b2f9a9.index -> lessthan_e4ebc6.right
+            lessthan_e4ebc6.result -> out_4a1d1b
+        } -> filter_d5c3ce.handler
+        func() {
+            in(x: -58, y: -35, name: "element") property(Tuple) element_b4d4a6
+
+            out(x: 385, y: -37, name: "output") property(Bool) out_2f9a3e
+
+            instance(x: 114, y: -41, name: "element") getat_b3a5b6 root.Std_k98ojb.List.GetAt {}
+            instance(x: 252, y: 16, name: "element") getat_5dfe99 root.Std_k98ojb.List.GetAt {}
+            element_b4d4a6.left -> getat_b3a5b6.list
+            getat_b3a5b6.index -> equal_12b2c6.left
+            element_b4d4a6.right -> getat_5dfe99.list
+            getat_5dfe99.index -> equal_12b2c6.right
+            equal_12b2c6.result -> out_2f9a3e
+        } -> expression_c5dbbb.handler
+        expression_1c5a6f.result -> if_b0a4c2.predicate
+        for_1abeb0.onItem -> if_b0a4c2.execute
+        if_b0a4c2.else -> for_1abeb0.next
+        for_1abeb0.done -> not_dcd8d3.input
+        expression_c5dbbb.result -> not_dcd8d3.input
+        not_dcd8d3.not -> output_eaf5ce
+        list_3c9d6f -> zip_7b1e3d.left
+        list_3c9d6f -> zip_7b1e3d.right
     }
 
     
 
-    instance(x: 12, y: 21) sum_of_digits_eb4f0b root.main.sum_of_digits {}
+    instance(x: -136, y: -56) check_sorted_0b4dbf root.main.check_sorted {}
 }
