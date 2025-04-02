@@ -432,7 +432,7 @@ def evaluate_code(
         else:
             test_results = evaluate_code_metric(candidate_dict, metric)
             pass_at_k_dict = calculate_pass_at_k_scores(test_results, ks)
-            print(f"Pass@k for {metric}: {pass_at_k_dict}")
+            print(f"Pass@k for {metric}: {pass_at_k_dict}, with temp={hyperparams['temperature']}, top_p={hyperparams['top_p']}, top_k={hyperparams['top_k']}")
 
             # Save errors
             if env == "dev":

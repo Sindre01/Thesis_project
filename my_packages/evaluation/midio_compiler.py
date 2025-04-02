@@ -90,13 +90,14 @@ def is_compile_ready(code: str) -> bool:
         "Hashing"
     ]
     correct_starts = ["import", "func", "module"]
-    other_keywords = ["instance", "data_instance", "getter", "setter", "in", "out"]
+    other_keywords = ["instance", "data_instance", "getter", "setter", "in", "out"] # sent to compiler, but will have syntax error because its not inside module or func
 
     first_word = code.split()[0] if code.strip() else ""
 
     if any(kw in first_word for kw in (correct_starts+node_modules+other_keywords)):
         return True
-    return False
+    
+    return False # if not starting with any of the keywords, or if the code is empty
 
 # Function to check if the code compiles using package-manager
 def compile_code(code: str, type: str = "build", flag: str = "") -> subprocess.CompletedProcess[str]:

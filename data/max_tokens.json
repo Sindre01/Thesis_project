@@ -1,1 +1,39 @@
-{"phi4:14b-fp16": {"name": "phi4:14b-fp16", "max_tokens": 2012, "node_max_tokens": 50}, "qwen2.5:14b-instruct-fp16": {"name": "qwen2.5:14b-instruct-fp16", "max_tokens": 2012, "node_max_tokens": 50}, "qwq:32b-preview-fp16": {"name": "qwq:32b-preview-fp16", "max_tokens": 5000, "node_max_tokens": 1000}, "qwen2.5-coder:32b-instruct-fp16": {"name": "qwen2.5-coder:32b-instruct-fp16", "max_tokens": 2012, "node_max_tokens": 50}, "llama3.3:70b-instruct-fp16": {"name": "llama3.3:70b-instruct-fp16", "max_tokens": 2012, "node_max_tokens": 50}, "qwen2.5:72b-instruct-fp16": {"name": "qwen2.5:72b-instruct-fp16", "max_tokens": 2012, "node_max_tokens": 50}, "gpt-4o": {"name": "gpt-4o", "max_tokens": 2012, "node_max_tokens": 50}, "qwq:32b-fp16": {"name": "qwq:32b-fp16", "max_tokens": 5000, "node_max_tokens": 100}, "phi4:14b-q4_K_M": {"name": "phi4:14b-q4_K_M", "max_tokens": 1575}, "gemma3:4b-it-q4_K_M": {"name": "gemma3:4b-it-q4_K_M", "max_tokens": 1575}, "llama3.2:3b-instruct-fp16": {"name": "llama3.2:3b-instruct-fp16", "max_tokens": 1575}}
+{
+    "llama3.2:3b-instruct-fp16": {
+        "name": "llama3.2:3b-instruct-fp16",
+        "max_tokens": 1575,
+        "node_max_tokens": 50
+    },
+    "phi4:14b-fp16": {
+        "name": "phi4:14b-fp16",
+        "max_tokens": 2012,
+        "node_max_tokens": 50
+    },
+    "llama3.3:70b-instruct-fp16": {
+        "name": "llama3.3:70b-instruct-fp16",
+        "max_tokens": 2012,
+        "node_max_tokens": 50
+    },
+
+    "qwen2.5-coder:32b-instruct-fp16": {
+        "name": "qwen2.5-coder:32b-instruct-fp16",
+        "max_tokens": 2012,
+        "node_max_tokens": 50
+    },
+
+    "qwen2.5:72b-instruct-fp16": {
+        "name": "qwen2.5:72b-instruct-fp16",
+        "max_tokens": 2012,
+        "node_max_tokens": 50
+    },
+    "gpt-4o": {
+        "name": "gpt-4o",
+        "max_tokens": 2012,
+        "node_max_tokens": 50
+    },
+    "qwq:32b-fp16": {
+        "name": "qwq:32b-fp16",
+        "max_tokens": 5000,
+        "node_max_tokens": 100
+    }
+}

@@ -64,6 +64,7 @@ def evaluate_runs(
             experiment_folder=experiment_folder
         )
         print(f"seed for run: {run['seed']}")
+        
 
         results.append(Run(
             phase=phase.value,

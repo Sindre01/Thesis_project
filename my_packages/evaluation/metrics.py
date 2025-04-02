@@ -95,6 +95,7 @@ def check_syntax(
         checked_canidates = []
         for i, candidate in enumerate(candidates):
             # print(f"    Compiling code for candidate {i+1}...")
+
             compiled = compile_code(candidate)
             evaluation_result = CodeEvaluationResult("syntax", candidate, task_id, (i+1), compiled)
 
