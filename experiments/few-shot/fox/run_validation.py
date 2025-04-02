@@ -59,7 +59,7 @@ def run_val_experiment(
         dataset_nodes,
         all_nodes,
         experiment_name,
-        file_path,
+        result_runs_path,
         model,
         example_pool,
         prompt_type: PromptType,
@@ -118,9 +118,9 @@ def run_val_experiment(
                 current_combination += 1
                 print(f"Hyperparameter combination {current_combination}/{combinatios} finished.\n")
                 results.append(result_obj)
-                write_directly_json_file(file_path, results) #Temporary viewing
+                write_directly_json_file(result_runs_path,results) #Temporary viewing
     
-    write_directly_json_file(file_path, results)
+    write_directly_json_file(result_runs_path, results)
 
 def parse_experiments(experiment_list):
     """Convert dictionary input to proper PromptType Enum where needed."""
