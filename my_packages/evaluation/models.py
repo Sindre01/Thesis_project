@@ -136,7 +136,7 @@ def generate_n_responses(
     generated_candidates = []
     current_n = 0
     for attempt_i in range(n):
-        torch.cuda.empty_cache()
+        
         max_retries = 3
         retries = 0
         new_seed = seed * attempt_i if seed else None # different seed for each attempt if not None
@@ -170,7 +170,10 @@ def generate_n_responses(
                 break  # If generation succeeded, break out of retry loop
             except Exception as e:
                 retries += 1
-                print("Generated: ", generated)
+         
+                print("Running command: 'torch.cuda.empty_cache()' ")
+                torch.cuda.empty_cache()
+                
                 print(f"Attempt {retries} failed with error: {e}")
                 server_diagnostics(host=f"http://localhost:{ollama_port}")
 
