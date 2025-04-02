@@ -1,51 +1,103 @@
-    import("std", Std_k98ojb)
+import("std", Std_k98ojb)
 import("http", Http_q7o96c)
 
 module() main { 
-    func(doc: "Check whether a specified list is sorted or not.") is_sorted {
-        in(x: -234, y: -34, name: "list") property(List) list_7c8ea8
+    func(doc: "finds the first repeated character in a given string.") first_repeated_char {
+        in(x: -20, y: -110, name: "execute") trigger() execute_97d5d5
+        in(x: -216, y: 83, name: "string") property(String) string_71a657
 
-        out(x: 757, y: -10, name: "output") property(Bool) output_b7b2b0
+        out(x: 1545, y: 186, name: "continue") trigger() continue_1914e0
+        out(x: 904, y: 359, name: "char") property(Any) char_f2523c
 
-        instance(x: 50, y: 17) zip_f2a1d8 root.Std_k98ojb.Iteration.Zip {}
-        instance(x: 353, y: -46) map_d3a3dd root.Std_k98ojb.Iteration.Map {}
-        instance(x: 619, y: 9) for_8d0a6c root.Std_k98ojb.Std.For {}
-        instance(x: 1026, y: -53) and_8eb9c9 root.Std_k98ojb.Logic.And {}
-        instance(x: 1114, y: -155) if_7b4a3a root.Std_k98ojb.Std.If {}
-        instance(x: 1389, y: -52) lessThan_e2a9d3 root.Std_k98ojb.Math.LessThan {}
-        instance(x: 1302, y: -155) not_4c6d8b root.Std_k98ojb.Logic.Not {}
-        instance(x: 1443, y: -52) expression_b7eb66 root.Std_k98ojb.Math.Expression {
-            expression: "i + 1 < list.length"
-        }
+        instance(x: 0, y: 0, name: "character") characters_4b6f88 root.Std_k98ojb.Strings.Characters {}
+        instance(x: 0, y: 0, name: "first_repeated_char") first_repeated_char_6fde6d root.Std_k98ojb.Iteration.Find {}
+        instance(x: 0, y: 0, name: "char_counter") char_counter_6d0e81 root.Std_k98ojb.Iteration.Map {}
+        instance(x: 0, y: 0, name: "char_counter") char_counter_1d2a1d root.Std_k98ojb.Iteration.Filter {}
+        instance(x: 0, y: 0, name: "char_counter") char_counter_2b2aa2 root.Std_k98ojb.Iteration.Reduce {}
+        instance(x: 0, y: 0, name: "char_counter") char_counter_e7d7c4 root.Std_k98ojb.Iteration.Filter {}
+        instance(x: 0, y: 0, name: "char_counter") char_counter_9d0a5f root.Std_k98ojb.Iteration.Reduce {}
+        string_71a657 -> characters_4b6f88.input
+        characters_4b6f88.characters -> first_repeated_char_6fde6d.items
+        instance(x: 0, y: 0, name: "character") data_7a6ef7  ````  { character: "", counter: 0 }
+        instance(x: 0, y: 0, name: "character") data_7a6ef7_0  ````  { character: "", counter: 0 }
+        instance(x: 0, y: 0, name: "character") data_7a6ef7_1  ````  { character: "", counter: 0 }
+        instance(x: 0, y: 0, name: "character") data_7a6ef7_2  ````  { character: "", counter: 0 }
+        characters_4b6f88.characters -> char_counter_6d0e81.items
         func() {
-            in(x: -72, y: -21, name: "element") property(List) element_4b8a5e
+            in(x: -105, y: 38, name: "current") property(Any) current_6b4da3
 
-            out(x: 368, y: -11, name: "out") property(Bool) out_95e9c9
+            out(x: 500, y: 33, name: "counter") property(Any) counter_1e2c8a
 
-            instance(x: 35, y: -33) length_5a8e2f root.Std_k98ojb.List.Length {}
-            element_4b8a5e -> length_5a8e2f.list
-            length_5a8e2f.length -> out_95e9c9
-        } -> map_d3a3dd.handler
-        list_7c8ea8 -> zip_f2a1d8.left
-        list_7c8ea8 -> zip_f2a1d8.right
-        zip_f2a1d8.zipped -> map_d3a3dd.items
-        map_d3a3dd.output_list -> for_8d0a6c.items
-        for_8d0a6c.onItem -> and_8eb9c9.execute
-        and_8eb9c9.left -> if_7b4a3a.predicate
-        and_8eb9c9.result -> not_4c6d8b.input
-        not_4c6d8b.not -> if_7b4a3a.predicate
-        for_8d0a6c.index -> lessThan_e2a9d3.first
-        for_8d0a6c.item -> lessThan_e2a9d3.second
-        lessThan_e2a9d3.result -> and_8eb9c9.right
-        for_8d0a6c.done -> if_7b4a3a.execute
-        if_7b4a3a.then -> output_b7b2b0
-        expression_b7eb66.result -> if_7b4a3a.else
-        for_8d0a6c.index -> expression_b7eb66.gen_1
-        list_7c8ea8 -> expression_b7eb66.gen_0
+            instance(x: 85, y: 36, name: "counter") ```` root.Std_k98ojb.Std.CallFunction {}
+            instance(x: 282, y: 38, name: "counter") ```` root.Std_k98ojb.Iteration.Find {}
+            instance(x: 390, y: 30, name: "counter") equal_2f0f5b root.Std_k98ojb.Logic.Equal {}
+            1 -> ````.parameter_count
+            instance(x: 85, y: 36, name: "counter") data_7a6ef7  ````  { character: "", counter: 0 }
+            ````.handle -> ````.handle
+            instance(x: 282, y: 38, name: "counter") ````_0  { character: "$current", counter: 0 }
+            ````.items -> ````.items
+            equal_2f0f5b.result -> counter_1e2c8a
+            current_6b4da3 -> ````.arg_0
+            ````.arg_1 -> equal_2f0f5b.left
+            ````.arg_2 -> equal_2f0f5b.right
+            ````.handle -> ````.handle
+            ````.handle -> ````.handle
+            ````.handle -> ````.handle
+            ````.handle -> ````.handle
+            ````.handle -> ````.handle
+            ````.handle -> ````.handle
+        } -> char_counter_6d0e81.handler
+        char_counter_6d0e81.output_list -> char_counter_1d2a1d.items
+        func() {
+            in(x: -105, y: 38, name: "current") property(Any) current_6b4da3
+
+            out(x: 500, y: 33, name: "counter") property(Bool) counter_1e2c8a
+
+            instance(x: 85, y: 36, name: "counter") ```` root.Std_k98ojb.Std.CallFunction {}
+            instance(x: 282, y: 38, name: "counter") ```` root.Std_k98ojb.Iteration.Find {}
+            instance(x: 390, y: 30, name: "counter") greater_than_49e4d2 root.Std_k98ojb.Math.GreaterThan {}
+            instance(x: 482, y: 28, name: "counter") notequal_0f1c9b root.Std_k98ojb.Logic.NotEqual {}
+            0 -> ````.parameter_count
+            instance(x: 85, y: 36, name: "counter") data_7a6ef7_0  ````  { character: "", counter: 0 }
+            ````.handle -> ````.handle
+            instance(x: 282, y: 38, name: "counter") ````_0  { character: "$current.character", counter: 0 }
+            ````.items -> ````.items
+            greater_than_49e4d2.result -> notequal_0f1c9b.left
+            ````.arg_1 -> greater_than_49e4d2.left
+            1 -> greater_than_49e4d2.right
+            ````.arg_2 -> notequal_0f1c9b.left
+            0 -> notequal_0f1c9b.right
+            notequal_0f1c9b.result -> counter_1e2c8a
+            current_6b4da3 -> ````.arg_0
+            ````.handle -> ````.handle
+            ````.handle -> ````.handle
+            ````.handle -> ````.handle
+            ````.handle -> ````.handle
+            ````.handle -> ````.handle
+            ````.handle -> ````.handle
+            ````.handle -> ````.handle
+        } -> char_counter_1d2a1d.handler
+        char_counter_1d2a1d.output_list -> char_counter_2b2aa2.items
+        func() {
+            in(x: -105, y: 38, name: "current") property(Any) current_6b4da3
+
+            in(x: -105, y: 65, name: "acc") property(Any) acc_14d0e9
+
+            out(x: 500, y: 33, name: "acc") property(Any) acc_3fcd5e
+
+            instance(x: 85, y: 36, name: "counter") ```` root.Std_k98ojb.Std.CallFunction {}
+            instance(x: 282, y: 38, name: "counter") ```` root.Std_k98ojb.Iteration.Find {}
+            instance(x: 391, y: 59, name: "counter") equal_2f0f5b_0 root.Std_k98ojb.Logic.Equal {}
+            1 -> ````.parameter_count
+            instance(x: 85, y: 36, name: "counter") data_7a6ef7_1  ````  { character: "", counter: 0 }
+            ````.handle -> ````.handle
+            instance(x: 282, y: 38, name: "counter") ````_0  { character: "$current.character", counter: 0 }
+            ````.items -> ````.items
+            instance(x: 391, y: 59, name: "counter") ````_1  { character: "$acc.character", counter: 0 }
+            equal_2f0f5b_0.result -> acc_3fcd5e
+            ````.arg_0 -> equal_2f0f5b_0.left
+            ````.arg_1 -> equal_2f0f5b_0.right
+            current_6b4da3 -> ````.arg_2
+        } -> char_counter_2b2aa2.handler
     }
-
-    
-
-    instance(x: -88, y: -58) is_sorted_e0c2b0 root.main.is_sorted {}
-
 }

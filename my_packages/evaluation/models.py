@@ -178,6 +178,8 @@ def generate_n_responses(
                 
                 print(f"Attempt {retries} failed with error: {e}")
                 server_diagnostics(host=f"http://localhost:{ollama_port}")
+                if retries < max_retries:
+                    print(f"Retrying for {retries}. time...")
 
         if retries == max_retries:
             print("Failed to get a response from the server after " + str(retries) + " attempts.")
