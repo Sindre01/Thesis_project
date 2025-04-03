@@ -378,7 +378,6 @@ def prepare_experiement(
         db = get_db_connection()
     shot_results: list[dict] = []
 
-    print(f"\n🔍 Finding results for {eval_method} experiment: {experiment_name}")
     if env == "prod":
         if experiment_exists(experiment_name, db):
             print(f"📂 Experiment {eval_method} '{experiment_name}' already exists.")
