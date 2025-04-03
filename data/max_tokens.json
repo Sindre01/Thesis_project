@@ -26,10 +26,12 @@
     },
     "phi4:14b-fp16": {
         "name": "phi4:14b-fp16",
-        "max_tokens": 2012
+        "max_tokens": 2012,
+        "node_max_tokens": 50
     },
     "llama3.2:3b-instruct-fp16": {
         "name": "llama3.2:3b-instruct-fp16",
-        "max_tokens": 2012
+        "max_tokens": 2012,
+        "node_max_tokens": 50
     }
 }
