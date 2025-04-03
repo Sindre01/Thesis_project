@@ -16,10 +16,10 @@ if __name__ == "__main__":
         eval_method="3_fold",
         experiment_types=["similarity(test)"],
         prompt_types=["signature"],
-        shots=[5],
+        shots=[10],
         metrics=["syntax", "semantic", "tests"],
         ks=[1, 2, 3, 5, 10],
         use_threads=True,
-        model="phi4:14b-fp16",
+        model="phi4:14b-fp16(eval+bfloat16)",
         phase=Phase.TESTING,
     )
