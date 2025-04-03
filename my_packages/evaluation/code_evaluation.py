@@ -345,7 +345,7 @@ def run_model(
         # Load the Syncode augmented model with huggingface model
         if "phi4" in model:
             hf_model = "microsoft/phi-4"
-        elif "llama3.3:70B" in model:
+        elif "llama3.3:70b" in model:
             hf_model = "meta-llama/Llama-3.3-70B-Instruct"
 
         elif "llama3.2:3b" in model:

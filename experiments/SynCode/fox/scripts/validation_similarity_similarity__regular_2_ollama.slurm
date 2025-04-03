@@ -35,12 +35,13 @@ module load Python/3.11.5-GCCcore-13.2.0
 source ~/.bashrc # may ovewrite previous modules
 
 export OLLAMA_MODELS=/cluster/work/projects/ec12/ec-sindrre/ollama-models    # Path to where the Ollama models are stored and loaded
-export OLLAMA_HOST=0.0.0.0:11425      # Host and port where Ollama listens
+export OLLAMA_HOST=0.0.0.0:11490      # Host and port where Ollama listens
 export OLLAMA_ORIGINS=”*”
 export OLLAMA_LLM_LIBRARY="cuda_v12_avx" 
 export OLLAMA_FLASH_ATTENTION=1
 export OLLAMA_KV_CACHE_TYPE="f16" # f16 (default), q8_0 (half of the memory of f16, try this), q4_0 different quantization types to find the best balance between memory usage and quality.
 
+# export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
 
 
 # export OLLAMA_DEBUG=1
@@ -124,7 +125,7 @@ source ~/Thesis_project/thesis_venv/bin/activate  # Activate it to ensure the co
 echo "============= Running validation SynCode Python script... ============="
 export PYTHONPATH="/fp/homes01/u01/ec-sindrre/tmp/Thesis_project_similarity_$SLURM_JOB_ID:~/Thesis_project:~/Thesis_project:"
 python -u /fp/homes01/u01/ec-sindrre/tmp/Thesis_project_similarity_$SLURM_JOB_ID/experiments/SynCode/fox/run_validation.py     --model_provider 'ollama'     --models '[
-    "phi4:14b-fp16"
+    "llama3.3:70b-instruct-fp16"
 ]'     --experiments '[
         {
             "name": "regular_similarity",
@@ -133,7 +134,7 @@ python -u /fp/homes01/u01/ec-sindrre/tmp/Thesis_project_similarity_$SLURM_JOB_ID
             "prompt_type": "regular",
             "semantic_selector": true
         }
-]'     --ollama_port 11425     --fold -1     > /fp/homes01/u01/ec-sindrre/slurm_jobs/SynCode/validation/similarity/regular/AI_$SLURM_JOB_ID.out 2>&1
+]'     --ollama_port 11490     --fold -1     > /fp/homes01/u01/ec-sindrre/slurm_jobs/SynCode/validation/similarity/regular/AI_$SLURM_JOB_ID.out 2>&1
 
 ###############################################################################
 # End of Script
