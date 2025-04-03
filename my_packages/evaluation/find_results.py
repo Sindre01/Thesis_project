@@ -1,6 +1,7 @@
 from datetime import datetime
 import os
 import sys
+from itertools import chain
 from zoneinfo import ZoneInfo
 import concurrent.futures
 
@@ -536,4 +537,8 @@ def find_results(
 
             for experiment_name, shot_result in experiment_results.items():
                 print(f"writes {results_type} for {experiment_name} to file")
+                # Flatten the results for each experiment
+                shot_result = list(chain.from_iterable(
+                    x if isinstance(x, list) else [x] for x in shot_result
+                ))
                 write_json_file(f"{output_dir}/{experiment_name}.json", shot_result)
