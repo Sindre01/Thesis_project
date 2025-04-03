@@ -45,7 +45,7 @@ def model_configs(
                 models = [
                     #14b models:
                     "phi4:14b-fp16", #16k context length
-                    # "qwen2.5:14b-instruct-fp16", #128 k
+                    "llama3.2:3b-instruct-fp16", #128 k
 
                     # #32b models:
                     # "qwq:32b-preview-fp16", #ctx: 32,768 tokens
@@ -56,7 +56,10 @@ def model_configs(
                     # "qwen2.5:72b-instruct-fp16", #ctx: 139k
                 ]
             models_not_tokenized = models_not_in_file(models, f'{project_dir}/data/max_tokens.json')
-            write_models_tokens_to_file(client, models_not_tokenized, all_responses, f'{project_dir}/data/max_tokens.json')
+            if models_not_tokenized:
+                print(f"{models_not_tokenized} models are not tokenized.")
+                # write_models_tokens_to_file(client, models_not_tokenized, all_responses, f'{project_dir}/data/max_tokens.json')
+                raise Exception(f"{models_not_tokenized} models are not tokenized. Please insert entry for model in data/max_tokens.json for model.")
 
         case 'openai':
             openai_token = os.getenv('OPENAI_API_KEY')

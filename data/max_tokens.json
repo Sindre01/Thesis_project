@@ -1,26 +1,14 @@
 {
-    "llama3.2:3b-instruct-fp16": {
-        "name": "llama3.2:3b-instruct-fp16",
-        "max_tokens": 1575,
-        "node_max_tokens": 50
-    },
-    "phi4:14b-fp16": {
-        "name": "phi4:14b-fp16",
-        "max_tokens": 2012,
-        "node_max_tokens": 50
-    },
     "llama3.3:70b-instruct-fp16": {
         "name": "llama3.3:70b-instruct-fp16",
         "max_tokens": 2012,
         "node_max_tokens": 50
     },
-
     "qwen2.5-coder:32b-instruct-fp16": {
         "name": "qwen2.5-coder:32b-instruct-fp16",
         "max_tokens": 2012,
         "node_max_tokens": 50
     },
-
     "qwen2.5:72b-instruct-fp16": {
         "name": "qwen2.5:72b-instruct-fp16",
         "max_tokens": 2012,
@@ -35,5 +23,13 @@
         "name": "qwq:32b-fp16",
         "max_tokens": 5000,
         "node_max_tokens": 100
+    },
+    "phi4:14b-fp16": {
+        "name": "phi4:14b-fp16",
+        "max_tokens": 2012
+    },
+    "llama3.2:3b-instruct-fp16": {
+        "name": "llama3.2:3b-instruct-fp16",
+        "max_tokens": 2012
     }
 }

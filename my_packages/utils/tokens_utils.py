@@ -63,6 +63,7 @@ def write_models_tokens_to_file(client, models, responses, write_to_file):
             max_tokens = find_max_tokens_tokenizer(responses, encoding)
         else: # Use the client sdk for ollama model
             max_tokens = find_max_tokens_client(responses, model_name, client)
+        print(f"Max tokens for {model_name}: {max_tokens}")
         updated_models[model_name] = {'name': model_name, 'max_tokens': max_tokens}
     
     with open(write_to_file, "w") as f:

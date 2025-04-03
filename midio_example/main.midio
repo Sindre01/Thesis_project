@@ -1,0 +1,58 @@
+    import("std", Std_k98ojb)
+import("http", Http_q7o96c)
+
+module() main { 
+    func(doc: "check whether the given list contains consecutive numbers or not.") check_consecutive {
+        in(x: -425, y: 209, name: "list") property(List) list_faf6c2
+
+        out(x: 866, y: 132, name: "output") property(Bool) output_a2b59d
+
+        instance(x: 298, y: 122, name: "if expression") ifexpression_9f8f1e root.Std_k98ojb.Std.IfExpression {
+            expression: "index > 0 && Math.Abs(current - previous) != 1"
+        }
+        instance(x: 1018, y: 131) if_4df2c6 root.Std_k98ojb.Std.If {
+            input: "if_expression.value"
+        }
+        instance(x: -0, y: -0, name: "for loop") for_0f5c5a root.Std_k98ojb.Std.For {}
+        instance(x: -301, y: 116) getat_5c3a6c root.Std_k98ojb.List.GetAt {}
+        instance(x: -0, y: -0, name: "map") map_eaf5f2 root.Std_k98ojb.Iteration.Map {
+            handler: "func() {
+            in(x: -192, y: -16, name: \"current\") property(Number) current_81298e
+            in(x: -23, y: 79, name: \"_index\") property(Number) _index_769593
+            out(x: 521, y: -28, name: \"bool\") property(Bool) bool_4524be
+            instance(x: 74, y: -23) modulo_ad7b2a root.Std_k98ojb.Math.Modulo {}
+            instance(x: 285, y: -25) notequal_cb8a55 root.Std_k98ojb.Logic.NotEqual {}
+            current_81298e -> modulo_ad7b2a.value
+            2 -> modulo_ad7b2a.divisor
+            modulo_ad7b2a.result -> notequal_cb8a55.left
+            0 -> notequal_cb8a55.right
+            notequal_cb8a55.result -> bool_4524be
+        }"
+        }
+        instance(x: -0, y: -0, name: "get first item") firstitem_d3bea8 root.Std_k98ojb.List.FirstItem {}
+        instance(x: 1018, y: 131) if_4df2c6 root.Std_k98ojb.Std.If {
+            input: "if_expression.value"
+        }
+        instance(x: 1000, y: 131) not_8a83f9 root.Std_k98ojb.Logic.Not {}
+        map_eaf5f2.output_list -> firstitem_d3bea8.list
+        list_faf6c2 -> for_0f5c5a.items
+        for_0f5c5a.item -> ifexpression_9f8f1e.gen_2
+        for_0f5c5a.index -> ifexpression_9f8f1e.gen_0
+        firstitem_d3bea8.item -> ifexpression_9f8f1e.gen_1
+        for_0f5c5a.onItem -> ifexpression_9f8f1e.execute
+        for_0f5c5a.done -> output_a2b59d
+        if_4df2c6.else -> output_a2b59d
+        not_8a83f9.result -> output_a2b59d
+        for_0f5c5a.item -> map_eaf5f2.items
+        if_4df2c6.then -> for_0f5c5a.reset
+        if_4df2c6.else -> for_0f5c5a.next
+        list_faf6c2 -> getat_5c3a6c.list
+        0 -> getat_5c3a6c.index
+        getat_5c3a6c.itemAtIndex -> map_eaf5f2.handler._index_769593
+    }
+
+    
+
+    instance(x: -37, y: -18) check_consecutive_9e2aae root.main.check_consecutive {}
+
+}
