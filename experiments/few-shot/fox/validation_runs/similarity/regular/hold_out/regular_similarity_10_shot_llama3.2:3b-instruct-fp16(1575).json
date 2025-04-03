@@ -7,7 +7,7 @@
         "seed": 9,
         "n_generations_per_task": 1,
         "model": "llama3.2:3b-instruct-fp16",
-        "largest_context": 13559,
+        "largest_context": 13122,
         "task_candidates": {
             "1": [
                 "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main {\n    func(doc: \"checks whether the given two integers have opposite sign or not.\") opposite_sign {\n        in(x: -284, y: -193, name: \"a\") property(Number) a_9f7759\n        in(x: -272, y: 17, name: \"b\") property(Number) b_f9110a\n\n        out(x: 46, y: 158, name: \"output\") property(Bool) output_b2d5c6\n\n        instance(x: 0, y: 0) ifexpression_e38995 root.Std_k98ojb.Std.IfExpression {\n            expression: \"a * b < 0\"\n        }\n        getter(x: -144, y: 112, name: \"getter_9cceb3\") getter_9cceb3 = output_b2d5c6\n        setter(x: 116, y: -268, name: \"setter_1cedb2\") setter_1cedb2 = output_b2d5c6\n        instance(x: -105, y: 34, name: \"getter_38583a\") getter_38583a = a_9f7759\n        instance(x: -144, y: 112, name: \"setter_9cceb3\") setter_9cceb3 = output_b2d5c6\n        instance(x: -105, y: 34, name: \"getter_38583a\") getter_38583a = b_f9110a\n        instance(x: -144, y: 112, name: \"setter_9cceb3\") setter_9cceb3 = output_b2d5c6\n        a_9f7759 -> ifexpression_e38995.gen_0\n        b_f9110a -> ifexpression_e38995.gen_1\n        getter_9cceb3.value -> output_b2d5c6\n        ifexpression_e38995.then -> setter_1cedb2.execute\n        a_9f7759 -> setter_1cedb2.new_value\n        b_f9110a -> setter_38583a.execute\n        b_f9110a -> setter_9cceb3.execute\n        ifexpression_e38995.else -> setter_38583a.execute\n    }\n\n    \n\n    instance(x: -174, y: -63) opposite_sign_d6e930 root.main.opposite_sign {}\n}"
@@ -46,7 +46,7 @@
         "seed": 9,
         "n_generations_per_task": 1,
         "model": "llama3.2:3b-instruct-fp16",
-        "largest_context": 13559,
+        "largest_context": 13122,
         "task_candidates": {
             "1": [
                 "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main {\n    func(doc: \"checks whether the given two integers have opposite sign or not.\") opposite_sign {\n        in(x: -287, y: 0, name: \"a\") property(Number) a_9f7759\n        in(x: -278, y: 17, name: \"b\") property(Number) b_f9110a\n\n        out(x: 46, y: 158, name: \"output\") property(Bool) output_b2508f\n\n        instance(x: -105, y: -110) ifexpression_e38995 root.Std_k98ojb.Std.IfExpression {\n            expression: \"a * b < 0\"\n        }\n        getter(x: -144, y: 112, name: \"getter_9cceb3\") getter_9cceb3 = output_b2508f\n        setter(x: 116, y: -268, name: \"setter_1cedb2\") setter_1cedb2 = output_b2508f\n        instance(x: 89, y: 29) modulo_1088d5 root.Std_k98ojb.Math.Modulo {}\n        a_9f7759 -> modulo_1088d5.first\n        b_f9110a -> modulo_1088d5.second\n        modulo_1088d5.result -> ifexpression_e38995.gen_0\n        0 -> setter_1cedb2.new_value\n        ifexpression_e38995.then -> output_b2508f\n        a_9f7759 -> setter_1cedb2.new_value\n        b_f9110a -> setter_37db7f.new_value\n        ifexpression_e38995.else -> setter_37db7f.execute\n        execute_12bf99 -> ifexpression_e38995.execute\n        setter_1cedb2.continue -> continue_685c8f\n        setter_37db7f.continue -> continue_685c8f\n    }\n\n    \n\n    instance(x: -174, y: -63) opposite_sign_d6e930 root.main.opposite_sign {}\n}"
@@ -85,7 +85,7 @@
         "seed": 9,
         "n_generations_per_task": 1,
         "model": "llama3.2:3b-instruct-fp16",
-        "largest_context": 13559,
+        "largest_context": 13122,
         "task_candidates": {
             "1": [
                 "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main {\n    func(doc: \"checks whether the given two integers have opposite sign or not.\") opposite_sign {\n        in(x: -286, y: -193, name: \"a\") property(Number) a_9f7759\n        in(x: -280, y: 17, name: \"b\") property(Number) b_f9110a\n\n        out(x: 46, y: 158, name: \"output\") property(Bool) output_b2508f\n\n        instance(x: -105, y: -110) ifexpression_e38995 root.Std_k98ojb.Std.IfExpression {\n            expression: \"a * b < 0\"\n        }\n        getter(x: -144, y: 112, name: \"getter_9cceb3\") getter_9cceb3 = output_b2508f\n        setter(x: 116, y: -268, name: \"setter_1cedb2\") setter_1cedb2 = output_b2508f\n        instance(x: 89, y: 29) modulo_1088d5 root.Std_k98ojb.Math.Modulo {}\n        a_9f7759 -> modulo_1088d5.first\n        b_f9110a -> modulo_1088d5.second\n        modulo_1088d5.result -> ifexpression_e38995.gen_1\n        0 -> setter_1cedb2.new_value\n        ifexpression_e38995.then -> setter_1cedb2.execute\n        a_9f7759 -> setter_1cedb2.new_value\n        b_f9110a -> ifexpression_e38995.gen_0\n        ifexpression_e38995.else -> setter_1cedb2.execute\n        execute_12bf99 -> ifexpression_e38995.execute\n        setter_1cedb2.continue -> output_b2508f\n    }\n\n    \n\n    instance(x: -174, y: -63) opposite_sign_d6e930 root.main.opposite_sign {}\n}"
@@ -124,7 +124,7 @@
         "seed": 9,
         "n_generations_per_task": 1,
         "model": "llama3.2:3b-instruct-fp16",
-        "largest_context": 13559,
+        "largest_context": 13122,
         "task_candidates": {
             "1": [
                 "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main {\n    func(doc: \"checks whether the given two integers have opposite sign or not.\") opposite_sign {\n        in(x: -285, y: -0, name: \"a\") property(Number) a_9f7759\n        in(x: -272, y: 17, name: \"b\") property(Number) b_f9110a\n\n        out(x: 46, y: 158, name: \"output\") property(Bool) output_b2d7e4\n\n        instance(x: 0, y: 0) ifexpression_e38995 root.Std_k98ojb.Std.IfExpression {\n            expression: \"a * b < 0\"\n        }\n        getter(x: -144, y: 112, name: \"getter_9cceb3\") getter_9cceb3 = output_b2d7e4\n        setter(x: 116, y: -268, name: \"setter_1cedb2\") setter_1cedb2 = output_b2d7e4\n        instance(x: -105, y: 34, name: \"getter_38583a\") getter_38583a = a_9f7759\n        instance(x: -144, y: 112, name: \"setter_9cceb3\") setter_9cceb3 = output_b2d7e4\n        instance(x: -105, y: 34, name: \"getter_38583a\") getter_38583a = b_f9110a\n        instance(x: -144, y: 112, name: \"setter_9cceb3\") setter_9cceb3 = output_b2d7e4\n        ifexpression_e38995.then -> setter_1cedb2.execute\n        a_9f7759 -> setter_1cedb2.new_value\n        b_f9110a -> setter_9cceb3.new_value\n        ifexpression_e38995.else -> setter_38583a.execute_cdac2a\n        execute_cdac2a -> ifexpression_e38995.execute\n    }\n\n    \n\n    instance(x: -174, y: -63) opposite_sign_d6e930 root.main.opposite_sign {}\n}"
@@ -163,7 +163,7 @@
         "seed": 9,
         "n_generations_per_task": 1,
         "model": "llama3.2:3b-instruct-fp16",
-        "largest_context": 13559,
+        "largest_context": 13122,
         "task_candidates": {
             "1": [
                 "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main {\n    func(doc: \"checks whether the given two integers have opposite sign or not.\") opposite_sign {\n        in(x: -292, y: 16, name: \"a\") property(Number) a_8f5d4e\n        in(x: -283, y: 33, name: \"b\") property(Number) b_7c0a6f\n\n        out(x: 49, y: 145, name: \"output\") property(Bool) output_9cd3af\n\n        instance(x: 0, y: 0) ifexpression_e38995 root.Std_k98ojb.Std.IfExpression {\n            expression: \"a * b < 0\"\n        }\n        getter(x: -114, y: 38, name: \"getter_5d4c2f\") getter_5d4c2f = output\n        setter(x: 113, y: -247, name: \"setter_1e8b9a\") setter_1e8b9a = output\n        a_8f5d4e -> ifexpression_e38995.gen_0\n        b_7c0a6f -> ifexpression_e38995.gen_1\n        getter_5d4c2f.value -> output_9cd3af\n        ifexpression_e38995.then -> setter_1e8b9a.execute\n        a_8f5d4e -> setter_1e8b9a.new_value\n        b_7c0a6f -> setter_1e8b9a.new_value\n        ifexpression_e38995.else -> setter_1e8b9a.execute\n        execute_12bf99 -> ifexpression_e38995.execute\n        setter_1e8b9a.continue -> output_9cd3af\n    }\n\n    \n\n    instance(x: -186, y: 142) opposite_sign_5d4c2f root.main.opposite_sign {}\n}"
@@ -202,7 +202,7 @@
         "seed": 9,
         "n_generations_per_task": 1,
         "model": "llama3.2:3b-instruct-fp16",
-        "largest_context": 13559,
+        "largest_context": 13122,
         "task_candidates": {
             "1": [
                 "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main {\n    func(doc: \"checks whether the given two integers have opposite sign or not.\") opposite_sign {\n        in(x: -294, y: -0, name: \"a\") property(Number) a_9f7759\n        in(x: -288, y: 17, name: \"b\") property(Number) b_f9110a\n\n        out(x: 44, y: 158, name: \"output\") property(Bool) output_b2c8e5\n\n        instance(x: 0, y: 0) ifexpression_e38995 root.Std_k98ojb.Std.IfExpression {\n            expression: \"a * b < 0\"\n        }\n        getter(x: -144, y: 112, name: \"getter_9cceb3\") getter_9cceb3 = output_b2c8e5\n        setter(x: 116, y: -268, name: \"setter_1cedb2\") setter_1cedb2 = output_b2c8e5\n        instance(x: -105, y: 34, name: \"getter_38583a\") getter_38583a = a_9f7759\n        instance(x: -144, y: 112, name: \"setter_9cceb3\") setter_9cceb3 = output_b2c8e5\n        instance(x: 89, y: 29, name: \"getter_1088d5\") getter_1088d5 = b_f9110a\n        instance(x: -144, y: 112, name: \"setter_9cceb3\") setter_9cceb3 = output_b2c8e5\n        ifexpression_e38995.then -> setter_1cedb2.execute\n        a_9f7759 -> setter_1cedb2.new_value\n        b_f9110a -> setter_38583a.new_value\n        ifexpression_e38995.else -> setter_1088d5.execute\n        execute_opposite_sign -> ifexpression_e38995.execute\n        setter_1cedb2.continue -> output_b2c8e5.continue\n        setter_38583a.continue -> output_b2c8e5.continue\n        setter_1088d5.continue -> output_b2c8e5.continue\n    }\n\n    \n\n    instance(x: -174, y: -63) opposite_sign_d6e930 root.main.opposite_sign {}\n}"
@@ -241,7 +241,7 @@
         "seed": 9,
         "n_generations_per_task": 1,
         "model": "llama3.2:3b-instruct-fp16",
-        "largest_context": 13559,
+        "largest_context": 13122,
         "task_candidates": {
             "1": [
                 "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main {\n    func(doc: \"checks whether the given two integers have opposite sign or not.\") opposite_sign {\n        in(x: -283, y: -192, name: \"a\") property(Number) a_9f7759\n        in(x: -275, y: 17, name: \"b\") property(Number) b_f9110a\n\n        out(x: 46, y: 158, name: \"output\") property(Bool) output_b2508f\n\n        instance(x: 0, y: 0) ifexpression_e38995 root.Std_k98ojb.Std.IfExpression {\n            expression: \"a * b < 0\"\n        }\n        getter(x: -144, y: 112, name: \"getter_9cceb3\") getter_9cceb3 = output_b2508f\n        setter(x: 116, y: -268, name: \"setter_1cedb2\") setter_1cedb2 = output_b2508f\n        instance(x: -105, y: 34, name: \"getter_38583a\") getter_38583a = a_9f7759\n        instance(x: -144, y: 112, name: \"setter_9cceb3\") setter_9cceb3 = output_b2508f\n        instance(x: 89, y: 29, name: \"getter_1088d5\") getter_1088d5 = b_f9110a\n        instance(x: -144, y: 112, name: \"setter_1cedb2\") setter_1cedb2 = output_b2508f\n        instance(x: 89, y: 29, name: \"getter_37db7f\") getter_37db7f = b_f9110a\n        instance(x: -144, y: 112, name: \"setter_9cceb3\") setter_9cceb3 = output_b2508f\n        ifexpression_e38995.then -> setter_1cedb2.execute\n        a_9f7759 -> setter_1cedb2.new_value\n        b_f9110a -> setter_37db7f.new_value\n        ifexpression_e38995.else -> setter_9cceb3.execute\n        execute_opposite_sign_8d4e5a.execute -> ifexpression_e38995.execute\n        setter_1cedb2.continue -> output_b2508f.continue\n        setter_37db7f.continue -> output_b2508f.continue\n    }\n\n    \n\n    instance(x: -174, y: -63) opposite_sign_d6e930 root.main.opposite_sign {}\n}"
@@ -280,7 +280,7 @@
         "seed": 9,
         "n_generations_per_task": 1,
         "model": "llama3.2:3b-instruct-fp16",
-        "largest_context": 13559,
+        "largest_context": 13122,
         "task_candidates": {
             "1": [
                 "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main {\n    func(doc: \"checks whether the given two integers have opposite sign or not.\") opposite_sign {\n        in(x: -294, y: 14, name: \"a\") property(Number) a_8f5d4e\n        in(x: -278, y: 55, name: \"b\") property(Number) b_9c7c2b\n\n        out(x: 44, y: 122, name: \"output\") property(Bool) output_3a0e6d\n\n        instance(x: 0, y: 0) ifexpression_e38995 root.Std_k98ojb.Std.IfExpression {\n            expression: \"a * b < 0\"\n        }\n        getter(x: -104, y: 54, name: \"getter_9cceb3\") getter_9cceb3 = output\n        setter(x: 112, y: -228, name: \"setter_1cedb2\") setter_1cedb2 = output\n        instance(x: -119, y: -23) modulo_adfa16 root.Std_k98ojb.Math.Modulo {}\n        a_8f5d4e -> modulo_adfa16.value\n        b_9c7c2b -> modulo_adfa16.second\n        modulo_adfa16.result -> setter_1cedb2\n        ifexpression_e38995.then -> setter_1cedb2.execute\n        output_3a0e6d -> setter_1cedb2\n        a_8f5d4e -> setter_1cedb2.new_value\n        b_9c7c2b -> setter_1cedb2.new_value\n        ifexpression_e38995.else -> setter_1cedb2.execute\n    }\n\n    \n\n    instance(x: -192, y: 46) opposite_sign_8f4e5a root.main.opposite_sign {}\n}"
@@ -319,7 +319,7 @@
         "seed": 9,
         "n_generations_per_task": 1,
         "model": "llama3.2:3b-instruct-fp16",
-        "largest_context": 13559,
+        "largest_context": 13122,
         "task_candidates": {
             "1": [
                 "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main {\n    func(doc: \"checks whether the given two integers have opposite sign or not.\") opposite_sign {\n        in(x: -289, y: -193, name: \"a\") property(Number) a_9f7759\n        in(x: -281, y: 17, name: \"b\") property(Number) b_f9110a\n\n        out(x: 46, y: 158, name: \"output\") property(Bool) output_b2d6c7\n\n        instance(x: 0, y: 0) ifexpression_e38995 root.Std_k98ojb.Std.IfExpression {\n            expression: \"a * b < 0\"\n        }\n        getter(x: -144, y: 112, name: \"getter_9cceb3\") getter_9cceb3 = output_b2d6c7\n        setter(x: 116, y: -268, name: \"setter_1cedb2\") setter_1cedb2 = output_b2d6c7\n        instance(x: -105, y: -110) modulo_1088d5 root.Std_k98ojb.Math.Modulo {}\n        a_9f7759 -> modulo_1088d5.first\n        b_f9110a -> modulo_1088d5.second\n        modulo_1088d5.result -> ifexpression_e38995.gen_1\n        0 -> setter_1cedb2.new_value\n        ifexpression_e38995.then -> setter_1cedb2.execute\n        a_9f7759 -> setter_1cedb2.new_value\n        b_f9110a -> output_b2d6c7\n        ifexpression_e38995.else -> output_b2d6c7.execute\n        execute_12bf99 -> ifexpression_e38995.execute\n        setter_1cedb2.continue -> continue_685c8f\n    }\n\n    \n\n    instance(x: -174, y: -63) opposite_sign_d6e930 root.main.opposite_sign {}\n}"
@@ -358,7 +358,7 @@
         "seed": 9,
         "n_generations_per_task": 1,
         "model": "llama3.2:3b-instruct-fp16",
-        "largest_context": 13559,
+        "largest_context": 13122,
         "task_candidates": {
             "1": [
                 "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main {\n    func(doc: \"checks whether the given two integers have opposite sign or not.\") opposite_sign {\n        in(x: -284, y: -193, name: \"a\") property(Number) a_9f7759\n        in(x: -272, y: 17, name: \"b\") property(Number) b_f9110a\n\n        out(x: 46, y: 158, name: \"output\") property(Bool) output_b2d5c6\n\n        instance(x: 0, y: 0) ifexpression_e38995 root.Std_k98ojb.Std.IfExpression {\n            expression: \"a * b < 0\"\n        }\n        getter(x: -144, y: 112, name: \"getter_9cceb3\") getter_9cceb3 = output_b2d5c6\n        setter(x: 116, y: -268, name: \"setter_1cedb2\") setter_1cedb2 = output_b2d5c6\n        instance(x: -105, y: 34, name: \"getter_38583a\") getter_38583a = a_9f7759\n        instance(x: -144, y: 112, name: \"setter_9cceb3\") setter_9cceb3 = output_b2d5c6\n        instance(x: -105, y: 34, name: \"getter_38583a\") getter_38583a = b_f9110a\n        instance(x: -144, y: 112, name: \"setter_9cceb3\") setter_9cceb3 = output_b2d5c6\n        a_9f7759 -> ifexpression_e38995.gen_0\n        b_f9110a -> ifexpression_e38995.gen_1\n        getter_9cceb3.value -> output_b2d5c6\n        ifexpression_e38995.then -> setter_1cedb2.execute\n        a_9f7759 -> setter_1cedb2.new_value\n        b_f9110a -> setter_38583a.execute\n        b_f9110a -> setter_9cceb3.execute\n        ifexpression_e38995.else -> setter_38583a.execute\n    }\n\n    \n\n    instance(x: -174, y: -63) opposite_sign_d6e930 root.main.opposite_sign {}\n}"
@@ -397,7 +397,7 @@
         "seed": 9,
         "n_generations_per_task": 1,
         "model": "llama3.2:3b-instruct-fp16",
-        "largest_context": 13559,
+        "largest_context": 13122,
         "task_candidates": {
             "1": [
                 "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main {\n    func(doc: \"checks whether the given two integers have opposite sign or not.\") opposite_sign {\n        in(x: -287, y: 18, name: \"a\") property(Number) a_8f5d4e\n        in(x: -281, y: -22, name: \"b\") property(Number) b_6c9d1f\n\n        out(x: 41, y: -14, name: \"output\") property(Bool) output_b2a7eb\n\n        instance(x: -105, y: -19) ifexpression_e38995 root.Std_k98ojb.Std.IfExpression {\n            expression: \"(a * b < 0)\"\n        }\n        getter(x: -144, y: 112, name: \"getter_9cceb3\") getter_9cceb3 = output_b2a7eb\n        setter(x: 116, y: -268, name: \"setter_1cedb2\") setter_1cedb2 = output_b2a7eb\n        instance(x: 89, y: 29) modulo_1088d5 root.Std_k98ojb.Math.Modulo {}\n        a_8f5d4e -> modulo_1088d5.value\n        b_6c9d1f -> modulo_1088d5.second\n        modulo_1088d5.result -> ifexpression_e38995.gen_0\n        0 -> setter_1cedb2.new_value\n        setter_1cedb2.continue -> ifexpression_e38995.execute\n        execute_opposite_sign_ba9c7f -> ifexpression_e38995.execute\n    }\n\n    \n\n    instance(x: -174, y: -63) opposite_sign_d6e930 root.main.opposite_sign {}\n}"
@@ -436,7 +436,7 @@
         "seed": 9,
         "n_generations_per_task": 1,
         "model": "llama3.2:3b-instruct-fp16",
-        "largest_context": 13559,
+        "largest_context": 13122,
         "task_candidates": {
             "1": [
                 "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main {\n    func(doc: \"checks whether the given two integers have opposite sign or not.\") same_sign {\n        in(x: -287, y: -194, name: \"a\") property(Number) a_5e8f3d\n        in(x: -280, y: 19, name: \"b\") property(Number) b_c2df9c\n\n        out(x: 43, y: 159, name: \"output\") property(Bool) output_e0a7af\n\n        instance(x: -114, y: -110) ifexpression_8e4d35 root.Std_k98ojb.Std.IfExpression {\n            expression: \"Math.sign(a) * Math.sign(b) < 0\"\n        }\n        getter(x: -143, y: 112, name: \"getter_b6c2db\") getter_b6c2db = same_sign\n        setter(x: 115, y: -268, name: \"setter_4e8a95\") setter_4e8a95 = same_sign\n        instance(x: -109, y: -76) mul_1d7f47 root.Std_k98ojb.Math.Mul {}\n        a_5e8f3d -> mul_1d7f47.first\n        b_c2df9c -> mul_1d7f47.second\n        mul_1d7f47.result -> getter_b6c2db\n        setter_4e8a95.continue -> same_sign.execute\n    }\n\n    \n\n    instance(x: 10, y: -177) same_sign_0bfc9 root.main.same_sign {}\n}"
@@ -475,7 +475,7 @@
         "seed": 9,
         "n_generations_per_task": 1,
         "model": "llama3.2:3b-instruct-fp16",
-        "largest_context": 13559,
+        "largest_context": 13122,
         "task_candidates": {
             "1": [
                 "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main {\n    func(doc: \"checks whether the given two integers have opposite sign or not.\") opposite_sign {\n        in(x: -283, y: -196, name: \"a\") property(Number) a_8f6d3e\n        in(x: -275, y: 17, name: \"b\") property(Number) b_f9110a\n\n        out(x: 46, y: 158, name: \"output\") property(Bool) output_b2c7d4\n\n        instance(x: 0, y: 0) ifexpression_3d7de6 root.Std_k98ojb.Std.IfExpression {\n            expression: \"a * b < 0\"\n        }\n        getter(x: -144, y: 112, name: \"getter_9cceb3\") getter_9cceb3 = output_b2c7d4\n        setter(x: 116, y: -268, name: \"setter_1cedb2\") setter_1cedb2 = output_b2c7d4\n        instance(x: -105, y: 34, name: \"getter_38583a\") getter_38583a = a\n        instance(x: -144, y: 112, name: \"setter_9cceb3\") setter_9cceb3 = output_b2c7d4\n        instance(x: -105, y: 34, name: \"getter_38583a\") getter_38583a = b\n        instance(x: -144, y: 112, name: \"setter_9cceb3\") setter_9cceb3 = output_b2c7d4\n        a_8f6d3e -> ifexpression_3d7de6.gen_0\n        b_f9110a -> ifexpression_3d7de6.gen_1\n        getter_9cceb3.value -> output_b2c7d4\n        ifexpression_3d7de6.then -> setter_1cedb2.execute\n        a_8f6d3e -> setter_1cedb2.new_value\n        b_f9110a -> setter_38583a.execute\n        ifexpression_3d7de6.else -> setter_38583a.execute_cdac2a\n    }\n\n    \n\n    instance(x: -174, y: -63) opposite_sign_d6e930 root.main.opposite_sign {}\n}"
@@ -514,7 +514,7 @@
         "seed": 9,
         "n_generations_per_task": 1,
         "model": "llama3.2:3b-instruct-fp16",
-        "largest_context": 13559,
+        "largest_context": 13122,
         "task_candidates": {
             "1": [
                 "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main {\n    func(doc: \"checks whether the given two integers have opposite sign or not.\") opposite_sign {\n        in(x: -450, y: -234, name: \"a\") property(Number) a_4d8f2e\n        in(x: -439, y: 23, name: \"b\") property(Number) b_d7c1af\n\n        out(x: 1185, y: -96, name: \"output\") property(Bool) output_8a0df3\n\n        instance(x: -115, y: -91) ifexpression_bf4d34 root.Std_k98ojb.Std.IfExpression {\n            expression: \"a * b < 0\"\n        }\n        getter(x: -142, y: 97, name: \"getter_9cbeb1\") getter_9cbeb1 = a\n        setter(x: 124, y: -268, name: \"setter_d7f8b3\") setter_d7f8b3 = a\n        instance(x: 135, y: -69) modulo_aeb0e4 root.Std_k98ojb.Math.Modulo {}\n        instance(x: 275, y: 24) mul_8c9a66 root.Std_k98ojb.Math.Mul {}\n        instance(x: 315, y: -73) less_than_5b1f44 root.Std_k98ojb.Math.LessThan {}\n        setter_d7f8b3 -> ifexpression_bf4d34.gen_0\n        b_d7c1af -> ifexpression_bf4d34.gen_1\n        mul_8c9a66.first -> less_than_5b1f44.left\n        a_4d8f2e -> less_than_5b1f44.right\n        less_than_5b1f44.result -> output_8a0df3\n        ifexpression_bf4d34.then -> setter_d7f8b3.execute\n        a_4d8f2e -> setter_d7f8b3.new_value\n        b_d7c1af -> mul_8c9a66.second\n        less_than_5b1f44.continue -> continue_f0c6aa\n    }\n\n    \n\n    instance(x: -201, y: 34) opposite_sign_2e4d35 root.main.opposite_sign {}\n}"
@@ -553,7 +553,7 @@
         "seed": 9,
         "n_generations_per_task": 1,
         "model": "llama3.2:3b-instruct-fp16",
-        "largest_context": 13559,
+        "largest_context": 13122,
         "task_candidates": {
             "1": [
                 "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main {\n    func(doc: \"checks whether the given two integers have opposite sign or not.\") same_sign {\n        in(x: -290, y: -192, name: \"a\") property(Number) a_5e2d41\n        in(x: -278, y: 26, name: \"b\") property(Number) b_fba3e8\n\n        out(x: 39, y: -23, name: \"output\") property(Bool) output_e9c7a4\n\n        instance(x: -109, y: -22) ifexpression_2b6d26 root.Std_k98ojb.Std.IfExpression {\n            expression: \"Math.sign(a) * Math.sign(b) < 0\"\n        }\n        getter(x: -143, y: 12, name: \"getter_a7a65f\") getter_a7a65f = sign\n        setter(x: 109, y: -313, name: \"setter_8baf34\") setter_8baf34 = sign\n        instance(x: -202, y: 21) expression_b1c0ce root.Std_k98ojb.Math.Expression {\n            expression: \"Math.sign(a)\"\n        }\n        instance(x: -274, y: 30) expression_c77a3f root.Std_k98ojb.Math.Expression {\n            expression: \"Math.sign(b)\"\n        }\n        ifexpression_2b6d26.then -> setter_8baf34.execute\n        a_5e2d41 -> ifexpression_2b6d26.gen_0\n        b_fba3e8 -> ifexpression_2b6d26.gen_1\n        getter_a7a65f.value -> output_e9c7a4\n        expression_b1c0ce.result -> setter_8baf34.new_value\n        expression_c77a3f.result -> setter_8baf34.new_value\n    }\n\n    \n\n    instance(x: -98, y: 155) same_sign_d46e21 root.main.same_sign {}\n}"
@@ -592,7 +592,7 @@
         "seed": 9,
         "n_generations_per_task": 1,
         "model": "llama3.2:3b-instruct-fp16",
-        "largest_context": 13559,
+        "largest_context": 13122,
         "task_candidates": {
             "1": [
                 "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main {\n    func(doc: \"checks whether the given two integers have opposite sign or not.\") opposite_sign {\n        in(x: -288, y: -195, name: \"a\") property(Number) a_5f6d8e\n        in(x: -281, y: 17, name: \"b\") property(Number) b_f9110a\n\n        out(x: 46, y: 158, name: \"output\") property(Bool) output_b2c9ea\n\n        instance(x: 0, y: 0) ifexpression_3d7de6 root.Std_k98ojb.Std.IfExpression {\n            expression: \"a * b < 0\"\n        }\n        getter(x: -144, y: 112, name: \"getter_38583a\") getter_38583a = output_b2c9ea\n        setter(x: 116, y: -268, name: \"setter_1cedb2\") setter_1cedb2 = output_b2c9ea\n        instance(x: -105, y: 34, name: \"getter_9cceb3\") getter_9cceb3 = a_5f6d8e\n        instance(x: -144, y: 112, name: \"setter_38583a\") setter_38583a = output_b2c9ea\n        instance(x: 89, y: 29, name: \"getter_1088d5\") getter_1088d5 = b_f9110a\n        instance(x: -144, y: 112, name: \"setter_38583a\") setter_38583a = output_b2c9ea\n        ifexpression_3d7de6.then -> setter_1cedb2.execute\n        a_5f6d8e -> setter_1cedb2.new_value\n        b_f9110a -> setter_38583a.new_value\n        ifexpression_3d7de6.else -> setter_1088d5.execute\n        execute_opposite_sign_3d7de6() -> ifexpression_3d7de6.execute\n    }\n\n    \n\n    instance(x: -174, y: -63) opposite_sign_3d7de6 root.main.opposite_sign {}\n}"
@@ -631,7 +631,7 @@
         "seed": 9,
         "n_generations_per_task": 1,
         "model": "llama3.2:3b-instruct-fp16",
-        "largest_context": 13559,
+        "largest_context": 13122,
         "task_candidates": {
             "1": [
                 "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main {\n    func(doc: \"checks whether the given two integers have opposite sign or not.\") opposite_sign {\n        in(x: -336, y: 26, name: \"a\") property(Number) a_1d5f6e\n        in(x: -328, y: 21, name: \"b\") property(Number) b_e7df9c\n\n        out(x: 1098, y: -70, name: \"output\") property(Bool) output_94a8c3\n\n        instance(x: -103, y: -68) ifexpression_bf1d43 root.Std_k98ojb.Std.IfExpression {\n            expression: \"a * b < 0\"\n        }\n        getter(x: -136, y: 73, name: \"getter_9e0c2b\") getter_9e0c2b = a\n        setter(x: 128, y: -266, name: \"setter_3d8f1a\") setter_3d8f1a = a\n        instance(x: 94, y: -78) abs_6c4a77 root.Std_k98ojb.Math.Abs {}\n        instance(x: 170, y: -68) mul_7e14ca root.Std_k98ojb.Math.Mul {}\n        setter_3d8f1a -> ifexpression_bf1d43.gen_0\n        b_e7df9c -> ifexpression_bf1d43.gen_1\n        abs_6c4a77.result -> mul_7e14ca.first\n        0 -> mul_7e14ca.second\n        mul_7e14ca.result -> getter_9e0c2b\n        ifexpression_bf1d43.then -> output_94a8c3\n        a_1d5f6e -> setter_3d8f1a.new_value\n        b_e7df9c -> setter_3d8f1a.new_value\n        ifexpression_bf1d43.else -> output_94a8c3.execute\n    }\n\n    \n\n    instance(x: -198, y: 20) opposite_sign_2fcd5b root.main.opposite_sign {}\n}"
@@ -670,7 +670,7 @@
         "seed": 9,
         "n_generations_per_task": 1,
         "model": "llama3.2:3b-instruct-fp16",
-        "largest_context": 13559,
+        "largest_context": 13122,
         "task_candidates": {
             "1": [
                 "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main {\n    func(doc: \"checks whether the given two integers have opposite sign or not.\") same_sign {\n        in(x: -313, y: -191, name: \"a\") property(Number) a_6e3fbd\n        in(x: -298, y: 24, name: \"b\") property(Number) b_c8a9aa\n\n        out(x: 1212, y: -109, name: \"output\") property(Bool) output_d1c5e4\n\n        instance(x: 0, y: 0) ifexpression_9cd7ed root.Std_k98ojb.Std.IfExpression {\n            expression: \"a * b < 0\"\n        }\n        getter(x: -128, y: 43, name: \"getter_c3d68c\") getter_c3d68c = a\n        setter(x: 130, y: -264, name: \"setter_4b17e5\") setter_4b17e5 = a\n        instance(x: 166, y: -30) modulo_d2f32a root.Std_k98ojb.Math.Modulo {}\n        instance(x: 147, y: -25) mul_c6eb54 root.Std_k98ojb.Math.Mul {}\n        instance(x: 0, y: -41) neg_8c7d3e root.Std_k98ojb.Math.Neg {}\n        neg_8c7d3e.input -> mul_c6eb54.first\n        b_c8a9aa -> mul_c6eb54.second\n        mul_c6eb54.result -> modulo_d2f32a.value\n        a_6e3fbd -> neg_8c7d3e.input\n        0 -> setter_4b17e5.execute\n        ifexpression_9cd7ed.then -> output_d1c5e4\n        same_sign.continue -> setter_4b17e5.execute\n    }\n\n    \n\n    instance(x: -144, y: -21) same_sign_95a3d2 root.main.same_sign {}\n}"
@@ -709,7 +709,7 @@
         "seed": 9,
         "n_generations_per_task": 1,
         "model": "llama3.2:3b-instruct-fp16",
-        "largest_context": 13559,
+        "largest_context": 13122,
         "task_candidates": {
             "1": [
                 "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main {\n    func(doc: \"checks whether the given two integers have opposite sign or not.\") opposite_sign {\n        in(x: -284, y: -193, name: \"a\") property(Number) a_9f7759\n        in(x: -272, y: 17, name: \"b\") property(Number) b_f9110a\n\n        out(x: 46, y: 158, name: \"output\") property(Bool) output_b2d5c6\n\n        instance(x: 0, y: 0) ifexpression_e38995 root.Std_k98ojb.Std.IfExpression {\n            expression: \"a * b < 0\"\n        }\n        getter(x: -144, y: 112, name: \"getter_9cceb3\") getter_9cceb3 = output_b2d5c6\n        setter(x: 116, y: -268, name: \"setter_1cedb2\") setter_1cedb2 = output_b2d5c6\n        instance(x: -105, y: 34, name: \"getter_38583a\") getter_38583a = a_9f7759\n        instance(x: -144, y: 112, name: \"setter_9cceb3\") setter_9cceb3 = output_b2d5c6\n        instance(x: -105, y: 34, name: \"getter_38583a\") getter_38583a = b_f9110a\n        instance(x: -144, y: 112, name: \"setter_9cceb3\") setter_9cceb3 = output_b2d5c6\n        a_9f7759 -> ifexpression_e38995.gen_0\n        b_f9110a -> ifexpression_e38995.gen_1\n        getter_9cceb3.value -> output_b2d5c6\n        ifexpression_e38995.then -> setter_1cedb2.execute\n        a_9f7759 -> setter_1cedb2.new_value\n        b_f9110a -> setter_38583a.execute\n        b_f9110a -> setter_9cceb3.execute\n        ifexpression_e38995.else -> setter_38583a.execute\n    }\n\n    \n\n    instance(x: -174, y: -63) opposite_sign_d6e930 root.main.opposite_sign {}\n}"
@@ -748,7 +748,7 @@
         "seed": 9,
         "n_generations_per_task": 1,
         "model": "llama3.2:3b-instruct-fp16",
-        "largest_context": 13559,
+        "largest_context": 13122,
         "task_candidates": {
             "1": [
                 "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main {\n    func(doc: \"checks whether the given two integers have opposite sign or not.\") opposite_sign {\n        in(x: -287, y: 18, name: \"a\") property(Number) a_8f5d3e\n        in(x: -283, y: 23, name: \"b\") property(Number) b_d2f6c1\n\n        out(x: 47, y: 143, name: \"output\") property(Bool) output_b4a7d0\n\n        instance(x: 95, y: 123) ifexpression_5e3f8 root.Std_k98ojb.Std.IfExpression {\n            expression: \"a * b < 0\"\n        }\n        getter(x: -142, y: 131, name: \"getter_e4d7b1\") getter_e4d7b1 = output_b4a7d0\n        setter(x: 115, y: -273, name: \"setter_6f2e9c\") setter_6f2e9c = output_b4a7d0\n        instance(x: -128, y: 123) mul_8f1d5 root.Std_k98ojb.Math.Mul {}\n        a_8f5d3e -> mul_8f1d5.first\n        b_d2f6c1 -> mul_8f1d5.second\n        mul_8f1d5.result -> setter_6f2e9c\n        0 -> setter_6f2e9c.new_value\n        setter_6f2e9c.continue -> ifexpression_5e3f8.execute\n        ifexpression_5e3f8.then -> continue_7bdf34\n        a_8f5d3e -> setter_6f2e9c.new_value\n        b_d2f6c1 -> setter_6f2e9c.new_value\n        ifexpression_5e3f8.else -> continue_7bdf34\n    }\n\n    \n\n    instance(x: -169, y: 145) opposite_sign_6d0a15 root.main.opposite_sign {}\n}"
@@ -787,7 +787,7 @@
         "seed": 9,
         "n_generations_per_task": 1,
         "model": "llama3.2:3b-instruct-fp16",
-        "largest_context": 13559,
+        "largest_context": 13122,
         "task_candidates": {
             "1": [
                 "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main {\n    func(doc: \"Checks whether the given two integers have opposite sign or not.\") has_opposite_sign {\n        in(x: -278, y: 23, name: \"a\") property(Number) a_9d2e3f\n        in(x: -273, y: -14, name: \"b\") property(Number) b_c8e0ec\n\n        out(x: 45, y: -19, name: \"output\") property(Bool) output_e6c4a7\n\n        instance(x: 0, y: 0) ifexpression_f1f8d1 root.Std_k98ojb.Std.IfExpression {\n            expression: \"a * b < 0\"\n        }\n        getter(x: -28, y: 9, name: \"getter_6cd3e4\") getter_6cd3e4 = sign\n        setter(x: 11, y: -34, name: \"setter_eb2c23\") setter_eb2c23 = sign\n        instance(x: -29, y: -10) mul_abf1a7 root.Std_k98ojb.Math.Add {}\n        a_9d2e3f -> ifexpression_f1f8d1.gen_0\n        b_c8e0ec -> ifexpression_f1f8d1.gen_1\n        sign_6cd3e4.value -> mul_abf1a7.first\n        1 -> mul_abf1a7.second\n        mul_abf1a7.result -> setter_eb2c23.new_value\n        ifexpression_f1f8d1.then -> output_e6c4a7.execute\n        a_9d2e3f -> setter_eb2c23.execute\n        b_c8e0ec -> output_e6c4a7.execute_cdac2a\n    }\n\n    \n\n    instance(x: -22, y: 19) has_opposite_sign_b4df45 root.main.has_opposite_sign {}\n}"
@@ -826,7 +826,7 @@
         "seed": 9,
         "n_generations_per_task": 1,
         "model": "llama3.2:3b-instruct-fp16",
-        "largest_context": 13559,
+        "largest_context": 13122,
         "task_candidates": {
             "1": [
                 "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main {\n    func(doc: \"checks whether the given two integers have opposite sign or not.\") opposite_sign {\n        in(x: -283, y: -196, name: \"a\") property(Number) a_8f6d3e\n        in(x: -275, y: 17, name: \"b\") property(Number) b_f9110a\n\n        out(x: 46, y: 158, name: \"output\") property(Bool) output_b2c7d4\n\n        instance(x: 0, y: 0) ifexpression_3d7de6 root.Std_k98ojb.Std.IfExpression {\n            expression: \"a * b < 0\"\n        }\n        getter(x: -144, y: 112, name: \"getter_9cceb3\") getter_9cceb3 = output_b2c7d4\n        setter(x: 116, y: -268, name: \"setter_1cedb2\") setter_1cedb2 = output_b2c7d4\n        instance(x: -105, y: 34, name: \"getter_38583a\") getter_38583a = a\n        instance(x: -144, y: 112, name: \"setter_9cceb3\") setter_9cceb3 = output_b2c7d4\n        instance(x: -105, y: 34, name: \"getter_38583a\") getter_38583a = b\n        instance(x: -144, y: 112, name: \"setter_9cceb3\") setter_9cceb3 = output_b2c7d4\n        a_8f6d3e -> ifexpression_3d7de6.gen_0\n        b_f9110a -> ifexpression_3d7de6.gen_1\n        getter_9cceb3.value -> output_b2c7d4\n        ifexpression_3d7de6.then -> setter_1cedb2.execute\n        a_8f6d3e -> setter_1cedb2.new_value\n        b_f9110a -> setter_38583a.execute\n        ifexpression_3d7de6.else -> setter_38583a.execute_cdac2a\n    }\n\n    \n\n    instance(x: -174, y: -63) opposite_sign_d6e930 root.main.opposite_sign {}\n}"
@@ -865,7 +865,7 @@
         "seed": 9,
         "n_generations_per_task": 1,
         "model": "llama3.2:3b-instruct-fp16",
-        "largest_context": 13559,
+        "largest_context": 13122,
         "task_candidates": {
             "1": [
                 "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main {\n    func(doc: \"checks whether the given two integers have opposite sign or not.\") opposite_sign {\n        in(x: -295, y: 1, name: \"a\") property(Number) a_4d3f5e\n        in(x: -286, y: 36, name: \"b\") property(Number) b_e7dd6c\n\n        out(x: 1012, y: -85, name: \"output\") property(Bool) output_3f7d34\n\n        instance(x: -112, y: -86) ifexpression_ba9e23 root.Std_k98ojb.Std.IfExpression {\n            expression: \"a * b < 0\"\n        }\n        getter(x: -144, y: 92, name: \"getter_5f3c1d\") getter_5f3c1d = product\n        setter(x: 115, y: -270, name: \"setter_d2bdf6\") setter_d2bdf6 = product\n        instance(x: -108, y: -98) modulo_1099e0 root.Std_k98ojb.Math.Modulo {}\n        a_4d3f5e -> modulo_1099e0.value\n        b_e7dd6c -> modulo_1099e0.divisor\n        product -> setter_d2bdf6.new_value\n        modulo_1099e0.result -> setter_d2bdf6.first\n        0 -> setter_d2bdf6.second\n        setter_d2bdf6.continue -> ifexpression_ba9e23.execute\n        ifexpression_ba9e23.then -> output_3f7d34\n        a_4d3f5e -> setter_5f3c1d.new_value\n        b_e7dd6c -> setter_d2bdf6.new_value\n        ifexpression_ba9e23.else -> output_3f7d34\n    }\n\n    \n\n    instance(x: -178, y: 4) opposite_sign_c33e5 root.main.opposite_sign {}\n}"
@@ -904,7 +904,7 @@
         "seed": 9,
         "n_generations_per_task": 1,
         "model": "llama3.2:3b-instruct-fp16",
-        "largest_context": 13559,
+        "largest_context": 13122,
         "task_candidates": {
             "1": [
                 "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main {\n    func(doc: \"Checks whether the given two integers have opposite sign or not.\") has_opposite_sign {\n        in(x: -313, y: 24, name: \"a\") property(Number) a_8dcd34\n        in(x: -301, y: -20, name: \"b\") property(Number) b_b2ab3e\n\n        out(x: 1006, y: -33, name: \"output\") property(Bool) output_f5eb9c\n\n        instance(x: 69, y: -43) ifexpression_1ff9df root.Std_k98ojb.Std.IfExpression {\n            expression: \"(a * b <= 0)\"\n        }\n        getter(x: -130, y: 25, name: \"getter_e2eef6\") getter_e2eef6 = signum\n        setter(x: 129, y: -22, name: \"setter_38edea\") setter_38edea = signum\n        instance(x: 136, y: 9) equal_4f0dc3 root.Std_k98ojb.Logic.Equal {}\n        a_8dcd34 -> ifexpression_1ff9df.gen_0\n        b_b2ab3e -> ifexpression_1ff9df.gen_1\n        setter_38edea.value -> output_f5eb9c\n        equal_4f0dc3.result -> ifexpression_1ff9df.value\n    }\n\n    \n\n    instance(x: 11, y: -192) has_opposite_sign_56b41a root.main.has_opposite_sign {}\n}"
@@ -943,7 +943,7 @@
         "seed": 9,
         "n_generations_per_task": 1,
         "model": "llama3.2:3b-instruct-fp16",
-        "largest_context": 13559,
+        "largest_context": 13122,
         "task_candidates": {
             "1": [
                 "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main {\n    func(doc: \"checks whether the given two integers have opposite sign or not.\") opposite_sign {\n        in(x: -288, y: -195, name: \"a\") property(Number) a_5f6d8e\n        in(x: -281, y: 18, name: \"b\") property(Number) b_9c7d0a\n\n        out(x: 43, y: -97, name: \"output\") property(Bool) output_3d1f77\n\n        instance(x: 101, y: -104) ifexpression_e38995 root.Std_k98ojb.Std.IfExpression {\n            expression: \"a * b < 0\"\n        }\n        getter(x: -124, y: 112, name: \"getter_9cceb3\") getter_9cceb3 = output\n        setter(x: 118, y: -268, name: \"setter_1cedb2\") setter_1cedb2 = output\n        instance(x: -105, y: -110) modulo_adfa16 root.Std_k98ojb.Math.Modulo {}\n        a_5f6d8e -> modulo_adfa16.value\n        b_9c7d0a -> modulo_adfa16.second\n        modulo_adfa16.result -> setter_1cedb2\n        ifexpression_e38995.then -> setter_1cedb2.execute\n        output_3d1f77 -> setter_1cedb2\n    }\n\n    \n\n    instance(x: -174, y: -63) opposite_sign_7a4dad root.main.opposite_sign {}\n}"
@@ -982,7 +982,7 @@
         "seed": 9,
         "n_generations_per_task": 1,
         "model": "llama3.2:3b-instruct-fp16",
-        "largest_context": 13559,
+        "largest_context": 13122,
         "task_candidates": {
             "1": [
                 "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main {\n    func(doc: \"checks whether the given two integers have opposite sign or not.\") opposite_sign {\n        in(x: -299, y: 29, name: \"a\") property(Number) a_1d3f6e\n        in(x: -287, y: -194, name: \"b\") property(Number) b_f6c2aa\n\n        out(x: 451, y: -193, name: \"output\") property(Bool) output_d8db28\n\n        instance(x: -98, y: -201) ifexpression_7a3d0e root.Std_k98ojb.Std.IfExpression {\n            expression: \"a * b < 0\"\n        }\n        getter(x: -129, y: 109, name: \"getter_8e2c11\") getter_8e2c11 = a\n        setter(x: 141, y: -267, name: \"setter_9d7f1b\") setter_9d7f1b = a\n        instance(x: -191, y: -201) negation_f2d0ca root.Std_k98ojb.Logic.Not {}\n        negation_f2d0ca.input -> ifexpression_7a3d0e.gen_0\n        0 -> setter_9d7f1b.new_value\n        a_1d3f6e -> setter_9d7f1b.value\n        negation_f2d0ca.result -> output_d8db28\n        ifexpression_7a3d0e.then -> setter_9d7f1b.execute\n    }\n\n    \n\n    instance(x: -201, y: 54) opposite_sign_e5c6c1 root.main.opposite_sign {}\n}"
@@ -1021,7 +1021,7 @@
         "seed": 9,
         "n_generations_per_task": 1,
         "model": "llama3.2:3b-instruct-fp16",
-        "largest_context": 13559,
+        "largest_context": 13122,
         "task_candidates": {
             "1": [
                 "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main {\n    func(doc: \"Checks whether the given two integers have opposite sign or not.\") has_opposite_sign {\n        in(x: -459, y: 2, name: \"a\") property(Number) a_8d97ec\n        in(x: -451, y: -33, name: \"b\") property(Number) b_a7ac3f\n\n        out(x: 117, y: -49, name: \"output\") property(Bool) output_d63bb1\n\n        instance(x: 0, y: -40) ifexpression_9c95a2 root.Std_k98ojb.Std.IfExpression {\n            expression: \"(a > 0 && b < 0)\"\n        }\n        getter(x: -97, y: -44, name: \"getter_d59e28\") getter_d59e28 = if\n        setter(x: 96, y: -55, name: \"setter_1a24eb\") setter_1a24eb = if\n        instance(x: 71, y: 18) and_8c41d6 root.Std_k98ojb.Logic.And {}\n        a_8d97ec -> and_8c41d6.left\n        b_a7ac3f -> and_8c41d6.right\n        and_8c41d6.result -> if_d59e28\n        setter_1a24eb.continue -> continue_d4d5da\n        continue_d4d5da -> output_d63bb1\n        if_d59e28.then -> output_d63bb1\n    }\n\n    \n\n    instance(x: -169, y: 91) has_opposite_sign_bde64b root.main.has_opposite_sign {}\n}"
