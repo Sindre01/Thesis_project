@@ -23,7 +23,7 @@ from my_packages.db_service.data_processing import flatten_metric_results
 from my_packages.common.classes import Phase, Run
 from my_packages.db_service.best_params_service import get_db_best_params, save_best_params_to_db
 from my_packages.evaluation.code_evaluation import calculate_best_params, calculate_final_result, evaluate_code
-from my_packages.utils.file_utils import extract_experiment_and_model_name, read_dataset_to_json, write_json_file
+from my_packages.utils.file_utils import append_json_file, extract_experiment_and_model_name, read_dataset_to_json, write_json_file
 from my_packages.db_service import get_db_connection
 
 def evaluate_runs(
@@ -541,4 +541,14 @@ def find_results(
                 shot_result = list(chain.from_iterable(
                     x if isinstance(x, list) else [x] for x in shot_result
                 ))
-                write_json_file(f"{output_dir}/{experiment_name}.json", shot_result)
+                if model:
+                    # add to current results if possible
+                    try:
+                        append_json_file(f"{output_dir}/{experiment_name}.json", shot_result)
+                    except Exception as e:
+                        print(f"Error appending to file")
+                        print(f"Writing to file instead")
+                        write_json_file(f"{output_dir}/{experiment_name}.json", shot_result)
+
+                else:
+                    write_json_file(f"{output_dir}/{experiment_name}.json", shot_result)

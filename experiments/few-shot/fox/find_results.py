@@ -14,14 +14,14 @@ if __name__ == "__main__":
     find_results( 
         experiment_folder="few-shot",
         env="prod",
-        eval_method="hold_out",
+        eval_method="3_fold",
         experiment_types=["similarity"],
-        prompt_types=["regular"],
-        shots=[5], #Regular similairty 5-shot
+        prompt_types=["regular", "signature"],
+        shots=[1, 5, 10], #Regular similairty 5-shot
         metrics=["syntax", "semantic", "tests"],
         ks=[1, 2, 3, 5, 10],
         use_threads=True,
-        model="",
-        phase=Phase.VALIDATION,
+        model="llama3.2:3b-instruct-fp16",
+        phase=Phase.TESTING,
     )
 
