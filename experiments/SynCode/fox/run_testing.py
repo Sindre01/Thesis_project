@@ -173,7 +173,6 @@ def main(
         
         best_params_folder = f"{project_dir}/experiments/{experiment_folder}/fox/best_params/{experiment_type}/{prompt_type}/hold_out"
         # best_params_folder = f"{project_dir}/experiments/{experiment_folder}/fox/best_params/test"
-        # best_params_folder = f"{project_dir}/experiments/few-shot/fox/best_params/{selector_type}/{prompt_type}/hold_out"
 
 
         for shots in ex["num_shots"]:
@@ -190,7 +189,7 @@ def main(
                 result_runs_path = os.path.join(results_dir, file_name)
                 best_params_path = os.path.join(best_params_folder, experiment_name + ".json")
 
-                print(f"\n==== Running few-shot testing for {experiment_name} on '{model_name}' ====")  
+                print(f"\n==== Running testing for {experiment_name} on '{model_name}' ====")  
                 model = get_model_code_tokens_from_file(model_name, f'{project_dir}/data/max_tokens.json')
                 print(f"Max generation tokens for model {model['max_tokens']}")
                 best_params = read_dataset_to_json(best_params_path)
