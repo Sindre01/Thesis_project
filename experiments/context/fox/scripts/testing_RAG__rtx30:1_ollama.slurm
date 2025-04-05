@@ -6,14 +6,14 @@
 ###############################################################################
 
 # Job Configuration
-#SBATCH --job-name=testing_context_RAG__1        # Job name
+#SBATCH --job-name=testing_context_RAG__rtx30:1        # Job name
 #SBATCH --account=ec30                      # Project account
 #SBATCH --partition=accel                  # Partition ('accel' or 'accel_long')
 #SBATCH --nodes=1                           # Amount of nodes. Ollama one support single node inference
 #SBATCH --array=2  
 #SBATCH --ntasks=1
 #SBATCH --nodelist=                   # List of nodes that the job can run on
-#SBATCH --gpus=1                             # Number of GPUs
+#SBATCH --gpus=rtx30:1                             # Number of GPUs
 #SBATCH --time=0-24:00:00                             # Walltime (D-HH:MM:SS)
 #SBATCH --mem-per-gpu=20G              # Memory per CPU
 #SBATCH --output=Job_testing_%j.out                 # Standard output and error log
@@ -36,7 +36,7 @@ module load Python/3.11.5-GCCcore-13.2.0
 # module load CUDA/12.4.0
 
 source ~/.bashrc # may ovewrite previous modules
-OLLAMA_PORT_K_FOLD=$((11420 + $SLURM_ARRAY_TASK_ID))
+OLLAMA_PORT_K_FOLD=$((11410 + $SLURM_ARRAY_TASK_ID))
 
 export OLLAMA_MODELS=/cluster/work/projects/ec12/ec-sindrre/ollama-models    # Path to where the Ollama models are stored and loaded
 export OLLAMA_HOST=127.0.0.1:$OLLAMA_PORT_K_FOLD    # Host and port where Ollama listens

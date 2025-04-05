@@ -12,7 +12,7 @@
 #SBATCH --nodes=1                           # Amount of nodes. Ollama one support single node inference
 #SBATCH --array=2  
 #SBATCH --ntasks=1
-#SBATCH --nodelist=gpu-9,gpu-7,gpu-8,gpu-14                   # List of nodes that the job can run on
+#SBATCH --nodelist=gpu-14                   # List of nodes that the job can run on
 #SBATCH --gpus=2                             # Number of GPUs
 #SBATCH --time=0-24:00:00                             # Walltime (D-HH:MM:SS)
 #SBATCH --mem-per-gpu=80G              # Memory per CPU
@@ -36,7 +36,7 @@ module load Python/3.11.5-GCCcore-13.2.0
 # module load CUDA/12.4.0
 
 source ~/.bashrc # may ovewrite previous modules
-OLLAMA_PORT_K_FOLD=$((11444 + $SLURM_ARRAY_TASK_ID))
+OLLAMA_PORT_K_FOLD=$((11434 + $SLURM_ARRAY_TASK_ID))
 
 export OLLAMA_MODELS=/cluster/work/projects/ec12/ec-sindrre/ollama-models    # Path to where the Ollama models are stored and loaded
 export OLLAMA_HOST=127.0.0.1:$OLLAMA_PORT_K_FOLD    # Host and port where Ollama listens
@@ -133,14 +133,14 @@ python -u /fp/homes01/u01/ec-sindrre/tmp/Thesis_project_full-context_$SLURM_JOB_
         {
             "name": "regular_full-context",
             "prompt_prefix": "Create a function",
-            "num_shots": [5],
+            "num_shots": [5, 10],
             "prompt_type": "regular",
             "semantic_selector": true
         },
         {
             "name": "signature_full-context",
             "prompt_prefix": "Create a function",
-            "num_shots": [5],
+            "num_shots": [5, 10],
             "prompt_type": "signature",
             "semantic_selector": true
         }

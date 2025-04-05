@@ -15,7 +15,7 @@ if __name__ == "__main__":
         experiment_folder="few-shot",
         env="prod",
         eval_method="3_fold",
-        experiment_types=["similarity"],
+        experiment_types=["coverage"],
         prompt_types=["regular", "signature"],
         shots=[1, 5, 10], #Regular similairty 5-shot
         metrics=["syntax", "semantic", "tests"],

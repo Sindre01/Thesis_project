@@ -170,5 +170,89 @@
             "mean": 0.14,
             "std": 0.09
         }
+    },
+    {
+        "model_name": "llama3.2:3b-instruct-fp16",
+        "experiment": "signature_coverage_1_shot",
+        "metrics": [
+            "syntax",
+            "semantic",
+            "tests"
+        ],
+        "seed": [
+            3,
+            346,
+            75
+        ],
+        "temperature": 0.9,
+        "top_p": 0.6,
+        "top_k": 10,
+        "ks": [
+            1,
+            2,
+            3,
+            5,
+            10
+        ],
+        "syntax@1": {
+            "mean": 0.17,
+            "std": 0.07
+        },
+        "syntax@2": {
+            "mean": 0.3,
+            "std": 0.09
+        },
+        "syntax@3": {
+            "mean": 0.4,
+            "std": 0.1
+        },
+        "syntax@5": {
+            "mean": 0.55,
+            "std": 0.1
+        },
+        "syntax@10": {
+            "mean": 0.78,
+            "std": 0.07
+        },
+        "semantic@1": {
+            "mean": 0.07,
+            "std": 0.06
+        },
+        "semantic@2": {
+            "mean": 0.12,
+            "std": 0.08
+        },
+        "semantic@3": {
+            "mean": 0.17,
+            "std": 0.11
+        },
+        "semantic@5": {
+            "mean": 0.25,
+            "std": 0.14
+        },
+        "semantic@10": {
+            "mean": 0.41,
+            "std": 0.18
+        },
+        "tests@1": {
+            "mean": 0.03,
+            "std": 0.01
+        },
+        "tests@2": {
+            "mean": 0.06,
+            "std": 0.02
+        },
+        "tests@3": {
+            "mean": 0.09,
+            "std": 0.03
+        },
+        "tests@5": {
+            "mean": 0.13,
+            "std": 0.04
+        },
+        "tests@10": {
+            "mean": 0.22,
+            "std": 0.05
+        }
     }
 ]

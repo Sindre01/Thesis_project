@@ -12,14 +12,14 @@ from my_packages.evaluation.find_results import find_results
 if __name__ == "__main__":
     find_results( 
         experiment_folder="SynCode",
-        env="dev",
-        eval_method="3_fold",
-        experiment_types=["similarity(test)"],
-        prompt_types=["signature"],
+        env="prod",
+        eval_method="hold_out",
+        experiment_types=["similarity"],
+        prompt_types=["regular", "signature"],
         shots=[5, 10],
         metrics=["syntax", "semantic", "tests"],
         ks=[1, 2, 3, 5, 10],
         use_threads=True,
-        model="phi4:14b-fp16(eval+float16)",
-        phase=Phase.TESTING,
+        model="",
+        phase=Phase.VALIDATION,
     )
