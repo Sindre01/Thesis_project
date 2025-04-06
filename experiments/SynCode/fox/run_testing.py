@@ -176,14 +176,17 @@ def main(
             raise ValueError(f"Unknown experiment type: {experiment_type}")
        
         results_dir = os.path.join("/fp/homes01/u01/ec-sindrre/slurm_jobs", f"{experiment_folder}/testing/{experiment_type}/{prompt_type}/runs/")
-        best_params_folder = f"{project_dir}/experiments/{experiment_folder}/fox/best_params/similarity/{prompt_type}/hold_out"
+        best_params_folder = f"{project_dir}/experiments/{experiment_folder}/fox/best_params/{selector_type}/{prompt_type}/hold_out"
         # best_params_folder = f"{project_dir}/experiments/{experiment_folder}/fox/best_params/test"
 
 
         for shots in ex["num_shots"]:
             selector=init_example_selector(shots, train_data, semantic_selector=ex["semantic_selector"])
-            experiment_name = f"{ex['name']}_{shots}_shot"
+            
+            best_params_name = f"{prompt_type}_{selector_type}_{shots}_shot_{model_name}"
+            best_params_path = os.path.join(best_params_folder, best_params_name + ".json")
 
+            experiment_name = f"{ex['name']}_{shots}_shot"
             for model_name in models:
                 
                 if fold != -1: # 3-fold cross-validation
@@ -192,7 +195,6 @@ def main(
                     file_name = f"hold_out/{experiment_name}_{model_name}.json"
 
                 result_runs_path = os.path.join(results_dir, file_name)
-                best_params_path = os.path.join(best_params_folder, experiment_name + ".json")
 
                 print(f"\n==== Running testing for {experiment_name} on '{model_name}' ====")  
                 model = get_model_code_tokens_from_file(model_name, f'{project_dir}/data/max_tokens.json')
