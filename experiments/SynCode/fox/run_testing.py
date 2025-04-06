@@ -183,8 +183,6 @@ def main(
         for shots in ex["num_shots"]:
             selector=init_example_selector(shots, train_data, semantic_selector=ex["semantic_selector"])
             
-            best_params_name = f"{prompt_type}_{selector_type}_{shots}_shot_{model_name}"
-            best_params_path = os.path.join(best_params_folder, best_params_name + ".json")
 
             experiment_name = f"{ex['name']}_{shots}_shot"
             for model_name in models:
@@ -199,6 +197,9 @@ def main(
                 print(f"\n==== Running testing for {experiment_name} on '{model_name}' ====")  
                 model = get_model_code_tokens_from_file(model_name, f'{project_dir}/data/max_tokens.json')
                 print(f"Max generation tokens for model {model['max_tokens']}")
+                
+                best_params_name = f"{prompt_type}_{selector_type}_{shots}_shot_{model_name}"
+                best_params_path = os.path.join(best_params_folder, best_params_name + ".json")
                 best_params = read_dataset_to_json(best_params_path)
 
                 if not best_params:
