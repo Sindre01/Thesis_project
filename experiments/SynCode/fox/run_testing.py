@@ -91,10 +91,11 @@ def run_testing_experiment(
         top_p,
         top_k,
         n,
+        rag_data: RagData,
+        max_ctx: int,
         best_params_optimization = None,
         seeds = [3, 75, 346],
         ollama_port = "11434",
-        rag_data: RagData = None,
 ):
     total_count = len(seeds)
     count = 0
@@ -120,7 +121,7 @@ def run_testing_experiment(
             prompt_type = prompt_type,
             ollama_port=ollama_port,
             rag_data=rag_data,
-            max_ctx=16000,
+            max_ctx=max_ctx,
             constrained_output=True
 
         )
@@ -150,7 +151,7 @@ def main(
         test_data, 
         fold=-1, 
         k_folds=3,
-        rag_data: RagData = None,):
+    ):
     """Main function to run testing experiments."""
     for ex in experiments:
         selector_type= "similarity" if ex["semantic_selector"] else "coverage"
@@ -164,14 +165,18 @@ def main(
         experiment_type = ex["name"].split("_")[1] # e.g: "vanilla" or "?"
         if experiment_type == "similarity":
             max_ctx = 16000
+            #No RAG
         elif experiment_type == "RAG":
             max_ctx = 16000
+            rag_data = init_rag_data() # None if not using RAG
+        elif experiment_type == "full-context":
+            max_ctx = 60000 # 60k tokens, because all documentation and few-shot are less than this
+            rag_data = init_rag_data() # None if not using RAG
         else:
             raise ValueError(f"Unknown experiment type: {experiment_type}")
        
         results_dir = os.path.join("/fp/homes01/u01/ec-sindrre/slurm_jobs", f"{experiment_folder}/testing/{experiment_type}/{prompt_type}/runs/")
-        
-        best_params_folder = f"{project_dir}/experiments/{experiment_folder}/fox/best_params/{experiment_type}/{prompt_type}/hold_out"
+        best_params_folder = f"{project_dir}/experiments/{experiment_folder}/fox/best_params/similarity/{prompt_type}/hold_out"
         # best_params_folder = f"{project_dir}/experiments/{experiment_folder}/fox/best_params/test"
 
 
@@ -234,7 +239,8 @@ def main(
                         n_generations_per_task,
                         best_params_optimization = best_params_model["optimizer_metric"],
                         ollama_port = ollama_port,
-                        rag_data = rag_data
+                        rag_data = rag_data,
+                        max_ctx = max_ctx,
                     )
 
                 print(f"Testing finished for {experiment_name} on model: {model_name}")
@@ -261,7 +267,8 @@ if __name__ == "__main__":
     env_path = os.path.abspath(f"{project_dir}/../../.env")
     print("Env is located in:", env_path)
     load_dotenv(env_path)
-    rag_data = None #init_rag_data() # None if not using RAG
+
+
     # Parse arguments:
     parser = argparse.ArgumentParser(description="Process input.")
 
@@ -325,7 +332,7 @@ if __name__ == "__main__":
     print("\n==== Running testing ====")
     start_time = time.time()
 
-    main(train_data, test_data, fold, rag_data=rag_data)
+    main(train_data, test_data, fold)
     
 
 

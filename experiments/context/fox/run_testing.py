@@ -147,7 +147,8 @@ def main(
         best_params_root: str, 
         rag_data: RagData = None,
         fold=-1, 
-        k_folds=3):
+        k_folds=3
+    ):
     """Main function to run few-shot testing experiments."""
     for ex in experiments:
         selector_type= "similarity" if ex["semantic_selector"] else "coverage"

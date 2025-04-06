@@ -13,13 +13,13 @@ if __name__ == "__main__":
     find_results( 
         experiment_folder="SynCode",
         env="prod",
-        eval_method="3_fold",
+        eval_method="hold_out",
         experiment_types=["similarity"],
         prompt_types=["regular", "signature"],
         shots=[5, 10],
         metrics=["syntax", "semantic", "tests"],
         ks=[1, 2, 3, 5, 10],
         use_threads=True,
-        model="",
-        phase=Phase.TESTING,
+        model="phi4:14b-fp16",
+        phase=Phase.VALIDATION,
     )
