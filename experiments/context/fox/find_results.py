@@ -16,7 +16,7 @@ if __name__ == "__main__":
         experiment_folder="context",
         env="prod",
         eval_method="3_fold",
-        experiment_types=["full-context"],
+        experiment_types=["RAG"],
         prompt_types=["regular", "signature"],
         shots=[10],
         metrics=["syntax", "semantic", "tests"],
