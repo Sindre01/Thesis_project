@@ -51,6 +51,9 @@ experiments='[
             "semantic_selector": true
         }
 ]'
+# models='[
+#     "llama3.2:3b-instruct-fp16"
+# ]'
 # experiments='[
 #         {
 #             "name": "regular_RAG",

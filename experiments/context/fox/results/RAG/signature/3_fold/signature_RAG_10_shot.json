@@ -82,5 +82,89 @@
             "mean": 0.88,
             "std": 0.07
         }
+    },
+    {
+        "model_name": "llama3.2:3b-instruct-fp16",
+        "experiment": "signature_RAG_10_shot",
+        "metrics": [
+            "syntax",
+            "semantic",
+            "tests"
+        ],
+        "seed": [
+            3,
+            346,
+            75
+        ],
+        "temperature": 0.6,
+        "top_p": 0.6,
+        "top_k": 10,
+        "ks": [
+            1,
+            2,
+            3,
+            5,
+            10
+        ],
+        "syntax@1": {
+            "mean": 0.75,
+            "std": 0.04
+        },
+        "syntax@2": {
+            "mean": 0.89,
+            "std": 0.04
+        },
+        "syntax@3": {
+            "mean": 0.93,
+            "std": 0.05
+        },
+        "syntax@5": {
+            "mean": 0.96,
+            "std": 0.04
+        },
+        "syntax@10": {
+            "mean": 0.98,
+            "std": 0.02
+        },
+        "semantic@1": {
+            "mean": 0.5,
+            "std": 0.15
+        },
+        "semantic@2": {
+            "mean": 0.66,
+            "std": 0.16
+        },
+        "semantic@3": {
+            "mean": 0.74,
+            "std": 0.15
+        },
+        "semantic@5": {
+            "mean": 0.81,
+            "std": 0.14
+        },
+        "semantic@10": {
+            "mean": 0.87,
+            "std": 0.11
+        },
+        "tests@1": {
+            "mean": 0.26,
+            "std": 0.08
+        },
+        "tests@2": {
+            "mean": 0.39,
+            "std": 0.11
+        },
+        "tests@3": {
+            "mean": 0.48,
+            "std": 0.12
+        },
+        "tests@5": {
+            "mean": 0.58,
+            "std": 0.14
+        },
+        "tests@10": {
+            "mean": 0.69,
+            "std": 0.14
+        }
     }
 ]

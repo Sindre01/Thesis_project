@@ -7,7 +7,7 @@
 # Configuration
 EXPERIMENT="assisted-RAG"                    # Experiment e.g.: 'few-shot'
 PHASE="testing"                       # Phase ('testing' or 'validation')
-CONTEXT_TYPE="MANY"                 #'ONE'
+CONTEXT_TYPE="ONE"                 #'ONE'
 PROMPT_TYPE=""                 # 'regular' or 'cot' or 'signature'   
 # SEMANTIC_SELECTOR=true                   # Use semantic selector
 K_FOLD_JOBS=0-2                              # Runs jobs for folds 0 to 2 (3-fold CV)
@@ -16,7 +16,7 @@ HOST="fox.educloud.no"                   # Fox login address (matches SSH config
 SSH_CONFIG_NAME="fox"                    # Name of the SSH config entry
 ACCOUNT="ec30"                           # Fox project account
 PARTITION="ifi_accel"                        # 'accel' or 'accel_long' (or 'ifi_accel' if access to ec11,ec29,ec30,ec34,ec35 or ec232)
-GPUS=rtx30:2                   # a100 have 40GB or 80GB VRAM, while rtx30 have 24GB VRAM.
+GPUS=rtx30:1                   # a100 have 40GB or 80GB VRAM, while rtx30 have 24GB VRAM.
 NODES=1                          # Number of nodes. OLLAMA does currently only support single node inference
 NODE_LIST=      # List of nodes that the job can run on gpu-9,gpu-7,gpu-8, gpu-14 (h100)
 TIME="4-00:00:00"                  # Slurm walltime (D-HH:MM:SS)
@@ -38,16 +38,16 @@ model_provider='ollama'
 
 experiments='[
         {
-            "name": "regular_MANY",
+            "name": "regular_ONE",
             "prompt_prefix": "Create a function",
-            "num_shots": [5],
+            "num_shots": [5, 10],
             "prompt_type": "regular",
             "semantic_selector": true
         },
          {
-             "name": "signature_MANY",
+             "name": "signature_ONE",
              "prompt_prefix": "Create a function",
-             "num_shots": [5],
+             "num_shots": [5, 10],
              "prompt_type": "signature",
             "semantic_selector": true
          }
@@ -61,12 +61,12 @@ experiments='[
 #             "semantic_selector": true
 #         }
 # ]'
-# models='[
-#     "llama3.3:70b-instruct-fp16"
-# ]'
 models='[
-    "phi4:14b-fp16"
+    "llama3.2:3b-instruct-fp16"
 ]'
+# models='[
+#     "phi4:14b-fp16"
+# ]'
 # models='[
 #     "llama3.3:70b-instruct-fp16"
 # ]'

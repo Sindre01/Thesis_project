@@ -60,18 +60,18 @@ experiments='[
 #             "semantic_selector": true
 #         }
 # ]'
-models='[
-    "llama3.3:70b-instruct-fp16"
-]'
+# models='[
+#     "llama3.3:70b-instruct-fp16"
+# ]'
 # models='[
 #     "qwq:32b-fp16"
 # ]'
 # models='[
 #     "phi4:14b-fp16"
 # ]'
-# models='[
-#     "llama3.2:3b-instruct-fp16"
-# ]'
+models='[
+    "llama3.2:3b-instruct-fp16"
+]'
 
 # normal* c1-[5-28]
 # accel gpu-[1-2,4-5,7-9,11-13]

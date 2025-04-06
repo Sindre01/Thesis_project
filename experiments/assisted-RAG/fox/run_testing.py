@@ -93,6 +93,7 @@ def run_testing_experiment(
         best_params_optimization = None,
         seeds = [3, 75, 346],
         ollama_port = "11434",
+        experiment_type = "ONE"
 ):
     total_count = len(seeds)
     count = 0
@@ -120,6 +121,7 @@ def run_testing_experiment(
             ollama_port=ollama_port,
             rag_data=rag_data,
             max_ctx=max_ctx,
+            node_context_type=experiment_type
         )
         result_obj = {
             "experiment_name": experiment_name,
@@ -233,6 +235,7 @@ def main(
                         max_ctx = max_ctx,
                         best_params_optimization = best_params_model["optimizer_metric"],
                         ollama_port = ollama_port,
+                        experiment_type=experiment_type
                     )
 
                 print(f"Testing finished for {experiment_name} on model: {model_name}")

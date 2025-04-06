@@ -1,0 +1,7 @@
+Utilize the following documentation to solve the given task:
+
+Below is documentation about the Midio language:
+{language_context}
+
+Utilize the following function external functions (nodes) to solve the given task:
+{node_context}

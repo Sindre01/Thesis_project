@@ -183,7 +183,8 @@ def add_RAG_to_prompt(
     final_prompt_template: ChatPromptTemplate,
     prompt_variables_dict: dict,
     candidate_nodes: list,
-    all_nodes: list[dict]
+    all_nodes: list[dict],
+    node_context_type: str = "MANY", # How many nodes to fetch from docuemntation based on LLM assisted repsonse
 )-> tuple[str, ChatPromptTemplate, dict, int]:
     
     """Add RAG context to the prompt."""
@@ -191,7 +192,10 @@ def add_RAG_to_prompt(
     TOTAL_DOCS_TOKENS = 40000
     TOTAL_LANG_DOCS_TOKENS = 2650
     TOTAL_NODE_DOCS_TOKENS = 35000
-    rag_template = HumanMessagePromptTemplate.from_template(get_prompt_template("RAG"))
+    if node_context_type == "ONE":
+        rag_template = HumanMessagePromptTemplate.from_template(get_prompt_template("ASSISTED_RAG"))
+    else:
+        rag_template = HumanMessagePromptTemplate.from_template(get_prompt_template("RAG"))
     used_lang_tokens = TOTAL_LANG_DOCS_TOKENS
     formatted_language_context = rag_data.formatted_language_context
 
@@ -219,7 +223,10 @@ def add_RAG_to_prompt(
         avg_doc_tokens = 150
 
         if candidate_nodes:
-            MAX_DOCS_PER_NODE = 20
+            if node_context_type == "ONE":
+                MAX_DOCS_PER_NODE = 1
+            elif node_context_type == "MANY":
+                MAX_DOCS_PER_NODE = 20
             # Use predicted/fetched nodes for extracted relevant docuemtnation
             print("Using predicted nodes to extract relevant docuemntation.")
             num_nodes = len(candidate_nodes)

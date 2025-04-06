@@ -116,6 +116,7 @@ def two_step_run(
     ollama_port="11434",
     rag_data: RagData = None,
     max_ctx=16000,
+    node_context_type: str = "ONE"
 ) -> tuple[dict[int, list[str]], int]:
     """
     Run a model on a list of tasks in two stages:
@@ -193,7 +194,8 @@ def two_step_run(
             rag_data=rag_data,
             debug=debug,
             candidate_nodes=node_candidates,
-            ollama_port=ollama_port
+            ollama_port=ollama_port,
+            node_context_type=node_context_type
         )
 
         # Track largest context usage
@@ -225,7 +227,8 @@ def run_prompt_step(
     rag_data: RagData = None,
     debug: bool = False,
     candidate_nodes: list = [],
-    ollama_port: str = "11434"
+    ollama_port: str = "11434",
+    node_context_type: str = "MANY"
 ) -> tuple[list[str], int]:
     """
     1. Build prompt
@@ -274,6 +277,7 @@ def run_prompt_step(
             prompt_variables_dict = prompt_variables_dict,
             candidate_nodes = candidate_nodes,
             all_nodes = all_nodes,
+            node_context_type=node_context_type
         )
         prompt_size = prompt_size + used_tokens
 
