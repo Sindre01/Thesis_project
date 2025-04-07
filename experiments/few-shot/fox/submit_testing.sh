@@ -8,7 +8,7 @@
 EXPERIMENT="few-shot"                    # Experiment ('few-shot')
 PHASE="testing"                       # Phase ('testing' or 'validation')
 EXAMPLES_TYPE="similarity"                 #'coverage' or 'similarity'
-PROMPT_TYPE="signature"                 # 'regular' or 'cot' or 'signature'   
+PROMPT_TYPE="regular"                 # 'regular' or 'cot' or 'signature'   
 # SEMANTIC_SELECTOR=true                   # Use semantic selector
 K_FOLD_JOBS=0-2                              # Runs jobs for folds 0 to 2 (3-fold CV)
 USER="ec-sindrre"                        # Your Educloud username
@@ -18,11 +18,11 @@ ACCOUNT="ec12"                           # Fox project account
 PARTITION="accel"                        # 'accel' or 'accel_long' (or 'ifi_accel' if access to ec11,ec29,ec30,ec34,ec35 or ec232)
 GPUS=2                   # a100 have 40GB or 80GB VRAM, while rtx30 have 24GB VRAM.
 NODES=1                          # Number of nodes. OLLAMA does currently only support single node inference
-NODE_LIST=gpu-14,gpu-7,gpu-8,gpu-9       # List of nodes that the job can run on gpu-14,gpu-7,gpu-8,gpu-9
-TIME="0-24:00:00"                  # Slurm walltime (D-HH:MM:SS)
+NODE_LIST=gpu-14,gpu-7,gpu-8,gpu-9  # List of nodes that the job can run on gpu-14,gpu-7,gpu-8,gpu-9
+TIME="1-00:00:00"                  # Slurm walltime (D-HH:MM:SS)
 MEM_PER_GPU="80G"                       # Memory per GPU. 
 OLLAMA_MODELS_DIR="/cluster/work/projects/ec12/ec-sindrre/ollama-models"  # Path to where the Ollama models are stored and loaded                      
-OLLAMA_PORT="11510"                       # Remote port where Ollama listens. If different parallell runs, change ollama_port to avoid conflicts if same node is allocated.
+OLLAMA_PORT="11210"                       # Remote port where Ollama listens. If different parallell runs, change ollama_port to avoid conflicts if same node is allocated.
 SBATCH_SCRIPT="${PHASE}_${EXAMPLES_TYPE}_${PROMPT_TYPE}_${GPUS}_ollama.slurm"           # Slurm batch script name
 # Directory on Fox to store scripts and output
 if [ -n "$PROMPT_TYPE" ]; then
@@ -37,12 +37,12 @@ CLONE_DIR="/fp/homes01/u01/ec-sindrre/tmp/Thesis_project_${EXAMPLES_TYPE}_\$SLUR
 model_provider='ollama'
 experiments='[
         {
-            "name": "signature_similarity",
+            "name": "regular_similarity",
             "prompt_prefix": "Create a function",
             "num_shots": [1, 5, 10],
-            "prompt_type": "signature",
+            "prompt_type": "regular",
             "semantic_selector": true
-        }
+        },
 ]'
 # experiments='[
 #         {
@@ -60,18 +60,18 @@ experiments='[
 #             "semantic_selector": true
 #         }
 # ]'
-# models='[
-#     "llama3.3:70b-instruct-fp16"
-# ]'
+models='[
+    "llama3.3:70b-instruct-fp16"
+]'
 # models='[
 #     "qwq:32b-fp16"
 # ]'
 # models='[
 #     "phi4:14b-fp16"
 # ]'
-models='[
-    "llama3.2:3b-instruct-fp16"
-]'
+# models='[
+#     "llama3.2:3b-instruct-fp16"
+# ]'
 
 # normal* c1-[5-28]
 # accel gpu-[1-2,4-5,7-9,11-13]

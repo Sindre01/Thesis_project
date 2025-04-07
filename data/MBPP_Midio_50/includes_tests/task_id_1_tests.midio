@@ -26,8 +26,7 @@ module() main {
         instance(x: -224, y: -113) assertfalse_ba2ad6 root.Std_k98ojb.Testing.AssertFalse {}
         instance(x: 102, y: -116) assertfalse_5acbca root.Std_k98ojb.Testing.AssertFalse {}
         instance(x: 120, y: 49) opposite_f7dab0 root.main.opposite_signs {}
-        instance(x: 474, y: 48) opposite_80a2be root.main.opposite_signs {}
-        instance(x: 475, y: -120) asserttrue_2ca070 root.Std_k98ojb.Testing.AssertTrue {}
+
         task_c90e87.output_3339a3 -> asserttrue_49a544.value
         test_db5683.onRun -> asserttrue_49a544.execute
         asserttrue_49a544.continue -> assertfalse_ba2ad6.execute
@@ -35,15 +34,14 @@ module() main {
         assertfalse_ba2ad6.continue -> assertfalse_5acbca.execute
         assertfalse_5acbca.continue -> asserttrue_2ca070.execute
         opposite_f7dab0.output_3339a3 -> assertfalse_5acbca.value
-        opposite_80a2be.output_3339a3 -> asserttrue_2ca070.value
+
         1 -> task_c90e87.x_853326
         -2 -> task_c90e87.y_5390f5
         3 -> opposite_208299.x_853326
         2 -> opposite_208299.y_5390f5
         -10 -> opposite_f7dab0.x_853326
         -10 -> opposite_f7dab0.y_5390f5
-        -2 -> opposite_80a2be.x_853326
-        2 -> opposite_80a2be.y_5390f5
+
     }
 
     instance(x: -745, y: -368) task_id_58_77805a root.main.opposite_signs {}

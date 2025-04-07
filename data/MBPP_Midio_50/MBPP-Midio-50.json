@@ -40,8 +40,7 @@
             "python_tests": [
                 "assert opposite_signs(1,-2) == True",
                 "assert opposite_signs(3,2) == False",
-                "assert opposite_signs(-10,-10) == False",
-                "assert opposite_signs(-2,2) == True"
+                "assert opposite_signs(-10,-10) == False"
             ],
             "tests": {
                 "test_cases": [

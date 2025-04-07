@@ -6,6 +6,23 @@ import tempfile
 import re
 import psutil
 
+syntax_error_indicators = [
+    "parsing failed",
+    "error during parsing",
+    "tokenizing",
+    "compilererror"
+]
+
+# semantic_error_indicators = [
+#     "semantic analysis failed",
+#     "semantic_analysis",
+#     "semanticanalysiserror",
+#     "failed to reify declaration path",
+#     "symbol already exists",
+#     "context_checker"
+# ]
+
+
 # Function to load code from a file
 def load_code_from_file(file_path: str) -> str:
     with open(file_path, "r") as f:
@@ -107,7 +124,7 @@ def compile_code(code: str, type: str = "build", flag: str = "") -> subprocess.C
         warnings = []
         if code.startswith("func"):  # Remove leading whitespace and check for "func"
             # print("starts with func keyword!")
-            code = "import(\"std\", Std_k98ojb)\n import(\"http\", Http_q7o96c)\nmodule() main { " + code + " }"
+            code = "import(\"std\", Std_k98ojb)\n import(\"http\", Http_q7o96c)\nmodule() main { \n" + code + "\n}"
             warnings.append("CUSTOM WARNING: Orignal code starts with 'func' keyword, but added imports and modules manually\n")
         
         if code.startswith("module"):  # Remove leading whitespace and check for "module"
@@ -183,22 +200,13 @@ def get_output(result: subprocess.CompletedProcess[str]) -> str:
 
 def get_json_test_result(result: subprocess.CompletedProcess[str]) -> dict:
     output = clean_output(result.stdout)
-    
-    # Find the first occurrence of '{' (start of JSON)
-    json_start = output.find('{')
-    
-    if json_start == -1:
-        # print("Error: No JSON found in stdout")
-        return {}
-
-    json_text = output[json_start:]  # Extract only the JSON part
-
     try:
-        json_result = json.loads(json_text)
-        return json_result
+        match = re.search(r'{.*}', output, re.DOTALL)
+        if not match:
+            return {}
+        json_text = match.group(0)
+        return json.loads(json_text)
     except json.JSONDecodeError as e:
-        # print("Failed to parse JSON:", e)
-        # print("Extracted JSON part:", json_text)
         return {}
     
 def clean_output(text: str) -> str:
@@ -231,7 +239,12 @@ def is_all_tests_passed(json_result: dict) -> bool:
     return num_passed == num_tests
 
 def is_code_syntax_valid(result: subprocess.CompletedProcess[str]) -> bool:
-    return result.returncode == 0
+    stderr_lower = result.stderr.lower()
+    stdout_lower = result.stdout.lower()
+    
+    # Syntax-related errors typically include parsing/tokenizing issues
+    
+    return not any(indicator in stderr_lower or indicator in stdout_lower for indicator in syntax_error_indicators)
 
 def is_code_semantically_valid(result: subprocess.CompletedProcess[str]) -> bool:
     """
@@ -242,152 +255,34 @@ def is_code_semantically_valid(result: subprocess.CompletedProcess[str]) -> bool
     - Logs unexpected cases for debugging.
     """
     if not is_code_syntax_valid(result):  
-        # The code must be compilable for semantic validation
-        if "error" not in result.stdout.lower() and "error" not in result.stderr.lower():
-            logging.error(f"Code does not compile, but no 'error' found in output:\nSTDOUT: {result.stdout}\nSTDERR: {result.stderr}")
+        # The code must be syntactically valid for semantic validation
         return False
-
+    
+    #Must compile
+    if result.returncode == 0:
+        return False
+    
     # If it compiles, check for semantic errors
     if "error" in result.stdout.lower() or "error" in result.stderr.lower():
         return False  # Semantic error detected
 
     return True  # No errors found
 
+def is_code_semantically_valid(result: subprocess.CompletedProcess[str]) -> bool:
+    if not is_code_syntax_valid(result):  
+        # The code must be syntactically valid for semantic validation
+        return False
+    stderr_lower = result.stderr.lower()
+    stdout_lower = result.stdout.lower()
+    
+    # If semantic indicators are found, it's semantically invalid
+
+
+    return not any(indicator in stderr_lower or indicator in stdout_lower for indicator in semantic_error_indicators)
+
+
 def print_compiled_output(result: subprocess.CompletedProcess[str]):
         print(f"\n\n\n\n New Output from Midio compilation of code:")
         print(f"STDOUT (semantic errors): {result.stdout}")
         print(f"STDERR (syntactical errors): {result.stderr}")
 
-def analyze_compiler_output(stdout: str, stderr: str) -> dict:
-    """
-    A simplified approach:
-    1) If stderr is non-empty, we consider the code to have syntax errors.
-    2) If stderr is empty, but stdout has 'ERROR' lines, we consider them semantic errors.
-    """
-    # Trim whitespace for a clear check
-    stderr_stripped = stderr.strip()
-    stdout_lines = stdout.splitlines()
-
-    syntax_errors = []
-    semantic_errors = []
-
-    # 1) If there's ANY content in stderr, treat it as syntax error
-    if stderr_stripped:
-        syntax_errors.append(stderr_stripped)
-    else:
-        # 2) If stderr is empty, look for 'ERROR' lines in stdout for semantic issues
-        for line in stdout_lines:
-            if "ERROR" in line:
-                semantic_errors.append(line.strip())
-
-    return {
-        "syntax_errors": syntax_errors,
-        "semantic_errors": semantic_errors
-    }
-
-
-if __name__ == "__main__":
-    # Sample data
-    example_stdout = r"""Installing dependencies for midio_example@0.1.0
-
-No external dependencies
-
-Building package...
-ERROR compiler::frontend::semantic_analysis::analyzers::instance_analyzer: 83: Failed to resolve path: Failed to resolve symbol: Logic.LessThan
-ERROR compiler::frontend::semantic_analysis::analyzers::instance_analyzer: 83: Failed to resolve path: Failed to resolve symbol: Logic.GreaterThan
-ERROR compiler::frontend::semantic_analysis::analyzers::instance_analyzer: 83: Failed to resolve path: Failed to resolve symbol: Logic.LessThan
-ERROR compiler::frontend::compiler_pass: 1341: Model has errors:
-ERROR compiler::frontend::compiler_pass: 1343: SemanticAnalysisError(@78): Unable to resolve type (root.Std_k98ojb.Logic.LessThan) for instance (less_than_4c7d3b), perhaps it has been removed., backtrace:    0: <unknown>
-   1: <unknown>
-   2: <unknown>
-   3: <unknown>
-   4: <unknown>
-   5: <unknown>
-   6: <unknown>
-   7: <unknown>
-   8: <unknown>
-   9: <unknown>
-  10: <unknown>
-  11: <unknown>
-  12: <unknown>
-  13: <unknown>
-  14: <unknown>
-  15: <unknown>
-  16: <unknown>
-  17: <unknown>
-  18: <unknown>
-  19: <unknown>
-  20: <unknown>
-  21: <unknown>
-  22: __libc_start_main
-  23: <unknown>
-
-ERROR compiler::frontend::compiler_pass: 1343: SemanticAnalysisError(@94): Unable to resolve type (root.Std_k98ojb.Logic.GreaterThan) for instance (greater_than_2f0e6a), perhaps it has been removed., backtrace:    0: <unknown>
-   1: <unknown>
-   2: <unknown>
-   3: <unknown>
-   4: <unknown>
-   5: <unknown>
-   6: <unknown>
-   7: <unknown>
-   8: <unknown>
-   9: <unknown>
-  10: <unknown>
-  11: <unknown>
-  12: <unknown>
-  13: <unknown>
-  14: <unknown>
-  15: <unknown>
-  16: <unknown>
-  17: <unknown>
-  18: <unknown>
-  19: <unknown>
-  20: <unknown>
-  21: <unknown>
-  22: __libc_start_main
-  23: <unknown>
-
-ERROR compiler::frontend::compiler_pass: 1343: SemanticAnalysisError(@163): Unable to resolve type (root.Std_k98ojb.Logic.LessThan) for instance (less_than_4c7d3b), perhaps it has been removed., backtrace:    0: <unknown>
-   1: <unknown>
-   2: <unknown>
-   3: <unknown>
-   4: <unknown>
-   5: <unknown>
-   6: <unknown>
-   7: <unknown>
-   8: <unknown>
-   9: <unknown>
-  10: <unknown>
-  11: <unknown>
-  12: <unknown>
-  13: <unknown>
-  14: <unknown>
-  15: <unknown>
-  16: <unknown>
-  17: <unknown>
-  18: <unknown>
-  19: <unknown>
-  20: <unknown>
-  21: <unknown>
-  22: <unknown>
-  23: <unknown>
-  24: <unknown>
-  25: __libc_start_main
-  26: <unknown>
-
-ERROR compiler::frontend::compiler_pass: 1360: Model has errors, skipping code generation
-Package built successfully!
-
-"""
-    example_stderr = r"""
-
-"""
-
-    result = analyze_compiler_output(example_stdout, example_stderr)
-    print("Syntax Errors:")
-    for err in result["syntax_errors"]:
-        print("  -", err)
-
-    print("\nSemantic Errors:")
-    for err in result["semantic_errors"]:
-        print("  -", err)

@@ -53,7 +53,7 @@ class CodeEvaluationResult:
             self.error_msg = extract_errors(compiled_tests.stdout)
         
         self.compiler_msg = compiled_tests
-        self.test_result = get_json_test_result(compiled_tests)
+        self.test_result = json_result
 
     def __str__(self):
         """
