@@ -16,13 +16,13 @@ if __name__ == "__main__":
         experiment_folder="assisted-RAG",
         env="prod",
         eval_method="3_fold",
-        experiment_types=["ONE"],
+        experiment_types=["ONE", "MANY"],
         prompt_types=["regular", "signature"],
         shots=[5, 10],
         metrics=["syntax", "semantic", "tests"],
         ks=[1, 2, 3, 5, 10],
         use_threads=True,
-        model="llama3.2:3b-instruct-fp16",
+        model="",
         phase=Phase.TESTING,
     )
 

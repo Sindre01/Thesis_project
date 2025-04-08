@@ -23,19 +23,19 @@
             10
         ],
         "syntax@1": {
-            "mean": 0.7,
+            "mean": 0.74,
             "std": 0.02
         },
         "syntax@2": {
-            "mean": 0.89,
+            "mean": 0.91,
             "std": 0.02
         },
         "syntax@3": {
-            "mean": 0.96,
+            "mean": 0.97,
             "std": 0.01
         },
         "syntax@5": {
-            "mean": 0.99,
+            "mean": 1.0,
             "std": 0.0
         },
         "syntax@10": {
@@ -43,19 +43,19 @@
             "std": 0.0
         },
         "semantic@1": {
-            "mean": 0.57,
+            "mean": 0.59,
             "std": 0.04
         },
         "semantic@2": {
-            "mean": 0.77,
+            "mean": 0.79,
             "std": 0.04
         },
         "semantic@3": {
-            "mean": 0.86,
-            "std": 0.03
+            "mean": 0.88,
+            "std": 0.02
         },
         "semantic@5": {
-            "mean": 0.94,
+            "mean": 0.95,
             "std": 0.02
         },
         "semantic@10": {

@@ -23,16 +23,16 @@
             10
         ],
         "syntax@1": {
-            "mean": 0.79,
-            "std": 0.02
+            "mean": 0.83,
+            "std": 0.04
         },
         "syntax@2": {
-            "mean": 0.89,
-            "std": 0.03
+            "mean": 0.92,
+            "std": 0.04
         },
         "syntax@3": {
-            "mean": 0.94,
-            "std": 0.03
+            "mean": 0.95,
+            "std": 0.04
         },
         "syntax@5": {
             "mean": 0.98,
