@@ -56,7 +56,8 @@ VALUE_STRING: "\"" /([^"\\]|\\.)*/ "\""
 
 // IDENTIFIERS and LITERALS 
 // IDENTIFIER: /[a-zA-Z_][a-zA-Z0-9_]*/
-IDENTIFIER: /(?!import\b|module\b|func\b|extern\b|event\b|type\b|instance\b|data_instance\b|waypoint\b|comment\b|in\b|out\b|property\b|trigger\b|parameter\b|produces\b|consumes\b|borrows\b|setter\b|getter\b|or\b)[a-zA-Z_][a-zA-Z0-9_]*/
+IDENTIFIER: /(?!(?:import|module|func|extern|event|type|instance|data_instance|waypoint|comment|in|out|property|trigger|parameter|produces|consumes|borrows|setter|getter|or)$)[a-zA-Z_][a-zA-Z0-9_]*/
+
 
 VERBATIM_IDENT: "``" /[^`]*/ "``"
 ?name: VERBATIM_IDENT | IDENTIFIER
