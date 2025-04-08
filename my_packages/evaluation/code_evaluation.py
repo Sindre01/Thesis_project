@@ -357,6 +357,7 @@ def run_model(
         else:
             raise ValueError(f"Constrained output is not availbale for model: {model}.")
         print(f"Loading Syncode model with miodel kwargs: {model_kwargs}")
+        print(f"using grammar file: {project_root}/data/midio_grammar.lark")
         constrained_llm = Syncode(
             model=hf_model, 
             grammar=f"{project_root}/data/midio_grammar.lark", 
