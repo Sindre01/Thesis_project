@@ -14,7 +14,7 @@ import("http", Http_q7o96c)
 
 module() main { 
     func(doc: "Finds the smallest missing number from a sorted list of natural numbers.") find_First_Missing {
-        in(x: -113, y: 62, name: "list") property(List) list_24e9a6
+        in(x: -113, y: 62, name: "list") property(List) trigger_
         in(x: 483, y: -328, name: "execute") trigger() execute_fa8807
 
         out(x: 1453, y: 319, name: "output") property(Number) output_25655e
