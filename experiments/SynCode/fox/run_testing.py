@@ -166,6 +166,7 @@ def main(
         if experiment_type == "similarity":
             max_ctx = 16000
             #No RAG
+            rag_data = None
         elif experiment_type == "RAG":
             max_ctx = 16000
             rag_data = init_rag_data() # None if not using RAG

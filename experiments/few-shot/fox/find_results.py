@@ -17,11 +17,11 @@ if __name__ == "__main__":
         eval_method="3_fold",
         experiment_types=["similarity"],
         prompt_types=["signature"],
-        shots=[1], #Regular similairty 5-shot
+        shots=[1, 5, 10],
         metrics=["syntax", "semantic", "tests"],
         ks=[1, 2, 3, 5, 10],
         use_threads=True,
-        model="",
+        model="phi4:14b-fp16",
         phase=Phase.TESTING,
     )
 
