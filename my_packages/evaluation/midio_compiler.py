@@ -6,12 +6,7 @@ import tempfile
 import re
 import psutil
 
-syntax_error_indicators = [
-    "parsing failed",
-    "error during parsing",
-    "tokenizing",
-    "compilererror"
-]
+
 
 # semantic_error_indicators = [
 #     "semantic analysis failed",
@@ -243,6 +238,12 @@ def is_code_syntax_valid(result: subprocess.CompletedProcess[str]) -> bool:
     stdout_lower = result.stdout.lower()
     
     # Syntax-related errors typically include parsing/tokenizing issues
+    syntax_error_indicators = [
+        "parsing failed",
+        "error during parsing",
+        "tokenizing",
+        "compilererror"
+    ]
     
     return not any(indicator in stderr_lower or indicator in stdout_lower for indicator in syntax_error_indicators)
 
@@ -258,8 +259,8 @@ def is_code_semantically_valid(result: subprocess.CompletedProcess[str]) -> bool
         # The code must be syntactically valid for semantic validation
         return False
     
-    #Must compile
-    if result.returncode == 0:
+    #M ust compile
+    if result.returncode == 1:
         return False
     
     # If it compiles, check for semantic errors
@@ -267,19 +268,6 @@ def is_code_semantically_valid(result: subprocess.CompletedProcess[str]) -> bool
         return False  # Semantic error detected
 
     return True  # No errors found
-
-def is_code_semantically_valid(result: subprocess.CompletedProcess[str]) -> bool:
-    if not is_code_syntax_valid(result):  
-        # The code must be syntactically valid for semantic validation
-        return False
-    stderr_lower = result.stderr.lower()
-    stdout_lower = result.stdout.lower()
-    
-    # If semantic indicators are found, it's semantically invalid
-
-
-    return not any(indicator in stderr_lower or indicator in stdout_lower for indicator in semantic_error_indicators)
-
 
 def print_compiled_output(result: subprocess.CompletedProcess[str]):
         print(f"\n\n\n\n New Output from Midio compilation of code:")

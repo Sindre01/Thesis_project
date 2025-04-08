@@ -1,0 +1,102 @@
+Installing dependencies for midio_example@0.1.0
+
+No external dependencies
+
+Building package...
+[31mERROR[0m [2mcompiler::frontend::semantic_analysis::analyzers::module_analyzer[0m[2m:[0m [2m212:[0m Error analyzing arrow: Failed to resolve symbol: continue_a96db6
+[31mERROR[0m [2mcompiler::frontend::semantic_analysis::analyzers::module_analyzer[0m[2m:[0m [2m213:[0m    backtrace: disabled backtrace
+[31mERROR[0m [2mcompiler::frontend::semantic_analysis::analyzers::module_analyzer[0m[2m:[0m [2m214:[0m    arrow errors are currently ignore since arrow targets might change based on user actions, in which case we just want to get rid of those arrows, until we find a more robust scheme
+[31mERROR[0m [2mcompiler::frontend::semantic_analysis::analyzers::module_analyzer[0m[2m:[0m [2m212:[0m Error analyzing arrow: Failed to resolve symbol: output_5bbcd7
+[31mERROR[0m [2mcompiler::frontend::semantic_analysis::analyzers::module_analyzer[0m[2m:[0m [2m213:[0m    backtrace: disabled backtrace
+[31mERROR[0m [2mcompiler::frontend::semantic_analysis::analyzers::module_analyzer[0m[2m:[0m [2m214:[0m    arrow errors are currently ignore since arrow targets might change based on user actions, in which case we just want to get rid of those arrows, until we find a more robust scheme
+[31mERROR[0m [2mcompiler::frontend::semantic_analysis::analyzers::module_analyzer[0m[2m:[0m [2m212:[0m Error analyzing arrow: Failed to resolve symbol: main_list_ec88cd
+[31mERROR[0m [2mcompiler::frontend::semantic_analysis::analyzers::module_analyzer[0m[2m:[0m [2m213:[0m    backtrace: disabled backtrace
+[31mERROR[0m [2mcompiler::frontend::semantic_analysis::analyzers::module_analyzer[0m[2m:[0m [2m214:[0m    arrow errors are currently ignore since arrow targets might change based on user actions, in which case we just want to get rid of those arrows, until we find a more robust scheme
+[31mERROR[0m [2mcompiler::frontend::semantic_analysis::analyzers::module_analyzer[0m[2m:[0m [2m212:[0m Error analyzing arrow: Failed to resolve symbol: sublist_ec88cd
+[31mERROR[0m [2mcompiler::frontend::semantic_analysis::analyzers::module_analyzer[0m[2m:[0m [2m213:[0m    backtrace: disabled backtrace
+[31mERROR[0m [2mcompiler::frontend::semantic_analysis::analyzers::module_analyzer[0m[2m:[0m [2m214:[0m    arrow errors are currently ignore since arrow targets might change based on user actions, in which case we just want to get rid of those arrows, until we find a more robust scheme
+[31mERROR[0m [2mcompiler::frontend::semantic_analysis::analyzers::module_analyzer[0m[2m:[0m [2m212:[0m Error analyzing arrow: Failed to resolve symbol: for_d26972.item
+[31mERROR[0m [2mcompiler::frontend::semantic_analysis::analyzers::module_analyzer[0m[2m:[0m [2m213:[0m    backtrace: disabled backtrace
+[31mERROR[0m [2mcompiler::frontend::semantic_analysis::analyzers::module_analyzer[0m[2m:[0m [2m214:[0m    arrow errors are currently ignore since arrow targets might change based on user actions, in which case we just want to get rid of those arrows, until we find a more robust scheme
+[31mERROR[0m [2mcompiler::frontend::semantic_analysis::analyzers::module_analyzer[0m[2m:[0m [2m212:[0m Error analyzing arrow: Failed to resolve symbol: for_d26972.index
+[31mERROR[0m [2mcompiler::frontend::semantic_analysis::analyzers::module_analyzer[0m[2m:[0m [2m213:[0m    backtrace: disabled backtrace
+[31mERROR[0m [2mcompiler::frontend::semantic_analysis::analyzers::module_analyzer[0m[2m:[0m [2m214:[0m    arrow errors are currently ignore since arrow targets might change based on user actions, in which case we just want to get rid of those arrows, until we find a more robust scheme
+[31mERROR[0m [2mcompiler::frontend::semantic_analysis::analyzers::module_analyzer[0m[2m:[0m [2m212:[0m Error analyzing arrow: Failed to resolve symbol: getter_b280eb.value
+[31mERROR[0m [2mcompiler::frontend::semantic_analysis::analyzers::module_analyzer[0m[2m:[0m [2m213:[0m    backtrace: disabled backtrace
+[31mERROR[0m [2mcompiler::frontend::semantic_analysis::analyzers::module_analyzer[0m[2m:[0m [2m214:[0m    arrow errors are currently ignore since arrow targets might change based on user actions, in which case we just want to get rid of those arrows, until we find a more robust scheme
+[31mERROR[0m [2mcompiler::frontend::semantic_analysis::analyzers::module_analyzer[0m[2m:[0m [2m212:[0m Error analyzing arrow: Failed to resolve symbol: for_d26972.onItem
+[31mERROR[0m [2mcompiler::frontend::semantic_analysis::analyzers::module_analyzer[0m[2m:[0m [2m213:[0m    backtrace: disabled backtrace
+[31mERROR[0m [2mcompiler::frontend::semantic_analysis::analyzers::module_analyzer[0m[2m:[0m [2m214:[0m    arrow errors are currently ignore since arrow targets might change based on user actions, in which case we just want to get rid of those arrows, until we find a more robust scheme
+[31mERROR[0m [2mcompiler::frontend::semantic_analysis::analyzers::module_analyzer[0m[2m:[0m [2m212:[0m Error analyzing arrow: Failed to resolve symbol: for_d26972.done
+[31mERROR[0m [2mcompiler::frontend::semantic_analysis::analyzers::module_analyzer[0m[2m:[0m [2m213:[0m    backtrace: disabled backtrace
+[31mERROR[0m [2mcompiler::frontend::semantic_analysis::analyzers::module_analyzer[0m[2m:[0m [2m214:[0m    arrow errors are currently ignore since arrow targets might change based on user actions, in which case we just want to get rid of those arrows, until we find a more robust scheme
+[31mERROR[0m [2mcompiler::frontend::semantic_analysis::analyzers::module_analyzer[0m[2m:[0m [2m212:[0m Error analyzing arrow: Failed to resolve symbol: for_d26972.item
+[31mERROR[0m [2mcompiler::frontend::semantic_analysis::analyzers::module_analyzer[0m[2m:[0m [2m213:[0m    backtrace: disabled backtrace
+[31mERROR[0m [2mcompiler::frontend::semantic_analysis::analyzers::module_analyzer[0m[2m:[0m [2m214:[0m    arrow errors are currently ignore since arrow targets might change based on user actions, in which case we just want to get rid of those arrows, until we find a more robust scheme
+[31mERROR[0m [2mcompiler::frontend::semantic_analysis::analyzers::module_analyzer[0m[2m:[0m [2m212:[0m Error analyzing arrow: Failed to resolve symbol: main_list_ec88cd
+[31mERROR[0m [2mcompiler::frontend::semantic_analysis::analyzers::module_analyzer[0m[2m:[0m [2m213:[0m    backtrace: disabled backtrace
+[31mERROR[0m [2mcompiler::frontend::semantic_analysis::analyzers::module_analyzer[0m[2m:[0m [2m214:[0m    arrow errors are currently ignore since arrow targets might change based on user actions, in which case we just want to get rid of those arrows, until we find a more robust scheme
+[31mERROR[0m [2mcompiler::frontend::semantic_analysis::analyzers::module_analyzer[0m[2m:[0m [2m212:[0m Error analyzing arrow: Failed to resolve symbol: getat_ce2a48.index
+[31mERROR[0m [2mcompiler::frontend::semantic_analysis::analyzers::module_analyzer[0m[2m:[0m [2m213:[0m    backtrace: disabled backtrace
+[31mERROR[0m [2mcompiler::frontend::semantic_analysis::analyzers::module_analyzer[0m[2m:[0m [2m214:[0m    arrow errors are currently ignore since arrow targets might change based on user actions, in which case we just want to get rid of those arrows, until we find a more robust scheme
+[31mERROR[0m [2mcompiler::frontend::semantic_analysis::analyzers::module_analyzer[0m[2m:[0m [2m212:[0m Error analyzing arrow: Failed to resolve symbol: getat_ce2a48.itemAtIndex
+[31mERROR[0m [2mcompiler::frontend::semantic_analysis::analyzers::module_analyzer[0m[2m:[0m [2m213:[0m    backtrace: disabled backtrace
+[31mERROR[0m [2mcompiler::frontend::semantic_analysis::analyzers::module_analyzer[0m[2m:[0m [2m214:[0m    arrow errors are currently ignore since arrow targets might change based on user actions, in which case we just want to get rid of those arrows, until we find a more robust scheme
+[31mERROR[0m [2mcompiler::frontend::semantic_analysis::analyzers::module_analyzer[0m[2m:[0m [2m212:[0m Error analyzing arrow: Failed to resolve symbol: execute_90aaec
+[31mERROR[0m [2mcompiler::frontend::semantic_analysis::analyzers::module_analyzer[0m[2m:[0m [2m213:[0m    backtrace: disabled backtrace
+[31mERROR[0m [2mcompiler::frontend::semantic_analysis::analyzers::module_analyzer[0m[2m:[0m [2m214:[0m    arrow errors are currently ignore since arrow targets might change based on user actions, in which case we just want to get rid of those arrows, until we find a more robust scheme
+[31mERROR[0m [2mcompiler::frontend::semantic_analysis::analyzers::module_analyzer[0m[2m:[0m [2m212:[0m Error analyzing arrow: Failed to resolve symbol: sub_for.done
+[31mERROR[0m [2mcompiler::frontend::semantic_analysis::analyzers::module_analyzer[0m[2m:[0m [2m213:[0m    backtrace: disabled backtrace
+[31mERROR[0m [2mcompiler::frontend::semantic_analysis::analyzers::module_analyzer[0m[2m:[0m [2m214:[0m    arrow errors are currently ignore since arrow targets might change based on user actions, in which case we just want to get rid of those arrows, until we find a more robust scheme
+[31mERROR[0m [2mcompiler::frontend::semantic_analysis::analyzers::module_analyzer[0m[2m:[0m [2m212:[0m Error analyzing arrow: Failed to resolve symbol: sub_for.onItem
+[31mERROR[0m [2mcompiler::frontend::semantic_analysis::analyzers::module_analyzer[0m[2m:[0m [2m213:[0m    backtrace: disabled backtrace
+[31mERROR[0m [2mcompiler::frontend::semantic_analysis::analyzers::module_analyzer[0m[2m:[0m [2m214:[0m    arrow errors are currently ignore since arrow targets might change based on user actions, in which case we just want to get rid of those arrows, until we find a more robust scheme
+[31mERROR[0m [2mcompiler::frontend::semantic_analysis::analyzers::module_analyzer[0m[2m:[0m [2m212:[0m Error analyzing arrow: Failed to resolve symbol: main_item
+[31mERROR[0m [2mcompiler::frontend::semantic_analysis::analyzers::module_analyzer[0m[2m:[0m [2m213:[0m    backtrace: disabled backtrace
+[31mERROR[0m [2mcompiler::frontend::semantic_analysis::analyzers::module_analyzer[0m[2m:[0m [2m214:[0m    arrow errors are currently ignore since arrow targets might change based on user actions, in which case we just want to get rid of those arrows, until we find a more robust scheme
+[31mERROR[0m [2mcompiler::frontend::semantic_analysis::analyzers::module_analyzer[0m[2m:[0m [2m212:[0m Error analyzing arrow: Failed to resolve symbol: sublist_item
+[31mERROR[0m [2mcompiler::frontend::semantic_analysis::analyzers::module_analyzer[0m[2m:[0m [2m213:[0m    backtrace: disabled backtrace
+[31mERROR[0m [2mcompiler::frontend::semantic_analysis::analyzers::module_analyzer[0m[2m:[0m [2m214:[0m    arrow errors are currently ignore since arrow targets might change based on user actions, in which case we just want to get rid of those arrows, until we find a more robust scheme
+[31mERROR[0m [2mcompiler::frontend::semantic_analysis::analyzers::module_analyzer[0m[2m:[0m [2m212:[0m Error analyzing arrow: Failed to resolve symbol: index
+[31mERROR[0m [2mcompiler::frontend::semantic_analysis::analyzers::module_analyzer[0m[2m:[0m [2m213:[0m    backtrace: disabled backtrace
+[31mERROR[0m [2mcompiler::frontend::semantic_analysis::analyzers::module_analyzer[0m[2m:[0m [2m214:[0m    arrow errors are currently ignore since arrow targets might change based on user actions, in which case we just want to get rid of those arrows, until we find a more robust scheme
+[31mERROR[0m [2mcompiler::frontend::semantic_analysis::analyzers::module_analyzer[0m[2m:[0m [2m212:[0m Error analyzing arrow: Failed to resolve symbol: setter_38e107.continue
+[31mERROR[0m [2mcompiler::frontend::semantic_analysis::analyzers::module_analyzer[0m[2m:[0m [2m213:[0m    backtrace: disabled backtrace
+[31mERROR[0m [2mcompiler::frontend::semantic_analysis::analyzers::module_analyzer[0m[2m:[0m [2m214:[0m    arrow errors are currently ignore since arrow targets might change based on user actions, in which case we just want to get rid of those arrows, until we find a more robust scheme
+[31mERROR[0m [2mcompiler::frontend::semantic_analysis::analyzers::module_analyzer[0m[2m:[0m [2m212:[0m Error analyzing arrow: Failed to resolve symbol: setter_9d4f1c.continue
+[31mERROR[0m [2mcompiler::frontend::semantic_analysis::analyzers::module_analyzer[0m[2m:[0m [2m213:[0m    backtrace: disabled backtrace
+[31mERROR[0m [2mcompiler::frontend::semantic_analysis::analyzers::module_analyzer[0m[2m:[0m [2m214:[0m    arrow errors are currently ignore since arrow targets might change based on user actions, in which case we just want to get rid of those arrows, until we find a more robust scheme
+[31mERROR[0m [2mcompiler::frontend::semantic_analysis::analyzers::module_analyzer[0m[2m:[0m [2m212:[0m Error analyzing arrow: Failed to resolve symbol: sub_for.item
+[31mERROR[0m [2mcompiler::frontend::semantic_analysis::analyzers::module_analyzer[0m[2m:[0m [2m213:[0m    backtrace: disabled backtrace
+[31mERROR[0m [2mcompiler::frontend::semantic_analysis::analyzers::module_analyzer[0m[2m:[0m [2m214:[0m    arrow errors are currently ignore since arrow targets might change based on user actions, in which case we just want to get rid of those arrows, until we find a more robust scheme
+[31mERROR[0m [2mcompiler::frontend::semantic_analysis::analyzers::module_analyzer[0m[2m:[0m [2m212:[0m Error analyzing arrow: Failed to resolve symbol: main_item
+[31mERROR[0m [2mcompiler::frontend::semantic_analysis::analyzers::module_analyzer[0m[2m:[0m [2m213:[0m    backtrace: disabled backtrace
+[31mERROR[0m [2mcompiler::frontend::semantic_analysis::analyzers::module_analyzer[0m[2m:[0m [2m214:[0m    arrow errors are currently ignore since arrow targets might change based on user actions, in which case we just want to get rid of those arrows, until we find a more robust scheme
+[31mERROR[0m [2mcompiler::frontend::semantic_analysis::analyzers::module_analyzer[0m[2m:[0m [2m212:[0m Error analyzing arrow: Failed to resolve symbol: index
+[31mERROR[0m [2mcompiler::frontend::semantic_analysis::analyzers::module_analyzer[0m[2m:[0m [2m213:[0m    backtrace: disabled backtrace
+[31mERROR[0m [2mcompiler::frontend::semantic_analysis::analyzers::module_analyzer[0m[2m:[0m [2m214:[0m    arrow errors are currently ignore since arrow targets might change based on user actions, in which case we just want to get rid of those arrows, until we find a more robust scheme
+[31mERROR[0m [2mcompiler::frontend::semantic_analysis::analyzers::module_analyzer[0m[2m:[0m [2m212:[0m Error analyzing arrow: Failed to resolve symbol: getat_main.itemAtIndex
+[31mERROR[0m [2mcompiler::frontend::semantic_analysis::analyzers::module_analyzer[0m[2m:[0m [2m213:[0m    backtrace: disabled backtrace
+[31mERROR[0m [2mcompiler::frontend::semantic_analysis::analyzers::module_analyzer[0m[2m:[0m [2m214:[0m    arrow errors are currently ignore since arrow targets might change based on user actions, in which case we just want to get rid of those arrows, until we find a more robust scheme
+[31mERROR[0m [2mcompiler::frontend::semantic_analysis::analyzers::instance_analyzer[0m[2m:[0m [2m83:[0m Failed to resolve path: Failed to resolve symbol: root.main.is_Sub_Array
+[31mERROR[0m [2mcompiler::frontend::semantic_analysis::analyzers::instance_analyzer[0m[2m:[0m [2m83:[0m Failed to resolve path: Failed to resolve symbol: root.main.is_Sub_Array
+[31mERROR[0m [2mcompiler::frontend::semantic_analysis::analyzers::instance_analyzer[0m[2m:[0m [2m83:[0m Failed to resolve path: Failed to resolve symbol: root.main.is_Sub_Array
+[31mERROR[0m [2mcompiler::frontend::semantic_analysis::analyzers::module_analyzer[0m[2m:[0m [2m212:[0m Error analyzing arrow: Instance is not a complete instance, was: ErroneousInstance(is_sub_array_22a8bf)
+[31mERROR[0m [2mcompiler::frontend::semantic_analysis::analyzers::module_analyzer[0m[2m:[0m [2m213:[0m    backtrace: disabled backtrace
+[31mERROR[0m [2mcompiler::frontend::semantic_analysis::analyzers::module_analyzer[0m[2m:[0m [2m214:[0m    arrow errors are currently ignore since arrow targets might change based on user actions, in which case we just want to get rid of those arrows, until we find a more robust scheme
+[31mERROR[0m [2mcompiler::frontend::semantic_analysis::analyzers::module_analyzer[0m[2m:[0m [2m212:[0m Error analyzing arrow: Instance is not a complete instance, was: ErroneousInstance(is_sub_array_22a8bf)
+[31mERROR[0m [2mcompiler::frontend::semantic_analysis::analyzers::module_analyzer[0m[2m:[0m [2m213:[0m    backtrace: disabled backtrace
+[31mERROR[0m [2mcompiler::frontend::semantic_analysis::analyzers::module_analyzer[0m[2m:[0m [2m214:[0m    arrow errors are currently ignore since arrow targets might change based on user actions, in which case we just want to get rid of those arrows, until we find a more robust scheme
+[31mERROR[0m [2mcompiler::frontend::semantic_analysis::analyzers::module_analyzer[0m[2m:[0m [2m212:[0m Error analyzing arrow: Instance is not a complete instance, was: ErroneousInstance(is_sub_array_22a8bf)
+[31mERROR[0m [2mcompiler::frontend::semantic_analysis::analyzers::module_analyzer[0m[2m:[0m [2m213:[0m    backtrace: disabled backtrace
+[31mERROR[0m [2mcompiler::frontend::semantic_analysis::analyzers::module_analyzer[0m[2m:[0m [2m214:[0m    arrow errors are currently ignore since arrow targets might change based on user actions, in which case we just want to get rid of those arrows, until we find a more robust scheme
+[31mERROR[0m [2mcompiler::frontend::semantic_analysis::analyzers::module_analyzer[0m[2m:[0m [2m212:[0m Error analyzing arrow: Instance is not a complete instance, was: ErroneousInstance(is_sub_array_22a8bf)
+[31mERROR[0m [2mcompiler::frontend::semantic_analysis::analyzers::module_analyzer[0m[2m:[0m [2m213:[0m    backtrace: disabled backtrace
+[31mERROR[0m [2mcompiler::frontend::semantic_analysis::analyzers::module_analyzer[0m[2m:[0m [2m214:[0m    arrow errors are currently ignore since arrow targets might change based on user actions, in which case we just want to get rid of those arrows, until we find a more robust scheme
+[31mERROR[0m [2mcompiler::frontend::semantic_analysis::analyzers::module_analyzer[0m[2m:[0m [2m212:[0m Error analyzing arrow: Instance is not a complete instance, was: ErroneousInstance(is_sub_array_22a8bf)
+[31mERROR[0m [2mcompiler::frontend::semantic_analysis::analyzers::module_analyzer[0m[2m:[0m [2m213:[0m    backtrace: disabled backtrace
+[31mERROR[0m [2mcompiler::frontend::semantic_analysis::analyzers::module_analyzer[0m[2m:[0m [2m214:[0m    arrow errors are currently ignore since arrow targets might change based on user actions, in which case we just want to get rid of those arrows, until we find a more robust scheme
+[31mERROR[0m [2mcompiler::frontend::semantic_analysis::analyzers::module_analyzer[0m[2m:[0m [2m212:[0m Error analyzing arrow: Instance is not a complete instance, was: ErroneousInstance(is_sub_array_6124dd)
+[31mERROR[0m [2mcompiler::frontend::semantic_analysis::analyzers::module_analyzer[0m[2m:[0m [2m213:[0m    backtrace: disabled backtrace
+[31mERROR[0m [2mcompiler::frontend::semantic_analysis::analyzers::module_analyzer[0m[2m:[0m [2m214:[0m    arrow errors are currently ignore since arrow targets might change based on user actions, in which case we just want to get rid of those arrows, until we find a more robust scheme
+[31mERROR[0m [2mcompiler::frontend::semantic_analysis::analyzers::module_analyzer[

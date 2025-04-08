@@ -113,10 +113,9 @@ def errors_to_df(experiment: str, model: str = None, filter: dict={}) -> pd.Data
     collection = db[collection_name]
     if model:
         filter["model_name"] = model
-    if model:
-        data = list(collection.find(filter, {"_id": 0}))
-    else:
-        data = list(collection.find({}, {"_id": 0}))  # Exclude MongoDB ObjectId
+
+    print(filter)
+    data = list(collection.find(filter, {"_id": 0}))
 
     if not data:
         raise ValueError(f"Collection '{collection_name}' is empty in MongoDB.")

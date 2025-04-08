@@ -22,19 +22,17 @@
             5,
             10
         ],
-        "eval_method": "3_fold",
-        "created_at": "2025-03-16T16:16:24.676000",
         "syntax@1": {
-            "mean": 0.7,
+            "mean": 0.72,
             "std": 0.12
         },
         "syntax@2": {
-            "mean": 0.85,
-            "std": 0.08
+            "mean": 0.87,
+            "std": 0.07
         },
         "syntax@3": {
-            "mean": 0.91,
-            "std": 0.06
+            "mean": 0.92,
+            "std": 0.05
         },
         "syntax@5": {
             "mean": 0.96,
@@ -45,7 +43,7 @@
             "std": 0.02
         },
         "semantic@1": {
-            "mean": 0.64,
+            "mean": 0.65,
             "std": 0.1
         },
         "semantic@2": {
@@ -53,7 +51,7 @@
             "std": 0.05
         },
         "semantic@3": {
-            "mean": 0.84,
+            "mean": 0.85,
             "std": 0.02
         },
         "semantic@5": {
@@ -63,92 +61,6 @@
         "semantic@10": {
             "mean": 0.93,
             "std": 0.02
-        },
-        "tests@1": {
-            "mean": 0.0,
-            "std": 0.0
-        },
-        "tests@2": {
-            "mean": 0.0,
-            "std": 0.0
-        },
-        "tests@3": {
-            "mean": 0.0,
-            "std": 0.0
-        },
-        "tests@5": {
-            "mean": 0.0,
-            "std": 0.0
-        },
-        "tests@10": {
-            "mean": 0.0,
-            "std": 0.0
-        }
-    },
-    {
-        "model_name": "phi4:14b-fp16",
-        "experiment": "regular_coverage_10_shot",
-        "metrics": [
-            "syntax",
-            "semantic",
-            "tests"
-        ],
-        "seed": [
-            3,
-            346,
-            75
-        ],
-        "temperature": 0.6,
-        "top_p": 0.6,
-        "top_k": 10,
-        "ks": [
-            1,
-            2,
-            3,
-            5,
-            10
-        ],
-        "eval_method": "3_fold",
-        "created_at": "2025-03-14T09:30:50.355000",
-        "syntax@1": {
-            "mean": 0.82,
-            "std": 0.06
-        },
-        "syntax@2": {
-            "mean": 0.93,
-            "std": 0.04
-        },
-        "syntax@3": {
-            "mean": 0.96,
-            "std": 0.03
-        },
-        "syntax@5": {
-            "mean": 0.98,
-            "std": 0.02
-        },
-        "syntax@10": {
-            "mean": 1.0,
-            "std": 0.0
-        },
-        "semantic@1": {
-            "mean": 0.72,
-            "std": 0.05
-        },
-        "semantic@2": {
-            "mean": 0.86,
-            "std": 0.05
-        },
-        "semantic@3": {
-            "mean": 0.91,
-            "std": 0.04
-        },
-        "semantic@5": {
-            "mean": 0.96,
-            "std": 0.02
-        },
-        "semantic@10": {
-            "mean": 1.0,
-            "std": 0.0
         },
         "tests@1": {
             "mean": 0.0,
@@ -195,44 +107,128 @@
             10
         ],
         "syntax@1": {
-            "mean": 0.61,
-            "std": 0.06
+            "mean": 0.67,
+            "std": 0.04
         },
         "syntax@2": {
-            "mean": 0.81,
-            "std": 0.05
+            "mean": 0.86,
+            "std": 0.02
         },
         "syntax@3": {
-            "mean": 0.91,
-            "std": 0.03
+            "mean": 0.94,
+            "std": 0.02
         },
         "syntax@5": {
-            "mean": 0.97,
-            "std": 0.02
+            "mean": 0.98,
+            "std": 0.0
         },
         "syntax@10": {
             "mean": 1.0,
             "std": 0.0
         },
         "semantic@1": {
-            "mean": 0.42,
+            "mean": 0.45,
             "std": 0.02
         },
         "semantic@2": {
-            "mean": 0.61,
-            "std": 0.02
+            "mean": 0.64,
+            "std": 0.01
         },
         "semantic@3": {
-            "mean": 0.72,
-            "std": 0.02
+            "mean": 0.75,
+            "std": 0.01
         },
         "semantic@5": {
-            "mean": 0.84,
-            "std": 0.03
+            "mean": 0.86,
+            "std": 0.01
         },
         "semantic@10": {
+            "mean": 0.98,
+            "std": 0.02
+        },
+        "tests@1": {
+            "mean": 0.0,
+            "std": 0.0
+        },
+        "tests@2": {
+            "mean": 0.0,
+            "std": 0.0
+        },
+        "tests@3": {
+            "mean": 0.0,
+            "std": 0.0
+        },
+        "tests@5": {
+            "mean": 0.0,
+            "std": 0.0
+        },
+        "tests@10": {
+            "mean": 0.0,
+            "std": 0.0
+        }
+    },
+    {
+        "model_name": "phi4:14b-fp16",
+        "experiment": "regular_coverage_10_shot",
+        "metrics": [
+            "syntax",
+            "semantic",
+            "tests"
+        ],
+        "seed": [
+            3,
+            346,
+            75
+        ],
+        "temperature": 0.6,
+        "top_p": 0.6,
+        "top_k": 10,
+        "ks": [
+            1,
+            2,
+            3,
+            5,
+            10
+        ],
+        "syntax@1": {
+            "mean": 0.91,
+            "std": 0.04
+        },
+        "syntax@2": {
+            "mean": 0.98,
+            "std": 0.01
+        },
+        "syntax@3": {
+            "mean": 1.0,
+            "std": 0.0
+        },
+        "syntax@5": {
+            "mean": 1.0,
+            "std": 0.0
+        },
+        "syntax@10": {
+            "mean": 1.0,
+            "std": 0.0
+        },
+        "semantic@1": {
+            "mean": 0.73,
+            "std": 0.04
+        },
+        "semantic@2": {
+            "mean": 0.86,
+            "std": 0.05
+        },
+        "semantic@3": {
+            "mean": 0.91,
+            "std": 0.04
+        },
+        "semantic@5": {
             "mean": 0.96,
-            "std": 0.03
+            "std": 0.02
+        },
+        "semantic@10": {
+            "mean": 1.0,
+            "std": 0.0
         },
         "tests@1": {
             "mean": 0.0,
