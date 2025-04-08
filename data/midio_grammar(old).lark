@@ -1,0 +1,160 @@
+%import common.WS
+%ignore WS
+
+// TERMINALS:  Basic building blocks of the language
+KW_IMPORT: "import"
+
+KW_MODULE: "module"
+KW_FUNC: "func"
+KW_EXTERN: "extern"
+KW_EVENT: "event"
+KW_TYPE: "type"
+
+KW_INSTANCE: "instance"
+KW_DATA_INSTANCE: "data_instance"
+KW_WAYPOINT_INSTANCE: "waypoint"
+KW_COMMENT_INSTANCE: "comment"
+
+KW_IN: "in"
+KW_OUT: "out"
+KW_PROPERTY: "property"
+KW_TRIGGER: "trigger"
+KW_PARAMETER: "parameter"
+
+KW_PRODUCES: "produces"
+KW_CONSUMES: "consumes"
+KW_BORROWS: "borrows"
+
+KW_SETTER_INSTANCE: "setter"
+KW_GETTER_INSTANCE: "getter"
+
+KW_OR: "or"
+
+LEFT_PAREN: "("
+RIGHT_PAREN: ")"
+LEFT_CURL: "{"
+RIGHT_CURL: "}"
+LEFT_SQUARE: "["
+RIGHT_SQUARE: "]"
+
+ARROW_OP: "->"
+EQ: "="
+LT: "<"
+GT: ">"
+MINUS: "-"
+COMMA: ","
+COLON: ":"
+DOT: "."
+DOUBLE_BACKTICK: "``"
+
+BACKTICKS_LANG: "```midio"
+BACKTICKS: "```"
+
+VALUE_BOOL.1: "true" | "false"
+VALUE_NUMBER: /-?\d+(\.\d+)?/
+VALUE_STRING: "\"" /([^"\\]|\\.)*/ "\""
+
+// IDENTIFIERS and LITERALS 
+// IDENTIFIER: /[a-zA-Z_][a-zA-Z0-9_]*/
+IDENTIFIER: /(?!(?:import|module|func|extern|event|type|instance|data_instance|waypoint|comment|in|out|property|trigger|parameter|produces|consumes|borrows|setter|getter|or)$)[a-zA-Z_][a-zA-Z0-9_]*/
+
+
+VERBATIM_IDENT: "``" /[^`]*/ "``"
+?name: VERBATIM_IDENT | IDENTIFIER
+
+
+// VALUES
+literal_value: VALUE_BOOL 
+      | VALUE_NUMBER 
+      | VALUE_STRING 
+      | value_list 
+      | value_object
+
+value_object_field: name COLON literal_value
+value_object: LEFT_CURL [value_object_field (COMMA value_object_field)* [COMMA]] RIGHT_CURL
+value_list: LEFT_SQUARE [ref_or_literal (COMMA ref_or_literal)* [COMMA]] RIGHT_SQUARE
+
+// ATTRIBUTES
+attribute: name COLON literal_value
+attributes: LEFT_PAREN [attribute (COMMA attribute)* [COMMA]] RIGHT_PAREN
+
+// GENERICS and TYPES
+generic_args: LT [type_expr (COMMA type_expr)*] GT
+item_path: name (DOT name)*
+type_ref: item_path [generic_args]
+ref_or_literal: item_path | literal_value
+type_literal_or_ref: literal_value | type_ref
+
+type_expr: type_literal_or_ref (KW_OR type_literal_or_ref)*
+
+property_type: LEFT_PAREN [type_expr] RIGHT_PAREN
+
+// CONSUMPTION and TRIGGER 
+consumption: (KW_PRODUCES | KW_CONSUMES | KW_BORROWS) COLON type_expr
+trigger_consumption: LEFT_PAREN [consumption (COMMA consumption)* [COMMA]] RIGHT_PAREN
+
+// PROPERTIES and PARAMETERS
+input_property: KW_IN attributes? KW_PROPERTY property_type? name
+output_property: KW_OUT attributes? KW_PROPERTY property_type? name
+input_trigger: KW_IN attributes? KW_TRIGGER trigger_consumption? name
+output_trigger: KW_OUT attributes? KW_TRIGGER trigger_consumption? name
+
+property: input_property 
+        | output_property 
+        | input_trigger 
+        | output_trigger
+
+parameter: KW_PARAMETER attributes? name
+generic_params: LT [name (COMMA name)*] GT
+item_name: name [generic_params]
+
+// INSTANCES and FIELD ACCESS
+instance: KW_INSTANCE attributes? name type_ref value_object
+data_instance: KW_DATA_INSTANCE attributes? name EQ literal_value
+setter: KW_SETTER_INSTANCE attributes? name EQ IDENTIFIER
+getter: KW_GETTER_INSTANCE attributes? name EQ IDENTIFIER
+comment_instance: KW_COMMENT_INSTANCE attributes? name VALUE_STRING
+?field_access_item: VALUE_NUMBER | name
+
+field_access: field_access_item (DOT field_access_item)+
+waypoint_instance: KW_WAYPOINT_INSTANCE attributes? name [EQ field_access]
+
+any_instance: instance 
+            | data_instance 
+            | setter
+            | getter
+            | waypoint_instance 
+            | comment_instance
+
+// ARROWS 
+arrow_source: item_path 
+            | literal_value
+            | inline_func
+
+arrow_target: item_path
+arrow: arrow_source ARROW_OP arrow_target
+
+// FUNCTION and EVENT BODIES 
+func_body: (property | parameter | any_instance | arrow)*
+func: KW_EXTERN? KW_FUNC attributes? item_name LEFT_CURL func_body RIGHT_CURL
+inline_func: KW_FUNC attributes? item_name? LEFT_CURL func_body RIGHT_CURL
+
+event_body: (property | parameter)*
+event: KW_EXTERN? KW_EVENT attributes? item_name LEFT_CURL func_body RIGHT_CURL
+
+// TYPE DECLARATION 
+type_decl: KW_TYPE item_name type_expr
+
+// MODULE 
+module_body: (func | event | type_decl | module | any_instance | arrow)*
+module: KW_MODULE attributes? name LEFT_CURL module_body RIGHT_CURL
+
+// TOP-LEVEL ITEMS 
+import_stmt: KW_IMPORT LEFT_PAREN VALUE_STRING COMMA name RIGHT_PAREN
+top_level_item: import_stmt | module
+file: top_level_item*
+
+// for markdown code block
+fenced_code_block: (BACKTICKS_LANG | BACKTICKS) file BACKTICKS
+
+start: (fenced_code_block | file)

@@ -9,51 +9,10 @@ reader.close()
 parser = Lark(your_grammar, parser="lalr", start="start", debug=True, strict=True)
 
 code = """
-import("std", Std_k98ojb)
-import("http", Http_q7o96c)
-
-module() main { 
-    func(doc: "Finds the smallest missing number from a sorted list of natural numbers.") find_First_Missing {
-        in(x: -113, y: 62, name: "list") property(List) trigger_
-        in(x: 483, y: -328, name: "execute") trigger() execute_fa8807
-
-        out(x: 1453, y: 319, name: "output") property(Number) output_25655e
-        out(x: 1491, y: -61, name: "continue") trigger() continue_aedf0f
-
-        instance(x: -233, y: -173) for_0e7c92 root.Std_k98ojb.Std.For {
-            reset: "execute"
-        }
-        instance(x: -3, y: 87) if_4f8c39 root.Std_k98ojb.Std.If {
-            input: "item != index + 1"
-        }
-        instance(x: 148, y: -84) ifexpression_1e2a0a root.Std_k98ojb.Std.IfExpression {
-            expression: "index == 0 && item != 1"
-        }
-        instance(x: 147, y: 6) ifexpression_7f2e76 root.Std_k98ojb.Std.IfExpression {
-            expression: "index > 0 && (item - last_item) > 1"
-        }
-        getter(x: 103, y: 127, name: "getter_0b7c6d") getter_0b7c6d = output
-        setter(x: 107, y: -52, name: "setter_4b5f0d") setter_4b5f0d = output
-        setter(x: 93, y: -269, name: "setter_1d4a6c") setter_1d4a6c = output
-        getter(x: 102, y: 9, name: "getter_0f7a3f") getter_0f7a3f = last_item
-        setter(x: 97, y: -142, name: "setter_4a7e8c") setter_4a7e8c = last_item
-        list_24e9a6 -> for_0e7c92.items
-        for_0e7c92.item -> if_4f8c39.input
-        for_0e7c92.index -> ifexpression_1e2a0a.gen_1
-        for_0e7c92.index -> ifexpression_7f2e76.gen_1
-        ifexpression_1e2a0a.gen_0 -> ifexpression_1e2a0a.gen_2
-        ifexpression_7f2e76.gen_0 -> ifexpression_7f2e76.gen_2
-        getter_0f7a3f.value -> ifexpression_1e2a0a.gen_0
-        getter_0f7a3f.value -> ifexpression_7f2e76.gen_0
-        ifexpression_1e2a0a.result -> if_4f8c39.input
-        ifexpression_7f2e76.result -> if_4f8c39.input
-        for_0e7c92.on_item -> if_4f8c39.execute
-        execute_fa8807 -> for_0e7c92.trigger_
-        instance_ -> if_4f8c39.execute
-    }
-}
+import("std", Std_k98ojb)\nimport("http", Http_q7o96c)\n\nmodule() main { \n func(doc: "gets the sum of the digits of a non-negative integer.") sum_digits{\n in(x: -450, y: -421, name: "execute") trigger() execute_cdac2a\n in(x: -436, y: -213, name: "n") property(Number) n_6b655b\n out(x: 1146, y: -647, name: "continue") trigger() continue_d9efd7\n out(x: 1169, y: -269, name: "output") property(Number) output_732a8a\n\n instance(x: 17, y: -417, name: "sum_digits") Std_k98ojb Std.IfExpression {\n expression: "Std.Count([Std.Characters(n_6b655b)]) > 0"\n }\n n_6b655b -> sum_digits.input\n sum_digits.then -> Std_k98ojb.Std.For {\n in x: -240, y: 69, name: "string" property(String) string_4f6d2a\n in x: 177, y: 58, name: "count" property(Number) count_1f468d\n in x: 723, y: 62, name: "characters" property(List) characters_7942d4\n in x: 46, y: 66, name: "filter" property(List) filter_c1bb22\n in x: 62, y: 62, name: "length" property(Number) length_8815e6\n in x: 24, y: -48, name: "current" property(Number) current_86a8fb\n in x: 74, y: 2, name: "isnumeric" property(Bool) isnumeric_9cb360\n in x: 298, y: 1, name: "expression" property(String) expression_634b7e\n in x: 818, y: -74, name: "add" property(Number) add_8974a2\n in x: 2, y: 1, name: "mul" property(Number) mul_0f3be6\n in x: 1, y: -74, name: "sub" property(Number) sub_2c4e5d\n in x: 0, y: 1, name: "result" property(Number) result_8d8f8d\n in x: 0, y: 0, name: "output" property(Number) output_8ba733\n in x: 14, y: -52, name: "number_ctr" property(Number) number_ctr_407e1b\n in x: 723, y: 62, name: "characters" -> filter_c1bb22.items\n in x: 62, y: 62, name: "length" -> filter_c1bb22.length\n in x: 24, y: -48, name: "current" -> filter_c1bb22.current\n in x: 74, y: 2, name: "isnumeric" -> filter_c1bb22.isnumeric\n in x: 298, y: 1, name: "expression" -> filter_c1bb22.expression\n in x: 818, y: -74, name: "add" -> filter_c1bb22.add\n in x: 2, y: 1, name: "mul" -> filter_c1bb22.mul\n in x: 1, y: -74, name: "sub" -> filter_c1bb22.sub\n in x: 0, y: 1, name: "result" -> filter_c1bb22.output\n in x: 0, y: 0, name: "output" -> filter_c1bb22.output_list\n in x: 14, y: -52, name: "number_ctr" -> filter_c1bb22.on_item\n in x: 723, y: 62, name: "characters" -> filter_c1bb22.on_item\n in x: 62, y: 62, name: "length" -> filter_c1bb22.on_item\n in x: 24, y: -48, name: "current" -> filter_c1bb22.on_item\n in x: 74, y: 2, name: "isnumeric" -> filter_c1bb22.on_item\n in x: 298, y: 1, name: "expression" -> filter_c1bb22.on_item\n in x: 818, y: -74, name: "add" -> filter_c1bb22.on_item\n in x: 2, y: 1, name: "mul" -> filter_c1bb22.on_item\n in x: 1, y: -74, name: "sub" -> filter_c1bb22.on_item\n in x: 0, y: 1, name: "result" -> filter_c1bb22.on_item\n in x: 0, y: 0, name: "output" -> filter_c1bb22.on_item\n in x: 14, y: -52, name: "number_ctr" -> filter_c1bb22.on_item\n in x: 723, y: 62, name: "characters" -> filter_c1bb22.on_item\n in x: 62, y: 62, name: "length" -> filter_c1bb22.on_item\n in x: 24, y: -48, name: "current" -> filter_c1bb22.on_item\n in x: 74, y: 2, name: "isnumeric" -> filter_c1bb22.on_item\n in x: 298, y: 1, name: "expression" -> filter_c1bb22.on_item\n in x: 818, y: -74, name: "add" -> filter_c1bb22.on_item\n in x: 2, y: 1, name: "mul" -> filter_c1bb22.on_item\n in x: 1, y: -74, name: "sub" -> filter_c1bb22.on_item\n in x: 0, y: 1, name: "result" -> filter_c1bb22.on_item\n in x: 0, y: 0, name: "output" -> filter_c1bb22.on_item\n in x: 14, y: -52, name: "number_ctr" -> filter_c1bb22.on_item\n in x: 723, y: 62, name: "characters" -> filter_c1bb22.on_item\n in x: 62, y: 62, name: "length" -> filter_c1bb22.on_item\n in x: 24, y: -48, name: "current" -> filter_c1bb22.on_item\n in x: 74, y: 2, name: "isnumeric" -> filter_c1bb22.on_item\n in x: 298, y: 1, name: "expression" -> filter_c1bb22.on_item\n in x: 818, y: -74, name: "add" -> filter_c1bb22.on_item\n in x: 2, y: 1, name: "mul" -> filter_c1bb22.on_item\n in x: 1, y: -74, name: "sub" -> filter_c1bb22.on_item\n in x: 0, y: 1, name: "result" -> filter_c1bb22.on_item\n in x: 0, y: 0, name: "output" -> filter_c1bb22.on_item\n in x: 14, y: -52, name: "number_ctr" -> filter_c1bb22.on_item\n in x: 723, y: 62, name: "characters" -> filter_c1bb22.on_item\n in x: 62, y: 62, name: "length" -> filter_c1bb22.on_item\n in x: 24, y: -48, name: "current" -> filter_c1bb22.on_item\n in x: 74, y: 2, name: "isnumeric" -> filter_c1bb22.on_item\n in x: 298, y: 1, name: "expression" -> filter_c1bb22.on_item\n in x: 818, y: -74, name: "add" -> filter_c1bb22.on_item\n in x: 2, y: 1, name: "mul" -> filter_c1bb22.on_item\n in x: 1, y: -74, name: "sub" -> filter_c1bb22.on_item\n in x: 0, y: 1, name: "result" -> filter_c1bb22.on_item\n in x: 0, y: 0, name:
     
 """
+print(code)
 # tree = parser.parse(code)
 
 # # Print the raw AST
