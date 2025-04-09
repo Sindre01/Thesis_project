@@ -205,6 +205,8 @@ def two_step_run(
             available_args = get_args_from_nodes(node_candidates, rag_data, doc_per_node = 1)
             print(f"Extracted args from nodes: {available_args}")
 
+            #Extract last part of nodes:
+            node_candidates = [node.split(".")[-1] for node in node_candidates]
             # Join them with a pipe to form an alternation group to use in Lark
             available_args_union = " | ".join(f'"{arg}"' for arg in available_args)
             available_nodes_union = " | ".join(f'"{node}"' for node in node_candidates)
