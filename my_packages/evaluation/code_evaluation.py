@@ -207,6 +207,7 @@ def two_step_run(
 
             #Extract last part of nodes:
             node_candidates = [node.split(".")[-1] for node in node_candidates]
+            print(f"Extracted last part of nodes into list: ", node_candidates)
             # Join them with a pipe to form an alternation group to use in Lark
             available_args_union = " | ".join(f'"{arg}"' for arg in available_args)
             available_nodes_union = " | ".join(f'"{node}"' for node in node_candidates)
