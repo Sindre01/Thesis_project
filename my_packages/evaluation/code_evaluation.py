@@ -116,7 +116,8 @@ def two_step_run(
     ollama_port="11434",
     rag_data: RagData = None,
     max_ctx=16000,
-    node_context_type: str = "ONE"
+    node_context_type: str = "ONE",
+    constrained_output: bool = False
 ) -> tuple[dict[int, list[str]], int]:
     """
     Run a model on a list of tasks in two stages:
@@ -168,6 +169,64 @@ def two_step_run(
         node_candidates = node_candidates[0].split(",")
         print("Extracted nodes into list: ", node_candidates)
 
+        # Optinal to constrain te output based on the nodes
+        constrained_llm = None
+        if constrained_output:
+            print("Constrained output is set to True.")
+            model_kwargs = {
+                "max_length": max_ctx,
+                "max_new_tokens": code_max_new_tokens,
+                "temperature": temperature,
+                "top_k": top_k,
+                "top_p": top_p,
+                "do_sample": True,
+                "quantize": True, # Sets to torch.float16
+                # "early_stopping": True,            # <- Stop if EOS is reached early
+                "use_cache": True,                 # <- Speeds things up (standard)
+                # "pad_token_id": 0,
+                # "eos_token_id": 1,
+            }
+            print(f"Model kwargs: {model_kwargs}")
+            # Load the Syncode augmented model with huggingface model
+            if "phi4" in model:
+                hf_model = "microsoft/phi-4"
+
+            elif "llama3.3:70b" in model:
+                hf_model = "meta-llama/Llama-3.3-70B-Instruct"
+
+            elif "llama3.2:3b" in model:
+                hf_model = "meta-llama/Llama-3.2-3b-Instruct"
+            else:
+                raise ValueError(f"Constrained output is not availbale for model: {model}.")
+            print(f"Loading Syncode model with model kwargs: {model_kwargs}")
+            print(f"using grammar file: {project_root}/data/midio_grammar.lark")
+            
+            # Dynamically set the grammar file based on the nodes generated.
+            available_args = get_args_from_nodes(node_candidates, rag_data, doc_per_node = 1)
+            print(f"Extracted args from nodes: {available_args}")
+
+            # Join them with a pipe to form an alternation group to use in Lark
+            available_args_union = "|".join(available_args)
+            function_nodes_union = "|".join(node_candidates)
+
+            # Read your existing .lark file
+            with open("my_grammar.lark", "r") as f:
+                grammar_text = f.read()
+
+            # Replace the placeholders with the actual alternations.
+            grammar_text = grammar_text.replace("%%AVAILABLE_ARGS%%", f"(?:{available_args_union})")
+            grammar_text = grammar_text.replace("%%FUNCTION_NODE_NAMES%%", f"(?:{function_nodes_union})")
+
+            # Load the Syncode augmented model with huggingface model
+            constrained_llm = Syncode(
+                model=hf_model, 
+                grammar=f"{project_root}/data/midio_grammar.lark", 
+                mode="grammar_strict",
+                parse_output_only=True, 
+                device_map="auto",
+                **model_kwargs
+            )
+
         # (B) Step 2: Code step
         generation_kwargs = { #
             "client": client,
@@ -178,7 +237,9 @@ def two_step_run(
             "n": n,
             "seed": seed,
             "debug": debug,
+            "constrained_llm": constrained_llm
         }
+        
         code_candidates, code_prompt_size = run_prompt_step(
             response_type="CODE",
             sample=sample,
@@ -211,6 +272,29 @@ def two_step_run(
         print(f"\nDone with: === Task {idx+1}/{len(data)} (TASK ID={task_id}) ===")
         
     return results, largest_ctx_size
+
+def get_args_from_nodes(node_candidates, rag_data, docs_per_node=1):
+    all_args = []
+    for predicted_node in node_candidates:
+        # Get the node document string
+        node_docs = rag_data.node_retriever.similarity_search(predicted_node, k=docs_per_node) # Change to node_doc_str later
+        # Split into lines
+        lines = node_docs.splitlines()
+
+        extracted = []
+        # Loop through each line.
+        for line in lines:
+            # Remove leading and trailing whitespace.
+            stripped = line.strip()
+            if stripped.startswith("in") or stripped.startswith("out"):
+                # Split the line into tokens based on whitespace.
+                tokens = stripped.split()
+                # If tokens exist on this line, take the last one.
+                if tokens:
+                    last_token = tokens[-1].strip(".,;:")  
+                    extracted.append(last_token)
+        all_args.extend(extracted)
+    return all_args
 
 def run_prompt_step(
     response_type: str, # CODE or NODE
