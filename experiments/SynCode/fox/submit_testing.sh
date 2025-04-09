@@ -7,7 +7,7 @@
 # Configuration
 EXPERIMENT="SynCode"                    # Experiment ('few-shot')
 PHASE="testing"                       # Phase ('testing' or 'validation')
-EXAMPLES_TYPE="similarity"                 # 'similarity' or RAG or full-context
+EXPERIMENT_TYPE="assisted-RAG"                 # 'similarity' or RAG or full-context
 PROMPT_TYPE="signature"                 # 'regular' or 'cot' or 'signature'   
 # SEMANTIC_SELECTOR=true                   # Use semantic selector
 K_FOLD_JOBS=0-2                              # Runs jobs for folds 0 to 2 (3-fold CV)
@@ -23,22 +23,22 @@ TIME="2-00:00:00"                  # Slurm walltime (D-HH:MM:SS)
 MEM_PER_GPU="20G"                       # Memory per GPU. 
 OLLAMA_MODELS_DIR="/cluster/work/projects/ec12/ec-sindrre/ollama-models"  # Path to where the Ollama models are stored and loaded                      
 OLLAMA_PORT="11195"                       # Remote port where Ollama listens. If different parallell runs, change ollama_port to avoid conflicts if same node is allocated.
-SBATCH_SCRIPT="${PHASE}_${EXAMPLES_TYPE}_${PROMPT_TYPE}_${GPUS}_ollama.slurm"           # Slurm batch script name
+SBATCH_SCRIPT="${PHASE}_${EXPERIMENT_TYPE}_${PROMPT_TYPE}_${GPUS}_ollama.slurm"           # Slurm batch script name
 # Directory on Fox to store scripts and output
 if [ -n "$PROMPT_TYPE" ]; then
-    REMOTE_DIR="/fp/homes01/u01/ec-sindrre/slurm_jobs/${EXPERIMENT}/${PHASE}/${EXAMPLES_TYPE}/${PROMPT_TYPE}"
+    REMOTE_DIR="/fp/homes01/u01/ec-sindrre/slurm_jobs/${EXPERIMENT}/${PHASE}/${EXPERIMENT_TYPE}/${PROMPT_TYPE}"
 else
-    REMOTE_DIR="/fp/homes01/u01/ec-sindrre/slurm_jobs/${EXPERIMENT}/${PHASE}/${EXAMPLES_TYPE}"
+    REMOTE_DIR="/fp/homes01/u01/ec-sindrre/slurm_jobs/${EXPERIMENT}/${PHASE}/${EXPERIMENT_TYPE}"
 fi
 #--exclusive #Job will not share nodes with other jobs. 
 # Define unique folder name
-CLONE_DIR="/fp/homes01/u01/ec-sindrre/tmp/Thesis_project_${EXAMPLES_TYPE}_\$SLURM_JOB_ID"
+CLONE_DIR="/fp/homes01/u01/ec-sindrre/tmp/Thesis_project_${EXPERIMENT_TYPE}_\$SLURM_JOB_ID"
 ##############Experiment config################
 model_provider='ollama'
 
 experiments='[
         {
-            "name": "signature_similarity",
+            "name": "signature_assisted-RAG",
             "prompt_prefix": "Create a function",
             "num_shots": [5, 10],
             "prompt_type": "signature",
@@ -134,7 +134,7 @@ cat <<EOT > "./scripts/${SBATCH_SCRIPT}"
 ###############################################################################
 
 # Job Configuration
-#SBATCH --job-name=${PHASE}_${EXPERIMENT}_${EXAMPLES_TYPE}_${PROMPT_TYPE}_${GPUS}        # Job name
+#SBATCH --job-name=${PHASE}_${EXPERIMENT}_${EXPERIMENT_TYPE}_${PROMPT_TYPE}_${GPUS}        # Job name
 #SBATCH --account=${ACCOUNT}                      # Project account
 #SBATCH --partition=${PARTITION}                  # Partition ('accel' or 'accel_long')
 #SBATCH --nodes=${NODES}                           # Amount of nodes. Ollama one support single node inference

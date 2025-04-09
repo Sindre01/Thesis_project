@@ -23,7 +23,7 @@ from my_packages.common.few_shot import init_example_selector
 from my_packages.common.config import model_configs
 from my_packages.data_processing.split_dataset import create_kfold_splits
 from my_packages.common.classes import PromptType, get_prompt_type
-from my_packages.evaluation.code_evaluation import run_model
+from my_packages.evaluation.code_evaluation import run_model, two_step_run
 from my_packages.data_processing.attributes_processing import used_functions_to_string
 from my_packages.prompting.prompt_building import transform_code_data
 from my_packages.utils.file_utils import write_directly_json_file, read_dataset_to_json
@@ -96,6 +96,7 @@ def run_testing_experiment(
         best_params_optimization = None,
         seeds = [3, 75, 346],
         ollama_port = "11434",
+        experiment_type = "similarity",
 ):
     total_count = len(seeds)
     count = 0
@@ -103,40 +104,64 @@ def run_testing_experiment(
     for seed in seeds:
         print(f"Running with seed: {seed}")
         print(f"seeds runned: {count}/{total_count}")
+        if experiment_type == "assisted-RAG":
+            
+            model_result, largest_context = two_step_run(
+                client,
+                model["name"],
+                dataset_nodes,
+                all_nodes,
+                test_data,
+                example_pool,
+                code_max_new_tokens=model["max_tokens"],
+                node_max_new_tokens=model["node_max_tokens"],
+                temperature=temperature,
+                top_p=top_p,
+                top_k=top_k,
+                n = n,
+                seed = seed,
+                debug = True, 
+                prompt_type = prompt_type,
+                ollama_port=ollama_port,
+                rag_data= rag_data,
+                max_ctx=max_ctx,
+                node_context_type="One", # One doc retrival per predicted node
+                constrained_output = True
+            )
+        else:
+            model_result, largest_context = run_model(
+                client,
+                model["name"],
+                dataset_nodes,
+                all_nodes,
+                test_data,
+                example_pool,
+                model["max_tokens"],
+                temperature,
+                top_p,
+                top_k,
+                n = n,
+                seed = seed,
+                debug = True, 
+                prompt_type = prompt_type,
+                ollama_port=ollama_port,
+                rag_data=rag_data,
+                max_ctx=max_ctx,
+                constrained_output=True
 
-        model_result, largest_context = run_model(
-            client,
-            model["name"],
-            dataset_nodes,
-            all_nodes,
-            test_data,
-            example_pool,
-            model["max_tokens"],
-            temperature,
-            top_p,
-            top_k,
-            n = n,
-            seed = seed,
-            debug = True, 
-            prompt_type = prompt_type,
-            ollama_port=ollama_port,
-            rag_data=rag_data,
-            max_ctx=max_ctx,
-            constrained_output=True
-
-        )
-        result_obj = {
-            "experiment_name": experiment_name,
-            "best_params_optimization": best_params_optimization,
-            "temperature": temperature,
-            "top_p": top_p,
-            "top_k": top_k,
-            "seed": seed,
-            "n_generations_per_task": n,
-            "model": model["name"],
-            "largest_context": largest_context,
-            "task_candidates": model_result,
-        }
+            )
+            result_obj = {
+                "experiment_name": experiment_name,
+                "best_params_optimization": best_params_optimization,
+                "temperature": temperature,
+                "top_p": top_p,
+                "top_k": top_k,
+                "seed": seed,
+                "n_generations_per_task": n,
+                "model": model["name"],
+                "largest_context": largest_context,
+                "task_candidates": model_result,
+            }
 
         results.append(result_obj)
         ## Write to file
@@ -173,6 +198,9 @@ def main(
         elif experiment_type == "full-context":
             max_ctx = 60000 # 60k tokens, because all documentation and few-shot are less than this
             rag_data = init_rag_data() # None if not using RAG
+        elif experiment_type == "assisted-RAG":
+            max_ctx = 16000
+            rag_data = init_rag_data()
         else:
             raise ValueError(f"Unknown experiment type: {experiment_type}")
        
@@ -244,6 +272,7 @@ def main(
                         ollama_port = ollama_port,
                         rag_data = rag_data,
                         max_ctx = max_ctx,
+                        experiment_type = experiment_type,
                     )
 
                 print(f"Testing finished for {experiment_name} on model: {model_name}")

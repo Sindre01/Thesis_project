@@ -213,7 +213,7 @@ def two_step_run(
             available_nodes_union = " | ".join(f'"{node}"' for node in node_candidates)
 
             # Read your existing .lark file
-            with open(f"{project_root}/data/midio_grammar.lark", "r") as f:
+            with open(f"{project_root}/data/dynamic_midio_grammar.lark", "r") as f:
                 grammar_text = f.read()
 
             # Replace the placeholders with the actual alternations.

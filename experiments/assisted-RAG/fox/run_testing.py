@@ -266,7 +266,7 @@ if __name__ == "__main__":
     best_params_root = f"{project_dir}/experiments/few-shot/fox/best_params"
     results_root = f"/fp/homes01/u01/ec-sindrre/slurm_jobs/{experiment_folder}/testing"
     rag_data = init_rag_data() # None if not using RAG
-    constrained_output = True
+    constrained_output = False
     experiment_dir = os.path.abspath(f"{script_dir}/..")
     env_path = os.path.abspath(f"{project_dir}/../../.env")
     print("Env is located in:", env_path)
