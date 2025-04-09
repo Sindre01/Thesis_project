@@ -225,12 +225,12 @@ def two_step_run(
             constrained_llm = Syncode(
                 model=hf_model, 
                 grammar=grammar_text, 
-                mode="grammar_mask",
+                mode="grammar_strict",
                 parse_output_only=True, 
                 device_map="auto",
                 **model_kwargs
             )
-            rag_data = None # No RAG data, when constrained decoding for now
+            rag_data = rag_data # No RAG data, when constrained decoding for now
 
         # (B) Step 2: Code step
         generation_kwargs = { #
@@ -454,7 +454,7 @@ def run_model(
         constrained_llm = Syncode(
             model=hf_model, 
             grammar=f"{project_root}/data/midio_grammar.lark", 
-            mode="grammar_mask",
+            mode="grammar_strict",
             parse_output_only=True, 
             device_map="auto",
             **model_kwargs
