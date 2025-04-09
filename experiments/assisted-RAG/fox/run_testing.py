@@ -93,7 +93,8 @@ def run_testing_experiment(
         best_params_optimization = None,
         seeds = [3, 75, 346],
         ollama_port = "11434",
-        experiment_type = "ONE"
+        experiment_type = "ONE",
+        constrained_output: bool = False
 ):
     total_count = len(seeds)
     count = 0
@@ -121,7 +122,8 @@ def run_testing_experiment(
             ollama_port=ollama_port,
             rag_data=rag_data,
             max_ctx=max_ctx,
-            node_context_type=experiment_type
+            node_context_type=experiment_type,
+            constrained_output = constrained_output
         )
         result_obj = {
             "experiment_name": experiment_name,
@@ -151,7 +153,9 @@ def main(
         best_params_root: str, 
         rag_data: RagData = None,
         fold=-1, 
-        k_folds=3):
+        k_folds=3,
+        constrained_output: bool = False
+):
     """Main function to run few-shot testing experiments."""
     for ex in experiments:
         selector_type= "similarity" if ex["semantic_selector"] else "coverage"
@@ -235,7 +239,8 @@ def main(
                         max_ctx = max_ctx,
                         best_params_optimization = best_params_model["optimizer_metric"],
                         ollama_port = ollama_port,
-                        experiment_type=experiment_type
+                        experiment_type=experiment_type,
+                        constrained_output=constrained_output,
                     )
 
                 print(f"Testing finished for {experiment_name} on model: {model_name}")
@@ -261,7 +266,7 @@ if __name__ == "__main__":
     best_params_root = f"{project_dir}/experiments/few-shot/fox/best_params"
     results_root = f"/fp/homes01/u01/ec-sindrre/slurm_jobs/{experiment_folder}/testing"
     rag_data = init_rag_data() # None if not using RAG
-   
+    constrained_output = True
     experiment_dir = os.path.abspath(f"{script_dir}/..")
     env_path = os.path.abspath(f"{project_dir}/../../.env")
     print("Env is located in:", env_path)
@@ -339,6 +344,7 @@ if __name__ == "__main__":
         results_root=results_root,
         rag_data=rag_data,
         best_params_root=best_params_root,
+        constrained_output=constrained_output
     )
     
 

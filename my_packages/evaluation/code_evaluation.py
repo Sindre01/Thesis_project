@@ -215,12 +215,12 @@ def two_step_run(
 
             # Replace the placeholders with the actual alternations.
             grammar_text = grammar_text.replace("%%AVAILABLE_ARGS%%", f"(?:{available_args_union})")
-            grammar_text = grammar_text.replace("%%FUNCTION_NODE_NAMES%%", f"(?:{function_nodes_union})")
-
+            grammar_text = grammar_text.replace("%%AVAILABLE_NODES%%", f"(?:{function_nodes_union})")
+            # grammar_text = grammar_text.replace("%%AVAILABLE_NODES%%", f"(?:{available_nodes_union})")
             # Load the Syncode augmented model with huggingface model
             constrained_llm = Syncode(
                 model=hf_model, 
-                grammar=f"{project_root}/data/midio_grammar.lark", 
+                grammar=grammar_text, 
                 mode="grammar_strict",
                 parse_output_only=True, 
                 device_map="auto",
@@ -277,7 +277,10 @@ def get_args_from_nodes(node_candidates, rag_data, docs_per_node=1):
     all_args = []
     for predicted_node in node_candidates:
         # Get the node document string
+        print("Simialrity search for node: ", predicted_node)
         node_docs = rag_data.node_retriever.similarity_search(predicted_node, k=docs_per_node) # Change to node_doc_str later
+        node_docs = node_docs[0].page_content
+        print(f"Node docs for {predicted_node}: {node_docs}")
         # Split into lines
         lines = node_docs.splitlines()
 
@@ -293,6 +296,7 @@ def get_args_from_nodes(node_candidates, rag_data, docs_per_node=1):
                 if tokens:
                     last_token = tokens[-1].strip(".,;:")  
                     extracted.append(last_token)
+        print(f"Extracted args from node {predicted_node}: {extracted}")
         all_args.extend(extracted)
     return all_args
 

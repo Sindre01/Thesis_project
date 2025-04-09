@@ -3,6 +3,34 @@
 %ignore WS
 
 // TERMINALS: Basic building blocks of the language
+KW_IMPORT: "import"
+
+KW_MODULE: "module"
+KW_FUNC: "func"
+KW_EXTERN: "extern"
+KW_EVENT: "event"
+KW_TYPE: "type"
+
+KW_INSTANCE: "instance"
+KW_DATA_INSTANCE: "data_instance"
+KW_WAYPOINT_INSTANCE: "waypoint"
+KW_COMMENT_INSTANCE: "comment"
+
+KW_IN: "in"
+KW_OUT: "out"
+KW_PROPERTY: "property"
+KW_TRIGGER: "trigger"
+KW_PARAMETER: "parameter"
+
+KW_PRODUCES: "produces"
+KW_CONSUMES: "consumes"
+KW_BORROWS: "borrows"
+
+KW_SETTER_INSTANCE: "setter"
+KW_GETTER_INSTANCE: "getter"
+
+KW_OR: "or"
+
 LEFT_PAREN: "("
 RIGHT_PAREN: ")"
 LEFT_CURL: "{"
@@ -27,25 +55,30 @@ VALUE_BOOL.1: "true" | "false"
 VALUE_NUMBER: /-?\d+(\.\d+)?/
 VALUE_STRING: "\"" /([^"\\]|\\.)*/ "\""
 
-// // IDENTIFIERS and LITERALS
+// IDENTIFIERS and LITERALS
+ROOT.2: "root"
+STD_K98OJB.2: "Std_k98ojb"
 
 // For available argument names (reserved words)
-AVAILABLE_ARGS: /%%AVAILABLE_ARGS%%/ //Input, execute etc
-AVAILABLE_NODES: /%%AVAILABLE_NODES%%/ // For function node names available for the instance keyword (paths) e.g. "root.math.modulo"
 
-// Your general identifier rule that uses both:
-UNDERSCORE_WORD: /[a-zA-Z_][a-zA-Z0-9_]*_[a-zA-Z0-9_]*/
-IDENTIFIER: UNDERSCORE_WORD | AVAILABLE_ARGS
+// AVAILABLE_ARGS.2: %%AVAILABLE_ARGS%%    // Input, execute, etc.
+// AVAILABLE_NODES.2: %%AVAILABLE_NODES%%  // For function node names available for the instance keyword (paths), e.g. "root.math.modulo"
+UNDERSCORE_WORD.1: /[a-zA-Z_][a-zA-Z0-9_]*_[a-zA-Z0-9_]*/
+available_args: %%AVAILABLE_ARGS%% 
+available_nodes: %%AVAILABLE_NODES%% 
 
+// Define normal identifiers and verbatim identifiers separately.
+IDENTIFIER: CNAME
 VERBATIM_IDENT: "``" /[^`]*/ "``"
 ?name: VERBATIM_IDENT | IDENTIFIER
+// ?name: VERBATIM_IDENT | UNDERSCORE_WORD
 
 // VALUES
-literal_value: VALUE_BOOL
-             | VALUE_NUMBER
-             | VALUE_STRING
-             | value_list
-             | value_object
+literal_value: VALUE_BOOL 
+      | VALUE_NUMBER 
+      | VALUE_STRING 
+      | value_list 
+      | value_object
 
 value_object_field: name COLON literal_value
 value_object: LEFT_CURL [value_object_field (COMMA value_object_field)* [COMMA]] RIGHT_CURL
@@ -55,79 +88,84 @@ value_list: LEFT_SQUARE [ref_or_literal (COMMA ref_or_literal)* [COMMA]] RIGHT_S
 attribute: name COLON literal_value
 attributes: LEFT_PAREN [attribute (COMMA attribute)* [COMMA]] RIGHT_PAREN
 
+?instance_path: ROOT DOT (func_path | custom_func_path)
+func_path: STD_K98OJB (DOT name)* DOT available_nodes
+custom_func_path: name (DOT name)*
+
 // GENERICS and TYPES
 generic_args: LT [type_expr (COMMA type_expr)*] GT
-item_path: name (DOT name)* | AVAILABLE_NODES
+item_path: name (DOT name)* [DOT (available_args | UNDERSCORE_WORD)]
+
 type_ref: item_path [generic_args]
 ref_or_literal: item_path | literal_value
 type_literal_or_ref: literal_value | type_ref
 
-type_expr: type_literal_or_ref ("or" type_literal_or_ref)*
+type_expr: type_literal_or_ref (KW_OR type_literal_or_ref)*
 
 property_type: LEFT_PAREN [type_expr] RIGHT_PAREN
 
-// CONSUMPTION and TRIGGER
-consumption: ("produces" | "consumes" | "borrows") COLON type_expr
+// CONSUMPTION and TRIGGER 
+consumption: (KW_PRODUCES | KW_CONSUMES | KW_BORROWS) COLON type_expr
 trigger_consumption: LEFT_PAREN [consumption (COMMA consumption)* [COMMA]] RIGHT_PAREN
 
 // PROPERTIES and PARAMETERS
-input_property: "in" attributes? "property" property_type? name
-output_property: "out" attributes? "property" property_type? name
-input_trigger: "in" attributes? "trigger" trigger_consumption? name
-output_trigger: "out" attributes? "trigger" trigger_consumption? name
+input_property: KW_IN attributes? KW_PROPERTY property_type? name
+output_property: KW_OUT attributes? KW_PROPERTY property_type? name
+input_trigger: KW_IN attributes? KW_TRIGGER trigger_consumption? name
+output_trigger: KW_OUT attributes? KW_TRIGGER trigger_consumption? name
 
-property: input_property
-        | output_property
-        | input_trigger
+property: input_property 
+        | output_property 
+        | input_trigger 
         | output_trigger
 
-parameter: "parameter" attributes? name
+parameter: KW_PARAMETER attributes? name
 generic_params: LT [name (COMMA name)*] GT
 item_name: name [generic_params]
 
 // INSTANCES and FIELD ACCESS
-instance: "instance" attributes? name type_ref value_object
-data_instance: "data_instance" attributes? name EQ literal_value
-setter: "setter" attributes? name EQ IDENTIFIER
-getter: "getter" attributes? name EQ IDENTIFIER
-comment_instance: "comment" attributes? name VALUE_STRING
+instance: KW_INSTANCE attributes? name instance_path value_object
+data_instance: KW_DATA_INSTANCE attributes? name EQ literal_value
+setter: KW_SETTER_INSTANCE attributes? name EQ IDENTIFIER
+getter: KW_GETTER_INSTANCE attributes? name EQ IDENTIFIER
+comment_instance: KW_COMMENT_INSTANCE attributes? name VALUE_STRING
 ?field_access_item: VALUE_NUMBER | name
 
 field_access: field_access_item (DOT field_access_item)+
-waypoint_instance: "waypoint" attributes? name [EQ field_access]
+waypoint_instance: KW_WAYPOINT_INSTANCE attributes? name [EQ field_access]
 
-any_instance: instance
-            | data_instance
+any_instance: instance 
+            | data_instance 
             | setter
             | getter
-            | waypoint_instance
+            | waypoint_instance 
             | comment_instance
 
-// ARROWS
-arrow_source: item_path
+// ARROWS 
+arrow_source: item_path 
             | literal_value
             | inline_func
 
 arrow_target: item_path
 arrow: arrow_source ARROW_OP arrow_target
 
-// FUNCTION and EVENT BODIES
+// FUNCTION and EVENT BODIES 
 func_body: (property | parameter | any_instance | arrow)*
-func: ["extern"] "func" attributes? item_name LEFT_CURL func_body RIGHT_CURL
-inline_func: "func" attributes? item_name? LEFT_CURL func_body RIGHT_CURL
+func: KW_EXTERN? KW_FUNC attributes? item_name LEFT_CURL func_body RIGHT_CURL
+inline_func: KW_FUNC attributes? item_name? LEFT_CURL func_body RIGHT_CURL
 
 event_body: (property | parameter)*
-event: ["extern"] "event" attributes? item_name LEFT_CURL func_body RIGHT_CURL
+event: KW_EXTERN? KW_EVENT attributes? item_name LEFT_CURL func_body RIGHT_CURL
 
-// TYPE DECLARATION
-type_decl: "type" item_name type_expr
+// TYPE DECLARATION 
+type_decl: KW_TYPE item_name type_expr
 
-// MODULE
+// MODULE 
 module_body: (func | event | type_decl | module | any_instance | arrow)*
-module: "module" attributes? name LEFT_CURL module_body RIGHT_CURL
+module: KW_MODULE attributes? name LEFT_CURL module_body RIGHT_CURL
 
-// TOP-LEVEL ITEMS
-import_stmt: "import" LEFT_PAREN VALUE_STRING COMMA name RIGHT_PAREN
+// TOP-LEVEL ITEMS 
+import_stmt: KW_IMPORT LEFT_PAREN VALUE_STRING COMMA name RIGHT_PAREN
 top_level_item: import_stmt | module
 file: top_level_item*
 

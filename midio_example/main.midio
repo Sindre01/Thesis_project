@@ -1,30 +1,65 @@
- import("std", Std_k98ojb)
+import("std", Std_k98ojb)
 import("http", Http_q7o96c)
 
-module() main { 
-    func(doc: "finds the kth element in the given array using 1-based indexing.") kth_element {
-        in(x: -286, y: -119, name: "execute") trigger() execute_1e159f
-        in(x: 153, y: 446, name: "list") property(List) list_b5d10a
-        in(x: -289, y: 126, name: "k") property(Number) k_1e19fb
+module() main {
+    func(doc: "checks whether the given number is a perfect square or not.") is_perfect_square {
+        in(x: 354, y: -53, name: "input") property(Number) input_f5c03d
+        in(x: 161, y: -211, name: "execute") trigger() execute_27b8c3
 
-        out(x: 844, y: 53, name: "continue") trigger() continue_c95bcb
-        out(x: 692, y: 553, name: "element") property(Number) element_fd7945
+        out(x: 1748, y: -10, name: "out") property(Bool) out_f3db9f
+        out(x: 1894, y: 120, name: "continue") trigger() continue_8ba06b
 
-        instance(x: 0, y: 0) find_k_4f7e1a root.Std_k98ojb.Iteration.Find {}
-        instance(x: 155, y: 446) for_0c5c3d root.Std_k98ojb.Std.For {}
-        instance(x: 340, y: 5) ifexpression_6c15d4 root.Std_k98ojb.Std.IfExpression {
-            expression: "x == k"
+        instance(x: 352, y: -493) map_6030c9 root.Std_k98ojb.Iteration.Map {}
+        instance(x: 591, y: 74) generaterange_038fce root.Std_k98ojb.List.GenerateRange {}
+        instance(x: 933, y: 25) lessthanorequal_f11fda root.Std_k98ojb.Math.LessThanOrEqual {}
+        instance(x: 714, y: -155) for_8cb3f6 root.Std_k98ojb.Std.For {}
+        instance(x: 1812, y: -319) and_80a119 root.Std_k98ojb.Logic.And {}
+        instance(x: 1121, y: -54) if_07b8c7 root.Std_k98ojb.Std.If {}
+        instance(x: 1504, y: -400) expression_b720d7 root.Std_k98ojb.Math.Expression {
+            expression: "(n % i == 0)"
         }
-        instance(x: 340, y: 5) ifexpression_6c15d4 else {
-            expression: "x > k"
+        instance(x: 1496, y: -187) expression_9fba8c root.Std_k98ojb.Math.Expression {
+            expression: "(n / i == i)"
         }
-        instance(x: 340, y: 5) ifexpression_6c15d4 then {
-            expression: "x == k"
-        } else  -> instance_6f1d6b root.Std_k98ojb.Std.If
-         -> instance_6f1d6b else
-         -> instance_6f1d6b then
-         -> instance_6f1d6b else
-         -> instance_6f1d6b then
-         -> instance_6f1d6b else
+        instance(x: 2136, y: -356) if_e19a62 root.Std_k98ojb.Std.If {}
+        instance(x: 1088, y: -256) add_b4554f root.Std_k98ojb.Math.Add {}
+        1 -> generaterange_038fce.from
+        input_f5c03d -> generaterange_038fce.to
+        generaterange_038fce.list -> map_6030c9.items
+        func() h{
+            in(x: -76, y: 46, name: "element") property(Number) element_5f51f7
+
+            out(x: 382, y: 19, name: "out") property(Number) out_d0fd24
+
+            instance(x: 106, y: 17) mul_2f9d09 root.Std_k98ojb.Math.Mul {}
+            element_5f51f7 -> mul_2f9d09.first
+            element_5f51f7 -> mul_2f9d09.second
+            mul_2f9d09.result -> out_d0fd24
+        } -> map_6030c9.handler
+        map_6030c9.output_list -> for_8cb3f6.items
+        for_8cb3f6.item -> lessthanorequal_f11fda.left
+        input_f5c03d -> lessthanorequal_f11fda.right
+        lessthanorequal_f11fda.result -> if_07b8c7.predicate
+        for_8cb3f6.onItem -> if_07b8c7.execute
+        if_07b8c7.else -> continue_8ba06b
+        expression_b720d7.result -> and_80a119.left
+        expression_9fba8c.result -> and_80a119.right
+        and_80a119.result -> if_e19a62.predicate
+        if_07b8c7.then -> if_e19a62.execute
+        for_8cb3f6.index -> add_b4554f.first
+        1 -> add_b4554f.second
+        add_b4554f.result -> expression_b720d7.gen_1
+        add_b4554f.result -> expression_9fba8c.gen_1
+        input_f5c03d -> expression_9fba8c.gen_0
+        input_f5c03d -> expression_b720d7.gen_0
+        if_07b8c7.value -> out_f3db9f
+        if_e19a62.then -> continue_8ba06b
+        for_8cb3f6.done -> continue_8ba06b
+        execute_27b8c3 -> for_8cb3f6.reset
+        if_e19a62.else -> for_8cb3f6.next
     }
+
+    
+
+    instance(x: -189, y: 222) is_perfect_square_f0be66 root.main.is_perfect_square {}
 }

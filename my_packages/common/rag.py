@@ -72,10 +72,10 @@ def init_rag_data(
         key=lambda doc: order_mapping.get(os.path.basename(doc["file"]).upper(), float('inf'))
     )
 
-    node_files = [ # How to use
-        "http.md",
-        "std.md",
-    ] 
+    # node_files = [ # How to use
+    #     "http.md",
+    #     "std.md",
+    # ] 
 
     native_files = [  # Native implementation.
         "http_extern.midio",
