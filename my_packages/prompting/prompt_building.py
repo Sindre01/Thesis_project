@@ -225,7 +225,7 @@ def add_RAG_to_prompt(
         if candidate_nodes:
             if node_context_type == "ONE":
                 MAX_DOCS_PER_NODE = 1
-            elif node_context_type == "MANY":
+            else:
                 MAX_DOCS_PER_NODE = 20
             # Use predicted/fetched nodes for extracted relevant docuemtnation
             print("Using predicted nodes to extract relevant docuemntation.")

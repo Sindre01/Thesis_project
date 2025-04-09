@@ -104,7 +104,7 @@ def run_testing_experiment(
     for seed in seeds:
         print(f"Running with seed: {seed}")
         print(f"seeds runned: {count}/{total_count}")
-        
+
         if experiment_type == "assisted-RAG":
             model_result, largest_context = two_step_run(
                 client,
@@ -125,7 +125,7 @@ def run_testing_experiment(
                 ollama_port=ollama_port,
                 rag_data= rag_data,
                 max_ctx=max_ctx,
-                node_context_type="One", # One doc retrival per predicted node
+                node_context_type="ONE", # One doc retrival per predicted node
                 constrained_output = True
             )
         else:
