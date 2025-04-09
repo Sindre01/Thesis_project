@@ -57,19 +57,21 @@ VALUE_STRING: "\"" /([^"\\]|\\.)*/ "\""
 
 // IDENTIFIERS and LITERALS
 ROOT.2: "root"
+imports: "Std_k98ojb" | "Http_q7o96c"
 
 // For available argument names (reserved words)
 
 // AVAILABLE_ARGS.2: %%AVAILABLE_ARGS%%    // Input, execute, etc.
 // AVAILABLE_NODES.2: %%AVAILABLE_NODES%%  // For function node names available for the instance keyword (paths), e.g. "root.math.modulo"
-UNDERSCORE_IDENTIFIER.1: /[a-zA-Z_][a-zA-Z0-9_]*_[a-zA-Z0-9_]*/
 available_args: %%AVAILABLE_ARGS%% 
 available_nodes: %%AVAILABLE_NODES%% 
+UNDERSCORE_IDENTIFIER: /[a-zA-Z_][a-zA-Z0-9_]*_[a-zA-Z0-9_]*/
 
 // Define normal identifiers and verbatim identifiers separately.
-IDENTIFIER: CNAME
+IDENTIFIER: /[a-zA-Z][a-zA-Z0-9]*/
+
 VERBATIM_IDENT: "``" /[^`]*/ "``"
-?name: VERBATIM_IDENT | IDENTIFIER
+?name: VERBATIM_IDENT | IDENTIFIER | UNDERSCORE_IDENTIFIER
 // ?name: VERBATIM_IDENT | UNDERSCORE_IDENTIFIER
 
 // VALUES
@@ -88,7 +90,7 @@ attribute: name COLON literal_value
 attributes: LEFT_PAREN [attribute (COMMA attribute)* [COMMA]] RIGHT_PAREN
 
 ?instance_path: ROOT DOT (func_path | custom_func_path)
-func_path: UNDERSCORE_IDENTIFIER (DOT name)+ DOT available_nodes
+func_path: imports (DOT name)+ DOT available_nodes
 custom_func_path: name (DOT name)+
 
 // GENERICS and TYPES
@@ -164,7 +166,7 @@ module_body: (func | event | type_decl | module | any_instance | arrow)*
 module: KW_MODULE attributes? name LEFT_CURL module_body RIGHT_CURL
 
 // TOP-LEVEL ITEMS 
-import_stmt: KW_IMPORT LEFT_PAREN VALUE_STRING COMMA UNDERSCORE_IDENTIFIER RIGHT_PAREN
+import_stmt: KW_IMPORT LEFT_PAREN VALUE_STRING COMMA imports RIGHT_PAREN
 top_level_item: import_stmt | module
 file: top_level_item*
 

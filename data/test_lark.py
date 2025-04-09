@@ -69,7 +69,7 @@ available_args_union = " | ".join(f'"{arg}"' for arg in available_args)
 available_nodes_union = " | ".join(f'"{node}"' for node in node_candidates)
 
 # Read your existing .lark file
-with open("midio_grammar.lark", "r") as f:
+with open("dynamic_midio_grammar.lark", "r") as f:
     grammar_text = f.read()
 
 
@@ -93,7 +93,7 @@ module() main {
         instance(x: -208, y: -217) expression_ea12d8 root.Std_k98ojb.Math.Expression {
             expression: "(x < 0 && y > 0) || (x > 0 && y < 0)"
         }
-        x_853326 -> expression_ea12d8.trigger
+        x_853326 -> expression_ea12d8.result
         y_5390f5 -> expression_ea12d8.gen_1
         expression_ea12d8.result -> output_3339a3
     }
