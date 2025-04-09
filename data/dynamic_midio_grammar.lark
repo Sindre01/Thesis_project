@@ -164,7 +164,7 @@ module_body: (func | event | type_decl | module | any_instance | arrow)*
 module: KW_MODULE attributes? name LEFT_CURL module_body RIGHT_CURL
 
 // TOP-LEVEL ITEMS 
-import_stmt: KW_IMPORT LEFT_PAREN VALUE_STRING COMMA name RIGHT_PAREN
+import_stmt: KW_IMPORT LEFT_PAREN VALUE_STRING COMMA UNDERSCORE_IDENTIFIER RIGHT_PAREN
 top_level_item: import_stmt | module
 file: top_level_item*
 
