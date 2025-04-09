@@ -45,6 +45,15 @@ experiments='[
             "semantic_selector": true
         }
 ]'
+experiments='[
+        {
+            "name": "signature_similiarity",
+            "prompt_prefix": "Create a function",
+            "num_shots": [5, 10],
+            "prompt_type": "signature",
+            "semantic_selector": true
+        }
+]'
 # models='[
 #     "llama3.3:70b-instruct-fp16"
 # ]'
