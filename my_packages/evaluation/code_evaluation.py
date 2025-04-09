@@ -206,16 +206,17 @@ def two_step_run(
             print(f"Extracted args from nodes: {available_args}")
 
             # Join them with a pipe to form an alternation group to use in Lark
-            available_args_union = "|".join(available_args)
-            function_nodes_union = "|".join(node_candidates)
+            available_args_union = " | ".join(f'"{arg}"' for arg in available_args)
+            available_nodes_union = " | ".join(f'"{node}"' for node in node_candidates)
 
             # Read your existing .lark file
-            with open("my_grammar.lark", "r") as f:
+            with open("midio_grammar.lark", "r") as f:
                 grammar_text = f.read()
 
             # Replace the placeholders with the actual alternations.
-            grammar_text = grammar_text.replace("%%AVAILABLE_ARGS%%", f"(?:{available_args_union})")
-            grammar_text = grammar_text.replace("%%AVAILABLE_NODES%%", f"(?:{function_nodes_union})")
+            grammar_text = grammar_text.replace("%%AVAILABLE_ARGS%%", available_args_union)
+            grammar_text = grammar_text.replace("%%AVAILABLE_NODES%%", available_nodes_union)
+
             # grammar_text = grammar_text.replace("%%AVAILABLE_NODES%%", f"(?:{available_nodes_union})")
             # Load the Syncode augmented model with huggingface model
             constrained_llm = Syncode(

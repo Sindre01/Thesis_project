@@ -60,7 +60,7 @@ node_candidates = [
 
 # rag_data = init_rag_data()
 # available_args = get_args_from_nodes(node_candidates, rag_data, docs_per_node=1)
-available_args = ["gen_0", "gen_1", "gen_2", "gen_3", "gen_4", "gen_5", "gen_6", "gen_7", "gen_8", "gen_9"]
+available_args = ["result", "gen_0", "gen_1", "gen_2", "gen_3", "gen_4", "gen_5", "gen_6", "gen_7", "gen_8", "gen_9"]
 print(f"Extracted args from nodes: {available_args}")
 
 # Join them with a pipe to form an alternation group to use in Lark
@@ -114,17 +114,17 @@ print(list(parser.lex(code)))
 # new_dataset_name = 'MBPP-Midio-50.json'
 # dataset = read_dataset_to_json(main_dataset_folder)
 
-for i in range(0,50):
-    # dataset[i]['code'] = dataset[i]['code'].replace("%%AVAILABLE_ARGS%%", available_args_union)
-    i=i+1
-    print(f"\n\nParsing code {i}...")
-    code = read_code_file(i)
-    print(code)
-    # Parse it
-    tree = parser.parse(code)
+# for i in range(0,50):
+#     # dataset[i]['code'] = dataset[i]['code'].replace("%%AVAILABLE_ARGS%%", available_args_union)
+#     i=i+1
+#     print(f"\n\nParsing code {i}...")
+#     code = read_code_file(i)
+#     print(code)
+#     # Parse it
+#     tree = parser.parse(code)
 
-    # Print the raw AST
-    # print(tree.pretty())
-    print(list(parser.lex(code)))
+#     # Print the raw AST
+#     # print(tree.pretty())
+#     print(list(parser.lex(code)))
 
 
