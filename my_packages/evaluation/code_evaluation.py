@@ -202,7 +202,7 @@ def two_step_run(
             print(f"using grammar file: {project_root}/data/midio_grammar.lark")
             
             # Dynamically set the grammar file based on the nodes generated.
-            available_args = get_args_from_nodes(node_candidates, rag_data, doc_per_node = 1)
+            available_args = get_args_from_nodes(node_candidates, rag_data, docs_per_node = 1)
             print(f"Extracted args from nodes: {available_args}")
 
             #Extract last part of nodes:
@@ -230,6 +230,7 @@ def two_step_run(
                 device_map="auto",
                 **model_kwargs
             )
+            rag_data = None # No RAG data, when constrained decoding for now
 
         # (B) Step 2: Code step
         generation_kwargs = { #
