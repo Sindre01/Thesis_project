@@ -57,7 +57,6 @@ VALUE_STRING: "\"" /([^"\\]|\\.)*/ "\""
 
 // IDENTIFIERS and LITERALS
 ROOT.2: "root"
-STD_K98OJB.2: "Std_k98ojb"
 
 // For available argument names (reserved words)
 
@@ -89,7 +88,7 @@ attribute: name COLON literal_value
 attributes: LEFT_PAREN [attribute (COMMA attribute)* [COMMA]] RIGHT_PAREN
 
 ?instance_path: ROOT DOT (func_path | custom_func_path)
-func_path: STD_K98OJB (DOT name)+ DOT available_nodes
+func_path: UNDERSCORE_IDENTIFIER (DOT name)+ DOT available_nodes
 custom_func_path: name (DOT name)+
 
 // GENERICS and TYPES

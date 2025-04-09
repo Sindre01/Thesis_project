@@ -104,8 +104,8 @@ def run_testing_experiment(
     for seed in seeds:
         print(f"Running with seed: {seed}")
         print(f"seeds runned: {count}/{total_count}")
+        
         if experiment_type == "assisted-RAG":
-            
             model_result, largest_context = two_step_run(
                 client,
                 model["name"],
