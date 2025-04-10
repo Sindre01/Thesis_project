@@ -321,7 +321,8 @@ def run_prompt_step(
     debug: bool = False,
     candidate_nodes: list = [],
     ollama_port: str = "11434",
-    node_context_type: str = "MANY"
+    node_context_type: str = "MANY",
+
 ) -> tuple[list[str], int]:
     """
     1. Build prompt

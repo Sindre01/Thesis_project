@@ -6,7 +6,8 @@ from langchain_core.example_selectors.base import BaseExampleSelector
 def init_example_selector(
         num_shots: int, 
         example_pool: dict, 
-        semantic_selector: bool
+        semantic_selector: bool,
+        similarity_keys: list[str] = ["task"], # External_functions
     )-> BaseExampleSelector:
 
     example_pool.sort(key=lambda x: int(x['task_id']))
@@ -17,7 +18,7 @@ def init_example_selector(
             example_pool, 
             OllamaEmbeddings(model="nomic-embed-text"),
             shots=num_shots,
-            input_keys=["task"],
+            input_keys=similarity_keys,
         )
     else:
         selector = get_coverage_example_selector(
