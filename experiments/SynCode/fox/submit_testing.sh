@@ -7,7 +7,7 @@
 # Configuration
 EXPERIMENT="SynCode"                    # Experiment ('few-shot')
 PHASE="testing"                       # Phase ('testing' or 'validation')
-EXPERIMENT_TYPE="assisted-RAG"                 # 'similarity' or RAG or full-context
+EXPERIMENT_TYPE="similarity"                 # 'similarity' or RAG or full-context
 PROMPT_TYPE="signature"                 # 'regular' or 'cot' or 'signature'   
 # SEMANTIC_SELECTOR=true                   # Use semantic selector
 K_FOLD_JOBS=0-2                              # Runs jobs for folds 0 to 2 (3-fold CV)
@@ -38,7 +38,7 @@ model_provider='ollama'
 
 experiments='[
         {
-            "name": "signature_assisted-RAG",
+            "name": "signature_similarity,
             "prompt_prefix": "Create a function",
             "num_shots": [5, 10],
             "prompt_type": "signature",

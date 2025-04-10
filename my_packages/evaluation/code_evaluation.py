@@ -458,8 +458,9 @@ def run_model(
 
         if nodes_as_terminals:
             print(f"using grammar file: {project_root}/data/dynamic_midio_grammar.lark")
+            print(f"Extracting args from nodes: {all_nodes}")
             available_args = get_args_from_nodes(all_nodes, rag_data, docs_per_node = 1)
-            print(f"Extracted args from nodes: {available_args}")
+            print(f"Extracted these args from nodes: {available_args}")
             node_candidates = [node.split(".")[-1] for node in all_nodes]
             available_args_union = " | ".join(f'"{arg}"' for arg in available_args)
             available_nodes_union = " | ".join(f'"{node}"' for node in node_candidates)
@@ -472,7 +473,6 @@ def run_model(
             grammar_text = grammar_text.replace("%%AVAILABLE_ARGS%%", available_args_union)
             grammar_text = grammar_text.replace("%%AVAILABLE_NODES%%", available_nodes_union)
 
-            # grammar_text = grammar_text.replace("%%AVAILABLE_NODES%%", f"(?:{available_nodes_union})")
             # Load the Syncode augmented model with huggingface model
             constrained_llm = Syncode(
                 model=hf_model, 
