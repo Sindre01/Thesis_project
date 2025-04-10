@@ -3,9 +3,7 @@
         "model_name": "llama3.2:3b-instruct-fp16",
         "experiment": "signature_full-context_5_shot",
         "metrics": [
-            "syntax",
-            "semantic",
-            "tests"
+            "visual"
         ],
         "seed": [
             3,
@@ -22,65 +20,9 @@
             5,
             10
         ],
-        "syntax@1": {
-            "mean": 0.65,
-            "std": 0.06
-        },
-        "syntax@2": {
-            "mean": 0.78,
+        "visual@graph_placement": {
+            "mean": 0.76,
             "std": 0.07
-        },
-        "syntax@3": {
-            "mean": 0.84,
-            "std": 0.08
-        },
-        "syntax@5": {
-            "mean": 0.89,
-            "std": 0.09
-        },
-        "syntax@10": {
-            "mean": 0.94,
-            "std": 0.08
-        },
-        "semantic@1": {
-            "mean": 0.42,
-            "std": 0.1
-        },
-        "semantic@2": {
-            "mean": 0.56,
-            "std": 0.11
-        },
-        "semantic@3": {
-            "mean": 0.63,
-            "std": 0.11
-        },
-        "semantic@5": {
-            "mean": 0.71,
-            "std": 0.12
-        },
-        "semantic@10": {
-            "mean": 0.81,
-            "std": 0.11
-        },
-        "tests@1": {
-            "mean": 0.21,
-            "std": 0.07
-        },
-        "tests@2": {
-            "mean": 0.32,
-            "std": 0.08
-        },
-        "tests@3": {
-            "mean": 0.38,
-            "std": 0.08
-        },
-        "tests@5": {
-            "mean": 0.45,
-            "std": 0.07
-        },
-        "tests@10": {
-            "mean": 0.53,
-            "std": 0.06
         }
     }
 ]

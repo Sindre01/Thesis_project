@@ -11,7 +11,7 @@ from my_packages.evaluation.metrics import check_correctness, check_semantics, c
 from my_packages.evaluation.models import generate_n_responses
 from my_packages.prompting.prompt_building import add_RAG_to_prompt, build_prompt, code_data_to_node_data
 from my_packages.utils.file_utils import save_results_as_string, save_results_to_file
-import re
+from itertools import chain
 from syncode import Syncode
 from colorama import Fore, Style
 from langchain_ollama import ChatOllama
@@ -415,7 +415,7 @@ def run_model(
     ollama_port="11434",
     rag_data: RagData = None,
     max_ctx=16000,
-    constrained_output=False
+    constrained_output=False,
 )-> tuple[dict[int, list[str]], int]:
     """Run a model on a list of tasks and return the generated code snippets."""
 
@@ -426,6 +426,7 @@ def run_model(
     
     constrained_llm = None
     if constrained_output:
+        
         print("Constrained output is set to True.")
         model_kwargs = {
             "max_length": max_ctx,
@@ -452,15 +453,46 @@ def run_model(
         else:
             raise ValueError(f"Constrained output is not availbale for model: {model}.")
         print(f"Loading Syncode model with miodel kwargs: {model_kwargs}")
-        print(f"using grammar file: {project_root}/data/midio_grammar.lark")
-        constrained_llm = Syncode(
-            model=hf_model, 
-            grammar=f"{project_root}/data/midio_grammar.lark", 
-            mode="grammar_strict",
-            parse_output_only=True, 
-            device_map="auto",
-            **model_kwargs
-        )
+
+        nodes_as_terminals = True
+
+        if nodes_as_terminals:
+            print(f"using grammar file: {project_root}/data/dynamic_midio_grammar.lark")
+            available_args = get_args_from_nodes(all_nodes, rag_data, docs_per_node = 1)
+            print(f"Extracted args from nodes: {available_args}")
+            node_candidates = [node.split(".")[-1] for node in all_nodes]
+            available_args_union = " | ".join(f'"{arg}"' for arg in available_args)
+            available_nodes_union = " | ".join(f'"{node}"' for node in node_candidates)
+
+            # Read your existing .lark file
+            with open(f"{project_root}/data/dynamic_midio_grammar.lark", "r") as f:
+                grammar_text = f.read()
+
+            # Replace the placeholders with the actual alternations.
+            grammar_text = grammar_text.replace("%%AVAILABLE_ARGS%%", available_args_union)
+            grammar_text = grammar_text.replace("%%AVAILABLE_NODES%%", available_nodes_union)
+
+            # grammar_text = grammar_text.replace("%%AVAILABLE_NODES%%", f"(?:{available_nodes_union})")
+            # Load the Syncode augmented model with huggingface model
+            constrained_llm = Syncode(
+                model=hf_model, 
+                grammar=grammar_text, 
+                mode="grammar_strict",
+                parse_output_only=True, 
+                device_map="auto",
+                **model_kwargs
+            )
+        else:
+            print(f"using grammar file: {project_root}/data/midio_grammar.lark")
+            constrained_llm = Syncode(
+                model=hf_model, 
+                grammar=f"{project_root}/data/midio_grammar.lark", 
+                mode="grammar_strict",
+                parse_output_only=True, 
+                device_map="auto",
+                **model_kwargs
+            )
+
 
     results: dict[int, list[str]] = {}
     largest_ctx_size = 0
@@ -528,32 +560,36 @@ def evaluate_code(
 
     metric_results = []
     for metric in evaluation_metrics:
-        if metric not in ["syntax", "semantic", "tests"]:
+        if metric not in ["syntax", "semantic", "tests", "visual"]:
             raise ValueError("Invalid evaluation metric. Choose from 'syntax', 'semantic', 'tests'")
         else:
             test_results = evaluate_code_metric(candidate_dict, metric)
-      
-            pass_at_k_dict = calculate_pass_at_k_scores(test_results, ks)
-            print(f"Pass@k for {metric}: {pass_at_k_dict}, with temp={hyperparams['temperature']}, top_p={hyperparams['top_p']}, top_k={hyperparams['top_k']}")
+            if metric == "visual":
+                all_scores = list(chain.from_iterable(test_results.values()))
+                avg_score = np.mean(all_scores)
+                metric_results.append({"graph_placement": avg_score})
+            else:
+                pass_at_k_dict = calculate_pass_at_k_scores(test_results, ks)
+                print(f"Pass@k for {metric}: {pass_at_k_dict}, with temp={hyperparams['temperature']}, top_p={hyperparams['top_p']}, top_k={hyperparams['top_k']}")
 
-            # Save errors
-            if env == "dev":
-                save_results_as_string(test_results, f"{metric}_{experiment_name}.txt")
-                save_results_to_file(test_results, f"{metric}_{experiment_name}.json", experiment_folder=experiment_folder)
-            elif env == "prod":
-                save_errors_to_db(
-                    experiment_name,
-                    model_name,
-                    test_results,
-                    hyperparams,
-                    phase,
-                    eval_method=eval_method,
-                    fold=fold,
-                    db_connection=db_connection
-                )
-                print(f"✅ Errors saved to database for {metric} in {experiment_name}")
+                # Save errors
+                if env == "dev":
+                    save_results_as_string(test_results, f"{metric}_{experiment_name}.txt")
+                    save_results_to_file(test_results, f"{metric}_{experiment_name}.json", experiment_folder=experiment_folder)
+                elif env == "prod":
+                    save_errors_to_db(
+                        experiment_name,
+                        model_name,
+                        test_results,
+                        hyperparams,
+                        phase,
+                        eval_method=eval_method,
+                        fold=fold,
+                        db_connection=db_connection
+                    )
+                    print(f"✅ Errors saved to database for {metric} in {experiment_name}")
 
-            metric_results.append(pass_at_k_dict)
+                metric_results.append(pass_at_k_dict)
 
     return metric_results
 

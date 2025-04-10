@@ -334,5 +334,109 @@
             "mean": 0.0,
             "std": 0.0
         }
+    },
+    {
+        "model_name": "phi4:14b-fp16",
+        "experiment": "regular_similarity_5_shot",
+        "metrics": [
+            "visual"
+        ],
+        "seed": [
+            3,
+            346,
+            75
+        ],
+        "temperature": 0.2,
+        "top_p": 0.2,
+        "top_k": 100,
+        "ks": [
+            1,
+            2,
+            3,
+            5,
+            10
+        ],
+        "visual@graph_placement": {
+            "mean": 0.93,
+            "std": 0.04
+        }
+    },
+    {
+        "model_name": "llama3.2:3b-instruct-fp16",
+        "experiment": "regular_similarity_5_shot",
+        "metrics": [
+            "visual"
+        ],
+        "seed": [
+            3,
+            346,
+            75
+        ],
+        "temperature": 0.6,
+        "top_p": 0.6,
+        "top_k": 100,
+        "ks": [
+            1,
+            2,
+            3,
+            5,
+            10
+        ],
+        "visual@graph_placement": {
+            "mean": 0.86,
+            "std": 0.02
+        }
+    },
+    {
+        "model_name": "llama3.3:70b-instruct-fp16",
+        "experiment": "regular_similarity_5_shot",
+        "metrics": [
+            "visual"
+        ],
+        "seed": [
+            3,
+            346,
+            75
+        ],
+        "temperature": 0.2,
+        "top_p": 0.2,
+        "top_k": 10,
+        "ks": [
+            1,
+            2,
+            3,
+            5,
+            10
+        ],
+        "visual@graph_placement": {
+            "mean": 0.93,
+            "std": 0.03
+        }
+    },
+    {
+        "model_name": "llama3.3:70b-instruct-fp16",
+        "experiment": "regular_similarity_5_shot",
+        "metrics": [
+            "visual"
+        ],
+        "seed": [
+            3,
+            346,
+            75
+        ],
+        "temperature": 0.2,
+        "top_p": 0.2,
+        "top_k": 10,
+        "ks": [
+            1,
+            2,
+            3,
+            5,
+            10
+        ],
+        "visual@graph_placement": {
+            "mean": 0.93,
+            "std": 0.03
+        }
     }
 ]

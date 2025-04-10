@@ -156,7 +156,7 @@ def check_visualization(
                     {<task_id>, [candidate1, candidate2, candidate3]},
                 }
 
-    Returns a dictionary of the results of the semantic check for each candidate code.
+    Returns a dictionary of the results for each candidate code.
     """
     results = {}
     for task_id, candidates in candidates_dict.items():

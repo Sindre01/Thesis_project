@@ -128,6 +128,7 @@ def run_testing_experiment(
                 node_context_type="ONE", # One doc retrival per predicted node
                 constrained_output = True
             )
+        
         else:
             model_result, largest_context = run_model(
                 client,
@@ -200,6 +201,9 @@ def main(
             max_ctx = 60000 # 60k tokens, because all documentation and few-shot are less than this
             rag_data = init_rag_data() # None if not using RAG
         elif experiment_type == "assisted-RAG":
+            max_ctx = 16000
+            rag_data = init_rag_data()
+        elif experiment_type == "all_nodes":
             max_ctx = 16000
             rag_data = init_rag_data()
         else:
