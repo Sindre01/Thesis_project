@@ -7,15 +7,15 @@
 
 # Job Configuration
 #SBATCH --job-name=testing_SynCode_similarity_regular_1        # Job name
-#SBATCH --account=ec12                      # Project account
-#SBATCH --partition=accel                  # Partition ('accel' or 'accel_long')
+#SBATCH --account=ec30                      # Project account
+#SBATCH --partition=ifi_accel                  # Partition ('accel' or 'accel_long')
 #SBATCH --nodes=1                           # Amount of nodes. Ollama one support single node inference
 #SBATCH --array=0-2  
 #SBATCH --ntasks=1
 #SBATCH --nodelist=                   # List of nodes that the job can run on
 #SBATCH --gpus=1                             # Number of GPUs
 #SBATCH --time=1-00:00:00                             # Walltime (D-HH:MM:SS)
-#SBATCH --mem-per-gpu=40G              # Memory per CPU
+#SBATCH --mem-per-gpu=20G              # Memory per CPU
 #SBATCH --output=Job_testing_%j.out                 # Standard output and error log
 
 
@@ -36,7 +36,7 @@ module load Python/3.11.5-GCCcore-13.2.0
 # module load CUDA/12.4.0
 
 source ~/.bashrc # may ovewrite previous modules
-OLLAMA_PORT_K_FOLD=$((11175 + $SLURM_ARRAY_TASK_ID))
+OLLAMA_PORT_K_FOLD=$((11495 + $SLURM_ARRAY_TASK_ID))
 
 export OLLAMA_MODELS=/cluster/work/projects/ec12/ec-sindrre/ollama-models    # Path to where the Ollama models are stored and loaded
 export OLLAMA_HOST=0.0.0.0:$OLLAMA_PORT_K_FOLD    # Host and port where Ollama listens
@@ -45,6 +45,7 @@ export OLLAMA_LLM_LIBRARY="cuda_v12_avx"
 export OLLAMA_FLASH_ATTENTION=1
 export OLLAMA_KV_CACHE_TYPE="f16" # f16 (default), q8_0 (half of the memory of f16, try this), q4_0 different quantization types to find the best balance between memory usage and quality.
 export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True 
+
 
 # export OLLAMA_DEBUG=1
 # export OLLAMA_NUM_PARALLEL=2 # Number of parallel models to run. 
@@ -129,7 +130,7 @@ trap cleanup EXIT
 echo "============= Running testing SynCode Python script for Fold ... ============="
 export PYTHONPATH="/fp/homes01/u01/ec-sindrre/tmp/Thesis_project_similarity_$SLURM_JOB_ID:~/Thesis_project:~/Thesis_project:"
 python -u /fp/homes01/u01/ec-sindrre/tmp/Thesis_project_similarity_$SLURM_JOB_ID/experiments/SynCode/fox/run_testing.py     --model_provider 'ollama'     --models '[
-    "phi4:14b-fp16"
+    "llama3.2:3b-instruct-fp16"
 ]'     --experiments '[
         {
             "name": "regular_similarity",

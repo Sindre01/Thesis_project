@@ -463,7 +463,10 @@ def run_model(
             print(f"using grammar file: {project_root}/data/dynamic_midio_grammar.lark")
             print(f"Extracting args from nodes: {all_nodes}")
             node_candidates = [all_node["function_name"].split(".")[-1] for all_node in all_nodes]
+
+            rag_data = rag_data if rag_data else init_rag_data()
             available_args = get_args_from_nodes(all_nodes, rag_data, docs_per_node = 1)
+
             print(f"Extracted these args from nodes: {available_args}")
             available_args_union = " | ".join(f'"{arg}"' for arg in available_args)
             available_nodes_union = " | ".join(f'"{node}"' for node in node_candidates)
@@ -646,18 +649,18 @@ def run_refinement(
 
     error_template = HumanMessagePromptTemplate.from_template(get_prompt_template("ERROR"))
     final_prompt_template.messages.insert(-1, error_template)
+    if debug:
+        # print(f"\n\n{Style.BRIGHT}=== Sample: {index+1} ===")
+        print(f"{Fore.CYAN}{Style.BRIGHT} User prompt: {Style.RESET_ALL}\n{prompt}{Style.RESET_ALL}\n")
 
+    total_n = generation_kwargs["n"]
     for i in range(refinements):
-        for n in generation_kwargs["n"]:
+        for n in range(0, total_n):
 
-            if debug:
-                # print(f"\n\n{Style.BRIGHT}=== Sample: {index+1} ===")
-                print(f"{Fore.CYAN}{Style.BRIGHT} User prompt: {Style.RESET_ALL}\n{final_prompt}\n")
-
+            generation_kwargs["n"] = 1 # Generate one candidate at a time
             # Generate response
             generated_candidates = generate_n_responses(
                 **generation_kwargs,
-                n=1, # One candidate
                 max_new_tokens=max_new_tokens,
                 final_prompt_template=final_prompt_template,
                 prompt_variables_dict=prompt_variables_dict,
@@ -679,12 +682,12 @@ def run_refinement(
 
             prompt_variables_dict.update(error_template_vars)
 
-            final_prompt = final_prompt_template.format(**prompt_variables_dict)
+            latest_prompt = final_prompt_template.format(**prompt_variables_dict)
 
             if debug:
                 error_prompt_part = error_template.format(**error_template_vars)
-                print(f"{Fore.YELLOW}{Style.BRIGHT} Assistant response: #{i+1}:\n{code_candidate}\n")
-                print(f"{Fore.GREEN}{Style.BRIGHT} Refinement response: {error_prompt_part}\n")
+                print(f"{Fore.YELLOW}{Style.BRIGHT} Assistant response: #{i+1}:\n{code_candidate}{Style.RESET_ALL}\n")
+                print(f"{Fore.BLUE}{Style.BRIGHT} Refinement response: {error_prompt_part}{Style.RESET_ALL}\n")
 
     return generated_candidates, prompt_size
    
