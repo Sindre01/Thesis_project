@@ -211,7 +211,7 @@ def main(
 
 
         for shots in ex["num_shots"]:
-            selector=init_example_selector(shots, train_data, semantic_selector=ex["semantic_selector"], similarity_key=[similarity_key])
+            selector=init_example_selector(shots, train_data, semantic_selector=ex["semantic_selector"], similarity_keys=[similarity_key])
             
             experiment_name = f"{ex['name']}_{shots}_shot"
             for model_name in models:

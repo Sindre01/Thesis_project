@@ -424,12 +424,15 @@ def prepare_experiement(
                         eval_method=eval_method,
                         db_connection=db
                     )
+
                 elif phase == Phase.TESTING:
+                    
                     results = get_db_results(
                         experiment=experiment_name, 
                         model=model_name, 
                         eval_method=eval_method
                     )
+
                 shot_results.extend(results)
                 skip_models.append(model_name)
     
