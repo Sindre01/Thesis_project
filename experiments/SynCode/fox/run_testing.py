@@ -203,7 +203,7 @@ def main(
         elif experiment_type == "assisted-RAG":
             max_ctx = 16000
             rag_data = init_rag_data()
-        elif experiment_type == "all_nodes":
+        elif experiment_type == "all-nodes":
             max_ctx = 16000
             rag_data = init_rag_data()
         else:
