@@ -210,7 +210,7 @@ def main(
 
 
         for shots in ex["num_shots"]:
-            selector=init_example_selector(shots, train_data, semantic_selector=ex["semantic_selector"], similarity_key=["external_functions"])
+            selector=init_example_selector(shots, train_data, semantic_selector=ex["semantic_selector"], similarity_key=[similarity_key])
             
 
             experiment_name = f"{ex['name']}_{shots}_shot"
@@ -299,7 +299,7 @@ if __name__ == "__main__":
     env_path = os.path.abspath(f"{project_dir}/../../.env")
     print("Env is located in:", env_path)
     load_dotenv(env_path)
-
+    similarity_key = "external_functions"
 
     # Parse arguments:
     parser = argparse.ArgumentParser(description="Process input.")
