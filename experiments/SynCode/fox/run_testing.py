@@ -151,18 +151,18 @@ def run_testing_experiment(
                 constrained_output=True
 
             )
-            result_obj = {
-                "experiment_name": experiment_name,
-                "best_params_optimization": best_params_optimization,
-                "temperature": temperature,
-                "top_p": top_p,
-                "top_k": top_k,
-                "seed": seed,
-                "n_generations_per_task": n,
-                "model": model["name"],
-                "largest_context": largest_context,
-                "task_candidates": model_result,
-            }
+        result_obj = {
+            "experiment_name": experiment_name,
+            "best_params_optimization": best_params_optimization,
+            "temperature": temperature,
+            "top_p": top_p,
+            "top_k": top_k,
+            "seed": seed,
+            "n_generations_per_task": n,
+            "model": model["name"],
+            "largest_context": largest_context,
+            "task_candidates": model_result,
+        }
 
         results.append(result_obj)
         ## Write to file

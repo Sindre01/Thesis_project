@@ -418,6 +418,7 @@ def run_model(
     rag_data: RagData = None,
     max_ctx=16000,
     constrained_output=False,
+    refinement=False
 )-> tuple[dict[int, list[str]], int]:
     """Run a model on a list of tasks and return the generated code snippets."""
 
@@ -456,7 +457,7 @@ def run_model(
             raise ValueError(f"Constrained output is not availbale for model: {model}.")
         print(f"Loading Syncode model with miodel kwargs: {model_kwargs}")
 
-        nodes_as_terminals = True
+        nodes_as_terminals = False
 
         if nodes_as_terminals:
             print(f"using grammar file: {project_root}/data/dynamic_midio_grammar.lark")
@@ -500,32 +501,61 @@ def run_model(
     largest_ctx_size = 0
     for index, sample in enumerate(data):
         print(f"\n\n{Style.BRIGHT}=== Sample: {index+1} (task_id: {sample['task_id']}) ===")
-        generated_candidates, prompt_size = run_prompt_step(
-            response_type="CODE",
-            sample=sample,
-            example_pool=example_pool,
-            prompt_type=prompt_type,
-            dataset_nodes=dataset_nodes,
-            all_nodes=all_nodes,
-            client=client,
-            model=model,
-            max_ctx=max_ctx,
-            max_new_tokens=max_new_tokens,
-            generation_kwargs={
-                "client": client,
-                "model": model,
-                "temperature": temperature,
-                "top_p": top_p,
-                "top_k": top_k,
-                "n": n,
-                "seed": seed,
-                "debug": debug,
-                "constrained_llm": constrained_llm
-            },
-            rag_data=rag_data,
-            debug=debug,
-            ollama_port=ollama_port,
-        )
+
+        if refinement:
+            generated_candidates, prompt_size = run_refinement(
+                response_type="CODE",
+                sample=sample,
+                example_pool=example_pool,
+                prompt_type=prompt_type,
+                dataset_nodes=dataset_nodes,
+                all_nodes=all_nodes,
+                client=client,
+                model=model,
+                max_ctx=max_ctx,
+                max_new_tokens=max_new_tokens,
+                generation_kwargs={
+                    "client": client,
+                    "model": model,
+                    "temperature": temperature,
+                    "top_p": top_p,
+                    "top_k": top_k,
+                    "n": n,
+                    "seed": seed,
+                    "debug": debug
+                },
+                rag_data=rag_data,
+                debug=debug,
+                ollama_port=ollama_port
+            )
+        else:
+            generated_candidates, prompt_size = run_prompt_step(
+                response_type="CODE",
+                sample=sample,
+                example_pool=example_pool,
+                prompt_type=prompt_type,
+                dataset_nodes=dataset_nodes,
+                all_nodes=all_nodes,
+                client=client,
+                model=model,
+                max_ctx=max_ctx,
+                max_new_tokens=max_new_tokens,
+                generation_kwargs={
+                    "client": client,
+                    "model": model,
+                    "temperature": temperature,
+                    "top_p": top_p,
+                    "top_k": top_k,
+                    "n": n,
+                    "seed": seed,
+                    "debug": debug,
+                    "constrained_llm": constrained_llm
+                },
+                rag_data=rag_data,
+                debug=debug,
+                ollama_port=ollama_port,
+            )
+
         if constrained_llm:
             torch.cuda.empty_cache()
         if prompt_size > largest_ctx_size:

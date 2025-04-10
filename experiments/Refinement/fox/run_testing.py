@@ -101,33 +101,7 @@ def run_testing_experiment(
     for seed in seeds:
         print(f"Running with seed: {seed}")
         print(f"seeds runned: {count}/{total_count}")
-
-        if experiment_type == "assisted-RAG":
-            model_result, largest_context = two_step_run(
-                client,
-                model["name"],
-                dataset_nodes,
-                all_nodes,
-                test_data,
-                example_pool,
-                code_max_new_tokens=model["max_tokens"],
-                node_max_new_tokens=model["node_max_tokens"],
-                temperature=temperature,
-                top_p=top_p,
-                top_k=top_k,
-                n = n,
-                seed = seed,
-                debug = True, 
-                prompt_type = prompt_type,
-                ollama_port=ollama_port,
-                rag_data= rag_data,
-                max_ctx=max_ctx,
-                node_context_type="ONE", # One doc retrival per predicted node
-                constrained_output = True
-            )
-        
-        else:
-            model_result, largest_context = run_refinement(
+        model_result, largest_context = run_model(
                 client,
                 model["name"],
                 dataset_nodes,
@@ -141,20 +115,27 @@ def run_testing_experiment(
                 n = n,
                 seed = seed,
                 debug = True, 
-                refinements = 3
+                prompt_type = prompt_type,
+                ollama_port=ollama_port,
+                rag_data=rag_data,
+                max_ctx=max_ctx,
+                constrained_output=False,
+                refinement=True
+
             )
-            result_obj = {
-                "experiment_name": experiment_name,
-                "best_params_optimization": best_params_optimization,
-                "temperature": temperature,
-                "top_p": top_p,
-                "top_k": top_k,
-                "seed": seed,
-                "n_generations_per_task": n,
-                "model": model["name"],
-                "largest_context": largest_context,
-                "task_candidates": model_result,
-            }
+            
+        result_obj = {
+            "experiment_name": experiment_name,
+            "best_params_optimization": best_params_optimization,
+            "temperature": temperature,
+            "top_p": top_p,
+            "top_k": top_k,
+            "seed": seed,
+            "n_generations_per_task": n,
+            "model": model["name"],
+            "largest_context": largest_context,
+            "task_candidates": model_result,
+        }
 
         results.append(result_obj)
         ## Write to file
@@ -202,7 +183,7 @@ def main(
             raise ValueError(f"Unknown experiment type: {experiment_type}")
        
         results_dir = os.path.join("/fp/homes01/u01/ec-sindrre/slurm_jobs", f"{experiment_folder}/testing/{experiment_type}/{prompt_type}/runs/")
-        best_params_folder = f"{project_dir}/experiments/{experiment_folder}/fox/best_params/{selector_type}/{prompt_type}/hold_out"
+        best_params_folder = f"{project_dir}/experiments/few-shot/fox/best_params/{selector_type}/{prompt_type}/hold_out"
         # best_params_folder = f"{project_dir}/experiments/{experiment_folder}/fox/best_params/test"
 
 
@@ -298,14 +279,14 @@ if __name__ == "__main__":
     similarity_key = "external_functions"
 
     model_provider = 'ollama'
-    models = "phi4:14b-fp16"
-    experiments =  {
+    models = ["phi4:14b-fp16"]
+    experiments =  [{
             "name": "regular_similarity",
             "prompt_prefix": "Create a function",
             "num_shots": [5, 10],
             "prompt_type": "regular",
             "semantic_selector": True
-        }
+        }]
     ollama_port = "11434"
     experiments = parse_experiments(experiments)
     fold = 0
