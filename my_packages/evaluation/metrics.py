@@ -2,6 +2,7 @@ import itertools
 import numpy as np
 from my_packages.common.classes import CodeEvaluationResult
 from my_packages.evaluation.midio_compiler import compile_code, is_code_semantically_valid, is_code_syntax_valid
+from my_packages.evaluation.visual_metric import evaluate_visual_flow
 from my_packages.utils.file_utils import get_test_module_from_file
 
 def estimate_pass_at_k(num_samples, num_correct, k):
@@ -137,6 +138,33 @@ def check_semantics(
             elif not is_code_semantically_valid(compiled):
                 evaluation_result.add_semantic_error(compiled)
 
+            checked_canidates.append(evaluation_result)
+            
+        results[task_id] = checked_canidates
+    return results
+
+def check_visualization(
+        candidates_dict: dict[int, list[str]],
+    ) -> dict[int, list[float]]:
+    """
+    Parameter:
+        - candidates_dict: A dictionary of taks_id and generated candidates. dict[int, list[str]]
+            E.g:
+                {
+                    {<task_id>, [candidate1, candidate2, candidate3]},
+                    {<task_id>, [candidate1, candidate2, candidate3]},
+                    {<task_id>, [candidate1, candidate2, candidate3]},
+                }
+
+    Returns a dictionary of the results of the semantic check for each candidate code.
+    """
+    results = {}
+    for task_id, candidates in candidates_dict.items():
+        print(f"\n> Checking visual for task {task_id}...")
+        checked_canidates = []
+        for i, candidate in enumerate(candidates):
+
+            evaluation_result = evaluate_visual_flow(candidate)
             checked_canidates.append(evaluation_result)
             
         results[task_id] = checked_canidates

@@ -176,6 +176,7 @@ def main(
         test_data, 
         fold=-1, 
         k_folds=3,
+        similarity_key="task",
     ):
     """Main function to run testing experiments."""
     for ex in experiments:
@@ -363,7 +364,7 @@ if __name__ == "__main__":
     print("\n==== Running testing ====")
     start_time = time.time()
 
-    main(train_data, test_data, fold)
+    main(train_data, test_data, fold, similarity_key=similarity_key)
     
 
 

@@ -7,7 +7,7 @@ from my_packages.common.rag import RagData
 from my_packages.db_service.best_params_service import save_best_params_to_db
 from my_packages.db_service.error_service import save_errors_to_db
 from my_packages.db_service.results_service import save_results_to_db
-from my_packages.evaluation.metrics import check_correctness, check_semantics, check_syntax, estimate_pass_at_k
+from my_packages.evaluation.metrics import check_correctness, check_semantics, check_syntax, check_visualization, estimate_pass_at_k
 from my_packages.evaluation.models import generate_n_responses
 from my_packages.prompting.prompt_building import add_RAG_to_prompt, build_prompt, code_data_to_node_data
 from my_packages.utils.file_utils import save_results_as_string, save_results_to_file
@@ -45,7 +45,8 @@ def evaluate_code_metric(
         test_results = check_semantics(result_dict)
     elif metric == "tests":
         test_results = check_correctness(result_dict)
-    
+    elif metric == "visual":
+        test_results = check_visualization(result_dict)
     return test_results
 
 def calculate_pass_at_k_scores(
@@ -531,6 +532,7 @@ def evaluate_code(
             raise ValueError("Invalid evaluation metric. Choose from 'syntax', 'semantic', 'tests'")
         else:
             test_results = evaluate_code_metric(candidate_dict, metric)
+      
             pass_at_k_dict = calculate_pass_at_k_scores(test_results, ks)
             print(f"Pass@k for {metric}: {pass_at_k_dict}, with temp={hyperparams['temperature']}, top_p={hyperparams['top_p']}, top_k={hyperparams['top_k']}")
 
