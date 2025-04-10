@@ -339,4 +339,3 @@ def build_prompt(
     prompt = final_prompt_template.format(**prompt_variables_dict)
     return prompt, final_prompt_template, prompt_variables_dict
 
-

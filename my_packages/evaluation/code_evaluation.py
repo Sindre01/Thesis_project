@@ -8,8 +8,9 @@ from my_packages.db_service.best_params_service import save_best_params_to_db
 from my_packages.db_service.error_service import save_errors_to_db
 from my_packages.db_service.results_service import save_results_to_db
 from my_packages.evaluation.metrics import check_correctness, check_semantics, check_syntax, check_visualization, estimate_pass_at_k
+from my_packages.evaluation.midio_compiler import compile_code, extract_errors
 from my_packages.evaluation.models import generate_n_responses
-from my_packages.prompting.prompt_building import add_RAG_to_prompt, build_prompt, code_data_to_node_data
+from my_packages.prompting.prompt_building import add_RAG_to_prompt, build_prompt, code_data_to_node_data, get_prompt_template
 from my_packages.utils.file_utils import save_results_as_string, save_results_to_file
 from itertools import chain
 from syncode import Syncode
@@ -18,6 +19,7 @@ from langchain_ollama import ChatOllama
 from langchain_anthropic import ChatAnthropic
 from langchain_openai import ChatOpenAI
 from langchain_core.example_selectors.base import BaseExampleSelector
+from langchain.prompts import ChatPromptTemplate, HumanMessagePromptTemplate
 from my_packages.utils.tokens_utils import measure_prompt_tokens
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '../..'))
 
@@ -534,9 +536,129 @@ def run_model(
 
     return results, largest_ctx_size
 
-def run_refinement():
-    pass
+def run_refinement(
+    response_type: str, # CODE or NODE
+    sample: dict,
+    example_pool: BaseExampleSelector,
+    prompt_type: PromptType,
+    dataset_nodes: list[dict],
+    all_nodes: list[dict],
+    client,
+    model: str,
+    max_ctx: int,
+    max_new_tokens: int,
+    generation_kwargs: dict,
+    rag_data: RagData = None,
+    debug: bool = False,
+    candidate_nodes: list = [],
+    ollama_port: str = "11434",
+    node_context_type: str = "MANY",
+    refinements: int = 3
 
+) -> tuple[list[str], int]:
+    """
+    1. Build prompt
+    2. Measure tokens.
+    3. Possibly add RAG context. Between System message and few-shots.
+    4. Generate responses.
+    5. Return generated candidates & final prompt size.
+    """
+    # Build the base prompt
+    true_response = sample["response"]
+    few_shot_examples = example_pool.select_examples(sample)
+    available_nodes = dataset_nodes
+    
+    if response_type == "NODE":
+        few_shot_examples= code_data_to_node_data(few_shot_examples)
+        true_response = sample["external_functions"]
+        available_nodes = all_nodes
+        
+    prompt, final_prompt_template, prompt_variables_dict = build_prompt(
+        response_type=response_type,
+        prompt_type=prompt_type,
+        few_shot_examples=few_shot_examples,
+        sample=sample,
+        available_nodes=available_nodes,
+    )
+    # Measure initial prompt size
+    prompt_size = measure_prompt_tokens(client, model, prompt, max_ctx)
+
+    # Reserve output tokens and get the leftover context for RAG
+    print(f"Using {max_ctx} for context window")    
+    available_ctx = max_ctx - prompt_size - max_new_tokens
+    if debug:
+        print(f"\nPrompt size = {prompt_size}, leaving {available_ctx} tokens for RAG + buffer.")
+
+    # Possibly inject RAG data
+    if rag_data:
+        print(f"Using RAG data for task {sample['task_id']}")
+        # print(f"available context after subtracting prompt_size of {prompt_size} tokens and output tokens of {max_new_tokens} tokens: {available_ctx}")
+        prompt, final_prompt_template, prompt_variables_dict, used_tokens = add_RAG_to_prompt(
+            client = client,
+            model = model,
+            task = sample["task"],
+            available_ctx = available_ctx,
+            rag_data = rag_data,
+            final_prompt_template = final_prompt_template,
+            prompt_variables_dict = prompt_variables_dict,
+            candidate_nodes = candidate_nodes,
+            all_nodes = all_nodes,
+            node_context_type=node_context_type
+        )
+        prompt_size = prompt_size + used_tokens
+
+    if debug:
+        print(f"Final prompt size: {prompt_size} (plus {max_new_tokens} for output).")
+        # print(f"\n\n{Style.BRIGHT}=== Sample: {index+1} ===")
+        print(f"{Fore.CYAN}{Style.BRIGHT} User prompt: {Style.RESET_ALL}\n{prompt}\n")
+    
+    generated_candidates = []
+
+    error_template = HumanMessagePromptTemplate.from_template(get_prompt_template("ERROR"))
+    final_prompt_template.messages.insert(-1, error_template)
+
+    for i in range(refinements):
+        for n in generation_kwargs["n"]:
+
+            if debug:
+                # print(f"\n\n{Style.BRIGHT}=== Sample: {index+1} ===")
+                print(f"{Fore.CYAN}{Style.BRIGHT} User prompt: {Style.RESET_ALL}\n{final_prompt}\n")
+
+            # Generate response
+            generated_candidates = generate_n_responses(
+                **generation_kwargs,
+                n=1, # One candidate
+                max_new_tokens=max_new_tokens,
+                final_prompt_template=final_prompt_template,
+                prompt_variables_dict=prompt_variables_dict,
+                context=prompt_size + max_new_tokens,
+                ollama_port=ollama_port
+            )
+
+            code_candidate = generated_candidates[0]
+            # Compile_code
+            compiled = compile_code(code_candidate)
+
+            # extract error message
+            error_msg = "\n".join(extract_errors(compiled.stdout))
+
+            error_template_vars = {
+                "code_candidate": code_candidate,
+                "error_msg": error_msg,
+            }
+
+            prompt_variables_dict.update(error_template_vars)
+
+            final_prompt = final_prompt_template.format(**prompt_variables_dict)
+
+            if debug:
+                error_prompt_part = error_template.format(**error_template_vars)
+                print(f"{Fore.YELLOW}{Style.BRIGHT} Assistant response: #{i+1}:\n{code_candidate}\n")
+                print(f"{Fore.GREEN}{Style.BRIGHT} Refinement response: {error_prompt_part}\n")
+
+    return generated_candidates, prompt_size
+   
+    
 def evaluate_code(
     candidate_dict: dict[int, list[str]],
     ks: list[int],                               
@@ -719,7 +841,6 @@ def run_testing(
     env: str,
     prompt_type: PromptType,
     two_step: bool = False,
-    refinement_cycles: int = 3,
     rag_data: RagData = None,
     max_ctx: int = 60000,
 

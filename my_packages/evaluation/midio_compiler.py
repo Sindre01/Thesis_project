@@ -218,7 +218,7 @@ def extract_errors(text: str) -> str:
     clean_text = clean_output(text)
     errors = [line.strip() for line in clean_text.split("\n") if "error" in line.lower()]
     
-    return errors # Store as JSON string for structured retrieval
+    return errors
 
 def get_test_result(json_result: dict) -> str:
     num_passed = json_result['num_passed']
