@@ -38,7 +38,7 @@ model_provider='ollama'
 
 experiments='[
         {
-            "name": "signature_similarity,
+            "name": "signature_similarity",
             "prompt_prefix": "Create a function",
             "num_shots": [5, 10],
             "prompt_type": "signature",

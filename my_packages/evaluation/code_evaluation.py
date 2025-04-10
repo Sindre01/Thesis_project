@@ -459,9 +459,9 @@ def run_model(
         if nodes_as_terminals:
             print(f"using grammar file: {project_root}/data/dynamic_midio_grammar.lark")
             print(f"Extracting args from nodes: {all_nodes}")
+            node_candidates = [all_node["function_name"].split(".")[-1] for all_node in all_nodes]
             available_args = get_args_from_nodes(all_nodes, rag_data, docs_per_node = 1)
             print(f"Extracted these args from nodes: {available_args}")
-            node_candidates = [node.split(".")[-1] for node in all_nodes]
             available_args_union = " | ".join(f'"{arg}"' for arg in available_args)
             available_nodes_union = " | ".join(f'"{node}"' for node in node_candidates)
 
@@ -533,6 +533,9 @@ def run_model(
         results[task_id] = generated_candidates
 
     return results, largest_ctx_size
+
+def run_refinement():
+    pass
 
 def evaluate_code(
     candidate_dict: dict[int, list[str]],
@@ -716,6 +719,7 @@ def run_testing(
     env: str,
     prompt_type: PromptType,
     two_step: bool = False,
+    refinement_cycles: int = 3,
     rag_data: RagData = None,
     max_ctx: int = 60000,
 

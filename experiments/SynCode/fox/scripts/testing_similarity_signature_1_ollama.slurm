@@ -14,7 +14,7 @@
 #SBATCH --ntasks=1
 #SBATCH --nodelist=                   # List of nodes that the job can run on
 #SBATCH --gpus=1                             # Number of GPUs
-#SBATCH --time=2-00:00:00                             # Walltime (D-HH:MM:SS)
+#SBATCH --time=1-00:00:00                             # Walltime (D-HH:MM:SS)
 #SBATCH --mem-per-gpu=20G              # Memory per CPU
 #SBATCH --output=Job_testing_%j.out                 # Standard output and error log
 
@@ -45,6 +45,7 @@ export OLLAMA_LLM_LIBRARY="cuda_v12_avx"
 export OLLAMA_FLASH_ATTENTION=1
 export OLLAMA_KV_CACHE_TYPE="f16" # f16 (default), q8_0 (half of the memory of f16, try this), q4_0 different quantization types to find the best balance between memory usage and quality.
 export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True 
+
 
 # export OLLAMA_DEBUG=1
 # export OLLAMA_NUM_PARALLEL=2 # Number of parallel models to run. 
