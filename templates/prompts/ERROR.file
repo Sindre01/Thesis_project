@@ -1,7 +1,9 @@
-previous generation gave this candiate:
+Previous generation gave this candiate:
 {code_candidate}
 
-Hoever, the code was incorrect and gave these errors:
+However, the code was incorrect and gave these errors:
+```
 {error_msg}
+```
 
 Please fix the code and try again.

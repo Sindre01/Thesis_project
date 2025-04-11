@@ -12,14 +12,14 @@ from my_packages.evaluation.find_results import find_results
 if __name__ == "__main__":
     find_results( 
         experiment_folder="SynCode",
-        env="dev",
+        env="prod",
         eval_method="3_fold",
-        experiment_types=["full-context"],
-        prompt_types=["signature"],
-        shots=[5],
-        metrics=["visual"],
+        experiment_types=["similarity"],
+        prompt_types=["regular", "signature"],
+        shots=[5, 10],
+        metrics=["syntax", "semantic", "tests", "visual"],
         ks=[1, 2, 3, 5, 10],
         use_threads=True,
-        model="",
+        model="llama3.2:3b-instruct-fp16",
         phase=Phase.TESTING,
     )

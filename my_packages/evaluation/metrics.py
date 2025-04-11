@@ -160,7 +160,7 @@ def check_visualization(
     """
     results = {}
     for task_id, candidates in candidates_dict.items():
-        print(f"\n> Checking visual for task {task_id}...")
+        # print(f"\n> Checking visual for task {task_id}...")
         checked_canidates = []
         for i, candidate in enumerate(candidates):
 
