@@ -160,6 +160,7 @@ cat <<EOT > "./scripts/${SBATCH_SCRIPT}"
 ###############################################################################
 # Environment Setup
 ###############################################################################
+export CUDA_VISIBLE_DEVICES=\$(seq -s, 1 \$((${GPUS}-1)))
 
 source /etc/profile.d/z00_lmod.sh
 
@@ -271,7 +272,7 @@ cleanup() {
 trap cleanup EXIT
 
 echo "============= Running ${PHASE} ${EXPERIMENT} Python script for Fold ${SLURM_ARRAY_TASK_ID}... ============="
-export CUDA_VISIBLE_DEVICES=\$(seq -s, 1 \$((${GPUS}-1)))
+
 echo "➡️  Running Python Syncode script on GPU: \$CUDA_VISIBLE_DEVICES"
 
 export PYTHONPATH="${CLONE_DIR}:$PYTHONPATH"

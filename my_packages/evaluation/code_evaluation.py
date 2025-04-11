@@ -668,7 +668,9 @@ def run_refinement(
         final_prompt_template.messages.append(error_template)
         refinements_performed = 0
         for i in range(refinements):
-
+            if not generated_response:
+                print("No response generated.")
+                continue
             code_candidate = generated_response[0]
             compiled = compile_code(code_candidate)
             error_msg = "\n".join(extract_errors(compiled.stdout))

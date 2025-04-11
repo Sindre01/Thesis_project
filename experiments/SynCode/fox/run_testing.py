@@ -6,6 +6,7 @@ import os
 import sys
 
 from dotenv import load_dotenv
+import torch
 
 os.environ['EXPERIMENT_DB_NAME'] = "syncode_experiments"
 os.environ['HF_CACHE'] = "/cluster/work/projects/ec12/ec-sindrre/hf-models"
@@ -298,6 +299,8 @@ def main(
             print("✅ push_runs.sh script executed successfully!")
             
 if __name__ == "__main__":
+    print("CUDA_VISIBLE_DEVICES:", os.environ.get("CUDA_VISIBLE_DEVICES"))
+    print("torch sees devices:", torch.cuda.device_count())
     experiment_folder = "SynCode"
     experiment_dir = os.path.abspath(f"{script_dir}/..")
     env_path = os.path.abspath(f"{project_dir}/../../.env")
