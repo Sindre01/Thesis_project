@@ -60,8 +60,11 @@ experiments='[
 #             "semantic_selector": true
 #         }
 # ]'
+# models='[
+#     "phi4:14b-fp16"
+# ]'
 models='[
-    "phi4:14b-fp16"
+    "llama3.2:3b-instruct-fp16"
 ]'
 
 # models='[

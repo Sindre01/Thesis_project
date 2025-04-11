@@ -23,6 +23,7 @@
 ###############################################################################
 # Environment Setup
 ###############################################################################
+export CUDA_VISIBLE_DEVICES=$(seq -s, 1 $((3-1)))
 
 source /etc/profile.d/z00_lmod.sh
 
@@ -57,7 +58,6 @@ export TORCH_USE_CUDA_DSA=1
 
 
 # export CUDA_ERROR_LEVEL=50
-# export CUDA_VISIBLE_DEVICES=0,1
 # export AMD_LOG_LEVEL=3
 
 #############CLEANUP OLD JOBS################
@@ -82,7 +82,12 @@ NVIDIA_MONITOR_PID=  # Capture PID of monitoring process
 ###############################################################################
 # Start Ollama Server in Background with Log Redirection
 ###############################################################################
-CUDA_VISIBLE_DEVICES=0 ollama serve > ollama_API_${SLURM_JOB_ID}_fold_$SLURM_ARRAY_TASK_ID.out 2>&1 &  
+# Start Ollama server in a dedicated shell on GPU 0
+(
+  export CUDA_VISIBLE_DEVICES=0
+  echo "Starting Ollama on GPU 0"
+  ollama serve > ollama_API_${SLURM_JOB_ID}_fold_$SLURM_ARRAY_TASK_ID.out 2>&1
+) &
 
 
 sleep 5
@@ -133,7 +138,7 @@ cleanup() {
 trap cleanup EXIT
 
 echo "============= Running testing SynCode Python script for Fold ... ============="
-export CUDA_VISIBLE_DEVICES=$(seq -s, 1 $((3-1)))
+
 echo "➡️  Running Python Syncode script on GPU: $CUDA_VISIBLE_DEVICES"
 
 export PYTHONPATH="/fp/homes01/u01/ec-sindrre/tmp/Thesis_project_similarity_$SLURM_JOB_ID:~/Thesis_project:~/Thesis_project:"

@@ -559,8 +559,8 @@ def run_model(
                 ollama_port=ollama_port,
             )
 
-        if constrained_llm:
-            torch.cuda.empty_cache()
+        # if constrained_llm:
+        #     torch.cuda.empty_cache()
         if prompt_size > largest_ctx_size:
             largest_ctx_size = prompt_size + max_new_tokens
 
