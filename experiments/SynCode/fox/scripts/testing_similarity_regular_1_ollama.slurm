@@ -12,10 +12,10 @@
 #SBATCH --nodes=1                           # Amount of nodes. Ollama one support single node inference
 #SBATCH --array=0-2  
 #SBATCH --ntasks=1
-#SBATCH --nodelist=gpu-9,gpu-7,gpu-8,gpu-14                   # List of nodes that the job can run on
+#SBATCH --nodelist=gpu-14,gpu-9,gpu-7,gpu-8                   # List of nodes that the job can run on
 #SBATCH --gpus=1                             # Number of GPUs
 #SBATCH --time=1-00:00:00                             # Walltime (D-HH:MM:SS)
-#SBATCH --mem-per-gpu=40G              # Memory per CPU
+#SBATCH --mem-per-gpu=80G              # Memory per CPU
 #SBATCH --output=Job_testing_%j.out                 # Standard output and error log
 
 
@@ -36,7 +36,7 @@ module load Python/3.11.5-GCCcore-13.2.0
 # module load CUDA/12.4.0
 
 source ~/.bashrc # may ovewrite previous modules
-OLLAMA_PORT_K_FOLD=$((11295 + $SLURM_ARRAY_TASK_ID))
+OLLAMA_PORT_K_FOLD=$((11195 + $SLURM_ARRAY_TASK_ID))
 
 export OLLAMA_MODELS=/cluster/work/projects/ec12/ec-sindrre/ollama-models    # Path to where the Ollama models are stored and loaded
 export OLLAMA_HOST=0.0.0.0:$OLLAMA_PORT_K_FOLD    # Host and port where Ollama listens
@@ -51,6 +51,7 @@ export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
 # export OLLAMA_NUM_PARALLEL=2 # Number of parallel models to run. 
 # export OLLAMA_MAX_LOADED_MODELS=2
 # export OLLAMA_MAX_QUEUE
+export CUDA_LAUNCH_BLOCKING=1
 
 # export CUDA_ERROR_LEVEL=50
 # export CUDA_VISIBLE_DEVICES=0,1

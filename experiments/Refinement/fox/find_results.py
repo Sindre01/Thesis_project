@@ -17,7 +17,7 @@ if __name__ == "__main__":
         experiment_types=["similarity"],
         prompt_types=["signature"],
         shots=[5],
-        metrics=["visual"],
+        metrics=["syntax", "semantic", "tests", "visual"],
         ks=[1, 2, 3, 5, 10],
         use_threads=True,
         model="",

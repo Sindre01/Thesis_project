@@ -180,7 +180,7 @@ def two_step_run(
                 "max_length": max_ctx,
                 "max_new_tokens": code_max_new_tokens,
                 "temperature": temperature,
-                # "top_k": top_k,
+                "top_k": top_k,
                 "top_p": top_p,
                 "do_sample": True,
                 "quantize": True, # Sets to torch.float16
@@ -435,7 +435,7 @@ def run_model(
             "max_length": max_ctx,
             "max_new_tokens": max_new_tokens,
             "temperature": temperature,
-            # "top_k": top_k,
+            "top_k": top_k,
             "top_p": top_p,
             "do_sample": True,
             "quantize": True, # Sets to torch.float16
@@ -495,7 +495,7 @@ def run_model(
                 grammar=f"{project_root}/data/midio_grammar.lark", 
                 mode="grammar_strict",
                 parse_output_only=True, 
-                device_map="balanced",
+                device_map="auto",
                 **model_kwargs
             )
 
@@ -642,13 +642,13 @@ def run_refinement(
 
     if debug:
         print(f"Final prompt size: {prompt_size} (plus {max_new_tokens} for output).")
-        # print(f"\n\n{Style.BRIGHT}=== Sample: {index+1} ===")
-        print(f"{Fore.CYAN}{Style.BRIGHT} User prompt: {Style.RESET_ALL}\n{prompt}{Style.RESET_ALL}\\n")
+        print(f"\n\n{Style.BRIGHT}=== Sample: {sample['task_id']} ===")
+        # print(f"{Fore.CYAN}{Style.BRIGHT} User prompt: {Style.RESET_ALL}\n{prompt}{Style.RESET_ALL}\\n")
     
     generated_candidates = []
 
 
-    total_n = 1 #generation_kwargs["n"]
+    total_n = generation_kwargs["n"]
     generation_kwargs["n"] = 1 # Generate one candidate at a time
 
 
@@ -665,7 +665,7 @@ def run_refinement(
         )
 
         error_template = HumanMessagePromptTemplate.from_template(get_prompt_template("ERROR"))
-        final_prompt_template.messages.insert(-1, error_template)
+        final_prompt_template.messages.append(error_template)
         refinements_performed = 0
         for i in range(refinements):
 
@@ -685,6 +685,10 @@ def run_refinement(
 
             prompt_variables_dict.update(error_template_vars)
 
+            if debug:
+                error_prompt_part = error_template.format(**error_template_vars)
+                print(f"{Fore.BLUE}{Style.BRIGHT} Refinement prompt: {error_prompt_part.content}{Style.RESET_ALL}\n")
+
             generated_response = generate_n_responses(
                 **generation_kwargs,
                 max_new_tokens=max_new_tokens,
@@ -694,17 +698,16 @@ def run_refinement(
                 ollama_port=ollama_port
             )
 
-            latest_prompt = final_prompt_template.format(**prompt_variables_dict)
             refinements_performed+=1
             if debug:
-                error_prompt_part = error_template.format(**error_template_vars)
                 print(f"{Fore.YELLOW}{Style.BRIGHT} Assistant response: #{i+1}:\n{code_candidate}{Style.RESET_ALL}\n")
-                print(f"{Fore.BLUE}{Style.BRIGHT} Refinement prompt: {error_prompt_part.content}{Style.RESET_ALL}\n")
+                
         code_candidate = generated_response[0]
 
         if debug:
             if refinements_performed > 0:
-                print(f"{Style.BRIGHT} Final prompt: #{i+1}:\n{latest_prompt}{Style.RESET_ALL}\n")
+                latest_prompt = final_prompt_template.format(**prompt_variables_dict)
+                # print(f"{Style.BRIGHT} Final prompt: #{i+1}:\n{latest_prompt}{Style.RESET_ALL}\n")
             print(f"{Fore.YELLOW}{Style.BRIGHT} Final response: {Style.RESET_ALL}\n{code_candidate}{Style.RESET_ALL}\n")
 
         generated_candidates.append(code_candidate)

@@ -279,7 +279,7 @@ if __name__ == "__main__":
     similarity_key = "external_functions"
 
     model_provider = 'ollama'
-    models = ["phi4:14b-fp16"]
+    models = ["llama3.2:3b-instruct-fp16"]
     experiments =  [{
             "name": "regular_similarity",
             "prompt_prefix": "Create a function",
