@@ -489,7 +489,7 @@ def run_model(
                 **model_kwargs
             )
         else:
-            print(f"using grammar file: {project_root}/data/midio_grammar.lark")
+            print(f"using original grammar file: {project_root}/data/midio_grammar.lark")
             constrained_llm = Syncode(
                 model=hf_model, 
                 grammar=f"{project_root}/data/midio_grammar.lark", 
