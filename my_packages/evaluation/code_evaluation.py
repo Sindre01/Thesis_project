@@ -439,7 +439,7 @@ def run_model(
             "top_p": top_p,
             "do_sample": True,
             "quantize": True, # Sets to torch.float16
-            # "early_stopping": True,            # <- Stop if EOS is reached early
+            "early_stopping": True,            # <- Stop if EOS is reached early
             "use_cache": True,                 # <- Speeds things up (standard)
             # "pad_token_id": 0,
             # "eos_token_id": 1,

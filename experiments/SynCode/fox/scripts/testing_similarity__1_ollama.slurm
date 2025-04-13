@@ -23,6 +23,7 @@
 ###############################################################################
 # Environment Setup
 ###############################################################################
+export CUDA_VISIBLE_DEVICES=$(seq -s, 0 $((1-1)))
 
 source /etc/profile.d/z00_lmod.sh
 
@@ -36,7 +37,7 @@ module load Python/3.11.5-GCCcore-13.2.0
 # module load CUDA/12.4.0
 
 source ~/.bashrc # may ovewrite previous modules
-OLLAMA_PORT_K_FOLD=$((11295 + $SLURM_ARRAY_TASK_ID))
+OLLAMA_PORT_K_FOLD=$((11195 + $SLURM_ARRAY_TASK_ID))
 
 export OLLAMA_MODELS=/cluster/work/projects/ec12/ec-sindrre/ollama-models    # Path to where the Ollama models are stored and loaded
 export OLLAMA_HOST=0.0.0.0:$OLLAMA_PORT_K_FOLD    # Host and port where Ollama listens
@@ -51,14 +52,11 @@ export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
 # export OLLAMA_NUM_PARALLEL=2 # Number of parallel models to run. 
 # export OLLAMA_MAX_LOADED_MODELS=2
 # export OLLAMA_MAX_QUEUE
-
-# export CUDA_ERROR_LEVEL=50
-# export CUDA_VISIBLE_DEVICES=0,1
-# export AMD_LOG_LEVEL=3
+export CUDA_LAUNCH_BLOCKING=1
+export TORCH_USE_CUDA_DSA=1
 
 #############CLEANUP OLD JOBS################
 # Set the target directory (default: current directory)
-
 
 # Set the age threshold 4 days
 AGE_THRESHOLD=345600
@@ -78,7 +76,13 @@ NVIDIA_MONITOR_PID=  # Capture PID of monitoring process
 ###############################################################################
 # Start Ollama Server in Background with Log Redirection
 ###############################################################################
-ollama serve > ollama_API_${SLURM_JOB_ID}_fold_$SLURM_ARRAY_TASK_ID.out 2>&1 &  
+# Start Ollama server in a dedicated shell on GPU 0
+(
+  export CUDA_VISIBLE_DEVICES=0
+  echo "Starting Ollama on device 0"
+  ollama serve > ollama_API_${SLURM_JOB_ID}_fold_$SLURM_ARRAY_TASK_ID.out 2>&1
+) &
+
 
 sleep 5
 
@@ -128,6 +132,9 @@ cleanup() {
 trap cleanup EXIT
 
 echo "============= Running testing SynCode Python script for Fold ... ============="
+
+echo "➡️  Running Python Syncode script on GPU: $CUDA_VISIBLE_DEVICES"
+
 export PYTHONPATH="/fp/homes01/u01/ec-sindrre/tmp/Thesis_project_similarity_$SLURM_JOB_ID:~/Thesis_project:~/Thesis_project:"
 python -u /fp/homes01/u01/ec-sindrre/tmp/Thesis_project_similarity_$SLURM_JOB_ID/experiments/SynCode/fox/run_testing.py     --model_provider 'ollama'     --models '[
     "llama3.2:3b-instruct-fp16"
@@ -145,7 +152,7 @@ python -u /fp/homes01/u01/ec-sindrre/tmp/Thesis_project_similarity_$SLURM_JOB_ID
             "num_shots": [1],
             "prompt_type": "signature",
             "semantic_selector": true
-         }
+        }
 ]'     --ollama_port $OLLAMA_PORT_K_FOLD     --fold $SLURM_ARRAY_TASK_ID     > /fp/homes01/u01/ec-sindrre/slurm_jobs/SynCode/testing/similarity/AI_${SLURM_JOB_ID}_fold_$SLURM_ARRAY_TASK_ID.out 2>&1
 
 
