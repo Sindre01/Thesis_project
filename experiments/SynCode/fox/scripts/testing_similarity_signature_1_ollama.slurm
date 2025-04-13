@@ -10,7 +10,7 @@
 #SBATCH --account=ec12                      # Project account
 #SBATCH --partition=accel                  # Partition ('accel' or 'accel_long')
 #SBATCH --nodes=1                           # Amount of nodes. Ollama one support single node inference
-#SBATCH --array=0-2  
+#SBATCH --array=0  
 #SBATCH --ntasks=1
 #SBATCH --nodelist=gpu-14,gpu-9,gpu-7,gpu-8                   # List of nodes that the job can run on
 #SBATCH --gpus=1                             # Number of GPUs

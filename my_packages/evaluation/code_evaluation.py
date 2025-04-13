@@ -228,7 +228,7 @@ def two_step_run(
             constrained_llm = Syncode(
                 model=hf_model, 
                 grammar=grammar_text, 
-                mode="grammar_strict",
+                mode="original",
                 parse_output_only=True, 
                 device_map="auto",
                 **model_kwargs
@@ -1118,7 +1118,7 @@ def calculate_best_params(
         
         if len(run.metric_results) != 1:
             raise ValueError(f"Expected one metric result, got {len(run.metric_results)}")
-        
+        print
         pass_at_k_dict = run.metric_results[pass_k_metric]
         metric_score = pass_at_k_dict[f"pass@{k}"] # Can only optimize for one metric
 

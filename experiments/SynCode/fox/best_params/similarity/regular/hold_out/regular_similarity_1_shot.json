@@ -1,0 +1,32 @@
+[
+    {
+        "model_name": "llama3.2:3b-instruct-fp16",
+        "optimizer_metric": "syntax",
+        "seed": 9,
+        "temperature": 0.6,
+        "top_p": 0.6,
+        "top_k": 10,
+        "created_at": "2025-04-13T17:51:36.382913+02:00",
+        "syntax@1": 0.7777777777777778
+    },
+    {
+        "model_name": "llama3.2:3b-instruct-fp16",
+        "optimizer_metric": "semantic",
+        "seed": 9,
+        "temperature": 0.2,
+        "top_p": 0.9,
+        "top_k": 10,
+        "created_at": "2025-04-13T17:52:07.642776+02:00",
+        "semantic@1": 0.5555555555555556
+    },
+    {
+        "model_name": "llama3.2:3b-instruct-fp16",
+        "optimizer_metric": "tests",
+        "seed": 9,
+        "temperature": 0.2,
+        "top_p": 0.6,
+        "top_k": 10,
+        "created_at": "2025-04-13T17:52:38.449694+02:00",
+        "tests@1": 0.0
+    }
+]
