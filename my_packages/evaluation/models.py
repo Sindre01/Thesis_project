@@ -9,7 +9,7 @@ from my_packages.utils.server_utils import server_diagnostics
 from transformers import set_seed
 import torch
 
-def extract_response(response_text: str) -> str:
+def extract_response(response_text: str, last_snippet = False) -> str:
     """
     Extracts a code snippet from the response using a regex for ```midio code blocks.
     If multiple code blocks are found, returns:
@@ -25,7 +25,8 @@ def extract_response(response_text: str) -> str:
     matches = re.findall(r'```mid\w*(.*?)(```|$)', code_section, re.DOTALL)
 
     if matches:
-        if "<think>" in response_text and "</think>" not in response_text:
+    
+        if last_snippet or ("<think>" in response_text and "</think>" not in response_text):
             code_block = matches[-1][0] # Get last code block from thinking phase.
         else:
             code_block = matches[0][0]  # Get first code block from non-thinking phase.
@@ -130,6 +131,7 @@ def generate_n_responses(
     debug: bool=False,              
     ollama_port:str="11434",
     constrained_llm: Syncode = None,
+    extract_last_snippet: bool = False,
 )-> list[str]:
     """Generate n responses for a given prompt."""
     
@@ -144,6 +146,7 @@ def generate_n_responses(
         while retries < max_retries:
             try:
                 print(f"    > Generating n response..  ({current_n + 1}/{n})", end="\r")
+
                 if constrained_llm:
                     print("Using Syncode")
                     generated = generate_syncode_reponse(
@@ -185,13 +188,18 @@ def generate_n_responses(
         if retries == max_retries:
             print("Failed to get a response from the server after " + str(retries) + " attempts.")
             generated = "Failed to get a response from the server after " + str(retries) + " attempts."
+            raise Exception("Failed to generate a response.")
         
         current_n += 1
-        # if not generated:
-        #     raise Exception("Failed to generate a response.")
-        # Extract code from the generated response
-        generated_code = extract_response(generated)
+        if not generated:
+            raise Exception("Failed to generate a response.")
+        #Extract code from the generated response
+        generated_code = extract_response(generated, last_snippet=extract_last_snippet)
         generated_candidates.append(generated_code)
+
+    if not generated_candidates:
+        generated_candidates = [""] * n
+
     return generated_candidates
 
 def generate_syncode_reponse(

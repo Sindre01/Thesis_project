@@ -586,7 +586,7 @@ def run_refinement(
     candidate_nodes: list = [],
     ollama_port: str = "11434",
     node_context_type: str = "MANY",
-    refinements: int = 3
+    refinements: int = 2
 
 ) -> tuple[list[str], int]:
     """
@@ -651,6 +651,12 @@ def run_refinement(
     total_n = generation_kwargs["n"]
     generation_kwargs["n"] = 1 # Generate one candidate at a time
 
+    import copy
+
+    refinement_prompt_template = copy.deepcopy(final_prompt_template)
+    error_template = HumanMessagePromptTemplate.from_template(get_prompt_template("ERROR"))
+    refinement_prompt_template.messages.append(error_template)
+    refinement_vars = copy.deepcopy(prompt_variables_dict)
 
     for n in range(0, total_n):
 
@@ -661,31 +667,33 @@ def run_refinement(
             final_prompt_template=final_prompt_template,
             prompt_variables_dict=prompt_variables_dict,
             context=prompt_size + max_new_tokens,
-            ollama_port=ollama_port
+            ollama_port=ollama_port,
         )
 
-        error_template = HumanMessagePromptTemplate.from_template(get_prompt_template("ERROR"))
-        final_prompt_template.messages.append(error_template)
+
         refinements_performed = 0
+
         for i in range(refinements):
-            if not generated_response:
-                print("No response generated.")
-                continue
+            print(f"Refinement #{i+1} of {refinements} for task {sample['task_id']}")
+ 
             code_candidate = generated_response[0]
             compiled = compile_code(code_candidate)
             error_msg = "\n".join(extract_errors(compiled.stdout))
 
-            if error_msg.strip() == "":
-                print("Code is correct, no errors found.")
+            if code_candidate.strip() == "":
+                print("No code candidate generated.")
+
+            elif error_msg.strip() == "":
+                print(f"Code is correct, no errors found. Performed {refinements_performed} refinements")
                 break
             # extract error message
 
             error_template_vars = {
-                "code_candidate": code_candidate,
+                "code_candidate": code_candidate.strip() if code_candidate else "(No code was generated, try again)",
                 "error_msg": error_msg,
             }
 
-            prompt_variables_dict.update(error_template_vars)
+            refinement_vars.update(error_template_vars)
 
             if debug:
                 error_prompt_part = error_template.format(**error_template_vars)
@@ -694,17 +702,22 @@ def run_refinement(
             generated_response = generate_n_responses(
                 **generation_kwargs,
                 max_new_tokens=max_new_tokens,
-                final_prompt_template=final_prompt_template,
-                prompt_variables_dict=prompt_variables_dict,
+                final_prompt_template=refinement_prompt_template,
+                prompt_variables_dict=refinement_vars,
                 context=prompt_size + max_new_tokens,
-                ollama_port=ollama_port
+                ollama_port=ollama_port,
+                extract_last_snippet=True, # First is often the previous response
             )
 
             refinements_performed+=1
             if debug:
                 print(f"{Fore.YELLOW}{Style.BRIGHT} Assistant response: #{i+1}:\n{code_candidate}{Style.RESET_ALL}\n")
                 
-        code_candidate = generated_response[0]
+        if not generated_response:
+            print("No final candidate was generated after refinement.")
+            code_candidate = ""
+        else:       
+            code_candidate = generated_response[0]
 
         if debug:
             if refinements_performed > 0:

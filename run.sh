@@ -16,8 +16,8 @@ NODE_LIST= # List of nodes that the job can run on gpu-9,gpu-7,gpu-8,gpu-14 (h10
 TIME="8:00:00"                         # Slurm walltime (D-HH:MM:SS)
 MEM_PER_GPU="20GB"                       # Memory per GPU. 
 OLLAMA_MODELS_DIR="/cluster/work/projects/ec12/ec-sindrre/ollama-models"  # Path to where the Ollama models are stored and loaded                      
-LOCAL_PORT="11434"                        # Local port for forwarding
-OLLAMA_PORT="11434"                       # Remote port where Ollama listens
+LOCAL_PORT="11436"                        # Local port for forwarding
+OLLAMA_PORT="11436"                       # Remote port where Ollama listens
 SBATCH_SCRIPT="start_ollama_api.slurm"           # Slurm batch script name
 REMOTE_DIR="/fp/homes01/u01/ec-sindrre/slurm_jobs" # Directory on Fox to store scripts and output
 

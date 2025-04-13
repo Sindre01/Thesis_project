@@ -114,7 +114,7 @@ def run_testing_experiment(
                 top_k,
                 n = n,
                 seed = seed,
-                debug = True, 
+                debug = False, 
                 prompt_type = prompt_type,
                 ollama_port=ollama_port,
                 rag_data=rag_data,
@@ -281,15 +281,15 @@ if __name__ == "__main__":
     model_provider = 'ollama'
     models = ["llama3.2:3b-instruct-fp16"]
     experiments =  [{
-            "name": "regular_similarity",
+            "name": "signature_similarity",
             "prompt_prefix": "Create a function",
-            "num_shots": [5, 10],
-            "prompt_type": "regular",
+            "num_shots": [5],
+            "prompt_type": "signature",
             "semantic_selector": True
         }]
-    ollama_port = "11434"
+    ollama_port = "11436"
     experiments = parse_experiments(experiments)
-    fold = 0
+    fold = 2
 
     n_generations_per_task = 10
     
