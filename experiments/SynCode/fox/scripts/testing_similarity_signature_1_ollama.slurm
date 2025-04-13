@@ -12,10 +12,10 @@
 #SBATCH --nodes=1                           # Amount of nodes. Ollama one support single node inference
 #SBATCH --array=0  
 #SBATCH --ntasks=1
-#SBATCH --nodelist=gpu-14,gpu-9,gpu-7,gpu-8                   # List of nodes that the job can run on
+#SBATCH --nodelist=gpu-9,gpu-7,gpu-8                   # List of nodes that the job can run on
 #SBATCH --gpus=1                             # Number of GPUs
 #SBATCH --time=1-00:00:00                             # Walltime (D-HH:MM:SS)
-#SBATCH --mem-per-gpu=80G              # Memory per CPU
+#SBATCH --mem-per-gpu=40G              # Memory per CPU
 #SBATCH --output=Job_testing_%j.out                 # Standard output and error log
 
 

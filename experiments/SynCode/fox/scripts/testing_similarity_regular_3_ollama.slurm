@@ -10,7 +10,7 @@
 #SBATCH --account=ec30                      # Project account
 #SBATCH --partition=ifi_accel                  # Partition ('accel' or 'accel_long')
 #SBATCH --nodes=1                           # Amount of nodes. Ollama one support single node inference
-#SBATCH --array=0-2  
+#SBATCH --array=0  
 #SBATCH --ntasks=1
 #SBATCH --nodelist=                   # List of nodes that the job can run on
 #SBATCH --gpus=3                             # Number of GPUs
@@ -84,8 +84,8 @@ NVIDIA_MONITOR_PID=  # Capture PID of monitoring process
 ###############################################################################
 # Start Ollama server in a dedicated shell on GPU 0
 (
-  export CUDA_VISIBLE_DEVICES=0
-  echo "Starting Ollama on GPU 0"
+  export CUDA_VISIBLE_DEVICES=2
+  echo "Starting Ollama on device 2"
   ollama serve > ollama_API_${SLURM_JOB_ID}_fold_$SLURM_ARRAY_TASK_ID.out 2>&1
 ) &
 
