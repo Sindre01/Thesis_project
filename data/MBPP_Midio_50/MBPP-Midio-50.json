@@ -4,6 +4,7 @@
             "Create a function that checks whether the given two integers have opposite sign or not.",
             "This created user-defined function should then be tested within a seperate module called tests, within the main module. Since the user-defined function does not contain input and ouput triggers, the flow of execution is sent between the assert nodes, using their input and output triggers. "
         ],
+        "flow_description": "The flow should create a user-defined function. The body of the function contains two input properties of type Number, a 'Math Expression' node and one output property of type 'Bool'.\n The arrows are connected as follows: The input properties is connected with arrows to 'Math Expression', that contains an expression with the two input properties of type numbers. The 'Math Expression' result is a boolean. This value is connected with arrows to the created output property, that return the Bool from the function. The user-defined function is then created within the main module.",
         "task_id": 1,
         "specification": {
             "function_signature": "func(doc: \"checks whether the given two integers have opposite sign or not.\") opposite_signs {\n\tin(x: -426, y: -248, name: \"x\") property(Number) x_853326\n\tin(x: -420, y: -107, name: \"y\") property(Number) y_5390f5\n\tout(x: 159, y: -219, name: \"output\") property(Bool) output_3339a3\n}",
@@ -74,8 +75,7 @@
                     }
                 ]
             }
-        },
-        "flow_description": "The flow should create a user-defined function. The body of the function contains two input properties of type Number, a 'Math Expression' node and one output property of type 'Bool'.\n The arrows are connected as follows: The input properties is connected with arrows to 'Math Expression', that contains an expression with the two input properties of type numbers. The 'Math Expression' result is a boolean. This value is connected with arrows to the created output property, that return the Bool from the function. The user-defined function is then created within the main module."
+        }
     },
     {
         "prompts": [
