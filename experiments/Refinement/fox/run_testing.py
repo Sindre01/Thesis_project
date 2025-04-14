@@ -91,7 +91,7 @@ def run_testing_experiment(
         rag_data: RagData,
         max_ctx: int,
         best_params_optimization = None,
-        seeds = [3, 75, 346],
+        seeds = [75], #[3, 75, 346]
         ollama_port = "11434",
         experiment_type = "similarity",
 ):
@@ -194,9 +194,9 @@ def main(
             for model_name in models:
                 
                 if fold != -1: # 3-fold cross-validation
-                    file_name = f"{k_folds}_fold/{experiment_name}_{model_name}/fold_{fold}.json"
+                    file_name = f"{experiment_name}_{model_name}/fold_{fold}.json"
                 else: # Static train/val/test split
-                    file_name = f"hold_out/{experiment_name}_{model_name}.json"
+                    file_name = f"{experiment_name}_{model_name}.json"
 
                 result_runs_path = os.path.join(results_dir, file_name)
 
@@ -288,6 +288,7 @@ if __name__ == "__main__":
             "semantic_selector": True
         }]
     ollama_port = "11436"
+    os.environ["OLLAMA_HOST"] = f"http://localhost:{ollama_port}"
     experiments = parse_experiments(experiments)
     fold = 2
 
