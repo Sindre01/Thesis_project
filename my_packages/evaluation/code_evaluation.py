@@ -493,7 +493,7 @@ def run_model(
             constrained_llm = Syncode(
                 model=hf_model, 
                 grammar=f"{project_root}/data/midio_grammar.lark", 
-                mode="grammar_strict",
+                mode="original",
                 parse_output_only=True, 
                 device_map="auto",
                 **model_kwargs

@@ -2,6 +2,8 @@ import re
 from matplotlib import pyplot as plt
 import pandas as pd
 
+from my_packages.evaluation.midio_compiler import clean_output
+
 def make_categories_pie_chart(df, title="Error Categories Pie Chart"):
     # Plot pie chart
     fig, ax = plt.subplots(figsize=(8, 6))
@@ -79,20 +81,40 @@ def get_error_category_counts(error_df, column_name):
 
     return category_counts
 
-## Make categorization of syntax, semantic and test errors  
-def categorize_syntax_error(stderr):
-    match = re.search(r'Error:\s*(.*?)(?:\n|:)', stderr)
 
-    if match:
-        return match.group(1).strip()
+def categorize_syntax_parsing_error(stderr):
+    """Gets the unexpected tokens from the error message."""
+    stderr = clean_output(stderr)
+    unexpected_tokens = []
+
+    stderr_msgs = stderr.split("\n")
+    for msg in stderr_msgs:
+        # 1. Catch "but got ..." errors
+        match = re.search(r'but got\s+(.*?)(?:$|\s|at)', msg)
+        if match:
+            token = match.group(1).strip()
+            unexpected_tokens.append(f"{token}")
+
+        # 2. Specific handling for "Unexpected token while parsing root"
+        if "Unexpected token while parsing root" in msg:
+            parts = msg.split(":")
+            if len(parts) > 1:
+                token = parts[-1].strip()
+                unexpected_tokens.append(f"{token}")
+  
+    return unexpected_tokens
+
+
+def categorize_syntax_error(stderr):
+    stderr = clean_output(stderr)
+    error = ""
     
-    if "expected node" in stderr.lower():
-        return "Unexpected node"
+    main_group = re.search(r'Error:\s*(.*?)(?:\n|:)', stderr)
+  
+    if main_group:
+        error = main_group.group(1).strip()
     
-    if "code is not compile ready" in stderr.lower():
-        return "Not compile ready"
-    
-    return match.group(1).strip() if match else "Other syntax error"
+    return error if error else "Other syntax error"
 
 
 def categorize_semantic_errors(messages):
@@ -104,7 +126,7 @@ def categorize_semantic_errors(messages):
         if "unable to resolve type" in msg_lower or "failed to reify declaration path" in msg_lower:
             categorized_errors.add("Type Resolution Error")
 
-        if "failed to resolve symbol" in msg_lower:
+        elif "failed to resolve symbol" in msg_lower:
             categorized_errors.add("Symbol Resolution Error")
 
         elif "arrow from" in msg_lower and "is not allowed" in msg_lower:
@@ -146,6 +168,7 @@ def categorize_test_errors(test_result):
         return f"{passed}/{total}"
     return "0/3"
 import re
+
 
 def extract_semantic_errors(messages):
     semantic_errors = []

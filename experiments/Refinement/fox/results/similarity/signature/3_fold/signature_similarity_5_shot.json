@@ -1,0 +1,86 @@
+[
+    {
+        "model_name": "llama3.2:3b-instruct-fp16",
+        "experiment": "signature_similarity_5_shot",
+        "metrics": [
+            "syntax",
+            "semantic",
+            "tests"
+        ],
+        "seed": [
+            3,
+            346,
+            75
+        ],
+        "temperature": 0.2,
+        "top_p": 0.9,
+        "top_k": 10,
+        "ks": [
+            1,
+            2,
+            3,
+            5,
+            10
+        ],
+        "syntax@1": {
+            "mean": 0.69,
+            "std": 0.08
+        },
+        "syntax@2": {
+            "mean": 0.69,
+            "std": 0.09
+        },
+        "syntax@3": {
+            "mean": 0.69,
+            "std": 0.09
+        },
+        "syntax@5": {
+            "mean": 0.7,
+            "std": 0.09
+        },
+        "syntax@10": {
+            "mean": 0.71,
+            "std": 0.1
+        },
+        "semantic@1": {
+            "mean": 0.51,
+            "std": 0.16
+        },
+        "semantic@2": {
+            "mean": 0.51,
+            "std": 0.16
+        },
+        "semantic@3": {
+            "mean": 0.51,
+            "std": 0.16
+        },
+        "semantic@5": {
+            "mean": 0.51,
+            "std": 0.16
+        },
+        "semantic@10": {
+            "mean": 0.51,
+            "std": 0.16
+        },
+        "tests@1": {
+            "mean": 0.21,
+            "std": 0.12
+        },
+        "tests@2": {
+            "mean": 0.21,
+            "std": 0.12
+        },
+        "tests@3": {
+            "mean": 0.21,
+            "std": 0.12
+        },
+        "tests@5": {
+            "mean": 0.21,
+            "std": 0.12
+        },
+        "tests@10": {
+            "mean": 0.21,
+            "std": 0.12
+        }
+    }
+]

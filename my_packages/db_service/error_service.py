@@ -114,7 +114,6 @@ def errors_to_df(experiment: str, model: str = None, filter: dict={}) -> pd.Data
     if model:
         filter["model_name"] = model
 
-    print(filter)
     data = list(collection.find(filter, {"_id": 0}))
 
     if not data:
