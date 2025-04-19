@@ -210,12 +210,11 @@ def generate_syncode_reponse(
 )-> str:
     """Generate a response for a given prompt using the Syncode model."""
     set_seed(seed)
-    prompt = final_prompt_template.format_messages(**prompt_variables_dict)
     langchain_messages = final_prompt_template.format_messages(**prompt_variables_dict)
 
     # Convert to Hugging Face-style chat format
     hf_messages = [{"role": msg.type, "content": msg.content} for msg in langchain_messages]
-    print("Prompt to Syncode:", prompt)
+    print("Prompt to Syncode:", hf_messages)
 
     output = client.infer(hf_messages, stop_words=["}\n\n```\n"])
     print("SynCode output:", output[0])
