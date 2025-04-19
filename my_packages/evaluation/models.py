@@ -220,8 +220,7 @@ def generate_syncode_reponse(
 
     # Convert to Hugging Face-style chat format
     hf_messages = [{"role": hf_role_mappings[msg.type], "content": msg.content} for msg in langchain_messages]
-    print("Prompt to Syncode:", hf_messages)
-
+    
     output = client.infer(hf_messages, stop_words=["}\n\n```\n"])
     print("SynCode output:", output[0])
     print("* MARKERER SLUTT PÅ OUTPUT. SynCode output length:", len(output[0]))
