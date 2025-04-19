@@ -22,7 +22,7 @@ NODE_LIST=  # List of nodes that the job can run on gpu-14,gpu-9,gpu-7,gpu-8
 TIME="3-00:00:00"                       # Slurm walltime (D-HH:MM:SS)
 MEM_PER_GPU="20G"                       # Memory per GPU. 
 OLLAMA_MODELS_DIR="/cluster/work/projects/ec12/ec-sindrre/ollama-models"  # Path to where the Ollama models are stored and loaded                      
-OLLAMA_PORT="11195"                       # Remote port where Ollama listens. If different parallell runs, change ollama_port to avoid conflicts if same node is allocated.
+OLLAMA_PORT="11495"                       # Remote port where Ollama listens. If different parallell runs, change ollama_port to avoid conflicts if same node is allocated.
 SBATCH_SCRIPT="${PHASE}_${EXPERIMENT_TYPE}_${PROMPT_TYPE}_${GPUS}_ollama.slurm"           # Slurm batch script name
 # Directory on Fox to store scripts and output
 if [ -n "$PROMPT_TYPE" ]; then
@@ -40,14 +40,14 @@ experiments='[
         {
             "name": "regular_similarity",
             "prompt_prefix": "Create a function",
-            "num_shots": [5],
+            "num_shots": [10],
             "prompt_type": "regular",
             "semantic_selector": true
         },
         {
             "name": "signature_similarity",
             "prompt_prefix": "Create a function",
-            "num_shots": [5],
+            "num_shots": [10],
             "prompt_type": "signature",
             "semantic_selector": true
         }

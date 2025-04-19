@@ -14,15 +14,15 @@ if __name__ == "__main__":
 
     find_results( 
         experiment_folder="context",
-        env="prod",
+        env="no",
         eval_method="3_fold",
-        experiment_types=["RAG", "full-context"],
+        experiment_types=["RAG"],
         prompt_types=["regular", "signature"],
         shots=[5, 10],
         metrics=["syntax", "semantic", "tests"],
         ks=[1, 2, 3, 5, 10],
         use_threads=True,
-        model="",
+        model="phi4:14b-fp16",
         phase=Phase.TESTING,
     )
 

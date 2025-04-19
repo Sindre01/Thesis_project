@@ -7,8 +7,8 @@
 # Configuration
 EXPERIMENT="context"                    # Experiment ('few-shot')
 PHASE="testing"                       # Phase ('testing' or 'validation')
-CONTEXT_TYPE="RAG"                 #'RAG' or 'full-context'
-PROMPT_TYPE="regular"                 # 'regular' or 'cot' or 'signature'   
+CONTEXT_TYPE="full-context"                 #'RAG' or 'full-context'
+PROMPT_TYPE="signature"                 # 'regular' or 'cot' or 'signature'   
 # SEMANTIC_SELECTOR=true                   # Use semantic selector
 K_FOLD_JOBS=0-2                              # Runs jobs for folds 0 to 2 (3-fold CV)
 USER="ec-sindrre"                        # Your Educloud username
@@ -16,13 +16,13 @@ HOST="fox.educloud.no"                   # Fox login address (matches SSH config
 SSH_CONFIG_NAME="fox"                    # Name of the SSH config entry
 ACCOUNT="ec30"                           # Fox project account
 PARTITION="ifi_accel"                        # 'accel' or 'accel_long' (or 'ifi_accel' if access to ec11,ec29,ec30,ec34,ec35 or ec232)
-GPUS=2             # a100 have 40GB or 80GB VRAM, while rtx30 have 24GB VRAM.
+GPUS=1             # a100 have 40GB or 80GB VRAM, while rtx30 have 24GB VRAM.
 NODES=1                          # Number of nodes. OLLAMA does currently only support single node inference
-NODE_LIST=   # List of nodes that the job can run on gpu-14,gpu-7,gpu-8,gpu-9  (h100)
-TIME="2-0:00:00"                  # Slurm walltime (D-HH:MM:SS)
+NODE_LIST=  # List of nodes that the job can run on gpu-14,gpu-7,gpu-8,gpu-9  (h100)
+TIME="2-00:00:00"                  # Slurm walltime (D-HH:MM:SS)
 MEM_PER_GPU="20G"                       # Memory per GPU. 
 OLLAMA_MODELS_DIR="/cluster/work/projects/ec12/ec-sindrre/ollama-models"  # Path to where the Ollama models are stored and loaded                      
-OLLAMA_PORT="11390"                       # Remote port where Ollama listens. If different parallell runs, change ollama_port to avoid conflicts if same node is allocated.
+OLLAMA_PORT="11290"                       # Remote port where Ollama listens. If different parallell runs, change ollama_port to avoid conflicts if same node is allocated.
 SBATCH_SCRIPT="${PHASE}_${CONTEXT_TYPE}_${PROMPT_TYPE}_${GPUS}_ollama.slurm"           # Slurm batch script name
 # Directory on Fox to store scripts and output
 if [ -n "$PROMPT_TYPE" ]; then
@@ -37,10 +37,10 @@ CLONE_DIR="/fp/homes01/u01/ec-sindrre/tmp/Thesis_project_${CONTEXT_TYPE}_\$SLURM
 model_provider='ollama'
 experiments='[
         {
-            "name": "regular_RAG",
+            "name": "signature_full-context",
             "prompt_prefix": "Create a function",
-            "num_shots": [5, 10],
-            "prompt_type": "regular",
+            "num_shots": [5],
+            "prompt_type": "signature",
             "semantic_selector": true
         }
 ]'
@@ -63,17 +63,16 @@ experiments='[
 #             "semantic_selector": true
 #         }
 # ]'
-
-models='[
-    "phi4:14b-fp16"
-]'
+# models='[
+#     "phi4:14b-fp16"
+# ]'
 
 # models='[
 #     "llama3.3:70b-instruct-fp16"
 # ]'
-# models='[
-#     "llama3.2:3b-instruct-fp16"
-# ]'
+models='[
+    "llama3.2:3b-instruct-fp16"
+]'
 
 # normal* c1-[5-28]
 # accel gpu-[1-2,4-5,7-9,11-13]
