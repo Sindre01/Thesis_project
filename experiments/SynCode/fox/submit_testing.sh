@@ -8,7 +8,7 @@
 EXPERIMENT="SynCode"                    # Experiment ('few-shot')
 PHASE="testing"                       # Phase ('testing' or 'validation')
 EXPERIMENT_TYPE="similarity"                 # 'similarity' or RAG or full-context
-PROMPT_TYPE=""                 # 'regular' or 'cot' or 'signature'   
+PROMPT_TYPE="signature"                 # 'regular' or 'cot' or 'signature'   
 # SEMANTIC_SELECTOR=true                   # Use semantic selector
 K_FOLD_JOBS=0-2                              # Runs jobs for folds 0 to 2 (3-fold CV)
 USER="ec-sindrre"                        # Your Educloud username
@@ -38,16 +38,9 @@ model_provider='ollama'
 
 experiments='[
         {
-            "name": "regular_similarity",
-            "prompt_prefix": "Create a function",
-            "num_shots": [10],
-            "prompt_type": "regular",
-            "semantic_selector": true
-        },
-        {
             "name": "signature_similarity",
             "prompt_prefix": "Create a function",
-            "num_shots": [10],
+            "num_shots": [5],
             "prompt_type": "signature",
             "semantic_selector": true
         }
