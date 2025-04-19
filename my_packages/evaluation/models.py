@@ -209,11 +209,17 @@ def generate_syncode_reponse(
     seed: int,
 )-> str:
     """Generate a response for a given prompt using the Syncode model."""
+    hf_role_mappings = {
+        "system": "system",
+        "human": "user",
+        "ai": "assistant"
+    }
+
     set_seed(seed)
     langchain_messages = final_prompt_template.format_messages(**prompt_variables_dict)
 
     # Convert to Hugging Face-style chat format
-    hf_messages = [{"role": msg.type, "content": msg.content} for msg in langchain_messages]
+    hf_messages = [{"role": hf_role_mappings[msg.type], "content": msg.content} for msg in langchain_messages]
     print("Prompt to Syncode:", hf_messages)
 
     output = client.infer(hf_messages, stop_words=["}\n\n```\n"])
@@ -222,7 +228,6 @@ def generate_syncode_reponse(
     response = output[0]
     return response
     
-
 def generate_langchain_response(
     client: ChatOllama | ChatOpenAI,
     model: str,
