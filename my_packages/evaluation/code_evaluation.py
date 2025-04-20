@@ -1,6 +1,7 @@
 from collections import defaultdict
 import os
 import numpy as np
+import copy
 import torch
 from my_packages.common.classes import CodeEvaluationResult, PromptType, Run
 from my_packages.common.rag import RagData
@@ -470,7 +471,7 @@ def run_model(
         constrained_llm = Syncode(
             model=hf_model, 
             grammar=f"{project_root}/data/midio_grammar.lark", 
-            mode="grammar_strict",
+            mode="grammar_mask",
             parse_output_only=True, 
             device_map="auto",
             opp=True, # Oppurtinistic or determentisic.
@@ -625,14 +626,13 @@ def run_refinement(
     total_n = generation_kwargs["n"]
     generation_kwargs["n"] = 1 # Generate one candidate at a time
 
-    import copy
-
     refinement_prompt_template = copy.deepcopy(final_prompt_template)
     error_template = HumanMessagePromptTemplate.from_template(get_prompt_template("ERROR"))
     refinement_prompt_template.messages.append(error_template)
     refinement_vars = copy.deepcopy(prompt_variables_dict)
 
     for n in range(0, total_n):
+        print(f"> Generating n response..  ({n + 1}/{total_n})", end="\r")
 
         # Initial query
         try:
@@ -690,15 +690,24 @@ def run_refinement(
                 error_prompt_part = error_template.format(**error_template_vars)
                 print(f"{Fore.BLUE}{Style.BRIGHT} Refinement prompt: {error_prompt_part.content}{Style.RESET_ALL}\n")
 
-            generated_response = generate_n_responses(
-                **generation_kwargs,
-                max_new_tokens=max_new_tokens,
-                final_prompt_template=refinement_prompt_template,
-                prompt_variables_dict=refinement_vars,
-                context=prompt_size + max_new_tokens,
-                ollama_port=ollama_port,
-                extract_last_snippet=True, # First is often the previous response
-            )
+            try:
+                generated_response = generate_n_responses(
+                    **generation_kwargs,
+                    max_new_tokens=max_new_tokens,
+                    final_prompt_template=refinement_prompt_template,
+                    prompt_variables_dict=refinement_vars,
+                    context=prompt_size + max_new_tokens,
+                    ollama_port=ollama_port,
+                    extract_last_snippet=True, # First is often the previous response
+                    constrained_llm=constrained_llm,
+                )
+            except Exception as e:
+                if not constrained_llm:
+                    raise e
+
+                print(f"Catched error in code, during syncode generation: {e}")
+                
+                generated_response = e
 
             refinements_performed+=1
             if debug:

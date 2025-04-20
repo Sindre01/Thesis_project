@@ -179,7 +179,11 @@ def generate_n_responses(
                 # import gc
                 # gc.collect()
                 # torch.cuda.empty_cache()
-                
+                if constrained_llm:
+                    print("Syncode generation failed. Setting generated to errror.")
+                    generated = e
+                    break
+                    
                 print(f"Attempt {retries} failed with error: {e}")
                 server_diagnostics(host=f"http://localhost:{ollama_port}")
                 if retries < max_retries:
