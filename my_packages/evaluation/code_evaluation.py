@@ -580,11 +580,8 @@ def run_refinement(
     few_shot_examples = example_pool.select_examples(sample)
     available_nodes = dataset_nodes
     
-    if response_type != "CODE":
-        print("Refinement is only available for CODE response type.")
-        
     prompt, final_prompt_template, prompt_variables_dict = build_prompt(
-        response_type=response_type,
+        response_type="CODE",
         prompt_type=prompt_type,
         few_shot_examples=few_shot_examples,
         sample=sample,
