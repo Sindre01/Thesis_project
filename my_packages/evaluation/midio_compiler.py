@@ -6,6 +6,8 @@ import tempfile
 import re
 import psutil
 
+from my_packages.analysis.error_analysis import extract_semantic_errors
+
 
 
 # semantic_error_indicators = [
@@ -110,6 +112,29 @@ def is_compile_ready(code: str) -> bool:
         return True
     
     return False # if not starting with any of the keywords, or if the code is empty
+
+def get_refinement_errors(code: str) -> str:
+    """ Gets syntax, semantic or tests errors from the code, that can be used for refinement of the code. """
+    compiled = compile_code(code)
+    error_msg = ""
+    if not is_code_syntax_valid(compiled):
+        # print("Code is NOT syntax valid")
+        error_msg = clean_output(compiled.stderr)
+
+    elif not is_code_semantically_valid(compiled):
+        # print("Code is NOT semantically valid")
+        error_msg = "\n".join(extract_errors(compiled.stdout))
+        error_msg = extract_semantic_errors(error_msg)
+    else:
+        # print("Code is semantically valid")
+        compiled_tests = compile_code(compiled, "test", "--json")
+        json_result = get_json_test_result(compiled_tests)
+        error_msg = json_result
+
+    return error_msg
+
+                     
+       
 
 # Function to check if the code compiles using package-manager
 def compile_code(code: str, type: str = "build", flag: str = "") -> subprocess.CompletedProcess[str]:

@@ -8,7 +8,7 @@ from my_packages.db_service.best_params_service import save_best_params_to_db
 from my_packages.db_service.error_service import save_errors_to_db
 from my_packages.db_service.results_service import save_results_to_db
 from my_packages.evaluation.metrics import check_correctness, check_semantics, check_syntax, check_visualization, estimate_pass_at_k
-from my_packages.evaluation.midio_compiler import compile_code, extract_errors
+from my_packages.evaluation.midio_compiler import compile_code, extract_errors, get_refinement_errors
 from my_packages.evaluation.models import generate_n_responses
 from my_packages.prompting.prompt_building import add_RAG_to_prompt, build_prompt, code_data_to_node_data, get_prompt_template
 from my_packages.utils.file_utils import save_results_as_string, save_results_to_file
@@ -473,7 +473,7 @@ def run_model(
             mode="grammar_mask",
             parse_output_only=True, 
             device_map="auto",
-            opp=False, # More deteministic for final evaluation
+            opp=True, # Oppurtinistic or determentisic.
             dev_mode=True if refinement else False,
             **model_kwargs
         )
@@ -643,6 +643,7 @@ def run_refinement(
                 prompt_variables_dict=prompt_variables_dict,
                 context=prompt_size + max_new_tokens,
                 ollama_port=ollama_port,
+                constrained_llm=constrained_llm,
             )
         except Exception as e:
             if not constrained_llm:
@@ -650,26 +651,29 @@ def run_refinement(
 
             print(f"Catched error in code, during syncode generation: {e}")
             
-            # generated_response = "e"
-            generated_response = []
+            generated_response = e
 
 
         refinements_performed = 0
 
         for i in range(refinements):
             print(f"Refinement #{i+1} of {refinements} for task {sample['task_id']}")
- 
-            code_candidate = generated_response[0]
-            compiled = compile_code(code_candidate)
-            error_msg = "\n".join(extract_errors(compiled.stdout))
+    
+            if constrained_llm:
+                if isinstance(generated_response, Exception):
+                    code_candidate = generated_response.partial_output
+                    error_msg = generated_response.error
+            else:
+                code_candidate = generated_response[0]
+                error_msg = get_refinement_errors(code_candidate)
 
-            if code_candidate.strip() == "":
-                print("No code candidate generated.")
+                if code_candidate.strip() == "":
+                    print("No code candidate generated.")
 
-            elif error_msg.strip() == "":
-                print(f"Code is correct, no errors found. Performed {refinements_performed} refinements")
-                break
-            # extract error message
+                elif error_msg == "":
+                    print(f"Code is correct, no errors found. Performed {refinements_performed} refinements")
+                    break
+
 
             error_template_vars = {
                 "code_candidate": code_candidate.strip() if code_candidate else "(No code was generated, try again)",
