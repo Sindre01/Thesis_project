@@ -470,7 +470,7 @@ def run_model(
         constrained_llm = Syncode(
             model=hf_model, 
             grammar=f"{project_root}/data/midio_grammar.lark", 
-            mode="grammar_mask",
+            mode="grammar_strict",
             parse_output_only=True, 
             device_map="auto",
             opp=True, # Oppurtinistic or determentisic.
@@ -663,6 +663,10 @@ def run_refinement(
                 if isinstance(generated_response, Exception):
                     code_candidate = generated_response.partial_output
                     error_msg = generated_response.error
+                else:
+                    code_candidate = generated_response[0]
+                    error_msg = f"Code is correct, no errors found. Performed {refinements_performed} refinements"
+                    break
             else:
                 code_candidate = generated_response[0]
                 error_msg = get_refinement_errors(code_candidate)
