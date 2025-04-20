@@ -454,59 +454,28 @@ def run_model(
 
         elif "llama3.2:3b" in model:
             hf_model = "meta-llama/Llama-3.2-3b-Instruct"
-            info_a = model_info("meta-llama/Llama-3.2-3b-Instruct")
-            info_b = model_info("meta-llama/Llama-3.2-3B-Instruct")
+            # info_a = model_info("meta-llama/Llama-3.2-3b-Instruct")
+            # info_b = model_info("meta-llama/Llama-3.2-3B-Instruct")
 
-            # Compare model IDs and some basic metadata
-            print("Model A ID:", info_a.modelId)
-            print("Model B ID:", info_b.modelId)
+            # # Compare model IDs and some basic metadata
+            # print("Model A ID:", info_a.modelId)
+            # print("Model B ID:", info_b.modelId)
 
-            print("Are they the same?", info_a.modelId == info_b.modelId)
+            # print("Are they the same?", info_a.modelId == info_b.modelId)
         else:
             raise ValueError(f"Constrained output is not availbale for model: {model}.")
-        print(f"Loading Syncode model with miodel kwargs: {model_kwargs}")
+        print(f"Loading Syncode model with model kwargs: {model_kwargs}")
 
-        nodes_as_terminals = False
-
-        if nodes_as_terminals:
-            print(f"using grammar file: {project_root}/data/dynamic_midio_grammar.lark")
-            print(f"Extracting args from nodes: {all_nodes}")
-            node_candidates = [all_node["function_name"].split(".")[-1] for all_node in all_nodes]
-
-            rag_data = rag_data if rag_data else init_rag_data()
-            available_args = get_args_from_nodes(all_nodes, rag_data, docs_per_node = 1)
-
-            print(f"Extracted these args from nodes: {available_args}")
-            available_args_union = " | ".join(f'"{arg}"' for arg in available_args)
-            available_nodes_union = " | ".join(f'"{node}"' for node in node_candidates)
-
-            # Read your existing .lark file
-            with open(f"{project_root}/data/dynamic_midio_grammar.lark", "r") as f:
-                grammar_text = f.read()
-
-            # Replace the placeholders with the actual alternations.
-            grammar_text = grammar_text.replace("%%AVAILABLE_ARGS%%", available_args_union)
-            grammar_text = grammar_text.replace("%%AVAILABLE_NODES%%", available_nodes_union)
-
-            # Load the Syncode augmented model with huggingface model
-            constrained_llm = Syncode(
-                model=hf_model, 
-                grammar=grammar_text, 
-                mode="grammar_strict",
-                parse_output_only=True, 
-                device_map="auto",
-                **model_kwargs
-            )
-        else:
-            print(f"using original grammar file: {project_root}/data/midio_grammar.lark")
-            constrained_llm = Syncode(
-                model=hf_model, 
-                grammar=f"{project_root}/data/midio_grammar.lark", 
-                mode="grammar_strict",
-                parse_output_only=True, 
-                device_map="auto",
-                **model_kwargs
-            )
+        print(f"using original grammar file: {project_root}/data/midio_grammar.lark")
+        constrained_llm = Syncode(
+            model=hf_model, 
+            grammar=f"{project_root}/data/midio_grammar.lark", 
+            mode="grammar_strict",
+            parse_output_only=True, 
+            device_map="auto",
+            opp=False, # More deteministic for final evaluation
+            **model_kwargs
+        )
 
 
     results: dict[int, list[str]] = {}
