@@ -175,7 +175,7 @@ module load Python/3.11.5-GCCcore-13.2.0
 
 source ~/.bashrc # may ovewrite previous modules
 
-export SYNCODE_CACHE=/cluster/work/projects/ec12/ec-sindrre/syncode_\$SLURM_JOB_ID
+export SYNCODE_CACHE=/cluster/work/projects/ec12/ec-sindrre/syncode_\$SLURM_JOB_ID/
 
 OLLAMA_PORT_K_FOLD=\$((${OLLAMA_PORT} + \$SLURM_ARRAY_TASK_ID))
 

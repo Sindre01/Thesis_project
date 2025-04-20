@@ -176,7 +176,7 @@ module load Python/3.11.5-GCCcore-13.2.0
 # module load CUDA/12.4.0
 
 source ~/.bashrc # may ovewrite previous modules
-export SYNCODE_CACHE=/cluster/work/projects/ec12/ec-sindrre/syncode_\$SLURM_JOB_ID
+export SYNCODE_CACHE=/cluster/work/projects/ec12/ec-sindrre/syncode_\$SLURM_JOB_ID/
 
 export OLLAMA_MODELS=${OLLAMA_MODELS_DIR}    # Path to where the Ollama models are stored and loaded
 export OLLAMA_HOST=0.0.0.0:${OLLAMA_PORT}      # Host and port where Ollama listens
