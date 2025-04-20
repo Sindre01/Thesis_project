@@ -4,6 +4,36 @@
         "optimizer_metric": "syntax",
         "seed": 9,
         "temperature": 0.9,
+        "top_p": 0.9,
+        "top_k": 10,
+        "created_at": "2025-04-20T12:23:12.168832+02:00",
+        "syntax@1": 1.0
+    },
+    {
+        "model_name": "llama3.2:3b-instruct-fp16",
+        "optimizer_metric": "semantic",
+        "seed": 9,
+        "temperature": 0.2,
+        "top_p": 0.6,
+        "top_k": 50,
+        "created_at": "2025-04-20T12:23:42.431302+02:00",
+        "semantic@1": 0.3333333333333333
+    },
+    {
+        "model_name": "llama3.2:3b-instruct-fp16",
+        "optimizer_metric": "tests",
+        "seed": 9,
+        "temperature": 0.6,
+        "top_p": 0.9,
+        "top_k": 50,
+        "created_at": "2025-04-20T12:24:17.867533+02:00",
+        "tests@1": 0.3333333333333333
+    },
+    {
+        "model_name": "llama3.2:3b-instruct-fp16",
+        "optimizer_metric": "syntax",
+        "seed": 9,
+        "temperature": 0.9,
         "top_p": 0.6,
         "top_k": 10,
         "created_at": "2025-04-05T10:38:48.783226+02:00",

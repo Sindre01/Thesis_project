@@ -52,6 +52,7 @@ DOUBLE_BACKTICK: "``"
 BACKTICKS_LANG: "```midio"
 BACKTICKS: "```"
 
+// ROOT.1: "root"
 VALUE_BOOL.1: "true" | "false"
 VALUE_NUMBER: /-?\d+(\.\d+)?/
 VALUE_STRING: "\"" /([^"\\]|\\.)*/ "\""

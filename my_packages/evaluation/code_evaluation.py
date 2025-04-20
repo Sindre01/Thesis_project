@@ -439,7 +439,7 @@ def run_model(
             "top_k": top_k,
             "top_p": top_p,
             "do_sample": True,
-            "quantize": True, # Sets to torch.float16
+            "quantize": True, # Sets to torch.bfloat16
             # "early_stopping": True,            # <- Stop if EOS is reached early. Not available when using hyperparameters like temperate etc.
             "use_cache": True,                 # <- Speeds things up (standard)
             # "pad_token_id": 0,

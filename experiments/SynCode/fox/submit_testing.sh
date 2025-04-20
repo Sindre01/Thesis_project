@@ -8,7 +8,7 @@
 EXPERIMENT="SynCode"                    # Experiment ('few-shot')
 PHASE="testing"                       # Phase ('testing' or 'validation')
 EXPERIMENT_TYPE="similarity"                 # 'similarity' or RAG or full-context
-PROMPT_TYPE=" "                 # 'regular' or 'cot' or 'regular'   
+PROMPT_TYPE=""                 # 'regular' or 'cot' or 'regular'   
 # SEMANTIC_SELECTOR=true                   # Use semantic selector
 K_FOLD_JOBS=0                              # Runs jobs for folds 0 to 2 (3-fold CV)
 USER="ec-sindrre"                        # Your Educloud username

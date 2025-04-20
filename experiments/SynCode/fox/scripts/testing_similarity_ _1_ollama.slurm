@@ -6,7 +6,7 @@
 ###############################################################################
 
 # Job Configuration
-#SBATCH --job-name=testing_SynCode_similarity__1        # Job name
+#SBATCH --job-name=testing_SynCode_similarity_ _1        # Job name
 #SBATCH --account=ec30                      # Project account
 #SBATCH --partition=ifi_accel                  # Partition ('accel' or 'accel_long')
 #SBATCH --nodes=1                           # Amount of nodes. Ollama one support single node inference
@@ -61,10 +61,10 @@ export TORCH_USE_CUDA_DSA=1
 # Set the age threshold 4 days
 AGE_THRESHOLD=345600
 
-echo "🧹 Cleaning up files older than 4 days in: /fp/homes01/u01/ec-sindrre/slurm_jobs/SynCode/testing/similarity"
+echo "🧹 Cleaning up files older than 4 days in: /fp/homes01/u01/ec-sindrre/slurm_jobs/SynCode/testing/similarity/ "
 
 # Find and delete .out, .slurm, and .csv files older than 1 hours
-find "/fp/homes01/u01/ec-sindrre/slurm_jobs/SynCode/testing/similarity" -type f \( -name "*.out" -o -name "*.slurm" -o -name "*.csv" \) -mmin +1800 -exec rm -v {} \;
+find "/fp/homes01/u01/ec-sindrre/slurm_jobs/SynCode/testing/similarity/ " -type f \( -name "*.out" -o -name "*.slurm" -o -name "*.csv" \) -mmin +1800 -exec rm -v {} \;
 
 echo "✅ Cleanup completed!"
 
@@ -146,7 +146,7 @@ python -u /fp/homes01/u01/ec-sindrre/tmp/Thesis_project_similarity_$SLURM_JOB_ID
             "prompt_type": "regular",
             "semantic_selector": true
         }
-]'     --ollama_port $OLLAMA_PORT_K_FOLD     --fold $SLURM_ARRAY_TASK_ID     > /fp/homes01/u01/ec-sindrre/slurm_jobs/SynCode/testing/similarity/AI_${SLURM_JOB_ID}_fold_$SLURM_ARRAY_TASK_ID.out 2>&1
+]'     --ollama_port $OLLAMA_PORT_K_FOLD     --fold $SLURM_ARRAY_TASK_ID     > /fp/homes01/u01/ec-sindrre/slurm_jobs/SynCode/testing/similarity/ /AI_${SLURM_JOB_ID}_fold_$SLURM_ARRAY_TASK_ID.out 2>&1
 
 
 ###############################################################################

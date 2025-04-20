@@ -1,13 +1,3 @@
 import("std", Std_k98ojb)
 import("http", Http_q7o96c)
 
-module() main {
-     func(doc: "checks whether the given number is even or not.") is_Even {
-        in(x: -389, y: -3, name: "num") property(Number) num_1a1743
-
-        out(x: 197, y: -8, name: "output") property(Bool) output_4ff980
-        instance(x: 0, y: -7) if_e19a62 root.Std_k98ojb.Std.If {}
-        if_e19a62.then -> output_4ff980
-
- }
-}	
