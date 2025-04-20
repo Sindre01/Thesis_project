@@ -37,13 +37,6 @@ CLONE_DIR="/fp/homes01/u01/ec-sindrre/tmp/Thesis_project_${CONTEXT_TYPE}_\$SLURM
 model_provider='ollama'
 
 experiments='[
-        {
-            "name": "regular_ONE",
-            "prompt_prefix": "Create a function",
-            "num_shots": [5, 10],
-            "prompt_type": "regular",
-            "semantic_selector": true
-        },
          {
              "name": "signature_ONE",
              "prompt_prefix": "Create a function",
@@ -132,6 +125,7 @@ module load Python/3.11.5-GCCcore-13.2.0
 source ~/.bashrc # may ovewrite previous modules
 OLLAMA_PORT_K_FOLD=\$((${OLLAMA_PORT} + \$SLURM_ARRAY_TASK_ID))
 
+export SYNCODE_CACHE=/cluster/work/projects/ec12/ec-sindrre/syncode_\$SLURM_JOB_ID/
 export OLLAMA_MODELS=${OLLAMA_MODELS_DIR}    # Path to where the Ollama models are stored and loaded
 export OLLAMA_HOST=0.0.0.0:\$OLLAMA_PORT_K_FOLD    # Host and port where Ollama listens
 export OLLAMA_ORIGINS=”*”

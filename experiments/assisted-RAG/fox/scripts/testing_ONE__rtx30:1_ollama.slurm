@@ -38,6 +38,7 @@ module load Python/3.11.5-GCCcore-13.2.0
 source ~/.bashrc # may ovewrite previous modules
 OLLAMA_PORT_K_FOLD=$((11315 + $SLURM_ARRAY_TASK_ID))
 
+export SYNCODE_CACHE=/cluster/work/projects/ec12/ec-sindrre/syncode_$SLURM_JOB_ID/
 export OLLAMA_MODELS=/cluster/work/projects/ec12/ec-sindrre/ollama-models    # Path to where the Ollama models are stored and loaded
 export OLLAMA_HOST=0.0.0.0:$OLLAMA_PORT_K_FOLD    # Host and port where Ollama listens
 export OLLAMA_ORIGINS=”*”
@@ -130,13 +131,6 @@ export PYTHONPATH="/fp/homes01/u01/ec-sindrre/tmp/Thesis_project_ONE_$SLURM_JOB_
 python -u /fp/homes01/u01/ec-sindrre/tmp/Thesis_project_ONE_$SLURM_JOB_ID/experiments/assisted-RAG/fox/run_testing.py     --model_provider 'ollama'     --models '[
     "llama3.2:3b-instruct-fp16"
 ]'     --experiments '[
-        {
-            "name": "regular_ONE",
-            "prompt_prefix": "Create a function",
-            "num_shots": [5, 10],
-            "prompt_type": "regular",
-            "semantic_selector": true
-        },
          {
              "name": "signature_ONE",
              "prompt_prefix": "Create a function",
