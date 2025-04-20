@@ -229,7 +229,7 @@ def two_step_run(
             constrained_llm = Syncode(
                 model=hf_model, 
                 grammar=grammar_text, 
-                mode="grammar_strict",
+                mode="grammar_mask",
                 parse_output_only=True, 
                 device_map="auto",
                 **model_kwargs
