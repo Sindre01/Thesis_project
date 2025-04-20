@@ -14,7 +14,7 @@ if __name__ == "__main__":
 
     find_results( 
         experiment_folder="context",
-        env="no",
+        env="prod",
         eval_method="3_fold",
         experiment_types=["RAG"],
         prompt_types=["regular", "signature"],

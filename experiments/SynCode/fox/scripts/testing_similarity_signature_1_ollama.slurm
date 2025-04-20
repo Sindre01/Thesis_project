@@ -142,7 +142,7 @@ python -u /fp/homes01/u01/ec-sindrre/tmp/Thesis_project_similarity_$SLURM_JOB_ID
         {
             "name": "signature_similarity",
             "prompt_prefix": "Create a function",
-            "num_shots": [5],
+            "num_shots": [5, 10],
             "prompt_type": "signature",
             "semantic_selector": true
         }
