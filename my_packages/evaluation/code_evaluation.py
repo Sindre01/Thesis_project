@@ -474,6 +474,7 @@ def run_model(
             parse_output_only=True, 
             device_map="auto",
             opp=False, # More deteministic for final evaluation
+            dev_mode=True if refinement else False,
             **model_kwargs
         )
 
@@ -485,7 +486,6 @@ def run_model(
 
         if refinement:
             generated_candidates, prompt_size = run_refinement(
-                response_type="CODE",
                 sample=sample,
                 example_pool=example_pool,
                 prompt_type=prompt_type,
@@ -507,7 +507,8 @@ def run_model(
                 },
                 rag_data=rag_data,
                 debug=debug,
-                ollama_port=ollama_port
+                ollama_port=ollama_port,
+                constrained_llm=constrained_llm,
             )
         else:
             generated_candidates, prompt_size = run_prompt_step(
@@ -548,7 +549,6 @@ def run_model(
     return results, largest_ctx_size
 
 def run_refinement(
-    response_type: str, # CODE or NODE
     sample: dict,
     example_pool: BaseExampleSelector,
     prompt_type: PromptType,
@@ -564,7 +564,8 @@ def run_refinement(
     candidate_nodes: list = [],
     ollama_port: str = "11434",
     node_context_type: str = "MANY",
-    refinements: int = 2
+    refinements: int = 2,
+    constrained_llm: Syncode = None,
 
 ) -> tuple[list[str], int]:
     """
@@ -579,10 +580,8 @@ def run_refinement(
     few_shot_examples = example_pool.select_examples(sample)
     available_nodes = dataset_nodes
     
-    if response_type == "NODE":
-        few_shot_examples= code_data_to_node_data(few_shot_examples)
-        true_response = sample["external_functions"]
-        available_nodes = all_nodes
+    if response_type != "CODE":
+        print("Refinement is only available for CODE response type.")
         
     prompt, final_prompt_template, prompt_variables_dict = build_prompt(
         response_type=response_type,
@@ -639,14 +638,23 @@ def run_refinement(
     for n in range(0, total_n):
 
         # Initial query
-        generated_response = generate_n_responses(
-            **generation_kwargs,
-            max_new_tokens=max_new_tokens,
-            final_prompt_template=final_prompt_template,
-            prompt_variables_dict=prompt_variables_dict,
-            context=prompt_size + max_new_tokens,
-            ollama_port=ollama_port,
-        )
+        try:
+            generated_response = generate_n_responses(
+                **generation_kwargs,
+                max_new_tokens=max_new_tokens,
+                final_prompt_template=final_prompt_template,
+                prompt_variables_dict=prompt_variables_dict,
+                context=prompt_size + max_new_tokens,
+                ollama_port=ollama_port,
+            )
+        except Exception as e:
+            if not constrained_llm:
+                raise e
+
+            print(f"Catched error in code, during syncode generation: {e}")
+            
+            # generated_response = "e"
+            generated_response = []
 
 
         refinements_performed = 0

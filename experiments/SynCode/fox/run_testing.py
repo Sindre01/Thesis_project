@@ -23,7 +23,7 @@ from my_packages.common.rag import RagData, init_rag_data
 from my_packages.common.config import model_configs
 from my_packages.data_processing.split_dataset import create_kfold_splits
 from my_packages.common.classes import PromptType, get_prompt_type
-from my_packages.evaluation.code_evaluation import run_model, two_step_run
+from my_packages.evaluation.code_evaluation import run_model, run_refinement, two_step_run
 from my_packages.data_processing.attributes_processing import used_functions_to_string
 from my_packages.prompting.prompt_building import transform_code_data
 from my_packages.utils.file_utils import write_directly_json_file, read_dataset_to_json
@@ -148,7 +148,8 @@ def run_testing_experiment(
                 ollama_port=ollama_port,
                 rag_data=rag_data,
                 max_ctx=max_ctx,
-                constrained_output=True
+                constrained_output=True,
+                refinement=True if experiment_type == "Refinement" else False,
 
             )
         result_obj = {
@@ -190,22 +191,14 @@ def main(
             metrics = ["syntax", "semantic", "tests"] # ["syntax", "semantic"] or ["syntax", "semantic", "tests"]
 
         experiment_type = ex["name"].split("_")[1] # e.g: "vanilla" or "?"
-        if experiment_type == "similarity":
+        if experiment_type == "similarity" or experiment_type == "Refinement":
             max_ctx = 16000
             #No RAG
             rag_data = None
-        elif experiment_type == "RAG":
+
+        elif experiment_type == "RAG" or experiment_type == "assisted-RAG" or experiment_type == "all-nodes":
             max_ctx = 16000
             rag_data = init_rag_data() # None if not using RAG
-        elif experiment_type == "full-context":
-            max_ctx = 60000 # 60k tokens, because all documentation and few-shot are less than this
-            rag_data = init_rag_data() # None if not using RAG
-        elif experiment_type == "assisted-RAG":
-            max_ctx = 16000
-            rag_data = init_rag_data()
-        elif experiment_type == "all-nodes":
-            max_ctx = 16000
-            rag_data = init_rag_data()
         else:
             raise ValueError(f"Unknown experiment type: {experiment_type}")
 
