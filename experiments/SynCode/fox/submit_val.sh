@@ -21,7 +21,7 @@ NODE_LIST=  # List of nodes that the job can run on gpu-14,gpu-9,gpu-7,gpu-8
 TIME="2-00:00:00"                       # Slurm walltime (D-HH:MM:SS)
 MEM_PER_GPU="20G"                       # Memory per GPU. 
 OLLAMA_MODELS_DIR="/cluster/work/projects/ec12/ec-sindrre/ollama-models"  # Path to where the Ollama models are stored and loaded                      
-OLLAMA_PORT="11545"                       # Remote port where Ollama listens. If different parallell runs, change ollama_port to avoid conflicts if same node is allocated.
+OLLAMA_PORT="11745"                       # Remote port where Ollama listens. If different parallell runs, change ollama_port to avoid conflicts if same node is allocated.
 SBATCH_SCRIPT="${PHASE}_${EXAMPLES_TYPE}_${EXAMPLES_TYPE}__${PROMPT_TYPE}_${GPUS}_ollama.slurm"           # Slurm batch script name
 # Directory on Fox to store scripts and output
 if [ -n "$PROMPT_TYPE" ]; then
@@ -176,6 +176,7 @@ module load Python/3.11.5-GCCcore-13.2.0
 # module load CUDA/12.4.0
 
 source ~/.bashrc # may ovewrite previous modules
+export SYNCODE_CACHE = /cluster/work/projects/ec12/ec-sindrre/syncode_\$SLURM_JOB_ID
 
 export OLLAMA_MODELS=${OLLAMA_MODELS_DIR}    # Path to where the Ollama models are stored and loaded
 export OLLAMA_HOST=0.0.0.0:${OLLAMA_PORT}      # Host and port where Ollama listens
@@ -259,6 +260,8 @@ cleanup() {
     echo "⚠️ Job failed or completed — cleaning up $CLONE_DIR"
     rm -rf "$CLONE_DIR"
     echo "✅ Repository removed: $CLONE_DIR"
+    rm -rf /cluster/work/projects/ec12/ec-sindrre/syncode_\$SLURM_JOB_ID
+    echo "✅ Syncode cache removed: /cluster/work/projects/ec12/ec-sindrre/syncode_\$SLURM_JOB_ID"
 }
 
 # Ensure cleanup is called on exit (both success or error)

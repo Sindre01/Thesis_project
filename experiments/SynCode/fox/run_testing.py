@@ -10,7 +10,6 @@ import torch
 
 os.environ['EXPERIMENT_DB_NAME'] = "syncode_experiments"
 os.environ['HF_CACHE'] = "/cluster/work/projects/ec12/ec-sindrre/hf-models"
-os.environ['SYNCODE_CACHE'] = "/cluster/work/projects/ec12/ec-sindrre/syncode"
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
 project_dir = os.path.abspath(f"{script_dir}/../../..")
@@ -63,14 +62,14 @@ def get_info_from_filename(file_name: str):
     prompt_type = get_prompt_type(parts[0])
     example_selector = parts[1]
     shots = int(parts[2])
-    
+
     return {
         "experiment_name": experiment_name,
         "prompt_type": prompt_type,
         "semantic_selector": example_selector == "similarity",
         "shots": shots
     }
-    
+
 def parse_experiments(experiment_list):
     """Convert dictionary input to proper PromptType Enum where needed."""
     for exp in experiment_list:
@@ -121,7 +120,7 @@ def run_testing_experiment(
                 top_k=top_k,
                 n = n,
                 seed = seed,
-                debug = True, 
+                debug = True,
                 prompt_type = prompt_type,
                 ollama_port=ollama_port,
                 rag_data= rag_data,
@@ -129,7 +128,7 @@ def run_testing_experiment(
                 node_context_type="ONE", # One doc retrival per predicted node
                 constrained_output = True
             )
-        
+
         else:
             model_result, largest_context = run_model(
                 client,
@@ -144,7 +143,7 @@ def run_testing_experiment(
                 top_k,
                 n = n,
                 seed = seed,
-                debug = True, 
+                debug = True,
                 prompt_type = prompt_type,
                 ollama_port=ollama_port,
                 rag_data=rag_data,
@@ -169,14 +168,14 @@ def run_testing_experiment(
         ## Write to file
         write_directly_json_file(file_path, results)#Temporary viewing
         count+=1
-    
+
     write_directly_json_file(file_path, results)
 
 
 def main(
-        train_data, 
-        test_data, 
-        fold=-1, 
+        train_data,
+        test_data,
+        fold=-1,
         k_folds=3,
         similarity_key="task",
     ):
@@ -189,7 +188,7 @@ def main(
             metrics = ["syntax", "semantic"]
         elif prompt_type == "signature":
             metrics = ["syntax", "semantic", "tests"] # ["syntax", "semantic"] or ["syntax", "semantic", "tests"]
-        
+
         experiment_type = ex["name"].split("_")[1] # e.g: "vanilla" or "?"
         if experiment_type == "similarity":
             max_ctx = 16000
@@ -209,7 +208,7 @@ def main(
             rag_data = init_rag_data()
         else:
             raise ValueError(f"Unknown experiment type: {experiment_type}")
-       
+
         results_dir = os.path.join("/fp/homes01/u01/ec-sindrre/slurm_jobs", f"{experiment_folder}/testing/{experiment_type}/{prompt_type}/runs/")
         best_params_folder = f"{project_dir}/experiments/{experiment_folder}/fox/best_params/{selector_type}/{prompt_type}/hold_out"
         # best_params_folder = f"{project_dir}/experiments/{experiment_folder}/fox/best_params/test"
@@ -217,10 +216,10 @@ def main(
 
         for shots in ex["num_shots"]:
             selector=init_example_selector(shots, train_data, semantic_selector=ex["semantic_selector"], similarity_keys=[similarity_key])
-            
+
             experiment_name = f"{ex['name']}_{shots}_shot"
             for model_name in models:
-                
+
                 if fold != -1: # 3-fold cross-validation
                     file_name = f"{k_folds}_fold/{experiment_name}_{model_name}/fold_{fold}.json"
                 else: # Static train/val/test split
@@ -228,7 +227,7 @@ def main(
 
                 result_runs_path = os.path.join(results_dir, file_name)
 
-                print(f"\n==== Running testing for {experiment_name} on '{model_name}' ====")  
+                print(f"\n==== Running testing for {experiment_name} on '{model_name}' ====")
                 model = get_model_code_tokens_from_file(model_name, f'{project_dir}/data/max_tokens.json')
                 print(f"Max generation tokens for model {model['max_tokens']}")
 
@@ -243,9 +242,9 @@ def main(
                 best_params_for_metrics = {}
                 for metric in metrics:
                     best_params_for_metrics[metric] = next(
-                        (params for params in best_params 
+                        (params for params in best_params
                         if params["model_name"] == model_name and params["optimizer_metric"] == metric),
-                        None 
+                        None
                     )
 
                 print(f"Best parameters for {model_name} on each metric: {best_params_for_metrics}")
@@ -258,7 +257,7 @@ def main(
                         print("No best params for tests@1 over 0.0 found. Using semantic metric instead.")
 
                 print(f"Best parameters for {model_name} on {metrics[-1]} metric: {best_params_model}")
-                
+
                 run_testing_experiment(
                         client,
                         test_data,
@@ -288,16 +287,16 @@ def main(
             hours, remainder = divmod(int(elapsed_time), 3600)
             minutes, seconds = divmod(remainder, 60)
             print(f"\n⏱️ Total execution time: {hours}h {minutes}m {seconds}s")
-            subprocess.run(["bash", f"{project_dir}/my_packages/common/push_runs.sh", 
-                            experiment_folder, 
-                            "testing", 
-                            selector_type, 
+            subprocess.run(["bash", f"{project_dir}/my_packages/common/push_runs.sh",
+                            experiment_folder,
+                            "testing",
+                            selector_type,
                             prompt_type,
                             str(hours), str(minutes), str(seconds),
                             str(fold)
                             ], check=True)
             print("✅ push_runs.sh script executed successfully!")
-            
+
 if __name__ == "__main__":
     print("CUDA_VISIBLE_DEVICES:", os.environ.get("CUDA_VISIBLE_DEVICES"))
     print("torch sees devices:", torch.cuda.device_count())
@@ -324,7 +323,7 @@ if __name__ == "__main__":
     print("🛠️ Debug: Received --model_provider =", repr(args.model_provider))
     print("🛠️ Debug: Received --ollama_port =", repr(args.ollama_port))
     print("🛠️ Debug: Received --fold =", repr(args.fold))
-    
+
     model_provider = args.model_provider
     models = json.loads(args.models)
     experiments = json.loads(args.experiments)
@@ -333,21 +332,21 @@ if __name__ == "__main__":
     fold = args.fold
 
     print("########### Parsed arguments ###########")
-    print(f"Model provider: {model_provider}") 
+    print(f"Model provider: {model_provider}")
     print(f"Models: {models}")
     print(f"Experiments: {experiments}")
     print(f"Ollama port: {ollama_port}")
     print(f"Fold: {fold}")
     print("########################################")
     n_generations_per_task = 10
-    
+
     start_time = time.time()
     main_dataset_folder = f'{project_dir}/data/MBPP_Midio_50/'
 
     print("\n==== Splits data ====")
     train_data, val_data, test_data = get_hold_out_splits(main_dataset_folder)
     dataset = train_data + val_data + test_data
-    
+
     dataset_nodes = read_dataset_to_json(main_dataset_folder + "/metadata/used_external_functions.json")
     print(f"Number of nodes in datset: {len(dataset_nodes)}")
 
@@ -356,11 +355,11 @@ if __name__ == "__main__":
 
     if fold != -1:
         print(f"Using 3-fold cross-validation on merged train+test splits")
-        k_fold_data = (train_data + test_data)  
+        k_fold_data = (train_data + test_data)
         train_data, test_data = get_k_fold_splits(main_dataset_folder, fold)
     else:
         print("Using static train/test split")
-    
+
     all_responses = [sample["response"] for sample in dataset]
     print(f"Number of all responses: {len(all_responses)}")
 
@@ -372,10 +371,10 @@ if __name__ == "__main__":
     start_time = time.time()
 
     main(train_data, test_data, fold, similarity_key=similarity_key)
-    
 
 
 
-        
+
+
 
 

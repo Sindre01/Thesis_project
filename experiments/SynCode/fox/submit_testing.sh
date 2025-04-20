@@ -8,7 +8,7 @@
 EXPERIMENT="SynCode"                    # Experiment ('few-shot')
 PHASE="testing"                       # Phase ('testing' or 'validation')
 EXPERIMENT_TYPE="similarity"                 # 'similarity' or RAG or full-context
-PROMPT_TYPE=""                 # 'regular' or 'cot' or 'regular'   
+PROMPT_TYPE="signature"                 # 'regular' or 'cot' or 'regular'   
 # SEMANTIC_SELECTOR=true                   # Use semantic selector
 K_FOLD_JOBS=0                              # Runs jobs for folds 0 to 2 (3-fold CV)
 USER="ec-sindrre"                        # Your Educloud username
@@ -38,10 +38,10 @@ model_provider='ollama'
 
 experiments='[
         {
-            "name": "regular_similarity",
+            "name": "signature_similarity",
             "prompt_prefix": "Create a function",
             "num_shots": [5, 10],
-            "prompt_type": "regular",
+            "prompt_type": "signature",
             "semantic_selector": true
         }
 ]'
@@ -174,6 +174,9 @@ module load Python/3.11.5-GCCcore-13.2.0
 # module load CUDA/12.4.0
 
 source ~/.bashrc # may ovewrite previous modules
+
+export SYNCODE_CACHE = /cluster/work/projects/ec12/ec-sindrre/syncode_\$SLURM_JOB_ID
+
 OLLAMA_PORT_K_FOLD=\$((${OLLAMA_PORT} + \$SLURM_ARRAY_TASK_ID))
 
 export OLLAMA_MODELS=${OLLAMA_MODELS_DIR}    # Path to where the Ollama models are stored and loaded
@@ -183,7 +186,6 @@ export OLLAMA_LLM_LIBRARY="cuda_v12_avx"
 export OLLAMA_FLASH_ATTENTION=1
 export OLLAMA_KV_CACHE_TYPE="f16" # f16 (default), q8_0 (half of the memory of f16, try this), q4_0 different quantization types to find the best balance between memory usage and quality.
 export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True 
-
 
 # export OLLAMA_DEBUG=1
 # export OLLAMA_NUM_PARALLEL=2 # Number of parallel models to run. 
@@ -264,6 +266,8 @@ cleanup() {
     echo "⚠️ Job failed or completed — cleaning up $CLONE_DIR"
     rm -rf "$CLONE_DIR"
     echo "✅ Repository removed: $CLONE_DIR"
+    rm -rf /cluster/work/projects/ec12/ec-sindrre/syncode_\$SLURM_JOB_ID
+    echo "✅ Syncode cache removed: /cluster/work/projects/ec12/ec-sindrre/syncode_\$SLURM_JOB_ID"
 }
 
 # Ensure cleanup is called on exit (both success or error)
