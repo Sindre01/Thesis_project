@@ -2,7 +2,6 @@ import re
 from matplotlib import pyplot as plt
 import pandas as pd
 
-from my_packages.evaluation.midio_compiler import clean_output
 
 def make_categories_pie_chart(df, title="Error Categories Pie Chart"):
     # Plot pie chart
@@ -104,6 +103,10 @@ def categorize_syntax_parsing_error(stderr):
   
     return unexpected_tokens
 
+def clean_output(text: str) -> str:
+    """Remove ANSI escape codes and extra whitespace from the output."""
+    ansi_escape = re.compile(r'\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])')
+    return ansi_escape.sub('', text).strip()
 
 def categorize_syntax_error(stderr):
     stderr = clean_output(stderr)
