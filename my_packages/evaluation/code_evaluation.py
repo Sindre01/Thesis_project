@@ -21,6 +21,7 @@ from langchain_openai import ChatOpenAI
 from langchain_core.example_selectors.base import BaseExampleSelector
 from langchain.prompts import ChatPromptTemplate, HumanMessagePromptTemplate
 from my_packages.utils.tokens_utils import measure_prompt_tokens
+from huggingface_hub import model_info
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '../..'))
 
 def evaluate_code_metric(
@@ -453,6 +454,14 @@ def run_model(
 
         elif "llama3.2:3b" in model:
             hf_model = "meta-llama/Llama-3.2-3b-Instruct"
+            info_a = model_info("meta-llama/Llama-3.2-3b-Instruct")
+            info_b = model_info("meta-llama/Llama-3.2-3B-Instruct")
+
+            # Compare model IDs and some basic metadata
+            print("Model A ID:", info_a.modelId)
+            print("Model B ID:", info_b.modelId)
+
+            print("Are they the same?", info_a.modelId == info_b.modelId)
         else:
             raise ValueError(f"Constrained output is not availbale for model: {model}.")
         print(f"Loading Syncode model with miodel kwargs: {model_kwargs}")
