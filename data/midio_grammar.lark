@@ -49,7 +49,8 @@ COLON: ":"
 DOT: "."
 DOUBLE_BACKTICK: "``"
 
-BACKTICKS_LANG: "```midio"
+
+BACKTICKS_LANG: "```" /mi\w*/i
 BACKTICKS: "```"
 
 // ROOT.1: "root"
