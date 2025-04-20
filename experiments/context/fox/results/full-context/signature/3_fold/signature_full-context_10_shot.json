@@ -334,5 +334,95 @@
             "mean": 0.87,
             "std": 0.07
         }
+    },
+    {
+        "model_name": "llama3.2:3b-instruct-fp16",
+        "experiment": "signature_full-context_10_shot",
+        "metrics": [
+            "visual"
+        ],
+        "seed": [
+            3,
+            346,
+            75
+        ],
+        "temperature": 0.6,
+        "top_p": 0.6,
+        "top_k": 10,
+        "ks": [
+            1,
+            2,
+            3,
+            5,
+            10
+        ],
+        "visual@placement": 0.85
+    },
+    {
+        "model_name": "llama3.2:3b-instruct-fp16",
+        "experiment": "signature_full-context_10_shot",
+        "metrics": [
+            "syntax",
+            "semantic",
+            "tests",
+            "visual"
+        ],
+        "seed": [
+            3,
+            346,
+            75
+        ],
+        "temperature": 0.6,
+        "top_p": 0.6,
+        "top_k": 10,
+        "ks": [
+            1,
+            2,
+            3,
+            5,
+            10
+        ],
+        "syntax@1": 0.75,
+        "syntax@2": 0.89,
+        "syntax@3": 0.92,
+        "syntax@5": 0.95,
+        "syntax@10": 0.97,
+        "semantic@1": 0.53,
+        "semantic@2": 0.7,
+        "semantic@3": 0.78,
+        "semantic@5": 0.85,
+        "semantic@10": 0.91,
+        "tests@1": 0.24,
+        "tests@2": 0.35,
+        "tests@3": 0.43,
+        "tests@5": 0.51,
+        "tests@10": 0.59,
+        "visual@placement": 0.85
+    },
+    {
+        "model_name": "llama3.2:3b-instruct-fp16",
+        "experiment": "signature_full-context_10_shot",
+        "metrics": [
+            "visual"
+        ],
+        "seed": [
+            3,
+            346,
+            75
+        ],
+        "temperature": 0.6,
+        "top_p": 0.6,
+        "top_k": 10,
+        "ks": [
+            1,
+            2,
+            3,
+            5,
+            10
+        ],
+        "visual@placement": {
+            "mean": 0.85,
+            "std": 0.07
+        }
     }
 ]

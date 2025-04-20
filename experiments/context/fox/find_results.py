@@ -16,13 +16,13 @@ if __name__ == "__main__":
         experiment_folder="context",
         env="prod",
         eval_method="3_fold",
-        experiment_types=["RAG"],
+        experiment_types=["RAG", "full-context"],
         prompt_types=["regular", "signature"],
         shots=[5, 10],
-        metrics=["syntax", "semantic", "tests"],
+        metrics=["syntax", "semantic", "tests", "visual"],
         ks=[1, 2, 3, 5, 10],
         use_threads=True,
-        model="phi4:14b-fp16",
+        model="llama3.2:3b-instruct-fp16",
         phase=Phase.TESTING,
     )
 

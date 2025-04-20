@@ -33,6 +33,7 @@ module load Python/3.11.5-GCCcore-13.2.0
 # module load CUDA/12.4.0
 
 source ~/.bashrc # may ovewrite previous modules
+export SYNCODE_CACHE=/cluster/work/projects/ec12/ec-sindrre/syncode_$SLURM_JOB_ID/
 
 export OLLAMA_MODELS=/cluster/work/projects/ec12/ec-sindrre/ollama-models    # Path to where the Ollama models are stored and loaded
 export OLLAMA_HOST=0.0.0.0:11745      # Host and port where Ollama listens
@@ -115,6 +116,8 @@ cleanup() {
     echo "⚠️ Job failed or completed — cleaning up /fp/homes01/u01/ec-sindrre/tmp/Thesis_project_similarity_$SLURM_JOB_ID"
     rm -rf "/fp/homes01/u01/ec-sindrre/tmp/Thesis_project_similarity_$SLURM_JOB_ID"
     echo "✅ Repository removed: /fp/homes01/u01/ec-sindrre/tmp/Thesis_project_similarity_$SLURM_JOB_ID"
+    rm -rf /cluster/work/projects/ec12/ec-sindrre/syncode_$SLURM_JOB_ID
+    echo "✅ Syncode cache removed: /cluster/work/projects/ec12/ec-sindrre/syncode_$SLURM_JOB_ID"
 }
 
 # Ensure cleanup is called on exit (both success or error)
@@ -130,7 +133,7 @@ python -u /fp/homes01/u01/ec-sindrre/tmp/Thesis_project_similarity_$SLURM_JOB_ID
         {
             "name": "signature_similarity",
             "prompt_prefix": "Create a function",
-            "num_shots": [5,10],
+            "num_shots": [5, 10],
             "prompt_type": "signature",
             "semantic_selector": true
         }

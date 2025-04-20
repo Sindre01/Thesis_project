@@ -729,7 +729,7 @@ def run_refinement(
 
     return generated_candidates, prompt_size
    
-    
+
 def evaluate_code(
     candidate_dict: dict[int, list[str]],
     ks: list[int],                               
@@ -761,9 +761,17 @@ def evaluate_code(
         else:
             test_results = evaluate_code_metric(candidate_dict, metric)
             if metric == "visual":
-                all_scores = list(chain.from_iterable(test_results.values()))
-                avg_score = np.mean(all_scores)
-                metric_results.append({"graph_placement": avg_score})
+    
+                all_scores = []
+                for task_id, scores in test_results.items():
+                    # mean accros candidates in task.
+                    task_mean = np.mean(scores)
+                    all_scores.append(task_mean)
+                # Then mean across tasks
+                avg_score = np.mean(all_scores) if all_scores else np.float(0.0)
+
+                metric_results.append({"pass@placement": avg_score})
+                
             else:
                 pass_at_k_dict = calculate_pass_at_k_scores(test_results, ks)
                 print(f"Pass@k for {metric}: {pass_at_k_dict}, with temp={hyperparams['temperature']}, top_p={hyperparams['top_p']}, top_k={hyperparams['top_k']}")

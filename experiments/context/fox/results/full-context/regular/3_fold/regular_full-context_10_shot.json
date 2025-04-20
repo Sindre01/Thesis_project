@@ -166,5 +166,95 @@
             "mean": 0.0,
             "std": 0.0
         }
+    },
+    {
+        "model_name": "llama3.2:3b-instruct-fp16",
+        "experiment": "regular_full-context_10_shot",
+        "metrics": [
+            "visual"
+        ],
+        "seed": [
+            3,
+            346,
+            75
+        ],
+        "temperature": 0.6,
+        "top_p": 0.9,
+        "top_k": 10,
+        "ks": [
+            1,
+            2,
+            3,
+            5,
+            10
+        ],
+        "visual@placement": 0.87
+    },
+    {
+        "model_name": "llama3.2:3b-instruct-fp16",
+        "experiment": "regular_full-context_10_shot",
+        "metrics": [
+            "syntax",
+            "semantic",
+            "tests",
+            "visual"
+        ],
+        "seed": [
+            3,
+            346,
+            75
+        ],
+        "temperature": 0.6,
+        "top_p": 0.9,
+        "top_k": 10,
+        "ks": [
+            1,
+            2,
+            3,
+            5,
+            10
+        ],
+        "syntax@1": 0.73,
+        "syntax@2": 0.91,
+        "syntax@3": 0.96,
+        "syntax@5": 0.99,
+        "syntax@10": 1.0,
+        "semantic@1": 0.54,
+        "semantic@2": 0.74,
+        "semantic@3": 0.85,
+        "semantic@5": 0.94,
+        "semantic@10": 0.99,
+        "tests@1": 0.0,
+        "tests@2": 0.0,
+        "tests@3": 0.0,
+        "tests@5": 0.0,
+        "tests@10": 0.0,
+        "visual@placement": 0.87
+    },
+    {
+        "model_name": "llama3.2:3b-instruct-fp16",
+        "experiment": "regular_full-context_10_shot",
+        "metrics": [
+            "visual"
+        ],
+        "seed": [
+            3,
+            346,
+            75
+        ],
+        "temperature": 0.6,
+        "top_p": 0.9,
+        "top_k": 10,
+        "ks": [
+            1,
+            2,
+            3,
+            5,
+            10
+        ],
+        "visual@placement": {
+            "mean": 0.87,
+            "std": 0.0
+        }
     }
 ]

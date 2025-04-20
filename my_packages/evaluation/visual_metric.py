@@ -196,7 +196,7 @@ def evaluate_visual_flow(
     # Extract the first function block
     function_block = extract_function_block(code_snippet)
     if not function_block:
-        return {"error": "Function block not found."}
+        return 0.0
     # print("Function block:", function_block)
 
     input_type_names  = [t["name"] for t in input_types]
@@ -212,7 +212,7 @@ def evaluate_visual_flow(
     output_nodes = nodes.get("output_nodes", [])
     overall_nodes = nodes.get("overall_nodes", [])
     if not overall_nodes:
-        return {"error": "No nodes found in function block."}
+        return 0.0
 
 
     size_map = {}

@@ -418,5 +418,369 @@
             "mean": 0.73,
             "std": 0.15
         }
+    },
+    {
+        "model_name": "llama3.2:3b-instruct-fp16",
+        "experiment": "signature_RAG_5_shot",
+        "metrics": [
+            "syntax",
+            "semantic",
+            "tests",
+            "visual"
+        ],
+        "seed": [
+            3,
+            346,
+            75
+        ],
+        "temperature": 0.2,
+        "top_p": 0.9,
+        "top_k": 10,
+        "ks": [
+            1,
+            2,
+            3,
+            5,
+            10
+        ],
+        "syntax@1": {
+            "mean": 0.69,
+            "std": 0.04
+        },
+        "syntax@2": {
+            "mean": 0.83,
+            "std": 0.05
+        },
+        "syntax@3": {
+            "mean": 0.88,
+            "std": 0.05
+        },
+        "syntax@5": {
+            "mean": 0.91,
+            "std": 0.04
+        },
+        "syntax@10": {
+            "mean": 0.95,
+            "std": 0.03
+        },
+        "semantic@1": {
+            "mean": 0.54,
+            "std": 0.06
+        },
+        "semantic@2": {
+            "mean": 0.68,
+            "std": 0.08
+        },
+        "semantic@3": {
+            "mean": 0.74,
+            "std": 0.09
+        },
+        "semantic@5": {
+            "mean": 0.79,
+            "std": 0.09
+        },
+        "semantic@10": {
+            "mean": 0.85,
+            "std": 0.09
+        },
+        "tests@1": {
+            "mean": 0.22,
+            "std": 0.05
+        },
+        "tests@2": {
+            "mean": 0.31,
+            "std": 0.05
+        },
+        "tests@3": {
+            "mean": 0.37,
+            "std": 0.06
+        },
+        "tests@5": {
+            "mean": 0.44,
+            "std": 0.06
+        },
+        "tests@10": {
+            "mean": 0.53,
+            "std": 0.06
+        },
+        "visual@graph_placement": {
+            "mean": 0.87,
+            "std": 0.04
+        }
+    },
+    {
+        "model_name": "llama3.2:3b-instruct-fp16",
+        "experiment": "signature_RAG_5_shot",
+        "metrics": [
+            "syntax",
+            "semantic",
+            "tests",
+            "visual"
+        ],
+        "seed": [
+            3,
+            346,
+            75
+        ],
+        "temperature": 0.2,
+        "top_p": 0.9,
+        "top_k": 10,
+        "ks": [
+            1,
+            2,
+            3,
+            5,
+            10
+        ],
+        "syntax@1": 0.69,
+        "syntax@2": 0.83,
+        "syntax@3": 0.88,
+        "syntax@5": 0.91,
+        "syntax@10": 0.95,
+        "semantic@1": 0.54,
+        "semantic@2": 0.68,
+        "semantic@3": 0.74,
+        "semantic@5": 0.79,
+        "semantic@10": 0.85,
+        "tests@1": 0.22,
+        "tests@2": 0.31,
+        "tests@3": 0.37,
+        "tests@5": 0.44,
+        "tests@10": 0.53,
+        "visual@graph_placement": 0.87
+    },
+    {
+        "model_name": "llama3.2:3b-instruct-fp16",
+        "experiment": "signature_RAG_5_shot",
+        "metrics": [
+            "visual"
+        ],
+        "seed": [
+            3,
+            346,
+            75
+        ],
+        "temperature": 0.2,
+        "top_p": 0.9,
+        "top_k": 10,
+        "ks": [
+            1,
+            2,
+            3,
+            5,
+            10
+        ],
+        "visual@graph_placement": 0.87
+    },
+    {
+        "model_name": "llama3.2:3b-instruct-fp16",
+        "experiment": "signature_RAG_5_shot",
+        "metrics": [
+            "visual"
+        ],
+        "seed": [
+            3,
+            346,
+            75
+        ],
+        "temperature": 0.2,
+        "top_p": 0.9,
+        "top_k": 10,
+        "ks": [
+            1,
+            2,
+            3,
+            5,
+            10
+        ],
+        "visual@graph_placement": 0.87
+    },
+    {
+        "model_name": "llama3.2:3b-instruct-fp16",
+        "experiment": "signature_RAG_5_shot",
+        "metrics": [
+            "syntax",
+            "visual"
+        ],
+        "seed": [
+            3,
+            346,
+            75
+        ],
+        "temperature": 0.2,
+        "top_p": 0.9,
+        "top_k": 10,
+        "ks": [
+            1,
+            2,
+            3,
+            5,
+            10
+        ],
+        "syntax@1": 0.69,
+        "syntax@2": 0.83,
+        "syntax@3": 0.88,
+        "syntax@5": 0.91,
+        "syntax@10": 0.95,
+        "visual@placement": 0.87
+    },
+    {
+        "model_name": "llama3.2:3b-instruct-fp16",
+        "experiment": "signature_RAG_5_shot",
+        "metrics": [
+            "visual"
+        ],
+        "seed": [
+            3,
+            346,
+            75
+        ],
+        "temperature": 0.2,
+        "top_p": 0.9,
+        "top_k": 10,
+        "ks": [
+            1,
+            2,
+            3,
+            5,
+            10
+        ],
+        "visual@placement": 0.87
+    },
+    {
+        "model_name": "llama3.2:3b-instruct-fp16",
+        "experiment": "signature_RAG_5_shot",
+        "metrics": [
+            "visual"
+        ],
+        "seed": [
+            3,
+            346,
+            75
+        ],
+        "temperature": 0.2,
+        "top_p": 0.9,
+        "top_k": 10,
+        "ks": [
+            1,
+            2,
+            3,
+            5,
+            10
+        ],
+        "visual@placement": 0.87
+    },
+    {
+        "model_name": "llama3.2:3b-instruct-fp16",
+        "experiment": "signature_RAG_5_shot",
+        "metrics": [
+            "visual"
+        ],
+        "seed": [
+            3,
+            346,
+            75
+        ],
+        "temperature": 0.2,
+        "top_p": 0.9,
+        "top_k": 10,
+        "ks": [
+            1,
+            2,
+            3,
+            5,
+            10
+        ],
+        "visual@placement": 0.87
+    },
+    {
+        "model_name": "llama3.2:3b-instruct-fp16",
+        "experiment": "signature_RAG_5_shot",
+        "metrics": [
+            "visual"
+        ],
+        "seed": [
+            3,
+            346,
+            75
+        ],
+        "temperature": 0.2,
+        "top_p": 0.9,
+        "top_k": 10,
+        "ks": [
+            1,
+            2,
+            3,
+            5,
+            10
+        ],
+        "visual@placement": 0.87
+    },
+    {
+        "model_name": "llama3.2:3b-instruct-fp16",
+        "experiment": "signature_RAG_5_shot",
+        "metrics": [
+            "syntax",
+            "semantic",
+            "tests",
+            "visual"
+        ],
+        "seed": [
+            3,
+            346,
+            75
+        ],
+        "temperature": 0.2,
+        "top_p": 0.9,
+        "top_k": 10,
+        "ks": [
+            1,
+            2,
+            3,
+            5,
+            10
+        ],
+        "syntax@1": 0.69,
+        "syntax@2": 0.83,
+        "syntax@3": 0.88,
+        "syntax@5": 0.91,
+        "syntax@10": 0.95,
+        "semantic@1": 0.54,
+        "semantic@2": 0.68,
+        "semantic@3": 0.74,
+        "semantic@5": 0.79,
+        "semantic@10": 0.85,
+        "tests@1": 0.22,
+        "tests@2": 0.31,
+        "tests@3": 0.37,
+        "tests@5": 0.44,
+        "tests@10": 0.53,
+        "visual@placement": 0.87
+    },
+    {
+        "model_name": "llama3.2:3b-instruct-fp16",
+        "experiment": "signature_RAG_5_shot",
+        "metrics": [
+            "visual"
+        ],
+        "seed": [
+            3,
+            346,
+            75
+        ],
+        "temperature": 0.2,
+        "top_p": 0.9,
+        "top_k": 10,
+        "ks": [
+            1,
+            2,
+            3,
+            5,
+            10
+        ],
+        "visual@placement": {
+            "mean": 0.87,
+            "std": 0.04
+        }
     }
 ]
