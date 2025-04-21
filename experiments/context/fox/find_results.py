@@ -22,7 +22,7 @@ if __name__ == "__main__":
         metrics=["syntax", "semantic", "tests", "visual"],
         ks=[1, 2, 3, 5, 10],
         use_threads=True,
-        model="llama3.2:3b-instruct-fp16",
+        model="",
         phase=Phase.TESTING,
     )
 

@@ -8,7 +8,7 @@
 EXPERIMENT="few-shot"                    # Experiment ('few-shot')
 PHASE="testing"                       # Phase ('testing' or 'validation')
 EXAMPLES_TYPE="similarity"                 #'coverage' or 'similarity'
-PROMPT_TYPE="regular"                 # 'regular' or 'cot' or 'regular'   
+PROMPT_TYPE="signature"                 # 'signature' or 'cot' or 'signature'   
 # SEMANTIC_SELECTOR=true                   # Use semantic selector
 K_FOLD_JOBS=0-2                             # Runs jobs for folds 0 to 2 (3-fold CV)
 USER="ec-sindrre"                        # Your Educloud username
@@ -37,10 +37,10 @@ CLONE_DIR="/fp/homes01/u01/ec-sindrre/tmp/Thesis_project_${EXAMPLES_TYPE}_\$SLUR
 model_provider='ollama'
 experiments='[
         {
-            "name": "regular_similarity",
+            "name": "signature_similarity",
             "prompt_prefix": "Create a function",
-            "num_shots": [5, 10],
-            "prompt_type": "regular",
+            "num_shots": [1],
+            "prompt_type": "signature",
             "semantic_selector": true
         }
 ]'

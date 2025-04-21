@@ -1,95 +1,12 @@
 [
     {
-        "model_name": "llama3.3:70b-instruct-fp16",
-        "experiment": "regular_full-context_5_shot",
-        "metrics": [
-            "syntax",
-            "semantic",
-            "tests"
-        ],
-        "seed": [
-            3,
-            346,
-            75
-        ],
-        "temperature": 0.2,
-        "top_p": 0.2,
-        "top_k": 10,
-        "ks": [
-            1,
-            2,
-            3,
-            5,
-            10
-        ],
-        "syntax@1": {
-            "mean": 0.84,
-            "std": 0.08
-        },
-        "syntax@2": {
-            "mean": 0.87,
-            "std": 0.07
-        },
-        "syntax@3": {
-            "mean": 0.89,
-            "std": 0.06
-        },
-        "syntax@5": {
-            "mean": 0.91,
-            "std": 0.06
-        },
-        "syntax@10": {
-            "mean": 0.93,
-            "std": 0.06
-        },
-        "semantic@1": {
-            "mean": 0.76,
-            "std": 0.12
-        },
-        "semantic@2": {
-            "mean": 0.79,
-            "std": 0.11
-        },
-        "semantic@3": {
-            "mean": 0.81,
-            "std": 0.09
-        },
-        "semantic@5": {
-            "mean": 0.83,
-            "std": 0.08
-        },
-        "semantic@10": {
-            "mean": 0.85,
-            "std": 0.07
-        },
-        "tests@1": {
-            "mean": 0.0,
-            "std": 0.0
-        },
-        "tests@2": {
-            "mean": 0.0,
-            "std": 0.0
-        },
-        "tests@3": {
-            "mean": 0.0,
-            "std": 0.0
-        },
-        "tests@5": {
-            "mean": 0.0,
-            "std": 0.0
-        },
-        "tests@10": {
-            "mean": 0.0,
-            "std": 0.0
-        }
-    },
-    {
         "model_name": "llama3.2:3b-instruct-fp16",
         "experiment": "regular_full-context_5_shot",
         "metrics": [
             "syntax",
             "semantic",
-            "tests"
+            "tests",
+            "visual"
         ],
         "seed": [
             3,
@@ -165,33 +82,14 @@
         "tests@10": {
             "mean": 0.0,
             "std": 0.0
+        },
+        "visual@placement": {
+            "mean": 0.84,
+            "std": 0.02
         }
     },
     {
-        "model_name": "llama3.2:3b-instruct-fp16",
-        "experiment": "regular_full-context_5_shot",
-        "metrics": [
-            "visual"
-        ],
-        "seed": [
-            3,
-            346,
-            75
-        ],
-        "temperature": 0.6,
-        "top_p": 0.6,
-        "top_k": 100,
-        "ks": [
-            1,
-            2,
-            3,
-            5,
-            10
-        ],
-        "visual@placement": 0.84
-    },
-    {
-        "model_name": "llama3.2:3b-instruct-fp16",
+        "model_name": "llama3.3:70b-instruct-fp16",
         "experiment": "regular_full-context_5_shot",
         "metrics": [
             "syntax",
@@ -204,9 +102,9 @@
             346,
             75
         ],
-        "temperature": 0.6,
-        "top_p": 0.6,
-        "top_k": 100,
+        "temperature": 0.2,
+        "top_p": 0.2,
+        "top_k": 10,
         "ks": [
             1,
             2,
@@ -214,47 +112,69 @@
             5,
             10
         ],
-        "syntax@1": 0.75,
-        "syntax@2": 0.9,
-        "syntax@3": 0.96,
-        "syntax@5": 0.99,
-        "syntax@10": 1.0,
-        "semantic@1": 0.55,
-        "semantic@2": 0.72,
-        "semantic@3": 0.8,
-        "semantic@5": 0.88,
-        "semantic@10": 0.94,
-        "tests@1": 0.0,
-        "tests@2": 0.0,
-        "tests@3": 0.0,
-        "tests@5": 0.0,
-        "tests@10": 0.0,
-        "visual@placement": 0.84
-    },
-    {
-        "model_name": "llama3.2:3b-instruct-fp16",
-        "experiment": "regular_full-context_5_shot",
-        "metrics": [
-            "visual"
-        ],
-        "seed": [
-            3,
-            346,
-            75
-        ],
-        "temperature": 0.6,
-        "top_p": 0.6,
-        "top_k": 100,
-        "ks": [
-            1,
-            2,
-            3,
-            5,
-            10
-        ],
-        "visual@placement": {
+        "syntax@1": {
             "mean": 0.84,
-            "std": 0.02
+            "std": 0.08
+        },
+        "syntax@2": {
+            "mean": 0.87,
+            "std": 0.07
+        },
+        "syntax@3": {
+            "mean": 0.89,
+            "std": 0.06
+        },
+        "syntax@5": {
+            "mean": 0.91,
+            "std": 0.06
+        },
+        "syntax@10": {
+            "mean": 0.93,
+            "std": 0.06
+        },
+        "semantic@1": {
+            "mean": 0.76,
+            "std": 0.12
+        },
+        "semantic@2": {
+            "mean": 0.79,
+            "std": 0.11
+        },
+        "semantic@3": {
+            "mean": 0.81,
+            "std": 0.09
+        },
+        "semantic@5": {
+            "mean": 0.83,
+            "std": 0.08
+        },
+        "semantic@10": {
+            "mean": 0.85,
+            "std": 0.07
+        },
+        "tests@1": {
+            "mean": 0.0,
+            "std": 0.0
+        },
+        "tests@2": {
+            "mean": 0.0,
+            "std": 0.0
+        },
+        "tests@3": {
+            "mean": 0.0,
+            "std": 0.0
+        },
+        "tests@5": {
+            "mean": 0.0,
+            "std": 0.0
+        },
+        "tests@10": {
+            "mean": 0.0,
+            "std": 0.0
+        },
+        "visual@placement": {
+            "mean": 0.87,
+            "std": 0.07
         }
     }
 ]
