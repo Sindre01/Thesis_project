@@ -7,7 +7,7 @@
 # Configuration
 EXPERIMENT="few-shot"                    # Experiment ('few-shot')
 PHASE="testing"                       # Phase ('testing' or 'validation')
-EXAMPLES_TYPE="similarity"                 #'coverage' or 'similarity'
+EXAMPLES_TYPE="coverage"                 #'coverage' or 'similarity'
 PROMPT_TYPE="signature"                 # 'signature' or 'cot' or 'signature'   
 # SEMANTIC_SELECTOR=true                   # Use semantic selector
 K_FOLD_JOBS=0-2                             # Runs jobs for folds 0 to 2 (3-fold CV)
@@ -22,7 +22,7 @@ NODE_LIST=  # List of nodes that the job can run on gpu-14,gpu-7,gpu-8,gpu-9
 TIME="1-00:00:00"                  # Slurm walltime (D-HH:MM:SS)
 MEM_PER_GPU="20G"                       # Memory per GPU. 
 OLLAMA_MODELS_DIR="/cluster/work/projects/ec12/ec-sindrre/ollama-models"  # Path to where the Ollama models are stored and loaded                      
-OLLAMA_PORT="11710"                       # Remote port where Ollama listens. If different parallell runs, change ollama_port to avoid conflicts if same node is allocated.
+OLLAMA_PORT="11720"                       # Remote port where Ollama listens. If different parallell runs, change ollama_port to avoid conflicts if same node is allocated.
 SBATCH_SCRIPT="${PHASE}_${EXAMPLES_TYPE}_${PROMPT_TYPE}_${GPUS}_ollama.slurm"           # Slurm batch script name
 # Directory on Fox to store scripts and output
 if [ -n "$PROMPT_TYPE" ]; then
@@ -37,11 +37,11 @@ CLONE_DIR="/fp/homes01/u01/ec-sindrre/tmp/Thesis_project_${EXAMPLES_TYPE}_\$SLUR
 model_provider='ollama'
 experiments='[
         {
-            "name": "signature_similarity",
+            "name": "signature_coverage",
             "prompt_prefix": "Create a function",
             "num_shots": [1],
             "prompt_type": "signature",
-            "semantic_selector": true
+            "semantic_selector": false
         }
 ]'
 # experiments='[

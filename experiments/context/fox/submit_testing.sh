@@ -7,7 +7,7 @@
 # Configuration
 EXPERIMENT="context"                    # Experiment ('few-shot')
 PHASE="testing"                       # Phase ('testing' or 'validation')
-CONTEXT_TYPE="full-context"                 #'RAG' or 'full-context'
+CONTEXT_TYPE="RAG"                 #'RAG' or 'RAG'
 PROMPT_TYPE="signature"                 # 'regular' or 'cot' or 'signature'   
 # SEMANTIC_SELECTOR=true                   # Use semantic selector
 K_FOLD_JOBS=0-2                              # Runs jobs for folds 0 to 2 (3-fold CV)
@@ -37,7 +37,7 @@ CLONE_DIR="/fp/homes01/u01/ec-sindrre/tmp/Thesis_project_${CONTEXT_TYPE}_\$SLURM
 model_provider='ollama'
 experiments='[
         {
-            "name": "signature_full-context",
+            "name": "signature_RAG",
             "prompt_prefix": "Create a function",
             "num_shots": [5],
             "prompt_type": "signature",
