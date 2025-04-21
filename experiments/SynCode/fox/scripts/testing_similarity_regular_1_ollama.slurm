@@ -37,7 +37,10 @@ module load Python/3.11.5-GCCcore-13.2.0
 # module load CUDA/12.4.0
 
 source ~/.bashrc # may ovewrite previous modules
-OLLAMA_PORT_K_FOLD=$((11495 + $SLURM_ARRAY_TASK_ID))
+
+export SYNCODE_CACHE=/cluster/work/projects/ec12/ec-sindrre/syncode_$SLURM_JOB_ID/
+
+OLLAMA_PORT_K_FOLD=$((11295 + $SLURM_ARRAY_TASK_ID))
 
 export OLLAMA_MODELS=/cluster/work/projects/ec12/ec-sindrre/ollama-models    # Path to where the Ollama models are stored and loaded
 export OLLAMA_HOST=0.0.0.0:$OLLAMA_PORT_K_FOLD    # Host and port where Ollama listens
@@ -46,7 +49,6 @@ export OLLAMA_LLM_LIBRARY="cuda_v12_avx"
 export OLLAMA_FLASH_ATTENTION=1
 export OLLAMA_KV_CACHE_TYPE="f16" # f16 (default), q8_0 (half of the memory of f16, try this), q4_0 different quantization types to find the best balance between memory usage and quality.
 export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True 
-
 
 # export OLLAMA_DEBUG=1
 # export OLLAMA_NUM_PARALLEL=2 # Number of parallel models to run. 
@@ -126,6 +128,8 @@ cleanup() {
     echo "⚠️ Job failed or completed — cleaning up /fp/homes01/u01/ec-sindrre/tmp/Thesis_project_similarity_$SLURM_JOB_ID"
     rm -rf "/fp/homes01/u01/ec-sindrre/tmp/Thesis_project_similarity_$SLURM_JOB_ID"
     echo "✅ Repository removed: /fp/homes01/u01/ec-sindrre/tmp/Thesis_project_similarity_$SLURM_JOB_ID"
+    rm -rf /cluster/work/projects/ec12/ec-sindrre/syncode_$SLURM_JOB_ID
+    echo "✅ Syncode cache removed: /cluster/work/projects/ec12/ec-sindrre/syncode_$SLURM_JOB_ID"
 }
 
 # Ensure cleanup is called on exit (both success or error)
