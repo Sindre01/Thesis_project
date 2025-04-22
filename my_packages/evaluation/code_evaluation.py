@@ -395,7 +395,7 @@ def run_prompt_step(
     if debug:
         # print(f"\n\n{Style.BRIGHT}=== Sample: {index+1} ===")
         print(f"{Fore.CYAN}{Style.BRIGHT} User prompt: {Style.RESET_ALL}\n{prompt}\n")
-        
+
     for i, cand in enumerate(generated_candidates):
         print(f"{Fore.YELLOW}{Style.BRIGHT} Assistant response: #{i+1}:\n{cand}\n")
     print(f"{Fore.GREEN}{Style.BRIGHT} True response:{Style.RESET_ALL}\n {true_response}\n")
@@ -436,7 +436,7 @@ def run_model(
         print("Constrained output is set to True.")
 
         model_kwargs = {
-            # "max_length": max_ctx,
+            "max_length": max_ctx,
             "max_new_tokens": max_new_tokens,
             "temperature": temperature,
             # "top_k": top_k,

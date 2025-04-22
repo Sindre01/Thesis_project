@@ -13,15 +13,15 @@ PROMPT_TYPE="signature"                 # 'signature' or 'cot' or 'signature'
 USER="ec-sindrre"                        # Your Educloud username
 HOST="fox.educloud.no"                   # Fox login address (matches SSH config)
 SSH_CONFIG_NAME="fox"                    # Name of the SSH config entry
-ACCOUNT="ec12"                           # Fox project account
-PARTITION="accel"                        # 'accel' or 'accel_long' (or 'ifi_accel' if access to ec11,ec29,ec30,ec34,ec35 or ec232)
+ACCOUNT="ec30"                           # Fox project account
+PARTITION="ifi_accel"                        # 'accel' or 'accel_long' (or 'ifi_accel' if access to ec11,ec29,ec30,ec34,ec35 or ec232)
 GPUS=1                      # a100 have 40GB or 80GB VRAM, while rtx30 have 24GB VRAM.
 NODES=1                                  # Number of nodes. OLLAMA does currently only support single node inference
-NODE_LIST=gpu-14,gpu-9,gpu-7,gpu-8  # List of nodes that the job can run on gpu-14,gpu-9,gpu-7,gpu-8
-TIME="1-00:00:00"                       # Slurm walltime (D-HH:MM:SS)
-MEM_PER_GPU="80G"                       # Memory per GPU. 
+NODE_LIST=  # List of nodes that the job can run on gpu-14,gpu-9,gpu-7,gpu-8
+TIME="2-00:00:00"                       # Slurm walltime (D-HH:MM:SS)
+MEM_PER_GPU="20G"                       # Memory per GPU. 
 OLLAMA_MODELS_DIR="/cluster/work/projects/ec12/ec-sindrre/ollama-models"  # Path to where the Ollama models are stored and loaded                      
-OLLAMA_PORT="11955"                       # Remote port where Ollama listens. If different parallell runs, change ollama_port to avoid conflicts if same node is allocated.
+OLLAMA_PORT="11857"                       # Remote port where Ollama listens. If different parallell runs, change ollama_port to avoid conflicts if same node is allocated.
 SBATCH_SCRIPT="${PHASE}_${EXAMPLES_TYPE}_${EXAMPLES_TYPE}__${PROMPT_TYPE}_${GPUS}_ollama.slurm"           # Slurm batch script name
 # Directory on Fox to store scripts and output
 if [ -n "$PROMPT_TYPE" ]; then
@@ -53,12 +53,12 @@ experiments='[
 #             "semantic_selector": true
 #         }
 # ]'
-models='[
-    "phi4:14b-fp16"
-]'
 # models='[
-#     "llama3.2:3b-instruct-fp16"
+#     "phi4:14b-fp16"
 # ]'
+models='[
+    "llama3.2:3b-instruct-fp16"
+]'
 
 # models='[
 #     "llama3.3:70b-instruct-fp16"
