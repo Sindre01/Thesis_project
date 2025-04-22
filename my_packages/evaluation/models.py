@@ -173,6 +173,12 @@ def generate_n_responses(
                     if debug:
                         print("Generated langchain unfiltered response:", generated)
                 break  # If generation succeeded, break out of retry loop
+
+            except torch.OutOfMemoryError as e:
+                print("⚠️ Caught OOM during generation")
+                torch.cuda.empty_cache()
+                continue
+
             except Exception as e:
                 retries += 1
          
@@ -181,6 +187,7 @@ def generate_n_responses(
                 # gc.collect()
                 # torch.cuda.empty_cache()
                 if constrained_llm:
+                    print(e)
                     print("Syncode generation failed. Setting generated to errror.")
                     generated = e
                     break

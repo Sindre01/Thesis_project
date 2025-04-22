@@ -7,13 +7,13 @@
 
 # Job Configuration
 #SBATCH --job-name=validation_SynCode_RAG_regular_1         # Job name
-#SBATCH --account=ec30                      # Project account
-#SBATCH --partition=ifi_accel                  # Partition ('accel' or 'accel_long')
+#SBATCH --account=ec12                      # Project account
+#SBATCH --partition=accel                  # Partition ('accel' or 'accel_long')
 #SBATCH --nodes=1                           # Amount of nodes. Ollama one support single node inference
 #SBATCH --nodelist=                   # List of nodes that the job can run on
 #SBATCH --gpus=1                             # Number of GPUs
-#SBATCH --time=2-00:00:00                             # Walltime (D-HH:MM:SS)
-#SBATCH --mem-per-gpu=20G              # Memory per CPU
+#SBATCH --time=1-00:00:00                             # Walltime (D-HH:MM:SS)
+#SBATCH --mem-per-gpu=40G              # Memory per CPU
 #SBATCH --output=Job_validation_%j.out                 # Standard output and error log
 
 
@@ -128,7 +128,7 @@ source ~/Thesis_project/thesis_venv/bin/activate  # Activate it to ensure the co
 echo "============= Running validation SynCode Python script... ============="
 export PYTHONPATH="/fp/homes01/u01/ec-sindrre/tmp/Thesis_project_RAG_$SLURM_JOB_ID:~/Thesis_project:~/Thesis_project:"
 python -u /fp/homes01/u01/ec-sindrre/tmp/Thesis_project_RAG_$SLURM_JOB_ID/experiments/SynCode/fox/run_validation.py     --model_provider 'ollama'     --models '[
-    "llama3.2:3b-instruct-fp16"
+    "phi4:14b-fp16"
 ]'     --experiments '[
         {
             "name": "regular_RAG",
