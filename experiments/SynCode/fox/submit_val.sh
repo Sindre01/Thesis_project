@@ -7,7 +7,7 @@
 # Configuration
 EXPERIMENT="SynCode"                    # Experiment ('few-shot' or 'COT')
 PHASE="validation"                       # Phase ('testing' or 'validation')
-EXAMPLES_TYPE="similarity"                 #'coverage' or 'similarity'
+EXAMPLES_TYPE="RAG"                
 PROMPT_TYPE="regular"                 # 'regular' or 'cot' or 'regular'   
 # SEMANTIC_SELECTOR=true                   # Use semantic selector
 USER="ec-sindrre"                        # Your Educloud username
@@ -21,7 +21,7 @@ NODE_LIST=  # List of nodes that the job can run on gpu-14,gpu-9,gpu-7,gpu-8
 TIME="2-00:00:00"                       # Slurm walltime (D-HH:MM:SS)
 MEM_PER_GPU="20G"                       # Memory per GPU. 
 OLLAMA_MODELS_DIR="/cluster/work/projects/ec12/ec-sindrre/ollama-models"  # Path to where the Ollama models are stored and loaded                      
-OLLAMA_PORT="11750"                       # Remote port where Ollama listens. If different parallell runs, change ollama_port to avoid conflicts if same node is allocated.
+OLLAMA_PORT="11990"                       # Remote port where Ollama listens. If different parallell runs, change ollama_port to avoid conflicts if same node is allocated.
 SBATCH_SCRIPT="${PHASE}_${EXAMPLES_TYPE}_${EXAMPLES_TYPE}__${PROMPT_TYPE}_${GPUS}_ollama.slurm"           # Slurm batch script name
 # Directory on Fox to store scripts and output
 if [ -n "$PROMPT_TYPE" ]; then
@@ -37,9 +37,9 @@ model_provider='ollama'
 
 experiments='[
         {
-            "name": "regular_similarity",
+            "name": "regular_RAG",
             "prompt_prefix": "Create a function",
-            "num_shots": [5, 10],
+            "num_shots": [5],
             "prompt_type": "regular",
             "semantic_selector": true
         }

@@ -6,7 +6,7 @@
 ###############################################################################
 
 # Job Configuration
-#SBATCH --job-name=validation_SynCode_similarity_signature_1         # Job name
+#SBATCH --job-name=validation_SynCode_RAG_signature_1         # Job name
 #SBATCH --account=ec30                      # Project account
 #SBATCH --partition=ifi_accel                  # Partition ('accel' or 'accel_long')
 #SBATCH --nodes=1                           # Amount of nodes. Ollama one support single node inference
@@ -36,7 +36,7 @@ source ~/.bashrc # may ovewrite previous modules
 export SYNCODE_CACHE=/cluster/work/projects/ec12/ec-sindrre/syncode_$SLURM_JOB_ID/
 
 export OLLAMA_MODELS=/cluster/work/projects/ec12/ec-sindrre/ollama-models    # Path to where the Ollama models are stored and loaded
-export OLLAMA_HOST=0.0.0.0:11950      # Host and port where Ollama listens
+export OLLAMA_HOST=0.0.0.0:11980      # Host and port where Ollama listens
 export OLLAMA_ORIGINS=”*”
 export OLLAMA_LLM_LIBRARY="cuda_v12_avx" 
 export OLLAMA_FLASH_ATTENTION=1
@@ -61,10 +61,10 @@ export OLLAMA_KV_CACHE_TYPE="f16" # f16 (default), q8_0 (half of the memory of f
 # Set the age threshold 4 days
 AGE_THRESHOLD=345600
 
-echo "🧹 Cleaning up files older than 4 days in: /fp/homes01/u01/ec-sindrre/slurm_jobs/SynCode/validation/similarity/signature"
+echo "🧹 Cleaning up files older than 4 days in: /fp/homes01/u01/ec-sindrre/slurm_jobs/SynCode/validation/RAG/signature"
 
 # Find and delete .out, .slurm, and .csv files older than 1 hours
-find "/fp/homes01/u01/ec-sindrre/slurm_jobs/SynCode/validation/similarity/signature" -type f \( -name "*.out" -o -name "*.slurm" -o -name "*.csv" \) -mmin +1800 -exec rm -v {} \;
+find "/fp/homes01/u01/ec-sindrre/slurm_jobs/SynCode/validation/RAG/signature" -type f \( -name "*.out" -o -name "*.slurm" -o -name "*.csv" \) -mmin +1800 -exec rm -v {} \;
 
 echo "✅ Cleanup completed!"
 
@@ -87,25 +87,25 @@ sleep 5
 echo "============= Pulling latest changes from Git... ============="
 
 # Check if the repository already exists
-if [ -d "/fp/homes01/u01/ec-sindrre/tmp/Thesis_project_similarity_$SLURM_JOB_ID/.git" ]; then
-    echo "✅ Repository already exists: /fp/homes01/u01/ec-sindrre/tmp/Thesis_project_similarity_$SLURM_JOB_ID"
-    cd "/fp/homes01/u01/ec-sindrre/tmp/Thesis_project_similarity_$SLURM_JOB_ID" || { echo "❌ Failed to enter /fp/homes01/u01/ec-sindrre/tmp/Thesis_project_similarity_$SLURM_JOB_ID"; exit 1; }
+if [ -d "/fp/homes01/u01/ec-sindrre/tmp/Thesis_project_RAG_$SLURM_JOB_ID/.git" ]; then
+    echo "✅ Repository already exists: /fp/homes01/u01/ec-sindrre/tmp/Thesis_project_RAG_$SLURM_JOB_ID"
+    cd "/fp/homes01/u01/ec-sindrre/tmp/Thesis_project_RAG_$SLURM_JOB_ID" || { echo "❌ Failed to enter /fp/homes01/u01/ec-sindrre/tmp/Thesis_project_RAG_$SLURM_JOB_ID"; exit 1; }
     
     # Pull latest changes
     echo "🔄 Pulling latest changes..."
 else
     echo "🚀 Cloning repository..."
-    git clone https://github.com/Sindre01/Thesis_project.git "/fp/homes01/u01/ec-sindrre/tmp/Thesis_project_similarity_$SLURM_JOB_ID" || { echo "❌ Clone failed!"; exit 1; }
+    git clone https://github.com/Sindre01/Thesis_project.git "/fp/homes01/u01/ec-sindrre/tmp/Thesis_project_RAG_$SLURM_JOB_ID" || { echo "❌ Clone failed!"; exit 1; }
     
-    echo "✅ Repository cloned to /fp/homes01/u01/ec-sindrre/tmp/Thesis_project_similarity_$SLURM_JOB_ID"
-    cd "/fp/homes01/u01/ec-sindrre/tmp/Thesis_project_similarity_$SLURM_JOB_ID" || { echo "❌ Failed to enter /fp/homes01/u01/ec-sindrre/tmp/Thesis_project_similarity_$SLURM_JOB_ID"; exit 1; }
+    echo "✅ Repository cloned to /fp/homes01/u01/ec-sindrre/tmp/Thesis_project_RAG_$SLURM_JOB_ID"
+    cd "/fp/homes01/u01/ec-sindrre/tmp/Thesis_project_RAG_$SLURM_JOB_ID" || { echo "❌ Failed to enter /fp/homes01/u01/ec-sindrre/tmp/Thesis_project_RAG_$SLURM_JOB_ID"; exit 1; }
 fi
 
 echo "🔍 Debug: Current Git repository is:"
 git rev-parse --show-toplevel
 
-export GIT_DIR="/fp/homes01/u01/ec-sindrre/tmp/Thesis_project_similarity_$SLURM_JOB_ID/.git"
-export GIT_WORK_TREE="/fp/homes01/u01/ec-sindrre/tmp/Thesis_project_similarity_$SLURM_JOB_ID"
+export GIT_DIR="/fp/homes01/u01/ec-sindrre/tmp/Thesis_project_RAG_$SLURM_JOB_ID/.git"
+export GIT_WORK_TREE="/fp/homes01/u01/ec-sindrre/tmp/Thesis_project_RAG_$SLURM_JOB_ID"
 git checkout main
 
 git reset --hard HEAD  # Ensure a clean state
@@ -113,9 +113,9 @@ git pull --rebase --autostash || { echo "❌ Git pull failed!"; exit 1; }
 
 # Define a cleanup function
 cleanup() {
-    echo "⚠️ Job failed or completed — cleaning up /fp/homes01/u01/ec-sindrre/tmp/Thesis_project_similarity_$SLURM_JOB_ID"
-    rm -rf "/fp/homes01/u01/ec-sindrre/tmp/Thesis_project_similarity_$SLURM_JOB_ID"
-    echo "✅ Repository removed: /fp/homes01/u01/ec-sindrre/tmp/Thesis_project_similarity_$SLURM_JOB_ID"
+    echo "⚠️ Job failed or completed — cleaning up /fp/homes01/u01/ec-sindrre/tmp/Thesis_project_RAG_$SLURM_JOB_ID"
+    rm -rf "/fp/homes01/u01/ec-sindrre/tmp/Thesis_project_RAG_$SLURM_JOB_ID"
+    echo "✅ Repository removed: /fp/homes01/u01/ec-sindrre/tmp/Thesis_project_RAG_$SLURM_JOB_ID"
     rm -rf /cluster/work/projects/ec12/ec-sindrre/syncode_$SLURM_JOB_ID
     echo "✅ Syncode cache removed: /cluster/work/projects/ec12/ec-sindrre/syncode_$SLURM_JOB_ID"
 }
@@ -126,18 +126,18 @@ trap cleanup EXIT
 source ~/Thesis_project/thesis_venv/bin/activate  # Activate it to ensure the correct Python environment
 
 echo "============= Running validation SynCode Python script... ============="
-export PYTHONPATH="/fp/homes01/u01/ec-sindrre/tmp/Thesis_project_similarity_$SLURM_JOB_ID:~/Thesis_project:~/Thesis_project:"
-python -u /fp/homes01/u01/ec-sindrre/tmp/Thesis_project_similarity_$SLURM_JOB_ID/experiments/SynCode/fox/run_validation.py     --model_provider 'ollama'     --models '[
+export PYTHONPATH="/fp/homes01/u01/ec-sindrre/tmp/Thesis_project_RAG_$SLURM_JOB_ID:~/Thesis_project:~/Thesis_project:"
+python -u /fp/homes01/u01/ec-sindrre/tmp/Thesis_project_RAG_$SLURM_JOB_ID/experiments/SynCode/fox/run_validation.py     --model_provider 'ollama'     --models '[
     "llama3.2:3b-instruct-fp16"
 ]'     --experiments '[
         {
-            "name": "signature_similarity",
+            "name": "signature_RAG",
             "prompt_prefix": "Create a function",
             "num_shots": [5],
             "prompt_type": "signature",
             "semantic_selector": true
         }
-]'     --ollama_port 11950     --fold -1     > /fp/homes01/u01/ec-sindrre/slurm_jobs/SynCode/validation/similarity/signature/AI_$SLURM_JOB_ID.out 2>&1
+]'     --ollama_port 11980     --fold -1     > /fp/homes01/u01/ec-sindrre/slurm_jobs/SynCode/validation/RAG/signature/AI_$SLURM_JOB_ID.out 2>&1
 
 ###############################################################################
 # End of Script

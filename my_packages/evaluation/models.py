@@ -170,7 +170,8 @@ def generate_n_responses(
                         context=context,
                         ollama_port=ollama_port,
                     )
-                    print("Generated langchain unfiltered response:", generated)
+                    if debug:
+                        print("Generated langchain unfiltered response:", generated)
                 break  # If generation succeeded, break out of retry loop
             except Exception as e:
                 retries += 1

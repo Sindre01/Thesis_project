@@ -91,7 +91,7 @@ def run_testing_experiment(
         rag_data: RagData,
         max_ctx: int,
         best_params_optimization = None,
-        seeds = [75], #[3, 75, 346]
+        seeds = [346], #[3, 75, 346],
         ollama_port = "11434",
         experiment_type = "similarity",
 ):
@@ -260,15 +260,15 @@ def main(
             hours, remainder = divmod(int(elapsed_time), 3600)
             minutes, seconds = divmod(remainder, 60)
             print(f"\n⏱️ Total execution time: {hours}h {minutes}m {seconds}s")
-            subprocess.run(["bash", f"{project_dir}/my_packages/common/push_runs.sh", 
-                            experiment_folder, 
-                            "testing", 
-                            selector_type, 
-                            prompt_type,
-                            str(hours), str(minutes), str(seconds),
-                            str(fold)
-                            ], check=True)
-            print("✅ push_runs.sh script executed successfully!")
+            # subprocess.run(["bash", f"{project_dir}/my_packages/common/push_runs.sh", 
+            #                 experiment_folder, 
+            #                 "testing", 
+            #                 selector_type, 
+            #                 prompt_type,
+            #                 str(hours), str(minutes), str(seconds),
+            #                 str(fold)
+            #                 ], check=True)
+            # print("✅ push_runs.sh script executed successfully!")
             
 if __name__ == "__main__":
     experiment_folder = "Refinement"
@@ -287,10 +287,11 @@ if __name__ == "__main__":
             "prompt_type": "signature",
             "semantic_selector": True
         }]
-    ollama_port = "11436"
+    ollama_port = "11435"
     os.environ["OLLAMA_HOST"] = f"http://localhost:{ollama_port}"
     experiments = parse_experiments(experiments)
     fold = 2
+    print(f"REFINEMENT: Using fold {fold} for 3-fold cross-validation")
 
     n_generations_per_task = 10
     

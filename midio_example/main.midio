@@ -1,3 +1,33 @@
 import("std", Std_k98ojb)
 import("http", Http_q7o96c)
 
+module() main { 
+    func(doc: "finds the smallest number in a list.") smallest_num {
+        in(x: -426, y: -248, name: "items") property(List) items_ai
+
+        out(x: 159, y: -219, name: "min") property(Number) min_ai
+
+        instance(x: -1782, y: 1082) length_12a4a0 root.Std_k98ojb.List.Length {}
+        instance(x: -1275, y: 1052) count_e53297 root.Std_k98ojb.Std.Count {}
+        instance(x: -1595, y: 1148) expression_c84155 root.Std_k98ojb.Math.Expression {
+            expression: "n.min"
+        }
+        instance(x: -1783, y: 1237) min_18909a root.Std_k98ojb.List.Min {}
+        instance(x: -548, y: 923) if_f81713 root.Std_k98ojb.Std.If {}
+        instance(x: -764, y: 1191) equal_010c84 root.Std_k98ojb.Logic.Equal {}
+        instance(x: -964, y: 1120) add_a3f57f root.Std_k98ojb.Math.Add {}
+        length_12a4a0.length -> expression_c84155.gen_0
+        min_18909a.min -> add_a3f57f.first
+        count_e53297.iteration -> if_f81713.execute
+        items_ai -> length_12a4a0.list
+        equal_010c84.result -> if_f81713.predicate
+        count_e53297.done -> if_f81713.then
+        if_f81713.else -> count_e53297.count
+        expression_c84155.result -> min_ai
+        min_18909a.item -> min_ai
+    }
+
+    
+
+    instance(x: 203, y: -192) smallest_num_6d7f2b root.main.smallest_num {}
+}

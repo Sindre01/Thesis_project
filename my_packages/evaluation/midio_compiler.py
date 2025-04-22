@@ -113,25 +113,45 @@ def is_compile_ready(code: str) -> bool:
     
     return False # if not starting with any of the keywords, or if the code is empty
 
-def get_refinement_errors(code: str) -> str:
+def get_refinement_errors(code: str, test_code: str, sample: dict) -> tuple[str, str]:
     """ Gets syntax, semantic or tests errors from the code, that can be used for refinement of the code. """
     compiled = compile_code(code)
     error_msg = ""
+    error_category = ""
     if not is_code_syntax_valid(compiled):
-        # print("Code is NOT syntax valid")
+        print("Code is NOT syntax valid")
         error_msg = clean_output(compiled.stderr)
+        error_category = "Syntax"
 
     elif not is_code_semantically_valid(compiled):
-        # print("Code is NOT semantically valid")
-        error_msg = "\n".join(extract_errors(compiled.stdout))
-        error_msg = extract_semantic_errors(error_msg)
+        print("Code is NOT semantically valid")
+        errors = extract_errors(compiled.stdout)
+        error_msg = extract_semantic_errors(errors)
+        if isinstance(error_msg, list):
+            error_msg = "\n".join(error_msg)
+      
+        if not error_msg:
+            if not errors:
+                error_msg = "\n".join(extract_errors(compiled.stderr)) #last resort
+            else:
+                error_msg = "\n".join(errors)
+        if error_msg == "":
+            error_msg = None 
+        error_category = "Semantic"
     else:
-        # print("Code is semantically valid")
-        compiled_tests = compile_code(compiled, "test", "--json")
+        print("Code is semantically valid")
+        test_candidate = code + "\n" + test_code
+        compiled_tests = compile_code(test_candidate, "test", "--json")
         json_result = get_json_test_result(compiled_tests)
-        error_msg = json_result
+        runned_tests: list = sample["python_tests"]
+        error_msg = extract_test_results_msg(json_result, runned_tests)
+        error_category = "Tests"
 
-    return error_msg
+    if error_msg == None:
+        print(f"Could not extract {error_category} error from compiler message. Using whole compiler message instead")
+        error_msg = (compiled.stdout + "\n" + compiled.stderr)
+
+    return error_msg, error_category
 
                      
        
@@ -229,6 +249,43 @@ def get_json_test_result(result: subprocess.CompletedProcess[str]) -> dict:
     except json.JSONDecodeError as e:
         return {}
     
+def extract_test_results_msg(test_result: json, tests: list) -> dict:
+    """ 
+    Make an pretty error message for the test results.
+    - test_result: The result of the test, as a dictionary.
+        e.g: {'num_tests': 1, 'num_passed': 0, 'test_results': [{'name': 'Test common_element', 'assertions': [{'kind': 'Failed', 'expect': 'true', 'actual': 'null'}, {'kind': 'Passed', 'expect': 'null', 'actual': 'null'}, {'kind': 'Failed', 'expect': 'true', 'actual': 'null'}], 'passed': False}]}
+    - tests: The list of tests that were run.
+        e.g: ['assert common_element([1,2,3,4,5], [5,6,7,8,9])==True', 'assert common_element([1,2,3,4,5], [6,7,8,9])==False', "assert common_element(['a','b','c'], ['d','b','e'])==True"]
+    """
+    error_msg = f"Runned these pseudocode tests: {tests}\n But go these test results: {test_result}" #default error message
+
+    try:
+        midio_test_result: list = test_result['test_results']
+        if midio_test_result:
+            error_msg = ""
+            for i, test in enumerate(midio_test_result):
+                test_name = test['name']
+                test_assertions = test['assertions']
+                test_passed = test['passed']
+                if not test_passed:
+                    error_msg += f"Tests failed, with one or more assertion errors. Here are the test results: \n"
+                    for i, assertion in enumerate(test_assertions):
+                        python_test = tests[i]
+                        kind = assertion['kind']
+                        expect = assertion['expect']
+                        actual = assertion['actual']
+                        error_msg += f"  - Pseudocode assertion: '{python_test}'. Result: {kind}. Expected '{expect}', got '{actual}'\n"
+                else:
+                    # Test passed
+                    error_msg = f""
+                    break
+                   
+    except Exception as e:
+        logging.error(f"Got error when trying to extract a pretty esult message, here is the error: {e}")
+
+    return error_msg
+
+
 def clean_output(text: str) -> str:
     """Remove ANSI escape codes and extra whitespace from the output."""
     ansi_escape = re.compile(r'\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])')

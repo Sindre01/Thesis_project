@@ -12,7 +12,7 @@ from my_packages.evaluation.metrics import check_correctness, check_semantics, c
 from my_packages.evaluation.midio_compiler import compile_code, extract_errors, get_refinement_errors
 from my_packages.evaluation.models import generate_n_responses
 from my_packages.prompting.prompt_building import add_RAG_to_prompt, build_prompt, code_data_to_node_data, get_prompt_template
-from my_packages.utils.file_utils import save_results_as_string, save_results_to_file
+from my_packages.utils.file_utils import get_test_module_from_file, save_results_as_string, save_results_to_file
 from itertools import chain
 from syncode import Syncode
 from colorama import Fore, Style
@@ -566,7 +566,7 @@ def run_refinement(
     ollama_port: str = "11434",
     node_context_type: str = "MANY",
     refinements: int = 2,
-    constrained_llm: Syncode = None,
+    constrained_llm: Syncode = None, # Not working yet
 
 ) -> tuple[list[str], int]:
     """
@@ -624,6 +624,7 @@ def run_refinement(
 
 
     total_n = generation_kwargs["n"]
+
     generation_kwargs["n"] = 1 # Generate one candidate at a time
 
     refinement_prompt_template = copy.deepcopy(final_prompt_template)
@@ -648,18 +649,16 @@ def run_refinement(
         except Exception as e:
             if not constrained_llm:
                 raise e
-
             print(f"Catched error in code, during syncode generation: {e}")
             
             generated_response = e
-
 
         refinements_performed = 0
 
         for i in range(refinements):
             print(f"Refinement #{i+1} of {refinements} for task {sample['task_id']}")
     
-            if constrained_llm:
+            if constrained_llm: # TODO: SynCode not yet support in this code. SynCode needs to be patched to pass partial output.
                 if isinstance(generated_response, Exception):
                     code_candidate = generated_response.partial_output
                     error_msg = generated_response.error
@@ -669,7 +668,8 @@ def run_refinement(
                     break
             else:
                 code_candidate = generated_response[0]
-                error_msg = get_refinement_errors(code_candidate)
+                test_code = get_test_module_from_file(sample['task_id'])
+                error_msg, error_category = get_refinement_errors(code_candidate, test_code, sample)
 
                 if code_candidate.strip() == "":
                     print("No code candidate generated.")
@@ -677,8 +677,7 @@ def run_refinement(
                 elif error_msg == "":
                     print(f"Code is correct, no errors found. Performed {refinements_performed} refinements")
                     break
-
-
+            error_msg = f"*{error_category} Error\n\n{error_msg}"
             error_template_vars = {
                 "code_candidate": code_candidate.strip() if code_candidate else "(No code was generated, try again)",
                 "error_msg": error_msg,
@@ -686,7 +685,7 @@ def run_refinement(
 
             refinement_vars.update(error_template_vars)
 
-            if debug:
+            if not debug:
                 error_prompt_part = error_template.format(**error_template_vars)
                 print(f"{Fore.BLUE}{Style.BRIGHT} Refinement prompt: {error_prompt_part.content}{Style.RESET_ALL}\n")
 
