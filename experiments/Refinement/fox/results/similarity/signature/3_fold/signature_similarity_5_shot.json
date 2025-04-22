@@ -5,7 +5,8 @@
         "metrics": [
             "syntax",
             "semantic",
-            "tests"
+            "tests",
+            "visual"
         ],
         "seed": [
             3,
@@ -23,64 +24,68 @@
             10
         ],
         "syntax@1": {
-            "mean": 0.69,
-            "std": 0.08
+            "mean": 0.54,
+            "std": 0.09
         },
         "syntax@2": {
-            "mean": 0.69,
+            "mean": 0.56,
             "std": 0.09
         },
         "syntax@3": {
-            "mean": 0.69,
+            "mean": 0.57,
             "std": 0.09
         },
         "syntax@5": {
-            "mean": 0.7,
+            "mean": 0.58,
             "std": 0.09
         },
         "syntax@10": {
-            "mean": 0.71,
-            "std": 0.1
+            "mean": 0.63,
+            "std": 0.11
         },
         "semantic@1": {
-            "mean": 0.51,
-            "std": 0.16
+            "mean": 0.37,
+            "std": 0.15
         },
         "semantic@2": {
-            "mean": 0.51,
-            "std": 0.16
+            "mean": 0.38,
+            "std": 0.15
         },
         "semantic@3": {
-            "mean": 0.51,
-            "std": 0.16
+            "mean": 0.38,
+            "std": 0.14
         },
         "semantic@5": {
-            "mean": 0.51,
-            "std": 0.16
+            "mean": 0.39,
+            "std": 0.13
         },
         "semantic@10": {
-            "mean": 0.51,
-            "std": 0.16
+            "mean": 0.42,
+            "std": 0.09
         },
         "tests@1": {
-            "mean": 0.21,
-            "std": 0.12
+            "mean": 0.27,
+            "std": 0.08
         },
         "tests@2": {
-            "mean": 0.21,
-            "std": 0.12
+            "mean": 0.28,
+            "std": 0.08
         },
         "tests@3": {
-            "mean": 0.21,
-            "std": 0.12
+            "mean": 0.29,
+            "std": 0.07
         },
         "tests@5": {
-            "mean": 0.21,
-            "std": 0.12
+            "mean": 0.29,
+            "std": 0.06
         },
         "tests@10": {
-            "mean": 0.21,
-            "std": 0.12
+            "mean": 0.32,
+            "std": 0.03
+        },
+        "visual@placement": {
+            "mean": 0.82,
+            "std": 0.09
         }
     }
 ]

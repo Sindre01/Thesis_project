@@ -91,7 +91,7 @@ def run_testing_experiment(
         rag_data: RagData,
         max_ctx: int,
         best_params_optimization = None,
-        seeds = [346], #[3, 75, 346],
+        seeds = [346], #[3, 75, 346], TODO: set back as [3, 75, 346]
         ollama_port = "11434",
         experiment_type = "similarity",
 ):
@@ -287,7 +287,7 @@ if __name__ == "__main__":
             "prompt_type": "signature",
             "semantic_selector": True
         }]
-    ollama_port = "11435"
+    ollama_port = "11433"
     os.environ["OLLAMA_HOST"] = f"http://localhost:{ollama_port}"
     experiments = parse_experiments(experiments)
     fold = 2

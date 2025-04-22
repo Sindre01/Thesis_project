@@ -12,12 +12,12 @@ from my_packages.evaluation.find_results import find_results
 if __name__ == "__main__":
     find_results( 
         experiment_folder="Refinement",
-        env="dev",
+        env="prod",
         eval_method="3_fold",
         experiment_types=["similarity"],
         prompt_types=["signature"],
         shots=[5],
-        metrics=["syntax", "semantic", "tests"],
+        metrics=["syntax", "semantic", "tests", "visual"],
         ks=[1, 2, 3, 5, 10],
         use_threads=True,
         model="",
