@@ -182,7 +182,7 @@ def two_step_run(
                 "max_length": max_ctx,
                 "max_new_tokens": code_max_new_tokens,
                 "temperature": temperature,
-                "top_k": top_k,
+                # "top_k": top_k,
                 "top_p": top_p,
                 "do_sample": True,
                 "quantize": True, # Sets to torch.float16

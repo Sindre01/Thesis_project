@@ -190,7 +190,7 @@ def main(
         elif prompt_type == "signature":
             metrics = ["syntax", "semantic", "tests"] # ["syntax", "semantic"] or ["syntax", "semantic", "tests"]
 
-        experiment_type = ex["name"].split("_")[1] # e.g: "vanilla" or "?"
+        experiment_type = ex["name"].split("_")[1] # e.g: "RAG"
         if experiment_type == "similarity" or experiment_type == "Refinement":
             max_ctx = 16000
             #No RAG
@@ -224,7 +224,7 @@ def main(
                 model = get_model_code_tokens_from_file(model_name, f'{project_dir}/data/max_tokens.json')
                 print(f"Max generation tokens for model {model['max_tokens']}")
 
-                best_params_path = os.path.join(best_params_folder, f"{prompt_type}_{selector_type}_{shots}_shot" + ".json")
+                best_params_path = os.path.join(best_params_folder, f"{prompt_type}_{experiment_type}_{shots}_shot" + ".json")
                 best_params = read_dataset_to_json(best_params_path)
 
                 if not best_params:
