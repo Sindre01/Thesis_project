@@ -132,6 +132,7 @@ def generate_n_responses(
     ollama_port:str="11434",
     constrained_llm: Syncode = None,
     extract_last_snippet: bool = False,
+    syncode_debug: bool = False,
 )-> list[str]:
     """Generate n responses for a given prompt."""
     
@@ -154,6 +155,7 @@ def generate_n_responses(
                         final_prompt_template=final_prompt_template,
                         prompt_variables_dict=prompt_variables_dict,
                         seed=new_seed,
+                        debug=syncode_debug
                     )
                 else:
                     print("Using Langchain")
@@ -219,6 +221,7 @@ def generate_syncode_reponse(
     final_prompt_template: ChatPromptTemplate,
     prompt_variables_dict: dict,
     seed: int,
+    debug: bool = False,
 )-> str:
     """Generate a response for a given prompt using the Syncode model."""
     hf_role_mappings = {
@@ -233,7 +236,7 @@ def generate_syncode_reponse(
     # Convert to Hugging Face-style chat format
     hf_messages = [{"role": hf_role_mappings[msg.type], "content": msg.content} for msg in langchain_messages]
     # print("SynCode input with hf_messages:", hf_messages)
-    output = client.infer(hf_messages, stop_words=["}\n\n```\n"])
+    output = client.infer(hf_messages, stop_words=["}\n\n```\n"], debug=debug)
     print("SynCode output:", output[0])
     # print("* MARKERER SLUTT PÅ OUTPUT. SynCode output length:", len(output[0]))
     response = output[0]

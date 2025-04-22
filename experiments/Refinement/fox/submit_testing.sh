@@ -5,11 +5,12 @@
 ###############################################################################
 
 # Configuration
-EXPERIMENT="SynCode"                    # Experiment ('few-shot' or 'COT')
-PHASE="validation"                       # Phase ('testing' or 'validation')
-EXAMPLES_TYPE="RAG"                
+EXPERIMENT="Refinement"                    # Experiment ('few-shot')
+PHASE="testing"                       # Phase ('testing' or 'validation')
+EXPERIMENT_TYPE="RAG"                 # 'similarity' or RAG or full-context
 PROMPT_TYPE="regular"                 # 'regular' or 'cot' or 'regular'   
 # SEMANTIC_SELECTOR=true                   # Use semantic selector
+K_FOLD_JOBS=0-2                             # Runs jobs for folds 0 to 2 (3-fold CV)
 USER="ec-sindrre"                        # Your Educloud username
 HOST="fox.educloud.no"                   # Fox login address (matches SSH config)
 SSH_CONFIG_NAME="fox"                    # Name of the SSH config entry
@@ -18,20 +19,20 @@ PARTITION="ifi_accel"                        # 'accel' or 'accel_long' (or 'ifi_
 GPUS=1                      # a100 have 40GB or 80GB VRAM, while rtx30 have 24GB VRAM.
 NODES=1                                  # Number of nodes. OLLAMA does currently only support single node inference
 NODE_LIST=  # List of nodes that the job can run on gpu-14,gpu-9,gpu-7,gpu-8
-TIME="2-00:00:00"                       # Slurm walltime (D-HH:MM:SS)
+TIME="1-00:00:00"                       # Slurm walltime (D-HH:MM:SS)
 MEM_PER_GPU="20G"                       # Memory per GPU. 
 OLLAMA_MODELS_DIR="/cluster/work/projects/ec12/ec-sindrre/ollama-models"  # Path to where the Ollama models are stored and loaded                      
-OLLAMA_PORT="11857"                       # Remote port where Ollama listens. If different parallell runs, change ollama_port to avoid conflicts if same node is allocated.
-SBATCH_SCRIPT="${PHASE}_${EXAMPLES_TYPE}_${EXAMPLES_TYPE}__${PROMPT_TYPE}_${GPUS}_ollama.slurm"           # Slurm batch script name
+OLLAMA_PORT="11585"                       # Remote port where Ollama listens. If different parallell runs, change ollama_port to avoid conflicts if same node is allocated.
+SBATCH_SCRIPT="${PHASE}_${EXPERIMENT_TYPE}_${PROMPT_TYPE}_${GPUS}_ollama.slurm"           # Slurm batch script name
 # Directory on Fox to store scripts and output
 if [ -n "$PROMPT_TYPE" ]; then
-    REMOTE_DIR="/fp/homes01/u01/ec-sindrre/slurm_jobs/${EXPERIMENT}/${PHASE}/${EXAMPLES_TYPE}/${PROMPT_TYPE}"
+    REMOTE_DIR="/fp/homes01/u01/ec-sindrre/slurm_jobs/${EXPERIMENT}/${PHASE}/${EXPERIMENT_TYPE}/${PROMPT_TYPE}"
 else
-    REMOTE_DIR="/fp/homes01/u01/ec-sindrre/slurm_jobs/${EXPERIMENT}/${PHASE}/${EXAMPLES_TYPE}"
+    REMOTE_DIR="/fp/homes01/u01/ec-sindrre/slurm_jobs/${EXPERIMENT}/${PHASE}/${EXPERIMENT_TYPE}"
 fi
 #--exclusive #Job will not share nodes with other jobs. 
 # Define unique folder name
-CLONE_DIR="/fp/homes01/u01/ec-sindrre/tmp/Thesis_project_${EXAMPLES_TYPE}_\$SLURM_JOB_ID"
+CLONE_DIR="/fp/homes01/u01/ec-sindrre/tmp/Thesis_project_${EXPERIMENT_TYPE}_\$SLURM_JOB_ID"
 ##############Experiment config################
 model_provider='ollama'
 
@@ -46,7 +47,7 @@ experiments='[
 ]'
 # experiments='[
 #         {
-#             "name": "signature_similarity",
+#             "name": "signature_similiarity",
 #             "prompt_prefix": "Create a function",
 #             "num_shots": [5, 10],
 #             "prompt_type": "signature",
@@ -54,24 +55,17 @@ experiments='[
 #         }
 # ]'
 # models='[
+#     "llama3.3:70b-instruct-fp16"
+# ]'
+# models='[
+#     "qwq:32b-fp16"
+# ]'
+# models='[
 #     "phi4:14b-fp16"
 # ]'
 models='[
     "llama3.2:3b-instruct-fp16"
 ]'
-
-# models='[
-#     "llama3.3:70b-instruct-fp16"
-# ]'
-# models='[
-#     "phi4:14b-fp16",
-#     "qwen2.5:14b-instruct-fp16",
-#     "qwq:32b-preview-fp16",
-#     "qwen2.5-coder:32b-instruct-fp16"
-# ]'
-# models='[
-#     "llama3.3:70b-instruct-fp16"
-# ]'
 
 # normal* c1-[5-28]
 # accel gpu-[1-2,4-5,7-9,11-13]
@@ -149,10 +143,12 @@ cat <<EOT > "./scripts/${SBATCH_SCRIPT}"
 ###############################################################################
 
 # Job Configuration
-#SBATCH --job-name=${PHASE}_${EXPERIMENT}_${EXAMPLES_TYPE}_${PROMPT_TYPE}_${GPUS}         # Job name
+#SBATCH --job-name=${PHASE}_${EXPERIMENT}_${EXPERIMENT_TYPE}_${PROMPT_TYPE}_${GPUS}        # Job name
 #SBATCH --account=${ACCOUNT}                      # Project account
 #SBATCH --partition=${PARTITION}                  # Partition ('accel' or 'accel_long')
 #SBATCH --nodes=${NODES}                           # Amount of nodes. Ollama one support single node inference
+#SBATCH --array=${K_FOLD_JOBS}  
+#SBATCH --ntasks=1
 #SBATCH --nodelist=${NODE_LIST}                   # List of nodes that the job can run on
 #SBATCH --gpus=${GPUS}                             # Number of GPUs
 #SBATCH --time=${TIME}                             # Walltime (D-HH:MM:SS)
@@ -160,9 +156,11 @@ cat <<EOT > "./scripts/${SBATCH_SCRIPT}"
 #SBATCH --output=Job_${PHASE}_%j.out                 # Standard output and error log
 
 
+
 ###############################################################################
 # Environment Setup
 ###############################################################################
+export CUDA_VISIBLE_DEVICES=\$(seq -s, 0 \$((${GPUS}-1)))
 
 source /etc/profile.d/z00_lmod.sh
 
@@ -176,30 +174,28 @@ module load Python/3.11.5-GCCcore-13.2.0
 # module load CUDA/12.4.0
 
 source ~/.bashrc # may ovewrite previous modules
+
 export SYNCODE_CACHE=/cluster/work/projects/ec12/ec-sindrre/syncode_\$SLURM_JOB_ID/
 
+OLLAMA_PORT_K_FOLD=\$((${OLLAMA_PORT} + \$SLURM_ARRAY_TASK_ID))
+
 export OLLAMA_MODELS=${OLLAMA_MODELS_DIR}    # Path to where the Ollama models are stored and loaded
-export OLLAMA_HOST=0.0.0.0:${OLLAMA_PORT}      # Host and port where Ollama listens
+export OLLAMA_HOST=0.0.0.0:\$OLLAMA_PORT_K_FOLD    # Host and port where Ollama listens
 export OLLAMA_ORIGINS=”*”
 export OLLAMA_LLM_LIBRARY="cuda_v12_avx" 
 export OLLAMA_FLASH_ATTENTION=1
 export OLLAMA_KV_CACHE_TYPE="f16" # f16 (default), q8_0 (half of the memory of f16, try this), q4_0 different quantization types to find the best balance between memory usage and quality.
-
-# export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
-
+export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True 
 
 # export OLLAMA_DEBUG=1
 # export OLLAMA_NUM_PARALLEL=2 # Number of parallel models to run. 
 # export OLLAMA_MAX_LOADED_MODELS=2
 # export OLLAMA_MAX_QUEUE
-
-# export CUDA_ERROR_LEVEL=50
-# export CUDA_VISIBLE_DEVICES=0,1
-# export AMD_LOG_LEVEL=3
+export CUDA_LAUNCH_BLOCKING=1
+export TORCH_USE_CUDA_DSA=1
 
 #############CLEANUP OLD JOBS################
 # Set the target directory (default: current directory)
-
 
 # Set the age threshold 4 days
 AGE_THRESHOLD=$((96 * 3600))
@@ -220,7 +216,13 @@ NVIDIA_MONITOR_PID=$!  # Capture PID of monitoring process
 ###############################################################################
 # Start Ollama Server in Background with Log Redirection
 ###############################################################################
-ollama serve > ollama_API_\$SLURM_JOB_ID.out 2>&1 &  
+# Start Ollama server in a dedicated shell on GPU 0
+(
+  export CUDA_VISIBLE_DEVICES=$((GPUS - 1))
+  echo "Starting Ollama on device $((GPUS - 1))"
+  ollama serve > ollama_API_\${SLURM_JOB_ID}_fold_\$SLURM_ARRAY_TASK_ID.out 2>&1
+) &
+
 
 sleep 5
 
@@ -237,6 +239,7 @@ if [ -d "$CLONE_DIR/.git" ]; then
     
     # Pull latest changes
     echo "🔄 Pulling latest changes..."
+
 else
     echo "🚀 Cloning repository..."
     git clone https://github.com/Sindre01/Thesis_project.git "$CLONE_DIR" || { echo "❌ Clone failed!"; exit 1; }
@@ -250,10 +253,13 @@ git rev-parse --show-toplevel
 
 export GIT_DIR="$CLONE_DIR/.git"
 export GIT_WORK_TREE="$CLONE_DIR"
+
 git checkout main
 
 git reset --hard HEAD  # Ensure a clean state
 git pull --rebase --autostash || { echo "❌ Git pull failed!"; exit 1; }
+
+source ~/Thesis_project/thesis_venv/bin/activate  # Activate it to ensure the correct Python environment
 
 # Define a cleanup function
 cleanup() {
@@ -267,17 +273,19 @@ cleanup() {
 # Ensure cleanup is called on exit (both success or error)
 trap cleanup EXIT
 
-source ~/Thesis_project/thesis_venv/bin/activate  # Activate it to ensure the correct Python environment
+echo "============= Running ${PHASE} ${EXPERIMENT} Python script for Fold ${SLURM_ARRAY_TASK_ID}... ============="
 
-echo "============= Running ${PHASE} ${EXPERIMENT} Python script... ============="
+echo "➡️  Running Python Syncode script on GPU: \$CUDA_VISIBLE_DEVICES"
+
 export PYTHONPATH="${CLONE_DIR}:$PYTHONPATH"
 python -u ${CLONE_DIR}/experiments/${EXPERIMENT}/fox/run_${PHASE}.py \
     --model_provider '${model_provider}' \
     --models '${models}' \
     --experiments '${experiments}' \
-    --ollama_port ${OLLAMA_PORT} \
-    --fold -1 \
-    > ${REMOTE_DIR}/AI_\$SLURM_JOB_ID.out 2>&1
+    --ollama_port \$OLLAMA_PORT_K_FOLD \
+    --fold \$SLURM_ARRAY_TASK_ID \
+    > ${REMOTE_DIR}/AI_\${SLURM_JOB_ID}_fold_\$SLURM_ARRAY_TASK_ID.out 2>&1
+
 
 ###############################################################################
 # End of Script

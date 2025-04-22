@@ -483,6 +483,7 @@ def run_model(
             device_map="auto",
             opp=True, # Oppurtinistic or determentisic.
             dev_mode=True if refinement else False,
+            debug=True if refinement else False,
             **model_kwargs
         )
 
@@ -652,6 +653,7 @@ def run_refinement(
                 context=prompt_size + max_new_tokens,
                 ollama_port=ollama_port,
                 constrained_llm=constrained_llm,
+                syncode_debug=True if constrained_llm else False,
             )
         except Exception as e:
             if not constrained_llm:
@@ -706,6 +708,7 @@ def run_refinement(
                     ollama_port=ollama_port,
                     extract_last_snippet=True, # First is often the previous response
                     constrained_llm=constrained_llm,
+                    syncode_debug=True if constrained_llm else False,
                 )
             except Exception as e:
                 if not constrained_llm:

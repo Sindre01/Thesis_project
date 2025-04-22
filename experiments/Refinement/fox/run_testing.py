@@ -94,6 +94,7 @@ def run_testing_experiment(
         seeds = [346], #[3, 75, 346], TODO: set back as [3, 75, 346]
         ollama_port = "11434",
         experiment_type = "similarity",
+        constrained_output = False,
 ):
     total_count = len(seeds)
     count = 0
@@ -119,7 +120,7 @@ def run_testing_experiment(
                 ollama_port=ollama_port,
                 rag_data=rag_data,
                 max_ctx=max_ctx,
-                constrained_output=False,
+                constrained_output=constrained_output,
                 refinement=True
 
             )
@@ -250,6 +251,7 @@ def main(
                         rag_data = rag_data,
                         max_ctx = max_ctx,
                         experiment_type = experiment_type,
+                        constrained_output = constrained_output,
                     )
 
                 print(f"Testing finished for {experiment_name} on model: {model_name}")
@@ -276,23 +278,53 @@ if __name__ == "__main__":
     env_path = os.path.abspath(f"{project_dir}/../../.env")
     print("Env is located in:", env_path)
     load_dotenv(env_path)
-    similarity_key = "external_functions"
-
-    model_provider = 'ollama'
-    models = ["llama3.2:3b-instruct-fp16"]
-    experiments =  [{
+    constrained_output = True #TODO: NEEDS TO BE CHANGED TO False if use compiler
+    similarity_key = "task" #"external_functions"
+    
+    local_default_experiments =  [{
             "name": "signature_similarity",
             "prompt_prefix": "Create a function",
             "num_shots": [5],
             "prompt_type": "signature",
             "semantic_selector": True
         }]
-    ollama_port = "11433"
-    os.environ["OLLAMA_HOST"] = f"http://localhost:{ollama_port}"
-    experiments = parse_experiments(experiments)
-    fold = 2
-    print(f"REFINEMENT: Using fold {fold} for 3-fold cross-validation")
 
+    # Parse arguments:
+    parser = argparse.ArgumentParser(description="Process input.")
+
+    parser.add_argument("--model_provider", type=str, default="ollama", help="Model provider (default: ollama)")
+    parser.add_argument("--models", type=str, default='["llama3.2:3b-instruct-fp16"]', help='JSON string for models (default: \'["llama3.2:3b-instruct-fp16"]\')')
+    parser.add_argument("--experiments", type=str, default=f'{local_default_experiments}', help='JSON string for experiments (default: \'["default_experiment"]\')')
+    parser.add_argument("--ollama_port", type=str, default="11434", help="Ollama port (default: 11434)")
+    parser.add_argument("--fold", type=int, default=0, help="Fold number (default: 0)")
+
+    args = parser.parse_args()
+
+    # DEBUG: Print arguments before decoding JSON
+    print("🛠️ Debug: Received --models =", repr(args.models))
+    print("🛠️ Debug: Received --experiments =", repr(args.experiments))
+    print("🛠️ Debug: Received --model_provider =", repr(args.model_provider))
+    print("🛠️ Debug: Received --ollama_port =", repr(args.ollama_port))
+    print("🛠️ Debug: Received --fold =", repr(args.fold))
+
+    model_provider = args.model_provider
+    models = json.loads(args.models)
+    experiments = json.loads(args.experiments)
+    ollama_port = args.ollama_port
+    experiments = parse_experiments(experiments)
+    fold = args.fold
+
+    print("########### Parsed arguments ###########")
+    print(f"Model provider: {model_provider}")
+    print(f"Models: {models}")
+    print(f"Experiments: {experiments}")
+    print(f"Ollama port: {ollama_port}")
+    print(f"Fold: {fold}")
+    print("########################################")
+
+    os.environ["OLLAMA_HOST"] = f"http://localhost:{ollama_port}"
+
+    print(f"REFINEMENT: Using fold {fold} for 3-fold cross-validation")
     n_generations_per_task = 10
     
     start_time = time.time()
