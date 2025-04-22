@@ -483,7 +483,6 @@ def run_model(
             device_map="auto",
             opp=True, # Oppurtinistic or determentisic.
             dev_mode=True if refinement else False,
-            debug=True if refinement else False,
             **model_kwargs
         )
 
