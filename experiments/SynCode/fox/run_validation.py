@@ -64,13 +64,16 @@ def run_val_experiment(
         model,
         example_pool,
         prompt_type: PromptType,
+        rag_data: RagData,
+        max_ctx: int,
+        experiment_type,
         temperatures = [0.2, 0.6, 0.9],
         top_ps = [0.2, 0.6, 0.9],
         top_ks = [],
         n = 1, # Max value of array is generations per task
         seed = 9,
         debug = False,
-        ollama_port = "11434"
+        ollama_port = "11434",
 ):
     
     if model["name"] in "gpt-4o":
@@ -104,8 +107,8 @@ def run_val_experiment(
                     debug = debug, 
                     prompt_type = prompt_type,
                     ollama_port=ollama_port,
-                    rag_data=None,
-                    max_ctx=16000,
+                    rag_data=rag_data,
+                    max_ctx=max_ctx,
                     constrained_output=True
                 )
                 result_obj = {
@@ -139,6 +142,21 @@ def main(train_data, val_data):
 
         selector_type= "similarity" if ex["semantic_selector"] else "coverage"
         prompt_type = ex["prompt_type"].value
+
+        experiment_type = ex["name"].split("_")[1] # e.g: "RAG"
+        if experiment_type == "similarity" or experiment_type == "Refinement":
+            max_ctx = 16000
+            #No RAG
+            rag_data = None
+
+        elif experiment_type == "RAG" or experiment_type == "assisted-RAG" or experiment_type == "all-nodes":
+            max_ctx = 16000
+            rag_data = init_rag_data() # None if not using RAG
+        else:
+            raise ValueError(f"Unknown experiment type: {experiment_type}")
+
+
+
         experiments_dir = os.path.join("/fp/homes01/u01/ec-sindrre/slurm_jobs", f"{experiment_folder}/validation/{selector_type}/{prompt_type}/runs/")
 
         for shots in ex["num_shots"]:
@@ -166,7 +184,10 @@ def main(train_data, val_data):
                     example_pool=selector,
                     prompt_type=ex["prompt_type"],
                     debug=True, 
-                    ollama_port = ollama_port
+                    ollama_port = ollama_port,
+                    max_ctx=max_ctx,
+                    rag_data=rag_data,
+                    experiment_type=experiment_type,
                 )
                 print(f"Validation finished for experiment: {experiment_name}")
                 print(f"See run results in: {result_runs_path}")

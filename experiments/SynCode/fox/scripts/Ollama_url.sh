@@ -1,2 +1,2 @@
 #!/bin/bash
-gpu-15:11990 fox
+gpu-14:11950 fox
