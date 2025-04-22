@@ -149,7 +149,7 @@ def main(train_data, val_data):
             #No RAG
             rag_data = None
 
-        elif experiment_type == "RAG" or experiment_type == "assisted-RAG" or experiment_type == "all-nodes":
+        elif experiment_type == "RAG" or experiment_type == "assisted-RAG":
             max_ctx = 16000
             rag_data = init_rag_data() # None if not using RAG
         else:
@@ -183,7 +183,7 @@ def main(train_data, val_data):
                     model=model,
                     example_pool=selector,
                     prompt_type=ex["prompt_type"],
-                    debug=True, 
+                    debug=False, 
                     ollama_port = ollama_port,
                     max_ctx=max_ctx,
                     rag_data=rag_data,
@@ -215,7 +215,7 @@ if __name__ == "__main__":
     env_path = os.path.abspath(f"{project_dir}/../../.env")
     print("Env is located in:", env_path)
     load_dotenv(env_path)
-    rag_data = None # Not validating on RAG
+
     # Parse arguments:
     parser = argparse.ArgumentParser(description="Process input.")
 

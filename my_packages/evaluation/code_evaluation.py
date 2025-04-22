@@ -359,8 +359,8 @@ def run_prompt_step(
     # Reserve output tokens and get the leftover context for RAG
     print(f"Using {max_ctx} for context window")    
     available_ctx = max_ctx - prompt_size - max_new_tokens
-    if debug:
-        print(f"\nPrompt size = {prompt_size}, leaving {available_ctx} tokens for RAG + buffer.")
+    print(f"\nPrompt size = {prompt_size}, leaving {available_ctx} tokens for RAG + buffer.")
+ 
 
     # Possibly inject RAG data
     if rag_data:
@@ -380,7 +380,7 @@ def run_prompt_step(
         )
         prompt_size = prompt_size + used_tokens
 
-    if debug:
+  
         print(f"Final prompt size: {prompt_size} (plus {max_new_tokens} for output).")
 
     # Generate responses
@@ -395,9 +395,10 @@ def run_prompt_step(
     if debug:
         # print(f"\n\n{Style.BRIGHT}=== Sample: {index+1} ===")
         print(f"{Fore.CYAN}{Style.BRIGHT} User prompt: {Style.RESET_ALL}\n{prompt}\n")
-        for i, cand in enumerate(generated_candidates):
-            print(f"{Fore.YELLOW}{Style.BRIGHT} Assistant response: #{i+1}:\n{cand}\n")
-        print(f"{Fore.GREEN}{Style.BRIGHT} True response:{Style.RESET_ALL}\n {true_response}\n")
+        
+    for i, cand in enumerate(generated_candidates):
+        print(f"{Fore.YELLOW}{Style.BRIGHT} Assistant response: #{i+1}:\n{cand}\n")
+    print(f"{Fore.GREEN}{Style.BRIGHT} True response:{Style.RESET_ALL}\n {true_response}\n")
 
     return generated_candidates, prompt_size
    
