@@ -6,7 +6,7 @@
 ###############################################################################
 
 # Job Configuration
-#SBATCH --job-name=testing_SynCode_RAG_signature_1        # Job name
+#SBATCH --job-name=testing_SynCode_RAG_regular_1        # Job name
 #SBATCH --account=ec30                      # Project account
 #SBATCH --partition=ifi_accel                  # Partition ('accel' or 'accel_long')
 #SBATCH --nodes=1                           # Amount of nodes. Ollama one support single node inference
@@ -40,7 +40,7 @@ source ~/.bashrc # may ovewrite previous modules
 
 export SYNCODE_CACHE=/cluster/work/projects/ec12/ec-sindrre/syncode_$SLURM_JOB_ID/
 
-OLLAMA_PORT_K_FOLD=$((11595 + $SLURM_ARRAY_TASK_ID))
+OLLAMA_PORT_K_FOLD=$((11585 + $SLURM_ARRAY_TASK_ID))
 
 export OLLAMA_MODELS=/cluster/work/projects/ec12/ec-sindrre/ollama-models    # Path to where the Ollama models are stored and loaded
 export OLLAMA_HOST=0.0.0.0:$OLLAMA_PORT_K_FOLD    # Host and port where Ollama listens
@@ -63,10 +63,10 @@ export TORCH_USE_CUDA_DSA=1
 # Set the age threshold 4 days
 AGE_THRESHOLD=345600
 
-echo "🧹 Cleaning up files older than 4 days in: /fp/homes01/u01/ec-sindrre/slurm_jobs/SynCode/testing/RAG/signature"
+echo "🧹 Cleaning up files older than 4 days in: /fp/homes01/u01/ec-sindrre/slurm_jobs/SynCode/testing/RAG/regular"
 
 # Find and delete .out, .slurm, and .csv files older than 1 hours
-find "/fp/homes01/u01/ec-sindrre/slurm_jobs/SynCode/testing/RAG/signature" -type f \( -name "*.out" -o -name "*.slurm" -o -name "*.csv" \) -mmin +1800 -exec rm -v {} \;
+find "/fp/homes01/u01/ec-sindrre/slurm_jobs/SynCode/testing/RAG/regular" -type f \( -name "*.out" -o -name "*.slurm" -o -name "*.csv" \) -mmin +1800 -exec rm -v {} \;
 
 echo "✅ Cleanup completed!"
 
@@ -144,13 +144,13 @@ python -u /fp/homes01/u01/ec-sindrre/tmp/Thesis_project_RAG_$SLURM_JOB_ID/experi
     "llama3.2:3b-instruct-fp16"
 ]'     --experiments '[
         {
-            "name": "signature_RAG",
+            "name": "regular_RAG",
             "prompt_prefix": "Create a function",
             "num_shots": [5],
-            "prompt_type": "signature",
+            "prompt_type": "regular",
             "semantic_selector": true
         }
-]'     --ollama_port $OLLAMA_PORT_K_FOLD     --fold $SLURM_ARRAY_TASK_ID     > /fp/homes01/u01/ec-sindrre/slurm_jobs/SynCode/testing/RAG/signature/AI_${SLURM_JOB_ID}_fold_$SLURM_ARRAY_TASK_ID.out 2>&1
+]'     --ollama_port $OLLAMA_PORT_K_FOLD     --fold $SLURM_ARRAY_TASK_ID     > /fp/homes01/u01/ec-sindrre/slurm_jobs/SynCode/testing/RAG/regular/AI_${SLURM_JOB_ID}_fold_$SLURM_ARRAY_TASK_ID.out 2>&1
 
 
 ###############################################################################

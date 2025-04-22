@@ -53,12 +53,12 @@ experiments='[
 #             "semantic_selector": true
 #         }
 # ]'
-# models='[
-#     "phi4:14b-fp16"
-# ]'
 models='[
-    "llama3.2:3b-instruct-fp16"
+    "phi4:14b-fp16"
 ]'
+# models='[
+#     "llama3.2:3b-instruct-fp16"
+# ]'
 
 # models='[
 #     "llama3.3:70b-instruct-fp16"

@@ -203,7 +203,7 @@ def main(
             raise ValueError(f"Unknown experiment type: {experiment_type}")
 
         results_dir = os.path.join("/fp/homes01/u01/ec-sindrre/slurm_jobs", f"{experiment_folder}/testing/{experiment_type}/{prompt_type}/runs/")
-        best_params_folder = f"{project_dir}/experiments/{experiment_folder}/fox/best_params/{selector_type}/{prompt_type}/hold_out"
+        best_params_folder = f"{project_dir}/experiments/{experiment_folder}/fox/best_params/{experiment_type}/{prompt_type}/hold_out"
         # best_params_folder = f"{project_dir}/experiments/{experiment_folder}/fox/best_params/test"
 
 
