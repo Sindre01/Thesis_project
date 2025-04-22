@@ -433,8 +433,9 @@ def run_model(
     if constrained_output:
         
         print("Constrained output is set to True.")
+
         model_kwargs = {
-            "max_length": max_ctx,
+            # "max_length": max_ctx,
             "max_new_tokens": max_new_tokens,
             "temperature": temperature,
             # "top_k": top_k,
@@ -450,6 +451,7 @@ def run_model(
         # Load the Syncode augmented model with huggingface model
         if "phi4" in model:
             hf_model = "microsoft/phi-4"
+
         elif "llama3.3:70b" in model:
             hf_model = "meta-llama/Llama-3.3-70B-Instruct"
 
@@ -465,6 +467,10 @@ def run_model(
             # print("Are they the same?", info_a.modelId == info_b.modelId)
         else:
             raise ValueError(f"Constrained output is not availbale for model: {model}.")
+        from transformers import AutoTokenizer
+        tokenizer = AutoTokenizer.from_pretrained(hf_model)
+
+        print("model info form huggingface:", tokenizer)  # Likely 2048 or 4096
         print(f"Loading Syncode model with model kwargs: {model_kwargs}")
 
         print(f"using original grammar file: {project_root}/data/midio_grammar.lark")
