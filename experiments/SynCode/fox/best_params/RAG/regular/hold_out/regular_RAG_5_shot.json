@@ -1,32 +1,32 @@
 [
     {
-        "model_name": "llama3.2:3b-instruct-fp16",
+        "model_name": "phi4:14b-fp16",
         "optimizer_metric": "syntax",
         "seed": 9,
-        "temperature": 0.9,
-        "top_p": 0.9,
+        "temperature": 0.2,
+        "top_p": 0.2,
         "top_k": -1,
-        "created_at": "2025-04-22T15:23:55.708274+02:00",
+        "created_at": "2025-04-23T10:05:52.731022+02:00",
         "syntax@1": 1.0
     },
     {
-        "model_name": "llama3.2:3b-instruct-fp16",
+        "model_name": "phi4:14b-fp16",
         "optimizer_metric": "semantic",
         "seed": 9,
         "temperature": 0.9,
         "top_p": 0.6,
         "top_k": -1,
-        "created_at": "2025-04-22T15:24:06.164164+02:00",
-        "semantic@1": 0.6666666666666666
+        "created_at": "2025-04-23T10:06:06.128736+02:00",
+        "semantic@1": 1.0
     },
     {
-        "model_name": "llama3.2:3b-instruct-fp16",
+        "model_name": "phi4:14b-fp16",
         "optimizer_metric": "tests",
         "seed": 9,
         "temperature": 0.2,
         "top_p": 0.6,
-        "top_k": -1,
-        "created_at": "2025-04-22T15:24:17.087705+02:00",
+        "top_k": 10,
+        "created_at": "2025-04-23T10:06:18.899085+02:00",
         "tests@1": 0.0
     }
 ]
