@@ -13,14 +13,14 @@ if __name__ == "__main__":
     find_results( 
         experiment_folder="SynCode",
         env="prod",
-        eval_method="hold_out",
+        eval_method="3_fold",
         experiment_types=["RAG"],
-        prompt_types=["regular", "signature"],
+        prompt_types=["signature"],
         shots=[5],
-        metrics=["syntax", "semantic", "tests"],
+        metrics=["syntax", "semantic", "tests", "visual"],
         ks=[1, 2, 3, 5, 10],
         use_threads=True,
         model="",
-        phase=Phase.VALIDATION,
+        phase=Phase.TESTING,
     )
     # temperature': 0.6, 'top_p': 0.6, 'top_k': 50, 
