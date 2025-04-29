@@ -1,0 +1,38 @@
+[
+    {
+        "experiment_name": "signature_RAG_5_shot",
+        "best_params_optimization": "tests",
+        "temperature": 0.2,
+        "top_p": 0.9,
+        "top_k": 10,
+        "seed": 3,
+        "n_generations_per_task": 10,
+        "model": "llama3.2:3b-instruct-fp16",
+        "largest_context": 0,
+        "task_candidates": {}
+    },
+    {
+        "experiment_name": "signature_RAG_5_shot",
+        "best_params_optimization": "tests",
+        "temperature": 0.2,
+        "top_p": 0.9,
+        "top_k": 10,
+        "seed": 75,
+        "n_generations_per_task": 10,
+        "model": "llama3.2:3b-instruct-fp16",
+        "largest_context": 0,
+        "task_candidates": {}
+    },
+    {
+        "experiment_name": "signature_RAG_5_shot",
+        "best_params_optimization": "tests",
+        "temperature": 0.2,
+        "top_p": 0.9,
+        "top_k": 10,
+        "seed": 346,
+        "n_generations_per_task": 10,
+        "model": "llama3.2:3b-instruct-fp16",
+        "largest_context": 0,
+        "task_candidates": {}
+    }
+]

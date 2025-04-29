@@ -186,6 +186,7 @@ class PromptType(Enum):
     REGULAR = "regular"
     SIGNATURE = "signature"
     COT = "cot"
+    DEBUG = "debug"
 
 # class Evaluation(Enum):
 #     BEST_PARAMS = "best_params"

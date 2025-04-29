@@ -14,7 +14,7 @@ if __name__ == "__main__":
         experiment_folder="Refinement",
         env="prod",
         eval_method="3_fold",
-        experiment_types=["similarity"],
+        experiment_types=["RAG"],
         prompt_types=["signature"],
         shots=[5],
         metrics=["syntax", "semantic", "tests", "visual"],

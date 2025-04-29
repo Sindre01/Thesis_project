@@ -137,13 +137,15 @@ def generate_n_responses(
     """Generate n responses for a given prompt."""
     
     generated_candidates = []
-    current_n = 0
-    for attempt_i in range(n):
+
+    for current_n in range(n):
         
+        new_seed = seed * (current_n+1) if seed else None # different seed for each attempt if not None
+        print(f"generation seed: {new_seed}")
+        generated = ""
+
         max_retries = 3
         retries = 0
-        new_seed = seed * attempt_i if seed else None # different seed for each attempt if not None
-        generated = ""
         while retries < max_retries:
             try:
                 print(f"    > Generating n response..  ({current_n + 1}/{n})", end="\r")
@@ -158,7 +160,7 @@ def generate_n_responses(
                         debug=syncode_debug
                     )
                 else:
-                    print("Using Langchain")
+                    # print("Using Langchain")
                     generated = generate_langchain_response(
                         client=client,
                         model=model,
@@ -204,12 +206,110 @@ def generate_n_responses(
             generated = "Failed to get a response from the server after " + str(retries) + " attempts."
             raise Exception("Failed to generate a response.")
         
-        current_n += 1
         if not generated:
             raise Exception("Failed to generate a response.")
         #Extract code from the generated response
         generated_code = extract_response(generated, last_snippet=extract_last_snippet)
         generated_candidates.append(generated_code)
+
+    if not generated_candidates:
+        generated_candidates = [""] * n
+
+    return generated_candidates
+
+def generate_single_response(
+    n:int, # cueent n of generations per task
+    client: ChatOllama | ChatOpenAI,
+    model: str,
+    max_new_tokens: int,
+    temperature: float,
+    top_p: float,
+    top_k: int,
+    seed:int,   
+    final_prompt_template: ChatPromptTemplate,       
+    prompt_variables_dict: dict,      
+    context: int,
+    debug: bool=False,              
+    ollama_port:str="11434",
+    constrained_llm: Syncode = None,
+    extract_last_snippet: bool = False,
+    syncode_debug: bool = False,
+)-> list[str]:
+    """Generate n responses for a given prompt."""
+    
+    generated_candidates = []
+
+    new_seed = seed * (n+1) if seed else None # different seed for each attempt if not None
+    print(f"generation seed: {new_seed}")
+    generated = ""
+
+    max_retries = 3
+    retries = 0
+    while retries < max_retries:
+        try:
+            # print(f"    > Generating n response..  ({(n+1)}/{n})", end="\r")
+
+            if constrained_llm:
+                print("Using Syncode")
+                generated = generate_syncode_reponse(
+                    client=constrained_llm,
+                    final_prompt_template=final_prompt_template,
+                    prompt_variables_dict=prompt_variables_dict,
+                    seed=new_seed,
+                    debug=syncode_debug
+                )
+            else:
+                # print("Using Langchain")
+                generated = generate_langchain_response(
+                    client=client,
+                    model=model,
+                    max_new_tokens=max_new_tokens,
+                    temperature=temperature,
+                    top_p=top_p,
+                    top_k=top_k,
+                    seed=new_seed,
+                    final_prompt_template=final_prompt_template,
+                    prompt_variables_dict=prompt_variables_dict,
+                    context=context,
+                    ollama_port=ollama_port,
+                )
+                if debug:
+                    print("Generated langchain unfiltered response:", generated)
+            break  # If generation succeeded, break out of retry loop
+
+        except torch.OutOfMemoryError as e:
+            print("⚠️ Caught OOM during generation")
+            torch.cuda.empty_cache()
+            continue
+
+        except Exception as e:
+            retries += 1
+        
+            # print("Running command: 'gc.collect()' and 'torch.cuda.empty_cache()' ")
+            # import gc
+            # gc.collect()
+            # torch.cuda.empty_cache()
+            if constrained_llm:
+                print(e)
+                print("Syncode generation failed. Setting generated to errror.")
+                generated = e
+                break
+                
+            print(f"Attempt {retries} failed with error: {e}")
+            server_diagnostics(host=f"http://localhost:{ollama_port}")
+            if retries < max_retries:
+                print(f"Retrying for {retries}. time...")
+
+    if retries == max_retries:
+        print("Failed to get a response from the server after " + str(retries) + " attempts.")
+        generated = "Failed to get a response from the server after " + str(retries) + " attempts."
+        raise Exception("Failed to generate a response.")
+    
+    if not generated:
+        raise Exception("Failed to generate a response.")
+    #Extract code from the generated response
+    generated_code = extract_response(generated, last_snippet=extract_last_snippet)
+    generated_candidates.append(generated_code)
 
     if not generated_candidates:
         generated_candidates = [""] * n
@@ -274,7 +374,7 @@ def generate_langchain_response(
             temperature=temperature,
             num_predict=max_new_tokens,
             top_p=top_p,
-            top_k=top_k,
+            top_k=top_k if top_k != -1 else None,
             stream=False,
             num_ctx=context,
             stop=["```<|eot_id|>"],

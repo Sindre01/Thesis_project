@@ -1,0 +1,355 @@
+[
+    {
+        "experiment_name": "signature_RAG_5_shot",
+        "temperature": 0.2,
+        "top_p": 0.2,
+        "top_k": -1,
+        "seed": 9,
+        "n_generations_per_task": 1,
+        "model": "llama3.3:70b-instruct-fp16",
+        "largest_context": 15889,
+        "task_candidates": {
+            "1": [
+                "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main {\n    func(doc: \"checks whether the given two integers have opposite sign or not.\") opposite_signs {\n        in(x: -426, y: -248, name: \"x\") property(Number) x_853326\n        in(x: -420, y: -107, name: \"y\") property(Number) y_5390f5\n\n        out(x: 159, y: -219, name: \"output\") property(Bool) output_3339a3\n\n        instance(x: -334, y: -262) lessthan_6a5e5c root.Std_k98ojb.Math.LessThan {}\n        instance(x: -334, y: -123) lessthan_2e9d9a root.Std_k98ojb.Math.LessThan {}\n        instance(x: 34, y: -200) and_8e5f24 root.Std_k98ojb.Logic.And {}\n        0 -> lessthan_6a5e5c.right\n        x_853326 -> lessthan_6a5e5c.left\n        0 -> lessthan_2e9d9a.right\n        y_5390f5 -> lessthan_2e9d9a.left\n        lessthan_6a5e5c.result -> and_8e5f24.left\n        lessthan_2e9d9a.result -> and_8e5f24.right\n        and_8e5f24.result -> output_3339a3\n    }\n\n    instance(x: 121, y: -141) opposite_signs_9e3e6e root.main.opposite_signs {}\n}"
+            ],
+            "3": [
+                "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main {\n    func(doc: \"finds whether a number is divisible by 11.\") is_diff {\n        in(x: 5, y: -25, name: \"n\") property(Number) n_27f29c\n\n        out(x: 668, y: 2, name: \"output\") property(Bool) output_f2630f\n\n        instance(x: 194, y: -23) modulo_9e8c67 root.Std_k98ojb.Math.Modulo {}\n        instance(x: 432, y: 3) equal_51f2a5 root.Std_k98ojb.Logic.Equal {}\n        n_27f29c -> modulo_9e8c67.value\n        11 -> modulo_9e8c67.divisor\n        0 -> equal_51f2a5.right\n        modulo_9e8c67.result -> equal_51f2a5.left\n        equal_51f2a5.result -> output_f2630f\n    }\n\n    instance(x: 55, y: -44) is_diff_5f4c2a root.main.is_diff {}\n}"
+            ],
+            "12": [
+                "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main { \n    func(doc: \"function to replace characters in a string.\") replace_char {\n        in(x: -426, y: 209, name: \"input\") property(String) input_ai\n        in(x: -426, y: 332, name: \"search\") property(String) search_ai\n        in(x: -426, y: 455, name: \"replace\") property(String) replace_ai\n\n        out(x: 866, y: 132, name: \"output\") property(String) output_ai\n\n        instance(x: 310, y: 332) replace_5e2c4a root.Std_k98ojb.Strings.Replace {}\n        input_ai -> replace_5e2c4a.input\n        search_ai -> replace_5e2c4a.search\n        replace_ai -> replace_5e2c4a.replace\n        replace_5e2c4a.output -> output_ai\n    }\n\n    instance(x: 175, y: -25) replace_char_695b5e root.main.replace_char {}\n}"
+            ],
+            "13": [
+                "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main {\n    func(doc: \"convert the given string to lower case.\") is_lower {\n        in(x: -425, y: 209, name: \"input\") property(String) input_ai\n        out(x: 866, y: 132, name: \"output\") property(Bool) output_ai\n\n        instance(x: 24, y: 210) tolower_9cb360 root.Std_k98ojb.Strings.ToLower {}\n        instance(x: 246, y: 210) islower_9cb361 root.Std_k98ojb.Strings.IsLowerCase {}\n        input_ai -> tolower_9cb360.input\n        tolower_9cb360.output -> islower_9cb361.input\n        islower_9cb361.output -> output_ai\n    }\n\n    instance(x: 14, y: -52) is_lower_407e1b root.main.is_lower {}\n}"
+            ],
+            "16": [
+                "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main {\n    func(doc: \"Calculates the product of the unique numbers in a given list.\") unique_product {\n        in(x: -757, y: -167, name: \"execute\") trigger() execute_19300c\n        in(x: -241, y: 24, name: \"list\") property(List) list_5fda54\n        out(x: 887, y: -144, name: \"continue\") trigger() continue_45190b\n        out(x: 683, y: 73, name: \"output\") property(Number) output_cffcc2\n\n        instance(x: 142, y: -34) set_9f4c7e root.Std_k98ojb.Sets.Difference {}\n        instance(x: -103, y: 142) sort_1a5f9d root.Std_k98ojb.List.Sort {}\n        instance(x: 241, y: -34) reduce_70d9a5 root.Std_k98ojb.Iteration.Reduce {}\n        func() {\n            in(x: -113, y: 34, name: \"acc\") property(Number) acc_9f6850\n            in(x: -13, y: 34, name: \"x\") property(Number) x_9f6851\n\n            out(x: 515, y: 44, name: \"result\") property(Number) result_af09a7\n\n            instance(x: 89, y: 29) mul_1088d5 root.Std_k98ojb.Math.Mul {}\n            acc_9f6850 -> mul_1088d5.first\n            x_9f6851 -> mul_1088d5.second\n            mul_1088d5.result -> result_af09a7\n        } -> reduce_70d9a5.reducer\n        1 -> reduce_70d9a5.initialValue\n        list_5fda54 -> sort_1a5f9d.list\n        sort_1a5f9d.sorted_list -> reduce_70d9a5.items\n        reduce_70d9a5.output -> output_cffcc2\n        execute_19300c -> continue_45190b\n    }\n\n    instance(x: 101, y: -67) unique_product_496e5e root.main.unique_product {}\n}"
+            ],
+            "18": [
+                "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main {\n    func(doc: \"find the dissimilar elements in the given two lists.\") find_dissimilar {\n        in(x: -531, y: 2, name: \"list1\") property(List) list1_ai\n        in(x: -165, y: 68, name: \"list2\") property(List) list2_ai\n\n        out(x: 340, y: 77, name: \"output\") property(List) output_ai\n\n        instance(x: -394, y: 45) difference_1_5e0f6a root.Std_k98ojb.Sets.Difference {}\n        instance(x: -219, y: 114) difference_2_5e0f6a root.Std_k98ojb.Sets.Difference {}\n        list1_ai -> difference_1_5e0f6a.left\n        list2_ai -> difference_1_5e0f6a.right\n        list2_ai -> difference_2_5e0f6a.left\n        list1_ai -> difference_2_5e0f6a.right\n        instance(x: 34, y: 50) concat_5e0f6a root.Std_k98ojb.List.Concat {}\n        difference_1_5e0f6a.difference -> concat_5e0f6a.left\n        difference_2_5e0f6a.difference -> concat_5e0f6a.right\n        concat_5e0f6a.result -> output_ai\n    }\n\n    instance(x: 101, y: -67) find_dissimilar_496e5e root.main.find_dissimilar {}\n}"
+            ],
+            "34": [
+                "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main { \n    func(doc: \"Rotates a given list by specified number of items to the right direction.\") rotate_right {\n        in(x: -186, y: -89, name: \"list\") property(List) list_48148f\n        in(x: -193, y: -3, name: \"n\") property(Number) n_68068c\n\n        out(x: 735, y: -112, name: \"output\") property(Any) output_823209\n\n        instance(x: 279, y: -141) length_9e3d9d root.Std_k98ojb.List.Length {}\n        instance(x: 432, y: -173) modulo_70e2a5 root.Std_k98ojb.Math.Modulo {}\n        instance(x: 279, y: 30) slice_5e2c4d root.Std_k98ojb.List.Slice {}\n        instance(x: 432, y: 30) slice_70a5f4 root.Std_k98ojb.List.Slice {}\n        instance(x: 735, y: -173) concat_1a9e5c root.Std_k98ojb.List.Concat {}\n        list_48148f -> length_9e3d9d.list\n        n_68068c -> modulo_70e2a5.value\n        length_9e3d9d.length -> modulo_70e2a5.divisor\n        list_48148f -> slice_5e2c4d.list\n        modulo_70e2a5.result -> slice_5e2c4d.start\n        -1 -> slice_5e2c4d.end\n        list_48148f -> slice_70a5f4.list\n        0 -> slice_70a5f4.start\n        modulo_70e2a5.result -> slice_70a5f4.end\n        slice_5e2c4d.slice -> concat_1a9e5c.left\n        slice_70a5f4.slice -> concat_1a9e5c.right\n        concat_1a9e5c.result -> output_823209\n    }\n\n    instance(x: 101, y: -67) rotate_right_496e5e root.main.rotate_right {}\n}"
+            ],
+            "42": [
+                "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main { \n    func(doc: \"Finds the sum of an array.\") _sum {\n        in(x: -213, y: 28, name: \"list\") property(List) list_2c62ab\n\n        out(x: 567, y: 3, name: \"sum\") property(Number) sum_2a848f\n\n        instance(x: 88, y: 54) reduce_3a8e90 root.Std_k98ojb.Iteration.Reduce {}\n        0 -> reduce_3a8e90.initialValue\n        list_2c62ab -> reduce_3a8e90.items\n        func() {\n            in(x: -185, y: -84, name: \"accumulated\") property(Number) current_c750f1\n            in(x: -177, y: 22, name: \"current\") property(Number) current_3f11cd\n\n            out(x: 1072, y: -77, name: \"sum\") property(Number) sum_72dd2a\n\n            instance(x: 74, y: 2) add_8974a2 root.Std_k98ojb.Math.Add {}\n            current_c750f1 -> add_8974a2.first\n            current_3f11cd -> add_8974a2.second\n            add_8974a2.result -> sum_72dd2a\n        } -> reduce_3a8e90.reducer\n        reduce_3a8e90.output -> sum_2a848f\n    }\n\n    instance(x: 118, y: -26) _sum_9dcc3d root.main._sum {}\n}"
+            ],
+            "48": [
+                "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main {\n    func(doc: \"check if the given integer is a prime number.\") num_prime {\n        in(x: -167, y: 27, name: \"num\") property(Number) num_5c0677\n        in(x: -112, y: -216, name: \"execute\") trigger() execute_b7b391\n\n        out(x: 1016, y: -26, name: \"output\") property(Bool) output_c457b3\n        out(x: 1211, y: -110, name: \"continue\") trigger() continue_9a54bb\n\n        instance(x: 101, y: -33) ifexpression_5f4e5a root.Std_k98ojb.Std.IfExpression {\n            expression: \"num % i == 0\"\n        }\n        instance(x: -44, y: -155) for_5c1e6e root.Std_k98ojb.Std.For {}\n        instance(x: 444, y: -35) generaterange_9e5c1d root.Std_k98ojb.List.GenerateRange {}\n        instance(x: 745, y: -26) if_2f2c4d root.Std_k98ojb.Std.If {}\n        2 -> generaterange_9e5c1d.from\n        num_5c0677 -> generaterange_9e5c1d.to\n        generaterange_9e5c1d.list -> for_5c1e6e.items\n        for_5c1e6e.item -> ifexpression_5f4e5a.gen_0\n        ifexpression_5f4e5a.execute -> for_5c1e6e.onItem\n        ifexpression_5f4e5a.then -> if_2f2c4d.execute\n        if_2f2c4d.else -> output_c457b3\n        if_2f2c4d.then -> continue_9a54bb\n        for_5c1e6e.done -> continue_9a54bb\n        execute_b7b391 -> for_5c1e6e.reset\n        ifexpression_5f4e5a.else -> for_5c1e6e.next\n        true -> if_2f2c4d.then\n        false -> if_2f2c4d.else\n        num_5c0677 -> ifexpression_5f4e5a.gen_1\n    }\n\n    instance(x: 203, y: -192) num_prime_24d4b5 root.main.num_prime {}\n}"
+            ]
+        }
+    },    
+    {
+        "experiment_name": "signature_RAG_5_shot",
+        "temperature": 0.2,
+        "top_p": 0.6,
+        "top_k": -1,
+        "seed": 9,
+        "n_generations_per_task": 1,
+        "model": "llama3.3:70b-instruct-fp16",
+        "largest_context": 15889,
+        "task_candidates": {
+            "1": [
+                "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main {\n    func(doc: \"checks whether the given two integers have opposite sign or not.\") opposite_signs {\n        in(x: -426, y: -248, name: \"x\") property(Number) x_853326\n        in(x: -420, y: -107, name: \"y\") property(Number) y_5390f5\n\n        out(x: 159, y: -219, name: \"output\") property(Bool) output_3339a3\n\n        instance(x: -208, y: -217) expression_ea12d8 root.Std_k98ojb.Math.Expression {\n            expression: \"(x < 0 && y > 0) || (x > 0 && y < 0)\"\n        }\n        x_853326 -> expression_ea12d8.gen_0\n        y_5390f5 -> expression_ea12d8.gen_1\n        expression_ea12d8.result -> output_3339a3\n    }\n\n    instance(x: 191, y: 139) opposite_signs_5a5f9d root.main.opposite_signs {}\n}"
+            ],
+            "3": [
+                "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main {\n    func(doc: \"finds whether a number is divisible by 11.\") is_diff {\n        in(x: 5, y: -25, name: \"n\") property(Number) n_27f29c\n\n        out(x: 668, y: 2, name: \"output\") property(Bool) output_f2630f\n\n        data_instance(x: 0, y: 64) data_1e2ff2 = 11\n        instance(x: 190, y: 0) modulo_629f32 root.Std_k98ojb.Math.Modulo {}\n        instance(x: 408, y: -4) expression_a794a5 root.Std_k98ojb.Math.Expression {\n            expression: \"n == 0\"\n        }\n        data_1e2ff2 -> modulo_629f32.divisor\n        n_27f29c -> modulo_629f32.value\n        modulo_629f32.result -> expression_a794a5.gen_0\n        expression_a794a5.result -> output_f2630f\n    }\n\n    instance(x: 98, y: -87) is_diff_586588 root.main.is_diff {}\n}"
+            ],
+            "12": [
+                "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main {\n    func(doc: \"function to replace characters in a string.\") replace_char {\n        in(x: -426, y: 209, name: \"input\") property(String) input_ai\n        in(x: -426, y: 332, name: \"search\") property(String) search_ai\n        in(x: -426, y: 455, name: \"replace\") property(String) replace_ai\n\n        out(x: 866, y: 132, name: \"output\") property(String) output_ai\n\n        instance(x: 5, y: 346) replace_node root.Std_k98ojb.Strings.Replace {}\n        input_ai -> replace_node.input\n        search_ai -> replace_node.search\n        replace_ai -> replace_node.replace\n        replace_node.output -> output_ai\n    }\n\n    instance(x: -184, y: -66) replace_740561 root.main.replace_char {}\n}"
+            ],
+            "13": [
+                "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main {\n    func(doc: \"convert the given string to lower case.\") is_lower {\n        in(x: -425, y: 209, name: \"input\") property(String) input_ai\n        out(x: 866, y: 132, name: \"output\") property(Bool) output_ai\n\n        instance(x: 5, y: 346) strings_tolower_node root.Std_k98ojb.Strings.ToLower {}\n        input_ai -> strings_tolower_node.input\n        strings_tolower_node.output -> output_ai\n    }\n\n    instance(x: -49, y: -62) tolower_3985fd root.main.is_lower {}\n}"
+            ],
+            "16": [
+                "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main {\n    func(doc: \"Calculates the product of the unique numbers in a given list.\") unique_product {\n        in(x: -757, y: -167, name: \"execute\") trigger() execute_19300c\n        in(x: -241, y: 24, name: \"list\") property(List) list_5fda54\n\n        out(x: 887, y: -144, name: \"continue\") trigger() continue_45190b\n        out(x: 683, y: 73, name: \"output\") property(Number) output_cffcc2\n\n        instance(x: -522, y: -42) empty_1241d2 root.Std_k98ojb.List.Empty {}\n        setter(x: -553, y: -212, name: \"setter_3fbc81\") setter_3fbc81 = product\n        instance(x: 26, y: -171) for_22d807 root.Std_k98ojb.Std.For {}\n        getter(x: 248, y: 24, name: \"getter_acfb71\") getter_acfb71 = product\n        setter(x: 944, y: -493, name: \"setter_7d7b02\") setter_7d7b02 = product\n        instance(x: 489, y: -70) mul_351036 root.Std_k98ojb.Math.Mul {}\n        setter(x: -261, y: -213, name: \"setter_b0088e\") setter_b0088e = usedNumbers\n        instance(x: 492, y: -249) if_093328 root.Std_k98ojb.Std.If {}\n        instance(x: 341, y: -407) contains_79844d root.Std_k98ojb.List.Contains {}\n        setter(x: 679, y: -493, name: \"setter_6ff55e\") setter_6ff55e = usedNumbers\n        instance(x: 336, y: -540) add_b65a15 root.Std_k98ojb.List.Add {}\n        getter(x: -9, y: -590, name: \"getter_3f3dda\") getter_3f3dda = usedNumbers\n        1 -> setter_3fbc81.new_value\n        list_5fda54 -> for_22d807.items\n        getter_acfb71.value -> mul_351036.second\n        for_22d807.item -> mul_351036.first\n        mul_351036.result -> setter_7d7b02.new_value\n        setter_7d7b02.continue -> for_22d807.next\n        setter_3fbc81.continue -> setter_b0088e.execute\n        empty_1241d2.list -> setter_b0088e.new_value\n        setter_b0088e.continue -> for_22d807.reset\n        for_22d807.onItem -> if_093328.execute\n        for_22d807.item -> contains_79844d.item\n        contains_79844d.is_contained -> if_093328.predicate\n        if_093328.then -> for_22d807.next\n        for_22d807.done -> continue_45190b\n        execute_19300c -> setter_3fbc81.execute\n        if_093328.else -> setter_6ff55e.execute\n        setter_6ff55e.continue -> setter_7d7b02.execute\n        add_b65a15.listWithItem -> setter_6ff55e.new_value\n        for_22d807.item -> add_b65a15.item\n        getter_3f3dda.value -> add_b65a15.list\n        getter_3f3dda.value -> contains_79844d.list\n        getter_acfb71.value -> output_cffcc2\n    }\n\n    instance(x: -172, y: -18) unique_product_a0e5a9 root.main.unique_product {}\n}"
+            ],
+            "18": [
+                "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main {\n    func(doc: \"find the dissimilar elements in the given two lists.\") find_dissimilar {\n        in(x: -531, y: 2, name: \"list1\") property(List) list1_ai\n        in(x: -165, y: 68, name: \"list2\") property(List) list2_ai\n        out(x: 340, y: 77, name: \"output\") property(List) output_ai\n\n        instance(x: 772, y: 76) difference_7b3b7b root.Std_k98ojb.Sets.Difference {}\n        list1_ai -> difference_7b3b7b.left\n        list2_ai -> difference_7b3b7b.right\n        difference_7b3b7b.difference -> output_ai\n    }\n\n    instance(x: -55, y: 80) difference_1f4c9a root.main.find_dissimilar {}\n}"
+            ],
+            "34": [
+                "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main {\n    func(doc: \"Rotates a given list by specified number of items to the right direction.\") rotate_right {\n        in(x: -186, y: -89, name: \"list\") property(List) list_48148f\n        in(x: -193, y: -3, name: \"n\") property(Number) n_68068c\n\n        out(x: 735, y: -112, name: \"output\") property(Any) output_823209\n\n        instance(x: 348, y: -206) slice_710389 root.Std_k98ojb.List.Slice {}\n        instance(x: 349, y: -0) slice_479814 root.Std_k98ojb.List.Slice {}\n        instance(x: 530, y: -109) concat_107778 root.Std_k98ojb.List.Concat {}\n        instance(x: -36, y: -184) length_f7a32f root.Std_k98ojb.List.Length {}\n        instance(x: 138, y: -94) sub_a105a5 root.Std_k98ojb.Math.Sub {}\n        -1 -> slice_710389.end\n        0 -> slice_479814.start\n        list_48148f -> slice_710389.list\n        list_48148f -> slice_479814.list\n        slice_710389.slice -> concat_107778.left\n        slice_479814.slice -> concat_107778.right\n        concat_107778.result -> output_823209\n        list_48148f -> length_f7a32f.list\n        length_f7a32f.length -> sub_a105a5.first\n        sub_a105a5.result -> slice_710389.start\n        sub_a105a5.result -> slice_479814.end\n        n_68068c -> sub_a105a5.second\n    }\n\n    instance(x: 180, y: -299) rotate_right_9b5fc6 root.main.rotate_right {}\n}"
+            ],
+            "42": [
+                "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main {\n    func(doc: \"Finds the sum of an array.\") _sum {\n        in(x: -213, y: 28, name: \"list\") property(List) list_2c62ab\n\n        out(x: 567, y: 3, name: \"sum\") property(Number) sum_2a848f\n\n        instance(x: 0, y: 0) reduce_6245de root.Std_k98ojb.Iteration.Reduce {}\n        0 -> reduce_6245de.initialValue\n        func(doc: \"Adds the accumulated value, named 'sum', with the current element, named 'elem'. Outputs the new accumulated value with the 'newSum' node.\") {\n            in(x: 100, y: -47, name: \"sum\") property(Number) sum_bc0898\n            in(x: 98, y: 76, name: \"elem\") property(Number) elem_63eafb\n\n            out(x: 598, y: 25, name: \"newSum\") property(Number) newSum_431ae0\n\n            instance(x: 348, y: 29) add_7950c4 root.Std_k98ojb.Math.Add {}\n            sum_bc0898 -> add_7950c4.first\n            elem_63eafb -> add_7950c4.second\n            add_7950c4.result -> newSum_431ae0\n        } -> reduce_6245de.reducer\n        list_2c62ab -> reduce_6245de.items\n        reduce_6245de.output -> sum_2a848f\n    }\n\n    instance(x: -173, y: -103) _sum_f258d8 root.main._sum {}\n}"
+            ],
+            "48": [
+                "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main {\n    func(doc: \"check if the given integer is a prime number.\") num_prime {\n        in(x: -167, y: 27, name: \"num\") property(Number) num_5c0677\n        in(x: -112, y: -216, name: \"execute\") trigger() execute_b7b391\n\n        out(x: 1016, y: -26, name: \"output\") property(Bool) output_c457b3\n        out(x: 1211, y: -110, name: \"continue\") trigger() continue_9a54bb\n\n        instance(x: 101, y: -33) ifexpression_5f4e2a root.Std_k98ojb.Std.IfExpression {\n            expression: \"num % i == 0\"\n        }\n        instance(x: -141, y: -155) generaterange_38c2f4 root.Std_k98ojb.List.GenerateRange {}\n        instance(x: 444, y: -43) if_2f4c6d root.Std_k98ojb.Std.If {}\n        instance(x: 753, y: -114) equal_9e2c4a root.Std_k98ojb.Logic.Equal {}\n        2 -> generaterange_38c2f4.from\n        num_5c0677 -> generaterange_38c2f4.to\n        generaterange_38c2f4.list -> ifexpression_5f4e2a.gen_0\n        num_5c0677 -> ifexpression_5f4e2a.gen_1\n        ifexpression_5f4e2a.then -> if_2f4c6d.execute\n        ifexpression_5f4e2a.else -> if_2f4c6d.execute\n        if_2f4c6d.value -> output_c457b3\n        if_2f4c6d.then -> continue_9a54bb\n        if_2f4c6d.else -> continue_9a54bb\n        1 -> equal_9e2c4a.left\n        num_5c0677 -> equal_9e2c4a.right\n        equal_9e2c4a.result -> if_2f4c6d.predicate\n        execute_b7b391 -> generaterange_38c2f4.trigger\n        generaterange_38c2f4.done -> continue_9a54bb\n    }\n\n    instance(x: 203, y: -192) num_prime_24d4b5 root.main.num_prime {}\n}"
+
+            ]
+        }
+    },
+    {
+        "experiment_name": "signature_RAG_5_shot",
+        "temperature": 0.6,
+        "top_p": 0.2,
+        "top_k": -1,
+        "seed": 9,
+        "n_generations_per_task": 1,
+        "model": "llama3.3:70b-instruct-fp16",
+        "largest_context": 15889,
+        "task_candidates": {
+            "1": [
+                "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main {\n    func(doc: \"checks whether the given two integers have opposite sign or not.\") opposite_signs {\n        in(x: -426, y: -248, name: \"x\") property(Number) x_853326\n        in(x: -420, y: -107, name: \"y\") property(Number) y_5390f5\n\n        out(x: 159, y: -219, name: \"output\") property(Bool) output_3339a3\n\n        instance(x: -246, y: -193) lessthan_6a5f4c root.Std_k98ojb.Math.LessThan {}\n        instance(x: -246, y: -96) lessthan_2e0c4a root.Std_k98ojb.Math.LessThan {}\n        instance(x: 44, y: -194) and_8e2e6d root.Std_k98ojb.Logic.And {}\n        instance(x: 44, y: -97) and_35c bee\n    }"
+            ],
+            "3": [
+                "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main {\n    func(doc: \"finds whether a number is divisible by 11.\") is_diff {\n        in(x: 5, y: -25, name: \"n\") property(Number) n_27f29c\n\n        out(x: 668, y: 2, name: \"output\") property(Bool) output_f2630f\n\n        instance(x: 194, y: -23) modulo_9f8c95 root.Std_k98ojb.Math.Modulo {}\n        instance(x: 432, y: 4) equal_35c0a5 root.Std_k98ojb.Logic.Equal {}\n        n_27f29c -> modulo_9f8c95.value\n        11 -> modulo_9f8c95.divisor\n        0 -> equal_35c0a5.right\n        modulo_9f8c95.result -> equal_35c0a5.left\n        equal_35c0a5.result -> output_f2630f\n    }\n\n    instance(x: 55, y: -44) is_diff_5f4e7a root.main.is_diff {}\n}"
+            ],
+            "12": [
+                "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main { \n    func(doc: \"function to replace characters in a string.\") replace_char {\n        in(x: -426, y: 209, name: \"input\") property(String) input_ai\n        in(x: -426, y: 332, name: \"search\") property(String) search_ai\n        in(x: -426, y: 455, name: \"replace\") property(String) replace_ai\n\n        out(x: 866, y: 132, name: \"output\") property(String) output_ai\n\n        instance(x: 310, y: 332) replace_5e2c11 root.Std_k98ojb.Strings.Replace {}\n        input_ai -> replace_5e2c11.input\n        search_ai -> replace_5e2c11.search\n        replace_ai -> replace_5e2c11.replace\n        replace_5e2c11.output -> output_ai\n    }\n\n    instance(x: 175, y: 139) replace_char_695b5e root.main.replace_char {}\n}"
+            ],
+            "13": [
+                "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main {\n    func(doc: \"convert the given string to lower case.\") is_lower {\n        in(x: -425, y: 209, name: \"input\") property(String) input_ai\n        out(x: 866, y: 132, name: \"output\") property(Bool) output_ai\n\n        instance(x: 34, y: 210) tolower_4e2c11 root.Std_k98ojb.Strings.ToLower {}\n        instance(x: 375, y: 210) islower_8d91a5 root.Std_k98ojb.Strings.IsLowerCase {}\n        input_ai -> tolower_4e2c11.input\n        tolower_4e2c11.output -> islower_8d91a5.input\n        islower_8d91a5.output -> output_ai\n    }\n\n    instance(x: 34, y: 210) is_lower_4e2c11 root.main.is_lower {}\n}"
+            ],
+            "16": [
+                "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main {\n    func(doc: \"Calculates the product of the unique numbers in a given list.\") unique_product {\n        in(x: -757, y: -167, name: \"execute\") trigger() execute_19300c\n        in(x: -241, y: 24, name: \"list\") property(List) list_5fda54\n        out(x: 887, y: -144, name: \"continue\") trigger() continue_45190b\n        out(x: 683, y: 73, name: \"output\") property(Number) output_cffcc2\n\n        instance(x: 142, y: -34) set_5e0a3d root.Std_k98ojb.Sets.Difference {}\n        instance(x: 142, y: 142) reduce_70e0a5 root.Std_k98ojb.Iteration.Reduce {}\n        instance(x: -241, y: 142) filter_1a2b9d root.Std_k98ojb.Iteration.Filter {}\n        instance(x: -241, y: 24) sort_6a5e3c root.Std_k98ojb.List.Sort {}\n        list_5fda54 -> sort_6a5e3c.list\n        sort_6a5e3c.sorted_list -> filter_1a2b9d.items\n        func() {...} -> filter_1a2b9d.handler\n        filter_1a2b9d.output_list -> reduce_70e0a5.items\n        func() {...} -> reduce_70e0a5.reducer\n        1 -> reduce_70e0a5.initialValue\n        reduce_70e0a5.output -> output_cffcc2\n        execute_19300c -> continue_45190b\n    }\n\n    instance(x: -55, y: 529) unique_product_2c856f root.main.unique_product {}\n}"
+            ],
+            "18": [
+                "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main {\n    func(doc: \"find the dissimilar elements in the given two lists.\") find_dissimilar {\n        in(x: -531, y: 2, name: \"list1\") property(List) list1_ai\n        in(x: -165, y: 68, name: \"list2\") property(List) list2_ai\n\n        out(x: 340, y: 77, name: \"output\") property(List) output_ai\n\n        instance(x: -394, y: 45) difference_1_8b9f7c root.Std_k98ojb.Sets.Difference {}\n        instance(x: -219, y: 124) difference_2_8d9f9d root.Std_k98ojb.Sets.Difference {}\n        list1_ai -> difference_1_8b9f7c.left\n        list2_ai -> difference_1_8b9f7c.right\n        list2_ai -> difference_2_8d9f9d.left\n        list1_ai -> difference_2_8d9f9d.right\n        instance(x: 34, y: 77) concat_351351 root.Std_k98ojb.List.Concat {}\n        difference_1_8b9f7c.difference -> concat_351351.left\n        difference_2_8d9f9d.difference -> concat_351351.right\n        concat_351351.result -> output_ai\n    }\n\n    instance(x: 101, y: 45) find_dissimilar_4e8c54 root.main.find_dissimilar {}\n}"
+            ],
+            "34": [
+                "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main {\n    func(doc: \"Rotates a given list by specified number of items to the right direction.\") rotate_right {\n        in(x: -186, y: -89, name: \"list\") property(List) list_48148f\n        in(x: -193, y: -3, name: \"n\") property(Number) n_68068c\n\n        out(x: 735, y: -112, name: \"output\") property(Any) output_823209\n\n        instance(x: 246, y: -63) length_5c2e5a root.Std_k98ojb.List.Length {}\n        instance(x: 246, y: 45) modulo_70f2c5 root.Std_k98ojb.Math.Modulo {}\n        instance(x: 522, y: -114) slice_9e2d8d root.Std_k98ojb.List.Slice {}\n        instance(x: 522, y: 12) slice_4c4c4c root.Std_k98ojb.List.Slice {}\n        instance(x: 869, y: -114) concat_2d8f35 root.Std_k98ojb.List.Concat {}\n        list_48148f -> length_5c2e5a.list\n        n_68068c -> modulo_70f2c5.value\n        length_5c2e5a.length -> modulo_70f2c5.divisor\n        list_48148f -> slice_9e2d8d.list\n        modulo_70f2c5.result -> slice_9e2d8d.start\n        -1 -> slice_9e2d8d.end\n        list_48148f -> slice_4c4c4c.list\n        0 -> slice_4c4c4c.start\n        modulo_70f2c5.result -> slice_4c4c4c.end\n        slice_9e2d8d.slice -> concat_2d8f35.left\n        slice_4c4c4c.slice -> concat_2d8f35.right\n        concat_2d8f35.result -> output_823209\n    }\n\n    instance(x: -333, y: -156) rotate_right_5f2c4a root.main.rotate_right {}\n}"
+            ],
+            "42": [
+                "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main { \n    func(doc: \"Finds the sum of an array.\") _sum {\n        in(x: -213, y: 28, name: \"list\") property(List) list_2c62ab\n\n        out(x: 567, y: 3, name: \"sum\") property(Number) sum_2a848f\n\n        instance(x: 194, y: 28) reduce_5f2f6d root.Std_k98ojb.Iteration.Reduce {}\n        func() {...} -> reduce_5f2f6d.reducer\n        0 -> reduce_5f2f6d.initialValue\n        list_2c62ab -> reduce_5f2f6d.items\n        reduce_5f2f6d.output -> sum_2a848f\n    }\n\n    instance(x: 118, y: -26) _sum_9dcc3d root.main._sum {}\n}"
+            ],
+            "48": [
+                "import(\"std\", Std_k98ojb)\nimport(\"http\", Http_q7o96c)\n\nmodule() main {\n    func(doc: \"check if the given integer is a prime number.\") num_prime {\n        in(x: -167, y: 27, name: \"num\") property(Number) num_5c0677\n        in(x: -112, y: -216, name: \"execute\") trigger() execute_b7b391\n\n        out(x: 1016, y: -26, name: \"output\") property(Bool) output_c457b3\n        out(x: 1211, y: -110, name: \"continue\") trigger() continue_9a54bb\n\n        instance(x: 101, y: -33) ifexpression_4f3c1d root.Std_k98ojb.Std.IfExpression {expression: \"num % i == 0\"}\n        instance(x: -141, y: -179) for_5c0e1f root.Std_k98ojb.Std.For {}\n        instance(x: 444, y: -55) generaterange_8e2d9b root.Std_k98ojb.List.GenerateRange {}\n        instance(x: 745, y: -26) if_2d9e5a root.Std_k98ojb.Std.If {}\n        2 -> generaterange_8e2d9b.from\n        num_5c0677 -> generaterange_8e2d9b.to\n        generaterange_8e2d9b.list -> for_5c0e1f.items\n        for_5c0e1f.item -> ifexpression_4f3c1d.gen_0\n        num_5c0677 -> ifexpression_4f3c1d.gen_1\n        ifexpression_4f3c1d.execute -> for_5c0e1f.onItem\n        ifexpression_4f3c1d.then -> if_2d9e5a.execute\n        ifexpression_4f3c1d.else -> if_2d9e5a.else\n        for_5c0e1f.done -> continue_9a54bb\n        if_2d9e5a.value -> output_c457b3\n        execute_b7b391 -> for_5c0e1f.reset\n        if_2d9e5a.then -> continue_9a54bb\n    }\n\n    instance(x: 203, y: -192) num_prime_24d4b5 root.main.num_prime {}\n}"
+            ]
+        }
+    },
+    
+    { 
+        "experiment_name": "signature_RAG_5_shot Mangler 3 siste fra dette runnet: https://ondemand.educloud.no/pun/sys/dashboard/files/fs//fp/homes01/u01/ec-sindrre/slurm_jobs/SynCode/validation/RAG/signature/AI_1569195.out",
+        "temperature": 0.6,
+        "top_p": 0.2,
+        "top_k": -1,
+        "seed": 9,
+        "n_generations_per_task": 1,
+        "model": "llama3.3:70b-instruct-fp16",
+        "largest_context": 15889,
+        "task_candidates": {
+            "1": [
+                ""
+            ],
+            "3": [
+                ""
+            ],
+            "12": [
+                ""
+            ],
+            "13": [
+                ""
+            ],
+            "16": [
+                ""
+            ],
+            "18": [
+                ""
+            ],
+            "34": [
+                ""
+            ],
+            "42": [
+                ""
+            ],
+            "48": [
+                ""
+            ]
+        }
+    },
+    {
+        "experiment_name": "signature_RAG_5_shot",
+        "temperature": 0.6,
+        "top_p": 0.6,
+        "top_k": -1,
+        "seed": 9,
+        "n_generations_per_task": 1,
+        "model": "llama3.3:70b-instruct-fp16",
+        "largest_context": 15889,
+        "task_candidates": {
+            "1": [
+                ""
+            ],
+            "3": [
+                ""
+            ],
+            "12": [
+                ""
+            ],
+            "13": [
+                ""
+            ],
+            "16": [
+                ""
+            ],
+            "18": [
+                ""
+            ],
+            "34": [
+                ""
+            ],
+            "42": [
+                ""
+            ],
+            "48": [
+                ""
+            ]
+        }
+    },
+    {
+        "experiment_name": "signature_RAG_5_shot",
+        "temperature": 0.6,
+        "top_p": 0.9,
+        "top_k": -1,
+        "seed": 9,
+        "n_generations_per_task": 1,
+        "model": "llama3.3:70b-instruct-fp16",
+        "largest_context": 15889,
+        "task_candidates": {
+            "1": [
+                ""
+            ],
+            "3": [
+                ""
+            ],
+            "12": [
+                ""
+            ],
+            "13": [
+                ""
+            ],
+            "16": [
+                ""
+            ],
+            "18": [
+                ""
+            ],
+            "34": [
+                ""
+            ],
+            "42": [
+                ""
+            ],
+            "48": [
+                ""
+            ]
+        }
+    },
+    {
+        "experiment_name": "signature_RAG_5_shot",
+        "temperature": 0.9,
+        "top_p": 0.2,
+        "top_k": -1,
+        "seed": 9,
+        "n_generations_per_task": 1,
+        "model": "llama3.3:70b-instruct-fp16",
+        "largest_context": 15889,
+        "task_candidates": {
+            "1": [
+                ""
+            ],
+            "3": [
+                ""
+            ],
+            "12": [
+                ""
+            ],
+            "13": [
+                ""
+            ],
+            "16": [
+                ""
+            ],
+            "18": [
+                ""
+            ],
+            "34": [
+                ""
+            ],
+            "42": [
+                ""
+            ],
+            "48": [
+                ""
+            ]
+        }
+    },
+    {
+        "experiment_name": "signature_RAG_5_shot",
+        "temperature": 0.9,
+        "top_p": 0.6,
+        "top_k": -1,
+        "seed": 9,
+        "n_generations_per_task": 1,
+        "model": "llama3.3:70b-instruct-fp16",
+        "largest_context": 15889,
+        "task_candidates": {
+            "1": [
+                ""
+            ],
+            "3": [
+                ""
+            ],
+            "12": [
+                ""
+            ],
+            "13": [
+                ""
+            ],
+            "16": [
+                ""
+            ],
+            "18": [
+                ""
+            ],
+            "34": [
+                ""
+            ],
+            "42": [
+                ""
+            ],
+            "48": [
+                ""
+            ]
+        }
+    },
+    {
+        "experiment_name": "signature_RAG_5_shot",
+        "temperature": 0.9,
+        "top_p": 0.9,
+        "top_k": -1,
+        "seed": 9,
+        "n_generations_per_task": 1,
+        "model": "llama3.3:70b-instruct-fp16",
+        "largest_context": 15889,
+        "task_candidates": {
+            "1": [
+                ""
+            ],
+            "3": [
+                ""
+            ],
+            "12": [
+                ""
+            ],
+            "13": [
+                ""
+            ],
+            "16": [
+                ""
+            ],
+            "18": [
+                ""
+            ],
+            "34": [
+                ""
+            ],
+            "42": [
+                ""
+            ],
+            "48": [
+                ""
+            ]
+        }
+    }
+]

@@ -5,7 +5,7 @@ from langchain_core.prompts import (
     FewShotChatMessagePromptTemplate,
     ChatPromptTemplate
 )
-from langchain.prompts import ChatPromptTemplate, HumanMessagePromptTemplate
+from langchain.prompts import ChatPromptTemplate, HumanMessagePromptTemplate, AIMessagePromptTemplate
 from langchain_ollama import ChatOllama
 from langchain_openai import ChatOpenAI
 from my_packages.common.classes import PromptType
@@ -64,13 +64,22 @@ def create_few_shot_prompt(
     
     prompt_template = get_prompt_template(template_name)
     response_template = get_response_template(template_name)
+    
+    if template_name == "DEBUG":
+        example_prompt_template = ChatPromptTemplate.from_messages(
+            [
+                AIMessagePromptTemplate.from_template(response_template),
 
-    example_prompt_template = ChatPromptTemplate.from_messages(
-        [
-            ("human", prompt_template),
-            ("ai", response_template)
-        ]
-    )
+                ("human", prompt_template),
+            ]
+        )
+    else:
+        example_prompt_template = ChatPromptTemplate.from_messages(
+            [
+                ("human", prompt_template),
+                ("ai", response_template)
+            ]
+        )
     
     few_shot_prompt = FewShotChatMessagePromptTemplate(
         examples=examples,
@@ -81,18 +90,28 @@ def create_final_prompt(
         few_shot_prompt: FewShotChatMessagePromptTemplate, 
         system_template_name: str, 
         prompt_template_name: str,
+        previous_debugs_examples: FewShotChatMessagePromptTemplate = None,
     ) -> ChatPromptTemplate:
 
     system_msg = get_system_template(system_template_name)
     prompt_template = get_prompt_template(prompt_template_name)
-        
-    final_prompt = ChatPromptTemplate.from_messages(
-        [
-            ("system", system_msg),
-            few_shot_prompt,
-            ("human", prompt_template)
-        ]
-    )
+    if previous_debugs_examples:
+        final_prompt = ChatPromptTemplate.from_messages(
+            [
+                ("system", system_msg),
+                few_shot_prompt,
+                ("human", prompt_template),
+                previous_debugs_examples,
+            ]
+        )
+    else:
+        final_prompt = ChatPromptTemplate.from_messages(
+            [
+                ("system", system_msg),
+                few_shot_prompt,
+                ("human", prompt_template)
+            ]
+        )
     return final_prompt
 
 
@@ -199,7 +218,23 @@ def add_RAG_to_prompt(
     used_lang_tokens = TOTAL_LANG_DOCS_TOKENS
     formatted_language_context = rag_data.formatted_language_context
 
-    if available_ctx > TOTAL_DOCS_TOKENS:
+    if available_ctx < TOTAL_LANG_DOCS_TOKENS:
+        print(f"Available context is too small for all docs: {available_ctx} tokens")
+        final_prompt = final_prompt_template.format(**prompt_variables_dict)
+        avg_doc_tokens = 150
+        # Estimate number of NODE documents to extract
+        estimated_k = int(available_ctx/ avg_doc_tokens)
+        print(f"Estimated to extract k = {estimated_k} documents.")
+        docs = rag_data.node_retriever.similarity_search(task, k=estimated_k) # init too many docs, to later reduce to fit context
+        formatted_language_context, used_lang_tokens = fit_docs_by_tokens(
+            client,
+            docs,
+            available_ctx=available_ctx,
+            model=model
+        )
+        return final_prompt, final_prompt_template, prompt_variables_dict, 0
+    
+    elif available_ctx > TOTAL_DOCS_TOKENS:
         # Use all data
         formatted_node_context = rag_data.formatted_node_context
         used_node_tokens = TOTAL_NODE_DOCS_TOKENS
@@ -302,25 +337,38 @@ def build_prompt(
     few_shot_examples: list[dict],
     sample: dict[str, str],
     available_nodes: list[dict],
+    previous_debugs: list[dict] = None,
 
 )-> tuple[str, ChatPromptTemplate, dict[str, str]]:
     """Create a prompt for the model based on the prompt type."""  
     print(f"Building {response_type} prompt..")
 
     task = sample["task"]
-
+    
     if (prompt_type.value is PromptType.SIGNATURE.value) and (response_type == "CODE"): # Uses signature prompt
         few_shot = create_few_shot_prompt(few_shot_examples, f'{response_type}_SIGNATURE_TEMPLATE')
-        final_prompt_template = create_final_prompt(few_shot, f"{response_type}_GENERATOR_TEMPLATE", f"{response_type}_SIGNATURE_TEMPLATE")
+
+        if previous_debugs:
+            previous_debugs_examples = create_few_shot_prompt(previous_debugs, f"DEBUG")
+            final_prompt_template = create_final_prompt(few_shot, f"DEBUG_TEMPLATE", f"{response_type}_SIGNATURE_TEMPLATE", previous_debugs_examples)
+        else:
+            final_prompt_template = create_final_prompt(few_shot, f"{response_type}_GENERATOR_TEMPLATE", f"{response_type}_SIGNATURE_TEMPLATE")
 
         prompt_variables_dict = {
             "external_functions": used_functions_to_string(available_nodes),
             "task": task, 
             "function_signature": sample["function_signature"],
         }
+
     elif (response_type == "NODE") or (prompt_type.value is PromptType.REGULAR.value): # Uses regular prompt
         few_shot = create_few_shot_prompt(few_shot_examples, f'{response_type}_TEMPLATE')
         final_prompt_template = create_final_prompt(few_shot, f"{response_type}_GENERATOR_TEMPLATE", f"{response_type}_TEMPLATE")
+        if previous_debugs:
+            previous_debugs_examples = create_few_shot_prompt(previous_debugs, f"DEBUG")
+            final_prompt_template = create_final_prompt(few_shot, f"DEBUG_TEMPLATE", f"{response_type}_TEMPLATE", previous_debugs_examples)
+        else:
+            final_prompt_template = create_final_prompt(few_shot, f"{response_type}_GENERATOR_TEMPLATE", f"{response_type}_TEMPLATE")
+
         prompt_variables_dict ={
             "external_functions": used_functions_to_string(available_nodes),
             "task": task, 

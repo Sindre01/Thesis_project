@@ -1,9 +1,0 @@
-Previous generation gave this candiate:
-{code_candidate}
-
-However, the code was incorrect and gave these errors:
-```
-{error_msg}
-```
-
-Please fix the code and try again.

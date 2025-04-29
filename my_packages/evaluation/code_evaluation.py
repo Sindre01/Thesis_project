@@ -10,7 +10,7 @@ from my_packages.db_service.error_service import save_errors_to_db
 from my_packages.db_service.results_service import save_results_to_db
 from my_packages.evaluation.metrics import check_correctness, check_semantics, check_syntax, check_visualization, estimate_pass_at_k
 from my_packages.evaluation.midio_compiler import compile_code, extract_errors, get_refinement_errors
-from my_packages.evaluation.models import generate_n_responses
+from my_packages.evaluation.models import generate_n_responses, generate_single_response
 from my_packages.prompting.prompt_building import add_RAG_to_prompt, build_prompt, code_data_to_node_data, get_prompt_template
 from my_packages.utils.file_utils import get_test_module_from_file, save_results_as_string, save_results_to_file
 from itertools import chain
@@ -478,7 +478,7 @@ def run_model(
         constrained_llm = Syncode(
             model=hf_model, 
             grammar=f"{project_root}/data/midio_grammar.lark", 
-            mode="grammar_mask",
+            mode="original",
             parse_output_only=True, 
             device_map="auto",
             opp=True, # Oppurtinistic or determentisic.
@@ -491,7 +491,7 @@ def run_model(
     largest_ctx_size = 0
     for index, sample in enumerate(data):
         print(f"\n\n{Style.BRIGHT}=== Sample: {index+1} (task_id: {sample['task_id']}) ===")
-
+   
         if refinement:
             generated_candidates, prompt_size = run_refinement(
                 sample=sample,
@@ -572,10 +572,10 @@ def run_refinement(
     candidate_nodes: list = [],
     ollama_port: str = "11434",
     node_context_type: str = "MANY",
-    refinements: int = 2,
+    refinements: int = 3,
     constrained_llm: Syncode = None, # Not working yet
 
-) -> tuple[list[str], int]:
+) -> tuple[list[dict], int]:
     """
     1. Build prompt
     2. Measure tokens.
@@ -588,7 +588,10 @@ def run_refinement(
     few_shot_examples = example_pool.select_examples(sample)
     available_nodes = dataset_nodes
     
-    prompt, final_prompt_template, prompt_variables_dict = build_prompt(
+
+    ################## INITIAL PROMPT ##################
+    print(f"##################### Generating Initial prompt for task {sample['task_id']} #########################")
+    initial_prompt, initial_prompt_template, initial_prompt_variables_dict = build_prompt(
         response_type="CODE",
         prompt_type=prompt_type,
         few_shot_examples=few_shot_examples,
@@ -596,7 +599,7 @@ def run_refinement(
         available_nodes=available_nodes,
     )
     # Measure initial prompt size
-    prompt_size = measure_prompt_tokens(client, model, prompt, max_ctx)
+    prompt_size = measure_prompt_tokens(client, model, initial_prompt, max_ctx)
 
     # Reserve output tokens and get the leftover context for RAG
     print(f"Using {max_ctx} for context window")    
@@ -608,47 +611,38 @@ def run_refinement(
     if rag_data:
         print(f"Using RAG data for task {sample['task_id']}")
         # print(f"available context after subtracting prompt_size of {prompt_size} tokens and output tokens of {max_new_tokens} tokens: {available_ctx}")
-        prompt, final_prompt_template, prompt_variables_dict, used_tokens = add_RAG_to_prompt(
+        initial_prompt, initial_prompt_template, initial_prompt_variables_dict, initial_used_tokens = add_RAG_to_prompt(
             client = client,
             model = model,
             task = sample["task"],
             available_ctx = available_ctx,
             rag_data = rag_data,
-            final_prompt_template = final_prompt_template,
-            prompt_variables_dict = prompt_variables_dict,
+            final_prompt_template = initial_prompt_template,
+            prompt_variables_dict = initial_prompt_variables_dict,
             candidate_nodes = candidate_nodes,
             all_nodes = all_nodes,
             node_context_type=node_context_type
         )
-        prompt_size = prompt_size + used_tokens
+        prompt_size = prompt_size + initial_used_tokens
 
     if debug:
-        print(f"Final prompt size: {prompt_size} (plus {max_new_tokens} for output).")
+        print(f"Initial prompt size: {prompt_size} (plus {max_new_tokens} for output).")
         print(f"\n\n{Style.BRIGHT}=== Sample: {sample['task_id']} ===")
-        # print(f"{Fore.CYAN}{Style.BRIGHT} User prompt: {Style.RESET_ALL}\n{prompt}{Style.RESET_ALL}\\n")
+        # print(f"{Fore.CYAN}{Style.BRIGHT} User prompt: {Style.RESET_ALL}\n{initial_prompt}{Style.RESET_ALL}\\n")
     
+
     generated_candidates = []
-
-
     total_n = generation_kwargs["n"]
-
-    generation_kwargs["n"] = 1 # Generate one candidate at a time
-
-    refinement_prompt_template = copy.deepcopy(final_prompt_template)
-    error_template = HumanMessagePromptTemplate.from_template(get_prompt_template("ERROR"))
-    refinement_prompt_template.messages.append(error_template)
-    refinement_vars = copy.deepcopy(prompt_variables_dict)
-
     for n in range(0, total_n):
-        print(f"> Generating n response..  ({n + 1}/{total_n})", end="\r")
-
+        print(f"> Generating n response..  ({n + 1}/{total_n})")
+        generation_kwargs["n"] = n
         # Initial query
         try:
-            generated_response = generate_n_responses(
+            generated_response = generate_single_response(
                 **generation_kwargs,
                 max_new_tokens=max_new_tokens,
-                final_prompt_template=final_prompt_template,
-                prompt_variables_dict=prompt_variables_dict,
+                final_prompt_template=initial_prompt_template,
+                prompt_variables_dict=initial_prompt_variables_dict,
                 context=prompt_size + max_new_tokens,
                 ollama_port=ollama_port,
                 constrained_llm=constrained_llm,
@@ -662,9 +656,17 @@ def run_refinement(
             generated_response = e
 
         refinements_performed = 0
+        initial_error_category = ""
 
+        refinement_kwargs = copy.deepcopy(generation_kwargs)
+        print(f"Removing top_k (default: 40) and rising temperature to 0.7 for refinement.")
+        refinement_kwargs["temperature"] = 0.7
+        refinement_kwargs["top_k"] = -1 # (Default: 40)
+
+        previous_debugs: list[dict] = []
+        debugs_in_prompt = 0
         for i in range(refinements):
-            print(f"Refinement #{i+1} of {refinements} for task {sample['task_id']}")
+            print(f"###################### Refinement #{i+1} of {refinements} for task {sample['task_id']} #####################################")
     
             if constrained_llm: # TODO: SynCode not yet support in this code. SynCode needs to be patched to pass partial output.
                 if isinstance(generated_response, Exception):
@@ -677,32 +679,125 @@ def run_refinement(
             else:
                 code_candidate = generated_response[0]
                 test_code = get_test_module_from_file(sample['task_id'])
-                error_msg, error_category = get_refinement_errors(code_candidate, test_code, sample)
+                error_msg, error_category = get_refinement_errors(code_candidate, test_code, sample, prompt_type.value)
 
-                if code_candidate.strip() == "":
-                    print("No code candidate generated.")
+            if i==0: # first refinement
+                # Store the initial error category and message
+                initial_error_category = error_category
+                initial_error_msg = error_msg
+                initial_code_candidate = code_candidate
+                # Change the hyperparameters for the next generation
 
-                elif error_msg == "":
-                    print(f"Code is correct, no errors found. Performed {refinements_performed} refinements")
-                    break
+            if code_candidate.strip() == "":
+                print("No code candidate generated.")
+
+            elif error_msg.strip() == "":
+                print(f"Code is correct, no errors found. Performed {refinements_performed} refinements")
+                break
+
             error_msg = f"*{error_category} Error\n\n{error_msg}"
-            error_template_vars = {
-                "code_candidate": code_candidate.strip() if code_candidate else "(No code was generated, try again)",
+            # debug_template_vars = {
+            #     f"code_candidate": code_candidate.strip() if code_candidate else "(No code was generated, try again)",
+            #     f"error_msg": error_msg,
+            # }
+            previous_debugs.append({
+                "response": code_candidate.strip() if code_candidate else "(No code was generated, try again)",
                 "error_msg": error_msg,
-            }
+            })
+            ################# REFINEMENT PROMPT #################
+            refinement_prompt, refinement_prompt_template, refinement_prompt_variables_dict = build_prompt(
+                response_type="CODE",
+                prompt_type=prompt_type,
+                few_shot_examples=few_shot_examples,
+                sample=sample,
+                available_nodes=available_nodes,
+                previous_debugs=previous_debugs
+            )
+            debugs_in_prompt +=1
 
-            refinement_vars.update(error_template_vars)
+            # Measure initial prompt size
+            prompt_size = measure_prompt_tokens(client, model, refinement_prompt, max_ctx)
+
+            # Reserve output tokens and get the leftover context for RAG
+            print(f"Using {max_ctx} for context window")    
+            available_ctx = max_ctx - prompt_size - max_new_tokens
+            print(f"\nPrompt size = {prompt_size}, leaving {available_ctx} tokens for RAG + buffer.")
+            
+            if debug:
+                print(f"\nPrompt size = {prompt_size}, leaving {available_ctx} tokens for RAG + buffer.")
+
+            if available_ctx < 0:
+                print(f"Prompt size is too large: {prompt_size} tokens. Removing previous first debug messages.")
+                if debugs_in_prompt > 0:
+                    # Let debugs_in_prompt be the number of (Human, AI) debug pairs currently at the end.
+                    # Compute the negative indices for the *latest* debug pair:
+                    ai_msg_idx    = -(2 * debugs_in_prompt - 1)   # e.g. -1, -3, -5, …
+                    human_msg_idx = -(2 * debugs_in_prompt)       # e.g. -2, -4, -6, …
+                    print(f"Total messages in prompt: {len(refinement_prompt_template.messages)}.")
+                    print(f"Current debug messages in prompt: {debugs_in_prompt}.")
+                    print(f"Removing debug messages in position {human_msg_idx} and {ai_msg_idx}.")
+
+                    debugs_in_prompt -= 1
+                    print(refinement_prompt_template.messages)
+                    print("Debug messages")
+                    print(refinement_prompt_template.messages[-1])
+                    # Pop the *later* message first (ai message), then human
+                    refinement_prompt_template.messages.pop(ai_msg_idx)
+                    refinement_prompt_template.messages.pop(human_msg_idx)
+
+                    formatted_prompt = refinement_prompt_template.format_prompt(**refinement_prompt_variables_dict)
+                    prompt_size = measure_prompt_tokens(client, model, formatted_prompt, max_ctx)
+                    print(f"Removed previous debug messages in position {human_msg_idx} and {ai_msg_idx}. New prompt size: {prompt_size} tokens.")
+
+                else:
+                    raise ValueError(f"Prompt size is too large: {prompt_size} tokens.")
+            
+            if rag_data:
+                print(f"Using RAG data for task {sample['task_id']}")
+                # print(f"available context after subtracting prompt_size of {prompt_size} tokens and output tokens of {max_new_tokens} tokens: {available_ctx}")
+                refinement_prompt, refinement_prompt_template, refinement_prompt_variables_dict, refinement_used_tokens = add_RAG_to_prompt(
+                    client = client,
+                    model = model,
+                    task = sample["task"],
+                    available_ctx = available_ctx,
+                    rag_data = rag_data,
+                    final_prompt_template = refinement_prompt_template,
+                    prompt_variables_dict = refinement_prompt_variables_dict,
+                    candidate_nodes = candidate_nodes,
+                    all_nodes = all_nodes,
+                    node_context_type=node_context_type
+                )
+                # Possibly inject RAG data
+                prompt_size = prompt_size + refinement_used_tokens
+                print(f"Refinement prompt size: {prompt_size} (plus {max_new_tokens} for output).")
+
+            # refinement_prompt_template.messages.append(
+            #     HumanMessagePromptTemplate.from_template(get_prompt_template("DEBUG"))
+            # )
+            
+            # refinement_prompt_variables_dict.update(debug_template_vars)
+
 
             if not debug:
-                error_prompt_part = error_template.format(**error_template_vars)
-                print(f"{Fore.BLUE}{Style.BRIGHT} Refinement prompt: {error_prompt_part.content}{Style.RESET_ALL}\n")
+                formatted_prompt = refinement_prompt_template.format_prompt(**refinement_prompt_variables_dict)
 
+                # Get messages
+                messages = formatted_prompt.messages  # this is a list of messages!
+
+                # Only keep the last 3
+                error_prompt_part = messages[-6:]
+                # # error_prompt_part = refinement_prompt_template.format(**refinement_prompt_variables_dict)
+                # print(f"{Fore.BLUE}{Style.BRIGHT} Refinement prompt: {error_prompt_part}{Style.RESET_ALL}\n")
+
+                # Print them nicely
+                for i, msg in enumerate(error_prompt_part, 1):
+                    print(f"{Fore.BLUE}{Style.BRIGHT} {msg.type}:\n{msg.content}{Style.RESET_ALL}\n")
             try:
-                generated_response = generate_n_responses(
+                generated_response = generate_single_response(
                     **generation_kwargs,
                     max_new_tokens=max_new_tokens,
                     final_prompt_template=refinement_prompt_template,
-                    prompt_variables_dict=refinement_vars,
+                    prompt_variables_dict=refinement_prompt_variables_dict,
                     context=prompt_size + max_new_tokens,
                     ollama_port=ollama_port,
                     extract_last_snippet=True, # First is often the previous response
@@ -727,14 +822,31 @@ def run_refinement(
         else:       
             code_candidate = generated_response[0]
 
+
+        final_error_category = error_category
+        final_error_msg = error_msg
+        final_code_candidate = code_candidate
+            
+
         if debug:
             if refinements_performed > 0:
-                latest_prompt = final_prompt_template.format(**prompt_variables_dict)
+                latest_prompt = refinement_prompt_template.format(**refinement_prompt_variables_dict)
                 # print(f"{Style.BRIGHT} Final prompt: #{i+1}:\n{latest_prompt}{Style.RESET_ALL}\n")
             print(f"{Fore.YELLOW}{Style.BRIGHT} Final response: {Style.RESET_ALL}\n{code_candidate}{Style.RESET_ALL}\n")
 
-        generated_candidates.append(code_candidate)
-
+        print(f"Finished refinement for task {sample['task_id']}, with {refinements_performed} refinements. {initial_error_category} -> {final_error_category}")
+        generated_candidates.append({
+            "task_id": sample["task_id"],
+            "n": n,
+            "refinements_performed": refinements_performed,
+            "initial_error_category": initial_error_category,
+            "initial_error_msg": initial_error_msg,
+            "initial_code_candidate": initial_code_candidate,
+            "final_error_category": final_error_category,
+            "final_error_msg": final_error_msg,
+            "final_code_candidate": final_code_candidate,
+            })
+    
     return generated_candidates, prompt_size
    
 

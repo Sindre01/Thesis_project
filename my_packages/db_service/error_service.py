@@ -50,7 +50,7 @@ def save_errors_to_db(
     if errors:
         collection.insert_many(errors)
         # print(f"✅ Errors saved in MongoDB for model '{model_name}' under experiment '{experiment}'.")
-
+        
 def delete_errors_collection(experiment: str):
     """
     Deletes a specific collection related to an experiment.

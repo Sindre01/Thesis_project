@@ -92,7 +92,7 @@ def run_testing_experiment(
         rag_data: RagData,
         max_ctx: int,
         best_params_optimization = None,
-        seeds = [346], #[3, 75, 346], TODO: set back as [3, 75, 346]
+        seeds = [3, 75, 346], #TODO: set back as [3, 75, 346]
         ollama_port = "11434",
         experiment_type = "similarity",
         constrained_output = False,
@@ -123,7 +123,6 @@ def run_testing_experiment(
                 max_ctx=max_ctx,
                 constrained_output=constrained_output,
                 refinement=True
-
             )
             
         result_obj = {
@@ -238,25 +237,25 @@ def main(
                 print(f"Best parameters for {model_name} on {metrics[-1]} metric: {best_params_model}")
                 
                 run_testing_experiment(
-                        client,
-                        test_data,
-                        dataset_nodes,
-                        all_nodes,
-                        experiment_name,
-                        result_runs_path,
-                        model,
-                        selector,
-                        ex["prompt_type"],
-                        best_params_model["temperature"],
-                        best_params_model["top_p"],
-                        best_params_model["top_k"],
-                        n_generations_per_task,
-                        best_params_optimization = best_params_model["optimizer_metric"],
-                        ollama_port = ollama_port,
-                        rag_data = rag_data,
-                        max_ctx = max_ctx,
-                        experiment_type = experiment_type,
-                        constrained_output = constrained_output,
+                    client,
+                    test_data,
+                    dataset_nodes,
+                    all_nodes,
+                    experiment_name,
+                    result_runs_path,
+                    model,
+                    selector,
+                    ex["prompt_type"],
+                    best_params_model["temperature"],
+                    best_params_model["top_p"],
+                    best_params_model["top_k"],
+                    n_generations_per_task,
+                    best_params_optimization = best_params_model["optimizer_metric"],
+                    ollama_port = ollama_port,
+                    rag_data = rag_data,
+                    max_ctx = max_ctx,
+                    experiment_type = experiment_type,
+                    constrained_output = constrained_output,
                     )
 
                 print(f"Testing finished for {experiment_name} on model: {model_name}")
@@ -283,25 +282,28 @@ if __name__ == "__main__":
     env_path = os.path.abspath(f"{project_dir}/../../.env")
     print("Env is located in:", env_path)
     load_dotenv(env_path)
-    constrained_output = True #TODO: NEEDS TO BE CHANGED TO False if use compiler
+    constrained_output = False #TODO: NEEDS TO BE CHANGED TO False if use compiler
     similarity_key = "task" #"external_functions"
     
-    local_default_experiments =  [{
-            "name": "signature_similarity",
+    experiments =  [{
+            "name": "signature_RAG",
             "prompt_prefix": "Create a function",
             "num_shots": [5],
             "prompt_type": "signature",
             "semantic_selector": True
         }]
+    models = ["llama3.2:3b-instruct-fp16"] # ["llama3.2:3b-instruct-fp16", "phi4:14b-fp16"]
+    fold = 2
+    ollama_port = f"1143{fold}"
 
     # Parse arguments:
     parser = argparse.ArgumentParser(description="Process input.")
 
     parser.add_argument("--model_provider", type=str, default="ollama", help="Model provider (default: ollama)")
-    parser.add_argument("--models", type=str, default='["llama3.2:3b-instruct-fp16"]', help='JSON string for models (default: \'["llama3.2:3b-instruct-fp16"]\')')
-    parser.add_argument("--experiments", type=str, default=f'{local_default_experiments}', help='JSON string for experiments (default: \'["default_experiment"]\')')
-    parser.add_argument("--ollama_port", type=str, default="11434", help="Ollama port (default: 11434)")
-    parser.add_argument("--fold", type=int, default=0, help="Fold number (default: 0)")
+    parser.add_argument("--models", type=str, default=f'{models}', help='list string for models (default:')
+    parser.add_argument("--experiments", type=str, default=f'{experiments}', help='JSON string for experiments (default: \'["default_experiment"]\')')
+    parser.add_argument("--ollama_port", type=str, default=ollama_port, help="Ollama port (default: 11434)")
+    parser.add_argument("--fold", type=int, default=fold, help="Fold number (default: 0)")
 
     args = parser.parse_args()
 
@@ -313,11 +315,13 @@ if __name__ == "__main__":
     print("🛠️ Debug: Received --fold =", repr(args.fold))
 
     model_provider = args.model_provider
-    models = json.loads(args.models)
-    experiments = json.loads(args.experiments)
     ollama_port = args.ollama_port
-    experiments = parse_experiments(experiments)
     fold = args.fold
+    if not models:
+        models = json.loads(args.models)
+    if not experiments:
+        experiments = json.loads(args.experiments)
+    experiments = parse_experiments(experiments)    
 
     print("########### Parsed arguments ###########")
     print(f"Model provider: {model_provider}")

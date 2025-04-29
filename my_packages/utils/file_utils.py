@@ -77,6 +77,13 @@ def read_code_file(task_id: int) -> str:
         return "File not found"
     except Exception as e:
         return f"Error: {e}"
+        
+def get_train_task_ids() -> list[int]:
+    """Reads the train task ids from the file."""
+    file_path = os.path.join(project_root, 'data/MBPP_Midio_50/splits/hold_out/test_dataset.json')
+    with open(file_path, 'r') as file:
+        task_ids = [int(sample["task_id"]) for sample in file.readlines()]
+    return task_ids
 
 def write_code_file(task_id: int, code: str):
     file_path = os.path.join(project_root, f'data/MBPP_Midio_50/only_files/task_id_{task_id}.midio')

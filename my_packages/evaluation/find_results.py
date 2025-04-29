@@ -1,4 +1,5 @@
 from datetime import datetime
+import json
 import os
 import sys
 from itertools import chain
@@ -45,8 +46,34 @@ def evaluate_runs(
     for run in runs_json:
         experiment_name = run["experiment_name"]
 
+        task_candidates = run["task_candidates"]
+
+        # Check if the first element inside the first task list is a dict
+        # (Assuming there is at least one task and one candidate)
+        if isinstance(next(iter(task_candidates.values()))[0], dict):
+            print(f"Evaluating {experiment_name} with model {run['model']}")
+            print("Transforming task candidates from dict[list[dict]] to dict[list[str]]")
+
+            # Transform: keep the structure, just extract "final_code_candidate"
+            task_candidates = {
+                task_id: [candidate["final_code_candidate"] for candidate in candidates]
+                for task_id, candidates in task_candidates.items()
+            }
+
+            # first_task_id, first_candidates = next(iter(task_candidates.items()))
+
+            # if first_candidates:  # Check the list is not empty
+            #     print("First task id:", first_task_id)
+            #     print("First candidate:")
+            #     print(json.dumps(first_candidates[0], indent=2))
+
+            # else:
+            #     print(f"Task {first_task_id} has no candidates.")
+
+
+
         metric_results_lists = evaluate_code(
-            run["task_candidates"],
+            task_candidates,
             ks=ks,
             evaluation_metrics=metrics,
             experiment_name=experiment_name,

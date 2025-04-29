@@ -8,16 +8,16 @@
 USER="ec-sindrre"                        # Your Educloud username
 HOST="fox.educloud.no"                   # Fox login address (matches SSH config)
 SSH_CONFIG_NAME="fox"                # Name of the SSH config entry
-ACCOUNT="ec12"                           # Fox project account
-PARTITION="accel"                   # 'accel' or 'accel_long' (or 'ifi_accel' if access to ec11,ec29,ec30,ec34,ec35 or ec232)
+ACCOUNT="ec30"                           # Fox project account
+PARTITION="ifi_accel"                   # 'accel' or 'accel_long' (or 'ifi_accel' if access to ec11,ec29,ec30,ec34,ec35 or ec232)
 GPUS=1                               # a100 have 40GB or 80GB VRAM, while rtx30 have 24GB VRAM.
 NODES=1                                 # Number of nodes. OLLAMA does currently only support single node inference
 NODE_LIST= # List of nodes that the job can run on gpu-9,gpu-7,gpu-8,gpu-14 (h100)
-TIME="8:00:00"                         # Slurm walltime (D-HH:MM:SS)
+TIME="1-00:00:00"                         # Slurm walltime (D-HH:MM:SS)
 MEM_PER_GPU="20GB"                       # Memory per GPU. 
 OLLAMA_MODELS_DIR="/cluster/work/projects/ec12/ec-sindrre/ollama-models"  # Path to where the Ollama models are stored and loaded                      
-LOCAL_PORT="11433"                        # Local port for forwarding
-OLLAMA_PORT="11433"                       # Remote port where Ollama listens
+LOCAL_PORT="11432"                        # Local port for forwarding
+OLLAMA_PORT="11432"                       # Remote port where Ollama listens
 SBATCH_SCRIPT="start_ollama_api.slurm"           # Slurm batch script name
 REMOTE_DIR="/fp/homes01/u01/ec-sindrre/slurm_jobs" # Directory on Fox to store scripts and output
 

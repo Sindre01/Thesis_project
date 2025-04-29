@@ -11,6 +11,7 @@ def extract_function_block(code_snippet: str) -> str:
     
     header_match = re.search(header_pattern, code_snippet, re.DOTALL)
     if not header_match:
+        print("No function header found in the code snippet.")
         return ""
     
     start_index = header_match.end()
@@ -46,9 +47,14 @@ def extract_nodes(
             - "overall_nodes": List of all nodes.
     """
     pattern = (
-        r"\b(\w+)\(x:\s*([-+]?\d+),\s*y:\s*([-+]?\d+)"
-        r"(?:,\s*name\s*(?::|=)\s*\"(.*?)\")?\)"
+        r"\b(\w+)\("                     # node type (like 'in', 'instance', etc.)
+        r"x:\s*([-+]?\d+(?:\.\d+)?),"     # x coordinate (float or int)
+        r"\s*y:\s*([-+]?\d+(?:\.\d+)?)"   # y coordinate (float or int)
+        r"(?:,\s*name\s*(?::|=)\s*\"(.*?)\")?" # OPTIONAL: name field inside quotes
+        r"\)"                            # closing parenthesis
     )
+
+
     
     matches = re.findall(pattern, code_snippet)
     if not matches:
@@ -60,8 +66,8 @@ def extract_nodes(
     output_nodes = []
     
     for typ, x_str, y_str, name in matches:
-        x = int(x_str)
-        y = int(y_str)
+        x = float(x_str)
+        y = float(y_str)
         node_entry = {"type": typ, "x": x, "y": y}
         if name:
             node_entry["name"] = name
@@ -138,27 +144,25 @@ def boxes_overlap(a, b):
 
 def compute_overlap_score(nodes):
     """
-    For all unique pairs of nodes in 'nodes',
-    checks if they overlap. If they do NOT overlap, we consider that 'correct'.
+    A node is only considered correct if it does NOT overlap with ANY other node.
+    Computes the fraction of nodes that are fully non-overlapping.
     """
-    total_pairs = 0
-    non_overlapping_pairs = 0
-    
-    # If fewer than 2 nodes
-    if len(nodes) < 2:
-        return 1.0  
-    
-    # check all pairs
-    for i in range(len(nodes)):
-        for j in range(i + 1, len(nodes)):
-            total_pairs += 1
-            if not boxes_overlap(nodes[i], nodes[j]):
-                non_overlapping_pairs += 1
-    
-    if total_pairs == 0:
-        return 1.0 
-    
-    return non_overlapping_pairs / total_pairs
+    if not nodes:
+        return 1.0
+
+    non_overlapping_nodes = 0
+
+    for i, node in enumerate(nodes):
+        has_overlap = False
+        for j, other_node in enumerate(nodes):
+            if i != j and boxes_overlap(node, other_node):
+                has_overlap = True
+                break
+        if not has_overlap:
+            non_overlapping_nodes += 1
+
+    return non_overlapping_nodes / len(nodes)
+
 
 def evaluate_visual_flow(
     code_snippet: str, 
@@ -178,7 +182,7 @@ def evaluate_visual_flow(
     # use default sizes
     if input_types is None:
         input_types = [
-            {"name": "in", "height": 50, "width": 10}
+            {"name": "in", "height": 50, "width": 100}
         ]
     if node_types is None:
         node_types = [
@@ -196,6 +200,7 @@ def evaluate_visual_flow(
     # Extract the first function block
     function_block = extract_function_block(code_snippet)
     if not function_block:
+        print("No function block found in the code snippet.")
         return 0.0
     # print("Function block:", function_block)
 
@@ -204,6 +209,7 @@ def evaluate_visual_flow(
     output_type_names = [t["name"] for t in output_types]
 
     # Extract actual nodes with x,y from code
+    print(function_block)
     nodes = extract_nodes(function_block, input_type_names, node_type_names, output_type_names)
     # print("Nodes:", nodes)
 
@@ -212,6 +218,7 @@ def evaluate_visual_flow(
     output_nodes = nodes.get("output_nodes", [])
     overall_nodes = nodes.get("overall_nodes", [])
     if not overall_nodes:
+        print("No nodes found in the function block.")
         return 0.0
 
 
@@ -242,5 +249,12 @@ def evaluate_visual_flow(
         "overlap_score": overlap_score,
         "overall_score": overall_score
     }
+    print(result)
+    print(f"Flow Direction Score: {flow_direction_score:.2f}")
+    print(f"Overlap Score: {overlap_score:.2f}")
+    print(f"Overall Score: {overall_score:.2f}")
     return result["overall_score"]
+
+
+
 

@@ -113,7 +113,7 @@ def is_compile_ready(code: str) -> bool:
     
     return False # if not starting with any of the keywords, or if the code is empty
 
-def get_refinement_errors(code: str, test_code: str, sample: dict) -> tuple[str, str]:
+def get_refinement_errors(code: str, test_code: str, sample: dict, prompt_type: str) -> tuple[str, str]:
     """ Gets syntax, semantic or tests errors from the code, that can be used for refinement of the code. """
     compiled = compile_code(code)
     error_msg = ""
@@ -140,12 +140,18 @@ def get_refinement_errors(code: str, test_code: str, sample: dict) -> tuple[str,
         error_category = "Semantic"
     else:
         print("Code is semantically valid")
-        test_candidate = code + "\n" + test_code
-        compiled_tests = compile_code(test_candidate, "test", "--json")
-        json_result = get_json_test_result(compiled_tests)
-        runned_tests: list = sample["python_tests"]
-        error_msg = extract_test_results_msg(json_result, runned_tests)
-        error_category = "Tests"
+        if prompt_type.lower() == "regular":
+            # print("Code is semantically valid, but no tests to run")
+            error_msg = ""
+            error_category = ""
+        else:
+            test_candidate = code + "\n" + test_code
+            compiled_tests = compile_code(test_candidate, "test", "--json")
+            json_result = get_json_test_result(compiled_tests)
+            runned_tests: list = sample["python_tests"]
+            error_msg = extract_test_results_msg(json_result, runned_tests)
+            if error_msg:
+                error_category = "Tests"
 
     if error_msg == None:
         print(f"Could not extract {error_category} error from compiler message. Using whole compiler message instead")
@@ -277,6 +283,7 @@ def extract_test_results_msg(test_result: json, tests: list) -> dict:
                         error_msg += f"  - Pseudocode assertion: '{python_test}'. Result: {kind}. Expected '{expect}', got '{actual}'\n"
                 else:
                     # Test passed
+                    print(f"Test '{test_name}' passed.")
                     error_msg = f""
                     break
                    
