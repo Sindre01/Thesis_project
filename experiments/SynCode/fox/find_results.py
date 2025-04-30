@@ -14,13 +14,13 @@ if __name__ == "__main__":
         experiment_folder="SynCode",
         env="test",
         eval_method="3_fold",
-        experiment_types=["RAG"],
+        experiment_types=["RAG"], # baseline, RAG
         prompt_types=["regular"],
         shots=[5],
         metrics=["syntax", "semantic", "tests", "visual"],
         ks=[1, 2, 3, 5, 10],
         use_threads=True,
-        model="llama3.2:3b-instruct-fp16(ORG)",
+        model="llama3.2:3b-instruct-fp16",
         phase=Phase.TESTING,
     )
     # temperature': 0.6, 'top_p': 0.6, 'top_k': 50, 

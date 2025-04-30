@@ -7,15 +7,15 @@
 
 # Job Configuration
 #SBATCH --job-name=testing_SynCode_RAG_regular_3        # Job name
-#SBATCH --account=ec30                      # Project account
-#SBATCH --partition=ifi_accel                  # Partition ('accel' or 'accel_long')
+#SBATCH --account=ec12                      # Project account
+#SBATCH --partition=accel                  # Partition ('accel' or 'accel_long')
 #SBATCH --nodes=1                           # Amount of nodes. Ollama one support single node inference
-#SBATCH --array=0  
+#SBATCH --array=0-2  
 #SBATCH --ntasks=1
 #SBATCH --nodelist=                   # List of nodes that the job can run on
 #SBATCH --gpus=3                             # Number of GPUs
 #SBATCH --time=1-00:00:00                             # Walltime (D-HH:MM:SS)
-#SBATCH --mem-per-gpu=30G              # Memory per CPU
+#SBATCH --mem-per-gpu=20G              # Memory per CPU
 #SBATCH --output=Job_testing_%j.out                 # Standard output and error log
 
 
@@ -40,7 +40,7 @@ source ~/.bashrc # may ovewrite previous modules
 
 export SYNCODE_CACHE=/cluster/work/projects/ec12/ec-sindrre/syncode_$SLURM_JOB_ID/
 
-OLLAMA_PORT_K_FOLD=$((11495 + $SLURM_ARRAY_TASK_ID))
+OLLAMA_PORT_K_FOLD=$((11470 + $SLURM_ARRAY_TASK_ID))
 
 export OLLAMA_MODELS=/cluster/work/projects/ec12/ec-sindrre/ollama-models    # Path to where the Ollama models are stored and loaded
 export OLLAMA_HOST=0.0.0.0:$OLLAMA_PORT_K_FOLD    # Host and port where Ollama listens

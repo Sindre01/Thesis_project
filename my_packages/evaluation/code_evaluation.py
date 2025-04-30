@@ -659,9 +659,9 @@ def run_refinement(
         initial_error_category = ""
 
         refinement_kwargs = copy.deepcopy(generation_kwargs)
-        print(f"Removing top_k (default: 40) and rising temperature to 0.7 for refinement.")
-        refinement_kwargs["temperature"] = 0.7
-        refinement_kwargs["top_k"] = -1 # (Default: 40)
+        # print(f"Removing top_k (default: 40) and rising temperature to 0.7 for refinement.")
+        # refinement_kwargs["temperature"] = 0.7
+        # refinement_kwargs["top_k"] = -1 # (Default: 40)
 
         previous_debugs: list[dict] = []
         debugs_in_prompt = 0
@@ -722,8 +722,8 @@ def run_refinement(
             # if large, Half the first AI message
             while debugs_in_prompt > 0 and available_ctx < 0:
                 # Let debugs_in_prompt be the number of (Human, AI) debug pairs currently at the end.
-                ai_msg_idx    = -(2 * debugs_in_prompt - 1)   # e.g. -1, -3, -5, …
-                human_msg_idx = -(2 * debugs_in_prompt)       # e.g. -2, -4, -6, …
+                human_msg_idx    = -(2 * debugs_in_prompt - 1)   # e.g. -1, -3, -5, … Feedback prompt
+                ai_msg_idx = -(2 * debugs_in_prompt)       # e.g. -2, -4, -6, … candidate
 
                 print(f"Total messages in prompt: {len(refinement_prompt_template.messages)}.")
                 print(f"Current debug messages in prompt: {debugs_in_prompt}.")
@@ -734,7 +734,7 @@ def run_refinement(
                     # Halve the message
                     half_length = len(ai_message) // 2
                     truncated = safe_truncate(ai_message, half_length)
-                    refinement_prompt_template.messages[ai_msg_idx] = fix_code_blocks(truncated)
+                    refinement_prompt_template.messages[ai_msg_idx].content = fix_code_blocks(truncated)
 
                 else:
                     raise ValueError(f"Expected AI message at index {ai_msg_idx} to be a string, got {type(ai_message)}")

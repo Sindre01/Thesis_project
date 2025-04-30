@@ -209,7 +209,7 @@ def evaluate_visual_flow(
     output_type_names = [t["name"] for t in output_types]
 
     # Extract actual nodes with x,y from code
-    print(function_block)
+    # print(function_block)
     nodes = extract_nodes(function_block, input_type_names, node_type_names, output_type_names)
     # print("Nodes:", nodes)
 
