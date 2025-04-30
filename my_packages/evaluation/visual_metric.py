@@ -249,10 +249,10 @@ def evaluate_visual_flow(
         "overlap_score": overlap_score,
         "overall_score": overall_score
     }
-    print(result)
-    print(f"Flow Direction Score: {flow_direction_score:.2f}")
-    print(f"Overlap Score: {overlap_score:.2f}")
-    print(f"Overall Score: {overall_score:.2f}")
+    # print(result)
+    # print(f"Flow Direction Score: {flow_direction_score:.2f}")
+    # print(f"Overlap Score: {overlap_score:.2f}")
+    # print(f"Overall Score: {overall_score:.2f}")
     return result["overall_score"]
 
 

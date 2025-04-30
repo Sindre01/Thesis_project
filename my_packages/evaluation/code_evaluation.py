@@ -436,13 +436,13 @@ def run_model(
         print("Constrained output is set to True.")
 
         model_kwargs = {
-            "max_length": max_ctx,
+            # "max_length": max_ctx,
             "max_new_tokens": max_new_tokens,
             "temperature": temperature,
             # "top_k": top_k,
             "top_p": top_p,
             "do_sample": True,
-            "quantize": True, # Sets to torch.bfloat16
+            "quantize": True, # Sets to torch.float16
             # "early_stopping": True,            # <- Stop if EOS is reached early. Not available when using hyperparameters like temperate etc.
             "use_cache": True,                 # <- Speeds things up (standard)
             # "pad_token_id": 0,
@@ -696,14 +696,11 @@ def run_refinement(
                 break
 
             error_msg = f"*{error_category} Error\n\n{error_msg}"
-            # debug_template_vars = {
-            #     f"code_candidate": code_candidate.strip() if code_candidate else "(No code was generated, try again)",
-            #     f"error_msg": error_msg,
-            # }
             previous_debugs.append({
                 "response": code_candidate.strip() if code_candidate else "(No code was generated, try again)",
                 "error_msg": error_msg,
             })
+
             ################# REFINEMENT PROMPT #################
             refinement_prompt, refinement_prompt_template, refinement_prompt_variables_dict = build_prompt(
                 response_type="CODE",
@@ -716,42 +713,43 @@ def run_refinement(
             debugs_in_prompt +=1
 
             # Measure initial prompt size
-            prompt_size = measure_prompt_tokens(client, model, refinement_prompt, max_ctx)
-
-            # Reserve output tokens and get the leftover context for RAG
             print(f"Using {max_ctx} for context window")    
+            prompt_size = measure_prompt_tokens(client, model, refinement_prompt, max_ctx)
+            # Reserve output tokens and get the leftover context for RAG
             available_ctx = max_ctx - prompt_size - max_new_tokens
             print(f"\nPrompt size = {prompt_size}, leaving {available_ctx} tokens for RAG + buffer.")
-            
-            if debug:
-                print(f"\nPrompt size = {prompt_size}, leaving {available_ctx} tokens for RAG + buffer.")
+            # Check if the prompt size is too large
+            # if large, Half the first AI message
+            while debugs_in_prompt > 0 and available_ctx < 0:
+                # Let debugs_in_prompt be the number of (Human, AI) debug pairs currently at the end.
+                ai_msg_idx    = -(2 * debugs_in_prompt - 1)   # e.g. -1, -3, -5, …
+                human_msg_idx = -(2 * debugs_in_prompt)       # e.g. -2, -4, -6, …
 
-            if available_ctx < 0:
-                print(f"Prompt size is too large: {prompt_size} tokens. Removing previous first debug messages.")
-                if debugs_in_prompt > 0:
-                    # Let debugs_in_prompt be the number of (Human, AI) debug pairs currently at the end.
-                    # Compute the negative indices for the *latest* debug pair:
-                    ai_msg_idx    = -(2 * debugs_in_prompt - 1)   # e.g. -1, -3, -5, …
-                    human_msg_idx = -(2 * debugs_in_prompt)       # e.g. -2, -4, -6, …
-                    print(f"Total messages in prompt: {len(refinement_prompt_template.messages)}.")
-                    print(f"Current debug messages in prompt: {debugs_in_prompt}.")
-                    print(f"Removing debug messages in position {human_msg_idx} and {ai_msg_idx}.")
+                print(f"Total messages in prompt: {len(refinement_prompt_template.messages)}.")
+                print(f"Current debug messages in prompt: {debugs_in_prompt}.")
 
-                    debugs_in_prompt -= 1
-                    print(refinement_prompt_template.messages)
-                    print("Debug messages")
-                    print(refinement_prompt_template.messages[-1])
-                    # Pop the *later* message first (ai message), then human
-                    refinement_prompt_template.messages.pop(ai_msg_idx)
-                    refinement_prompt_template.messages.pop(human_msg_idx)
-
-                    formatted_prompt = refinement_prompt_template.format_prompt(**refinement_prompt_variables_dict)
-                    prompt_size = measure_prompt_tokens(client, model, formatted_prompt, max_ctx)
-                    print(f"Removed previous debug messages in position {human_msg_idx} and {ai_msg_idx}. New prompt size: {prompt_size} tokens.")
+                # Try halving the AI message instead of popping immediately
+                ai_message = refinement_prompt_template.messages[ai_msg_idx].content
+                if isinstance(ai_message, str):
+                    # Halve the message
+                    half_length = len(ai_message) // 2
+                    truncated = safe_truncate(ai_message, half_length)
+                    refinement_prompt_template.messages[ai_msg_idx] = fix_code_blocks(truncated)
 
                 else:
-                    raise ValueError(f"Prompt size is too large: {prompt_size} tokens.")
-            
+                    raise ValueError(f"Expected AI message at index {ai_msg_idx} to be a string, got {type(ai_message)}")
+
+                # Recompute prompt size
+                formatted_prompt = refinement_prompt_template.format(**refinement_prompt_variables_dict)
+                prompt_size = measure_prompt_tokens(client, model, formatted_prompt, max_ctx)
+                available_ctx = max_ctx - prompt_size - max_new_tokens
+                print(f"Halved AI message at index {ai_msg_idx}. New prompt size: {prompt_size} tokens. Available context: {available_ctx} tokens.")
+                
+                new_ai_message = refinement_prompt_template.messages[ai_msg_idx].content
+                # If minimized the message much, move to next debug pair
+                if available_ctx < 0 and len(new_ai_message) < 100:
+                    debugs_in_prompt -= 1
+
             if rag_data:
                 print(f"Using RAG data for task {sample['task_id']}")
                 # print(f"available context after subtracting prompt_size of {prompt_size} tokens and output tokens of {max_new_tokens} tokens: {available_ctx}")
@@ -848,7 +846,31 @@ def run_refinement(
             })
     
     return generated_candidates, prompt_size
-   
+
+import re
+
+def safe_truncate(text: str, max_chars: int) -> str:
+    """
+    Truncate to max_chars, but ensure it ends at a sentence boundary or newline.
+    """
+    if len(text) <= max_chars:
+        return text
+    truncated = text[:max_chars]
+    # Prefer splitting at sentence or newline
+    split_match = re.search(r'[\.\n][^\.\n]*$', truncated)
+    if split_match:
+        return truncated[:split_match.start()+1].strip()
+    return truncated.strip() + "\n (code has been truncated)...."
+
+def fix_code_blocks(text: str) -> str:
+    """
+    Ensure triple backtick blocks are properly closed.
+    """
+    code_block_count = text.count("```")
+    if code_block_count % 2 != 0:
+        return text + "\n```"
+    return text
+
 
 def evaluate_code(
     candidate_dict: dict[int, list[str]],

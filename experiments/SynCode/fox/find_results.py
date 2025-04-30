@@ -12,7 +12,7 @@ from my_packages.evaluation.find_results import find_results
 if __name__ == "__main__":
     find_results( 
         experiment_folder="SynCode",
-        env="prod",
+        env="test",
         eval_method="3_fold",
         experiment_types=["RAG"],
         prompt_types=["regular"],
@@ -20,7 +20,7 @@ if __name__ == "__main__":
         metrics=["syntax", "semantic", "tests", "visual"],
         ks=[1, 2, 3, 5, 10],
         use_threads=True,
-        model="llama3.2:3b-instruct-fp16",
+        model="llama3.2:3b-instruct-fp16(ORG)",
         phase=Phase.TESTING,
     )
     # temperature': 0.6, 'top_p': 0.6, 'top_k': 50, 

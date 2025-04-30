@@ -97,13 +97,12 @@ def create_final_prompt(
     prompt_template = get_prompt_template(prompt_template_name)
     if previous_debugs_examples:
         final_prompt = ChatPromptTemplate.from_messages(
-            [
-                ("system", system_msg),
-                few_shot_prompt,
-                ("human", prompt_template),
-                previous_debugs_examples,
-            ]
+            [("system", system_msg)]
+            + few_shot_prompt.format_messages()
+            + [("human", prompt_template)]
+            + previous_debugs_examples.format_messages() # makes it individual messages
         )
+
     else:
         final_prompt = ChatPromptTemplate.from_messages(
             [
@@ -216,7 +215,9 @@ def add_RAG_to_prompt(
     else:
         rag_template = HumanMessagePromptTemplate.from_template(get_prompt_template("RAG"))
     used_lang_tokens = TOTAL_LANG_DOCS_TOKENS
+    used_node_tokens = 0
     formatted_language_context = rag_data.formatted_language_context
+    formatted_node_context = ""
 
     if available_ctx < TOTAL_LANG_DOCS_TOKENS:
         print(f"Available context is too small for all docs: {available_ctx} tokens")
@@ -225,6 +226,10 @@ def add_RAG_to_prompt(
         # Estimate number of NODE documents to extract
         estimated_k = int(available_ctx/ avg_doc_tokens)
         print(f"Estimated to extract k = {estimated_k} documents.")
+        if estimated_k < 1:
+            estimated_k = 1
+            return final_prompt, final_prompt_template, prompt_variables_dict, 0
+        
         docs = rag_data.node_retriever.similarity_search(task, k=estimated_k) # init too many docs, to later reduce to fit context
         formatted_language_context, used_lang_tokens = fit_docs_by_tokens(
             client,
@@ -232,7 +237,7 @@ def add_RAG_to_prompt(
             available_ctx=available_ctx,
             model=model
         )
-        return final_prompt, final_prompt_template, prompt_variables_dict, 0
+        
     
     elif available_ctx > TOTAL_DOCS_TOKENS:
         # Use all data
