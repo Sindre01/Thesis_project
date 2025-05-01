@@ -417,7 +417,7 @@ def prepare_experiement(
                     db_connection=db
                 )
             ignore_best_params = False
-            if "RAG" in experiment_name or "context" in experiment_name or "ONE" in experiment_name or "MANY" in experiment_name:
+            if "RAG" in experiment_name or "baseline" in experiment_name or "context" in experiment_name or "ONE" in experiment_name or "MANY" in experiment_name:
                 ignore_best_params = True
         
             if not run_experiment_quality_checks(experiment_name, eval_method=eval_method, db_connection=db, ignore_best_params=ignore_best_params):

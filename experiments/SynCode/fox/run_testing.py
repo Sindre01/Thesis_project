@@ -203,7 +203,7 @@ def main(
             raise ValueError(f"Unknown experiment type: {experiment_type}")
 
         results_dir = os.path.join("/fp/homes01/u01/ec-sindrre/slurm_jobs", f"{experiment_folder}/testing/{experiment_type}/{prompt_type}/runs/")
-        best_params_folder = f"{project_dir}/experiments/{experiment_folder}/fox/best_params/{experiment_type}/{prompt_type}/hold_out"
+        best_params_folder = f"{project_dir}/experiments/{experiment_folder}/fox/best_params/RAG/{prompt_type}/hold_out"
 
 
         for shots in ex["num_shots"]:
@@ -223,7 +223,7 @@ def main(
                 model = get_model_code_tokens_from_file(model_name, f'{project_dir}/data/max_tokens.json')
                 print(f"Max generation tokens for model {model['max_tokens']}")
 
-                best_params_path = os.path.join(best_params_folder, f"{prompt_type}_{experiment_type}_{shots}_shot" + ".json")
+                best_params_path = os.path.join(best_params_folder, f"{prompt_type}_RAG_{shots}_shot" + ".json")
                 best_params = read_dataset_to_json(best_params_path)
 
                 if not best_params:

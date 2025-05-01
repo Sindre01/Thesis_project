@@ -14,8 +14,8 @@ if __name__ == "__main__":
         experiment_folder="SynCode",
         env="prod",
         eval_method="3_fold",
-        experiment_types=["baseline"], # baseline, RAG
-        prompt_types=["regular", "signature"],
+        experiment_types=["baseline", "RAG"], # baseline, RAG
+        prompt_types=["regular"],
         shots=[5],
         metrics=["syntax", "semantic", "tests", "visual"],
         ks=[1, 2, 3, 5, 10],
