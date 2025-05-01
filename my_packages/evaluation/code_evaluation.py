@@ -903,15 +903,17 @@ def evaluate_code(
         else:
             test_results = evaluate_code_metric(candidate_dict, metric)
             if metric == "visual":
-    
                 all_scores = []
                 for task_id, scores in test_results.items():
-                    # mean accros candidates in task.
-                    task_mean = np.mean(scores)
-                    all_scores.append(task_mean)
-                # Then mean across tasks
-                avg_score = np.mean(all_scores) if all_scores else np.float(0.0)
+                    # Keep only the candidates that are valid
+                    valid_scores = [s for s in scores if s is not None and not np.isnan(s)]
 
+                    if valid_scores:                          
+                        task_mean = np.mean(valid_scores)     
+                        all_scores.append(task_mean)
+
+                # mean across tasks (again, tasks with *no* valid candidate are ignored)
+                avg_score = np.mean(all_scores) if all_scores else 0.0
                 metric_results.append({"pass@placement": avg_score})
                 
             else:

@@ -15,7 +15,7 @@ if __name__ == "__main__":
         env="prod",
         eval_method="3_fold",
         experiment_types=["RAG"],
-        prompt_types=["signature"],
+        prompt_types=["regular", "signature"],
         shots=[5],
         metrics=["syntax", "semantic", "tests", "visual"],
         ks=[1, 2, 3, 5, 10],

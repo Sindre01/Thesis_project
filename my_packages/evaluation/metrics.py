@@ -143,29 +143,67 @@ def check_semantics(
         results[task_id] = checked_canidates
     return results
 
+# def check_visualization(
+#         candidates_dict: dict[int, list[str]],
+#     ) -> dict[int, list[float]]:
+#     """
+#     Parameter:
+#         - candidates_dict: A dictionary of taks_id and generated candidates. dict[int, list[str]]
+#             E.g:
+#                 {
+#                     {<task_id>, [candidate1, candidate2, candidate3]},
+#                     {<task_id>, [candidate1, candidate2, candidate3]},
+#                     {<task_id>, [candidate1, candidate2, candidate3]},
+#                 }
+
+#     Returns a dictionary of the results for each candidate code.
+#     """
+#     results = {}
+#     for task_id, candidates in candidates_dict.items():
+#         # print(f"\n> Checking visual for task {task_id}...")
+#         checked_canidates = []
+#         for i, candidate in enumerate(candidates):
+
+#             evaluation_result = evaluate_visual_flow(candidate)
+#             checked_canidates.append(evaluation_result)
+            
+#         results[task_id] = checked_canidates
+#     return results
+
 def check_visualization(
         candidates_dict: dict[int, list[str]],
-    ) -> dict[int, list[float]]:
+    ) -> dict[int, list[float | None]]:
     """
-    Parameter:
-        - candidates_dict: A dictionary of taks_id and generated candidates. dict[int, list[str]]
-            E.g:
-                {
-                    {<task_id>, [candidate1, candidate2, candidate3]},
-                    {<task_id>, [candidate1, candidate2, candidate3]},
-                    {<task_id>, [candidate1, candidate2, candidate3]},
-                }
+    Compute the visual-flow score **only** for candidates that are
+    syntactically and semantically valid.
 
-    Returns a dictionary of the results for each candidate code.
+    Args:
+        candidates_dict: {task_id: [candidate_code, ...], ...}
+
+    Returns:
+        {task_id: [score_or_None, ...], ...}
+        – The list order matches the input candidates list.
+          Invalid candidates receive None.
     """
-    results = {}
+    results: dict[int, list[float | None]] = {}
+
     for task_id, candidates in candidates_dict.items():
-        # print(f"\n> Checking visual for task {task_id}...")
-        checked_canidates = []
-        for i, candidate in enumerate(candidates):
+        task_scores: list[float | None] = []
 
-            evaluation_result = evaluate_visual_flow(candidate)
-            checked_canidates.append(evaluation_result)
-            
-        results[task_id] = checked_canidates
+        for candidate in candidates:
+            compiled = compile_code(candidate)
+
+            # Skip if syntax OR semantics fail
+            if (not is_code_syntax_valid(compiled)
+                    or not is_code_semantically_valid(compiled)):
+                # task_scores.append(None)          # or 0.0 if you prefer
+                continue
+
+            # Only evaluate visual flow for “clean” programs
+            score = evaluate_visual_flow(candidate)
+            task_scores.append(score)
+
+        if task_scores:
+            results[task_id] = task_scores
+
     return results

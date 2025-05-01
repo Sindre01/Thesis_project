@@ -300,7 +300,7 @@ if __name__ == "__main__":
             "prompt_type": "regular",
             "semantic_selector": True
         }]
-    models = ["llama3.2:3b-instruct-fp16"] # ["llama3.2:3b-instruct-fp16", "phi4:14b-fp16"]
+    models = ["phi4:14b-fp16"] # ["llama3.2:3b-instruct-fp16", "phi4:14b-fp16"]
     fold = 2
     ollama_port = f"1143{fold}"
 

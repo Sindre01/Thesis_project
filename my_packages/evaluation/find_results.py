@@ -48,13 +48,11 @@ def evaluate_runs(
 
         task_candidates = run["task_candidates"]
 
-        # Check if the first element inside the first task list is a dict
-        # (Assuming there is at least one task and one candidate)
+        # For Self_Debugging refinement results
         if isinstance(next(iter(task_candidates.values()))[0], dict):
             print(f"Evaluating {experiment_name} with model {run['model']}")
             print("Transforming task candidates from dict[list[dict]] to dict[list[str]]")
 
-            # Transform: keep the structure, just extract "final_code_candidate"
             task_candidates = {
                 task_id: [candidate["final_code_candidate"] for candidate in candidates]
                 for task_id, candidates in task_candidates.items()
