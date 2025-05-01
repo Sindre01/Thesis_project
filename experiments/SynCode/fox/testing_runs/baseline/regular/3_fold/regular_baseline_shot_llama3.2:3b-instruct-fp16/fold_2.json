@@ -1,6 +1,6 @@
 [
     {
-        "experiment_name": "regular_RAG_5_shot",
+        "experiment_name": "regular_baseline_5_shot",
         "best_params_optimization": "semantic",
         "temperature": 0.2,
         "top_p": 0.9,
@@ -169,7 +169,7 @@
         }
     },
     {
-        "experiment_name": "regular_RAG_5_shot",
+        "experiment_name": "regular_baseline_5_shot",
         "best_params_optimization": "semantic",
         "temperature": 0.2,
         "top_p": 0.9,
@@ -338,7 +338,7 @@
         }
     },
     {
-        "experiment_name": "regular_RAG_5_shot",
+        "experiment_name": "regular_baseline_5_shot",
         "best_params_optimization": "semantic",
         "temperature": 0.2,
         "top_p": 0.9,
