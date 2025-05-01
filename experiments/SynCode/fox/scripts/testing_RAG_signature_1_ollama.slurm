@@ -40,7 +40,7 @@ source ~/.bashrc # may ovewrite previous modules
 
 export SYNCODE_CACHE=/cluster/work/projects/ec12/ec-sindrre/syncode_$SLURM_JOB_ID/
 
-OLLAMA_PORT_K_FOLD=$((11460 + $SLURM_ARRAY_TASK_ID))
+OLLAMA_PORT_K_FOLD=$((11360 + $SLURM_ARRAY_TASK_ID))
 
 export OLLAMA_MODELS=/cluster/work/projects/ec12/ec-sindrre/ollama-models    # Path to where the Ollama models are stored and loaded
 export OLLAMA_HOST=0.0.0.0:$OLLAMA_PORT_K_FOLD    # Host and port where Ollama listens

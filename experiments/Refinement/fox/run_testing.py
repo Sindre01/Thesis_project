@@ -285,11 +285,19 @@ if __name__ == "__main__":
     constrained_output = False #TODO: NEEDS TO BE CHANGED TO False if use compiler
     similarity_key = "task" #"external_functions"
     
-    experiments =  [{
+    experiments =  [
+        {
             "name": "signature_RAG",
             "prompt_prefix": "Create a function",
             "num_shots": [5],
             "prompt_type": "signature",
+            "semantic_selector": True
+        },
+        {
+            "name": "regular_RAG",
+            "prompt_prefix": "Create a function",
+            "num_shots": [5],
+            "prompt_type": "regular",
             "semantic_selector": True
         }]
     models = ["llama3.2:3b-instruct-fp16"] # ["llama3.2:3b-instruct-fp16", "phi4:14b-fp16"]

@@ -196,7 +196,7 @@ def main(
             #No RAG
             rag_data = None
 
-        elif experiment_type == "RAG" or experiment_type == "assisted-RAG" or experiment_type == "all-nodes":
+        elif experiment_type == "RAG" or experiment_type == "assisted-RAG" or experiment_type == "all-nodes" or experiment_type == "baseline":
             max_ctx = 16000
             rag_data = init_rag_data() # None if not using RAG
         else:
@@ -282,7 +282,7 @@ def main(
             subprocess.run(["bash", f"{project_dir}/my_packages/common/push_runs.sh",
                             experiment_folder,
                             "testing",
-                            selector_type,
+                            experiment_type,
                             prompt_type,
                             str(hours), str(minutes), str(seconds),
                             str(fold)
