@@ -65,7 +65,8 @@ def flatten_metric_results(metric_results: dict) -> dict:
     for original_field, nested in metric_results.items():
         # Dynamically derive a prefix by removing "pass@k_" if present.
         prefix = original_field.replace("pass@k_", "")
-        
+        # print("original field: ", original_field)
+        # print("prefix: ", prefix)
         # Ensure that the nested value is a dictionary.
         if isinstance(nested, dict):
             for key, value in nested.items():
@@ -79,7 +80,7 @@ def flatten_metric_results(metric_results: dict) -> dict:
         else:
             # In case the nested value isn't a dictionary, just use the prefix as key.
             flattened[prefix] = nested
-            
+
     return flattened
 
 

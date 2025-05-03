@@ -6,7 +6,7 @@
             "syntax",
             "semantic",
             "tests",
-            "visual"
+            "nodes"
         ],
         "seed": [
             3,
@@ -83,9 +83,98 @@
             "mean": 0.61,
             "std": 0.08
         },
-        "visual@placement": {
-            "mean": 0.67,
+        "nodes@flow": {
+            "mean": 0.66,
             "std": 0.06
+        }
+    },
+    {
+        "model_name": "phi4:14b-fp16",
+        "experiment": "signature_RAG_5_shot",
+        "metrics": [
+            "syntax",
+            "semantic",
+            "tests",
+            "nodes"
+        ],
+        "seed": [
+            3,
+            346,
+            75
+        ],
+        "temperature": 0.2,
+        "top_p": 0.2,
+        "top_k": 50,
+        "ks": [
+            1,
+            2,
+            3,
+            5,
+            10
+        ],
+        "syntax@1": {
+            "mean": 0.75,
+            "std": 0.11
+        },
+        "syntax@2": {
+            "mean": 0.83,
+            "std": 0.11
+        },
+        "syntax@3": {
+            "mean": 0.85,
+            "std": 0.1
+        },
+        "syntax@5": {
+            "mean": 0.88,
+            "std": 0.09
+        },
+        "syntax@10": {
+            "mean": 0.9,
+            "std": 0.08
+        },
+        "semantic@1": {
+            "mean": 0.64,
+            "std": 0.12
+        },
+        "semantic@2": {
+            "mean": 0.74,
+            "std": 0.14
+        },
+        "semantic@3": {
+            "mean": 0.78,
+            "std": 0.13
+        },
+        "semantic@5": {
+            "mean": 0.83,
+            "std": 0.13
+        },
+        "semantic@10": {
+            "mean": 0.87,
+            "std": 0.12
+        },
+        "tests@1": {
+            "mean": 0.57,
+            "std": 0.12
+        },
+        "tests@2": {
+            "mean": 0.67,
+            "std": 0.13
+        },
+        "tests@3": {
+            "mean": 0.72,
+            "std": 0.14
+        },
+        "tests@5": {
+            "mean": 0.77,
+            "std": 0.14
+        },
+        "tests@10": {
+            "mean": 0.82,
+            "std": 0.13
+        },
+        "nodes@flow": {
+            "mean": 0.71,
+            "std": 0.03
         }
     }
 ]

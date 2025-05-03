@@ -1,7 +1,6 @@
 import re
 from typing import Any, Dict, List
 
-
 def extract_function_block(code_snippet: str) -> str:
     """
     Extracts the content of the first function block found in the code snippet.
@@ -164,14 +163,14 @@ def compute_overlap_score(nodes):
     return non_overlapping_nodes / len(nodes)
 
 
-def evaluate_visual_flow(
+def evaluate_nodes_flow(
     code_snippet: str, 
     input_types: List[dict] = None, 
     node_types: List[dict] = None, 
     output_types: List[dict] = None
 ) -> Dict[str, Any]:
     """
-    Evaluates the visual flow of a code snippet based on the defined node types.
+    Evaluates the visual nodes flow of a code snippet based on the defined node types.
     
     It extracts nodes (only the ones inside the first function block found) and calculates:
       - Flow direction (inputs to left, main nodes in the middle, outputs to right)

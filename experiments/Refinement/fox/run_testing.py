@@ -286,23 +286,24 @@ if __name__ == "__main__":
     similarity_key = "task" #"external_functions"
     
     experiments =  [
-        {
-            "name": "signature_RAG",
-            "prompt_prefix": "Create a function",
-            "num_shots": [5],
-            "prompt_type": "signature",
-            "semantic_selector": True
-        },
+        # {
+        #     "name": "signature_RAG",
+        #     "prompt_prefix": "Create a function",
+        #     "num_shots": [5],
+        #     "prompt_type": "signature",
+        #     "semantic_selector": True
+        # },
         {
             "name": "regular_RAG",
             "prompt_prefix": "Create a function",
             "num_shots": [5],
             "prompt_type": "regular",
             "semantic_selector": True
-        }]
-    models = ["phi4:14b-fp16"] # ["llama3.2:3b-instruct-fp16", "phi4:14b-fp16"]
+        }
+        ]
+    models = ["llama3.3:70b-instruct-fp16"] # ["llama3.2:3b-instruct-fp16", "phi4:14b-fp16"]
     fold = 2
-    ollama_port = f"1143{fold}"
+    ollama_port = f"11431"
 
     # Parse arguments:
     parser = argparse.ArgumentParser(description="Process input.")

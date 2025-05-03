@@ -8,7 +8,7 @@ from my_packages.common.rag import RagData
 from my_packages.db_service.best_params_service import save_best_params_to_db
 from my_packages.db_service.error_service import save_errors_to_db
 from my_packages.db_service.results_service import save_results_to_db
-from my_packages.evaluation.metrics import check_correctness, check_semantics, check_syntax, check_visualization, estimate_pass_at_k
+from my_packages.evaluation.metrics import check_correctness, check_semantics, check_syntax, check_nodes_flow, estimate_pass_at_k
 from my_packages.evaluation.midio_compiler import compile_code, extract_errors, get_refinement_errors
 from my_packages.evaluation.models import generate_n_responses, generate_single_response
 from my_packages.prompting.prompt_building import add_RAG_to_prompt, build_prompt, code_data_to_node_data, get_prompt_template
@@ -49,8 +49,9 @@ def evaluate_code_metric(
         test_results = check_semantics(result_dict)
     elif metric == "tests":
         test_results = check_correctness(result_dict)
-    elif metric == "visual":
-        test_results = check_visualization(result_dict)
+    elif metric == "nodes":
+        test_results = check_nodes_flow(result_dict)
+
     return test_results
 
 def calculate_pass_at_k_scores(
@@ -898,12 +899,13 @@ def evaluate_code(
 
     metric_results = []
     for metric in evaluation_metrics:
-        if metric not in ["syntax", "semantic", "tests", "visual"]:
+        if metric not in ["syntax", "semantic", "tests", "nodes"]:
             raise ValueError("Invalid evaluation metric. Choose from 'syntax', 'semantic', 'tests'")
         else:
             test_results = evaluate_code_metric(candidate_dict, metric)
-            if metric == "visual":
+            if metric == "nodes":
                 all_scores = []
+                total_canidates = 0
                 for task_id, scores in test_results.items():
                     # Keep only the candidates that are valid
                     valid_scores = [s for s in scores if s is not None and not np.isnan(s)]
@@ -911,14 +913,16 @@ def evaluate_code(
                     if valid_scores:                          
                         task_mean = np.mean(valid_scores)     
                         all_scores.append(task_mean)
+                        total_canidates += len(valid_scores)
 
                 # mean across tasks (again, tasks with *no* valid candidate are ignored)
                 avg_score = np.mean(all_scores) if all_scores else 0.0
-                metric_results.append({"pass@placement": avg_score})
-                
+                metric_results.append({"nodes@flow": avg_score})
+                print(f"NODES@FLOW score: {avg_score}, performed on {len(all_scores)} tasks with a total of {total_canidates} semantically valid candidates." )
+                  
             else:
                 pass_at_k_dict = calculate_pass_at_k_scores(test_results, ks)
-                print(f"Pass@k for {metric}: {pass_at_k_dict}, with temp={hyperparams['temperature']}, top_p={hyperparams['top_p']}, top_k={hyperparams['top_k']}")
+                # print(f"Pass@k for {metric}: {pass_at_k_dict}, with temp={hyperparams['temperature']}, top_p={hyperparams['top_p']}, top_k={hyperparams['top_k']}")
 
                 # Save errors
                 if env == "dev":

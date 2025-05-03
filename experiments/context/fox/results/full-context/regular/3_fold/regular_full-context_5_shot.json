@@ -6,7 +6,7 @@
             "syntax",
             "semantic",
             "tests",
-            "visual"
+            "nodes"
         ],
         "seed": [
             3,
@@ -83,9 +83,9 @@
             "mean": 0.0,
             "std": 0.0
         },
-        "visual@placement": {
-            "mean": 0.84,
-            "std": 0.02
+        "nodes@flow": {
+            "mean": 0.62,
+            "std": 0.04
         }
     },
     {
@@ -95,7 +95,7 @@
             "syntax",
             "semantic",
             "tests",
-            "visual"
+            "nodes"
         ],
         "seed": [
             3,
@@ -172,9 +172,9 @@
             "mean": 0.0,
             "std": 0.0
         },
-        "visual@placement": {
-            "mean": 0.87,
-            "std": 0.07
+        "nodes@flow": {
+            "mean": 0.72,
+            "std": 0.06
         }
     }
 ]

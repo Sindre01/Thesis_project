@@ -2,7 +2,7 @@ import itertools
 import numpy as np
 from my_packages.common.classes import CodeEvaluationResult
 from my_packages.evaluation.midio_compiler import compile_code, is_code_semantically_valid, is_code_syntax_valid
-from my_packages.evaluation.visual_metric import evaluate_visual_flow
+from my_packages.evaluation.nodes_flow_metric import evaluate_nodes_flow
 from my_packages.utils.file_utils import get_test_module_from_file
 
 def estimate_pass_at_k(num_samples, num_correct, k):
@@ -143,7 +143,7 @@ def check_semantics(
         results[task_id] = checked_canidates
     return results
 
-# def check_visualization(
+# def check_nodes_flow(
 #         candidates_dict: dict[int, list[str]],
 #     ) -> dict[int, list[float]]:
 #     """
@@ -164,13 +164,13 @@ def check_semantics(
 #         checked_canidates = []
 #         for i, candidate in enumerate(candidates):
 
-#             evaluation_result = evaluate_visual_flow(candidate)
+#             evaluation_result = evaluate_nodes_flow(candidate)
 #             checked_canidates.append(evaluation_result)
             
 #         results[task_id] = checked_canidates
 #     return results
 
-def check_visualization(
+def check_nodes_flow(
         candidates_dict: dict[int, list[str]],
     ) -> dict[int, list[float | None]]:
     """
@@ -200,7 +200,7 @@ def check_visualization(
                 continue
 
             # Only evaluate visual flow for “clean” programs
-            score = evaluate_visual_flow(candidate)
+            score = evaluate_nodes_flow(candidate)
             task_scores.append(score)
 
         if task_scores:

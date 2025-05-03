@@ -17,7 +17,7 @@ if __name__ == "__main__":
         experiment_types=["RAG"],
         prompt_types=["regular", "signature"],
         shots=[5],
-        metrics=["syntax", "semantic", "tests", "visual"],
+        metrics=["syntax", "semantic", "tests", "nodes"],
         ks=[1, 2, 3, 5, 10],
         use_threads=True,
         model="",

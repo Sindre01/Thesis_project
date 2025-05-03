@@ -5,7 +5,8 @@
         "metrics": [
             "syntax",
             "semantic",
-            "tests"
+            "tests",
+            "nodes"
         ],
         "seed": [
             3,
@@ -81,6 +82,10 @@
         "tests@10": {
             "mean": 0.0,
             "std": 0.0
+        },
+        "nodes@flow": {
+            "mean": 0.82,
+            "std": 0.05
         }
     },
     {
@@ -89,7 +94,8 @@
         "metrics": [
             "syntax",
             "semantic",
-            "tests"
+            "tests",
+            "nodes"
         ],
         "seed": [
             3,
@@ -165,6 +171,10 @@
         "tests@10": {
             "mean": 0.0,
             "std": 0.0
+        },
+        "nodes@flow": {
+            "mean": 0.64,
+            "std": 0.05
         }
     },
     {
@@ -173,7 +183,8 @@
         "metrics": [
             "syntax",
             "semantic",
-            "tests"
+            "tests",
+            "nodes"
         ],
         "seed": [
             3,
@@ -249,6 +260,10 @@
         "tests@10": {
             "mean": 0.0,
             "std": 0.0
+        },
+        "nodes@flow": {
+            "mean": 0.78,
+            "std": 0.04
         }
     }
 ]

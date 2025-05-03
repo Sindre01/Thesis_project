@@ -6,7 +6,7 @@
             "syntax",
             "semantic",
             "tests",
-            "visual"
+            "nodes"
         ],
         "seed": [
             3,
@@ -83,9 +83,9 @@
             "mean": 0.53,
             "std": 0.06
         },
-        "visual@placement": {
-            "mean": 0.87,
-            "std": 0.04
+        "nodes@flow": {
+            "mean": 0.68,
+            "std": 0.05
         }
     },
     {
@@ -95,7 +95,7 @@
             "syntax",
             "semantic",
             "tests",
-            "visual"
+            "nodes"
         ],
         "seed": [
             3,
@@ -172,9 +172,9 @@
             "mean": 0.76,
             "std": 0.1
         },
-        "visual@placement": {
-            "mean": 0.88,
-            "std": 0.04
+        "nodes@flow": {
+            "mean": 0.73,
+            "std": 0.01
         }
     },
     {
@@ -184,7 +184,7 @@
             "syntax",
             "semantic",
             "tests",
-            "visual"
+            "nodes"
         ],
         "seed": [
             3,
@@ -261,8 +261,8 @@
             "mean": 0.79,
             "std": 0.1
         },
-        "visual@placement": {
-            "mean": 0.92,
+        "nodes@flow": {
+            "mean": 0.79,
             "std": 0.04
         }
     },
@@ -273,7 +273,7 @@
             "syntax",
             "semantic",
             "tests",
-            "visual"
+            "nodes"
         ],
         "seed": [
             3,
@@ -350,9 +350,9 @@
             "mean": 0.73,
             "std": 0.15
         },
-        "visual@placement": {
-            "mean": 0.88,
-            "std": 0.04
+        "nodes@flow": {
+            "mean": 0.71,
+            "std": 0.03
         }
     }
 ]

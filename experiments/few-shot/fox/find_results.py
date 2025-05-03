@@ -16,12 +16,12 @@ if __name__ == "__main__":
         env="prod",
         eval_method="3_fold",
         experiment_types=["coverage", "similarity"],
-        prompt_types=["signature"],
-        shots=[1],
-        metrics=["syntax", "semantic", "tests", "visual"],
+        prompt_types=["regular", "signature"],
+        shots=[1, 5, 10],
+        metrics=["syntax", "semantic", "tests", "nodes"],
         ks=[1, 2, 3, 5, 10],
         use_threads=True,
-        model="llama3.2:3b-instruct-fp16",
+        model="",
         phase=Phase.TESTING,
     )
 
