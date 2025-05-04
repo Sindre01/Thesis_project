@@ -92,7 +92,7 @@ def run_testing_experiment(
         rag_data: RagData,
         max_ctx: int,
         best_params_optimization = None,
-        seeds = [3, 75, 346], #TODO: set back as [3, 75, 346]
+        seeds = [75, 346], #TODO: set back as [3, 75, 346]
         ollama_port = "11434",
         experiment_type = "similarity",
         constrained_output = False,
@@ -286,23 +286,23 @@ if __name__ == "__main__":
     similarity_key = "task" #"external_functions"
     
     experiments =  [
-        # {
-        #     "name": "signature_RAG",
-        #     "prompt_prefix": "Create a function",
-        #     "num_shots": [5],
-        #     "prompt_type": "signature",
-        #     "semantic_selector": True
-        # },
         {
-            "name": "regular_RAG",
+            "name": "signature_RAG",
             "prompt_prefix": "Create a function",
             "num_shots": [5],
-            "prompt_type": "regular",
+            "prompt_type": "signature",
             "semantic_selector": True
-        }
+        },
+        # {
+        #     "name": "regular_RAG",
+        #     "prompt_prefix": "Create a function",
+        #     "num_shots": [5],
+        #     "prompt_type": "regular",
+        #     "semantic_selector": True
+        # }
         ]
     models = ["llama3.3:70b-instruct-fp16"] # ["llama3.2:3b-instruct-fp16", "phi4:14b-fp16"]
-    fold = 2
+    fold = 1
     ollama_port = f"11431"
 
     # Parse arguments:
