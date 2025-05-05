@@ -31,7 +31,7 @@ class RagData:
         language_docs: list[str] 
     ):
         dataset_id   = "language"                       # or hash(path), CLI arg, …
-        run_stamp    = datetime.now().strftime("%Y%m%dT%H%M%S")
+        run_stamp    = datetime.datetime.now().strftime("%Y%m%dT%H%M%S")
         out_dir      = Path("faiss_indices") / f"{dataset_id}_{run_stamp}_{uuid4().hex}"
 
 
@@ -47,7 +47,7 @@ class RagData:
         node_docs: list[dict]
     ):
         dataset_id   = "node"                       # or hash(path), CLI arg, …
-        run_stamp    = datetime.now().strftime("%Y%m%dT%H%M%S")
+        run_stamp    = datetime.datetime.now().strftime("%Y%m%dT%H%M%S")
         out_dir      = Path("faiss_indices") / f"{dataset_id}_{run_stamp}_{uuid4().hex}"
 
 

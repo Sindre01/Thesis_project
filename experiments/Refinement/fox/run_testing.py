@@ -302,8 +302,8 @@ if __name__ == "__main__":
         # }
         ]
     models = ["llama3.2:3b-instruct-fp16"] 
-    fold = 2
-    ollama_port = f"11432"
+    fold = 0
+    ollama_port = f"1143{fold}"
 
     # Parse arguments:
     parser = argparse.ArgumentParser(description="Process input.")
