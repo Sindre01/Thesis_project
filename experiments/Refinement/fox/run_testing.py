@@ -92,7 +92,7 @@ def run_testing_experiment(
         rag_data: RagData,
         max_ctx: int,
         best_params_optimization = None,
-        seeds = [346], #TODO: set back as [3, 75, 346]
+        seeds = [3, 75, 346], #TODO: set back as [3, 75, 346]
         ollama_port = "11434",
         experiment_type = "similarity",
         constrained_output = False,
@@ -301,9 +301,9 @@ if __name__ == "__main__":
         #     "semantic_selector": True
         # }
         ]
-    models = ["llama3.3:70b-instruct-fp16"] # ["llama3.2:3b-instruct-fp16", "phi4:14b-fp16"]
-    fold = 0
-    ollama_port = f"11430"
+    models = ["llama3.2:3b-instruct-fp16"] 
+    fold = 2
+    ollama_port = f"11432"
 
     # Parse arguments:
     parser = argparse.ArgumentParser(description="Process input.")

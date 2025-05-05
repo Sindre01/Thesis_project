@@ -1,6 +1,9 @@
+import datetime
 import os
+from pathlib import Path
 import re
 import sys
+from uuid import uuid4
 from langchain_ollama import OllamaEmbeddings
 import pandas as pd
 from langchain_community.vectorstores import FAISS
@@ -27,21 +30,34 @@ class RagData:
         self,
         language_docs: list[str] 
     ):
+        dataset_id   = "language"                       # or hash(path), CLI arg, …
+        run_stamp    = datetime.now().strftime("%Y%m%dT%H%M%S")
+        out_dir      = Path("faiss_indices") / f"{dataset_id}_{run_stamp}_{uuid4().hex}"
+
+
         faiss_docs = [Document(page_content=doc["content"], metadata={"file": doc["file"], "chunk_id": doc["chunk_id"]}) for doc in language_docs]
         vectorstore = FAISS.from_documents(faiss_docs, self.embeddings)
-        vectorstore.save_local("faiss_language_index") # Save FAISS index locally
-        print("✅ FAISS index saved successfully.")
+
+        vectorstore.save_local(str(out_dir))
+        print(f"✅ FAISS index saved to {out_dir}")
         self.language_retriever = vectorstore
 
     def init_node_retriever(
         self,
         node_docs: list[dict]
     ):
-        
+        dataset_id   = "node"                       # or hash(path), CLI arg, …
+        run_stamp    = datetime.now().strftime("%Y%m%dT%H%M%S")
+        out_dir      = Path("faiss_indices") / f"{dataset_id}_{run_stamp}_{uuid4().hex}"
+
+
         faiss_docs = [Document(page_content=doc["content"], metadata={"file": doc["file"], "chunk_id": doc["chunk_id"]}) for doc in node_docs]
         vectorstore = FAISS.from_documents(faiss_docs, self.embeddings)
-        vectorstore.save_local("faiss_node_index") # Save FAISS index locally
-        print("✅ FAISS index saved successfully.")
+
+        out_dir.mkdir(parents=True, exist_ok=False)   # fail fast if it somehow exists
+        vectorstore.save_local(str(out_dir))
+        print(f"✅ FAISS index saved to {out_dir}")
+
         self.node_retriever = vectorstore
         
         

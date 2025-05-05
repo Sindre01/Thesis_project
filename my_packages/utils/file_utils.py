@@ -1,5 +1,6 @@
 import json
 import os
+from pathlib import Path
 from my_packages.common.classes import CodeEvaluationResult
 from my_packages.data_processing.code_files import extract_tests_module
 
@@ -78,12 +79,33 @@ def read_code_file(task_id: int) -> str:
     except Exception as e:
         return f"Error: {e}"
         
-def get_train_task_ids() -> list[int]:
+def get_train_task_ids(
+    dataset_file: str = "test_dataset.json",
+    base_dir: os.PathLike | str = "data/MBPP_Midio_50/splits/hold_out",
+) -> list[int]:
+    
     """Reads the train task ids from the file."""
-    file_path = os.path.join(project_root, 'data/MBPP_Midio_50/splits/hold_out/test_dataset.json')
-    with open(file_path, 'r') as file:
-        task_ids = [int(sample["task_id"]) for sample in file.readlines()]
-    return task_ids
+    path = Path(project_root, base_dir, dataset_file)
+
+    task_ids: list[int] = []
+    with path.open(encoding="utf-8") as fp:
+        first_char = fp.read(1)
+        fp.seek(0)
+
+        if first_char == "[":                       # JSON array
+            data = json.load(fp)
+            task_ids.extend(int(row["task_id"]) for row in data)
+
+        else:                                      # JSON‑Lines
+            for line in fp:
+                if not line.strip():               # skip empty lines
+                    continue
+                obj = json.loads(line)
+                task_ids.append(int(obj["task_id"]))
+
+    # make them unique while preserving original order
+    seen: set[int] = set()
+    return [tid for tid in task_ids if not (tid in seen or seen.add(tid))]
 
 def write_code_file(task_id: int, code: str):
     file_path = os.path.join(project_root, f'data/MBPP_Midio_50/only_files/task_id_{task_id}.midio')
