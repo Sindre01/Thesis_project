@@ -130,8 +130,6 @@ any_instance: instance
 
 // ARROWS 
 
-
-
 arrow_source: item_path 
             | literal_value
             | inline_func

@@ -1,7 +1,16 @@
+%import common.CNAME
+%import common.WS
+%ignore WS
 
-arrow_source: item_path 
-            | literal_value
-            | inline_func
-arrow_target: item_path
+// Terminals
+DOT: "."
+ARROW_OP: "->"
+IDENTIFIER: CNAME
 
-arrow: arrow_source ARROW_OP arrow_target
+// Non-terminals, also known as rules
+?name: IDENTIFIER
+item_path: name (DOT name)*
+arrow: item_path ARROW_OP item_path
+
+
+

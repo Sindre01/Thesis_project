@@ -1,7 +1,7 @@
 import time
-from lark import Lark
 import sys
 sys.path.append('../')  # Add the path to the my_packages module
+from lark import Lark
 from my_packages.common.rag import init_rag_data
 from my_packages.evaluation.code_evaluation import get_args_from_nodes
 from my_packages.utils.file_utils import read_code_file, read_dataset_to_json
@@ -76,56 +76,34 @@ from my_packages.utils.file_utils import read_code_file, read_dataset_to_json
 # grammar_text = grammar_text.replace("%%AVAILABLE_ARGS%%", available_args_union)
 # grammar_text = grammar_text.replace("%%AVAILABLE_NODES%%", available_nodes_union)
 
-with open("midio_grammar.lark", "r") as f:
+with open("test.lark", "r") as f:
     grammar_text = f.read()
-parser = Lark(grammar_text, parser="lalr", start="start", debug=True, strict=True)
+parser = Lark(grammar_text, parser="lalr", start="arrow", debug=True, strict=True)
 
-code = """
-import("std", Std_k98ojb)
-import("http", Http_q7o96c)
+code = "expression_ea12d8.result -> output_3339a3"
 
-module() main {
-
-    func(doc: "checks whether the given two integers have opposite sign or not.") opposite_signs {
-        in(x: -426, y: -248, name: "x") property(Number) gen_0
-        in(x: -420, y: -107, name: "y") property(Number) y_5390f5
-        out(x: 159, y: -219, name: "output") property(Bool) output_3339a3
-
-        instance(x: -208, y: -217) expression_ea12d8 root.Std_k98ojb.Math.Expression {
-            expression: "(x < 0 && y > 0) || (x > 0 && y < 0)"
-        }
-        x_853326 -> expression_ea12d8.result
-        y_5390f5 -> expression_ea12d8.gen_1
-        expression_ea12d8.result -> output_3339a3
-    }
-    
-    
-
-    instance(x: -745, y: -368) task_id_58_77805a root.main.opposite_signs {}
-} 
-"""
 print(code)
 tree = parser.parse(code)
 
 # # Print the raw AST
-# print(tree.pretty())
-print(list(parser.lex(code)))
+print(tree)
+# print(list(parser.lex(code)))
 # # time.sleep(2)
-main_dataset_folder = './MBPP_Midio_50/metadata/used_external_functions'
-main_dataset_folder = './MBPP_Midio_50/MBPP-Midio-50.json'
-dataset = read_dataset_to_json(main_dataset_folder)
+# main_dataset_folder = './MBPP_Midio_50/metadata/used_external_functions'
+# main_dataset_folder = './MBPP_Midio_50/MBPP-Midio-50.json'
+# dataset = read_dataset_to_json(main_dataset_folder)
 
-for i in range(0,50):
-    # dataset[i]['code'] = dataset[i]['code'].replace("%%AVAILABLE_ARGS%%", available_args_union)
-    i=i+1
-    print(f"\n\nParsing code {i}...")
-    code = read_code_file(i)
-    print(code)
-    # Parse it
-    tree = parser.parse(code)
+# for i in range(0,50):
+#     # dataset[i]['code'] = dataset[i]['code'].replace("%%AVAILABLE_ARGS%%", available_args_union)
+#     i=i+1
+#     print(f"\n\nParsing code {i}...")
+#     code = read_code_file(i)
+#     print(code)
+#     # Parse it
+#     tree = parser.parse(code)
 
-    # Print the raw AST
-    # print(tree.pretty())
-    print(list(parser.lex(code)))
+#     # Print the raw AST
+#     # print(tree.pretty())
+#     print(list(parser.lex(code)))
 
 
