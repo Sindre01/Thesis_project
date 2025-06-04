@@ -70,13 +70,13 @@ python -m ipykernel install --user \
 
 ## 📚 Experiments
 
-| Method                  | Path                              |
-| ----------------------- | ----------------------------------- |
-| Few‑shot                | `experiments/few_shot/`             |
-| RAG & Full Midio docs   | `experiments/context/`              |
-| SynCode                 | `experiments/Syncode/`              |
-| Self‑Debugging          | `experiments/Refinements/`          |
-| Nodes@Flow              | `experiments/visual_flow_metric/`   |
+| Method                        | Path                                                        |
+|-------------------------------|-------------------------------------------------------------|
+| Few-shot                      | [`experiments/few_shot/`](./experiments/few_shot/)          |
+| RAG & Full Midio Docs         | [`experiments/context/`](./experiments/context/)            |
+| SynCode                       | [`experiments/Syncode/`](./experiments/Syncode/)            |
+| Self-Debugging                | [`experiments/Refinements/`](./experiments/Refinements/)    |
+| Nodes@Flow (Visual Flow Metric)| [`experiments/visual_flow_metric/`](./experiments/visual_flow_metric/) |
 
 ---
 **Note:** `experiments/error_msgs/error_stats.ipynb` analyzes the errors.
