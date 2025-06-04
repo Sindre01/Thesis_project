@@ -46,105 +46,24 @@ python -m ipykernel install --user \
 ```
 <experiment_name>/
 ├── fox/
-│   ├── find_results.py   # run *locally*  – Midio compiler parses results/params
-│   └── run_testing.py    # run on FOX with Slurm array jobs
-│   ... 
+│   ├── find_results.py   # Runs locally with the Midio compiler and finds results or best hyper params.
+│   ├── run_testing.py    # Runs on FOX with Slurm array jobs.
+│   ├── submit_testing.py # Submits job on FOX with the specified arguments.
+│   └── ...
 └── ...
 ```
-
+"/cluster/work/projects/ec12/ec-sindrre/ollama-models" 
 **Notes**
 
 * Local interactive runs require an active SSH connection to FOX.
-* Evaluations persist to **MongoDB** (start/stop helpers in `db_scripts/`).
+* Evaluations errors, reulsts and more persists to **MongoDB** (start/stop helpers in `db_scripts/`).
 * A detailed experiment‑setup guide lives [here](./docs/EXPERIMENT_SETUP.md). <!-- adjust link -->
 
 ---
 
-## 🌐 Local Development → Ollama API on FOX
+## 📚 Experiments
 
-The steps below use **WSL 2**, but any Linux/macOS host should work.
-
-### 1 · SSH config
-
-```bash
-nano ~/.ssh/config
-```
-
-Add:
-
-```text
-Host fox
-    HostName fox.educloud.no
-    User ec‑sindrre
-    IdentityFile ~/.ssh/id_rsa
-    ControlMaster auto
-    ControlPath ~/.ssh/sockets/%r@%h-%p
-    ControlPersist 8h
-    ServerAliveInterval 120
-    ServerAliveCountMax 10
-```
-
-### 2 · Start (or reuse) an SSH master session
-
-```bash
-ssh fox   # asks for pwd & 2FA once per ControlPersist window
-exit      # leave but keep master alive
-```
-
-Check/close:
-
-```bash
-ssh -O check fox   # status
-ssh -O exit  fox   # stop master + sockets
-```
-
-### 3 · Run **Ollama** on a compute/GPU node
-
-```bash
-# on gpu‑10, gpu‑11, ...             (never on the login node!)
-ollama serve
-```
-
-Health‑check:
-
-```bash
-curl localhost:11434   # → “Ollama is running”
-```
-
-### 4 · Port‑forward the API to your laptop
-
-```bash
-ssh -f -N -L 11434:<gpu-nodename>:11434 fox
-curl http://localhost:11434   # same “Ollama is running” message
-```
-
-Now every local tool (Python, VS Code, etc.) can hit `http://localhost:11434` transparently.
-
-### 5 · Wrap up
-
-When done:
-
-```bash
-ssh -O exit fox   # closes port forward & master session
-```
-
----
-
-### Optional – Custom model cache location
-
-Home directory quota is tight; cache models under project storage instead:
-
-```bash
-export OLLAMA_MODELS=/fp/projects01/ec12/ec-sindrre/cache/ollama
-```
-
-Add the line to your `~/.bashrc` (or `~/.zshrc`) on FOX and re‑login.
-
----
-
-## 📚 Modules / Experiment Variants
-
-| Area                    | Path                            |
+| Method                    | Path                            |
 | ----------------------- | ------------------------------- |
 | Few‑shot                | `experiments/few_shot/`         |
 | RAG & Full Midio docs   | `experiments/context/`          |
