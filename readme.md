@@ -72,9 +72,9 @@ python -m ipykernel install --user \
 
 | Method                        | Path                                                        |
 |-------------------------------|-------------------------------------------------------------|
-| Few-shot                      | [`experiments/few_shot/`](./experiments/few-shot/)          |
+| Few-shot                      | [`experiments/few-shot/`](./experiments/few-shot/)          |
 | RAG & Full Midio Docs         | [`experiments/context/`](./experiments/context/)            |
-| SynCode                       | [`experiments/Syncode/`](./experiments/SynCode/)            |
+| [SynCode](https://github.com/structuredllm/syncode/tree/main)                       | [`experiments/SynCode/`](./experiments/SynCode/)            |
 | Self-Debugging                | [`experiments/Refinements/`](./experiments/Refinement/)    |
 | Nodes@Flow (Visual Flow Metric)| [`experiments/visual_flow_metric/`](./experiments/visual_flow_metric/) |
 
