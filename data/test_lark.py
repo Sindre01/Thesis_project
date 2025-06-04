@@ -76,26 +76,30 @@ from my_packages.utils.file_utils import read_code_file, read_dataset_to_json
 # grammar_text = grammar_text.replace("%%AVAILABLE_ARGS%%", available_args_union)
 # grammar_text = grammar_text.replace("%%AVAILABLE_NODES%%", available_nodes_union)
 
-################ Regular grammar file on dataset ###########################
-with open("midio_grammar.lark", "r") as f:
+################ Testing regular grammar file parsing on dataset ###########################
+with open("./midio_grammar.lark", "r") as f:
     grammar_text = f.read()
-parser = Lark(grammar_text, parser="lalr", start="arrow", debug=True, strict=True)
-
+parser = Lark(grammar_text, parser="lalr", start="file", debug=True, strict=True)
 
 main_dataset_folder = './MBPP_Midio_50/MBPP-Midio-50.json'
 dataset = read_dataset_to_json(main_dataset_folder)
+try:
+    for i in range(0,50):
+        # dataset[i]['code'] = dataset[i]['code'].replace("%%AVAILABLE_ARGS%%", available_args_union)
+        i=i+1
+        print(f"\nParsing code {i}...")
+        code = read_code_file(i)
+        # print(code)
+        # Parse it
+        tree = parser.parse(code)
+        # Print the raw AST
+        # print(tree.pretty())
+        # print(list(parser.lex(code)))
 
-for i in range(0,50):
-    # dataset[i]['code'] = dataset[i]['code'].replace("%%AVAILABLE_ARGS%%", available_args_union)
-    i=i+1
-    print(f"\n\nParsing code {i}...")
-    code = read_code_file(i)
-    print(code)
-    # Parse it
-    tree = parser.parse(code)
+    print("Parsing with Midio LARK grammar completed successfully on all samples in MBPP-Midio-50 dataset.")
 
-    # Print the raw AST
-    # print(tree.pretty())
-    print(list(parser.lex(code)))
+except Exception as e:
+    print(f"Error parsing code sample {i}: {e}")
+
 
 

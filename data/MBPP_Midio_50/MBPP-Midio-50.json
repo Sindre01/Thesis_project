@@ -42,39 +42,7 @@
                 "assert opposite_signs(1,-2) == True",
                 "assert opposite_signs(3,2) == False",
                 "assert opposite_signs(-10,-10) == False"
-            ],
-            "tests": {
-                "test_cases": [
-                    {
-                        "input": [
-                            1,
-                            -2
-                        ],
-                        "expected_output": true
-                    },
-                    {
-                        "input": [
-                            3,
-                            2
-                        ],
-                        "expected_output": false
-                    },
-                    {
-                        "input": [
-                            -10,
-                            -10
-                        ],
-                        "expected_output": false
-                    },
-                    {
-                        "input": [
-                            -2,
-                            2
-                        ],
-                        "expected_output": true
-                    }
-                ]
-            }
+            ]
         }
     },
     {
@@ -114,38 +82,7 @@
                 "assert smallest_num([10, 20, 1, 45, 99]) == 1",
                 "assert smallest_num([1, 2, 3]) == 1",
                 "assert smallest_num([45, 46, 50, 60]) == 45"
-            ],
-            "tests": {
-                "test_cases": [
-                    {
-                        "input": [
-                            10,
-                            20,
-                            1,
-                            45,
-                            99
-                        ],
-                        "expected_output": 1
-                    },
-                    {
-                        "input": [
-                            1,
-                            2,
-                            3
-                        ],
-                        "expected_output": 1
-                    },
-                    {
-                        "input": [
-                            45,
-                            46,
-                            50,
-                            60
-                        ],
-                        "expected_output": 45
-                    }
-                ]
-            }
+            ]
         },
         "flow_description": "The flow should create the built-in function node from the std library, called 'List.Min' node, should be used. The node should be created inside a function, with proper name."
     },
@@ -193,19 +130,7 @@
                 "assert is_diff (12345) == False",
                 "assert is_diff(1212112) == True",
                 "assert is_diff(1212) == False"
-            ],
-            "tests": {
-                "test_cases": [
-                    {
-                        "input": 1212112,
-                        "expected_output": true
-                    },
-                    {
-                        "input": 1212,
-                        "expected_output": false
-                    }
-                ]
-            }
+            ]
         },
         "flow_description": "The flow should create a user-defined function. The body of the function contains one input property of type Number, one 'Data Object' node with number 11, one 'Math Modulo', one 'Math Expression' and one output property of type Bool.\n The arrows are connected as follows: The input property, called n, is connected with arrows to the value propery of the 'Math Modulo' node. The Data Object with number 11 is connected with arrowes to the divisor property og 'Math modulo'. The result output property of the 'Math modulo' node is connected with arrows to the 'Math Expression' node, which contains the expression (n == 0). The result of this 'Math Expression' node is a Bool which is connected with arrows to the output property, that return the Bool from the function. The user-defined function is then created within the main module."
     },
@@ -262,49 +187,7 @@
                 "assert kth_element([12,3,5,7,19], 2) == 3",
                 "assert kth_element([17,24,8,23], 3) == 8",
                 "assert kth_element([16,21,25,36,4], 4) == 36"
-            ],
-            "tests": {
-                "test_cases": [
-                    {
-                        "input": [
-                            [
-                                12,
-                                3,
-                                5,
-                                7,
-                                19
-                            ],
-                            2
-                        ],
-                        "expected_output": 3
-                    },
-                    {
-                        "input": [
-                            [
-                                17,
-                                24,
-                                8,
-                                23
-                            ],
-                            3
-                        ],
-                        "expected_output": 8
-                    },
-                    {
-                        "input": [
-                            [
-                                16,
-                                21,
-                                25,
-                                36,
-                                4
-                            ],
-                            4
-                        ],
-                        "expected_output": 36
-                    }
-                ]
-            }
+            ]
         },
         "flow_description": "The flow should create a user-defined function called 'kth_element' with three inputs: an 'execute' trigger, 'list' of type List, and 'k' of type Number. The function should have two outputs: a 'continue' trigger and 'element' of type Number, which is the kth element in the provided list. Inside the function, a local variable is used to store the state of the input property 'k'. This variable is called 'local_k' and is set at the beginning of the flow using the setter node to the value of the input property of 'k'. Then an 'IfExpression' node is used to check if 'k' is equal to 0. If 'k' is 0, trigger the 'continue' output immediately. Otherwise, it gets the 'local_k' variable using a getter node and adjusts for zero-based indexing by using 'Math Sub' to subract 1, and assign this result back to 'local_k', using the setter node. Then, use a 'List GetAt' node to retrieve the element at the updated index from 'list'. The getter node is used for getting the value of the local variable 'local_k'. The retrieved element should be output through the 'element' property. Connect the nodes appropriately: the 'execute' trigger starts the flow and sends the flow of execution to the setter node. The setter node uses input property 'k' and therefore an arrow is created between them. The setter node then sends the flow of execution to the 'Std IfExpression' node, which also takes in the input property 'k'. The node's output trigger 'then' is connected with the output trigger 'continue' of the flow, and the output trigger 'else' is connected to another setter node. The setter node's input property 'new value' is connected to the output property 'result' of the 'Math Sub' node. Lastly, the input propery 'list' and the getter node is connected to the input properties 'list' and 'index' of the 'List GetAt' node. The outpur property 'itemAtIndex' of this node is then connected to the output property 'element' of the user-defined function, which returns the number."
     },
@@ -347,32 +230,7 @@
                 "assert multiply_int(10,20)==200",
                 "assert multiply_int(5,10)==50",
                 "assert multiply_int(4,8)==32"
-            ],
-            "tests": {
-                "test_cases": [
-                    {
-                        "input": [
-                            10,
-                            20
-                        ],
-                        "expected_output": 200
-                    },
-                    {
-                        "input": [
-                            5,
-                            10
-                        ],
-                        "expected_output": 50
-                    },
-                    {
-                        "input": [
-                            4,
-                            8
-                        ],
-                        "expected_output": 32
-                    }
-                ]
-            }
+            ]
         },
         "flow_description": "The flow should create the built-in function node from the std library, called 'Math.Expression' node, should be used. The node should be created inside a function, with proper name."
     },
@@ -419,27 +277,7 @@
                 "assert min_of_three(10,20,0)==0",
                 "assert min_of_three(19,15,18)==15",
                 "assert min_of_three(-10,-20,-30)==-30"
-            ],
-            "tests": {
-                "test_cases": [
-                    {
-                        "input": [
-                            10,
-                            20,
-                            0
-                        ],
-                        "expected_output": 0
-                    },
-                    {
-                        "input": [
-                            19,
-                            15,
-                            18
-                        ],
-                        "expected_output": 15
-                    }
-                ]
-            }
+            ]
         },
         "flow_description": "The flow should create a user-defined function. The function should contain three input properties of type Number, one Data Object list of the input properties, one 'Math Min' node and one output property of type Number.\n The arrows are connected as follows: The input properties are connected with arrows to the Data Obejct to create list and this list is further conencted to the property of the 'Math Min' node. The result of the 'Math Min' node is connected with arrows to the output property, that return the Number from the function. The user-defined function is then created within the main module."
     },
@@ -488,63 +326,7 @@
                 "assert common_element([1,2,3,4,5], [5,6,7,8,9])==True",
                 "assert common_element([1,2,3,4,5], [6,7,8,9])==False",
                 "assert common_element(['a','b','c'], ['d','b','e'])==True"
-            ],
-            "tests": {
-                "test_cases": [
-                    {
-                        "input": [
-                            [
-                                1,
-                                2,
-                                3,
-                                4,
-                                5
-                            ],
-                            [
-                                5,
-                                6,
-                                7,
-                                8,
-                                9
-                            ]
-                        ],
-                        "expected_output": true
-                    },
-                    {
-                        "input": [
-                            [
-                                1,
-                                2,
-                                3,
-                                4,
-                                5
-                            ],
-                            [
-                                6,
-                                7,
-                                8,
-                                9
-                            ]
-                        ],
-                        "expected_output": false
-                    },
-                    {
-                        "input": [
-                            [
-                                "a",
-                                "b",
-                                "c"
-                            ],
-                            [
-                                "d",
-                                "b",
-                                "e"
-                            ]
-                        ],
-                        "expected_output": true
-                    }
-                ]
-            }
+            ]
         },
         "flow_description": "The flow should create a user-defined function. The function should contain two input properties of type List, one 'List Intersection' node, one 'List Not Empty' node and one output property of type Bool.\n The arrows are connected as follows: The input properties are connected with arrows to the 'List Intersection' node. The result of the 'List Intersection' node is connected with arrows to the 'List not empty' node property, which is then connected with arrows to the output property, that return the Bool from the function. The user-defined function is then created within the main module."
     },
@@ -593,51 +375,7 @@
                 "assert check_greater([1, 2, 3, 4, 5], 4) == False",
                 "assert check_greater([2, 3, 4, 5, 6], 8) == True",
                 "assert check_greater([9, 7, 4, 8, 6, 1], 11) == True"
-            ],
-            "tests": {
-                "test_cases": [
-                    {
-                        "input": [
-                            [
-                                1,
-                                2,
-                                3,
-                                4,
-                                5
-                            ],
-                            4
-                        ],
-                        "expected_output": false
-                    },
-                    {
-                        "input": [
-                            [
-                                2,
-                                3,
-                                4,
-                                5,
-                                6
-                            ],
-                            8
-                        ],
-                        "expected_output": true
-                    },
-                    {
-                        "input": [
-                            [
-                                9,
-                                7,
-                                4,
-                                8,
-                                6,
-                                1
-                            ],
-                            11
-                        ],
-                        "expected_output": true
-                    }
-                ]
-            }
+            ]
         },
         "flow_description": "The flow should create a user-defined function. The body of the function contains two input properties of type Number and List, one 'List Object' node with number 11, one 'Math GreaterThan' and one output property of type Bool.\n The arrows are connected as follows: The input property, called list, is connected with arrows to the list property of the 'List Lenght' node. The output property of 'List Lenght' node, named lenght, is connected with arrows to the input property, named right, of the 'Math GreaterThan' node. The other input property to the user-defnied function is named n and is conencted to the other input property, named left, of the 'Math GreaterThan' node. The output property of the 'Math GreaterThan' node is returned to the output property of the user-defined function, that return this Bool value from the function. The user-defined function is then created within the main module."
     },
@@ -680,23 +418,7 @@
                 "assert last_digit(123) == 3",
                 "assert last_digit(25) == 5",
                 "assert last_digit(30) == 0"
-            ],
-            "tests": {
-                "test_cases": [
-                    {
-                        "input": 123,
-                        "expected_output": 3
-                    },
-                    {
-                        "input": 25,
-                        "expected_output": 5
-                    },
-                    {
-                        "input": 30,
-                        "expected_output": 0
-                    }
-                ]
-            }
+            ]
         },
         "flow_description": ""
     },
@@ -745,23 +467,7 @@
                 "assert text_match_wordz(\"pythonz.\")==True",
                 "assert text_match_wordz(\"xyz.\")==True",
                 "assert text_match_wordz(\"  lang  .\")==False"
-            ],
-            "tests": {
-                "test_cases": [
-                    {
-                        "input": "pythonz.",
-                        "expected_output": true
-                    },
-                    {
-                        "input": "xyz.",
-                        "expected_output": true
-                    },
-                    {
-                        "input": "  lang  .",
-                        "expected_output": false
-                    }
-                ]
-            }
+            ]
         },
         "flow_description": "The flow should create a user-defined function. The body of the function contains one input property of type String, one 'Strings ToLower' node, one 'Strings Contains' node with the input property, named 'contains', set to z in lower case and one output property of type Bool.\n The arrows are connected as follows: The input property, called string, is connected with arrows to the input propery of the 'String ToLower' node. The output property, called output, of the 'Strings ToLower' node is then connected with arrows to the input property, named input, of the 'Strings Contains' node. The output property, named result, of the 'Strings contains' node is then connected with arrows to the output property, named result, of the user-defined function. The user-defined function is then created within the main module."
     },
@@ -813,39 +519,7 @@
                 "assert check_consecutive([1,2,3,4,5]) == True",
                 "assert check_consecutive([1,2,3,5,6]) == False",
                 "assert check_consecutive([1,2,1]) == False"
-            ],
-            "tests": {
-                "test_cases": [
-                    {
-                        "input": [
-                            1,
-                            2,
-                            3,
-                            4,
-                            5
-                        ],
-                        "expected_output": true
-                    },
-                    {
-                        "input": [
-                            1,
-                            2,
-                            3,
-                            5,
-                            6
-                        ],
-                        "expected_output": false
-                    },
-                    {
-                        "input": [
-                            1,
-                            2,
-                            1
-                        ],
-                        "expected_output": false
-                    }
-                ]
-            }
+            ]
         },
         "flow_description": "The flow should create a user-defined function. The body of the function contains one input property of type any, one 'List Sort' node, one 'List Min' node, one 'List Max' node, one 'List GenerateRange' node, one 'Math Expression' node with the expression 'list1 == list2', and in this case one output property 'result' of type Bool. \n The arrows are connected as follows: The input property, called list, is connected with arrows to the 'List Sort', 'List Min', and 'List Max' nodes. The sorted list output of the 'List Sort' node is connected with arrows to the first input (list1) of the 'Math Expression' node. The outputs of the 'List.Min' and 'List.Max' nodes are connected with arrows to the from and to inputs of the 'List GenerateRange' node, respectively. The generated range output of the 'List GenerateRange' node is connected with arrows to the second input (list2) of the 'Math Expression' node. The result output of the 'Math Expression' node is then connected with arrows to the output property, called output, of the user-defined function. The user-defined function is then created within the main module"
     },
@@ -888,10 +562,7 @@
                 "assert replace_char(\"polygon\",'y','l')==(\"pollgon\")",
                 "assert replace_char(\"character\",'c','a')==(\"aharaater\")",
                 "assert replace_char(\"python\",'l','a')==(\"python\")"
-            ],
-            "tests": {
-                "test_cases": []
-            }
+            ]
         },
         "flow_description": "The flow should create the built-in function node from the std library, called 'Strings.Replace' node, should be used. The node should be created inside a function, with proper name."
     },
@@ -934,23 +605,7 @@
                 "assert is_lower(\"InValid\") == \"invalid\"",
                 "assert is_lower(\"HellO\") == \"hello\"",
                 "assert is_lower(\"SenTenCE\") == \"sentence\""
-            ],
-            "tests": {
-                "test_cases": [
-                    {
-                        "input": "InValid",
-                        "expected_output": "invalid"
-                    },
-                    {
-                        "input": "HellO",
-                        "expected_output": "hello"
-                    },
-                    {
-                        "input": "SenTenCE",
-                        "expected_output": "sentence"
-                    }
-                ]
-            }
+            ]
         },
         "flow_description": "The flow should create the built-in function node from the std library, called 'Strings.ToLower' node, should be used. The node should be created inside a function, with proper name."
     },
@@ -1005,23 +660,7 @@
                 "assert sum_digits(345)==12",
                 "assert sum_digits(12)==3",
                 "assert sum_digits(97)==16"
-            ],
-            "tests": {
-                "test_cases": [
-                    {
-                        "input": 345,
-                        "expected_output": 12
-                    },
-                    {
-                        "input": 12,
-                        "expected_output": 3
-                    },
-                    {
-                        "input": 97,
-                        "expected_output": 16
-                    }
-                ]
-            }
+            ]
         },
         "flow_description": "The flow should create a user-defined function, called sum_digits. The body of the function contains one input property of type Number, called 'n', and one input trigger, called 'execute'. It also includes the following node: one 'Math Floor' node, one 'Math Modulo' node with the divisor set to 10, one 'Math Division' node with the divisor set to 10, one 'Math Addition' node, one 'Std IfExpression' node, local variable creation with the getter and setter nodes, and the current sum_digits function node to be able to do recursive calls. Lastly, it includes an output property of type number and an output trigger, called 'continue'.\n The arrows are connected as follows:  The input property, called n, is connected with arrows to the input property of the 'Math Floor' node. The output property of the 'Math Floor' node, called 'output', is connected with three arrows to the input properties of 'Std IfExpression', 'Math Div' and 'Math Modulo'. The input trigger, called 'execute' is conencted with an arrow to the setter node, which sets the value of a variable sum to the number 0. Then, the flow of execution is futher sent to the 'Std IfExpression' node, which evaluates if 'n <= 0'. If true, then the flow of execution is sent to the output trigger, called 'continue'. If false, the the flow of execution is sent to the current sum_digits node which starts a recursive call, with the input property 'n' set to the result of the 'Math Div' node, which divides n (after going through 'Math Floor') with 10. After the recursive calls, the flow of execution is sent to a setter node, which sets the variable 'sum' to the value of 'Math Add', which add the output of 'sum_digits' and the 'Math Modulo' node with divisor 10. After the varible 'sum' have been set by the setter node, the flow of execution is sent to the ouput trigger 'continue'. At the end of the main flow and all the recursive calls, the output property is returned by connecting it to a 'getter' node, which gets the value of the variable 'sum'. The user-defined function is then created within the main module."
     },
@@ -1077,55 +716,7 @@
                 "assert issort_list([1,2,4,6,8,10,12,14,16,17])==True",
                 "assert issort_list([1, 2, 4, 6, 8, 10, 12, 14, 20, 17])==False",
                 "assert issort_list([1, 2, 4, 6, 8, 10,15,14,20])==False"
-            ],
-            "tests": {
-                "test_cases": [
-                    {
-                        "input": [
-                            1,
-                            2,
-                            4,
-                            6,
-                            8,
-                            10,
-                            12,
-                            14,
-                            16,
-                            17
-                        ],
-                        "expected_output": true
-                    },
-                    {
-                        "input": [
-                            1,
-                            2,
-                            4,
-                            6,
-                            8,
-                            10,
-                            12,
-                            14,
-                            20,
-                            17
-                        ],
-                        "expected_output": false
-                    },
-                    {
-                        "input": [
-                            1,
-                            2,
-                            4,
-                            6,
-                            8,
-                            10,
-                            15,
-                            14,
-                            20
-                        ],
-                        "expected_output": false
-                    }
-                ]
-            }
+            ]
         },
         "flow_description": "The flow should create a user-defined function, called 'issort_list'. The body of the function contains one input property of type List, named 'list' and one input trigger, named 'execute'. It also includes the following nodes: one 'List GetAt' node, one 'Std For' node, one 'Std IfExpression' node, and getter and setter nodes for storing a local varibale named 'previous'. Lastly, it includes an output variable named 'output' and an output trigger named 'continue'.\n Arrows are connected as follows: The input trigger, named 'list', is conencted to the input property 'list' of the 'List GetAt' and the input property 'items' of the 'Std For' node. The 'List GetAt' node gets the items at index zero and the output property, named 'itemAtIndex' is connected to a setter node, which sets the a variable named 'previous'. The input trigger named 'execute' of this user-defined function is connected to the setter node, so that the node is set at the start of the execution flow. After this, the flow of execution is sent to the 'Std For' node, which loops through the 'items' property, which is set to the input property 'list' of this user-defined function. In each iteration, the flow of execution is sent through an 'Std IfExpression' node. This node takes in 'index', 'current' item in the loop and the 'previous' variable, which is stored in the local variable 'previous' and provided by a getter node. The 'Std IfExpression' node checks if index is zero or previous is lower or equal to the previous item, by using this expression 'index == 0 || previous <= current'. If it evaluates to true, the flow of execution is first sent through a setter node, which sets the variable 'previous' to the 'item' provided by 'Std For'. Then the flow of execution is sent back to the input trigger 'next' of the 'Std For' node, which triggers usage of the next item in the list. However, if the 'Std IfExpression' in the for loop evalutes to true, the flow of execution is sent to the output trigger, named 'continue', which exits the for loops. Regardless of outcome, the output property of the user-defined function, is set value of the 'Std IfExpression'.  Then the 'Std For' node loops through the provided  The user-defined function is then created within the main module."
     },
@@ -1183,44 +774,7 @@
                 "assert unique_product([10, 20, 30, 40, 20, 50, 60, 40]) ==  720000000",
                 "assert unique_product([1, 2, 3, 1,]) == 6",
                 "assert unique_product([7, 8, 9, 0, 1, 1]) == 0"
-            ],
-            "tests": {
-                "test_cases": [
-                    {
-                        "input": [
-                            10,
-                            20,
-                            30,
-                            40,
-                            20,
-                            50,
-                            60,
-                            40
-                        ],
-                        "expected_output": 720000000
-                    },
-                    {
-                        "input": [
-                            1,
-                            2,
-                            3,
-                            1
-                        ],
-                        "expected_output": 6
-                    },
-                    {
-                        "input": [
-                            7,
-                            8,
-                            9,
-                            0,
-                            1,
-                            1
-                        ],
-                        "expected_output": 0
-                    }
-                ]
-            }
+            ]
         },
         "flow_description": "The flow should create a user-defined function, called unique_product. The body of the function contains two inputs: an input trigger named 'execute' and an input property of type List, named 'list'. It also includes the following nodes: one 'List Empty' node to initialize an empty list, for the local varibale 'usedNumbers', several Setter and Getter nodes for managing local variables 'product' and 'usedNumbers', one 'Std For' node to iterate over the 'items' in the input property 'list', one 'List Contains' node to check if an item is already in 'usedNumbers', one 'Std If' node to control flow based on whether an item is unique, one 'Math Mul' node to multiply the current product by the unique item, and one 'List Add' node to add the unique item to 'usedNumbers'. Lastly, it includes an output property named 'output' of type Number and an output trigger named 'continue'.\n\nArrows are connected as follows: The input trigger execute is connected to the Setter node that initializes the variable product to 1. This Setter node's continue output is connected to another Setter node that initializes 'usedNumbers' to an empty list using the 'List Empty' node. After initializing, the flow continues to the 'Std For' node, which iterates over the items property set to the input list. Inside the loop, the 'List Contains' node checks if the current item is in 'usedNumbers' by using the item from the 'Std For' node and 'usedNumbers' retrieved via a Getter node. The result from 'List Contains' is connected to the predicate of the 'Std If' node.\n\nIf the item is already in 'usedNumbers' (predicate is true), the flow proceeds to the next input of the 'Std For' node, skipping the current item.\nIf the item is not in 'usedNumbers' (predicate is false), the flow proceeds to a Setter node that updates 'usedNumbers' by adding the current item. This is done using a 'List Add' node connected to the Setter node. After updating usedNumbers, the flow continues to a 'Math Mul' node where the current product (retrieved via a Getter node) is multiplied by the current item. The result is stored back into product using another Setter node. The flow then returns to the next input of the 'Std For' node for the next iteration.\nOnce the 'Std For' loop is complete (all items have been processed), the flow proceeds to output the final product through the output property 'output', and the 'continue' output trigger is activated to signal the end of the function execution. The user-defined function is then created within the main module."
     },
@@ -1275,57 +829,7 @@
                 "assert is_Sub_Array([1,4,3,5],[1,2]) == False",
                 "assert is_Sub_Array([1,2,1],[1,2,1]) == True",
                 "assert is_Sub_Array([1,0,2,2],[2,2,0]) == False"
-            ],
-            "tests": {
-                "test_cases": [
-                    {
-                        "input": [
-                            [
-                                1,
-                                4,
-                                3,
-                                5
-                            ],
-                            [
-                                1,
-                                2
-                            ]
-                        ],
-                        "expected_output": false
-                    },
-                    {
-                        "input": [
-                            [
-                                1,
-                                2,
-                                1
-                            ],
-                            [
-                                1,
-                                2,
-                                1
-                            ]
-                        ],
-                        "expected_output": true
-                    },
-                    {
-                        "input": [
-                            [
-                                1,
-                                0,
-                                2,
-                                2
-                            ],
-                            [
-                                2,
-                                2,
-                                0
-                            ]
-                        ],
-                        "expected_output": false
-                    }
-                ]
-            }
+            ]
         },
         "flow_description": "The flow should create a user-defined function, called 'is_Sub_Array'. The body of the function contains three input properties: an input trigger named 'execute', and two input properties of type 'List', named 'main_list' and 'sub_list'. It also includes the following nodes: two 'List Length' nodes to obtain the lengths of 'main_list' and 'sub_list', respectively; one 'Math Expression' node to calculate the number of iterations using the expression 'n - m + 1', where 'n' is the length of 'main_list' and 'm' is the length of 'sub_list'; one 'Std Count' node to iterate over the possible starting indices in 'main_list'; one 'List Slice' node to extract a sublist from 'main_list', starting at the current index and ending at 'current_index + m'; one 'Logic Equal' node to compare the sliced sublist with 'sub_list'; and one 'Std If' node to control the flow based on whether a match is found. Lastly, it includes an output property named 'output' of type 'Bool' and an output trigger named 'continue'.\n\nArrows are connected as follows: The input trigger 'execute' is connected to the 'Std Count' node's 'reset' input. The 'Std Count' node's 'iterations' property is set using the result from the 'Math Expression' node, which calculates 'n - m + 1' using the lengths obtained from the two 'List Length' nodes. Inside the loop, the 'Std Count' node's 'iteration' output is connected to the 'start' input of the 'List Slice' node, and also to a 'Math Add' node along with 'm' to calculate the 'end' index for slicing. The 'List Slice' node extracts a sublist from 'main_list' using the 'start' and 'end' indices. The sliced sublist is then connected to the 'left' input of the 'Logic Equal' node, while 'sub_list' is connected to the 'right' input. The result from the 'Logic Equal' node is connected to the predicate of the 'Std If' node.\n\nIf the predicate evaluates to 'true' (the sublists are equal), the flow proceeds to set the output property 'output' to 'True' and triggers the output trigger 'continue', effectively ending the function execution. If the predicate evaluates to 'false', the flow proceeds to the 'count' input of the 'Std Count' node to continue with the next iteration. If the 'Std Count' node completes all iterations without finding a match (indicated by the 'done' output), the function sets the output property 'output' to 'False' and triggers the output trigger 'continue'.\n\nThe user-defined function is then created within the main module."
     },
@@ -1368,77 +872,7 @@
                 "assert find_dissimilar([3, 4, 5, 6], [5, 7, 4, 10]) == [3, 6, 7, 10]",
                 "assert find_dissimilar([1, 2, 3, 4], [7, 2, 3, 9]) == [1, 4, 7, 9]",
                 "assert find_dissimilar([21, 11, 25, 26], [26, 34, 21, 36]) == [11,25,34,36]"
-            ],
-            "tests": {
-                "test_cases": [
-                    {
-                        "input": [
-                            [
-                                3,
-                                4,
-                                5,
-                                6
-                            ],
-                            [
-                                5,
-                                7,
-                                4,
-                                10
-                            ]
-                        ],
-                        "expected_output": [
-                            3,
-                            6,
-                            7,
-                            10
-                        ]
-                    },
-                    {
-                        "input": [
-                            [
-                                1,
-                                2,
-                                3,
-                                4
-                            ],
-                            [
-                                7,
-                                2,
-                                3,
-                                9
-                            ]
-                        ],
-                        "expected_output": [
-                            1,
-                            4,
-                            7,
-                            9
-                        ]
-                    },
-                    {
-                        "input": [
-                            [
-                                21,
-                                11,
-                                25,
-                                26
-                            ],
-                            [
-                                26,
-                                34,
-                                21,
-                                36
-                            ]
-                        ],
-                        "expected_output": [
-                            11,
-                            25,
-                            34,
-                            36
-                        ]
-                    }
-                ]
-            }
+            ]
         },
         "flow_description": "The flow should create the built-in function node from the std library, called 'Sets.Difference' node, should be used. The node should be created ina function with proper name."
     },
@@ -1487,36 +921,7 @@
                 "assert big_diff([1,2,3,4]) == 3",
                 "assert big_diff([4,5,12]) == 8",
                 "assert big_diff([9,2,3]) == 7"
-            ],
-            "tests": {
-                "test_cases": [
-                    {
-                        "input": [
-                            1,
-                            2,
-                            3,
-                            4
-                        ],
-                        "expected_output": 3
-                    },
-                    {
-                        "input": [
-                            4,
-                            5,
-                            12
-                        ],
-                        "expected_output": 8
-                    },
-                    {
-                        "input": [
-                            9,
-                            2,
-                            3
-                        ],
-                        "expected_output": 7
-                    }
-                ]
-            }
+            ]
         },
         "flow_description": "The flow should create a user-defined function, called 'big_diff'. The body of the function contains one input property: an input property of type 'List', named 'list'. It also includes the following nodes: one 'List Max' node to find the largest value in the list, one 'List Min' node to find the smallest value in the list, and one 'Math Sub' node to calculate the difference between the maximum and minimum values. Lastly, it includes an output property named 'difference' of type 'Number'.\n\nArrows are connected as follows: The input property 'list' is connected to both the 'List Max' node and the 'List Min' node. The 'max' output from the 'List Max' node is connected to the 'first' input of the 'Math Sub' node. The 'min' output from the 'List Min' node is connected to the 'second' input of the 'Math Sub' node. The 'result' output from the 'Math Sub' node is connected to the output property 'difference'.\n\nThe user-defined function is then created within the main module."
     },
@@ -1565,49 +970,7 @@
                 "assert diff_even_odd([1,3,5,7,4,1,6,8])==3",
                 "assert diff_even_odd([1,2,3,4,5,6,7,8,9,10])==1",
                 "assert diff_even_odd([1,5,7,9,10])==9"
-            ],
-            "tests": {
-                "test_cases": [
-                    {
-                        "input": [
-                            1,
-                            3,
-                            5,
-                            7,
-                            4,
-                            1,
-                            6,
-                            8
-                        ],
-                        "expected_output": 3
-                    },
-                    {
-                        "input": [
-                            1,
-                            2,
-                            3,
-                            4,
-                            5,
-                            6,
-                            7,
-                            8,
-                            9,
-                            10
-                        ],
-                        "expected_output": 1
-                    },
-                    {
-                        "input": [
-                            1,
-                            5,
-                            7,
-                            9,
-                            10
-                        ],
-                        "expected_output": 9
-                    }
-                ]
-            }
+            ]
         },
         "flow_description": "The flow should create a user-defined function called 'diff_even_odd'. The body of the function contains one input property of type 'List', named 'list'. It also includes the following nodes: one 'Query Filter' node to filter out even numbers from 'list', resulting in 'Even list'; one 'List FirstItem' node to extract the first even number from 'Even list'; another 'Query Filter' node to filter out odd numbers from 'list', resulting in 'Odd list'; another 'List FirstItem' node to extract the first odd number from 'Odd list'; and one 'Math Sub' node to calculate the difference between the first even number and the first odd number. Lastly, it includes an output property named 'difference' of type 'Number'.\n\nArrows are connected as follows: The input property 'list' is connected to both 'Query Filter' nodes. The first 'Query Filter' node uses the condition 'it % 2 == 0' to get the even numbers, and its 'result' is connected to the first 'List FirstItem' node to get 'first_even'. The second 'Query Filter' node uses the condition 'it % 2 != 0' to get the odd numbers, and its 'result' is connected to the second 'List FirstItem' node to get 'first_odd'. The 'item' outputs from both 'List FirstItem' nodes are connected to the 'first' and 'second' inputs of the 'Math Sub' node, respectively. The 'result' output from the 'Math Sub' node is connected to the output property 'difference'.\n\nThe user-defined function is then created within the main module."
     },
@@ -1657,10 +1020,7 @@
                 "assert sum_average(10)==(55, 5.5)",
                 "assert sum_average(15)==(120, 8.0)",
                 "assert sum_average(20)==(210, 10.5)"
-            ],
-            "tests": {
-                "test_cases": []
-            }
+            ]
         },
         "flow_description": "The flow should create a user-defined function called 'sum_average'. The body of the function contains one input property of type 'Number', named 'n'. It also includes the following nodes: one 'Math Expression' node to calculate the sum of the first n natural numbers using the formula 'n * (n + 1) / 2', and one 'Math Div' node to calculate the average by dividing the sum by 'n'. Lastly, it includes an output property named 'output' of type 'Any'.\n\nArrows are connected as follows: The input property 'n' is connected to the 'Math Expression' node's 'gen_0' input. The result of the 'Math Expression' node is connected to the 'first' input of the 'Math Div' node and to a data instance for storing the sum. The input property 'n' is also connected to the 'second' input of the 'Math Div' node. The result of the 'Math Div' node is connected to the data instance for storing the average. The data instance containing the sum and average is then connected to the output property 'output'. The user-defined function is then created within the main module."
     },
@@ -1706,23 +1066,7 @@
                 "assert is_Even(1) == False",
                 "assert is_Even(2) == True",
                 "assert is_Even(3) == False"
-            ],
-            "tests": {
-                "test_cases": [
-                    {
-                        "input": 1,
-                        "expected_output": false
-                    },
-                    {
-                        "input": 2,
-                        "expected_output": true
-                    },
-                    {
-                        "input": 3,
-                        "expected_output": false
-                    }
-                ]
-            }
+            ]
         },
         "flow_description": "The flow should create a user-defined function called 'is_Even'. The body of the function contains one input property of type 'Number', named 'num'. It also includes the following nodes: one 'Math Modulo' node to calculate the remainder when 'num' is divided by 2, and one 'Logic Equal' node to check if the remainder is equal to 0. Lastly, it includes an output property named 'output' of type 'Bool'.\n\nArrows are connected as follows: The input property 'num' is connected to the 'Math Modulo' node's 'value' input. The constant value 2 is connected to the 'Math Modulo' node's 'divisor' input. The 'result' output from the 'Math Modulo' node is connected to the 'left' input of the 'Logic Equal' node. The constant value 0 is connected to the 'right' input of the 'Logic Equal' node. The 'result' output from the 'Logic Equal' node is connected to the output property 'output'. The user-defined function is then created within the main module."
     },
@@ -1778,19 +1122,7 @@
                 "assert first_repeated_char(\"abcabc\") == \"a\"",
                 "assert first_repeated_char(\"abc\") == null",
                 "assert first_repeated_char(\"123123\") == \"1\""
-            ],
-            "tests": {
-                "test_cases": [
-                    {
-                        "input": "abcabc",
-                        "expected_output": "a"
-                    },
-                    {
-                        "input": "123123",
-                        "expected_output": "1"
-                    }
-                ]
-            }
+            ]
         },
         "flow_description": "The flow should create a user-defined function called 'first_repeated_char'. The body of the function contains one input property of type String, named 'string', and one output property of type Any, named 'char'. It also includes one input trigger named 'execute' and one output trigger named 'continue'. Inside the function, use a 'Characters' node to convert the input string into a list of characters, a 'For' node to iterate over each character, and a 'Slice' node to manage portions of the list as needed. Additionally, include a 'List Contains' node to check for repeated characters and an 'If' node to handle the logic. Getter and Setter nodes are used for storing the fist char in local varibale, named 'first'. Connect the nodes appropriately: the input trigger 'execute' is connected to a Setter node, which sets the value of 'first' to null. Then this Setter is connected to the 'For' node to start the iteration. The 'Characters' node outputs to the 'For' node's items input. Within the loop, each character is sent to the 'List Contains' node to check for repetition in a the rest of the list. The 'List contains' node does also use the 'Math Add' and 'Slice' node to get the rest of the list. The result of 'List Contains' is connected to the 'If' node's predicate. If a repetition is found, use a 'Setter' node to set the output property 'char' with the repeated character and trigger 'continue'. If no repetition is found, continue the loop. After the loop completes without finding any repeats, the local variabel 'first' remains null and is then outputed though 'char'. The user-defined function is then created within the main module."
     },
@@ -1838,107 +1170,7 @@
                 "assert remove_kth_element([1,1,2,3,4,4,5,1],3)==[1, 1, 3, 4, 4, 5, 1]",
                 "assert remove_kth_element([0, 0, 1, 2, 3, 4, 4, 5, 6, 6, 6, 7, 8, 9, 4, 4],4)==[0, 0, 1, 3, 4, 4, 5, 6, 6, 6, 7, 8, 9, 4, 4]",
                 "assert remove_kth_element([10, 10, 15, 19, 18, 18, 17, 26, 26, 17, 18, 10],5)==[10,10,15,19, 18, 17, 26, 26, 17, 18, 10]"
-            ],
-            "tests": {
-                "test_cases": [
-                    {
-                        "input": [
-                            [
-                                1,
-                                1,
-                                2,
-                                3,
-                                4,
-                                4,
-                                5,
-                                1
-                            ],
-                            3
-                        ],
-                        "expected_output": [
-                            1,
-                            1,
-                            3,
-                            4,
-                            4,
-                            5,
-                            1
-                        ]
-                    },
-                    {
-                        "input": [
-                            [
-                                0,
-                                0,
-                                1,
-                                2,
-                                3,
-                                4,
-                                4,
-                                5,
-                                6,
-                                6,
-                                6,
-                                7,
-                                8,
-                                9,
-                                4,
-                                4
-                            ],
-                            4
-                        ],
-                        "expected_output": [
-                            0,
-                            0,
-                            1,
-                            3,
-                            4,
-                            4,
-                            5,
-                            6,
-                            6,
-                            6,
-                            7,
-                            8,
-                            9,
-                            4,
-                            4
-                        ]
-                    },
-                    {
-                        "input": [
-                            [
-                                10,
-                                10,
-                                15,
-                                19,
-                                18,
-                                18,
-                                17,
-                                26,
-                                26,
-                                17,
-                                18,
-                                10
-                            ],
-                            5
-                        ],
-                        "expected_output": [
-                            10,
-                            10,
-                            15,
-                            19,
-                            18,
-                            17,
-                            26,
-                            26,
-                            17,
-                            18,
-                            10
-                        ]
-                    }
-                ]
-            }
+            ]
         },
         "flow_description": "The flow should create a user-defined function called 'remove_kth_element'. The body of the function contains two input properties: an input property of type Number, named 'k', and an input property of type List, named 'list'. It also includes one output property of type List, named 'newList'. The function should have the following nodes: a 'List Remove' node to remove the k'th element from the list, and a 'Math Sub' node to calculate the index of the k'th element.\n Connect the nodes as follows: the input property 'k' is connected to the 'List Remove' node's 'index' input. The input property 'list' is connected to the 'List Remove' node's 'list' input. The result of the 'List Remove' node is connected to the 'newList' output property. The user-defined function is then created within the main module."
     },
@@ -1986,10 +1218,7 @@
                 "assert list_modulo((10, 4, 5, 6), (5, 6, 7, 5)) == (0, 4, 5, 1)",
                 "assert list_modulo((11, 5, 6, 7), (6, 7, 8, 6)) == (5, 5, 6, 1)",
                 "assert list_modulo((12, 6, 7, 8), (7, 8, 9, 7)) == (5, 6, 7, 1)"
-            ],
-            "tests": {
-                "test_cases": []
-            }
+            ]
         },
         "flow_description": "The flow should create a user-defined function called 'list_modulo'. The body of the function contains two input properties of type List, named 'list1' and 'list2', and one output property of type List, named 'newList'. The function should have the following nodes: a 'Iteration Zip' node to iterate over the two lists simultaneously and merge each element together with a provided handler anonymous function, that contains a 'Math Modulo' node to calculate the modulo of each pair of elements.\n Connect the nodes as follows: the input property 'list1' is connected to the 'Iteration Zip' node's 'left' input data. The input property 'list2' is connected to the 'Iteration Zip' node's 'right' input data. The zipped result of the 'Iteration Zip' node is connected to output data property 'newList'. The anonymous function inside 'iteration zip' have two input elements and one output elements, which takes the modulo of each element in the list. The user-defined function is then created within the main module."
     },
@@ -2030,23 +1259,7 @@
                 "assert ToUpper(\"person\") ==\"PERSON\"",
                 "assert ToUpper(\"final\") == \"FINAL\"",
                 "assert ToUpper(\"Valid\") == \"VALID\""
-            ],
-            "tests": {
-                "test_cases": [
-                    {
-                        "input": "person",
-                        "expected_output": "PERSON"
-                    },
-                    {
-                        "input": "final",
-                        "expected_output": "FINAL"
-                    },
-                    {
-                        "input": "Valid",
-                        "expected_output": "VALID"
-                    }
-                ]
-            }
+            ]
         },
         "flow_description": "The flow should create the built-in function node from the std library, called 'Strings.ToUpper' node, should be used. The node should be created in a function with proper name."
     },
@@ -2105,40 +1318,7 @@
                 "assert find_First_Missing([0,1,2,3]) == 4",
                 "assert find_First_Missing([0,1,2,6,9]) == 3",
                 "assert find_First_Missing([2,3,5,8,9]) == 0"
-            ],
-            "tests": {
-                "test_cases": [
-                    {
-                        "input": [
-                            0,
-                            1,
-                            2,
-                            3
-                        ],
-                        "expected_output": 4
-                    },
-                    {
-                        "input": [
-                            0,
-                            1,
-                            2,
-                            6,
-                            9
-                        ],
-                        "expected_output": 3
-                    },
-                    {
-                        "input": [
-                            2,
-                            3,
-                            5,
-                            8,
-                            9
-                        ],
-                        "expected_output": 0
-                    }
-                ]
-            }
+            ]
         },
         "flow_description": "N/A"
     },
@@ -2181,41 +1361,7 @@
                 "assert Split([1,2,3,4,5]) == [2,4]",
                 "assert Split([4,5,6,7,8,0,1]) == [4,6,8,0]",
                 "assert Split ([8,12,15,19]) == [8,12]"
-            ],
-            "tests": {
-                "test_cases": [
-                    {
-                        "input": [
-                            1,
-                            2,
-                            3,
-                            4,
-                            5
-                        ],
-                        "expected_output": [
-                            2,
-                            4
-                        ]
-                    },
-                    {
-                        "input": [
-                            4,
-                            5,
-                            6,
-                            7,
-                            8,
-                            0,
-                            1
-                        ],
-                        "expected_output": [
-                            4,
-                            6,
-                            8,
-                            0
-                        ]
-                    }
-                ]
-            }
+            ]
         },
         "flow_description": "N/A"
     },
@@ -2273,69 +1419,7 @@
                 "assert move_zero([1,0,2,0,3,4]) == [1,2,3,4,0,0]",
                 "assert move_zero([2,3,2,0,0,4,0,5,0]) == [2,3,2,4,5,0,0,0,0]",
                 "assert move_zero([0,1,0,1,1]) == [1,1,1,0,0]"
-            ],
-            "tests": {
-                "test_cases": [
-                    {
-                        "input": [
-                            1,
-                            0,
-                            2,
-                            0,
-                            3,
-                            4
-                        ],
-                        "expected_output": [
-                            1,
-                            2,
-                            3,
-                            4,
-                            0,
-                            0
-                        ]
-                    },
-                    {
-                        "input": [
-                            2,
-                            3,
-                            2,
-                            0,
-                            0,
-                            4,
-                            0,
-                            5,
-                            0
-                        ],
-                        "expected_output": [
-                            2,
-                            3,
-                            2,
-                            4,
-                            5,
-                            0,
-                            0,
-                            0,
-                            0
-                        ]
-                    },
-                    {
-                        "input": [
-                            0,
-                            1,
-                            0,
-                            1,
-                            1
-                        ],
-                        "expected_output": [
-                            1,
-                            1,
-                            1,
-                            0,
-                            0
-                        ]
-                    }
-                ]
-            }
+            ]
         },
         "flow_description": "N/A"
     },
@@ -2384,68 +1468,7 @@
                 "assert reverse_Array_Upto_K([1, 2, 3, 4, 5, 6],4) == [4, 3, 2, 1, 5, 6]",
                 "assert reverse_Array_Upto_K([4, 5, 6, 7], 2) == [5, 4, 6, 7]",
                 "assert reverse_Array_Upto_K([9, 8, 7, 6, 5],3) == [7, 8, 9, 6, 5]"
-            ],
-            "tests": {
-                "test_cases": [
-                    {
-                        "input": [
-                            [
-                                1,
-                                2,
-                                3,
-                                4,
-                                5,
-                                6
-                            ],
-                            4
-                        ],
-                        "expected_output": [
-                            4,
-                            3,
-                            2,
-                            1,
-                            5,
-                            6
-                        ]
-                    },
-                    {
-                        "input": [
-                            [
-                                4,
-                                5,
-                                6,
-                                7
-                            ],
-                            2
-                        ],
-                        "expected_output": [
-                            5,
-                            4,
-                            6,
-                            7
-                        ]
-                    },
-                    {
-                        "input": [
-                            [
-                                9,
-                                8,
-                                7,
-                                6,
-                                5
-                            ],
-                            3
-                        ],
-                        "expected_output": [
-                            7,
-                            8,
-                            9,
-                            6,
-                            5
-                        ]
-                    }
-                ]
-            }
+            ]
         },
         "flow_description": "N/A"
     },
@@ -2492,10 +1515,7 @@
                 "assert replace_specialchar('Python language, Programming language.')==('Python:language::Programming:language:')",
                 "assert replace_specialchar('a b c,d e f')==('a:b:c:d:e:f')",
                 "assert replace_specialchar('ram reshma,ram rahim')==('ram:reshma:ram:rahim')"
-            ],
-            "tests": {
-                "test_cases": []
-            }
+            ]
         },
         "flow_description": "N/A"
     },
@@ -2548,65 +1568,7 @@
                 "assert find_first_occurrence([2, 5, 5, 5, 6, 6, 8, 9, 9, 9], 5) == 1",
                 "assert find_first_occurrence([2, 3, 5, 5, 6, 6, 8, 9, 9, 9], 5) == 2",
                 "assert find_first_occurrence([2, 4, 1, 5, 6, 6, 8, 9, 9, 9], 6) == 4"
-            ],
-            "tests": {
-                "test_cases": [
-                    {
-                        "input": [
-                            [
-                                2,
-                                5,
-                                5,
-                                5,
-                                6,
-                                6,
-                                8,
-                                9,
-                                9,
-                                9
-                            ],
-                            5
-                        ],
-                        "expected_output": 1
-                    },
-                    {
-                        "input": [
-                            [
-                                2,
-                                3,
-                                5,
-                                5,
-                                6,
-                                6,
-                                8,
-                                9,
-                                9,
-                                9
-                            ],
-                            5
-                        ],
-                        "expected_output": 2
-                    },
-                    {
-                        "input": [
-                            [
-                                2,
-                                4,
-                                1,
-                                5,
-                                6,
-                                6,
-                                8,
-                                9,
-                                9,
-                                9
-                            ],
-                            6
-                        ],
-                        "expected_output": 4
-                    }
-                ]
-            }
+            ]
         },
         "flow_description": "N/A"
     },
@@ -2661,23 +1623,7 @@
                 "assert all_Characters_Same(\"python\") == False",
                 "assert all_Characters_Same(\"aaa\") == True",
                 "assert all_Characters_Same(\"data\") == False"
-            ],
-            "tests": {
-                "test_cases": [
-                    {
-                        "input": "python",
-                        "expected_output": false
-                    },
-                    {
-                        "input": "aaa",
-                        "expected_output": true
-                    },
-                    {
-                        "input": "data",
-                        "expected_output": false
-                    }
-                ]
-            }
+            ]
         },
         "flow_description": "N/A"
     },
@@ -2727,98 +1673,7 @@
                 "assert rotate_right([1, 2, 3, 4, 5, 6, 7, 8, 9, 10],3)==[8, 9, 10, 1, 2, 3, 4, 5, 6, 7]",
                 "assert rotate_right([1, 2, 3, 4, 5, 6, 7, 8, 9, 10],2)==[9, 10, 1, 2, 3, 4, 5, 6, 7, 8]",
                 "assert rotate_right([1, 2, 3, 4, 5, 6, 7, 8, 9, 10],5)==[6, 7, 8, 9, 10, 1, 2, 3, 4, 5]"
-            ],
-            "tests": {
-                "test_cases": [
-                    {
-                        "input": [
-                            [
-                                1,
-                                2,
-                                3,
-                                4,
-                                5,
-                                6,
-                                7,
-                                8,
-                                9,
-                                10
-                            ],
-                            3
-                        ],
-                        "expected_output": [
-                            8,
-                            9,
-                            10,
-                            1,
-                            2,
-                            3,
-                            4,
-                            5,
-                            6,
-                            7
-                        ]
-                    },
-                    {
-                        "input": [
-                            [
-                                1,
-                                2,
-                                3,
-                                4,
-                                5,
-                                6,
-                                7,
-                                8,
-                                9,
-                                10
-                            ],
-                            2
-                        ],
-                        "expected_output": [
-                            9,
-                            10,
-                            1,
-                            2,
-                            3,
-                            4,
-                            5,
-                            6,
-                            7,
-                            8
-                        ]
-                    },
-                    {
-                        "input": [
-                            [
-                                1,
-                                2,
-                                3,
-                                4,
-                                5,
-                                6,
-                                7,
-                                8,
-                                9,
-                                10
-                            ],
-                            5
-                        ],
-                        "expected_output": [
-                            6,
-                            7,
-                            8,
-                            9,
-                            10,
-                            1,
-                            2,
-                            3,
-                            4,
-                            5
-                        ]
-                    }
-                ]
-            }
+            ]
         },
         "flow_description": "N/A"
     },
@@ -2875,10 +1730,7 @@
                 "assert second_smallest([1, 2, -8, -2, 0, -2])==-2",
                 "assert second_smallest([1, 1, -0.5, 0, 2, -2, -2])==-0.5",
                 "assert second_smallest([2,2])==None"
-            ],
-            "tests": {
-                "test_cases": []
-            }
+            ]
         },
         "flow_description": "N/A"
     },
@@ -2928,38 +1780,7 @@
                 "assert unique_Element([1,1,1]) == True",
                 "assert unique_Element([1,2,1,2]) == False",
                 "assert unique_Element([1,2,3,4,5]) == False"
-            ],
-            "tests": {
-                "test_cases": [
-                    {
-                        "input": [
-                            1,
-                            1,
-                            1
-                        ],
-                        "expected_output": true
-                    },
-                    {
-                        "input": [
-                            1,
-                            2,
-                            1,
-                            2
-                        ],
-                        "expected_output": false
-                    },
-                    {
-                        "input": [
-                            1,
-                            2,
-                            3,
-                            4,
-                            5
-                        ],
-                        "expected_output": false
-                    }
-                ]
-            }
+            ]
         },
         "flow_description": "N/A"
     },
@@ -3010,27 +1831,7 @@
                 "assert number_ctr('3wonders') == 1",
                 "assert number_ctr('123') == 3",
                 "assert number_ctr('3wond-1ers2') == 3"
-            ],
-            "tests": {
-                "test_cases": [
-                    {
-                        "input": "program2bedone",
-                        "expected_output": 1
-                    },
-                    {
-                        "input": "3wonders",
-                        "expected_output": 1
-                    },
-                    {
-                        "input": "123",
-                        "expected_output": 3
-                    },
-                    {
-                        "input": "3wond-1ers2",
-                        "expected_output": 3
-                    }
-                ]
-            }
+            ]
         },
         "flow_description": "N/A"
     },
@@ -3080,23 +1881,7 @@
                 "assert odd_num_sum(2) == 82",
                 "assert odd_num_sum(3) == 707",
                 "assert odd_num_sum(4) == 3108"
-            ],
-            "tests": {
-                "test_cases": [
-                    {
-                        "input": 2,
-                        "expected_output": 82
-                    },
-                    {
-                        "input": 3,
-                        "expected_output": 707
-                    },
-                    {
-                        "input": 4,
-                        "expected_output": 3108
-                    }
-                ]
-            }
+            ]
         },
         "flow_description": "N/A"
     },
@@ -3149,40 +1934,7 @@
                 "assert odd_position([2,1,4,3,6,7,6,3]) == True",
                 "assert odd_position([4,1,2]) == True",
                 "assert odd_position([1,2,3]) == False"
-            ],
-            "tests": {
-                "test_cases": [
-                    {
-                        "input": [
-                            2,
-                            1,
-                            4,
-                            3,
-                            6,
-                            7,
-                            6,
-                            3
-                        ],
-                        "expected_output": true
-                    },
-                    {
-                        "input": [
-                            4,
-                            1,
-                            2
-                        ],
-                        "expected_output": true
-                    },
-                    {
-                        "input": [
-                            1,
-                            2,
-                            3
-                        ],
-                        "expected_output": false
-                    }
-                ]
-            }
+            ]
         },
         "flow_description": "N/A"
     },
@@ -3233,49 +1985,7 @@
                 "assert mul_even_odd([1,3,5,7,4,1,6,8])==4",
                 "assert mul_even_odd([1,2,3,4,5,6,7,8,9,10])==2",
                 "assert mul_even_odd([1,5,7,9,10])==10"
-            ],
-            "tests": {
-                "test_cases": [
-                    {
-                        "input": [
-                            1,
-                            3,
-                            5,
-                            7,
-                            4,
-                            1,
-                            6,
-                            8
-                        ],
-                        "expected_output": 4
-                    },
-                    {
-                        "input": [
-                            1,
-                            2,
-                            3,
-                            4,
-                            5,
-                            6,
-                            7,
-                            8,
-                            9,
-                            10
-                        ],
-                        "expected_output": 2
-                    },
-                    {
-                        "input": [
-                            1,
-                            5,
-                            7,
-                            9,
-                            10
-                        ],
-                        "expected_output": 10
-                    }
-                ]
-            }
+            ]
         },
         "flow_description": "N/A"
     },
@@ -3327,51 +2037,7 @@
                 "assert last([1,2,3],1) == 0",
                 "assert last([1,1,1,2,3,4],1) == 2",
                 "assert last([2,3,2,3,6,8,9],3) == 3"
-            ],
-            "tests": {
-                "test_cases": [
-                    {
-                        "input": [
-                            [
-                                1,
-                                2,
-                                3
-                            ],
-                            1
-                        ],
-                        "expected_output": 0
-                    },
-                    {
-                        "input": [
-                            [
-                                1,
-                                1,
-                                1,
-                                2,
-                                3,
-                                4
-                            ],
-                            1
-                        ],
-                        "expected_output": 2
-                    },
-                    {
-                        "input": [
-                            [
-                                2,
-                                3,
-                                2,
-                                3,
-                                6,
-                                8,
-                                9
-                            ],
-                            3
-                        ],
-                        "expected_output": 3
-                    }
-                ]
-            }
+            ]
         },
         "flow_description": "N/A"
     },
@@ -3419,36 +2085,7 @@
                 "assert _sum([1, 2, 3]) == 6",
                 "assert _sum([15, 12, 13, 10]) == 50",
                 "assert _sum([0, 1, 2]) == 3"
-            ],
-            "tests": {
-                "test_cases": [
-                    {
-                        "input": [
-                            1,
-                            2,
-                            3
-                        ],
-                        "expected_output": 6
-                    },
-                    {
-                        "input": [
-                            15,
-                            12,
-                            13,
-                            10
-                        ],
-                        "expected_output": 50
-                    },
-                    {
-                        "input": [
-                            0,
-                            1,
-                            2
-                        ],
-                        "expected_output": 3
-                    }
-                ]
-            }
+            ]
         },
         "flow_description": "N/A"
     },
@@ -3497,28 +2134,7 @@
                 "assert first_odd([1,3,5]) == 1",
                 "assert first_odd([2,4,1,3]) == 1",
                 "assert first_odd ([8,9,1]) == 9"
-            ],
-            "tests": {
-                "test_cases": [
-                    {
-                        "input": [
-                            1,
-                            3,
-                            5
-                        ],
-                        "expected_output": 1
-                    },
-                    {
-                        "input": [
-                            2,
-                            4,
-                            1,
-                            3
-                        ],
-                        "expected_output": 1
-                    }
-                ]
-            }
+            ]
         },
         "flow_description": "N/A"
     },
@@ -3567,23 +2183,7 @@
                 "assert square_sum(2) == 10",
                 "assert square_sum(3) == 35",
                 "assert square_sum(4) == 84"
-            ],
-            "tests": {
-                "test_cases": [
-                    {
-                        "input": 2,
-                        "expected_output": 10
-                    },
-                    {
-                        "input": 3,
-                        "expected_output": 35
-                    },
-                    {
-                        "input": 4,
-                        "expected_output": 84
-                    }
-                ]
-            }
+            ]
         },
         "flow_description": "N/A"
     },
@@ -3634,25 +2234,7 @@
                 "assert Min(1,2) == 1",
                 "assert Min(-5,-4) == -5",
                 "assert Min(0,0) == 0"
-            ],
-            "tests": {
-                "test_cases": [
-                    {
-                        "input": [
-                            1,
-                            2
-                        ],
-                        "expected_output": 1
-                    },
-                    {
-                        "input": [
-                            0,
-                            0
-                        ],
-                        "expected_output": 0
-                    }
-                ]
-            }
+            ]
         },
         "flow_description": "N/A"
     },
@@ -3697,23 +2279,7 @@
                 "assert CubeSurfaceArea(5)==150",
                 "assert CubeSurfaceArea(3)==54",
                 "assert CubeSurfaceArea(10)==600"
-            ],
-            "tests": {
-                "test_cases": [
-                    {
-                        "input": 5,
-                        "expected_output": 150
-                    },
-                    {
-                        "input": 3,
-                        "expected_output": 54
-                    },
-                    {
-                        "input": 10,
-                        "expected_output": 600
-                    }
-                ]
-            }
+            ]
         },
         "flow_description": "N/A"
     },
@@ -3761,37 +2327,7 @@
                 "assert cube_nums([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])==[1, 8, 27, 64, 125, 216, 343, 512, 729, 1000]",
                 "assert cube_nums([10,20,30])==([1000, 8000, 27000])",
                 "assert cube_nums([12,15])==([1728, 3375])"
-            ],
-            "tests": {
-                "test_cases": [
-                    {
-                        "input": [
-                            1,
-                            2,
-                            3,
-                            4,
-                            5,
-                            6,
-                            7,
-                            8,
-                            9,
-                            10
-                        ],
-                        "expected_output": [
-                            1,
-                            8,
-                            27,
-                            64,
-                            125,
-                            216,
-                            343,
-                            512,
-                            729,
-                            1000
-                        ]
-                    }
-                ]
-            }
+            ]
         },
         "flow_description": "N/A"
     },
@@ -3850,23 +2386,7 @@
                 "assert num_prime(13)==True",
                 "assert num_prime(7)==True",
                 "assert num_prime(-1010)==False"
-            ],
-            "tests": {
-                "test_cases": [
-                    {
-                        "input": 13,
-                        "expected_output": true
-                    },
-                    {
-                        "input": 7,
-                        "expected_output": true
-                    },
-                    {
-                        "input": -1010,
-                        "expected_output": false
-                    }
-                ]
-            }
+            ]
         },
         "flow_description": "N/A"
     },
@@ -3920,51 +2440,7 @@
                 "assert swap_list([1,2,3]) == [3,2,1]",
                 "assert swap_list([1,2,3,4,4]) == [4,2,3,4,1]",
                 "assert swap_list([4,5,6]) == [6,5,4]"
-            ],
-            "tests": {
-                "test_cases": [
-                    {
-                        "input": [
-                            1,
-                            2,
-                            3
-                        ],
-                        "expected_output": [
-                            3,
-                            2,
-                            1
-                        ]
-                    },
-                    {
-                        "input": [
-                            1,
-                            2,
-                            3,
-                            4,
-                            4
-                        ],
-                        "expected_output": [
-                            4,
-                            2,
-                            3,
-                            4,
-                            1
-                        ]
-                    },
-                    {
-                        "input": [
-                            4,
-                            5,
-                            6
-                        ],
-                        "expected_output": [
-                            6,
-                            5,
-                            4
-                        ]
-                    }
-                ]
-            }
+            ]
         },
         "flow_description": "N/A"
     },
@@ -4020,23 +2496,7 @@
                 "assert is_perfect_square(10) == False",
                 "assert is_perfect_square(36) == True",
                 "assert is_perfect_square(14) == False"
-            ],
-            "tests": {
-                "test_cases": [
-                    {
-                        "input": 10,
-                        "expected_output": false
-                    },
-                    {
-                        "input": 36,
-                        "expected_output": true
-                    },
-                    {
-                        "input": 14,
-                        "expected_output": false
-                    }
-                ]
-            }
+            ]
         },
         "flow_description": "N/A"
     }
