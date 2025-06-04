@@ -1,6 +1,22 @@
-# NB: May be outdated due to changes of dataset structure!
+# Experiments
 
-# Dataset Format Explanation
+## Few-shot
+see path: ..
+
+## RAG and full Midio documentation in-context (context)
+see path: ..
+
+## SynCode
+see path: ..
+
+## Self-Debugging (Refinement)
+see path: ..
+
+## Visual_flow_metric
+see path: ..
+
+
+# Dataset: MBPP-Midio-50
 
 This dataset consists of JSON objects, each representing a programming task designed for the Midio visual and flow-based programming language. Each object contains detailed information about the task, including prompts, specifications, identifiers, and metadata related to library functions and visual components.
 
@@ -45,6 +61,7 @@ This dataset consists of JSON objects, each representing a programming task desi
             "instance",
             "data_instance"
         ]
+        
     }
 }
 ```
@@ -76,23 +93,3 @@ This dataset consists of JSON objects, each representing a programming task desi
     - **visual_node_types**: An array of strings representing the types of visual nodes used specifically for testing the task.
     - **textual_instance_types**: An array of strings indicating the types of textual instances or elements involved in testing.
 
-## Purpose of the Dataset
-
-This dataset is designed to create the textual representation of tasks in the visual and flow-based programming language Midio. It provides:
-
-- **Comprehensive Task Descriptions**: Detailed prompts and specifications guide the implementation of each task.
-- **Metadata for Implementation**: Information about library functions, visual node types, and textual instance types assists in constructing the flow.
-- **Testing Information**: The `testing` object contains all necessary details to verify the correctness of the implementation.
-- **Flexibility**: The format supports various programming paradigms and can be extended with additional fields as needed.
-
-## Usage Notes
-
-- **Task Identification**: Each task is uniquely identified by `task_id` and `MBPP_task_id`, allowing for easy reference and organization.
-
-- **Implementation Details**: The `prompts` and `specification` fields provide step-by-step guidance on how to implement the task, including expected behaviors and constraints.
-
-- **Testing Components**: The `testing` object specifies the functions and visual nodes required for testing. This ensures that implementations can be validated effectively.
-
-- **Visual Programming Support**: Fields like `visual_node_types` and `testing.visual_node_types` cater to visual or flow-based programming environments, outlining the nodes and components to be used.
-
-- **Extensibility**: The dataset format is adaptable, allowing for the inclusion of additional fields or modifications to suit different programming needs.

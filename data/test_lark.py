@@ -6,7 +6,7 @@ from my_packages.common.rag import init_rag_data
 from my_packages.evaluation.code_evaluation import get_args_from_nodes
 from my_packages.utils.file_utils import read_code_file, read_dataset_to_json
 
-# # Dynamically set the grammar file based on the nodes generated.
+############################ Testing to Dynamically set the grammar file based on the nodes generated.
 # node_candidates = [
 #     "Add",
 #     "And",
@@ -76,34 +76,26 @@ from my_packages.utils.file_utils import read_code_file, read_dataset_to_json
 # grammar_text = grammar_text.replace("%%AVAILABLE_ARGS%%", available_args_union)
 # grammar_text = grammar_text.replace("%%AVAILABLE_NODES%%", available_nodes_union)
 
-with open("test.lark", "r") as f:
+################ Regular grammar file on dataset ###########################
+with open("midio_grammar.lark", "r") as f:
     grammar_text = f.read()
 parser = Lark(grammar_text, parser="lalr", start="arrow", debug=True, strict=True)
 
-code = "expression_ea12d8.result -> output_3339a3"
 
-print(code)
-tree = parser.parse(code)
+main_dataset_folder = './MBPP_Midio_50/MBPP-Midio-50.json'
+dataset = read_dataset_to_json(main_dataset_folder)
 
-# # Print the raw AST
-print(tree)
-# print(list(parser.lex(code)))
-# # time.sleep(2)
-# main_dataset_folder = './MBPP_Midio_50/metadata/used_external_functions'
-# main_dataset_folder = './MBPP_Midio_50/MBPP-Midio-50.json'
-# dataset = read_dataset_to_json(main_dataset_folder)
+for i in range(0,50):
+    # dataset[i]['code'] = dataset[i]['code'].replace("%%AVAILABLE_ARGS%%", available_args_union)
+    i=i+1
+    print(f"\n\nParsing code {i}...")
+    code = read_code_file(i)
+    print(code)
+    # Parse it
+    tree = parser.parse(code)
 
-# for i in range(0,50):
-#     # dataset[i]['code'] = dataset[i]['code'].replace("%%AVAILABLE_ARGS%%", available_args_union)
-#     i=i+1
-#     print(f"\n\nParsing code {i}...")
-#     code = read_code_file(i)
-#     print(code)
-#     # Parse it
-#     tree = parser.parse(code)
-
-#     # Print the raw AST
-#     # print(tree.pretty())
-#     print(list(parser.lex(code)))
+    # Print the raw AST
+    # print(tree.pretty())
+    print(list(parser.lex(code)))
 
 
