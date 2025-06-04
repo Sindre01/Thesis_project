@@ -45,7 +45,20 @@ python -m ipykernel install --user \
 
 ---
 
-## 🧪 Experiments – Folder Layout
+## 🧪 Experiments
+
+| Method                        | Path                                                        |
+|-------------------------------|-------------------------------------------------------------|
+| Few-shot                      | [`experiments/few-shot/`](./experiments/few-shot/)          |
+| RAG & Full Midio Docs         | [`experiments/context/`](./experiments/context/)            |
+| [SynCode](https://github.com/structuredllm/syncode/tree/main)                       | [`experiments/SynCode/`](./experiments/SynCode/)            |
+| [Self-Debugging](https://arxiv.org/pdf/2304.05128)                | [`experiments/Refinements/`](./experiments/Refinement/)    |
+| Nodes@Flow (Visual Flow Metric)| [`experiments/visual_flow_metric/`](./experiments/visual_flow_metric/) |
+
+---
+**Note:** `experiments/error_msgs/error_stats.ipynb` analyzes the errors.
+
+### 📚 Folder Layout
 
 ```
 <experiment_name>/
@@ -68,18 +81,6 @@ python -m ipykernel install --user \
 
 ---
 
-## 📚 Experiments
-
-| Method                        | Path                                                        |
-|-------------------------------|-------------------------------------------------------------|
-| Few-shot                      | [`experiments/few-shot/`](./experiments/few-shot/)          |
-| RAG & Full Midio Docs         | [`experiments/context/`](./experiments/context/)            |
-| [SynCode](https://github.com/structuredllm/syncode/tree/main)                       | [`experiments/SynCode/`](./experiments/SynCode/)            |
-| [Self-Debugging](https://arxiv.org/pdf/2304.05128)                | [`experiments/Refinements/`](./experiments/Refinement/)    |
-| Nodes@Flow (Visual Flow Metric)| [`experiments/visual_flow_metric/`](./experiments/visual_flow_metric/) |
-
----
-**Note:** `experiments/error_msgs/error_stats.ipynb` analyzes the errors.
 
 ## 📦 Dataset – `MBPP‑Midio‑50`
 
