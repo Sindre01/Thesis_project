@@ -48,7 +48,6 @@ def bar_chart_errors_for_metric_filtered(experiment: str, model_name: str, metri
     plt.tight_layout()
     plt.show()
 
-### 📌 VISUALIZE ERRORS AS A BAR CHART ###
 def bar_chart_errors_by_type(experiment: str):
     """Plots a bar chart of error types from MongoDB."""
     df_errors = errors_to_df(experiment)

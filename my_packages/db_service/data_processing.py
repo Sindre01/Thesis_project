@@ -1,39 +1,3 @@
-
-# def refactor_pass_at_k_results(experiment: str):
-#     """
-#     Refactors the 'pass_at_k' nested fields in the results collection by flattening them
-#     into individual top-level fields.
-
-#     New fields created:
-#       - syntax@1, syntax@2, syntax@5, syntax@10
-#       - semantic@1, semantic@2, semantic@5, semantic@10
-#       - tests@1, tests@2, tests@5, tests@10
-#     """
-#     results_collection = db[f"{experiment}_results"]
-#     update_pipeline = [
-#         {
-#             "$set": {
-#                 "syntax@1": "$pass_at_k.pass@k_syntax.pass@1",
-#                 "syntax@2": "$pass_at_k.pass@k_syntax.pass@2",
-#                 "syntax@5": "$pass_at_k.pass@k_syntax.pass@5",
-#                 "syntax@10": "$pass_at_k.pass@k_syntax.pass@10",
-#                 "semantic@1": "$pass_at_k.pass@k_semantic.pass@1",
-#                 "semantic@2": "$pass_at_k.pass@k_semantic.pass@2",
-#                 "semantic@5": "$pass_at_k.pass@k_semantic.pass@5",
-#                 "semantic@10": "$pass_at_k.pass@k_semantic.pass@10",
-#                 "tests@1": "$pass_at_k.pass@k_tests.pass@1",
-#                 "tests@2": "$pass_at_k.pass@k_tests.pass@2",
-#                 "tests@5": "$pass_at_k.pass@k_tests.pass@5",
-#                 "tests@10": "$pass_at_k.pass@k_tests.pass@10"
-#             }
-#         }
-#     ]
-    
-#     result = results_collection.update_many({}, update_pipeline)
-#     print(f"Flattened fields in {result.modified_count} documents.")
-
-
-
 def flatten_metric_results(metric_results: dict) -> dict:
     """
     Dynamically flattens the nested metric_results dictionary into individual key-value pairs.

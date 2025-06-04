@@ -1,4 +1,4 @@
-### 📌 SAVE ERRORS TO MONGODB ###
+### SAVE ERRORS TO MONGODB ###
 from datetime import datetime
 from zoneinfo import ZoneInfo
 

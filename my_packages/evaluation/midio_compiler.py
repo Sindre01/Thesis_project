@@ -9,17 +9,6 @@ import psutil
 from my_packages.analysis.error_analysis import extract_semantic_errors
 
 
-
-# semantic_error_indicators = [
-#     "semantic analysis failed",
-#     "semantic_analysis",
-#     "semanticanalysiserror",
-#     "failed to reify declaration path",
-#     "symbol already exists",
-#     "context_checker"
-# ]
-
-
 # Function to load code from a file
 def load_code_from_file(file_path: str) -> str:
     with open(file_path, "r") as f:

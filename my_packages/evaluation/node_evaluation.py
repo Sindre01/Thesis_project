@@ -13,6 +13,7 @@ from langchain_anthropic import ChatAnthropic
 from langchain_openai import OpenAIEmbeddings, ChatOpenAI
 from langsmith.schemas import Example
 
+##################### NOT used for the experiements, but was used for testing generation of nodes.##########
 def extract_nodes(
         response_text: str
     ):
