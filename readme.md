@@ -1,7 +1,10 @@
-# 🧪 Thesis Project – Code generation in the no-resource visual programming language Midio [Midio website](https://midio.com/)
+# 🧪 Thesis Project – Code generation in the no-resource visual programming language [Midio](https://midio.com/)
 
 > A research environment for **Midio** (visual/flow‑based programming) code–generation and evaluation, powered by large‑language models served through **Ollama** on the FOX HPC cluster. This where for my Master's thesis at the University of Oslo.
-> Unfortunately, **the Midio compiler is not availble publicly**, but you can find more information about it on the [Midio website](https://midio.com/). Therefore, the evaluations scripts (e.g. `run_testing.py`) cannot be runned. Still, the code is available for educational purposes and to showcase the research environment I have built. All the generated code and results are stored in json files. Furthemore, the evaluations, errors and mroe metadata are stored in a MongoDB database i have access to.
+
+> Unfortunately, **the Midio compiler is not availble publicly**, but you can find more information about it on the [Midio website](https://midio.com/). Therefore, the evaluations scripts (e.g. `find_results.py`) cannot be runned. Still, the code is available for educational purposes and to showcase the research environment I have built. All the generated code and results are stored in json files. Furthemore, the evaluations, errors and mroe 
+metadata are stored in a MongoDB database i have access to.
+
 > **AI declearion:** AI has been used for certain elements of this project, such as code generation of helper functions/scripts, comments and better visuals (Such as this README.md). However, the core research and development work has been conducted by me, ensuring that the project remains a product of my own efforts and understanding.
 
 ---
@@ -47,6 +50,8 @@ python -m ipykernel install --user \
 ```
 <experiment_name>/
 ├── fox/
+│   ├── results/   # results from the evaluated experiments.
+│   ├── testing_runs/      # runs form the testing phase.
 │   ├── find_results.py   # Runs locally with the Midio compiler and finds results or best hyper params.
 │   ├── run_testing.py    # Runs on FOX with Slurm array jobs.
 │   ├── submit_testing.py # Submits job on FOX with the specified arguments.
@@ -58,26 +63,29 @@ python -m ipykernel install --user \
 
 * Local interactive runs require an active SSH connection to FOX.
 * Evaluations errors, reulsts and more persists to **MongoDB** (start/stop helpers in `db_scripts/`).
-* A detailed experiment‑setup guide for **local devlopment with offloading models to HPC Fox** cluster with Ollama is [here](./docs/LOCAL_DEV.md). <!-- adjust link -->. However, a script for this is found in `run_interactive_ollama.sh` which automates the process of running Ollama on FOX and port forwarding it to your local machine.
+* A detailed experiment‑setup guide for **local devlopment with offloading models to HPC Fox** cluster with Ollama is [here](./docs/LOCAL_DEV.md). However, a script for this is found in `run_interactive_ollama.sh` which automates the process of running Ollama on FOX and port forwarding it to your local machine.
 * The `submit_testing.py` also creates a clone of this repo on the FOX cluster, so that `run_testing.py` can be runned.
 
 ---
 
 ## 📚 Experiments
 
-| Method                    | Path                            |
-| ----------------------- | ------------------------------- |
-| Few‑shot                | `experiments/few_shot/`         |
-| RAG & Full Midio docs   | `experiments/context/`          |
-| SynCode                 | `experiments/syncode/`          |
-| Self‑Debug / Refinement | `experiments/self_debug/`       |
-| Visual‑flow metrics     | `experiments/visual_metrics/`   |
+| Method                  | Path                              |
+| ----------------------- | ----------------------------------- |
+| Few‑shot                | `experiments/few_shot/`             |
+| RAG & Full Midio docs   | `experiments/context/`              |
+| SynCode                 | `experiments/Syncode/`              |
+| Self‑Debugging          | `experiments/Refinements/`          |
+| Nodes@Flow              | `experiments/visual_flow_metric/`   |
 
 ---
+**Note:** `experiments/error_msgs/error_stats.ipynb` analyzes the errors.
 
 ## 📦 Dataset – `MBPP‑Midio‑50`
 
 A curated set of 50 Midio tasks adapted from MBPP.
+See Folder [`./data/MBPP_Midio_50/`](./data/MBPP_Midio_50/) for the code snippets, metadata, splits and more.
+This dataset is used for the experiments in this project, and is a subset of the original [MBPP](https://github.com/google-research/google-research/blob/master/mbpp/README.md) Dataset by Google Research.
 
 <details>
 <summary>Click to view JSON schema & example</summary>
