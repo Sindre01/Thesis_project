@@ -5,7 +5,7 @@
 > Unfortunately, **the Midio compiler is not availble publicly**, but you can find more information about it on the [Midio website](https://midio.com/). Therefore, the evaluations scripts (e.g. `find_results.py`) cannot be runned. Still, the code is available for educational purposes and to showcase the research environment I have built. All the generated code and results are stored in json files. Furthemore, the evaluations, errors and mroe 
 metadata are stored in a MongoDB database i have access to.
 
-> **AI declearion:** AI has been used for certain elements of this project, such as code generation of helper functions/scripts, comments and better visuals (Such as this README.md). However, the core research and development work has been conducted by me, ensuring that the project remains a product of my own efforts and understanding.
+> **AI decleration:** AI has been used for certain elements of this project, such as code generation of helper functions/scripts, comments and better visuals (Such as this README.md). However, the core research and development work has been conducted by me, ensuring that the project remains a product of my own efforts and understanding.
 
 ---
 
